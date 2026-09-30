@@ -1,0 +1,37 @@
+{
+  "id": "mary",
+  "name": "Mary",
+  "channel": "ig",
+  "ig_handle": "m.wrl",
+  "ig_handoff_ts": "2026-09-13T20:00:00",
+  "goal": {
+    "type": "date",
+    "source": "operator"
+  },
+  "referents": [
+    {
+      "id": "hinge_opener",
+      "text": "ran into the plot armored truck",
+      "type": "callback",
+      "introduced_by": "her",
+      "touched_by_her": true,
+      "status": "live"
+    }
+  ],
+  "open_plan": null,
+  "missed_windows": [],
+  "banned_families": [],
+  "boundaries": [],
+  "unique_facts": [
+    "plot armored truck"
+  ],
+  "last_send": null,
+  "updated": "2026-09-13T20:05:00",
+  "chronology": [
+    {
+      "ts": "2026-09-13T20:00:00",
+      "note": "she handed IG m.wrl after days of Hinge delays; first DM never confirmed sent"
+    }
+  ],
+  "closed": false
+}

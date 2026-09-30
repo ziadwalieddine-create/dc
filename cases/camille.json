@@ -1,0 +1,27 @@
+{
+  "id": "camille",
+  "name": "Camille",
+  "channel": "hinge",
+  "goal": {
+    "type": "none",
+    "source": "operator"
+  },
+  "close_cause": "no_operator_action_11_days",
+  "open_plan": null,
+  "missed_windows": [],
+  "banned_families": [],
+  "boundaries": [],
+  "unique_facts": [
+    "name and screenshots existed, no case for 11 days"
+  ],
+  "last_send": null,
+  "updated": "2026-09-20T09:00:00",
+  "chronology": [
+    {
+      "ts": "2026-09-20T09:00:00",
+      "note": "archived: two live bubbles, no case file for 11 days; closure is a decision, not a drift"
+    }
+  ],
+  "closed": true,
+  "referents": []
+}

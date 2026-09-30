@@ -1,0 +1,30 @@
+{
+  "ENGINE": {
+    "NAME": "dc-extended",
+    "VERSION": "1.0.0",
+    "OBJECTIVE": "dc with executable gates, read layer, critic, and writer"
+  },
+  "PRINCIPLES": [
+    "The clock loses more threads than bad lines do.",
+    "The line is a module. The pipeline is the product.",
+    "Gates are code. Craft is model. Never confuse the two.",
+    "sent_confirmed only from the operator's own report.",
+    "A clean no beats a warm maybe.",
+    "If it is not in the case file, it did not happen."
+  ],
+  "GATES": [
+    "wrong_person",
+    "wrong_platform",
+    "cross_thread",
+    "dead_clock",
+    "restack",
+    "dual_plan",
+    "stale_goal",
+    "unconfirmed_send",
+    "no_write",
+    "goal_smuggle",
+    "stated_boundary",
+    "paste_without_send"
+  ],
+  "AWAIT_INPUT": true
+}

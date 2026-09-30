@@ -1,0 +1,45 @@
+{
+  "id": "jisu",
+  "name": "Jisu",
+  "channel": "ig",
+  "ig_handle": null,
+  "ig_handoff_ts": null,
+  "goal": {
+    "type": "get_to_know",
+    "source": "operator"
+  },
+  "her_last_bubble": "Thanks for today!",
+  "referents": [
+    {
+      "id": "first_date",
+      "text": "the walk",
+      "type": "memory",
+      "introduced_by": "both",
+      "touched_by_her": true,
+      "status": "live"
+    }
+  ],
+  "open_plan": null,
+  "missed_windows": [],
+  "banned_families": [
+    "book_over_want"
+  ],
+  "boundaries": [],
+  "unique_facts": [
+    "first date",
+    "walk"
+  ],
+  "last_send": null,
+  "updated": "2026-09-18T22:00:00",
+  "chronology": [
+    {
+      "ts": "2026-09-18T22:00:00",
+      "note": "post-date bubble 'Thanks for today!'; incident logged: old system booked Wednesday over operator's stated get-to-know want \u2014 goal_smuggle; operator corrected"
+    },
+    {
+      "ts": "2026-09-18T22:30:00",
+      "note": "goal restated by operator: get to know her; no date pressure"
+    }
+  ],
+  "closed": false
+}
