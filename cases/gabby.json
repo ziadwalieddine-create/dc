@@ -1,0 +1,181 @@
+{
+  "id": "gabby",
+  "name": "Gabrielle-Rose",
+  "channel": "ig",
+  "handle": "gabbycullen_",
+  "claim": {
+    "type": "answer",
+    "source": "operator_this_turn",
+    "text": "answer her question, ride the search bit"
+  },
+  "endpoint": {
+    "type": "date_lock",
+    "source": "operator_this_turn"
+  },
+  "referents": [
+    {
+      "id": "search",
+      "text": "Gabrielle Cullen search",
+      "type": "bit",
+      "introduced_by": "her",
+      "touched_by_her": true,
+      "status": "live"
+    },
+    {
+      "id": "hot",
+      "text": "hot",
+      "type": "bit",
+      "introduced_by": "her",
+      "touched_by_her": true,
+      "status": "live"
+    },
+    {
+      "id": "strawberry",
+      "text": "strawberry emoji",
+      "type": "bit",
+      "introduced_by": "him",
+      "touched_by_her": true,
+      "status": "live"
+    },
+    {
+      "id": "wynyard",
+      "text": "Wynyard Park 5:50 Wednesday",
+      "type": "plan",
+      "introduced_by": "him",
+      "touched_by_her": true,
+      "status": "live"
+    }
+  ],
+  "unique_facts": [
+    "Found you",
+    "warm weather",
+    "Sunday reset",
+    "gym",
+    "backyard",
+    "works in city",
+    "lives near prospect",
+    "Wynyard Park 5:50 Wednesday",
+    "weeknights: gym/walk/family/relax"
+  ],
+  "her_last_bubble": "Gym (if I don't go in the morning) or a walk after I cook dinner, catch up with the fam and relax. How about yourself?",
+  "her_recent_bubbles": [
+    "Ahaha okay, I feel like I've only been to Wynyard on the weekends \ud83d\ude02",
+    "Gym (if I don't go in the morning) or a walk after I cook dinner, catch up with the fam and relax. How about yourself?"
+  ],
+  "banned_families": [],
+  "boundaries": [],
+  "missed_windows": [],
+  "frame_limits": [],
+  "banned": [],
+  "chronology": [
+    "2026-09-20T13:36 \u2014 her: Sunday reset + warm weather + How about yourself?",
+    "2026-09-20T13:40 \u2014 him: Hundreds \ud83d\ude02 Luckily only one was worth finding \u2192 she \u2764\ufe0f",
+    "2026-09-20T13:41 \u2014 him: Gym then seeing some mates",
+    "2026-09-20T13:42 \u2014 him: Where are you enjoying the sun? \u2190 INTERVIEW QUESTION (engine would kill)",
+    "2026-09-20T13:44 \u2014 her: Very nice what will you train!? + Just the backyard ahahah nothing special",
+    "2026-09-20T13:46 \u2014 him: Back and bis",
+    "2026-09-20T13:47 \u2014 him: Your backyard's sounding better than the gym rn \ud83d\udc40",
+    "2026-09-20T13:48 \u2014 her: Hot (reply to Back and bis)",
+    "2026-09-20T13:49 \u2014 her: Feels like a million degrees though ahaha (reply to backyard)",
+    "2026-09-20T13:50 \u2014 him: Say that to my face \ud83c\udf53",
+    "2026-09-20T13:51 \u2014 him: That heat needs company next week \ud83d\udc40",
+    "2026-09-20T13:52 \u2014 her: What's next week",
+    "2026-09-20T13:53 \u2014 him: Wednesday. You can call me hot to my face over a drink \u2192 she \u2764\ufe0f",
+    "2026-09-20T13:54 \u2014 her: Drinks on a school nighttt",
+    "2026-09-20T13:55 \u2014 him: School night's exactly why it's fun",
+    "2026-09-20T13:56 \u2014 her: Ahaha you aren't wrong! I'm sure I can make it work",
+    "2026-09-20T13:57 \u2014 him: Me too, That's even easier",
+    "2026-09-20T13:58 \u2014 him: Meet me at Wynyard Park at 5:50 Wednesday and I'll take it from there",
+    "2026-09-20T13:59 \u2014 her: You love the strawberry emoji",
+    "2026-09-20T14:00 \u2014 him: Only when I'm flirting with you \ud83c\udf53 \u2192 she \u2764\ufe0f",
+    "2026-09-20T14:01 \u2014 her: Where the heck is Wynyard park \ud83e\udd23 \ud83d\ude02",
+    "2026-09-20T14:02 \u2014 him: Right outside Wynyard station. You'll find me \ud83d\ude02 \u2192 she \u2764\ufe0f",
+    "2026-09-20T14:03 \u2014 her: Ahaha okay, I feel like I've only been to Wynyard on the weekends \ud83d\ude02",
+    "2026-09-20T14:04 \u2014 him: haha fair",
+    "2026-09-20T14:05 \u2014 him: What do your weeknights usually look like when you're not making special exceptions for me? \u2190 INTERVIEW QUESTION (engine would kill)",
+    "2026-09-20T14:06 \u2014 her: Gym (if I don't go in the morning) or a walk after I cook dinner, catch up with the fam and relax. How about yourself?"
+  ],
+  "outcomes": [
+    {
+      "response": "extends",
+      "sent": "Hundreds \ud83d\ude02 Luckily only one was worth finding"
+    },
+    {
+      "response": "extends",
+      "sent": "Say that to my face \ud83c\udf53"
+    },
+    {
+      "response": "extends",
+      "sent": "Wednesday. You can call me hot to my face over a drink"
+    },
+    {
+      "response": "extends",
+      "sent": "Only when I'm flirting with you \ud83c\udf53"
+    },
+    {
+      "response": "extends",
+      "sent": "You'll find me \ud83d\ude02"
+    }
+  ],
+  "deviations": [
+    {
+      "event": "operator_rejected",
+      "mechanism": "interview_mode",
+      "family": "follow_up",
+      "gate": "label_question",
+      "context": {
+        "bubble": "Ahaha okay, I feel like I've only been to Wynyard on the weekends \ud83d\ude02",
+        "operator_text": "What do your weeknights usually look like when you're not making special exceptions for me?"
+      },
+      "ts": "2026-09-20T14:05:00"
+    },
+    {
+      "event": "operator_rejected",
+      "mechanism": "interview_mode",
+      "family": "follow_up",
+      "gate": "label_question",
+      "context": {
+        "bubble": "Just the backyard ahahah nothing special",
+        "operator_text": "Where are you enjoying the sun?"
+      },
+      "ts": "2026-09-20T13:42:00"
+    }
+  ],
+  "reciprocity": 3,
+  "amp_cap": null,
+  "last_send": {
+    "text": "What do your weeknights usually look like when you're not making special exceptions for me?",
+    "ts": "2026-09-20T14:05:00",
+    "confirmed": true,
+    "family": "follow_up",
+    "frame_id": null
+  },
+  "closed": false,
+  "newer_bubble": true,
+  "open_plan": {
+    "what": "drinks",
+    "where": "Wynyard Park",
+    "when": "wednesday",
+    "window_future": true,
+    "proposed_ts": "2026-09-20T13:58:00",
+    "confirmed": true
+  },
+  "goal": {
+    "type": "date"
+  },
+  "updated": "2026-09-20T14:06:00",
+  "baseline": {
+    "her_len": "medium",
+    "his_sample": [
+      "Found you!",
+      "I've got a feeling this could get interesting \ud83e\udd23"
+    ]
+  },
+  "last_read": {
+    "kind": "question",
+    "heat": 1,
+    "she_extended": true,
+    "confidence": "high",
+    "reversal": "the question is rhetorical / she refuses in next bubble"
+  }
+}

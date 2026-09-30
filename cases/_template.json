@@ -1,0 +1,28 @@
+{
+  "id": "slug",
+  "name": "Her name",
+  "channel": "hinge",
+  "ig_handle": null,
+  "ig_handoff_ts": null,
+  "goal": {
+    "type": "unset",
+    "source": "operator"
+  },
+  "her_last_bubble": null,
+  "referents": [],
+  "open_plan": null,
+  "missed_windows": [],
+  "banned_families": [],
+  "boundaries": [],
+  "unique_facts": [],
+  "last_send": null,
+  "updated": "YYYY-MM-DDTHH:MM:SS",
+  "chronology": [],
+  "endpoint": null,
+  "reciprocity": 0,
+  "amp_cap": null,
+  "deviations": [],
+  "her_recent_bubbles": [],
+  "pending_read": null,
+  "closed": false
+}

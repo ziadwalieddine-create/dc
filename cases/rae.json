@@ -1,0 +1,57 @@
+{
+  "id": "rae",
+  "name": "Rae",
+  "channel": "ig",
+  "ig_handle": "r.tmzon",
+  "ig_handoff_ts": "2026-09-17T21:40:00",
+  "goal": {
+    "type": "fwb",
+    "source": "operator"
+  },
+  "red_flags": [
+    "LTR + want kids vs operator FWB goal \u2014 surfaced as decision, not decoration"
+  ],
+  "referents": [
+    {
+      "id": "mean_bit",
+      "text": "mean prompt",
+      "type": "bit",
+      "introduced_by": "him",
+      "touched_by_her": true,
+      "status": "live"
+    }
+  ],
+  "open_plan": null,
+  "missed_windows": [
+    {
+      "day": "saturday",
+      "date": "2026-09-19",
+      "cause": "line sat unsent into Friday evening"
+    }
+  ],
+  "banned_families": [
+    "wyd_plan"
+  ],
+  "boundaries": [],
+  "unique_facts": [
+    "mean prompt",
+    "basil"
+  ],
+  "last_send": null,
+  "updated": "2026-09-19T10:00:00",
+  "chronology": [
+    {
+      "ts": "2026-09-17T21:40:00",
+      "note": "she gave IG r.tmzon with a kiss emoji; channel moves to ig"
+    },
+    {
+      "ts": "2026-09-18T18:11:00",
+      "note": "incident: 'Still waiting on the mean. Wyd on Friday, I'll pick the place.' \u2014 dead_clock + too_passive; never sent, window died"
+    },
+    {
+      "ts": "2026-09-19T10:00:00",
+      "note": "saturday window missed; case written forward"
+    }
+  ],
+  "closed": false
+}

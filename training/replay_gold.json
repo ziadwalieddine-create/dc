@@ -1,0 +1,77 @@
+[
+ {
+  "id": "wynyard",
+  "case": "gabby",
+  "her": "Where the heck is Wynyard Park \ud83e\udd23 \ud83d\ude02",
+  "must_be_true": {
+   "literal_functions": [
+    "logistics_question"
+   ],
+   "relational_functions": [
+    "tease"
+   ],
+   "heat": 2,
+   "response_obligations": [
+    "answer_location"
+   ]
+  },
+  "must_remain_true": {
+   "tease": true,
+   "heat_2": true
+  },
+  "must_not_become": {
+   "heat_reduced_because_logistics": true
+  },
+  "counterexample": "a neutral logistics message with no play marker must NOT gain heat"
+ },
+ {
+  "id": "hot",
+  "case": "gabby",
+  "her": "Hot",
+  "must_be_true": {
+   "heat": 2,
+   "investment": "positive",
+   "literal_functions": [
+    "attraction_cue"
+   ]
+  },
+  "must_not_become": {
+   "kind": "dry"
+  }
+ },
+ {
+  "id": "no-thursday-friday",
+  "case": "generic",
+  "her": "No Thursday \ud83d\ude02 Friday works",
+  "must_be_true": {
+   "refused_object": "Thursday",
+   "accepted_object": "Friday",
+   "continued_engagement": true,
+   "global_close": false
+  }
+ },
+ {
+  "id": "prove-it-licensed",
+  "case": "kathe",
+  "her": "that type of game is mine \u2014 be more original",
+  "operator": "Then prove it",
+  "must_be_true": {
+   "reciprocal_challenge_licensed": true,
+   "move_legal": true
+  },
+  "counterexample": "cold 'prove it' with no challenge frame must NOT inherit the licence"
+ },
+ {
+  "id": "stop-playful",
+  "case": "generic",
+  "her": "stop being cute \ud83d\ude02",
+  "must_be_true": {
+   "actor": "her",
+   "playable_evidence": true,
+   "global_stop": false
+  },
+  "must_not_become": {
+   "operator_directive": "stop"
+  }
+ }
+]
