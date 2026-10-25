@@ -1,0 +1,451 @@
+Using 1,000 Genomes data for imputaFon in
+     genome‐wide associaFon studies
+           1,000 Genomes Data Tutorial
+               ICHG 2011, Montreal
+
+
+
+
+                  Bryan Howie
+              University of Chicago
+Genotype imputaFon background
+
+ 0   0   1   1 1 0   0   1   1   0 0       0   1 1   1
+ 0   0   0   0 0 1   1   1   0   1 1       1   0 0   1   Reference
+ 1   1   1   1 1 0   0   0   1   0 0       0   0 0   0   haplotypes
+ 1   0   1   1 0 0   0   1   1   1 1       1   0 0   1
+
+
+ 1             2     0                     0   1     1
+ 1             1     0                     ?   0     0
+ 0             1     1                     1   0     1
+                                                         Phenotyped
+ 1             2     0                     0   1     1
+                                                            GWAS
+ ?             2     0                     0   0     0
+                                                           samples
+ 1             1     1                     1   0     ?
+ 0             2     0                     0   1     1
+ 1             1     1                     1   1     2
+
+
+
+
+              SNPs genotyped on an array
+Genotype imputa5on background
+
+ 0   0   1   1 1 0   0   1   1   0 0   0   1 1   1
+ 0   0   0   0 0 1   1   1   0   1 1   1   0 0   1   Reference
+ 1   1   1   1 1 0   0   0   1   0 0   0   0 0   0   haplotypes
+ 1   0   1   1 0 0   0   1   1   1 1   1   0 0   1
+
+
+ 1   ?   ?   ? 2 ?   0   ?   ?   ? ?   0   1 ?   1
+ 1   ?   ?   ? 1 ?   0   ?   ?   ? ?   ?   0 ?   0
+ 0   ?   ?   ? 1 ?   1   ?   ?   ? ?   1   0 ?   1
+                                                     Phenotyped
+ 1   ?   ?   ? 2 ?   0   ?   ?   ? ?   0   1 ?   1
+                                                        GWAS
+ ?   ?   ?   ? 2 ?   0   ?   ?   ? ?   0   0 ?   0
+                                                       samples
+ 1   ?   ?   ? 1 ?   1   ?   ?   ? ?   1   0 ?   ?
+ 0   ?   ?   ? 2 ?   0   ?   ?   ? ?   0   1 ?   1
+ 1   ?   ?   ? 1 ?   1   ?   ?   ? ?   1   1 ?   2
+
+
+
+
+                     Untyped SNPs
+             Genotype imputa5on background
+
+              0   0   1   1 1 0   0   1   1   0 0   0   1 1   1
+              0   0   0   0 0 1   1   1   0   1 1   1   0 0   1   Reference
+              1   1   1   1 1 0   0   0   1   0 0   0   0 0   0   haplotypes
+              1   0   1   1 0 0   0   1   1   1 1   1   0 0   1
+
+
+              1   1   2   2 2 0   0   1   2   0 0   0   1 1   1
+              1   1   1   1 1 0   0   1   2   1 0   0   0 0   0
+              0   0   1   1 1 1   1   2   1   0 1   1   0 0   1
+                                                                  Phenotyped
+              1   2   2   2 2 0   0   1   2   0 0   0   1 1   1
+                                                                     GWAS
+              2   1   2   2 2 0   0   0   2   2 0   0   0 0   0
+                                                                    samples
+              1   1   1   1 1 1   1   1   1   1 1   1   0 0   1
+              0   0   2   2 2 0   0   2   2   2 2   0   1 1   1
+              1   1   1   1 1 1   1   1   1   1 1   1   1 1   2
+
+AssociaHon
+   signal
+A brief history of imputa5on
+      reference panels:
+
+  HapMap 2, HapMap 3, and
+  the 1,000 Genomes Project
+    HapMap 2
+     (2007)
+
+
+
+
+                                 Reference
+               CEU               panels
+               CHB
+               JPT
+               YRI
+
+
+1      2   0         0   1   1
+1      1   0         0   0   0   GWAS
+0      1   1         1   0   1   genotypes
+1      2   0         0   1   1
+    HapMap 2
+     (2007)
+
+
+
+
+                                                        log10 # of
+                                                        genotypes
+
+
+
+
+                                             11
+                                 Reference
+               CEU               panels
+
+
+
+
+                                             10
+               CHB
+               JPT
+               YRI
+
+
+
+
+                                             9
+                                                  HM2
+1      2   0         0   1   1
+1      1   0         0   0   0   GWAS
+0      1   1         1   0   1   genotypes
+1      2   0         0   1   1
+    HapMap 3
+     (2009)
+
+
+
+
+               CEU                                       log10 # of
+                TSI                                      genotypes
+               MEX
+               CHD
+
+
+
+
+                                              11
+               CHB
+                JPT               Reference
+               GIH
+               ASW                panels
+
+
+
+
+                                              10
+               MKK
+               LWK
+                YRI
+
+
+
+
+                                              9
+                                                   HM2     HM3
+1      2   0          0   1   1
+1      1   0          0   0   0   GWAS
+0      1   1          1   0   1   genotypes
+1      2   0          0   1   1
+    1,000 Genomes
+        (2010+)
+
+
+
+
+                                                       log10 # of
+                                                       genotypes
+
+
+
+
+                                            11
+                                Reference
+                                panels
+
+
+
+
+                                            10
+                                            9
+                                                 HM2     HM3        1kG
+1        2   0      0   1   1
+1        1   0      0   0   0   GWAS
+0        1   1      1   0   1   genotypes
+1        2   0      0   1   1
+                      1.0
+                                    1,000 Genomes haplotypes are highly accurate
+
+
+
+
+                                                                                                       1.0
+                      0.9
+
+
+
+
+                                                                                                       0.9
+Imputation accuracy
+
+
+
+
+                                                                                 Imputation accuracy
+                      0.8
+
+
+
+
+                                                                                                       0.8
+                      0.7
+
+
+
+
+                                                                                                       0.7
+                                                               ALL SNPs                                                            LOW‐FREQUENCY SNPs
+                      0.6
+
+
+
+
+                                                                                                       0.6
+                            0.0       0.1      0.2      0.3      0.4       0.5                               0.00      0.01     0.02     0.03     0.04       0.05
+                                  Minor allele frequency of imputed SNPs                                            Minor allele frequency of imputed SNPs
+
+
+                                                                       European ancestry
+                                                                       African ancestry
+                                                                       Admixed (Americas)
+                      1.0
+                                  Imputa5on accuracy depends on your GWAS chip
+
+
+
+
+                                                                                                       1.0
+                      0.8
+
+
+
+
+                                                                                                       0.8
+Imputation accuracy
+
+
+
+
+                                                                                 Imputation accuracy
+                      0.6
+
+
+
+
+                                                                                                       0.6
+                      0.4
+
+
+
+
+                                                                                                       0.4
+                                                               ALL SNPs                                                            LOW‐FREQUENCY SNPs
+                      0.2
+
+
+
+
+                                                                                                       0.2
+                            0.0       0.1      0.2      0.3      0.4       0.5                               0.00      0.01     0.02     0.03     0.04       0.05
+                                  Minor allele frequency of imputed SNPs                                            Minor allele frequency of imputed SNPs
+
+
+                                                                       Omni 2.5M
+                                                                       Illumina 550k
+                                                                       Aﬀymetrix 500k
+    Imputa5on from 1,000
+   Genomes haplotypes can
+strengthen associa5on signals.
+
+
+
+
+   GWAS of OsteoarthriHs
+   Day‐Williams et al. (AJHG 2011)
+Standard ImputaHon
+  GWAS
+genotypes
+
+
+  1000G
+   Pilot
+haplotypes
+
+
+
+
+ Imputed
+  GWAS
+genotypes
+
+
+
+
+40 minutes
+per genome
+Standard ImputaHon
+  GWAS          GWAS
+genotypes     genotypes
+
+
+  1000G
+   Pilot        1000G
+haplotypes      Phase I
+              haplotypes
+
+
+
+
+ Imputed
+  GWAS         Imputed
+genotypes       GWAS
+              genotypes
+
+
+
+40 minutes   7800 minutes
+per genome   per genome
+Standard ImputaHon              Pre‐phasing ImputaHon
+  GWAS          GWAS          GWAS         GWAS
+genotypes     genotypes     genotypes    haplotypes
+
+                            25 minutes
+  1000G                     per genome
+   Pilot        1000G
+haplotypes      Phase I
+              haplotypes
+
+
+
+
+ Imputed
+  GWAS         Imputed
+genotypes       GWAS
+              genotypes
+
+
+
+40 minutes   7800 minutes
+per genome   per genome
+Standard ImputaHon              Pre‐phasing ImputaHon
+  GWAS          GWAS          GWAS         GWAS
+genotypes     genotypes     genotypes    haplotypes
+
+                            25 minutes
+  1000G                     per genome     1000G
+   Pilot        1000G                       Pilot
+haplotypes      Phase I                  haplotypes
+              haplotypes
+
+
+
+
+ Imputed                                   Imputed
+  GWAS         Imputed                      GWAS
+genotypes       GWAS                      genotypes
+              genotypes
+
+
+
+40 minutes   7800 minutes                1 minute
+per genome   per genome                  per genome
+Standard ImputaHon              Pre‐phasing ImputaHon
+  GWAS          GWAS          GWAS         GWAS         GWAS
+genotypes     genotypes     genotypes    haplotypes   haplotypes
+
+                            25 minutes
+  1000G                     per genome     1000G
+   Pilot        1000G                       Pilot       1000G
+haplotypes      Phase I                  haplotypes     Phase I
+              haplotypes                              haplotypes
+
+
+
+
+ Imputed                                   Imputed
+  GWAS         Imputed                      GWAS       Imputed
+genotypes       GWAS                      genotypes     GWAS
+              genotypes                               genotypes
+
+
+
+40 minutes   7800 minutes                1 minute     24 minutes
+per genome   per genome                  per genome   per genome
+Standard ImputaHon                      Pre‐phasing ImputaHon
+  GWAS           GWAS                 GWAS           GWAS         GWAS
+genotypes      genotypes            genotypes      haplotypes   haplotypes
+
+                                  25 minutes
+  1000G                           per genome
+                             Imputa5on               1000GR2)
+                                          Accuracy (mean
+   Pilot        1000G                               Pilot     1000G
+       1000G panel
+haplotypes      Phase IMAF 1‐3%         MAF 3‐5% haplotypes
+                                                    MAF >5% Phase I
+              haplotypes                                    haplotypes
+    60 CEU                   0.66           0.78         0.88
+    60 CEU                   0.65           0.77         0.87
+    283 EUR                  0.73           0.78         0.92
+    381 EUR
+ Imputed                     0.83           0.85         0.94
+                                                     Imputed
+  GWAS          Imputed                               GWAS       Imputed
+genotypes        GWAS                               genotypes     GWAS
+               genotypes                                        genotypes
+
+
+
+40 minutes    7800 minutes                         1 minute     24 minutes
+per genome    per genome                           per genome   per genome
+     Ge`ng the latest 1,000 Genomes haplotypes
+
+• Phase 1 haplotypes now include SNPs, INDELs, and SVs!
+
+• 1,000 Genomes haplotypes are available in the formats
+  required by various imputaHon programs. For example:
+   – Beagle:
+     hfp://faculty.washington.edu/browning/beagle/beagle.html
+
+   – IMPUTE2:
+     hfp://mathgen.stats.ox.ac.uk/impute/impute_v2.html
+
+   – MaCH/minimac:
+     hfp://www.sph.umich.edu/csg/abecasis/MACH/download/
+
+
+• Thanks for coming!
+

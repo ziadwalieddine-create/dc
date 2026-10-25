@@ -1,0 +1,218 @@
+1000 Genomes Project:
+                Datasets
+
+
+
+          Gabor Marth
+          Boston College Biology Department
+
+          1000 Genomes Project Tutorial
+          ASHG 2010, Washington, DC
+          November 3, 2010
+3 pilot coverage strategies
+Samples
+
+
+
+
+ Population   YRI   LWK   CHB CHD JPT       CEU   TSI   All
+ Samples      112   108   109   107   105   90    66    697
+Pilot datasets
+
+                 Populations   Samples   Coverage
+
+
+
+
+                     2           6       20-40x
+
+
+
+                     4          179       2-4x
+
+
+
+                     7          697      20-50x
+Data processing / variant calling
+REF
+IND
+      (ii) read mapping
+
+
+
+
+                          (iv) SV calling
+
+                                      (iii) SNP and short INDEL calling
+IND
+
+
+(i) base calling
+>80% of the genome accessible with short reads
+
+
+
+
+                                 >10%
+                               non-unique
+                                                   depth
+                                mapping
+                                                  too high
+                                                                No
+                                            M&D              coverage
+PCR-duplicate reads
+Locally misaligned bases
+Un-calibrated base quality values
+SNP calling
+SNP calling (continued)
+
+ -----a-----                                                P(G1=aa|B1=aacc; Bi=aaaac; Bn= cccc)
+               P(B1=aacc|G1=aa)
+ -----a-----                                                P(G1=cc|B1=aacc; Bi=aaaac; Bn= cccc)
+               P(B1=aacc|G1=cc)
+ -----c-----                                                P(G1=ac|B1=aacc; Bi=aaaac; Bn= cccc)
+               P(B1=aacc|G1=ac)
+ -----c-----
+
+
+
+
+                                   Prior(G1,..,Gi,.., Gn)
+ -----a-----
+ -----a-----   P(Bi=aaaac|Gi=aa)                            P(Gi=aa|B1=aacc; Bi=aaaac; Bn= cccc)
+ -----a-----   P(Bi=aaaac|Gi=cc)                            P(Gi=cc|B1=aacc; Bi=aaaac; Bn= cccc)
+ -----a-----   P(Bi=aaaac|Gi=ac)                            P(Gi=ac|B1=aacc; Bi=aaaac; Bn= cccc)
+ -----c-----
+
+
+
+ -----c-----   P(Bn=cccc|Gn=aa)                             P(Gn=aa|B1=aacc; Bi=aaaac; Bn= cccc)
+ -----c-----   P(Bn=cccc|Gn=cc)                             P(Gn=cc|B1=aacc; Bi=aaaac; Bn= cccc)
+ -----c-----   P(Bn=cccc|Gn=ac)                             P(Gn=ac|B1=aacc; Bi=aaaac; Bn= cccc)
+ -----c-----
+                  “genotype                                     “genotype call”
+                  likelihoods”
+
+
+“SNP call”
+Data processing / variant calling pipeline
+SNP calls from the 3 pilot datasets
+
+                      Trios      Low coverage   Exon pilot
+     Samples           6             179           697
+    Raw data         1.08 Tb        2.22 Tb      1.43 Tb
+                   4.03M (CEU)
+    SNPs found                      14.5M        12,761
+                   5.01M (YRI)
+                    15% (CEU)
+     % novel                         55%          70%
+                    29% (YRI)
+   Short indels      0.68 M         1.12 M          -
+    Deletions       ~10,000         15,765          -
+   SV breakpts        6,169         9,092           -
+  Mobile element
+                      2,528         4,774           -
+    insertions
+
+Validation by typing a random sample of novel variants
+        Overall FDR < 5% (10% for large SVs)
+Imputation helps genotype calls
+Power (sensitivity)
+Novel variants
+Variants per sample genome
+
+
+
+• 3-4,000,000 variants
+• 10-11,000 nonsynonymous changes
+• 220-250 in-frame indels
+• 80-100 premature stop codons
+• 40-50 splice site disruptions
+• 50-100 HGMD “recessive disease causing”
+  mutations
+Exon Pilot: high sensitivity for rare variants
+Exon Pilot: most sites low-frequency and novel
+1000G data also supports structural variants
+Opportunity: different variants from the same data
+Data types delivered
+
+              Reads: FASTQ
+
+
+
+
+                   Alignments: SAM/BAM
+
+
+
+
+                                         Variants: VCF
+Tools for analyzing / manipulating 1000G data
+
+
+                Alignments: SAM/BAM
+
+
+
+
+ • samtools: http://samtools.sourceforge.net/
+ • BamTools: http://sourceforge.net/projects/bamtools/
+ • GATK:
+ http://www.broadinstitute.org/gsa/wiki/index.php/The_Genom
+ e_Analysis_Toolkit
+
+                                                Variants: VCF
+
+
+ • VCFTools: http://vcftools.sourceforge.net/
+Alignment visualization
+
+
+
+
+ IGV viewer, GAMBIT viewer
+Current status based on 629 samples
+
+
+
+
+Samples                   # SNPs                       FN metrics
+             Known      Novel          Total       dbSNP    missed HM
+  629      7,922,125 17,564,935     25,487,060    31.08%     1.21%
+
+
+• As of 11/02/2010
+• Calls present in at least 2 of Broad Institute, University of
+Michigan, NCBI, and Boston College call sets
+The full 1000 Genomes Project data
+         1,100 samples early 2011; 2,500 samples 2011/12
+
+                            CEU
+                                     FIN
+                      GBR
+        AJM                          TSI          CHB
+                                                              JPT
+                      IBS
+               PUR                          CDX
+MXL
+                               YRI                      CHS
+  ASW                                 PJL
+                      GWD
+        ACB                                        KHV
+                CLM                         ADH
+                                     LWK    KAK
+         PEL                  MAB           RDH
+                                            MRM
+Complementary strategies
+
+
+
+         YRI         • Low-coverage WGS (~4x
+                     per sample): a near-
+                     complete SNP catalog in
+                     the genome AF > 1%
+
+                     • The deep-coverage WG
+                     exomes: rare variants,
+                     i.e. AF < 1% in genes
+

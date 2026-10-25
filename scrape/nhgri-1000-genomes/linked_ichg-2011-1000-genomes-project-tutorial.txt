@@ -1,0 +1,34 @@
+International Congress of Human Genetics (ICHG) 2011: 1000 Genomes Project Tutorial
+
+ International Congress of Human Genetics (ICHG) 2011:
+ 1000 Genomes Project Tutorial
+
+ A tutorial for how to use the 1000 Genomes Project data was held at the 2011 International Congress of Human Genetics (ICHG) annual convention, October 11-15, 2011 in Montreal. The Powerpoint slides for the tutorial describe 1000 Genomes Project data, how to access it and how to use it. Each of the speakers and their topics are listed below along with their topics and PowerPoint slides. 
+ All PowerPoints listed below are in PDF format. To view the PDF document(s) on this page, you will need Adobe Reader.
+ 1000 Genomes Project Tutorial Powerpoint Slides
+ 1000 Genomes Project Tutorial Powerpoint Slides 
+ The 1000 Genomes Project Datasets Gabor T. Marth, D.Sc.
+ Associate Professor
+Boston College 
+ Watch | ---> Slides
+
+ Accessing the 1000 Genomes Data Paul Flicek, D.Sc.
+ European Bioinformatics Institute
+ Watch | --->Slides
+
+ Lessons in variant calling and genotyping Hyun Min Kang, Ph.D.
+ Assistant Professor, School of Public Health
+ University of Michigan, Ann Arbor 
+ Watch |---> Slides 
+
+ Structural Variants Ryan Mills, Ph.D.
+ Brigham and Women's Hospital
+Harvard Medical School, Boston
+ Watch | --->Slides 
+
+ Imputation in GWAS Studies Bryan Howie, Ph.D.
+ Department of Human Genetics
+ University of Chicago
+ Watch | --->Slides 
+
+ Last updated: May 14, 2012

@@ -1,0 +1,111 @@
+1000 genomes tutorial
+
+      Data access
+                    Primary project data formats
+FASTQ
+sequences with base qualities
+    @IL11_193:4:1:878:501
+    TATTTTGACTTTGAGCGTATCGAGGCTCTTTAACCTGAACGTCAG
+    +
+    IIIIIIIIIIIIIII1IDII<IIIIIIIIIIIIII(I&/97.,8&
+
+
+SAM/BAM
+multiple sequence alignments   http://samtools.sourceforge.net/swlist.shtml
+    @HD VN:1.0
+    @SQ SN:chr20 LN:62435964
+    @RG ID:L1 PU:SC_1_10 LB:SC_1 SM:NA12891
+    @RG ID:L2 PU:SC_2_12 LB:SC_2 SM:NA12891
+    read_29006_6945 99 chr20 28833 20 3M1D25M = 28993 195 \
+    AGCTTATCTTGGTCTTGGCCG <<<<<<<<<:<9/,&,22;;<<< RG:Z:L1
+    read_28881_323b 147 chr20 28834 30 35M = 28701 -168 \
+    ACCTATATCTGCGGCCTTGCA <<<<<<<<7;:<<<6;<<<<7<< RG:Z:L2
+                           Primary project data formats
+
+VCF
+variants with genomic location & genotypes             http://vcftools.sourceforge.net/index.html
+     ##fileformat=VCFv4.0
+     ##fileDate=20100721
+     ##source=VCFtools
+     ##reference=NCBI36 (preferred use is assembly accession.version)
+     ##INFO= <ID=AA,      Number=1, Type=String, Description="Ancestral Allele">
+     ##INFO= <ID=H2,      Number=0, Type=Flag,    Description="HapMap2 membership">
+     ##FORMAT=<ID=GT,     Number=1, Type=String, Description="Genotype">
+     ##FORMAT=<ID=GQ,     Number=1, Type=Integer, Description="Genotype Quality">
+     ##FORMAT=<ID=DP,     Number=1, Type=Integer, Description="Read Depth">
+     ##ALT=   <ID=DEL,                            Description="Deletion">
+     ##INFO= <ID=SVTYPE, Number=1, Type=String, Description="Type of structural variant">
+     ##INFO= <ID=END,     Number=1, Type=Integer, Description="End position of the variant">
+
+     #CHROM POS ID   REF   ALT   QUAL FILTER INFO               FORMAT   SAMPLE1 SAMPLE2
+     1      1   .    ACG   A,AT 40    PASS   .                  GT:DP    1/1:13 2/2:29
+     1      2   .    C     T,CT .     PASS   H2;AA=T            GT       0|1     2/2
+     1      5   rs12 A     G     67   PASS   .                  GT:DP    1|0:16 2/2:20
+     X      100 .    T     <DEL> .    PASS   SVTYPE=DEL;END=300 GT:GQ:DP 1:12:15 0/0:20:13
+WWW.1000GENOMES.ORG
+ Aspera is ~10x
+faster than FTP.
+Site documentation
+
+Sequences & alignments by sample ID
+
+Data sets for the pilot data publication.
+
+Previous releases (2008, 2009)
+
+Pre-release data sets, working materials
+               dbSNP build 132
+                                rsCount – uniquely           rsCount –
+SnpClass     SnpClassCode                   placed        Other weight
+       1       single base             23,665,960            1,142,880
+       2              dips              5,035,890               83,535
+       3   HETEROZYGOUS                          4                   0
+       4     Microsatellite                  4,462                  18
+       5       Named snp                   38,674                  984
+       7            mixed                 116,257                1,406
+       8        multi-base                 43,250               10,824
+
+                                    In dbSNP VCF file
+
+
+
+                 ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/...
+                 …VCF/v4.0/ByChromosomeNoGeno/00-All.vcf.gz
+Tag summary online:     ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/...
+                        …VCF/v4.0/ByChromosomeNoGeno/snp_info_tag.xslx
+
+
+49 SNP INFO TAGS           To indicate…
+
+Core properties            1st appearance, variation type
+
+Frequency                  Common in populations
+
+Discovery                  1000 genomes ascertainment
+
+Functional / Clinical      cSNP, intron, splice, LSDB, GTR, protein structure
+
+Validation                 Validation / withdrawn status
+
+Sequence annotation        Orientation, specific assemblies, missing alleles, conflicts
+
+Genotyping                 Genotypes available, feature on a typing platform,
+                           conflicts in genotypes, typed by HapMap
+
+Other                      Extra data available, links to PubMed articles, micro-
+                           attribution available, third party annotation,
+                           Inconsistent submissions
+        Annotation of build 132
+• Available in latest RefSeq release
+  – Chromosomes
+  – mRNAs & proteins
+  – RefSeqGene / LRG records
+1000 Genomes is in the Amazon cloud
+
+
+1KG pilot content (BAM) is available at
+s3://1000genomes.s3.amazonaws.com
+
+You can see the XML at
+http://1000genomes.s3.amazonaws.com
+

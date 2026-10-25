@@ -1,0 +1,323 @@
+Using 1000 genomes data in disease studies
+
+                Jeff Barrett
+
+
+
+
+           ASHG, 3 November 2010
+Two parallel goals in complex disease genetics
+
+
+For a given disease, can we:
+
+ 1. Explain heritability
+ 2. Understand biology
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   2 / 12
+Two parallel goals in complex disease genetics
+
+
+For a given disease, can we:
+
+ 1. Explain heritability (prediction/prognosis?)
+ 2. Understand biology (treatment?)
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   2 / 12
+Two parallel goals in complex disease genetics
+
+
+For a given disease, can we:
+
+ 1. Explain heritability (imputation)
+ 2. Understand biology (annotation)
+
+1000 genomes data can play an important role in both
+these goals.
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   2 / 12
+Accurate and deep reference sets are key to imputing low
+frequency variants
+
+                                                                                 ●
+                                                                                     CEU
+                                                                                 ●
+                                                                                     CEU+TSI
+                        0.4
+
+
+
+
+                                                                                 ●
+                                                                                     CEU+TSI+GIH+MEX
+                                                                                 ●
+                                                                                     WORLD
+Improvement vs HM2CEU
+
+                        0.3
+                        0.2
+                        0.1
+                        0.0
+
+
+
+
+                                 0.0          0.1          0.2             0.3             0.4         0.5
+
+                                                                 MAF
+                              Using 1000 genomes data in disease studies                                     ASHG, 3 November 2010   3 / 12
+Imputation software
+ I IMPUTE v2 (Howie & Marchini)
+   mathgen.stats.ox.ac.uk/impute/impute v2.html
+
+ I BEAGLE (Browning & Browning)
+   faculty.washington.edu/browning/beagle/beagle.html
+
+ I MACH & Minimac (Li, Fuchsberger & Abecasis)
+   www.sph.umich.edu/csg/abecasis/MACH/
+   genome.sph.umich.edu/wiki/Minimac
+
+
+
+
+   Using 1000 genomes data in disease studies    ASHG, 3 November 2010   4 / 12
+Imputation is computationally heavy duty
+  I Imputing into ≈ 16, 000 WTCCC samples using combined SNP/indel
+    pilot data
+  I Formatting files, aligning strands, etc. can be fiddly
+
+  I IMPUTE v2 ‘factory default’ settings
+
+  I Genome split into ≈ 600 chunks, each chunk submitted as a job to
+    Sanger farm, each job requiring 4–6 GB memory
+  I Total processing time > 2 CPU years
+
+
+
+
+    Using 1000 genomes data in disease studies         ASHG, 3 November 2010   5 / 12
+Imputation is computationally heavy duty
+  I Imputing into ≈ 16, 000 WTCCC samples using combined SNP/indel
+    pilot data
+  I Formatting files, aligning strands, etc. can be fiddly
+
+  I IMPUTE v2 ‘factory default’ settings
+
+  I Genome split into ≈ 600 chunks, each chunk submitted as a job to
+    Sanger farm, each job requiring 4–6 GB memory
+  I Total processing time > 2 CPU years
+
+  I 1–2 CPU hours per sample (scales approx linearly with sample size)
+
+
+
+
+    Using 1000 genomes data in disease studies         ASHG, 3 November 2010   5 / 12
+Pre-phasing can save a great deal of time
+  I Simplistically, imputation aims to match skeletal target haplotypes to
+    more complete (in terms of variation) reference haplotypes.
+  I In the past, target datasets have been unphased genotype data (e.g.
+    basic GWAS output). This requires a combination of phasing and
+    matching, which underlies much of the computational burden.
+  I Phasing target data in advance (and saving the result) means
+    imputation, and re-imputation with other references, is much faster
+    (comparing haplotypes to each other, rather than genotypes to pairs
+    of haplotypes).
+  I Implemented via flags in IMPUTE v2, BEAGLE and via Minimac for
+    MACH.
+
+
+
+
+    Using 1000 genomes data in disease studies        ASHG, 3 November 2010   6 / 12
+Reference data, past, present & future
+  I Past: HapMap2 and HapMap3 (270–1000 samples, 2 million SNPs)
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   7 / 12
+Reference data, past, present & future
+  I Past: HapMap2 and HapMap3 (270–1000 samples, 2 million SNPs)
+
+  I Present: 1000 genomes pilot (179 samples, >10 million SNPs & small
+    indels, SV coming)
+    www.1000genomes.org
+    mathgen.stats.ox.ac.uk/impute/impute v2.html
+
+
+
+
+    Using 1000 genomes data in disease studies    ASHG, 3 November 2010   7 / 12
+Reference data, past, present & future
+  I Past: HapMap2 and HapMap3 (270–1000 samples, 2 million SNPs)
+
+  I Present: 1000 genomes pilot (179 samples, >10 million SNPs & small
+    indels, SV coming)
+    www.1000genomes.org
+    mathgen.stats.ox.ac.uk/impute/impute v2.html
+  I Future: 1000 genomes complete data (2,500 samples, 30(?) million
+    SNPs, indels, SVs). Phased releases of data integrated from all
+    platforms (low coverage sequence, high coverage exomes, genotyping
+    arrays, arrayCGH. . . )
+
+
+
+
+    Using 1000 genomes data in disease studies     ASHG, 3 November 2010   7 / 12
+Example: Crohn’s disease
+
+
+
+
+   Using 1000 genomes data in disease studies   ASHG, 3 November 2010   8 / 12
+Example: Crohn’s disease
+
+                                                I Hit at 28 MB missed in
+                                                  WTCCC and 2008
+                                                  meta-analysis (p > 10−4 ).
+                                                  Hit SNP MAF: 3%
+
+
+
+
+   Using 1000 genomes data in disease studies            ASHG, 3 November 2010   8 / 12
+Example: Crohn’s disease
+
+                                                I Hit at 28 MB missed in
+                                                  WTCCC and 2008
+                                                  meta-analysis (p > 10−4 ).
+                                                  Hit SNP MAF: 3%
+                                                I Picked up in 2010
+                                                  meta-analysis (> 20, 000
+                                                  total samples). Hit SNP
+                                                  MAF: 13%
+
+
+
+
+   Using 1000 genomes data in disease studies            ASHG, 3 November 2010   8 / 12
+Example: Crohn’s disease
+
+                                                I Hit at 28 MB missed in
+                                                  WTCCC and 2008
+                                                  meta-analysis (p > 10−4 ).
+                                                  Hit SNP MAF: 3%
+                                                I Picked up in 2010
+                                                  meta-analysis (> 20, 000
+                                                  total samples). Hit SNP
+                                                  MAF: 13%
+                                                I Hit at 42 MB not supported
+                                                  at all in meta-analysis. . .
+
+
+
+
+   Using 1000 genomes data in disease studies             ASHG, 3 November 2010   8 / 12
+Validation and ‘gold standards’
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   9 / 12
+Validation and ‘gold standards’
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   9 / 12
+Validation and ‘gold standards’
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   9 / 12
+Validation and ‘gold standards’
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   9 / 12
+Functional annotation
+
+
+
+
+   Using 1000 genomes data in disease studies   ASHG, 3 November 2010   10 / 12
+Functional annotation
+
+
+
+
+. . . < 10% of GWAS hit SNPs have r2 > 0.9 with a coding SNP
+
+
+
+
+    Using 1000 genomes data in disease studies    ASHG, 3 November 2010   10 / 12
+Conclusions
+
+ I   1000 genomes data will increasingly become the
+     default imputation reference panel.
+
+
+
+
+     Using 1000 genomes data in disease studies   ASHG, 3 November 2010   11 / 12
+Conclusions
+
+ I 1000 genomes data will increasingly become the
+   default imputation reference panel.
+ I The project also enables the discovery and annotation
+
+   of variants, standardization of files and development
+   of genotyping products.
+
+
+
+
+     Using 1000 genomes data in disease studies   ASHG, 3 November 2010   11 / 12
+Conclusions
+
+ I 1000 genomes data will increasingly become the
+   default imputation reference panel.
+ I The project also enables the discovery and annotation
+
+   of variants, standardization of files and development
+   of genotyping products.
+ I Coming to grips with the subtleties of the data will
+
+   take time and continue to evolve.
+
+
+
+
+     Using 1000 genomes data in disease studies   ASHG, 3 November 2010   11 / 12
+Thanks
+
+1000 Genomes Project
+Gonçalo Abecasis
+Brian Browning
+Bryan Howie
+Jonathan Marchini
+Daniel Macarthur
+James Morris
+
+
+
+Luke Jostins
+
+
+
+
+    Using 1000 genomes data in disease studies   ASHG, 3 November 2010   12 / 12
+
