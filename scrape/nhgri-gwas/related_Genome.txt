@@ -1,0 +1,30 @@
+Genome
+
+ updated: October 24, 2026
+
+ Definition
+
+ The genome is the entire set of DNA instructions found in a cell. In humans, the genome consists of 23 pairs of chromosomes located in the cell’s nucleus, as well as a small chromosome in the cell’s mitochondria. A genome contains all the information needed for an individual to develop and function. 
+
+ Narration
+
+ DNA is the information molecule for all living organisms. All of the DNA of an organism is called its genome. Some genomes are incredibly small, such as those found in viruses and bacteria, whereas other genomes can be almost unexplainably large, such as found in some plants. It is still quite puzzling why there does not appear to be a consistent correlation between biological complexity and genome size. For example, the human genome contains about 3 billion nucleotides. While 3 billion is a big number, the rare Japanese flower called Paris japonica has a genome size of roughly 150 billion nucleotides, making it 50 times the size of the human genome. To date, humans are the only life form that has successfully sequenced its own genome, yet there are many life forms on earth that have genomes substantially larger from the human genome. Go figure!
+
+ Eric Green, M.D., Ph.D.
+ Special Volunteer
+
+ Office of the Director
+
+ Search
+
+ Back to Glossary 
+
+ Related
+
+ Genetics
+
+ Deoxyribonucleic Acid (DNA)
+
+ Mitochondrial DNA
+
+ Human Genome Project

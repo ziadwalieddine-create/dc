@@ -1,0 +1,30 @@
+Risk
+
+ updated: October 24, 2026
+
+ Definition
+
+ Risk, as related to genetics, refers to the probability that an individual will be affected by a particular heritable or genetic disorder. Both a person’s genome and environmental exposures can influence risk. An individual’s risk may be higher because they inherit a genetic variant (or allele) in one gene or a combination of many variants in different genes that increases susceptibility to or overtly causes a disorder. Other individuals may be at higher risk because they have been exposed to one or more environmental factors that promote the development of a certain disorder.
+
+ Narration
+
+ Risk. In genetics, risk information can be very helpful for making medical decisions. If I know that I am at higher risk for some future health problem, maybe I can change my diet or avoid certain activities or environmental exposures so that I can reduce my chances of having that problem. But risk can also be a very difficult idea for us to wrap our heads around. People like yes or no answers, and sometimes risk information is just not that clear-cut. It can often be very helpful for people to talk with genetics professionals to get a better understanding of what a statistical genetic risk means for them personally.
+
+ Sara Chandros Hull, Ph.D.
+ Co-Deputy Director
+
+ Division of Intramural Research
+
+ Search
+
+ Back to Glossary 
+
+ Related
+
+ Polygenic Risk Score (PRS)
+
+ Gene Environment Interaction
+
+ Inherited
+
+ Susceptibility
