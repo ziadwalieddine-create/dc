@@ -57,9 +57,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "S3 object size verified by HEAD.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "S3 object size verified by HEAD."
  },
  "acquisition_targets": [
   "gnomad_constraint_v4_1_2"

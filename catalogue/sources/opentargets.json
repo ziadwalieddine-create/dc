@@ -9,7 +9,8 @@
   "clinical_interpretation",
   "natural_knockouts_dosage",
   "functional_haplotypes_pgx",
-  "regulation_expression_splicing"
+  "regulation_expression_splicing",
+  "reference_annotation"
  ],
  "maintainer": "Open Targets (EMBL-EBI, Sanger, others)",
  "url": "https://platform.opentargets.org",
@@ -73,9 +74,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP, GraphQL and docs reachable. No datasets downloaded yet; sizes per dataset still to be measured.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "FTP, GraphQL and docs reachable. A focused subset of 26 Parquet datasets (about 8.5 GiB) is acquired; the large colocalisation (15.8 GiB), baseline_expression, literature and association-score datasets are deferred."
  },
  "unverified_fields": [
   "assemblies"
@@ -87,5 +86,70 @@
   "opentargets/ftp_26_09_output",
   "opentargets/downloads_page"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [
+  "opentargets_26_09_biosample",
+  "opentargets_26_09_credible_set",
+  "opentargets_26_09_disease",
+  "opentargets_26_09_disease_hpo",
+  "opentargets_26_09_disease_phenotype",
+  "opentargets_26_09_enhancer_to_gene",
+  "opentargets_26_09_evidence_crispr",
+  "opentargets_26_09_evidence_crispr_screen",
+  "opentargets_26_09_evidence_gene2phenotype",
+  "opentargets_26_09_evidence_gene_burden",
+  "opentargets_26_09_evidence_genomics_england",
+  "opentargets_26_09_evidence_impc",
+  "opentargets_26_09_evidence_orphanet",
+  "opentargets_26_09_evidence_uniprot_literature",
+  "opentargets_26_09_evidence_uniprot_variants",
+  "opentargets_26_09_go",
+  "opentargets_26_09_homology",
+  "opentargets_26_09_interaction",
+  "opentargets_26_09_interaction_evidence",
+  "opentargets_26_09_l2g_prediction",
+  "opentargets_26_09_mouse_phenotype",
+  "opentargets_26_09_pharmacogenomics",
+  "opentargets_26_09_so",
+  "opentargets_26_09_study",
+  "opentargets_26_09_target",
+  "opentargets_26_09_target_essentiality",
+  "opentargets_26_09_variant"
+ ],
+ "deferred": [
+  {
+   "item": "colocalisation",
+   "approx_gib": 15.43,
+   "reason": "Largest dataset (200 Parquet parts). Fetch when colocalisation of GWAS and molecular-QTL signals is needed for specific loci; it has no coordinate index, so it is read by full scan."
+  },
+  {
+   "item": "baseline_expression",
+   "approx_gib": 1.58,
+   "reason": "Tissue and cell-type expression; GTEx median TPM is already acquired directly."
+  },
+  {
+   "item": "association_* (6 datasets: by datasource/datatype/overall, direct and indirect)",
+   "approx_gib": 9.69,
+   "reason": "Derived target-disease association scores; recomputable from the evidence datasets and not variant-level."
+  },
+  {
+   "item": "evidence_europepmc, literature_entity_lut, literature_vector",
+   "approx_gib": 7.48,
+   "reason": "Text-mining evidence; weak provenance for variant-level interpretation."
+  },
+  {
+   "item": "evidence_eva, evidence_eva_somatic, evidence_clingen, evidence_gwas_credible_sets, evidence_reactome, reactome, evidence_expression_atlas",
+   "approx_gib": 0.446,
+   "reason": "Re-expressions of ClinVar, ClinGen, GWAS credible sets and Reactome, which are acquired directly (credible_set is acquired in full)."
+  },
+  {
+   "item": "cancer and drug datasets (evidence_cancer_biomarkers, evidence_cancer_gene_census, evidence_intogen, evidence_clinical_precedence, drug_molecule, drug_mechanism_of_action, drug_warning, clinical_indication, clinical_report, clinical_target, chemical_probe, target_tractability, target_safety_event, target_prioritisation, openfda_significant_adverse_drug_reactions)",
+   "approx_gib": 0.128,
+   "reason": "Somatic-cancer and drug-development content; outside germline genome interpretation for now."
+  },
+  {
+   "item": "transcript",
+   "approx_gib": 0.028,
+   "reason": "Ensembl transcript table (29 MiB); the MANE summary already bridges Ensembl, RefSeq and HGNC identifiers for the joins in use. Fetch when transcript-level consequences are needed."
+  }
+ ]
 }

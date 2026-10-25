@@ -64,9 +64,7 @@
  },
  "status": {
   "accessible": "partial",
-  "notes": "Home and download pages readable; terms page not found.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Home and download pages readable; terms page not found."
  },
  "unverified_fields": [
   "licence",

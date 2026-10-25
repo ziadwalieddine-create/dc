@@ -52,9 +52,7 @@
  },
  "status": {
   "accessible": "partial",
-  "notes": "OpenEBench reachable; bio.tools API challenge page returned HTTP 200 with no data.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "OpenEBench reachable; bio.tools API challenge page returned HTTP 200 with no data."
  },
  "evidence": [
   "biotools/openebench_edam_counts",

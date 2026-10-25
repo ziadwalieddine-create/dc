@@ -1,0 +1,79 @@
+ 
+ Database of Genomic Variants [*** dgv ***] A curated catalogue of human genomic structural variation About the Project Genome Browser Downloads Query Tool Links Submissions Statistics Contact Us FAQ Training Resources Frequently Asked Question 
+ How are the boundaries of CNVs identified and reported?
+ How is a gain or loss defined, and how can I get the variant frequency?
+ How do I compare the data in DGV to my patient cohort?
+ What types of filters are applied to the data before they are added to DGV?
+ What if I want to look at the entries that have been filtered/removed from DGV?
+ Can I just look at variants found in HapMap samples?
+ Why are some variants mapped to hg18 but not hg19?
+ How do I cite the database?
+ What is the data model used for DGV2?
+ When I search for 'external sample id' = "NA18510", I do not get any results, but I know that sample is in the database. Why is this?
+ What is the difference between an esv, essv, nsv, nssv and dgv accession?
+ What is the definition of the different variant types and variant subtypes in the database?
+ What do the different shapes in the genome browser represent?
+ What is the difference between DGV Version 1 Structural Variants and DGV Structural Variants?
+ Answers How are the boundaries of CNVs identified and reported? 
+ We report the start and end coordinates of the variant as reported in the original study. Depending on the method used for detection of the CNV the boundaries reported may be quite different from the actual underlying variant. This is obvious when looking at regions where a large number of different studies have reported the same variant. The data must therefore be interpreted with this in mind. An overlap between a reported CNV and a gene may therefore not be accurate, as the CNV may be much smaller than reported. Some studies also merge nearby variants into larger regions and this merging process may merge separate CNVs into one large variant. 
+ Data from BAC clone CGH arrays: 
+ Coordinates from studies using BAC arrays tend to overestimate the boundaries of CNVs. BACs are vectors containing large inserts of DNA generally in the range of 150-250Kb in size. Studies detecting CNVs using this approach always report the start and end of the BAC clones that give a result indicative of a variant. However, the BAC arrays are highly sensitive and variants as small as 20-30kb may be detected. A CNV of this size may therefore reside anywhere within the start and end coordinates of the clone, even through the actual variant is significantly smaller. 
+ Data from SNP arrays and oligonucleotide CGH arrays: 
+ The probes on oligo and SNP arrays are very short, and do therefore not suffer from the same bias as arrays with BAC clones. Overall, the boundaries from SNP arrays of high resolution tend to have more accurate boundary information, and are more likely to underestimate than overestimate the size of CNVs. How is a gain or loss defined, and how can I get the variant frequency? 
+ There are several things to consider when interpreting CNV data and CNV genotypes. It is important to keep in mind that CNV data is always relative. A CNV call can be relative to a specific reference sample, a pool of reference samples or relative to the reference assembly. Since different reference samples may have been used in different studies, what is called as a gain in one study may actually be called a loss in another. 
+ Insertions and duplications: 
+ Some gains in the database are annotated as only one base-pair in size. This means that there is an insertion into the reference sequence at that coordinate. The estimated size of the insertion is described in the detailed information page for the variant. When gains are not annotated as an insertion into the reference, the region that is highlighted represented the sequence that is duplicated. Importantly, most current technologies provide no information about the location of the duplicated sequence and it could theoretically be located anywhere in the genome. However, for most duplications that have been characterized in detail the additional copy has been found in tandem, or at least nearby, the original sequence. 
+ CNV genotypes: 
+ Another limitation of many studies to date is that they have not been able to correctly identify CNV genotypes. Calls are simply made as gains or losses relative to a given reference. The actual number of copies present, or whether gains or losses are homozygous or heterozygous can often not be accurately determined with existing tools. Therefore, the frequencies we report in the database are not allele frequencies, but just counts of gains and losses for each variant (which have to be interpreted in relation to the total sample size of the study). 
+ Frequencies: 
+ The frequency of a variation is defined by the authors and can be a relative measure compared to the number of samples tested, or if there is genotype data available, this could be represented as an allele frequency. How do I compare the data in DGV to my patient cohort? 
+ The database contains only data originally described in healthy
+ controls. However, this does not mean the database should be
+ used as a substitute for running a control set with your patient
+ samples. The database is meant to serve as a guide. It will give
+ information about whether there is a common variant in your
+ region of interest. Just because a variant is annotated in the
+ database does not mean that a similar variant cannot be disease
+ causing in your patient sample. Similarly, a lack of variants in
+ a specific region of the database does not necessarily mean
+ there are no common variants at that locus. Factors such as
+ probe coverage and resolution may differ significantly between
+ platforms. Since the boundaries of variants reported in DGV are
+ often inaccurate, it is also often difficult to know for sure if
+ a variant found using a different experimental approach is the
+ exact same as one annotated in DGV. Some of the older studies
+ are also less reliable and did not include an estimation of the
+ false discovery rate. The DGV therefore does contain data that
+ represent false positives. As a rule of thumb, regions
+ identified in many studies or by independent methods, are most
+ likely real. Large variants identified in a single sample by a
+ single study represent either extremely rare variants or may be
+ false positives. For a current review on the interpretation of array data,
+ please see the following
+ publication: Diagnostic interpretation of array data using public databases and internet sources What types of filters are applied to the data before they are added to DGV? The data undergoes a systematic review prior to inclusion in the database. We run a number of quality assurance steps to ensure high quality data is presented for users. Many of the processing steps may be dependent on the study or method applied, and some of the more common steps are outlined here. Study specific filters (request made by author to remove specific variants, variants detected in patient samples). If a study includes both cases and controls, we filter out all case-related data. Chromosome Mapping
+ Only variants mapped to one of the autosomes (1-22) or sex chromosomes (X,Y) are kept. Variants mapped to chrM, chrR, chr6_hap or chrUN are removed. Variants mapped to chromosome Y in female samples are removed. Merging
+ For studies which have analysed multiple samples, DGV will merge sample level calls together that share a 70% reciprocal overlap measured by length and position. Size/Location
+ Copy number variants larger than (or equal to) 50bp and smaller than 3Mb are kept, and inversions larger than 10Mb are removed. Variants which span gaps in the reference assembly are removed. Variants which correspond to Decipher Genomic Disorders are removed (> 70% shared length) What if I want to look at the entries that have been filtered/removed from DGV? 
+ You can obtain a GFF3 file of the filtered variants on the Downloads page, under the Filtered Variants heading. Can I just look at variants found in HapMap samples? 
+ Using the Query tool, go to the samples tab and filter by cohort. By selecting the HapMap cohort, and the filter all option, only data derived from the HapMap samples will be presented. Why are some variants mapped to hg18 but not hg19? 
+ When the variation data was mapped to hg19, we did our best to come up with a process that would result in a low error rate, while maximizing the number of variants kept in hg19. Due to changes in the underlying assembly, some regions are re-arranged while others contain novel sequence, thus changing the structure of the region. In most cases the assembly hasn't changed enough to cause difficultly in remapping, but there are some regions where we could no longer map the variant accurately. How do I cite the database? 
+ When citing the Database of Genomic Variants, please refer to: MacDonald JR, Ziman R, Yuen RK, Feuk L, Scherer SW. The database of genomic variants: a curated collection of structural variation in the human genome. Nucleic Acids Res. 2013 Oct 29. PubMed PMID: 24174537 What is the data model used for DGV? 
+ The data model for the DGV can be found 
+ here 
+ . When I search for 'external sample id' = "NA18510", I do not get any results, but I know that sample is in the database. Why is this? 
+ There can be more than one 'external sample id' associated to a given Sample, so when searching for a specific Sample, please use the wildcard search function, "~".
+ What is the difference between an esv, essv, nsv, nssv and dgv accession? Each study from DGV has been archived and accessioned by one of the two groups; dbVAR have assigned nsv/nssv accessions, while DGVa has assigned esv/essv accessions. An esv is an EBI structural variant, and an essv is an EBI supporting structural variant. An nsv is an NCBI structural variant, and an nssv is an NCBI supporting structural variant. Supporting structural variants ("ssv") can also be described as sample level variants, where each ssv would represent the variant called in a single sample/individual. If there are many samples analysed in a study and if there are many samples which have the same variant, there will be multiple ssv's with the same start and end coordinates. These sample level variants are then merged and combined to form a representative variant that highlights the common variant found in that study. This is called a structural variant ("sv") record. DGV has always provided this type of summary/merged variant and we have continued to do so in cases where there are a number of overlapping supporting variants that are almost identical, but may be slightly different due to the inherent variability within the experiment. The start/stop of variants in different samples may be offset or skewed to a certain degree based on the performance/accuracy of the experiment. If there are clusters of variants that share at least 70% reciprocal overlap in size/location, we will merge these together and provide an sv record that has our internal "dgv"-prefixed identifier. What is the definition of the different variant types and variant subtypes in the database? Variant Type CNV: A genetic variation involving a net gain or loss of DNA compared to a reference sample or assembly.
+OTHER: A general category that represents variants within a complex region and also includes inversions. Variant Subtype 
+ CNV = a copy number variation, with unknown properties 
+ Complex= combination of multiple variant_sub_types 
+ Deletion = a net loss of DNA 
+ Duplication = a gain of an extra copy of DNA 
+ Gain = a net gain of DNA 
+ Gain+Loss = variant region where some samples have a net gain in DNA while other samples have a net loss 
+ Insertion = insertion of additional DNA sequence relative to a reference assembly 
+ Loss = net loss of DNA 
+ OTHER Complex = complex region involving multiple variant types (and or variant sub types). 
+ OTHER Inversion = a region where the orientation has been flipped compared to the reference assembly 
+ OTHER Tandem duplication = a duplication of a region which has been inserted next to the original in a tandem arrangement. The terms deletion and loss are equivalent. Array based studies tended to use the term loss, while sequencing based approaches tend to report variants using the term deletion. Moving forward we will work to standardize the terms to reduce any ambiguity. The terms gain and duplication are also equivalent. The terminology used by the submitting authors follow the same pattern and logic as for deletions/loss. The term Gain+loss is used for variant regions (merged/summarized across all samples in a study), where there are a number of supporting (sample level) calls where some individuals have a gain/duplication, while others have a loss/deletion. These are multiallelic sites and the variant region contains samples with both Gains and Losses. Complex variants are variant regions where there may be a combination of different variant types at the same locus (combination of inversion and deletion for example), either within the same sample and/or across multiple samples. What do the different shapes in the genome browser represent? The thin lines basically represent the confidence interval where the breakpoints of the variants likely reside. For those which are a combination of thick and thin lines, the "inner" thick bar denotes the minimal region (high confidence) and the thin lines indicate the maximum boundary and therefore represent the breakpoint regions. Variants that are just a thin line with two small "anchors" at the ends represent entries where the exact placement of the variant isn't known, but resides somewhere in this region. Studies that used BAC clones would be represented this way, as the boundaries are very likely overestimated. Studies that use a paired-end mapping approach, would also have the same representation. 
+ Variants that only have a solid bar either have breakpoint resolution (sequencing based), or only the inner high confidence region is know. If you click on the variant, a summary/detail page will open and the distinction will be more evident (location information below the image indicates the coordinate type).
+ What is the difference between DGV Version 1 Structural Variants and DGV Structural Variants? The DGV Structural Variation track contains the current and most up to date content in the database. The DGV Version 1 data is an older, archived copy of the content that was hosted on our original site (projects.tcag.ca/variation). This site was retired a couple years ago when we launched the current version (dgv.tcag.ca/). We have maintained an archived version of the original data as there were some vendor software tools and internal databases that had links to these variation IDs. We have worked with many groups to update their content, but wanted to be sure that links to older content would still function. Many of the studies have been reanalysed, and in the vast majority of the cases, the results are the same. There are some cases where the data has changed, and the new version (DGV Structural Variants), will be the most accurate. Hosted by The Centre for Applied Genomics Grant support for DGV Please read the usage disclaimer 

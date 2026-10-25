@@ -65,9 +65,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP and CSV export reachable.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "FTP and CSV export reachable."
  },
  "acquisition_targets": [
   "clingen_gene_curation_list",

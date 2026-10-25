@@ -41,8 +41,8 @@
   "direction": "n/a"
  },
  "licence": {
-  "name": "Not confirmed: the ENCODE citing/data-use page returned HTTP 403 to automated access",
-  "redistribution": "Treat as open with citation until the terms page is read manually",
+  "name": "No licence name found. SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moore et al. (2026, Nature); ENCODE's own data-use page returned HTTP 403 to automated access and is unread.",
+  "redistribution": "Not confirmed; treat as use-with-citation and do not redistribute until the ENCODE data-use terms are read.",
   "access": "open",
   "verified": "unverified"
  },
@@ -61,9 +61,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "API and SCREEN download links resolved by rendering the downloads page.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "API and SCREEN download links resolved by rendering the downloads page."
  },
  "acquisition_targets": [
   "screen_ccre_pls",
@@ -80,7 +78,9 @@
  ],
  "evidence": [
   "encode/api_experiment_human",
-  "encode/screen_downloads",
-  "encode/citing"
+  "encode/cite_page_render",
+  "encode/citing",
+  "encode/screen_about",
+  "encode/screen_downloads"
  ]
 }

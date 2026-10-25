@@ -1,0 +1,19 @@
+ 
+ Database of Genomic Variants [*** dgv ***] A curated catalogue of human genomic structural variation About the Project Genome Browser Downloads Query Tool Links Submissions Statistics Contact Us FAQ Training Resources About the Project 
+ The objective of the Database of Genomic Variants is to provide a comprehensive summary of structural variation in the human genome. We define structural variation as genomic alterations that involve segments of DNA that are larger than 50bp. The content of the database is only representing structural variation identified in healthy control samples. 
+ The Database of Genomic Variants provides a useful catalog of control data for studies aiming to correlate genomic variation with phenotypic data. The database is continuously updated with new data from peer reviewed research studies. We always welcome suggestions and comments regarding the database from the research community. 
+ If you want to submit variation data to the database, information about the submission process can be found 
+ here. 
+ For data sets where the variation calls are reported at a sample by sample level, we merge calls with similar boundaries across the sample set. Only variants of the same type (i.e. CNVs, inversions) are merged, and gains and losses are merged separately. In addition, if several different platforms/approaches are used within the same study, these datasets are merged separately. Sample level calls that overlap by >= 70% are merged in this process. 
+ Click 
+ here 
+ for answers to commonly asked questions and an overview about how to interpret the data in the database. 
+ When citing the Database of Genomic Variants, please refer to: MacDonald JR, Ziman R, Yuen RK, Feuk L, Scherer SW. The database of genomic variants: a curated collection of structural variation in the human genome. Nucleic Acids Res. 2013 Oct 29. PubMed PMID: 24174537 
+ An Advisory Board for the Database of Genomic Variants was formed in 2008. The board has the following members: 
+ Dr. Nigel Carter - The Wellcome Trust Sanger Institute
+ Dr. Deanna Church - National Center for Biotechnology Information (NCBI)
+ Dr. Lars Feuk - Uppsala University
+ Dr. Paul Flicek - European Bioinformatics Institute (EBI)
+ Dr. David Ledbetter - Emory University
+ Dr. Stephen Scherer - The Hospital for Sick Children
+ This database is supported through grants from Genome Canada/Ontario Genomics Institute, the McLaughlin Centre, and the Canadian Institutes for Health Research. Hosted by The Centre for Applied Genomics Grant support for DGV Please read the usage disclaimer 

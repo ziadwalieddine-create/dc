@@ -56,22 +56,21 @@
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "Also embedded in dbNSFP, which needs registration; the open file lets us test predictor integration now. Gene-level table fetched in tier A, the 643 MB variant file in tier B."
+  "rationale": "Also embedded in dbNSFP, which needs registration; the open file lets us test predictor integration now. Both the gene-level table and the 643 MB variant table (71M canonical-transcript missense SNVs) are fetched, checksum-verified and structurally validated. Licence CC BY-NC-SA 4.0 (non-commercial, share-alike), so the data stay in the git-ignored data/ area."
  },
  "status": {
   "accessible": "yes",
-  "notes": "GCS bucket metadata and MD5 verified.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "GCS bucket metadata and MD5 verified."
  },
  "acquisition_targets": [
   "alphamissense_gene_hg38",
   "alphamissense_hg38"
  ],
  "evidence": [
-  "alphamissense/zenodo_record",
+  "alphamissense/gcs_hg38_meta",
   "alphamissense/gcs_listing",
-  "alphamissense/gcs_hg38_meta"
+  "alphamissense/zenodo_readme",
+  "alphamissense/zenodo_record"
  ],
  "unverified_fields": []
 }

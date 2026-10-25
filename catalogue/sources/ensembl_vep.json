@@ -70,9 +70,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB."
  },
  "acquisition_targets": [
   "ensembl_vep_mavedb_variants",

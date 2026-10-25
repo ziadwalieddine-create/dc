@@ -62,9 +62,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Site pages rendered; download links extracted.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Site pages rendered; download links extracted."
  },
  "acquisition_targets": [
   "strchive_hg38_general",

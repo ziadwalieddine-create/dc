@@ -39,10 +39,10 @@
   "direction": "gain vs loss"
  },
  "licence": {
-  "name": "Usage disclaimer page not parsed",
-  "redistribution": "Unknown; read the disclaimer",
+  "name": "TCAG Notice and Disclaimer of Database Use (data provided 'AS IS'; appropriate acknowledgement required; cite MacDonald et al. 2013, NAR, PMID 24174537)",
+  "redistribution": "No redistribution licence is stated. Use is permitted subject to the disclaimer and acknowledgement; this repository does not redistribute the data (git-ignored).",
   "access": "open_with_terms",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "Irregular releases (2013 to 2025 listed).",
  "coverage_limitations": [
@@ -52,21 +52,20 @@
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "Complements gnomAD-SV with older, study-level control CNVs. Large (364 MB), so held at tier B."
+  "rationale": "Complements gnomAD-SV with older, study-level control CNVs and structural variants. The 364 MB GRCh38 release (2025-12-01) is fetched, size-verified (the site publishes no checksum) and structurally validated; used under the TCAG disclaimer with acknowledgement (cite MacDonald et al. 2013) and not redistributed."
  },
  "status": {
   "accessible": "yes",
-  "notes": "Download links extracted from the downloads page HTML.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Download links extracted from the downloads page HTML."
  },
  "acquisition_targets": [
   "dgv_grch38_variants_2025_12_01"
  ],
- "unverified_fields": [
-  "licence"
- ],
+ "unverified_fields": [],
  "evidence": [
-  "dgv/downloads_https_plain"
+  "dgv/about",
+  "dgv/disclaimer",
+  "dgv/downloads_https_plain",
+  "dgv/faq"
  ]
 }

@@ -41,10 +41,10 @@
   "direction": "n/a"
  },
  "licence": {
-  "name": "Open (GENCODE/Ensembl and NCBI public data); exact GENCODE terms not parsed",
-  "redistribution": "Open with attribution",
+  "name": "GENCODE: 'all the GENCODE project data is open access' (GENCODE data-access page), under the EMBL-EBI Terms of Use (freely available, no additional restriction, attribution expected). MANE files are hosted by NCBI: NCBI places no restrictions on use or distribution, though original submitters may claim rights, and acknowledgement of NLM is requested.",
+  "redistribution": "Open with attribution (cite GENCODE and MANE); NCBI notes that third-party rights may exist in submitted data. Only the MANE files are acquired here.",
   "access": "open",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "GENCODE ~twice yearly; MANE ~annually.",
  "coverage_limitations": [
@@ -60,19 +60,19 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Directory listings verified.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Directory listings verified."
  },
  "acquisition_targets": [
   "mane_summary_v1_5",
   "mane_gtf_v1_5"
  ],
- "unverified_fields": [
-  "licence"
- ],
+ "unverified_fields": [],
  "evidence": [
+  "gencode/data_access",
+  "gencode/ebi_terms_of_use",
+  "gencode/gencode_home",
   "gencode/latest_listing",
-  "gencode/mane_listing"
+  "gencode/mane_listing",
+  "gencode/ncbi_policies"
  ]
 }

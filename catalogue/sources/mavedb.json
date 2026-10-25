@@ -71,9 +71,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "API open; Zenodo reachable with an identifying user agent (generic curl user agent was refused earlier).",
-  "mapped_to_dc": true,
-  "usable": true
+  "notes": "API open; Zenodo reachable with an identifying user agent (generic curl user agent was refused earlier)."
  },
  "acquisition_targets": [
   "mavedb_zenodo_dump_v4",

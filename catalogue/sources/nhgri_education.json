@@ -58,9 +58,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Preserved unchanged; see inventory/EXISTING_ASSETS.md.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Preserved unchanged; see inventory/EXISTING_ASSETS.md."
  },
  "unverified_fields": [
   "licence"

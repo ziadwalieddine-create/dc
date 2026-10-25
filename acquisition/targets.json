@@ -9,7 +9,10 @@
   "licence": "CC0 (CC0-licensed MaveDB records only)",
   "note": "Official MaveDB Bulk Download v4 (Zenodo 20840937, 2026-06-25). Evaluate against the API-built set in scrape/mavedb-human.",
   "expected_size": 1907736956,
-  "expected_md5": "2cb818f9add61a378c30766d9b4b45ce"
+  "expected_md5": "2cb818f9add61a378c30766d9b4b45ce",
+  "supports": [
+   "direct_experimental_variant_effects"
+  ]
  },
  {
   "id": "clinvar_vcf_grch38",
@@ -21,7 +24,10 @@
   "licence": "NCBI public domain (submitters may assert rights)",
   "note": "ClinVar GRCh38 VCF, weekly; fileDate in the header gives the release.",
   "expected_size": 200670148,
-  "md5_url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.md5"
+  "md5_url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.md5",
+  "supports": [
+   "clinical_interpretation"
+  ]
  },
  {
   "id": "clinvar_readme",
@@ -31,7 +37,10 @@
   "tier": "A",
   "kind": "txt",
   "licence": "NCBI public domain",
-  "note": "ClinVar FTP README (field definitions)."
+  "note": "ClinVar FTP README (field definitions).",
+  "supports": [
+   "clinical_interpretation"
+  ]
  },
  {
   "id": "clinvar_readme_vcf",
@@ -41,7 +50,10 @@
   "tier": "A",
   "kind": "txt",
   "licence": "NCBI public domain",
-  "note": "ClinVar VCF README."
+  "note": "ClinVar VCF README.",
+  "supports": [
+   "clinical_interpretation"
+  ]
  },
  {
   "id": "clingen_gene_curation_list",
@@ -51,7 +63,10 @@
   "tier": "A",
   "kind": "tsv",
   "licence": "ClinGen terms: released openly, free to use (verified live)",
-  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+  "note": "ClinGen dosage sensitivity / curation, GRCh38.",
+  "supports": [
+   "natural_knockouts_dosage"
+  ]
  },
  {
   "id": "clingen_region_curation_list",
@@ -61,7 +76,10 @@
   "tier": "A",
   "kind": "tsv",
   "licence": "ClinGen terms: released openly, free to use (verified live)",
-  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+  "note": "ClinGen dosage sensitivity / curation, GRCh38.",
+  "supports": [
+   "structural_variation_cnv"
+  ]
  },
  {
   "id": "clingen_haploinsufficiency_gene",
@@ -71,7 +89,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ClinGen terms: released openly, free to use (verified live)",
-  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+  "note": "ClinGen dosage sensitivity / curation, GRCh38.",
+  "supports": [
+   "natural_knockouts_dosage"
+  ]
  },
  {
   "id": "clingen_triplosensitivity_gene",
@@ -81,7 +102,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ClinGen terms: released openly, free to use (verified live)",
-  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+  "note": "ClinGen dosage sensitivity / curation, GRCh38.",
+  "supports": [
+   "natural_knockouts_dosage"
+  ]
  },
  {
   "id": "clingen_recurrent_cnv_v2_1",
@@ -91,7 +115,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ClinGen terms: released openly, free to use (verified live)",
-  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+  "note": "ClinGen dosage sensitivity / curation, GRCh38.",
+  "supports": [
+   "structural_variation_cnv"
+  ]
  },
  {
   "id": "clingen_gene_validity",
@@ -102,7 +129,10 @@
   "kind": "csv",
   "licence": "ClinGen terms: released openly, free to use (verified live)",
   "note": "ClinGen gene-disease validity classifications (CSV export).",
-  "expected_size": 1133460
+  "expected_size": 1133460,
+  "supports": [
+   "clinical_interpretation"
+  ]
  },
  {
   "id": "gnomad_constraint_v4_1_2",
@@ -113,7 +143,10 @@
   "kind": "tsv.bgz",
   "licence": "CC0 (gnomAD primary data); some annotations carry separate terms (verified live)",
   "note": "Current gene/transcript constraint (v4.1.2, 2026-09-23); supersedes the v4.1 file of 2024-04.",
-  "expected_size": 574538527
+  "expected_size": 574538527,
+  "supports": [
+   "natural_knockouts_dosage"
+  ]
  },
  {
   "id": "gnomad_exome_cnv_v4_1",
@@ -125,7 +158,10 @@
   "licence": "CC0 (gnomAD primary data)",
   "note": "gnomAD v4.1 exome CNV sites (all samples); GRCh38. Size from the S3 Content-Length; MD5 as listed on the gnomAD downloads page.",
   "expected_size": 8917685,
-  "expected_md5": "74000fc29d0b9bc547859cfc2ba4ac84"
+  "expected_md5": "74000fc29d0b9bc547859cfc2ba4ac84",
+  "supports": [
+   "structural_variation_cnv"
+  ]
  },
  {
   "id": "gwas_catalog_associations",
@@ -135,7 +171,10 @@
   "tier": "A",
   "kind": "zip",
   "licence": "EMBL-EBI terms of use; summary statistics CC0 unless stated (verified live)",
-  "note": "GWAS Catalog associations, ontology annotated (release 2026-10-22)."
+  "note": "GWAS Catalog associations, ontology annotated (release 2026-10-22).",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
  },
  {
   "id": "reactome_ensembl2reactome",
@@ -145,7 +184,10 @@
   "tier": "A",
   "kind": "tsv",
   "licence": "CC0 for data (verified live)",
-  "note": "Reactome v97 gene/protein to pathway mapping."
+  "note": "Reactome v97 gene/protein to pathway mapping.",
+  "supports": [
+   "pathways_interactions_epistasis"
+  ]
  },
  {
   "id": "reactome_uniprot2reactome_all_levels",
@@ -155,7 +197,10 @@
   "tier": "A",
   "kind": "tsv",
   "licence": "CC0 for data (verified live)",
-  "note": "Reactome v97 gene/protein to pathway mapping."
+  "note": "Reactome v97 gene/protein to pathway mapping.",
+  "supports": [
+   "pathways_interactions_epistasis"
+  ]
  },
  {
   "id": "reactome_pathways",
@@ -165,7 +210,10 @@
   "tier": "A",
   "kind": "tsv",
   "licence": "CC0 for data (verified live)",
-  "note": "Reactome v97 gene/protein to pathway mapping."
+  "note": "Reactome v97 gene/protein to pathway mapping.",
+  "supports": [
+   "pathways_interactions_epistasis"
+  ]
  },
  {
   "id": "clinpgx_variantAnnotations",
@@ -175,7 +223,10 @@
   "tier": "A",
   "kind": "zip",
   "licence": "CC BY-SA 4.0 (verified live)",
-  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "clinpgx_relationships",
@@ -185,7 +236,10 @@
   "tier": "A",
   "kind": "zip",
   "licence": "CC BY-SA 4.0 (verified live)",
-  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "clinpgx_summaryAnnotations",
@@ -195,7 +249,10 @@
   "tier": "A",
   "kind": "zip",
   "licence": "CC BY-SA 4.0 (verified live)",
-  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "clinpgx_guidelineAnnotations",
@@ -205,7 +262,10 @@
   "tier": "A",
   "kind": "zip",
   "licence": "CC BY-SA 4.0 (verified live)",
-  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "clinpgx_drugLabels",
@@ -215,7 +275,10 @@
   "tier": "A",
   "kind": "zip",
   "licence": "CC BY-SA 4.0 (verified live)",
-  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "cpic_genes",
@@ -225,7 +288,10 @@
   "tier": "A",
   "kind": "json",
   "licence": "See catalogue entry (licence page resolves to ClinPGx terms, CC BY-SA 4.0)",
-  "note": "CPIC gene table via public API."
+  "note": "CPIC gene table via public API.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "cpic_guidelines",
@@ -235,7 +301,10 @@
   "tier": "A",
   "kind": "json",
   "licence": "See catalogue entry",
-  "note": "CPIC guideline table via public API."
+  "note": "CPIC guideline table via public API.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
  },
  {
   "id": "gtex_v11_gene_median_tpm",
@@ -247,7 +316,10 @@
   "licence": "GTEx open-access data (verified live: open access vs protected)",
   "note": "GTEx v11 median gene TPM by tissue; GRCh38, GENCODE v47.",
   "expected_size": 10129906,
-  "expected_md5_base64": "NGTVkUc51xDyiHOdVhUAIA=="
+  "expected_md5_base64": "NGTVkUc51xDyiHOdVhUAIA==",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "gtex_datasets_api",
@@ -257,7 +329,10 @@
   "tier": "A",
   "kind": "json",
   "licence": "GTEx open-access",
-  "note": "GTEx dataset registry (v7, v8, v10, v11)."
+  "note": "GTEx dataset registry (v7, v8, v10, v11).",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "mane_summary_v1_5",
@@ -267,7 +342,10 @@
   "tier": "A",
   "kind": "txt.gz",
   "licence": "NCBI/EMBL-EBI open",
-  "note": "MANE Select/Plus Clinical transcript pairs (v1.5, 2025-12-04)."
+  "note": "MANE Select/Plus Clinical transcript pairs (v1.5, 2025-12-04).",
+  "supports": [
+   "reference_annotation"
+  ]
  },
  {
   "id": "mane_gtf_v1_5",
@@ -277,7 +355,10 @@
   "tier": "A",
   "kind": "gtf.gz",
   "licence": "NCBI/EMBL-EBI open",
-  "note": "MANE transcript models (Ensembl), GRCh38."
+  "note": "MANE transcript models (Ensembl), GRCh38.",
+  "supports": [
+   "reference_annotation"
+  ]
  },
  {
   "id": "igsr_1000g_samples",
@@ -287,7 +368,8 @@
   "tier": "A",
   "kind": "txt",
   "licence": "IGSR data reuse policy (see catalogue entry)",
-  "note": "1000G 3,202-sample pedigree and population table (links genotypes to ancestry)."
+  "note": "1000G 3,202-sample pedigree and population table (links genotypes to ancestry). Auxiliary metadata (population labels for samples): supports no evidence dimension by itself.",
+  "supports": []
  },
  {
   "id": "uniprot_human_reviewed",
@@ -297,7 +379,10 @@
   "tier": "A",
   "kind": "tsv",
   "licence": "CC BY 4.0 (verified live)",
-  "note": "UniProtKB/Swiss-Prot human entries with cross-references (release 2026_03 at the time of the probe)."
+  "note": "UniProtKB/Swiss-Prot human entries with cross-references (release 2026_03 at the time of the probe).",
+  "supports": [
+   "protein_structure_function"
+  ]
  },
  {
   "id": "biogrid_orcs_human",
@@ -307,7 +392,10 @@
   "tier": "A",
   "kind": "tar.gz",
   "licence": "Licence not verified (BioGRID licensing wiki page missing); check README inside release",
-  "note": "BioGRID ORCS 2.0.18 human CRISPR screens. Corrected URL: the earlier /BioGRID-ORCS/ path returns an HTML landing page (rejected by the new signature check); the download page prints each size before the filename, so the human archive is 717.79 MiB (752.7 MB), not 54.73 MiB as first misread."
+  "note": "BioGRID ORCS 2.0.18 human CRISPR screens. Corrected URL: the earlier /BioGRID-ORCS/ path returns an HTML landing page (rejected by the new signature check); the download page prints each size before the filename, so the human archive is 717.79 MiB (752.7 MB), not 54.73 MiB as first misread.",
+  "supports": [
+   "perturbation_evidence"
+  ]
  },
  {
   "id": "alphamissense_gene_hg38",
@@ -319,7 +407,10 @@
   "licence": "CC BY-NC-SA 4.0 (Zenodo record, verified live): non-commercial, share-alike",
   "note": "AlphaMissense gene-level pathogenicity averages.",
   "expected_size": 253636,
-  "expected_md5_base64": "Up47Uc7AeScsVxr/3m8Ddg=="
+  "expected_md5_base64": "Up47Uc7AeScsVxr/3m8Ddg==",
+  "supports": [
+   "annotation_integration"
+  ]
  },
  {
   "id": "alphamissense_hg38",
@@ -331,7 +422,10 @@
   "licence": "CC BY-NC-SA 4.0 (Zenodo record, verified live): non-commercial, share-alike",
   "note": "AlphaMissense missense predictions, GRCh38 (643 MB).",
   "expected_size": 642961469,
-  "expected_md5_base64": "n9Fnc18Wobh9pus+TCX8tQ=="
+  "expected_md5_base64": "n9Fnc18Wobh9pus+TCX8tQ==",
+  "supports": [
+   "annotation_integration"
+  ]
  },
  {
   "id": "ensembl_vep_mavedb_variants",
@@ -345,6 +439,9 @@
   "expected_bsd_sum": [
    22727,
    547461
+  ],
+  "supports": [
+   "direct_experimental_variant_effects"
   ]
  },
  {
@@ -359,6 +456,9 @@
   "expected_bsd_sum": [
    45918,
    21
+  ],
+  "supports": [
+   "direct_experimental_variant_effects"
   ]
  },
  {
@@ -369,7 +469,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "CC BY 4.0 (site footer, verified live)",
-  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci."
+  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci.",
+  "supports": [
+   "repeat_expansions_str"
+  ]
  },
  {
   "id": "strchive_hg38_trgt",
@@ -379,7 +482,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "CC BY 4.0 (site footer, verified live)",
-  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci."
+  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci.",
+  "supports": [
+   "repeat_expansions_str"
+  ]
  },
  {
   "id": "strchive_hg38_stranger_json",
@@ -389,7 +495,10 @@
   "tier": "A",
   "kind": "json",
   "licence": "CC BY 4.0 (site footer, verified live)",
-  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci."
+  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci.",
+  "supports": [
+   "repeat_expansions_str"
+  ]
  },
  {
   "id": "dgv_grch38_variants_2025_12_01",
@@ -400,7 +509,10 @@
   "kind": "tsv",
   "licence": "DGV usage disclaimer (not parsed; licence unverified)",
   "note": "DGV curated CNV/SV catalogue, GRCh38, release 2025-12-01 (364 MB uncompressed).",
-  "expected_size": 364191405
+  "expected_size": 364191405,
+  "supports": [
+   "structural_variation_cnv"
+  ]
  },
  {
   "id": "screen_ccre_pls",
@@ -410,7 +522,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class PLS, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class PLS, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_pels",
@@ -420,7 +535,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class pELS, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class pELS, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_dels",
@@ -430,7 +548,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class dELS, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class dELS, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_ca_ctcf",
@@ -440,7 +561,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class CA-CTCF, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class CA-CTCF, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_ca_h3k4me3",
@@ -450,7 +574,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class CA-H3K4me3, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class CA-H3K4me3, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_ca_tf",
@@ -460,7 +587,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class CA-TF, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class CA-TF, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_ca",
@@ -470,7 +600,10 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class CA, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class CA, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
  },
  {
   "id": "screen_ccre_tf",
@@ -480,6 +613,360 @@
   "tier": "A",
   "kind": "bed",
   "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
-  "note": "SCREEN Registry V4 human cCREs, class TF, GRCh38."
+  "note": "SCREEN Registry V4 human cCREs, class TF, GRCh38.",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_target",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target/",
+  "dest": "opentargets/26.09/target/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"target\" (Parquet). Target (gene) annotation: Ensembl gene IDs, symbols, biotype, genomic location, constraint, GO, pathways, tractability.",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_go",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/go/",
+  "dest": "opentargets/26.09/go/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"go\" (Parquet). Gene Ontology terms used by the target annotation.",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_so",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/so/",
+  "dest": "opentargets/26.09/so/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"so\" (Parquet). Sequence Ontology terms (variant consequence vocabulary).",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_homology",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/homology/",
+  "dest": "opentargets/26.09/homology/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"homology\" (Parquet). Orthology and paralogy between human and model-organism genes.",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_biosample",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/biosample/",
+  "dest": "opentargets/26.09/biosample/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"biosample\" (Parquet). Cell and tissue ontology records used by expression and QTL evidence.",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_disease",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/disease/",
+  "dest": "opentargets/26.09/disease/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"disease\" (Parquet). Disease ontology (EFO/MONDO/Orphanet harmonised), the identifier hub for the evidence datasets.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_disease_hpo",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/disease_hpo/",
+  "dest": "opentargets/26.09/disease_hpo/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"disease_hpo\" (Parquet). Human Phenotype Ontology terms.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_disease_phenotype",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/disease_phenotype/",
+  "dest": "opentargets/26.09/disease_phenotype/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"disease_phenotype\" (Parquet). Disease to HPO phenotype annotations.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_mouse_phenotype",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/mouse_phenotype/",
+  "dest": "opentargets/26.09/mouse_phenotype/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"mouse_phenotype\" (Parquet). IMPC mouse knockout phenotypes mapped to human targets.",
+  "supports": [
+   "perturbation_evidence"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_genomics_england",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_genomics_england/",
+  "dest": "opentargets/26.09/evidence_genomics_england/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_genomics_england\" (Parquet). Genomics England PanelApp gene-disease evidence.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_gene2phenotype",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_gene2phenotype/",
+  "dest": "opentargets/26.09/evidence_gene2phenotype/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_gene2phenotype\" (Parquet). Gene2Phenotype (DDG2P and related) gene-disease evidence.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_orphanet",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_orphanet/",
+  "dest": "opentargets/26.09/evidence_orphanet/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_orphanet\" (Parquet). Orphanet rare-disease gene-disease evidence.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_uniprot_variants",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_uniprot_variants/",
+  "dest": "opentargets/26.09/evidence_uniprot_variants/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_uniprot_variants\" (Parquet). UniProt curated variant-disease evidence.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_pharmacogenomics",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/pharmacogenomics/",
+  "dest": "opentargets/26.09/pharmacogenomics/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"pharmacogenomics\" (Parquet). Variant and haplotype drug-response evidence (ClinPGx/PharmGKB-derived).",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_gene_burden",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_gene_burden/",
+  "dest": "opentargets/26.09/evidence_gene_burden/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_gene_burden\" (Parquet). Rare-variant gene-burden associations (exome-sequencing cohorts).",
+  "supports": [
+   "natural_knockouts_dosage"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_target_essentiality",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_essentiality/",
+  "dest": "opentargets/26.09/target_essentiality/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"target_essentiality\" (Parquet). Gene essentiality calls and effect scores from DepMap CRISPR screens.",
+  "supports": [
+   "perturbation_evidence"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_crispr",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_crispr/",
+  "dest": "opentargets/26.09/evidence_crispr/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_crispr\" (Parquet). CRISPR screen target-disease evidence (curated).",
+  "supports": [
+   "perturbation_evidence"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_crispr_screen",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_crispr_screen/",
+  "dest": "opentargets/26.09/evidence_crispr_screen/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_crispr_screen\" (Parquet). CRISPR screen target-disease evidence (BioGRID ORCS derived).",
+  "supports": [
+   "perturbation_evidence"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_impc",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_impc/",
+  "dest": "opentargets/26.09/evidence_impc/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_impc\" (Parquet). IMPC mouse knockout phenotype evidence per target-disease pair.",
+  "supports": [
+   "perturbation_evidence"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_study",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/study/",
+  "dest": "opentargets/26.09/study/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"study\" (Parquet). GWAS and QTL study metadata (identifiers, traits, cohorts, sample sizes).",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_credible_set",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/credible_set/",
+  "dest": "opentargets/26.09/credible_set/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"credible_set\" (Parquet). Fine-mapped credible sets from GWAS and molecular QTL studies (GRCh38 variants, posterior probabilities, LD).",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_l2g_prediction",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/l2g_prediction/",
+  "dest": "opentargets/26.09/l2g_prediction/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"l2g_prediction\" (Parquet). Locus-to-gene predictions for credible sets.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_variant",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/variant/",
+  "dest": "opentargets/26.09/variant/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"variant\" (Parquet). Variant index for variants that occur in credible sets and evidence: GRCh38 identifiers, consequences, frequencies, predicted effects.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_enhancer_to_gene",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/enhancer_to_gene/",
+  "dest": "opentargets/26.09/enhancer_to_gene/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"enhancer_to_gene\" (Parquet). Enhancer-to-gene links from chromatin-conformation and activity-by-contact style predictions (genomic intervals).",
+  "supports": [
+   "regulation_expression_splicing"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_interaction",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/interaction/",
+  "dest": "opentargets/26.09/interaction/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"interaction\" (Parquet). Aggregated molecular interactions between targets (IntAct, SIGNOR, Reactome, STRING).",
+  "supports": [
+   "pathways_interactions_epistasis"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_interaction_evidence",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/interaction_evidence/",
+  "dest": "opentargets/26.09/interaction_evidence/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"interaction_evidence\" (Parquet). Per-source evidence records behind the aggregated interactions.",
+  "supports": [
+   "pathways_interactions_epistasis"
+  ]
+ },
+ {
+  "id": "opentargets_26_09_evidence_uniprot_literature",
+  "source": "opentargets",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_uniprot_literature/",
+  "dest": "opentargets/26.09/evidence_uniprot_literature/",
+  "tier": "A",
+  "kind": "http_dir",
+  "licence": "CC0 1.0 for Open Targets Platform data (docs page, verified live); upstream source attribution requirements apply (see the Open Targets data-source list)",
+  "note": "Open Targets Platform 26.09 dataset \"evidence_uniprot_literature\" (Parquet). UniProt literature-curated gene-disease evidence.",
+  "supports": [
+   "clinical_interpretation"
+  ]
  }
 ]

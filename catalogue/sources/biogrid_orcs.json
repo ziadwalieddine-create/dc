@@ -37,10 +37,10 @@
   "direction": "screen-specific"
  },
  "licence": {
-  "name": "Licensing wiki page does not exist; terms not confirmed",
-  "redistribution": "Check README inside the release before reuse",
-  "access": "open_with_terms",
-  "verified": "unverified"
+  "name": "MIT License (stated on the BioGRID download repository page for BioGRID-ORCS; data provided without warranty)",
+  "redistribution": "Free for academic and commercial use under the MIT License; cite the original contributing authors and Stark et al. 2006 (Nucleic Acids Res 34:D535). This repository does not redistribute the archive.",
+  "access": "open",
+  "verified": "live"
  },
  "update_frequency": "Regular index releases.",
  "coverage_limitations": [
@@ -56,19 +56,16 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Download directory readable.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Download directory readable."
  },
  "acquisition_targets": [
   "biogrid_orcs_human"
  ],
- "unverified_fields": [
-  "licence"
- ],
+ "unverified_fields": [],
  "evidence": [
-  "biogrid_orcs/home",
+  "biogrid_orcs/download_dir_html",
   "biogrid_orcs/downloads_listing",
+  "biogrid_orcs/home",
   "biogrid_orcs/licence"
  ]
 }

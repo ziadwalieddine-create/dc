@@ -57,9 +57,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Version endpoint returned 97.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Version endpoint returned 97."
  },
  "acquisition_targets": [
   "reactome_ensembl2reactome",

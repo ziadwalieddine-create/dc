@@ -66,9 +66,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "API v2 dataset list and bucket listing verified.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "API v2 dataset list and bucket listing verified."
  },
  "acquisition_targets": [
   "gtex_v11_gene_median_tpm",

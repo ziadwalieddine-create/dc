@@ -65,9 +65,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP and portal reachable.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "FTP and portal reachable."
  },
  "acquisition_targets": [
   "igsr_1000g_samples"

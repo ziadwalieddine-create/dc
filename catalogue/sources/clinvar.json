@@ -65,9 +65,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "VCF 200,670,148 bytes with published MD5.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "VCF 200,670,148 bytes with published MD5."
  },
  "acquisition_targets": [
   "clinvar_vcf_grch38",

@@ -57,9 +57,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "API returns JSON.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "API returns JSON."
  },
  "acquisition_targets": [
   "cpic_genes",

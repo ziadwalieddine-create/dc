@@ -56,9 +56,7 @@
  },
  "status": {
   "accessible": "no",
-  "notes": "Automated access met a human-verification page; not bypassed.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Automated access met a human-verification page; not bypassed."
  },
  "unverified_fields": [
   "version",

@@ -1,0 +1,496 @@
+{
+ "release": "26.09",
+ "listing_base": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/",
+ "fetched_utc": "2026-10-25T10:18:22+00:00",
+ "note": "sizes are Apache-index approximations (two significant figures); exact sizes come from Content-Length at download time",
+ "datasets": {
+  "association_by_datasource_direct": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/association_by_datasource_direct/",
+   "files": 14,
+   "approx_bytes": 858783744,
+   "subdirectories": [],
+   "listing_sha256": "7fdb11921aefbd23be010761751e48ff05ddbce4d04028ccf694685ad4987be7",
+   "largest_file_bytes": 67108864
+  },
+  "association_by_datasource_indirect": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/association_by_datasource_indirect/",
+   "files": 43,
+   "approx_bytes": 2733637632,
+   "subdirectories": [],
+   "listing_sha256": "44fcd278f0443445480233afb56640832d16cd16b099a41a4796d588bac8d22a",
+   "largest_file_bytes": 68157440
+  },
+  "association_by_datatype_direct": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/association_by_datatype_direct/",
+   "files": 15,
+   "approx_bytes": 860880896,
+   "subdirectories": [],
+   "listing_sha256": "76159315d0531b4e85be4e35d4994050bc2f745ec8cbd54f2e457c5de338ed4f",
+   "largest_file_bytes": 58720256
+  },
+  "association_by_datatype_indirect": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/association_by_datatype_indirect/",
+   "files": 41,
+   "approx_bytes": 2701131776,
+   "subdirectories": [],
+   "listing_sha256": "b1998220935a16e6876eeb64bf7a66359753e8f19e29e20705c00c1582f42e9e",
+   "largest_file_bytes": 70254592
+  },
+  "association_overall_direct": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/association_overall_direct/",
+   "files": 14,
+   "approx_bytes": 837812224,
+   "subdirectories": [],
+   "listing_sha256": "212a447835f0773adfa71106744128569d61fbe8a6d73af7a254725f431504b7",
+   "largest_file_bytes": 62914560
+  },
+  "association_overall_indirect": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/association_overall_indirect/",
+   "files": 39,
+   "approx_bytes": 2411724800,
+   "subdirectories": [],
+   "listing_sha256": "c1327b2fa0dd45bf2a47b056abdd65e163345820ac010baee4572e3572fceb91",
+   "largest_file_bytes": 63963136
+  },
+  "baseline_expression": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/baseline_expression/",
+   "files": 21,
+   "approx_bytes": 1699770366,
+   "subdirectories": [],
+   "listing_sha256": "4df57736d0a772e0d74383d6819a12d98e24dbeffb86ac3b8a2e384b30be824b",
+   "largest_file_bytes": 425721856
+  },
+  "biosample": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/biosample/",
+   "files": 1,
+   "approx_bytes": 5976883,
+   "subdirectories": [],
+   "listing_sha256": "b52340e487a3013960a91213faeed7eaa66f7c377a90e4eeee87121c91576988",
+   "largest_file_bytes": 5976883
+  },
+  "chemical_probe": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/chemical_probe/",
+   "files": 1,
+   "approx_bytes": 38912,
+   "subdirectories": [],
+   "listing_sha256": "4154c4e26f7247a8a9d0e4dc6f57a9cb0437dee4c87feb76fad51eb282d5e755",
+   "largest_file_bytes": 38912
+  },
+  "clinical_indication": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/clinical_indication/",
+   "files": 1,
+   "approx_bytes": 5033164,
+   "subdirectories": [],
+   "listing_sha256": "921536867d051df1a835d26cae1dbef894063ca72764b02f33314614e9137f01",
+   "largest_file_bytes": 5033164
+  },
+  "clinical_report": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/clinical_report/",
+   "files": 1,
+   "approx_bytes": 75497472,
+   "subdirectories": [],
+   "listing_sha256": "088f3f44a87fe3cbf8e258d52994a481805140cd3197a13741d264d49299bfb6",
+   "largest_file_bytes": 75497472
+  },
+  "clinical_target": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/clinical_target/",
+   "files": 1,
+   "approx_bytes": 2831155,
+   "subdirectories": [],
+   "listing_sha256": "dc3380ae4198b2a89ee5067454954e6660086b1f879ef299b6ceab6ef6a57a23",
+   "largest_file_bytes": 2831155
+  },
+  "colocalisation": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/colocalisation/",
+   "files": 200,
+   "approx_bytes": 16567500800,
+   "subdirectories": [],
+   "listing_sha256": "af508251b42b673970366a0a286c4d3e815c4a32f81197b4c03caef0a789d42c",
+   "largest_file_bytes": 82837504
+  },
+  "credible_set": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/credible_set/",
+   "files": 200,
+   "approx_bytes": 2991272733,
+   "subdirectories": [],
+   "listing_sha256": "9199bf2a720339e25caf405ec83890c34f4116e0b8c29356b3ae3a332bce925d",
+   "largest_file_bytes": 193986560
+  },
+  "disease": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/disease/",
+   "files": 1,
+   "approx_bytes": 6396313,
+   "subdirectories": [],
+   "listing_sha256": "16ed0e2d912c5790f778b01c2df5f90d5239d2b65bce9ae3d4e91ae90a6da926",
+   "largest_file_bytes": 6396313
+  },
+  "disease_hpo": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/disease_hpo/",
+   "files": 1,
+   "approx_bytes": 1782579,
+   "subdirectories": [],
+   "listing_sha256": "a1776dc197860bd015ea8e6026a95c580f7393cfdf22ab53ddb85d2488f037b0",
+   "largest_file_bytes": 1782579
+  },
+  "disease_phenotype": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/disease_phenotype/",
+   "files": 1,
+   "approx_bytes": 6501171,
+   "subdirectories": [],
+   "listing_sha256": "090cc23e2d60b91cdff351796497fdb88397acbd073ecfe50f3ac782391d3a95",
+   "largest_file_bytes": 6501171
+  },
+  "drug_mechanism_of_action": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/drug_mechanism_of_action/",
+   "files": 1,
+   "approx_bytes": 322560,
+   "subdirectories": [],
+   "listing_sha256": "ad464aec3e776a1de853684824466449e8b5fb76501f75b16634c37ec170e5f0",
+   "largest_file_bytes": 322560
+  },
+  "drug_molecule": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/drug_molecule/",
+   "files": 1,
+   "approx_bytes": 6815744,
+   "subdirectories": [],
+   "listing_sha256": "89c4adf9a8a56e7ef934a64c11c078d7f89d2915772cbecadd907a77605fa047",
+   "largest_file_bytes": 6815744
+  },
+  "drug_warning": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/drug_warning/",
+   "files": 1,
+   "approx_bytes": 167936,
+   "subdirectories": [],
+   "listing_sha256": "02cb34627e03e3290b3614940fe2acffe0eadf5fb8a317ca662ae5891815c237",
+   "largest_file_bytes": 167936
+  },
+  "enhancer_to_gene": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/enhancer_to_gene/",
+   "files": 30,
+   "approx_bytes": 1769996288,
+   "subdirectories": [],
+   "listing_sha256": "c307a10fe31498157ab2d8294c3da9507e53840dcc05329d93133e200407c43f",
+   "largest_file_bytes": 62914560
+  },
+  "evidence_cancer_biomarkers": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_cancer_biomarkers/",
+   "files": 1,
+   "approx_bytes": 83968,
+   "subdirectories": [],
+   "listing_sha256": "2ec231401f3d97817e5732a165f15bd69874b47f9e2e88f0a819b771484ac7e3",
+   "largest_file_bytes": 83968
+  },
+  "evidence_cancer_gene_census": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_cancer_gene_census/",
+   "files": 1,
+   "approx_bytes": 3879731,
+   "subdirectories": [],
+   "listing_sha256": "d6654da5cafea57caaba6013216e9bf548eb3fe9ab1bce68f2968d1409b93ab1",
+   "largest_file_bytes": 3879731
+  },
+  "evidence_clingen": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clingen/",
+   "files": 1,
+   "approx_bytes": 327680,
+   "subdirectories": [],
+   "listing_sha256": "e3fd853876c1b7fa04e097f45344b55c2143295d9f20920d4493006f7ff6f1c0",
+   "largest_file_bytes": 327680
+  },
+  "evidence_clinical_precedence": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_clinical_precedence/",
+   "files": 1,
+   "approx_bytes": 39845888,
+   "subdirectories": [],
+   "listing_sha256": "b1bea41cd9732d74f07fb4ee34878f67cc443333c71da311a50707a409040944",
+   "largest_file_bytes": 39845888
+  },
+  "evidence_crispr": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_crispr/",
+   "files": 1,
+   "approx_bytes": 49152,
+   "subdirectories": [],
+   "listing_sha256": "d6473ee8eeb08a2122a309d647be8516f7ab7922ee9a1bcee2dff71d29c43938",
+   "largest_file_bytes": 49152
+  },
+  "evidence_crispr_screen": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_crispr_screen/",
+   "files": 1,
+   "approx_bytes": 940032,
+   "subdirectories": [],
+   "listing_sha256": "a6cc399272a14eb9a809845d149161c53678cdc8d1f891488510fb9224288f35",
+   "largest_file_bytes": 940032
+  },
+  "evidence_europepmc": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_europepmc/",
+   "files": 125,
+   "approx_bytes": 6050283520,
+   "subdirectories": [],
+   "listing_sha256": "23d960ecbbf04e25ac15ec0fc9bf9084cc6ffc52a55b5d885a3d0fcc6618b293",
+   "largest_file_bytes": 67108864
+  },
+  "evidence_eva": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_eva/",
+   "files": 8,
+   "approx_bytes": 260046848,
+   "subdirectories": [],
+   "listing_sha256": "6e7d2cac0a9460c6ec537fd21d2f62f55e67884338015b07bf2c8eb63b00355b",
+   "largest_file_bytes": 32505856
+  },
+  "evidence_eva_somatic": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_eva_somatic/",
+   "files": 1,
+   "approx_bytes": 617472,
+   "subdirectories": [],
+   "listing_sha256": "dbeeffb2c781b9daab64b32bbf336a5cd857b9372eb50ad7451aeda014ab02e2",
+   "largest_file_bytes": 617472
+  },
+  "evidence_expression_atlas": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_expression_atlas/",
+   "files": 1,
+   "approx_bytes": 11534336,
+   "subdirectories": [],
+   "listing_sha256": "602f558cd9d75e3458c1a844779c700d0895cd57f59885634f85bbaebd29d147",
+   "largest_file_bytes": 11534336
+  },
+  "evidence_gene2phenotype": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_gene2phenotype/",
+   "files": 1,
+   "approx_bytes": 364544,
+   "subdirectories": [],
+   "listing_sha256": "bd70ba43997e418ca0d80b47229cbb00ef74f75c59f898ae2ca3b0fe1713cda0",
+   "largest_file_bytes": 364544
+  },
+  "evidence_gene_burden": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_gene_burden/",
+   "files": 1,
+   "approx_bytes": 3879731,
+   "subdirectories": [],
+   "listing_sha256": "411415f675b3a49f552dc3320eaf052aaee8c5365a40f9466327a61bdb6da32c",
+   "largest_file_bytes": 3879731
+  },
+  "evidence_genomics_england": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_genomics_england/",
+   "files": 1,
+   "approx_bytes": 2726297,
+   "subdirectories": [],
+   "listing_sha256": "afa51e43b1bfd508b34824367e5c29880d91de6b1279f415b84b282b1bdc3cc6",
+   "largest_file_bytes": 2726297
+  },
+  "evidence_gwas_credible_sets": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_gwas_credible_sets/",
+   "files": 3,
+   "approx_bytes": 205520896,
+   "subdirectories": [],
+   "listing_sha256": "ff775709407096bf310358f62711521714a5584a23a6b3c8bfbb6b0f4791b8e3",
+   "largest_file_bytes": 81788928
+  },
+  "evidence_impc": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_impc/",
+   "files": 25,
+   "approx_bytes": 904921088,
+   "subdirectories": [],
+   "listing_sha256": "5905a3c80d31eb93e72f320857022069d2a9d0caa160be34e7c42c5d9e21f969",
+   "largest_file_bytes": 45088768
+  },
+  "evidence_intogen": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_intogen/",
+   "files": 1,
+   "approx_bytes": 229376,
+   "subdirectories": [],
+   "listing_sha256": "6745957d7105b7c095d457ff52377d7f945f463facd93c5a489ce89f74023101",
+   "largest_file_bytes": 229376
+  },
+  "evidence_orphanet": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_orphanet/",
+   "files": 1,
+   "approx_bytes": 457728,
+   "subdirectories": [],
+   "listing_sha256": "5621d03e7862c1508d17ed5979da9ac9a91e324491c92f710fef4440f42a1d22",
+   "largest_file_bytes": 457728
+  },
+  "evidence_reactome": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_reactome/",
+   "files": 1,
+   "approx_bytes": 561152,
+   "subdirectories": [],
+   "listing_sha256": "1cdf570386bf1c83f37df91d894d49d4d5819b4fbdc1ece23cdaf66940c7cc87",
+   "largest_file_bytes": 561152
+  },
+  "evidence_uniprot_literature": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_uniprot_literature/",
+   "files": 1,
+   "approx_bytes": 524288,
+   "subdirectories": [],
+   "listing_sha256": "75cffe556c512968c3129e974b7aec3feff5c7d1493539863d4a2d8263f1a0bf",
+   "largest_file_bytes": 524288
+  },
+  "evidence_uniprot_variants": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/evidence_uniprot_variants/",
+   "files": 1,
+   "approx_bytes": 1887436,
+   "subdirectories": [],
+   "listing_sha256": "0e0e2e9e9de780f971d280391d9871cbbc26de57e4204c5701e5f7abc61ab5ac",
+   "largest_file_bytes": 1887436
+  },
+  "go": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/go/",
+   "files": 1,
+   "approx_bytes": 2831155,
+   "subdirectories": [],
+   "listing_sha256": "62a84cce1b46998afc7c83ed2e48d74bf2094a25d79f47d3575eb7833147613e",
+   "largest_file_bytes": 2831155
+  },
+  "homology": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/homology/",
+   "files": 2,
+   "approx_bytes": 24117248,
+   "subdirectories": [],
+   "listing_sha256": "89c6c454197ae811f9833bd77e05e16d8edad8a410b350e755ff5768e2ffd9b3",
+   "largest_file_bytes": 13631488
+  },
+  "interaction": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/interaction/",
+   "files": 2,
+   "approx_bytes": 251658240,
+   "subdirectories": [],
+   "listing_sha256": "8f057c0dad7d45072f48357226158ddc402652d81c5aae90324bb2d87a73f075",
+   "largest_file_bytes": 125829120
+  },
+  "interaction_evidence": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/interaction_evidence/",
+   "files": 6,
+   "approx_bytes": 346030080,
+   "subdirectories": [],
+   "listing_sha256": "6770f00451dfe1c9e365f0bea90503ac27db653f000c7412edc95eb76e3358d8",
+   "largest_file_bytes": 57671680
+  },
+  "l2g_prediction": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/l2g_prediction/",
+   "files": 200,
+   "approx_bytes": 508539425,
+   "subdirectories": [],
+   "listing_sha256": "d18c8b8c453da5c278505a1930a19ae86b4237e7d8036bc908c27770ba337ec6",
+   "largest_file_bytes": 8493465
+  },
+  "literature_entity_lut": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/literature_entity_lut/",
+   "files": 35,
+   "approx_bytes": 1953497088,
+   "subdirectories": [],
+   "listing_sha256": "cf4fd0b4084663c4bc3b3dd71300a6371c820a8a8e072e3242b296d2b966b736",
+   "largest_file_bytes": 60817408
+  },
+  "literature_vector": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/literature_vector/",
+   "files": 1,
+   "approx_bytes": 26214400,
+   "subdirectories": [],
+   "listing_sha256": "94d37951b0d32905e130ec63bcc5173a8d330451f5e25ff69b70992e6afbd190",
+   "largest_file_bytes": 26214400
+  },
+  "mouse_phenotype": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/mouse_phenotype/",
+   "files": 1,
+   "approx_bytes": 6815744,
+   "subdirectories": [],
+   "listing_sha256": "195c3c540962d1eb12a9c6cac3c7ec3d5e05f38d1367797769f06b8f9c232beb",
+   "largest_file_bytes": 6815744
+  },
+  "openfda_significant_adverse_drug_reactions": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/openfda_significant_adverse_drug_reactions/",
+   "files": 1,
+   "approx_bytes": 1363148,
+   "subdirectories": [],
+   "listing_sha256": "0ebaf9905f8725f4a0ec7da73bfd178d45768ff5f680df89a03ea1c0de28f809",
+   "largest_file_bytes": 1363148
+  },
+  "pharmacogenomics": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/pharmacogenomics/",
+   "files": 1,
+   "approx_bytes": 3460300,
+   "subdirectories": [],
+   "listing_sha256": "e6e3cd7139d6b43836bfbfcc9a170959544b7f829e99a9d8c4be1162b980d9cf",
+   "largest_file_bytes": 3460300
+  },
+  "reactome": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/reactome/",
+   "files": 1,
+   "approx_bytes": 143360,
+   "subdirectories": [],
+   "listing_sha256": "f048a4782905ac854fa8f1fe463ae0784639320e26c4e743b492c82bb72fbd91",
+   "largest_file_bytes": 143360
+  },
+  "so": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/so/",
+   "files": 1,
+   "approx_bytes": 28672,
+   "subdirectories": [],
+   "listing_sha256": "8d23e1c9622c8d53be7b875f49240d23dc01633bd402fb0e1609d0feba322431",
+   "largest_file_bytes": 28672
+  },
+  "study": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/study/",
+   "files": 1,
+   "approx_bytes": 97517568,
+   "subdirectories": [],
+   "listing_sha256": "cd27d845284e3d3ab82c49de81013f8920930237fdc593f501c2c23e34850fc6",
+   "largest_file_bytes": 97517568
+  },
+  "target": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target/",
+   "files": 3,
+   "approx_bytes": 21600664,
+   "subdirectories": [],
+   "listing_sha256": "d5f92996a3232944e5a35908adc1d64eb5384bd1815b7b58a9b76b2ddfe58fd1",
+   "largest_file_bytes": 7235174
+  },
+  "target_essentiality": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_essentiality/",
+   "files": 4,
+   "approx_bytes": 246415360,
+   "subdirectories": [],
+   "listing_sha256": "852ea193057aec29c1a934e472c99c887a60a80677d9ed4c12efcfc8696b4cf6",
+   "largest_file_bytes": 62914560
+  },
+  "target_prioritisation": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_prioritisation/",
+   "files": 1,
+   "approx_bytes": 1572864,
+   "subdirectories": [],
+   "listing_sha256": "658a6496c5b78faf5f9af3ccde2e2e898cd1e75fb9462e69e18d6ddf1d2ed46a",
+   "largest_file_bytes": 1572864
+  },
+  "target_safety_event": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_safety_event/",
+   "files": 1,
+   "approx_bytes": 121856,
+   "subdirectories": [],
+   "listing_sha256": "92ee6e131d4d56800874d5b69e3ae1c55b6c4e7debd874208fcd50bff8ecb38e",
+   "largest_file_bytes": 121856
+  },
+  "target_tractability": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/target_tractability/",
+   "files": 2,
+   "approx_bytes": 126976,
+   "subdirectories": [],
+   "listing_sha256": "acc23e5a7096c9819143c9e03c744be5f11087b8afa55732d7ff55c90eb088fa",
+   "largest_file_bytes": 71680
+  },
+  "transcript": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/transcript/",
+   "files": 1,
+   "approx_bytes": 30408704,
+   "subdirectories": [],
+   "listing_sha256": "2218318ba500b61fb71f20c90e95b8e1f29e187a0072ec1fc8767ddcffa774bb",
+   "largest_file_bytes": 30408704
+  },
+  "variant": {
+   "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/variant/",
+   "files": 25,
+   "approx_bytes": 1967128576,
+   "subdirectories": [],
+   "listing_sha256": "5ae7191726fd61c54242810565804be0e1f71cfdd16544d8ef08348924bfebcb",
+   "largest_file_bytes": 106954752
+  }
+ }
+}

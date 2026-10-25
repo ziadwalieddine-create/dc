@@ -62,9 +62,7 @@
  },
  "status": {
   "accessible": "partial",
-  "notes": "Site and licence pages readable; bulk download gated by registration.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Site and licence pages readable; bulk download gated by registration."
  },
  "evidence": [
   "dbnsfp/home",

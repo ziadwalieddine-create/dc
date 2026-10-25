@@ -65,9 +65,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time.",
-  "mapped_to_dc": true,
-  "usable": true
+  "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time."
  },
  "evidence": [
   "ensembl_vep/rest_software",

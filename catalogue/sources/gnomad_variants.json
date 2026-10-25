@@ -66,9 +66,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Downloads page rendered; S3 listing reachable.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Downloads page rendered; S3 listing reachable."
  },
  "evidence": [
   "gnomad/downloads_page",

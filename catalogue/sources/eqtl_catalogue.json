@@ -61,9 +61,7 @@
  },
  "status": {
   "accessible": "partial",
-  "notes": "FTP listing verified; API retired.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "FTP listing verified; API retired."
  },
  "unverified_fields": [
   "licence"

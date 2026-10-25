@@ -1,0 +1,2 @@
+# Only needed to validate and test the Open Targets Parquet datasets (validate.py, compat_tests.py); everything else uses the standard library.
+pyarrow==26.0.0

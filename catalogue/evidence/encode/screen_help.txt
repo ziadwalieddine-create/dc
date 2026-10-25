@@ -1,0 +1,36 @@
+Downloads
+About
+Help
+Enter a gene, cCRE, variant or locus
+Enter a gene, cCRE, variant or locus
+404
+Page Not Found
+
+Sorry, we couldn't find the page you're looking for. The page might have been moved, deleted, or the URL might be incorrect.
+
+Return Home
+
+Search Candidate Regulatory Elements by ENCODE
+
+Copyright © Weng Lab, Moore Lab 2026.
+
+How to Cite the ENCODE Encyclopedia, the Registry of cCREs, and SCREEN:
+Moore...Weng (2026) Nature
+
+About us
+SCREEN
+Weng Lab
+Moore Lab
+ENCODE Consortium
+UMass Chan Medical School
+Explore/Tools
+PsychSCREEN
+igSCREEN
+Factorbook
+Data
+Downloads
+Release History
+Help
+API Documentation
+Citations
+Contact Us/Feedback

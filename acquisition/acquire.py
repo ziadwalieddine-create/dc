@@ -9,15 +9,24 @@ record to acquisition/manifest.jsonl. Files already present and recorded as veri
   python3 acquire.py --ids clinvar_vcf_grch38     # specific targets
   python3 acquire.py --tier A --max-mb 700        # skip targets whose expected size exceeds the cap
 
+A target with "kind": "http_dir" is a directory of Parquet part files published through an Apache index (Open Targets on the
+EBI FTP). Every part file is downloaded, its length is checked against the server's Content-Length, its Parquet signature
+(PAR1 at both ends) is checked and its SHA-256 recorded in acquisition/manifest_files/<id>.tsv; the directory must contain
+the Spark _SUCCESS marker when it consists of Spark part files (or, where the writer left no marker, contiguous part numbers). The manifest record carries a tree hash over the sorted file table.
+
 Data lives under data/external/ (git-ignored). Large files must not be committed; licences differ per source
 (see catalogue/sources/*.json) and a private repository does not override redistribution terms.
 """
 import argparse
 import base64
+import concurrent.futures
+import fcntl
 import datetime
 import hashlib
+import html
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -29,6 +38,7 @@ DATA = os.path.join(ROOT, 'data', 'external')
 MANIFEST = os.path.join(HERE, 'manifest.jsonl')
 TARGETS = os.path.join(HERE, 'targets.json')
 UA = 'dc-catalogue-acquire/1.0 (research; github ziadwalieddine-create/dc)'
+WORKERS = 4   # concurrent part downloads per Parquet directory
 
 
 def load_manifest():
@@ -45,6 +55,15 @@ def save_manifest(m):
     with open(MANIFEST, 'w') as f:
         for k in sorted(m):
             f.write(json.dumps(m[k], sort_keys=True) + '\n')
+
+
+def update_manifest(rec):
+    """Read-modify-write under an exclusive lock, so that several acquire.py processes can run side by side."""
+    with open(MANIFEST + '.lock', 'w') as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        m = load_manifest()
+        m[rec['id']] = rec
+        save_manifest(m)
 
 
 def http_get_text(url):
@@ -138,7 +157,101 @@ def signature_problem(path, kind):
     return None
 
 
+def head_length(url, tries=4):
+    err = None
+    for attempt in range(tries):
+        if attempt:
+            time.sleep(3 * 2 ** attempt)
+        try:
+            req = urllib.request.Request(url, method='HEAD', headers={'User-Agent': UA})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return int(r.headers['Content-Length'])
+        except Exception as e:
+            err = e
+    raise RuntimeError(f'HEAD failed for {url}: {err!r}')
+
+
+def sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def parquet_framed(path):
+    with open(path, 'rb') as f:
+        head = f.read(4)
+        f.seek(-4, os.SEEK_END)
+        return head == b'PAR1' and f.read(4) == b'PAR1'
+
+
+def process_dir(t, manifest, force=False):
+    """Download every *.parquet part of an Apache-indexed directory, verify lengths and framing, record a per-file table."""
+    dest = os.path.join(DATA, t['dest'])
+    table = os.path.join(HERE, 'manifest_files', t['id'] + '.tsv')
+    prev = manifest.get(t['id'])
+    if not force and prev and prev.get('ok') and os.path.exists(table):
+        rows = [l.rstrip('\n').split('\t') for l in open(table)][1:]
+        if rows and all(os.path.exists(os.path.join(dest, n)) and os.path.getsize(os.path.join(dest, n)) == int(sz) for n, sz, _ in rows):
+            return prev, 'skipped (already verified)'
+    rec = dict(id=t['id'], source=t['source'], url=t['url'], dest=t['dest'], tier=t.get('tier'), kind='http_dir', ok=False,
+               fetched_utc=datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+    names = [n for n in re.findall(r'<a href="([^"?/][^"]*)">', html.unescape(http_get_text(t['url'])))]
+    parts = sorted(n for n in names if n.endswith('.parquet'))
+    problems = []
+    # Spark writes part-NNNNN-*.parquet plus a _SUCCESS marker; single-file exports (00000000.parquet) carry none. Some Spark
+    # outputs (Open Targets l2g_prediction) have no marker either; for those the part numbers must run 0..N-1 without a gap.
+    spark = any(n.startswith('part-') for n in parts)
+    nums = sorted(int(m.group(1)) for m in (re.match(r'part-(\d+)-', n) for n in parts) if m)
+    contiguous = nums == list(range(len(nums)))
+    if spark and '_SUCCESS' not in names and not contiguous:
+        problems.append('Spark part files without a _SUCCESS marker and with gaps in the part numbers')
+    if not parts:
+        problems.append('no .parquet files listed')
+    def fetch_part(name):
+        url = t['url'] + name
+        local = os.path.join(dest, name)
+        want = head_length(url)
+        if not (os.path.exists(local) and os.path.getsize(local) == want):
+            _, err = download(dict(url=url), local)
+            if err:
+                return name, None, f'{name}: {err[:100]}'
+        got = os.path.getsize(local)
+        if got != want:
+            os.replace(local, local + '.rejected')
+            return name, None, f'{name}: size {got} != Content-Length {want}'
+        if not parquet_framed(local):
+            os.replace(local, local + '.rejected')
+            return name, None, f'{name}: missing PAR1 signature'
+        return name, (got, sha256_file(local)), None
+
+    rows = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        for name, ok, err in ex.map(fetch_part, parts):
+            if err:
+                problems.append(err)
+            else:
+                rows.append((name, ok[0], ok[1]))
+    rows.sort()
+    if problems:
+        rec['error'] = '; '.join(problems[:5]) + (f' (+{len(problems) - 5} more)' if len(problems) > 5 else '')
+        return rec, 'REJECTED ' + rec['error'][:160]
+    os.makedirs(os.path.dirname(table), exist_ok=True)
+    with open(table, 'w') as f:
+        f.write('file\tbytes\tsha256\n')
+        for n, sz, sh in rows:
+            f.write(f'{n}\t{sz}\t{sh}\n')
+    tree = hashlib.sha256('\n'.join(f'{n}\t{sz}\t{sh}' for n, sz, sh in rows).encode()).hexdigest()
+    rec.update(ok=True, n_files=len(rows), bytes=sum(sz for _, sz, _ in rows), sha256=tree, md5=None, source_md5=None, md5_verified_against_source=False,
+               size_verified_against_source=True, spark_parts=spark, success_marker='_SUCCESS' in names, parts_contiguous=contiguous if spark else None, files_table=os.path.relpath(table, ROOT),
+               note='sizes verified against Content-Length of each part; the source publishes no checksums, sha256 values are ours')
+    return rec, f"ok {len(rows)} files {rec['bytes'] / 1e6:.1f} MB (lengths and PAR1 framing verified; no source checksum)"
+
+
 def process(t, manifest, force=False):
+    if t.get('kind') == 'http_dir':
+        return process_dir(t, manifest, force)
     dest = os.path.join(DATA, t['dest'])
     prev = manifest.get(t['id'])
     if not force and prev and prev.get('ok') and os.path.exists(dest) and os.path.getsize(dest) == prev['bytes']:
@@ -200,7 +313,7 @@ def main():
             continue
         rec, msg = process(t, manifest, a.force)
         manifest[t['id']] = rec
-        save_manifest(manifest)
+        update_manifest(rec)
         print(f"{t['id']}: {msg}", flush=True)
 
 

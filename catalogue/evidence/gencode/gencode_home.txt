@@ -1,0 +1,53 @@
+ 
+ GENCODE - Home page 
+ Human 
+ Current release 
+ Release history 
+ Statistics 
+ COVID-19 
+ Mouse 
+ Current release 
+ Release history 
+ Statistics 
+ How to access data 
+ FAQ 
+ Documentation 
+ Data format 
+ Tags 
+ Biotypes 
+ Custom array 
+ Benchmarking 
+   LRGASP 
+   RGASP 
+ About us 
+ The GENCODE project 
+ Publications 
+ Workshops 
+ Contact us 
+ HUMAN 
+ GENCODE 50 (June 2026) 
+ MOUSE 
+ GENCODE M39 (June 2026) 
+ The goal of the GENCODE project is to identify and classify all gene features
+ in the human and mouse genomes with high accuracy based on biological evidence,
+ and to release these annotations for the benefit of biomedical research and
+ genome interpretation.
+ GENCODE now offers a first catalog of human promoter windows .
+ The GENCODE human and mouse lncRNA annotations are significantly expanding as we
+ integrate models from our Capture Long-read Sequencing project .
+ The GENCODE Primary transcript set captures a minimal set of transcripts at protein coding genes.
+ GENCODE are supporting the annotation of non-canonical human ORFs predicted by Ribo-seq data,
+ now including the integration of peptidomics and immunopeptidomics data.
+ Tweets by @GencodeGenes 
+ Announcements 
+ Apr 1, 2018 
+ Our FTP site has now moved to an EMBL-EBI based server. Please note the new location of the human and mouse data 
+ Mar 1, 2018 
+ The Biodalliance genome browser is no longer available in the GENCODE website 
+ Feb 1, 2018 
+ GENCODE 28 and M17, the default human and mouse gene annotation in Ensembl 92, have been released. 
+ The next mouse (M18) and human (29) releases are scheduled for June and September 2018, respectively 
+-->
+ © 2017-2026 EMBL-EBI .
+ Cookies policy 
+ | Terms of use 

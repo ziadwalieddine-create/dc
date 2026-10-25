@@ -1,0 +1,61 @@
+ 
+ GENCODE - Data Access 
+ Human 
+ Current release 
+ Release history 
+ Statistics 
+ COVID-19 
+ Mouse 
+ Current release 
+ Release history 
+ Statistics 
+ How to access data 
+ FAQ 
+ Documentation 
+ Data format 
+ Tags 
+ Biotypes 
+ Custom array 
+ Benchmarking 
+   LRGASP 
+   RGASP 
+ About us 
+ The GENCODE project 
+ Publications 
+ Workshops 
+ Contact us 
+ How to access the data 
+ All the GENCODE project data is open access and can be accessed by any of the following methods. If you need help,
+ please contact us. 
+ The GENCODE release files can be found in this website or directly in our
+ human and
+ mouse FTP sites.
+ Release history for human and mouse . 
+ Statistics about the current release for human and mouse . 
+ FTP site README files for human and mouse . 
+ Further information on the content and format of the Gencode GTF files. 
+ Description of gene and transcript types and tags . 
+ Ensembl browser showing GENCODE annotation 
+ The current version of GENCODE is the default geneset in the Ensembl Genome Browser for human and mouse. 
+ The Ensembl data can also be accessed using the options listed below: 
+ BioMart data retrieval system 
+ Download from the FTP site 
+ Access to MySQL public server 
+ Perl interface 
+ Access to REST server 
+ The UCSC Genome Browser hosts selected GENCODE releases. GENCODE track data can also be downloaded from the Table Browser . 
+ The links below can be used to add GENCODE-related track hubs in the Ensembl or UCSC Genome Browsers: 
+ GENCODE annotation updates : manual annotation updated since the last release. 
+ GENCODE annotation releases : human releases since v7 and all mouse releases. 
+ RACE-454seq on GENCODE lncRNAs : extension of human lncRNA transcripts by RACE coupled with long read high-throughput sequencing. 
+ GENCODE CLS CaptureSeq : Capture Long-Seq (CLS) on human and mouse lincRNAs. 
+ GENCODE experimental validation : results of the validation of unique exon junctions of novel transcripts by RT-PCR-seq. 
+ -->
+ PhyloCSF : protein-coding potential based on comparative genomics. 
+ AnnoTrack , our GENCODE data tracking system, grants live access to the manual annotation and current issues that we are working on. 
+-->
+ We have created a custom long non-coding RNA expression array design with probes targeting the
+ Gencode v15 human lncRNA annotation.
+ © 2017-2026 EMBL-EBI .
+ Cookies policy 
+ | Terms of use 

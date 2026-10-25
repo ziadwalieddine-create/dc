@@ -808,5 +808,78 @@
   "source": "nhgri",
   "name": "project_1000g",
   "url": "https://www.genome.gov/27528684/1000-genomes-project"
+ },
+ {
+  "source": "dgv",
+  "name": "disclaimer",
+  "url": "https://www.tcag.ca/projects/databaseDisclaimer.html",
+  "note": "Disclaimer page linked from the DGV downloads page HTML"
+ },
+ {
+  "source": "dgv",
+  "name": "faq",
+  "url": "https://dgv.tcag.ca/dgv/app/faq"
+ },
+ {
+  "source": "dgv",
+  "name": "about",
+  "url": "https://dgv.tcag.ca/dgv/app/about"
+ },
+ {
+  "source": "alphamissense",
+  "name": "zenodo_readme",
+  "url": "https://zenodo.org/api/records/8208688/files/README.md/content",
+  "ua": "dc-catalogue-probe/1.0",
+  "note": "README of the Zenodo record; documents columns and file contents (MD5 6cb8ebab4d9f24916dcc24a6311257b4 per the record)"
+ },
+ {
+  "source": "gencode",
+  "name": "mane_readme",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.5/README.txt",
+  "note": "README shipped with the MANE v1.5 release files we downloaded"
+ },
+ {
+  "source": "gencode",
+  "name": "ncbi_policies",
+  "url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+  "note": "NCBI data usage policy (MANE is hosted by NCBI)"
+ },
+ {
+  "source": "gencode",
+  "name": "gencode_home",
+  "url": "https://www.gencodegenes.org/",
+  "note": "GENCODE home page, looking for the data-use and citation statement"
+ },
+ {
+  "source": "encode",
+  "name": "cite_page_render",
+  "url": "https://www.encodeproject.org/help/citing-encode/",
+  "render": true,
+  "note": "second attempt through browser rendering; an earlier plain request returned HTTP 403"
+ },
+ {
+  "source": "encode",
+  "name": "screen_about",
+  "url": "https://screen.wenglab.org/about",
+  "render": true,
+  "note": "SCREEN registry of cCREs: about/data page"
+ },
+ {
+  "source": "gencode",
+  "name": "ebi_terms_of_use",
+  "url": "https://www.ebi.ac.uk/about/terms-of-use",
+  "note": "Terms of use linked from the GENCODE footer",
+  "render": true
+ },
+ {
+  "source": "gencode",
+  "name": "data_access",
+  "url": "https://www.gencodegenes.org/pages/data_access.html"
+ },
+ {
+  "source": "encode",
+  "name": "screen_help",
+  "url": "https://screen.wenglab.org/help",
+  "render": true
  }
 ]

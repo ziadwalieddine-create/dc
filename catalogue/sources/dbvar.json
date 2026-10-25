@@ -59,9 +59,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Only directory listings read.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Only directory listings read."
  },
  "unverified_fields": [
   "licence",

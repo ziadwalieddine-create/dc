@@ -58,9 +58,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "API returned model metadata.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "API returned model metadata."
  },
  "evidence": [
   "alphafold_db/api_p04637",

@@ -60,9 +60,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "S3 listings give exact sizes.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "S3 listings give exact sizes."
  },
  "acquisition_targets": [
   "gnomad_exome_cnv_v4_1"

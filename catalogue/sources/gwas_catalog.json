@@ -58,9 +58,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP listing verified; web REST API root URL guessed incorrectly (404) and not needed.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "FTP listing verified; web REST API root URL guessed incorrectly (404) and not needed."
  },
  "acquisition_targets": [
   "gwas_catalog_associations"

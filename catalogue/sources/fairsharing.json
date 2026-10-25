@@ -52,9 +52,7 @@
  },
  "status": {
   "accessible": "partial",
-  "notes": "Web pages rendered.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Web pages rendered."
  },
  "unverified_fields": [
   "API access terms",

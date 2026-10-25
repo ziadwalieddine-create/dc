@@ -61,9 +61,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "HEAD sizes and last-modified verified.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "HEAD sizes and last-modified verified."
  },
  "acquisition_targets": [
   "clinpgx_variantAnnotations",

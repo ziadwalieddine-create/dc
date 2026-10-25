@@ -60,9 +60,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "REST total reviewed human = 20,431.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "REST total reviewed human = 20,431."
  },
  "acquisition_targets": [
   "uniprot_human_reviewed"

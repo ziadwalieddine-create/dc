@@ -58,9 +58,7 @@
  },
  "status": {
   "accessible": "no",
-  "notes": "Access Denied.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Access Denied."
  },
  "unverified_fields": [
   "version",

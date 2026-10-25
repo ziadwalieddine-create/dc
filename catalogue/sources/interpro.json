@@ -54,9 +54,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "API root and entry count returned JSON.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "API root and entry count returned JSON."
  },
  "unverified_fields": [
   "licence",

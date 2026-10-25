@@ -59,9 +59,7 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "Release page and FTP listing readable.",
-  "mapped_to_dc": false,
-  "usable": false
+  "notes": "Release page and FTP listing readable."
  },
  "evidence": [
   "impc/release_page",

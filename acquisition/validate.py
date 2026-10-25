@@ -72,7 +72,11 @@ def v_manifest(tid, r):
     m = MANIFEST.get(tid)
     r.check('manifest record is ok', m and m.get('ok'))
     if m and os.path.exists(path(tid)):
-        r.check('size equals manifest', os.path.getsize(path(tid)) == m['bytes'])
+        if m.get('kind') == 'http_dir':
+            have = sum(os.path.getsize(os.path.join(path(tid), f)) for f in os.listdir(path(tid)) if f.endswith('.parquet'))
+            r.check('total size of part files equals manifest', have == m['bytes'], f'{have} vs {m["bytes"]}')
+        else:
+            r.check('size equals manifest', os.path.getsize(path(tid)) == m['bytes'])
 
 
 def v_clinvar_vcf(tid, r):
@@ -107,6 +111,201 @@ def v_tsv(tid, r, required, min_rows, delim='\t', comment='#', skip_prefix_lines
     r.check(f'rows >= {min_rows}', len(lines) - 1 >= min_rows, len(lines) - 1)
     r.stats.update(columns=len(hdr), rows=len(lines) - 1, sample_columns=hdr[:10])
     return hdr, lines
+
+
+# Per-dataset expectations for the Open Targets Parquet directories. Row-count floors are order-of-magnitude sanity limits taken
+# from the documented scale of each dataset (they are not exact counts); checks read only the named columns.
+#   ('regex', col, pattern, min_fraction)   share of non-null values matching
+#   ('range', col, lo, hi)                  every non-null numeric value inside [lo, hi]
+#   ('nonnull', col, min_fraction)          share of non-null values
+ENSG = r'^ENSG\d{11}$'
+VARID = r'^[0-9XYM]+_\d+_[ACGT]+_[ACGT]+$'                  # chromosome_position_ref_alt
+CHROM = r'^([1-9]|1[0-9]|2[0-2]|X|Y|MT)$'
+ONTO = r'^[A-Za-z][A-Za-z0-9]*_[A-Za-z0-9]+$'    # prefix_local identifiers (EFO_0000001, OBA_VT0001234, MONDO_..., HP_...)
+OT_SPECS = {
+    'target': dict(required=['id', 'approvedSymbol', 'biotype', 'genomicLocation', 'proteinIds', 'constraint'], min_rows=50_000,
+                   checks=[('regex', 'id', ENSG, 1.0), ('nonnull', 'approvedSymbol', 0.99)]),
+    'go': dict(required=['id', 'label', 'namespace'], min_rows=40_000, checks=[('regex', 'id', r'^GO:\d{7}$', 1.0)]),
+    'so': dict(required=['id', 'label'], min_rows=2_000, checks=[('regex', 'id', r'^SO:\d{7}$', 1.0)]),
+    'homology': dict(required=['targetId', 'speciesId', 'homologyType', 'targetGeneId'], min_rows=1_000_000, checks=[('regex', 'targetId', ENSG, 1.0)]),
+    'biosample': dict(required=['biosampleId', 'biosampleName'], min_rows=20_000, checks=[('regex', 'biosampleId', ONTO, 0.95)]),
+    'disease': dict(required=['id', 'name', 'ancestors'], min_rows=20_000, checks=[('regex', 'id', ONTO, 1.0), ('nonnull', 'name', 0.99)]),
+    'disease_hpo': dict(required=['id', 'name'], min_rows=15_000, checks=[('regex', 'id', ONTO, 1.0)]),
+    'disease_phenotype': dict(required=['disease', 'phenotype', 'evidence'], min_rows=100_000,
+                              checks=[('regex', 'disease', ONTO, 1.0), ('regex', 'phenotype', ONTO, 1.0)]),
+    'mouse_phenotype': dict(required=['targetFromSourceId', 'modelPhenotypeId', 'modelPhenotypeLabel'], min_rows=100_000, checks=[('regex', 'targetFromSourceId', ENSG, 1.0)]),
+    'pharmacogenomics': dict(required=['variantRsId', 'genotypeId', 'pgxCategory', 'phenotypeText', 'drugs'], min_rows=10_000, checks=[('regex', 'variantId', r'^[0-9XYM]+_\d+_[ACGT]+_[ACGT]+$', 0.99)]),
+    'evidence_gene_burden': dict(required=['targetId', 'diseaseId', 'datasourceId', 'beta', 'oddsRatio', 'pValueMantissa', 'pValueExponent'], min_rows=20_000,
+                                 checks=[('regex', 'targetId', ENSG, 1.0), ('range', 'resourceScore', 0, 1)]),
+    'evidence_genomics_england': dict(required=['targetId', 'diseaseId', 'confidence'], min_rows=10_000, checks=[('regex', 'targetId', ENSG, 1.0), ('range', 'score', 0, 1)]),
+    'evidence_gene2phenotype': dict(required=['targetId', 'diseaseId', 'confidence', 'allelicRequirements'], min_rows=2_000, checks=[('regex', 'targetId', ENSG, 1.0), ('range', 'score', 0, 1)]),
+    'evidence_orphanet': dict(required=['targetId', 'diseaseId', 'alleleOrigins'], min_rows=3_000, checks=[('regex', 'targetId', ENSG, 1.0), ('range', 'score', 0, 1)]),
+    'credible_set': dict(required=['studyLocusId', 'studyId', 'variantId', 'chromosome', 'position', 'finemappingMethod', 'locus', 'studyType'], min_rows=1_000_000,
+                         checks=[('regex', 'variantId', VARID, 0.99), ('regex', 'chromosome', CHROM, 0.999), ('range', 'position', 1, 300_000_000), ('nonnull', 'studyLocusId', 1.0)]),
+    'l2g_prediction': dict(required=['studyLocusId', 'geneId', 'score'], min_rows=500_000, checks=[('regex', 'geneId', ENSG, 1.0), ('range', 'score', 0, 1)]),
+    'variant': dict(required=['variantId', 'chromosome', 'position', 'referenceAllele', 'alternateAllele', 'variantEffect', 'alleleFrequencies', 'mostSevereConsequenceId'], min_rows=3_000_000,
+                    checks=[('regex', 'variantId', VARID, 0.99), ('regex', 'chromosome', CHROM, 0.999), ('range', 'position', 1, 300_000_000), ('regex', 'mostSevereConsequenceId', r'^SO_\d{7}$', 0.99)]),
+    'enhancer_to_gene': dict(required=['geneId', 'chromosome', 'start', 'end', 'score', 'intervalType', 'datasourceId', 'biosampleId'], min_rows=10_000_000,
+                             checks=[('regex', 'geneId', ENSG, 1.0), ('regex', 'chromosome', CHROM, 0.999), ('range', 'start', 0, 300_000_000), ('range', 'score', 0, 1)]),
+    'interaction': dict(required=['sourceDatabase', 'targetA', 'targetB', 'speciesA', 'speciesB', 'scoring', 'interactionId'], min_rows=5_000_000,
+                        checks=[('regex', 'targetA', ENSG, 0.99), ('regex', 'targetB', ENSG, 0.99), ('range', 'scoring', 0, 1)]),
+    'interaction_evidence': dict(required=['interactionId', 'interactionScore', 'evidenceScore', 'interactionResources', 'interactionDetectionMethodShortName'], min_rows=10_000_000,
+                                 checks=[('range', 'interactionScore', 0, 1), ('range', 'evidenceScore', 0, 1), ('nonnull', 'interactionId', 1.0)]),
+    'study': dict(required=['studyId', 'studyType', 'traitFromSource', 'projectId', 'nSamples', 'hasSumstats'], min_rows=1_000_000, checks=[('nonnull', 'studyId', 1.0), ('nonnull', 'studyType', 1.0)]),
+    'target_essentiality': dict(required=['targetId', 'isEssential', 'depMapEssentiality'], min_rows=10_000, checks=[('regex', 'targetId', ENSG, 1.0), ('nonnull', 'isEssential', 0.5)]),
+    'evidence_crispr': dict(required=['targetId', 'diseaseId', 'diseaseCellLines', 'resourceScore'], min_rows=100, checks=[('regex', 'targetId', ENSG, 0.99), ('range', 'score', 0, 1)]),
+    'evidence_crispr_screen': dict(required=['targetId', 'diseaseId', 'studyId', 'contrast', 'log2FoldChangeValue'], min_rows=10_000, checks=[('regex', 'targetId', ENSG, 0.99), ('range', 'score', 0, 1)]),
+    'evidence_impc': dict(required=['targetId', 'diseaseId', 'targetInModelMgiId', 'biologicalModelAllelicComposition', 'diseaseModelAssociatedModelPhenotypes'], min_rows=1_000_000,
+                          checks=[('regex', 'targetId', ENSG, 1.0), ('range', 'score', 0, 1)]),
+    'evidence_uniprot_literature': dict(required=['targetId', 'diseaseId', 'confidence'], min_rows=1_000, checks=[('regex', 'targetId', ENSG, 1.0), ('range', 'score', 0, 1)]),
+    'evidence_uniprot_variants': dict(required=['targetId', 'diseaseId', 'variantId', 'variantRsId'], min_rows=10_000,
+                                      checks=[('regex', 'targetId', ENSG, 1.0), ('regex', 'variantId', r'^[0-9XYM]+_\d+_[ACGT]+_[ACGT]+$', 0.7), ('range', 'score', 0, 1)]),
+}
+
+
+def v_parquet_dir(tid, r):
+    """Open Targets Parquet directory: files match the manifest table, every footer is readable and agrees on one schema,
+    required columns exist, the row count passes a floor, and key identifier / range columns contain well-formed values."""
+    try:
+        import pyarrow.compute as pc
+        import pyarrow.parquet as pq
+    except ImportError:
+        r.check('pyarrow is installed (pip install -r acquisition/requirements.txt)', False, 'ImportError')
+        return
+    d = path(tid)
+    ds = tid.split('opentargets_26_09_', 1)[-1]
+    m = MANIFEST[tid]
+    table = [l.rstrip('\n').split('\t') for l in open(os.path.join(ROOT, m['files_table']))][1:]
+    on_disk = sorted(f for f in os.listdir(d) if f.endswith('.parquet'))
+    r.check('part files on disk equal the manifest file table (names and sizes)', on_disk == sorted(n for n, _, _ in table) and all(os.path.getsize(os.path.join(d, n)) == int(sz) for n, sz, _ in table), f'{len(on_disk)} files')
+    files = [os.path.join(d, f) for f in on_disk]
+    schemas, rows = [], 0
+    for fp in files:
+        md = pq.ParquetFile(fp).metadata
+        rows += md.num_rows
+        schemas.append(pq.read_schema(fp))
+    r.check('every part has a readable Parquet footer', True, len(files))
+    r.check('all parts share one schema', all(sc.equals(schemas[0]) for sc in schemas[1:]))
+    names = schemas[0].names
+    spec = OT_SPECS.get(ds)
+    r.check('a content specification exists for this dataset', spec is not None, ds)
+    r.stats.update(files=len(files), rows=rows, columns=len(names), column_names=names[:60])
+    if not spec:
+        return
+    r.check('required columns present', all(c in names for c in spec['required']), [c for c in spec['required'] if c not in names])
+    r.check(f"rows >= {spec['min_rows']:,}", rows >= spec['min_rows'], rows)
+    for kind, col, *arg in spec['checks']:
+        if col not in names:
+            r.check(f'{kind} check on {col}', False, 'column missing')
+            continue
+        tot = ok = nn = 0
+        for fp in files:
+            arr = pq.read_table(fp, columns=[col]).column(col)
+            tot += len(arr)
+            nn += len(arr) - arr.null_count
+            valid = arr.drop_null()
+            if kind == 'regex':
+                ok += int(pc.sum(pc.match_substring_regex(valid.cast('string'), arg[0])).as_py() or 0)
+            elif kind == 'range':
+                ok += int(pc.sum(pc.and_(pc.greater_equal(valid, arg[0]), pc.less_equal(valid, arg[1]))).as_py() or 0)
+        if kind == 'regex':
+            r.check(f'{col}: share of non-null values matching {arg[0]!r} >= {arg[1]}', nn > 0 and ok / nn >= arg[1], f'{ok}/{nn} of {tot}')
+        elif kind == 'range':
+            r.check(f'{col}: every non-null value within [{arg[0]}, {arg[1]}]', ok == nn, f'{ok}/{nn} of {tot}')
+        else:
+            r.check(f'{col}: non-null share >= {arg[0]}', tot > 0 and nn / tot >= arg[0], f'{nn}/{tot}')
+
+
+def v_alphamissense_variants(tid, r):
+    """AlphaMissense_hg38.tsv.gz as documented in the Zenodo README (evidence alphamissense/zenodo_readme): 71M single-nucleotide
+    missense variants at canonical transcripts, sorted by genomic coordinate, columns CHROM..am_class, class thresholds
+    likely_benign < 0.34, likely_pathogenic > 0.564, ambiguous otherwise."""
+    want = ['#CHROM', 'POS', 'REF', 'ALT', 'genome', 'uniprot_id', 'transcript_id', 'protein_variant', 'am_pathogenicity', 'am_class']
+    hdr = None
+    n = bad_cols = bad_alt = bad_genome = bad_score = bad_class = unsorted = boundary_rounding = 0
+    cls = collections.Counter()
+    chroms, tx, uni = [], set(), set()
+
+    def band(x):
+        return 'likely_benign' if x < 0.34 else ('likely_pathogenic' if x > 0.564 else 'ambiguous')
+
+    last_c = last_p = None
+    with opener(path(tid)) as f:
+        for line in f:
+            if line[0] == '#':
+                if line.startswith('#CHROM'):
+                    hdr = line.rstrip('\n').split('\t')
+                continue
+            p = line.rstrip('\n').split('\t')
+            n += 1
+            if len(p) != 10:
+                bad_cols += 1
+                continue
+            if p[2] == p[3] or p[2] not in ('A', 'C', 'G', 'T') or p[3] not in ('A', 'C', 'G', 'T'):
+                bad_alt += 1
+            bad_genome += p[4] != 'hg38'
+            s = float(p[8])
+            if not 0 <= s <= 1:
+                bad_score += 1
+            if p[9] != band(s):
+                # scores are printed to 4 decimals while the class uses the unrounded value: accept a class that the rule gives for
+                # any unrounded value within +-5e-5 of the printed score, and count those rows separately
+                if p[9] in (band(s - 4.9e-5), band(s + 4.9e-5)) and round(s, 4) in (0.34, 0.564):
+                    boundary_rounding += 1
+                else:
+                    bad_class += 1
+            cls[p[9]] += 1
+            c, pos = p[0], int(p[1])
+            if c != last_c:
+                if c in chroms:
+                    unsorted += 1
+                chroms.append(c)
+                last_c, last_p = c, pos
+            else:
+                unsorted += pos < last_p
+                last_p = pos
+            tx.add(p[6])
+            uni.add(p[5])
+    r.check('column header matches the documented layout', hdr == want, hdr)
+    r.check('rows ~ 71M (README says 71M; +-3%)', abs(n - 71_000_000) / 71_000_000 < 0.03, n)
+    r.check('every row has 10 columns', bad_cols == 0, bad_cols)
+    r.check('REF/ALT are distinct A/C/G/T bases', bad_alt == 0, bad_alt)
+    r.check('genome column is hg38 throughout', bad_genome == 0, bad_genome)
+    r.check('am_pathogenicity within [0, 1]', bad_score == 0, bad_score)
+    r.check('am_class agrees with the documented thresholds (0.34 / 0.564) up to 4-decimal rounding at the two boundaries', bad_class == 0, f'{bad_class} outside tolerance; {boundary_rounding} boundary-rounding rows')
+    r.check('sorted by chromosome block and position', unsorted == 0, unsorted)
+    r.check('one chromosome block each for chr1-22, X, Y, M', len(chroms) == len(set(chroms)) and {'chr' + str(i) for i in range(1, 23)} | {'chrX', 'chrY'} <= set(chroms), chroms)
+    r.stats.update(rows=n, classes=dict(cls), class_boundary_rounding_rows=boundary_rounding, chromosome_blocks=len(chroms), transcripts=len(tx), uniprot_accessions=len(uni))
+
+
+def v_dgv(tid, r):
+    """DGV curated structural variants (GRCh38 release 2025-12-01): tab-delimited, first line gives the column names."""
+    want = ['variantaccession', 'chr', 'start', 'end', 'varianttype', 'variantsubtype', 'reference', 'pubmedid', 'method', 'platform', 'mergedvariants',
+            'supportingvariants', 'mergedorsample', 'frequency', 'samplesize', 'observedgains', 'observedlosses', 'cohortdescription', 'genes', 'samples']
+    n = bad_cols = bad_span = unplaced = 0
+    types, prefixes = collections.Counter(), collections.Counter()
+    with opener(path(tid)) as f:
+        hdr = f.readline().rstrip('\n').split('\t')
+        for line in f:
+            p = line.rstrip('\n').split('\t')
+            n += 1
+            if len(p) != len(want):
+                bad_cols += 1
+                continue
+            types[p[4]] += 1
+            prefixes[re.match(r'[a-z]+', p[0]).group(0) if re.match(r'[a-z]+', p[0]) else '?'] += 1
+            try:
+                if int(p[3]) < int(p[2]) or int(p[2]) < 1:
+                    bad_span += 1
+            except ValueError:
+                bad_span += 1
+            unplaced += not p[1] or p[1] == 'N'
+    r.check('column header matches the DGV layout', hdr == want, hdr)
+    r.check('rows >= 1,900,000', n >= 1_900_000, n)
+    r.check('every row has the full column count', bad_cols == 0, bad_cols)
+    r.check('start >= 1 and end >= start on every row', bad_span == 0, bad_span)
+    r.check('accession prefixes are DGV/dbVar style (dgv, nsv, esv)', set(prefixes) <= {'dgv', 'nsv', 'esv'}, dict(prefixes))
+    r.stats.update(rows=n, varianttype=dict(types), accession_prefixes=dict(prefixes), rows_without_placed_chromosome=unplaced)
 
 
 def v_clingen_gene(tid, r):
@@ -174,7 +373,9 @@ def run(tid):
         return r
     v_manifest(tid, r)
     try:
-        if tid == 'clinvar_vcf_grch38':
+        if t.get('kind') == 'http_dir':
+            v_parquet_dir(tid, r)
+        elif tid == 'clinvar_vcf_grch38':
             v_clinvar_vcf(tid, r)
         elif tid == 'gnomad_exome_cnv_v4_1':
             v_gnomad_cnv(tid, r)
@@ -268,8 +469,10 @@ def run(tid):
                 members = tf.getnames()
             r.check('tar members > 100', len(members) > 100, len(members))
             r.stats.update(n_members=len(members), sample=members[:4])
+        elif tid == 'alphamissense_hg38':
+            v_alphamissense_variants(tid, r)
         elif tid.startswith('alphamissense_'):
-            hdr, lines = v_tsv(tid, r, [], 1000, comment='#')
+            hdr, lines = v_tsv(tid, r, ['transcript_id', 'mean_am_pathogenicity'], 15000, comment='#')
             r.stats['sample_header'] = hdr
         elif tid.startswith('strchive_') and tid.endswith('json'):
             d = v_json(tid, r, 20)
@@ -281,28 +484,42 @@ def run(tid):
         elif tid == 'ensembl_vep_mavedb_variants':
             n = 0
             urns = set()
+            chroms = set()
             with gzip.open(path(tid), 'rt') as f:
                 hdr = f.readline().rstrip('\n').split('\t')
+                ui = hdr.index('urn')
                 for line in f:
                     n += 1
-                    if n % 1 == 0:
-                        p = line.split('\t')
-                        for x in p:
-                            if x.startswith('urn:mavedb:'):
-                                urns.add(x.split('#')[0])
-            r.check('has rows', n > 100_000, n)
-            r.stats.update(header=hdr, rows=n, distinct_urns_seen=len(urns))
+                    p = line.split('\t', ui + 1)
+                    urns.add(p[ui])
+                    chroms.add(p[0])
+            r.check('header begins with #chr start end ref alt', hdr[:5] == ['#chr', 'start', 'end', 'ref', 'alt'], hdr[:5])
+            r.check('rows > 1,000,000', n > 1_000_000, n)
+            r.check('urn column holds MaveDB score-set URNs', all(u.startswith('urn:mavedb:') for u in urns), list(urns)[:3])
+            r.stats.update(columns=len(hdr), rows=n, distinct_score_sets=len(urns), contigs=sorted(chroms)[:30])
         elif tid == 'mavedb_zenodo_dump_v4':
+            kinds = collections.Counter()
             with tarfile.open(path(tid)) as tf:
-                names = []
                 for m in tf:
-                    names.append(m.name)
-                    if len(names) >= 100000:
-                        break
-            r.check('tar readable', len(names) > 0, len(names))
-            r.stats.update(members_seen=len(names), sample=names[:8])
+                    base = m.name.rsplit('/', 1)[-1]
+                    if base.startswith('._') or m.isdir():
+                        continue
+                    k = re.search(r'\.(scores|counts|annotations)\.csv$', base)
+                    if k:
+                        kinds[k.group(1)] += 1
+                    elif base.endswith('.mapped-variants.json'):
+                        kinds['mapped-variants'] += 1
+                    elif base.endswith('.va.ndjson'):
+                        kinds['va'] += 1
+                    elif base in ('main.json', 'README.md', 'LICENSE.txt'):
+                        kinds[base] += 1
+            r.check('archive fully readable', True)
+            r.check('main.json, README.md and LICENSE.txt present', all(kinds[x] == 1 for x in ('main.json', 'README.md', 'LICENSE.txt')), dict(kinds))
+            r.check('scores tables > 2,500', kinds['scores'] > 2500, kinds['scores'])
+            r.check('annotations present for mapped sets', kinds['annotations'] > 1000 and kinds['annotations'] == kinds['mapped-variants'], dict(kinds))
+            r.stats.update(members_by_type=dict(kinds))
         elif tid == 'dgv_grch38_variants_2025_12_01':
-            hdr, lines = v_tsv(tid, r, ['variantaccession', 'chr', 'start', 'end'], 100_000, comment=None)
+            v_dgv(tid, r)
         elif tid.endswith('_tbi'):
             r.check('gzip/bgzf-framed index (tbi is BGZF)', open(path(tid), 'rb').read(2) == b'\x1f\x8b')
         elif tid.endswith('readme') or tid.endswith('readme_vcf'):
