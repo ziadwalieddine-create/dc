@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -38,13 +39,15 @@ print('jobs', len(jobs), 'already done', len(done), 'todo', len(todo), flush=Tru
 os.makedirs(OUT, exist_ok=True)
 
 
-def fetch(job, tries=4):
+def fetch(job, tries=6):
     urn, kind, expected = job
     name = f"{urn.replace(':', '_')}.{kind}.csv.gz"
     path = os.path.join(OUT, name)
     rec = {'urn': urn, 'kind': kind, 'file': name, 'expected_variants': expected, 'ok': False}
     err = None
-    for _ in range(tries):
+    for attempt in range(tries):
+        if attempt:
+            time.sleep(5 * 2 ** attempt)
         try:
             req = urllib.request.Request(API + f'{urn}/{kind}', headers={'Accept': 'text/csv'})
             with urllib.request.urlopen(req, timeout=300) as resp, gzip.GzipFile(path + '.part', 'wb', mtime=0) as gz:
@@ -78,3 +81,13 @@ with open(MANIFEST, 'a') as mf, cf.ThreadPoolExecutor(workers) as ex:
         if n % 100 == 0:
             print('done', n, 'of', len(todo), 'failed', bad, flush=True)
 print('finished', n, 'failed', bad, flush=True)
+
+# keep only the latest record per (urn, kind) so retried failures replace their old entries
+latest = {}
+for line in open(MANIFEST):
+    r = json.loads(line)
+    latest[(r['urn'], r['kind'])] = r
+with open(MANIFEST, 'w') as mf:
+    for key in sorted(latest):
+        mf.write(json.dumps(latest[key]) + '\n')
+print('manifest entries', len(latest), 'still failed', sum(not r['ok'] for r in latest.values()), flush=True)
