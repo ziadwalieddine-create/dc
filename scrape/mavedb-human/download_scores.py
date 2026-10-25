@@ -21,7 +21,9 @@ OUT = os.path.join(HERE, 'scores')
 MANIFEST = os.path.join(HERE, 'scores_manifest.jsonl')
 workers = int(sys.argv[1]) if len(sys.argv) > 1 else 6
 
-sets = [json.loads(line) for line in open(os.path.join(HERE, 'score_set_details.jsonl'))]
+sets = []
+for fn in ('score_set_details.jsonl', 'score_set_details_accession_targets.jsonl'):
+    sets += [json.loads(line) for line in open(os.path.join(HERE, fn))]
 jobs = []
 for s in sets:
     jobs.append((s['urn'], 'scores', s['numVariants']))
