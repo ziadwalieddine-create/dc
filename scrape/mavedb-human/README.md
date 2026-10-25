@@ -11,7 +11,7 @@ The page is a JavaScript app (empty HTML shell), so this was scraped from the AP
 
 Together: 1,110 experiments, 712 distinct target names, 5,170,093 variants.
 
-**Coverage check:** all 2,938 published score sets that the search API lists were enumerated and tested. Every one with a *Homo sapiens* sequence target (1,320) or an accession target (82) is in this dataset, and nothing here is missing from that list. The statistics endpoints report larger totals (2,995 published sets, 1,617 human targets) that the search cannot reproduce; the cause was not determined, so the reference for completeness is the search listing.
+**Coverage check:** all 2,938 published score sets that the search API lists were enumerated and tested. Every one with a *Homo sapiens* sequence target (1,320) or an accession target (82) is in this dataset, and nothing here is missing from that list. Cross-check against `GET /experiments/`: its experiments reference 2,957 distinct score-set URNs; 2,938 are the searchable ones, and the other 19 (17 `tmp:<uuid>` placeholders and `urn:mavedb:00001208-a-1`, `urn:mavedb:00001209-a-1`) return 404 from `GET /score-sets/{urn}`, so every score set the public API can return is accounted for. The statistics endpoints report larger totals (2,995 published sets, 1,617 human targets); those most likely include draft or otherwise non-public records, but that was not confirmed.
 
 ## Files
 - `score_sets.json`: the 1,320 search records for the organism filter (title, description, experiment, publications, license, target genes)
