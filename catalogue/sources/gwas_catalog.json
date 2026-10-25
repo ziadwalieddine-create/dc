@@ -70,5 +70,28 @@
   "gwas_catalog/ftp_latest",
   "gwas_catalog/docs",
   "gwas_catalog/downloads"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "statistical_association"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "association_finemapping_coloc"
+   }
+  ],
+  "biological_context": "Published genome-wide association results with ontology-annotated traits, study and ancestry tables. Each association belongs to a study with its own cohort, ancestry, genotyping platform and imputation.",
+  "evidence_strength": "Reported association statistics (p-value, effect size and risk-allele frequency where reported). Significance thresholds apply per study, and lead variants tag a locus.",
+  "mechanistic_confidence": "None. An associated locus does not identify the causal variant, gene or mechanism; mapped genes are positional.",
+  "phenotype_implication": "Statistical association with a trait or disease in the studied ancestry. Effects of common variants are generally small, and transfer across ancestries needs evidence.",
+  "absence_means": "A variant with no association in the catalogue has not reached the reporting threshold in catalogued studies, whose trait coverage, ancestry and power vary. It is not evidence of no effect.",
+  "overlaps_with_sources": []
+ }
 }

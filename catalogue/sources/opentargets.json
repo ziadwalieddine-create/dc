@@ -28,7 +28,9 @@
  "variant_classes": [
   "snv",
   "indel",
-  "gene_level"
+  "gene_level",
+  "region_level",
+  "protein_level"
  ],
  "assemblies": [
   "GRCh38"
@@ -79,6 +81,8 @@
  "unverified_fields": [],
  "evidence": [
   "opentargets/api_meta",
+  "opentargets/dataset_sizes",
+  "opentargets/datasets_inventory",
   "opentargets/docs_licence",
   "opentargets/docs_variant",
   "opentargets/downloads_page",
@@ -150,5 +154,204 @@
    "approx_gib": 0.028,
    "reason": "Ensembl transcript table (29 MiB); the MANE summary already bridges Ensembl, RefSeq and HGNC identifiers for the joins in use. Fetch when transcript-level consequences are needed."
   }
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "aggregated_integration",
+   "statistical_association",
+   "curated_expert_classification",
+   "perturbation_experimental",
+   "computational_prediction"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "association_finemapping_coloc",
+    "note": "credible sets, studies and colocalisation"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "prediction",
+    "dimension": "association_finemapping_coloc",
+    "note": "locus-to-gene predictions"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel",
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "clinical_interpretation",
+    "note": "evidence from ClinVar, ClinGen and UniProt variants"
+   },
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "perturbation_evidence",
+    "note": "essentiality, CRISPR screens and knockout mouse phenotypes"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "region_level"
+    ],
+    "basis": "prediction",
+    "dimension": "regulation_expression_splicing",
+    "note": "enhancer-to-gene links"
+   },
+   {
+    "axis": "pharmacogenomic_haplotype",
+    "variant_classes": [
+     "snv",
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "functional_haplotypes_pgx",
+    "note": "pharmacogenomics dataset"
+   },
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "gene_level",
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "interaction and pathway context"
+   }
+  ],
+  "components": [
+   {
+    "name": "credible_set, study and colocalisation (GWAS and molecular QTL)",
+    "evidence_kind": [
+     "statistical_association"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "external: published GWAS and QTL studies"
+   },
+   {
+    "name": "l2g_prediction and enhancer_to_gene",
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "native"
+   },
+   {
+    "name": "evidence_eva",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "clinvar"
+   },
+   {
+    "name": "evidence_clingen",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "gene_level",
+    "origin": "clingen"
+   },
+   {
+    "name": "evidence_uniprot_variants",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "uniprot"
+   },
+   {
+    "name": "target_essentiality",
+    "evidence_kind": [
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "origin": "depmap"
+   },
+   {
+    "name": "evidence_impc",
+    "evidence_kind": [
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "origin": "impc"
+   }
+  ],
+  "biological_context": "Integrated target-disease evidence. The target-disease association is gene-level; variant-level datasets (credible sets, colocalisation, evidence from ClinVar and UniProt) are allele-specific but remain those of the originating source, whose profile governs.",
+  "evidence_strength": "Aggregated, with the evidence kind of each part retained: association statistics, curated assertions, perturbation results and predictions. Overall association scores combine datasets with fixed weights and are ranking aids, not evidence strength.",
+  "mechanistic_confidence": "Inherited from the originating dataset and generally low for allele-level mechanism: gene-level scores say nothing about a specific allele, and a locus-to-gene prediction is a hypothesis about the target gene.",
+  "phenotype_implication": "Disease and phenotype associations of genes and loci, ontology-mapped; each part carries the phenotype semantics of its source.",
+  "absence_means": "A target without evidence for a disease has no integrated evidence in this release, which reflects what the integrated sources cover and not the absence of a relationship.",
+  "overlaps_with_sources": [
+   {
+    "source": "alphamissense",
+    "relation": "aggregates"
+   },
+   {
+    "source": "clingen",
+    "relation": "aggregates"
+   },
+   {
+    "source": "clinvar",
+    "relation": "aggregates",
+    "note": "ClinVar via EVA"
+   },
+   {
+    "source": "eqtl_catalogue",
+    "relation": "aggregates"
+   },
+   {
+    "source": "gtex",
+    "relation": "aggregates"
+   },
+   {
+    "source": "gwas_catalog",
+    "relation": "aggregates"
+   },
+   {
+    "source": "gnomad_variants",
+    "relation": "aggregates",
+    "note": "population allele frequencies"
+   },
+   {
+    "source": "reactome",
+    "relation": "aggregates"
+   },
+   {
+    "source": "uniprot",
+    "relation": "aggregates"
+   },
+   {
+    "source": "pharmgkb",
+    "relation": "aggregates",
+    "note": "pharmacogenetics data from ClinPGx"
+   },
+   {
+    "source": "depmap",
+    "relation": "aggregates",
+    "note": "target_essentiality"
+   },
+   {
+    "source": "impc",
+    "relation": "aggregates",
+    "note": "evidence_impc"
+   }
+  ]
+ }
 }

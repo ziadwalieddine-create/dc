@@ -82,5 +82,49 @@
   "clingen/gene_validity_csv_head",
   "clingen/terms"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level",
+     "region_level",
+     "cnv"
+    ],
+    "basis": "curated",
+    "dimension": "natural_knockouts_dosage",
+    "note": "haploinsufficiency and triplosensitivity scores for whole genes and regions"
+   },
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "region_level",
+     "cnv"
+    ],
+    "basis": "curated",
+    "dimension": "structural_variation_cnv",
+    "note": "recurrent CNV regions"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "clinical_interpretation",
+    "note": "gene-disease validity"
+   }
+  ],
+  "biological_context": "Expert-panel curation of whole genes and genomic regions: dosage sensitivity (loss or gain of an entire gene or region), recurrent CNV regions and gene-disease validity. Gene- and region-level assertions; recurrent regions are intervals.",
+  "evidence_strength": "Graded by curators from published cases. Dosage scores encode evidence levels; 30 stands for a gene associated with an autosomal recessive phenotype and 40 for dosage sensitivity unlikely. A curated judgement, not a measurement, and not allele-specific.",
+  "mechanistic_confidence": "Moderate for the dosage mechanism of whole-gene or whole-region loss or gain. It says nothing about the mechanism of a particular small variant, and contiguous-gene or position effects of multi-gene CNVs are not separated.",
+  "phenotype_implication": "Curated association of dosage change (and, in the validity records, of gene disruption) with a named phenotype; penetrance and expressivity vary.",
+  "absence_means": "A gene or region without a record has not been curated, which differs from a score meaning no evidence (0) or dosage sensitivity unlikely (40). Absence is not evidence of dosage tolerance.",
+  "overlaps_with_sources": []
+ }
 }

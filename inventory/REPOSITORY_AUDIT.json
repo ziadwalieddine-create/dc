@@ -1,0 +1,2174 @@
+{
+ "generated_utc": "2026-10-25T14:57:34Z",
+ "commit": "a7d725297e43db640cdb36d8ba6e5ea2218cd008",
+ "visibility": "visibility: public (ziadwalieddine-create/dc)",
+ "checks": [
+  {
+   "check": "existing assets re-audited (NHGRI, Ensembl registry, MaveDB score tables)",
+   "ok": true,
+   "detail": "{\"nhgri-gwas\": \"downloaded_verified\", \"nhgri-1000-genomes\": \"downloaded_verified\", \"ensembl-human-genomes\": \"downloaded_verified\", \"mavedb-human\": \"downloaded_verified\"}"
+  },
+  {
+   "check": "preservation guard: tracked files under scrape/ unchanged apart from documented exceptions",
+   "ok": true,
+   "detail": "baseline files: 97 | missing: 0 | changed: 0 | documented exceptions: 1 | added: 0"
+  },
+  {
+   "check": "unit tests (acquisition.test_helpers)",
+   "ok": true,
+   "detail": "17 tests"
+  },
+  {
+   "check": "catalogue records validate against the vocabulary, evidence files and acquisition targets",
+   "ok": true,
+   "detail": "35 source records valid; 89 acquisition targets; 225 evidence probes"
+  },
+  {
+   "check": "repository policy: size, personal-genome file types, credential patterns",
+   "ok": true,
+   "detail": "visibility: public (ziadwalieddine-create/dc)"
+  },
+  {
+   "check": "all scripts compile",
+   "ok": true,
+   "detail": "25 scripts"
+  },
+  {
+   "check": "the claim checker detects a changed number in every claim (mutation self-test)",
+   "ok": true,
+   "detail": "31 claims"
+  }
+ ],
+ "claims": [
+  {
+   "doc": "README.md",
+   "pattern": "(\\d+) genome/assembly records",
+   "status": "PASS",
+   "detail": "[563.0]"
+  },
+  {
+   "doc": "README.md",
+   "pattern": "MaveDB: ([\\d,]+) published score sets with a human target \\(([\\d,]+) by organism filter plus (\\d+)",
+   "status": "PASS",
+   "detail": "[1402.0, 1320.0, 82.0]"
+  },
+  {
+   "doc": "README.md",
+   "pattern": "the ([\\d,]+) score and count tables",
+   "status": "PASS",
+   "detail": "[1980.0]"
+  },
+  {
+   "doc": "README.md",
+   "pattern": "an additive set of (\\d+) superseded MaveDB score sets",
+   "status": "PASS",
+   "detail": "[52.0]"
+  },
+  {
+   "doc": "README.md",
+   "pattern": "(\\d+) tutorial slide decks",
+   "status": "PASS",
+   "detail": "[11.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "([\\d,]+) in total",
+   "status": "PASS",
+   "detail": "[1402.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "\\| `organism_filter` \\|.*?\\| ([\\d,]+) \\|",
+   "status": "PASS",
+   "detail": "[1320.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "\\| `accession_target` \\|.*?\\| (\\d+) \\|",
+   "status": "PASS",
+   "detail": "[82.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "Together: ([\\d,]+) experiments, ([\\d,]+) distinct target names, ([\\d,]+) variants",
+   "status": "PASS",
+   "detail": "[1110.0, 712.0, 5170093.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "([\\d,]+) files, about [\\d]+ MB gzipped, ([\\d,]+) score rows and ([\\d,]+) count rows",
+   "status": "PASS",
+   "detail": "[1980.0, 5170093.0, 1544328.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "for the (\\d+) sets with count columns",
+   "status": "PASS",
+   "detail": "[578.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "(\\d+) sets have `processingState: incomplete`",
+   "status": "PASS",
+   "detail": "[322.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "`complete` for only (\\d+) of ([\\d,]+) \\((\\d+) incomplete, (\\d+) failed, (\\d+) queued, (\\d+) processing, (\\d+) none\\)",
+   "status": "PASS",
+   "detail": "[888.0, 1402.0, 321.0, 181.0, 9.0, 1.0, 2.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "([\\d,]+) CC0, (\\d+) CC BY 4\\.0, (\\d+) CC BY-SA 4\\.0, (\\d+) CC BY-NC-SA 4\\.0",
+   "status": "PASS",
+   "detail": "[1340.0, 45.0, 11.0, 6.0]"
+  },
+  {
+   "doc": "scrape/mavedb-human/README.md",
+   "pattern": "only `urn:mavedb:00000053-a-1`, ([\\d,]+) variants",
+   "status": "PASS",
+   "detail": "[648022.0]"
+  },
+  {
+   "doc": "scrape/ensembl-human-genomes/README.md",
+   "pattern": "^(\\d+) records, all in integrated release 2026-07",
+   "status": "PASS",
+   "detail": "[563.0]"
+  },
+  {
+   "doc": "scrape/ensembl-human-genomes/README.md",
+   "pattern": "\\((\\d+) have `hprc` in the assembly name",
+   "status": "PASS",
+   "detail": "[440.0]"
+  },
+  {
+   "doc": "scrape/ensembl-human-genomes/README.md",
+   "pattern": "(\\d+) records have variation data and (\\d+) have regulation",
+   "status": "PASS",
+   "detail": "[96.0, 2.0]"
+  },
+  {
+   "doc": "acquisition/README.md",
+   "pattern": "\\((\\d[\\d,]*) files, no differences\\)",
+   "status": "PASS",
+   "detail": "[1297.0]"
+  },
+  {
+   "doc": "acquisition/README.md",
+   "pattern": "\\((\\d[\\d,]*) of ([\\d,]+), none elsewhere\\)",
+   "status": "PASS",
+   "detail": "[3838.0, 71697556.0]"
+  },
+  {
+   "doc": "acquisition/README.md",
+   "pattern": "# (\\d+) tests, no data needed",
+   "status": "PASS",
+   "detail": "[17.0]"
+  },
+  {
+   "doc": "catalogue/MASTER_INVENTORY.md",
+   "pattern": "(\\d+) sources catalogued",
+   "status": "PASS",
+   "detail": "[35.0]"
+  },
+  {
+   "doc": "latest:AUDIT_LOG.md",
+   "pattern": "`validate\\.py`: (\\d+) of (\\d+) targets pass",
+   "status": "PASS",
+   "detail": "[89.0, 89.0]"
+  },
+  {
+   "doc": "latest:AUDIT_LOG.md",
+   "pattern": "(\\d+) manifest records",
+   "status": "PASS",
+   "detail": "[89.0]"
+  },
+  {
+   "doc": "latest:AUDIT_LOG.md",
+   "pattern": "`compat_tests\\.py`: (\\d+) tests, (\\d+) PASS, (\\d+) FAIL, (\\d+) INFO",
+   "status": "PASS",
+   "detail": "[88.0, 81.0, 0.0, 7.0]"
+  },
+  {
+   "doc": "latest:AUDIT_LOG.md",
+   "pattern": "test_helpers`: (\\d+) tests pass",
+   "status": "PASS",
+   "detail": "[17.0]"
+  },
+  {
+   "doc": "catalogue/gaps.json",
+   "pattern": "GTF: ([\\d,]+) genes, ([\\d,]+) transcripts, ([\\d,]+) MANE Select",
+   "status": "PASS",
+   "detail": "[78941.0, 646577.0, 19299.0]"
+  },
+  {
+   "doc": "catalogue/gaps.json",
+   "pattern": "toplevel FASTA: (\\d+) sequences",
+   "status": "PASS",
+   "detail": "[706.0]"
+  },
+  {
+   "doc": "catalogue/gaps.json",
+   "pattern": "\\(([\\d.]+)M PDB chain segments, ([\\d,]+) PDB entries, ([\\d,]+) UniProt accessions",
+   "status": "PASS",
+   "detail": "[1.05, 246198.0, 76796.0]"
+  },
+  {
+   "doc": "catalogue/gaps.json",
+   "pattern": "\\(([\\d,]+) VCF files, ([\\d,]+) variant records\\)",
+   "status": "PASS",
+   "detail": "[7865.0, 35172.0]"
+  },
+  {
+   "doc": "catalogue/gaps.json",
+   "pattern": "with ([\\d,]+) haplotype names",
+   "status": "PASS",
+   "detail": "[2458.0]"
+  }
+ ],
+ "branches": [
+  {
+   "branch": "ccr-b13fd75a-ra9gfy",
+   "tip": "a7d7252",
+   "date": "2026-10-25",
+   "subject": "Mirror the GRCh38 reference sequence and gene annotation; add SIFTS, gnomAD LoF curation a",
+   "tracked_files": 399,
+   "ahead_of_main": "5",
+   "behind_main": "0"
+  },
+  {
+   "branch": "data/mavedb-scores",
+   "tip": "1b58196",
+   "date": "2026-10-25",
+   "subject": "Add 52 superseded MaveDB score sets (79 tables, CC0) as a data extension",
+   "tracked_files": 2061,
+   "ahead_of_main": "8",
+   "behind_main": "22"
+  },
+  {
+   "branch": "main",
+   "tip": "f388b5f",
+   "date": "2026-09-30",
+   "subject": "Merge pull request #1 from ziadwalieddine-create/land/dc-extended-pack",
+   "tracked_files": 90,
+   "ahead_of_main": "0",
+   "behind_main": "19"
+  },
+  {
+   "branch": "origin/ccr-b13fd75a-ra9gfy",
+   "tip": "a7d7252",
+   "date": "2026-10-25",
+   "subject": "Mirror the GRCh38 reference sequence and gene annotation; add SIFTS, gnomAD LoF curation a",
+   "tracked_files": 399,
+   "ahead_of_main": "5",
+   "behind_main": "0"
+  },
+  {
+   "branch": "origin/data/mavedb-scores",
+   "tip": "1b58196",
+   "date": "2026-10-25",
+   "subject": "Add 52 superseded MaveDB score sets (79 tables, CC0) as a data extension",
+   "tracked_files": 2061,
+   "ahead_of_main": "8",
+   "behind_main": "22"
+  },
+  {
+   "branch": "origin/land/dc-extended-pack",
+   "tip": "3547d0a",
+   "date": "2026-09-30",
+   "subject": "Land dc-extended skill pack",
+   "tracked_files": 90,
+   "ahead_of_main": "0",
+   "behind_main": "20"
+  },
+  {
+   "branch": "origin/main",
+   "tip": "ddafb14",
+   "date": "2026-10-25",
+   "subject": "Merge pull request #6 from ziadwalieddine-create/ccr-b13fd75a-ra9gfy",
+   "tracked_files": 98,
+   "ahead_of_main": "0",
+   "behind_main": "0"
+  }
+ ],
+ "datasets": [
+  {
+   "id": "mavedb_zenodo_dump_v4",
+   "source": "mavedb",
+   "tier": "A",
+   "kind": "tar.gz",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1907736956
+  },
+  {
+   "id": "clinvar_vcf_grch38",
+   "source": "clinvar",
+   "tier": "A",
+   "kind": "vcf.gz",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 200670148
+  },
+  {
+   "id": "clinvar_readme",
+   "source": "clinvar",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 47147
+  },
+  {
+   "id": "clinvar_readme_vcf",
+   "source": "clinvar",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 9221
+  },
+  {
+   "id": "clingen_gene_curation_list",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 249798
+  },
+  {
+   "id": "clingen_region_curation_list",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "structural_variation_cnv"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 98881
+  },
+  {
+   "id": "clingen_haploinsufficiency_gene",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 49660
+  },
+  {
+   "id": "clingen_triplosensitivity_gene",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 42405
+  },
+  {
+   "id": "clingen_recurrent_cnv_v2_1",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "structural_variation_cnv"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 15822
+  },
+  {
+   "id": "clingen_gene_validity",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1133460
+  },
+  {
+   "id": "gnomad_constraint_v4_1_2",
+   "source": "gnomad",
+   "tier": "A",
+   "kind": "tsv.bgz",
+   "supports": [
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 574538527
+  },
+  {
+   "id": "gnomad_exome_cnv_v4_1",
+   "source": "gnomad",
+   "tier": "A",
+   "kind": "vcf.gz",
+   "supports": [
+    "structural_variation_cnv"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 8917685
+  },
+  {
+   "id": "gwas_catalog_associations",
+   "source": "gwas_catalog",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 73038962
+  },
+  {
+   "id": "reactome_ensembl2reactome",
+   "source": "reactome",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "pathways_interactions_epistasis"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 183277348
+  },
+  {
+   "id": "reactome_uniprot2reactome_all_levels",
+   "source": "reactome",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "pathways_interactions_epistasis"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 117823518
+  },
+  {
+   "id": "reactome_pathways",
+   "source": "reactome",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "pathways_interactions_epistasis"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1592393
+  },
+  {
+   "id": "clinpgx_variantAnnotations",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 4296635
+  },
+  {
+   "id": "clinpgx_relationships",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 4300897
+  },
+  {
+   "id": "clinpgx_summaryAnnotations",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1236737
+  },
+  {
+   "id": "clinpgx_guidelineAnnotations",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 854307
+  },
+  {
+   "id": "clinpgx_drugLabels",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 60036
+  },
+  {
+   "id": "cpic_genes",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 116892
+  },
+  {
+   "id": "cpic_guidelines",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 5901
+  },
+  {
+   "id": "gtex_v11_gene_median_tpm",
+   "source": "gtex",
+   "tier": "A",
+   "kind": "gct.gz",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 10129906
+  },
+  {
+   "id": "gtex_datasets_api",
+   "source": "gtex",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 2150
+  },
+  {
+   "id": "mane_summary_v1_5",
+   "source": "gencode",
+   "tier": "A",
+   "kind": "txt.gz",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1115288
+  },
+  {
+   "id": "mane_gtf_v1_5",
+   "source": "gencode",
+   "tier": "A",
+   "kind": "gtf.gz",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 8634035
+  },
+  {
+   "id": "igsr_1000g_samples",
+   "source": "1000genomes",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 97483
+  },
+  {
+   "id": "uniprot_human_reviewed",
+   "source": "uniprot",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "protein_structure_function"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 18342639
+  },
+  {
+   "id": "biogrid_orcs_human",
+   "source": "biogrid_orcs",
+   "tier": "A",
+   "kind": "tar.gz",
+   "supports": [
+    "perturbation_evidence"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 752653348
+  },
+  {
+   "id": "alphamissense_gene_hg38",
+   "source": "alphamissense",
+   "tier": "A",
+   "kind": "tsv.gz",
+   "supports": [
+    "annotation_integration"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 253636
+  },
+  {
+   "id": "alphamissense_hg38",
+   "source": "alphamissense",
+   "tier": "B",
+   "kind": "tsv.gz",
+   "supports": [
+    "annotation_integration"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 642961469
+  },
+  {
+   "id": "ensembl_vep_mavedb_variants",
+   "source": "ensembl_vep",
+   "tier": "A",
+   "kind": "tsv.gz",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 560599773
+  },
+  {
+   "id": "ensembl_vep_mavedb_variants_tbi",
+   "source": "ensembl_vep",
+   "tier": "A",
+   "kind": "tbi",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 20732
+  },
+  {
+   "id": "strchive_hg38_general",
+   "source": "strchive",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "repeat_expansions_str"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 8955
+  },
+  {
+   "id": "strchive_hg38_trgt",
+   "source": "strchive",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "repeat_expansions_str"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 5890
+  },
+  {
+   "id": "strchive_hg38_stranger_json",
+   "source": "strchive",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "repeat_expansions_str"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 26769
+  },
+  {
+   "id": "dgv_grch38_variants_2025_12_01",
+   "source": "dgv",
+   "tier": "B",
+   "kind": "tsv",
+   "supports": [
+    "structural_variation_cnv"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 364191405
+  },
+  {
+   "id": "screen_ccre_pls",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 2560167
+  },
+  {
+   "id": "screen_ccre_pels",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 13688195
+  },
+  {
+   "id": "screen_ccre_dels",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 80668446
+  },
+  {
+   "id": "screen_ccre_ca_ctcf",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 7300228
+  },
+  {
+   "id": "screen_ccre_ca_h3k4me3",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 4825583
+  },
+  {
+   "id": "screen_ccre_ca_tf",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1459497
+  },
+  {
+   "id": "screen_ccre_ca",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 13012755
+  },
+  {
+   "id": "screen_ccre_tf",
+   "source": "encode",
+   "tier": "A",
+   "kind": "bed",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 5568184
+  },
+  {
+   "id": "opentargets_26_09_target",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 21633117
+  },
+  {
+   "id": "opentargets_26_09_go",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 2879854
+  },
+  {
+   "id": "opentargets_26_09_so",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 28197
+  },
+  {
+   "id": "opentargets_26_09_homology",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 24460478
+  },
+  {
+   "id": "opentargets_26_09_biosample",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 5968153
+  },
+  {
+   "id": "opentargets_26_09_disease",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 6346458
+  },
+  {
+   "id": "opentargets_26_09_disease_hpo",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1743207
+  },
+  {
+   "id": "opentargets_26_09_disease_phenotype",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 6459952
+  },
+  {
+   "id": "opentargets_26_09_mouse_phenotype",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "perturbation_evidence"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 6772968
+  },
+  {
+   "id": "opentargets_26_09_evidence_genomics_england",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 2701120
+  },
+  {
+   "id": "opentargets_26_09_evidence_gene2phenotype",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 364655
+  },
+  {
+   "id": "opentargets_26_09_evidence_orphanet",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 458043
+  },
+  {
+   "id": "opentargets_26_09_evidence_uniprot_variants",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1860017
+  },
+  {
+   "id": "opentargets_26_09_pharmacogenomics",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 3443612
+  },
+  {
+   "id": "opentargets_26_09_evidence_gene_burden",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 3902012
+  },
+  {
+   "id": "opentargets_26_09_target_essentiality",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "perturbation_evidence"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 246596435
+  },
+  {
+   "id": "opentargets_26_09_evidence_crispr",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "perturbation_evidence"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 49090
+  },
+  {
+   "id": "opentargets_26_09_evidence_crispr_screen",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "perturbation_evidence"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 939664
+  },
+  {
+   "id": "opentargets_26_09_evidence_impc",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "perturbation_evidence"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 906883118
+  },
+  {
+   "id": "opentargets_26_09_study",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 97748879
+  },
+  {
+   "id": "opentargets_26_09_credible_set",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 2990567440
+  },
+  {
+   "id": "opentargets_26_09_l2g_prediction",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 509628512
+  },
+  {
+   "id": "opentargets_26_09_variant",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1967290736
+  },
+  {
+   "id": "opentargets_26_09_enhancer_to_gene",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1770117834
+  },
+  {
+   "id": "opentargets_26_09_interaction",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "pathways_interactions_epistasis"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 251918150
+  },
+  {
+   "id": "opentargets_26_09_interaction_evidence",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "pathways_interactions_epistasis"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 344089677
+  },
+  {
+   "id": "opentargets_26_09_evidence_uniprot_literature",
+   "source": "opentargets",
+   "tier": "A",
+   "kind": "http_dir",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 524486
+  },
+  {
+   "id": "gnomad_sv_v4_1_sites_vcf",
+   "source": "gnomad",
+   "tier": "B",
+   "kind": "vcf.gz",
+   "supports": [
+    "structural_variation_cnv"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1743544245
+  },
+  {
+   "id": "alphafold_db_mavedb_proteins",
+   "source": "alphafold_db",
+   "tier": "A",
+   "kind": "per_entity",
+   "supports": [
+    "protein_structure_function"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 356747797
+  },
+  {
+   "id": "interpro_mavedb_proteins",
+   "source": "interpro",
+   "tier": "A",
+   "kind": "per_entity",
+   "supports": [
+    "protein_structure_function"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 7982345
+  },
+  {
+   "id": "gnomad_v4_1_exomes_regional",
+   "source": "gnomad",
+   "tier": "A",
+   "kind": "regional_slice",
+   "supports": [
+    "population_frequency",
+    "annotation_integration"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 7924578
+  },
+  {
+   "id": "gnomad_v4_1_genomes_regional",
+   "source": "gnomad",
+   "tier": "A",
+   "kind": "regional_slice",
+   "supports": [
+    "population_frequency",
+    "annotation_integration"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 2437733
+  },
+  {
+   "id": "uniprot_humsavar",
+   "source": "uniprot",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 8710628
+  },
+  {
+   "id": "gnomad_v4_1_joint_regional",
+   "source": "gnomad",
+   "tier": "A",
+   "kind": "regional_slice",
+   "supports": [
+    "population_frequency"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 4291894
+  },
+  {
+   "id": "ensembl_grch38_reference_regional",
+   "source": "ensembl_genomes",
+   "tier": "A",
+   "kind": "regional_slice",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 69302
+  },
+  {
+   "id": "ensembl_grch38_dna_toplevel",
+   "source": "ensembl_genomes",
+   "tier": "B",
+   "kind": "fasta.gz",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 847661306
+  },
+  {
+   "id": "ensembl_grch38_dna_toplevel_fai",
+   "source": "ensembl_genomes",
+   "tier": "B",
+   "kind": "tsv",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 26844
+  },
+  {
+   "id": "ensembl_grch38_dna_toplevel_gzi",
+   "source": "ensembl_genomes",
+   "tier": "B",
+   "kind": "gzi",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 820344
+  },
+  {
+   "id": "ensembl_grch38_gtf_116",
+   "source": "ensembl_genomes",
+   "tier": "B",
+   "kind": "gtf.gz",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 141121632
+  },
+  {
+   "id": "sifts_pdb_chain_uniprot",
+   "source": "pdbe_sifts",
+   "tier": "A",
+   "kind": "tsv.gz",
+   "supports": [
+    "protein_structure_function"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 6293000
+  },
+  {
+   "id": "sifts_uniprot_segments_observed",
+   "source": "pdbe_sifts",
+   "tier": "A",
+   "kind": "tsv.gz",
+   "supports": [
+    "protein_structure_function"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 11017936
+  },
+  {
+   "id": "gnomad_v4_1_lof_curation_incomplete_penetrance",
+   "source": "gnomad_constraint",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 132850
+  },
+  {
+   "id": "pharmvar_6_2_29",
+   "source": "pharmvar",
+   "tier": "B",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 193085083
+  }
+ ],
+ "dataset_summary": {
+  "listed": 89,
+  "acquired": 89,
+  "verified": 89,
+  "mapped": 66,
+  "integrated": 0
+ },
+ "manifests": [
+  {
+   "path": "acquisition/manifest.jsonl",
+   "records": 89,
+   "detail": "89 ok"
+  },
+  {
+   "path": "acquisition/manifest_files/alphafold_db_mavedb_proteins.tsv",
+   "records": 1621,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/ensembl_grch38_reference_regional.tsv",
+   "records": 3,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/gnomad_v4_1_exomes_regional.tsv",
+   "records": 24,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/gnomad_v4_1_genomes_regional.tsv",
+   "records": 24,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/gnomad_v4_1_joint_regional.tsv",
+   "records": 24,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/interpro_mavedb_proteins.tsv",
+   "records": 549,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_biosample.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_credible_set.tsv",
+   "records": 200,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_disease.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_disease_hpo.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_disease_phenotype.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_enhancer_to_gene.tsv",
+   "records": 30,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_crispr.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_crispr_screen.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_gene2phenotype.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_gene_burden.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_genomics_england.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_impc.tsv",
+   "records": 25,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_orphanet.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_uniprot_literature.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_evidence_uniprot_variants.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_go.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_homology.tsv",
+   "records": 2,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_interaction.tsv",
+   "records": 2,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_interaction_evidence.tsv",
+   "records": 6,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_l2g_prediction.tsv",
+   "records": 200,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_mouse_phenotype.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_pharmacogenomics.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_so.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_study.tsv",
+   "records": 1,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_target.tsv",
+   "records": 3,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_target_essentiality.tsv",
+   "records": 4,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/opentargets_26_09_variant.tsv",
+   "records": 25,
+   "detail": "per-file table"
+  },
+  {
+   "path": "scrape/mavedb-human/scores_manifest.jsonl",
+   "records": 1980,
+   "detail": "sha256 and row count of each score and count table"
+  },
+  {
+   "path": "inventory/baseline_checksums.sha256",
+   "records": 97,
+   "detail": "sha256 of every tracked file under scrape/ at the baseline"
+  },
+  {
+   "path": "catalogue/evidence/evidence_index.jsonl",
+   "records": 267,
+   "detail": "append-only record of every probe (URL, time, status, sha256)"
+  }
+ ],
+ "documents": [
+  {
+   "path": "AUDIT_LOG.md",
+   "title": "Audit log",
+   "lines": 151,
+   "bytes": 30504,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "README.md",
+   "title": "dc: human genome reference data",
+   "lines": 25,
+   "bytes": 2550,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "acquisition/README.md",
+   "title": "Acquisition, validation and compatibility tests",
+   "lines": 45,
+   "bytes": 7066,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/ACQUIRED_FILES.md",
+   "title": "Acquired files register",
+   "lines": 97,
+   "bytes": 29110,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/ATTRIBUTION.md",
+   "title": "Attribution and licence notes for the data we hold",
+   "lines": 35,
+   "bytes": 8161,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/COVERAGE_MATRIX.md",
+   "title": "Coverage matrix: evidence dimensions by lifecycle stage",
+   "lines": 205,
+   "bytes": 16061,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/GAP_MATRIX.md",
+   "title": "Gap matrix",
+   "lines": 60,
+   "bytes": 15307,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/MASTER_INVENTORY.md",
+   "title": "Master inventory of reusable genomic resources",
+   "lines": 126,
+   "bytes": 15623,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/README.md",
+   "title": "Evidence-source catalogue",
+   "lines": 38,
+   "bytes": 4180,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/REUSE_PLAN.md",
+   "title": "Source-by-source reuse, acquisition and integration plan",
+   "lines": 235,
+   "bytes": 24174,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "inventory/EXISTING_ASSETS.md",
+   "title": "Existing assets: inventory and verified status",
+   "lines": 49,
+   "bytes": 3454,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "scrape/ensembl-human-genomes/README.md",
+   "title": "Ensembl genome selector: human (taxonomy ID 9606)",
+   "lines": 20,
+   "bytes": 1800,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "scrape/mavedb-human/README.md",
+   "title": "MaveDB: human score sets",
+   "lines": 45,
+   "bytes": 5945,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "scrape/nhgri-1000-genomes/README.md",
+   "title": "NHGRI: 1000 Genomes Project (archived page scrape)",
+   "lines": 22,
+   "bytes": 1951,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "scrape/nhgri-gwas/README.md",
+   "title": "NHGRI Talking Glossary: GWAS (scrape)",
+   "lines": 17,
+   "bytes": 1114,
+   "last_commit": "2026-10-25"
+  }
+ ],
+ "scripts": [
+  {
+   "path": "acquisition/acquire.py",
+   "lines": 325,
+   "compiles": true,
+   "purpose": "Download external resources listed in targets.json, verify them and record a manifest."
+  },
+  {
+   "path": "acquisition/compat_opentargets.py",
+   "lines": 272,
+   "compiles": true,
+   "purpose": "Joins between the acquired Open Targets 26.09 Parquet datasets and the MaveDB human set (called from compat_te"
+  },
+  {
+   "path": "acquisition/compat_reference.py",
+   "lines": 405,
+   "compiles": true,
+   "purpose": "Tests that tie the mirrored GRCh38 reference sequence and the Ensembl release-116 gene annotation to the other"
+  },
+  {
+   "path": "acquisition/compat_tests.py",
+   "lines": 852,
+   "compiles": true,
+   "purpose": "Compatibility tests: do the acquired resources join to the existing dc assets (MaveDB human set)?"
+  },
+  {
+   "path": "acquisition/extract_dump.py",
+   "lines": 57,
+   "compiles": true,
+   "purpose": "Extract, from the MaveDB bulk dump v4, the members that the compatibility tests and the superseded-set builder"
+  },
+  {
+   "path": "acquisition/fetch_gnomad_regional.py",
+   "lines": 213,
+   "compiles": true,
+   "purpose": "Slice the gnomAD v4.1 exome and genome sites VCFs to the positions of MaveDB-mapped SNVs, by remote tabix."
+  },
+  {
+   "path": "acquisition/fetch_per_protein.py",
+   "lines": 178,
+   "compiles": true,
+   "purpose": "Fetch per-protein resources for the UniProt proteins that the MaveDB human score sets are about."
+  },
+  {
+   "path": "acquisition/fetch_reference_regional.py",
+   "lines": 155,
+   "compiles": true,
+   "purpose": "Read the GRCh38 reference sequence for the regions that contain MaveDB-mapped SNV positions, by remote random "
+  },
+  {
+   "path": "acquisition/intervals.py",
+   "lines": 20,
+   "compiles": true,
+   "purpose": "Exact stabbing queries over half-open intervals, used by every genomic-overlap test in compat_tests.py."
+  },
+  {
+   "path": "acquisition/mavedb_snvs.py",
+   "lines": 77,
+   "compiles": true,
+   "purpose": "Genomic SNV positions of the MaveDB human set, from the two mapping products that exist (see compat_tests.py)."
+  },
+  {
+   "path": "acquisition/mavedb_superseded/build_superseded.py",
+   "lines": 84,
+   "compiles": true,
+   "purpose": "Add the MaveDB score sets that the public search hides because they are superseded versions."
+  },
+  {
+   "path": "acquisition/test_helpers.py",
+   "lines": 165,
+   "compiles": true,
+   "purpose": "Unit tests for the small functions that every overlap and join number in this directory rests on."
+  },
+  {
+   "path": "acquisition/validate.py",
+   "lines": 1222,
+   "compiles": true,
+   "purpose": "Validate downloaded external files against each source's own description."
+  },
+  {
+   "path": "catalogue/build_catalogue.py",
+   "lines": 536,
+   "compiles": true,
+   "purpose": "Validate catalogue/sources/*.json and generate the inventory, coverage matrix, gap matrix and reuse plan."
+  },
+  {
+   "path": "catalogue/derive/gnomad_vcf_header.py",
+   "lines": 44,
+   "compiles": true,
+   "purpose": "Record the INFO/FILTER definitions of the gnomAD v4.1 exome and genome sites VCFs, read from the VCF headers b"
+  },
+  {
+   "path": "catalogue/derive/openebench_counts.py",
+   "lines": 69,
+   "compiles": true,
+   "purpose": "Count registry tools relevant to human variant interpretation, from the OpenEBench monitor snapshot."
+  },
+  {
+   "path": "catalogue/derive/opentargets_datasets.py",
+   "lines": 40,
+   "compiles": true,
+   "purpose": "Extract the dataset inventory (name, category, one-line description) from the rendered Open Targets downloads "
+  },
+  {
+   "path": "catalogue/derive/opentargets_sizes.py",
+   "lines": 55,
+   "compiles": true,
+   "purpose": "Measure the size of every Open Targets output dataset from the EBI FTP directory indexes (read-only listing re"
+  },
+  {
+   "path": "catalogue/probe.py",
+   "lines": 128,
+   "compiles": true,
+   "purpose": "Collect provenance evidence for catalogue entries."
+  },
+  {
+   "path": "catalogue/render.js",
+   "lines": 15,
+   "compiles": null,
+   "purpose": ""
+  },
+  {
+   "path": "inventory/audit_existing.py",
+   "lines": 231,
+   "compiles": true,
+   "purpose": "Audit the existing dc assets under scrape/ and guard them against accidental change."
+  },
+  {
+   "path": "inventory/check_repo_policy.py",
+   "lines": 99,
+   "compiles": true,
+   "purpose": "Repository policy check: nothing that must stay out of git is tracked, and the visibility is stated."
+  },
+  {
+   "path": "scrape/mavedb-human/build_index.py",
+   "lines": 41,
+   "compiles": true,
+   "purpose": "Build score_sets_index.csv from both detail files (organism-filter and accession-target selections)."
+  },
+  {
+   "path": "scrape/mavedb-human/download_scores.py",
+   "lines": 112,
+   "compiles": true,
+   "purpose": "Download MaveDB score (and count) tables for the human-target score sets."
+  },
+  {
+   "path": "scrape/mavedb-human/verify_scores.py",
+   "lines": 84,
+   "compiles": true,
+   "purpose": "Verify scores/ against the manifest and the metadata files."
+  }
+ ]
+}

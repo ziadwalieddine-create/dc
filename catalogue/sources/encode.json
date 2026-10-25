@@ -80,6 +80,31 @@
   "encode/citing",
   "encode/data_use_policy",
   "encode/screen_about",
-  "encode/screen_downloads"
- ]
+  "encode/screen_downloads",
+  "ensembl_vep/plugin_list"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "experimental_annotation",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "regulation_expression_splicing",
+    "note": "biochemical activity of regions; no allele-specific effect"
+   }
+  ],
+  "biological_context": "Biochemical assays (chromatin accessibility, transcription-factor binding, histone modification, RNA expression) in biosamples, and candidate cis-regulatory elements derived from them. Activity is specific to the biosample.",
+  "evidence_strength": "Direct measurements of biochemical activity of regions in a biosample. Candidate element classes are computed from those assays and are annotations, not demonstrations of regulatory function.",
+  "mechanistic_confidence": "Low to moderate for the statement that a region is biochemically active in a biosample. No allele-specific effect, target gene or direction of effect is given, and activity does not prove that the element is required for regulation.",
+  "phenotype_implication": "None directly; places variants in regions that are candidates for regulatory effects in particular cell types.",
+  "absence_means": "A variant outside every annotated element may still act in untested cell types, states or at long range. Absence of a peak reflects the assayed biosamples and thresholds.",
+  "overlaps_with_sources": []
+ }
 }

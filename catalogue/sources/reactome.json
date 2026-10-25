@@ -69,5 +69,29 @@
   "reactome/download_current_listing",
   "reactome/license"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "gene_level",
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "pathway membership and reactions; no allele-specific information"
+   }
+  ],
+  "biological_context": "Curated human pathways and reactions with gene, protein and small-molecule participants and interaction tables. Pathways are idealised and not tissue-specific.",
+  "evidence_strength": "Expert curation from the literature. Membership states that a participant takes part in a reaction, not how much a change in it matters.",
+  "mechanistic_confidence": "Low for variants. Pathway context helps frame hypotheses on compensation and buffering but does not show the effect of any allele.",
+  "phenotype_implication": "None directly; pathway enrichment is hypothesis-generating.",
+  "absence_means": "A gene absent from the pathways is uncurated, not unrelated; coverage is biased towards well-studied biology.",
+  "overlaps_with_sources": []
+ }
 }

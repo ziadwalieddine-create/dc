@@ -74,5 +74,64 @@
   "pharmgkb/downloads",
   "pharmgkb/data_usage"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "pharmacogenomic_haplotype",
+    "variant_classes": [
+     "snv",
+     "indel",
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "functional_haplotypes_pgx"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "curated",
+    "dimension": "clinical_interpretation",
+    "note": "variant-drug annotations with levels of evidence"
+   }
+  ],
+  "components": [
+   {
+    "name": "variant and clinical annotations from the literature",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "native"
+   },
+   {
+    "name": "clinical guideline annotations",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "haplotype_level",
+    "origin": "cpic"
+   }
+  ],
+  "biological_context": "Annotations linking variants, haplotypes, genes and drugs from published studies. Each annotation records the studied variant or haplotype, the drug, a phenotype category, the population and a level of evidence.",
+  "evidence_strength": "Literature-derived annotations with levels of evidence for clinical annotations. Individual studies are small and often conflict, and the annotation level is not an effect size.",
+  "mechanistic_confidence": "Low to moderate. Relationships state an association between genotype and drug response; molecular mechanism is annotated only where the study reports it.",
+  "phenotype_implication": "Drug-specific response phenotypes (efficacy, toxicity, dosage) in studied populations; not transferable across drugs or ancestries without evidence.",
+  "absence_means": "No annotation means no curated study for that variant-drug pair and not that genotype is irrelevant; rare variants and alleles outside the studied panels have no annotation.",
+  "overlaps_with_sources": [
+   {
+    "source": "cpic",
+    "relation": "aggregates",
+    "note": "ClinPGx comprises PharmGKB, CPIC and PharmCAT; clinical guideline annotations include CPIC guidelines, so count a guideline once"
+   }
+  ]
+ }
 }

@@ -80,5 +80,36 @@
   "clinvar/ncbi_policies",
   "clinvar/data_use"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel",
+     "sv",
+     "cnv"
+    ],
+    "basis": "curated",
+    "dimension": "clinical_interpretation"
+   }
+  ],
+  "biological_context": "Submitter-asserted interpretations of variants for named conditions. Each submission carries its own review status, classification, condition and evidence summary; germline and other classifications are separate fields.",
+  "evidence_strength": "Aggregate classification with review status and conflicting-interpretation flags. These grade the assertion, not the underlying evidence; submissions often rest on the same upstream evidence, so agreement between submitters is not independent confirmation.",
+  "mechanistic_confidence": "None as structured data. A classification asserts clinical significance and does not establish mechanism; any functional evidence is in free text.",
+  "phenotype_implication": "Condition-specific clinical significance (pathogenic to benign, or uncertain significance) as named by the submitter.",
+  "absence_means": "A variant missing from ClinVar has not been submitted, which reflects ascertainment (tested genes, populations, laboratories) and not benignity. Uncertain significance means unresolved, not benign.",
+  "overlaps_with_sources": [
+   {
+    "source": "uniprot",
+    "relation": "may_conflict",
+    "note": "humsavar categories are curated independently from the literature; disagreement with ClinVar is information"
+   }
+  ]
+ }
 }

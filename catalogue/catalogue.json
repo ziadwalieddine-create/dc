@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25 14:12 UTC",
+ "generated_utc": "2026-10-25 14:57 UTC",
  "sources": [
   {
    "id": "1000genomes",
@@ -80,6 +80,37 @@
     "1000genomes/sample_index_head"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "population_constraint",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "population",
+      "dimension": "population_frequency"
+     },
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "sv"
+      ],
+      "basis": "population",
+      "dimension": "structural_variation_cnv"
+     }
+    ],
+    "biological_context": "Openly consented samples from people who declared themselves healthy, grouped by population label. The callsets describe germline variation in reference cohorts; no tissue, expression or phenotype data accompany the variants.",
+    "evidence_strength": "Observational genotype calls with sample and population metadata. No effect size or per-variant uncertainty is attached, and call quality differs between SNV, indel and SV callsets.",
+    "mechanistic_confidence": "None for mechanism. Presence of an allele in a healthy-declared cohort is indirect evidence of tolerance only and cannot separate a benign allele from one with recessive, late-onset or reduced-penetrance effects.",
+    "phenotype_implication": "Observation in healthy-declared individuals argues against a high-penetrance, early-onset dominant effect of that allele; it does not exclude recessive, late-onset or reduced-penetrance effects.",
+    "absence_means": "An allele missing from the callset was not observed in this cohort. Coverage, callset design and population representation decide what could be seen; absence is not evidence of rarity or harm.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -180,6 +211,34 @@
    "acquisition_targets": [
     "alphafold_db_mavedb_proteins"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "predicted_structure"
+    ],
+    "allele_resolution": "protein_residue_level",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "protein_structure_function"
+     }
+    ],
+    "biological_context": "Single-chain structure models of UniProt reference sequences. Ligands, binding partners, membranes, modifications and alternative conformations are not modelled.",
+    "evidence_strength": "Computational model. Per-residue confidence (pLDDT) is the only uncertainty provided and measures confidence of the model, not experimental support.",
+    "mechanistic_confidence": "Low on its own. A model can place a residue in a buried, exposed or interface-like environment; it cannot show that a substitution changes stability, binding or activity.",
+    "phenotype_implication": "None. Supports reasoning about missense and in-frame changes only in combination with experimental structures, domain annotation and variant-level assays.",
+    "absence_means": "A protein or isoform without a model, or a low-confidence region, has no usable structural context here; this is not evidence of disorder or of the lack of a structure.",
+    "overlaps_with_sources": [
+     {
+      "source": "pdbe_sifts",
+      "relation": "independent_related",
+      "note": "predicted models versus experimentally determined structures: compare, never merge"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -244,14 +303,14 @@
     "direction": "higher = more likely pathogenic"
    },
    "licence": {
-    "name": "CC BY-NC-SA 4.0 (Zenodo record)",
-    "redistribution": "Non-commercial and share-alike",
+    "name": "Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The bucket README.pdf (2024-03-13) says all materials are licensed under CC BY 4.0; the header of the data file (2023) and the Zenodo record say CC BY-NC-SA 4.0; the Ensembl VEP plugin page repeats CC BY and adds that use is subject to the Google Cloud Platform Terms of Service.",
+    "redistribution": "Not redistributed here (data stay in git-ignored data/external/). Until the owner clarifies which statement governs the 2023 data files, redistribution would have to meet the stricter terms: attribution, non-commercial use, share-alike.",
     "access": "open_with_terms",
     "verified": "live"
    },
    "update_frequency": "Static (no update since 2023).",
    "coverage_limitations": [
-    "Prediction, not measurement; trained on ClinVar-like labels, so clinical circularity is a risk",
+    "Prediction, not measurement. The class thresholds (0.34 and 0.564) were chosen for 90% precision on pathogenic and benign ClinVar variants, so ClinVar-based benchmarks of the classes are not independent of the calibration; the Ensembl VEP plugin page states that the model was not trained on ClinVar variants. The paper describing training and calibration was not readable here (bot challenge)",
     "Missense only"
    ],
    "known_omissions": [],
@@ -269,12 +328,40 @@
     "alphamissense_hg38"
    ],
    "evidence": [
+    "alphamissense/bucket_readme_pdf",
     "alphamissense/gcs_hg38_meta",
     "alphamissense/gcs_listing",
     "alphamissense/zenodo_readme",
-    "alphamissense/zenodo_record"
+    "alphamissense/zenodo_record",
+    "ensembl_vep/plugin_list"
    ],
-   "unverified_fields": [],
+   "unverified_fields": [
+    "training and calibration details (paper not retrievable)",
+    "which licence statement governs the 2023 data files"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv",
+       "protein_level"
+      ],
+      "basis": "prediction",
+      "dimension": "protein_structure_function"
+     }
+    ],
+    "biological_context": "Predicts a pathogenicity class for single amino-acid substitutions per transcript or isoform. No tissue, cell-type, dosage, inheritance or mechanism context is carried.",
+    "evidence_strength": "Computational prediction. Class thresholds were chosen to reach 90% precision on ClinVar labels although the model was not trained on ClinVar variants, so agreement with ClinVar is calibration and not independent confirmation. No per-variant uncertainty is provided.",
+    "mechanistic_confidence": "Low. The score does not say whether a change causes loss or gain of function, destabilisation or a dominant-negative effect, and it cannot see effects that act through splicing or regulation.",
+    "phenotype_implication": "A pathogenicity likelihood for the substitution; no phenotype, penetrance or mode of inheritance.",
+    "absence_means": "No score exists for synonymous, nonsense, splice, indel, structural or non-coding variants. Absence of a prediction is not evidence of a benign effect.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -373,6 +460,35 @@
     "biogrid_orcs/home",
     "biogrid_orcs/licence"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "perturbation_evidence",
+      "note": "whole-gene perturbation in the screened system; not allele-specific"
+     }
+    ],
+    "biological_context": "Curated results of CRISPR screens in cell lines and cell types of several model organisms. Every hit is conditional on the screen's cell line, library, perturbation type and phenotype readout.",
+    "evidence_strength": "Curated from publications. Hit calls and scores follow each study's own method and threshold and are not uniformly reprocessed.",
+    "mechanistic_confidence": "Moderate for the effect of perturbing the whole gene in the tested context. No particular allele is described, and compensation by paralogs or pathways is not resolved.",
+    "phenotype_implication": "Gene-level cellular phenotype in vitro (for example viability or drug response); not an organismal or human phenotype.",
+    "absence_means": "A gene that is not a hit was not scored as a hit in the curated screens; power, context and threshold limit this. It is not shown to be dispensable elsewhere, and its alleles are not shown to be tolerated.",
+    "overlaps_with_sources": [
+     {
+      "source": "depmap",
+      "relation": "independent_related",
+      "note": "both report cancer cell-line perturbation screens; keep both and compare, do not count a gene twice when the same screen appears in both"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -456,6 +572,25 @@
    ],
    "unverified_fields": [],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "catalogue_metadata"
+    ],
+    "allele_resolution": "none",
+    "mechanism_evidence": [],
+    "biological_context": "Not biological evidence: the records describe software and services and their EDAM annotations.",
+    "evidence_strength": "Not applicable. Annotation depth and accuracy differ between entries.",
+    "mechanistic_confidence": "Not applicable; the registry makes no biological assertion.",
+    "phenotype_implication": "None: registry entries carry no phenotype information.",
+    "absence_means": "A tool missing from the registry is unregistered, not unavailable; absent annotation terms mean undeclared, not unsupported.",
+    "overlaps_with_sources": [
+     {
+      "source": "fairsharing",
+      "relation": "independent_related",
+      "note": "both describe resources; use only for discovery"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -561,6 +696,50 @@
     "clingen/terms"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level",
+       "region_level",
+       "cnv"
+      ],
+      "basis": "curated",
+      "dimension": "natural_knockouts_dosage",
+      "note": "haploinsufficiency and triplosensitivity scores for whole genes and regions"
+     },
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "region_level",
+       "cnv"
+      ],
+      "basis": "curated",
+      "dimension": "structural_variation_cnv",
+      "note": "recurrent CNV regions"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "clinical_interpretation",
+      "note": "gene-disease validity"
+     }
+    ],
+    "biological_context": "Expert-panel curation of whole genes and genomic regions: dosage sensitivity (loss or gain of an entire gene or region), recurrent CNV regions and gene-disease validity. Gene- and region-level assertions; recurrent regions are intervals.",
+    "evidence_strength": "Graded by curators from published cases. Dosage scores encode evidence levels; 30 stands for a gene associated with an autosomal recessive phenotype and 40 for dosage sensitivity unlikely. A curated judgement, not a measurement, and not allele-specific.",
+    "mechanistic_confidence": "Moderate for the dosage mechanism of whole-gene or whole-region loss or gain. It says nothing about the mechanism of a particular small variant, and contiguous-gene or position effects of multi-gene CNVs are not separated.",
+    "phenotype_implication": "Curated association of dosage change (and, in the validity records, of gene disruption) with a named phenotype; penetrance and expressivity vary.",
+    "absence_means": "A gene or region without a record has not been curated, which differs from a score meaning no evidence (0) or dosage sensitivity unlikely (40). Absence is not evidence of dosage tolerance.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -680,6 +859,37 @@
     "clinvar/data_use"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel",
+       "sv",
+       "cnv"
+      ],
+      "basis": "curated",
+      "dimension": "clinical_interpretation"
+     }
+    ],
+    "biological_context": "Submitter-asserted interpretations of variants for named conditions. Each submission carries its own review status, classification, condition and evidence summary; germline and other classifications are separate fields.",
+    "evidence_strength": "Aggregate classification with review status and conflicting-interpretation flags. These grade the assertion, not the underlying evidence; submissions often rest on the same upstream evidence, so agreement between submitters is not independent confirmation.",
+    "mechanistic_confidence": "None as structured data. A classification asserts clinical significance and does not establish mechanism; any functional evidence is in free text.",
+    "phenotype_implication": "Condition-specific clinical significance (pathogenic to benign, or uncertain significance) as named by the submitter.",
+    "absence_means": "A variant missing from ClinVar has not been submitted, which reflects ascertainment (tested genes, populations, laboratories) and not benignity. Uncertain significance means unresolved, not benign.",
+    "overlaps_with_sources": [
+     {
+      "source": "uniprot",
+      "relation": "may_conflict",
+      "note": "humsavar categories are curated independently from the literature; disagreement with ClinVar is information"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -773,6 +983,35 @@
     "cpic/home",
     "cpic/license"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "haplotype_level",
+    "mechanism_evidence": [
+     {
+      "axis": "pharmacogenomic_haplotype",
+      "variant_classes": [
+       "snv",
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "functional_haplotypes_pgx"
+     }
+    ],
+    "biological_context": "Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline.",
+    "evidence_strength": "Expert-curated allele function and guideline recommendations with CPIC's own evidence levels; assertions derived from published studies, not measurements of a given sample's alleles.",
+    "mechanistic_confidence": "Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles and unresolved phase.",
+    "phenotype_implication": "Predicted metaboliser or transporter phenotype and a prescribing recommendation for a diplotype; drug-specific, not general.",
+    "absence_means": "An allele missing from the definition tables has unassigned function, which is different from normal function. A sample with no defining variant detected defaults to the reference allele by convention, an assumption about untested positions.",
+    "overlaps_with_sources": [
+     {
+      "source": "pharmvar",
+      "relation": "independent_related",
+      "note": "both describe star-allele definitions of the same genes; compare definitions, never sum counts"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -866,6 +1105,77 @@
    ],
    "unverified_fields": [],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "computational_prediction",
+     "population_observation",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "prediction",
+      "dimension": "protein_structure_function"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration"
+     },
+     {
+      "axis": "population_constraint",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "population",
+      "dimension": "population_frequency"
+     }
+    ],
+    "components": [
+     {
+      "name": "deleteriousness predictors (37 algorithms)",
+      "evidence_kind": [
+       "computational_prediction"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "external: third-party algorithms"
+     },
+     {
+      "name": "allele frequencies from 1000 Genomes, gnomAD and others",
+      "evidence_kind": [
+       "population_observation"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "gnomad_variants"
+     }
+    ],
+    "biological_context": "Per-variant annotations for non-synonymous and splice-site SNVs. Predictors ignore tissue and cell type; they may share training data, so agreement among them is not independent confirmation.",
+    "evidence_strength": "Mixed: predictions (hypotheses), conservation and population frequencies (indirect). Score scales and thresholds differ between algorithms and are not calibrated to each other.",
+    "mechanistic_confidence": "Low. Predictors report a damaging or tolerated call and not a mechanism, and cover only missense and splice-site SNVs.",
+    "phenotype_implication": "Likelihood of a deleterious effect on the protein or on splicing; no phenotype.",
+    "absence_means": "Indels, synonymous and non-coding SNVs, copy-number and structural variants are outside its scope. A missing score for a covered SNV means that algorithm did not score it, not that it is benign.",
+    "overlaps_with_sources": [
+     {
+      "source": "alphamissense",
+      "relation": "aggregates"
+     },
+     {
+      "source": "gnomad_variants",
+      "relation": "aggregates"
+     },
+     {
+      "source": "1000genomes",
+      "relation": "aggregates"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -972,9 +1282,51 @@
    "evidence": [
     "dbvar/ftp_data_listing",
     "dbvar/ftp_listing",
-    "gencode/ncbi_policies"
+    "gencode/ncbi_policies",
+    "dgv/faq"
    ],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation",
+     "curated_expert_classification",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "sv",
+       "cnv"
+      ],
+      "basis": "population",
+      "dimension": "structural_variation_cnv"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "sv",
+       "cnv"
+      ],
+      "basis": "curated",
+      "dimension": "structural_variation_cnv",
+      "note": "clinical assertions where submitted"
+     }
+    ],
+    "biological_context": "Archive of SV and CNV calls submitted by studies of differing design, each with the submitting study's method, samples and assertion. Calls are intervals with breakpoint uncertainty.",
+    "evidence_strength": "An archive, not a curated truth set: every submission keeps its own method and quality, calls on the same samples can appear in more than one study, and clinical assertions are submitter judgements.",
+    "mechanistic_confidence": "Low. Records give interval, type and, where submitted, an assertion; gene content, breakpoints and regulatory effects must be annotated separately.",
+    "phenotype_implication": "Clinical assertions, where submitted, link a call to a condition; population studies link none.",
+    "absence_means": "Absence of an overlapping call reflects what submitted studies could detect and report, not rarity or safety.",
+    "overlaps_with_sources": [
+     {
+      "source": "dgv",
+      "relation": "identical_records",
+      "note": "studies shown in DGV are archived either in dbVar (accessions nsv, nssv) or in DGVa (esv, essv); count each study once"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1066,6 +1418,31 @@
     "decipher/downloads"
    ],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "case_observation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "cnv",
+       "snv",
+       "indel"
+      ],
+      "basis": "case",
+      "dimension": "clinical_interpretation",
+      "note": "phenotype-linked case data; not assessed beyond the resource description"
+     }
+    ],
+    "biological_context": "Phenotype-linked CNV and variant data from clinical genomics projects, with public and consented tiers of access. Not assessed beyond the resource description because the site pages could not be retrieved (access denied).",
+    "evidence_strength": "Not assessed. Case-level observations from clinical cohorts are ascertained by clinical referral and are not a population sample.",
+    "mechanistic_confidence": "Not assessed; case data do not establish mechanism.",
+    "phenotype_implication": "Links individual observations to patient phenotypes; interpretation needs phenotype ontology terms, access and consent conditions that have not been verified here.",
+    "absence_means": "Absence reflects consent, referral and data-sharing choices and is not evidence that a CNV is benign or rare.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": false,
@@ -1110,7 +1487,7 @@
     "release_date": "unknown",
     "verified": "unverified"
    },
-   "scope": "Genome-scale CRISPR knockout and RNAi dependency screens across cancer cell lines, with expression and mutation context.",
+   "scope": "Dependency screens in cancer cell lines. Open Targets describes its DepMap essentiality dataset as dependencies seen when knocking out genes in cancer cellular models by CRISPR screening. Whether RNAi screens and expression and mutation context are also provided is unverified: the portal returned a human-verification page.",
    "variant_classes": [
     "gene_level"
    ],
@@ -1124,12 +1501,12 @@
     "DepMap model IDs",
     "HGNC symbol (Entrez ID)"
    ],
-   "mapping_methods": "Gene-level scores per cell line; join on gene symbol/Entrez ID.",
+   "mapping_methods": "Gene-level scores per cell line. The identifier used for joins is unverified (the portal could not be read).",
    "quantitative": {
-    "summary": "Gene effect scores (negative = dependency) per cell line.",
-    "units": "normalised log-fold-change effect (Chronos)",
-    "uncertainty": "not provided per score",
-    "direction": "more negative = stronger dependency"
+    "summary": "Gene-level dependency scores per cell line; definition, units and direction are unverified (the portal could not be read).",
+    "units": "unverified",
+    "uncertainty": "unverified",
+    "direction": "unverified"
    },
    "licence": {
     "name": "Terms page not readable (verification wall); commonly CC BY 4.0",
@@ -1155,17 +1532,44 @@
     "notes": "Automated access met a human-verification page; not bypassed."
    },
    "unverified_fields": [
-    "version",
     "licence",
-    "update_frequency"
+    "scope details (RNAi screens, expression and mutation context)",
+    "mapping_methods (join identifiers)",
+    "quantitative (score definition, units, direction, uncertainty)",
+    "update_frequency",
+    "version"
    ],
    "evidence": [
     "depmap/data_page",
     "depmap/terms",
     "depmap/api_download_files",
-    "depmap/figshare_search"
+    "depmap/figshare_search",
+    "opentargets/downloads_page"
    ],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "perturbation_evidence",
+      "note": "whole-gene knockout or knockdown in cancer cell lines; not allele-specific"
+     }
+    ],
+    "biological_context": "Dependency screens in cancer cell lines (CRISPR knockout, as documented by Open Targets). Dependency is conditional on lineage, genotype and culture conditions. Other screen types and the context data are unverified because the portal could not be read.",
+    "evidence_strength": "Measured effect of perturbing a gene on cell fitness in cultured cancer lines. The scoring model is unverified (portal unreadable).",
+    "mechanistic_confidence": "Moderate for whole-gene loss of function in the tested lines. It says nothing about a particular allele, other tissues or germline dosage, and does not separate a direct dependency from buffering or compensation.",
+    "phenotype_implication": "Cell-fitness effect in vitro; not an organismal phenotype. Essentiality in cancer cells does not imply a human germline disease phenotype.",
+    "absence_means": "Non-essential in the screened lines means no fitness effect was detected there. It does not show the gene is dispensable in other cell types, conditions or in development.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": false,
@@ -1256,6 +1660,35 @@
     "dgv/downloads_https_plain",
     "dgv/faq"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "cnv",
+       "sv"
+      ],
+      "basis": "population",
+      "dimension": "structural_variation_cnv"
+     }
+    ],
+    "biological_context": "Variants reported by studies of healthy-control cohorts. Each study used its own platform and calling method, so breakpoints and frequencies are study-specific.",
+    "evidence_strength": "Observational calls with per-study sample sizes. Frequencies are not harmonised across studies, and overlapping calls from different studies can describe one event.",
+    "mechanistic_confidence": "None. DGV records intervals and types seen in controls and does not describe mechanisms.",
+    "phenotype_implication": "Observation in control cohorts is evidence that a CNV or SV is compatible with absence of overt disease in those individuals, weakened by incomplete phenotyping, reduced penetrance and late onset.",
+    "absence_means": "Not catalogued means not reported in these studies; it does not make a CNV rare, de novo or pathogenic.",
+    "overlaps_with_sources": [
+     {
+      "source": "gnomad_sv_cnv",
+      "relation": "independent_related",
+      "note": "independent population SV catalogues of different design; compare frequencies, do not pool"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1358,8 +1791,33 @@
     "encode/citing",
     "encode/data_use_policy",
     "encode/screen_about",
-    "encode/screen_downloads"
+    "encode/screen_downloads",
+    "ensembl_vep/plugin_list"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "experimental_annotation",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "regulation_expression_splicing",
+      "note": "biochemical activity of regions; no allele-specific effect"
+     }
+    ],
+    "biological_context": "Biochemical assays (chromatin accessibility, transcription-factor binding, histone modification, RNA expression) in biosamples, and candidate cis-regulatory elements derived from them. Activity is specific to the biosample.",
+    "evidence_strength": "Direct measurements of biochemical activity of regions in a biosample. Candidate element classes are computed from those assays and are annotations, not demonstrations of regulatory function.",
+    "mechanistic_confidence": "Low to moderate for the statement that a region is biochemically active in a biosample. No allele-specific effect, target gene or direction of effect is given, and activity does not prove that the element is required for regulation.",
+    "phenotype_implication": "None directly; places variants in regions that are candidates for regulatory effects in particular cell types.",
+    "absence_means": "A variant outside every annotated element may still act in untested cell types, states or at long range. Absence of a peak reflects the assayed biosamples and thresholds.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1401,7 +1859,8 @@
    "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies. The GRCh38 reference sequence (toplevel FASTA) and the release-116 gene annotation (GTF) are mirrored.",
    "variant_classes": [
     "gene_level",
-    "region_level"
+    "region_level",
+    "complex_locus"
    ],
    "assemblies": [
     "GRCh37",
@@ -1473,6 +1932,55 @@
     "ensembl_grch38_gtf_116",
     "ensembl_grch38_reference_regional"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "gene_level",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "exon and intron structure of transcript models"
+     },
+     {
+      "axis": "truncation_nmd",
+      "variant_classes": [
+       "gene_level",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "reading frame and exon junctions needed to evaluate decay"
+     },
+     {
+      "axis": "paralog_complex_locus",
+      "variant_classes": [
+       "complex_locus"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "alternate, patch and haplotype sequences"
+     }
+    ],
+    "biological_context": "Reference assemblies (primary, alternate and patch sequences, T2T-CHM13 and haplotype assemblies) and gene annotation. The GRCh38 reference is a single consensus sequence and its annotation is a set of transcript models, not a map of which isoform is expressed where.",
+    "evidence_strength": "Reference data. The properties to verify are coordinates and sequence (done here by published checksums and reference-allele concordance), not an effect or association strength.",
+    "mechanistic_confidence": "Not applicable. It supplies the sequence and transcript frame needed to define consequences (exon boundaries, reading frame, splice sites) and asserts no effect.",
+    "phenotype_implication": "None: reference sequence and gene models carry no phenotype information.",
+    "absence_means": "A position outside annotated genes is not shown to be non-functional. Sequence that is carried only on alternate or haplotype assemblies may be unmappable on the primary reference.",
+    "overlaps_with_sources": [
+     {
+      "source": "gencode_mane",
+      "relation": "derived_from",
+      "note": "the human gene annotation distributed by Ensembl is merged with the GENCODE gene set"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1516,11 +2024,12 @@
     "release_date": "2026-08-07 (CHECKSUMS)",
     "verified": "live"
    },
-   "scope": "Variant effect prediction tool with offline caches and pre-built data for plugins. Directory listing of release-116/variation shows: MaveDB, LOEUF, SpliceAI (27 GB raw/masked VCFs), SpliceVault, ProtVar, mutfunc, Enformer, GENCODE_promoter, PhenotypeOrthologous, RiboSeqORFs, pangenomes, vcf, gvf, indexed_vep_cache.",
+   "scope": "Variant effect prediction tool with offline caches and pre-built data for plugins. The documentation lists 74 plugins in 18 categories (catalogue/evidence/ensembl_vep/plugin_list.json). The release-116 variation directory holds plugin data for Enformer, GENCODE_promoter, LOEUF, MaveDB, PhenotypeOrthologous, ProtVar, RiboSeqORFs, SpliceAI, SpliceVault and mutfunc, besides pangenomes, vcf, gvf and indexed_vep_cache; Ensembl-generated SpliceAI scores for all possible SNVs in MANE Select transcripts (raw and masked, about 27 GB per file with a tabix index, no indels) are under data_files/homo_sapiens/GRCh38/variation_plugins/.",
    "variant_classes": [
     "snv",
     "indel",
-    "sv"
+    "sv",
+    "gene_level"
    ],
    "assemblies": [
     "GRCh37",
@@ -1551,11 +2060,12 @@
    },
    "update_frequency": "With each Ensembl release; plugin files updated irregularly (MaveDB file dated 2026-03-09).",
    "coverage_limitations": [
-    "Plugin documentation page returned HTTP 504 when probed, so the complete plugin list and per-plugin licences are not verified",
-    "SpliceAI/Enformer/mutfunc/ProtVar/SpliceVault files are very large (1 to 27 GB)"
+    "Plugin data licences are those of the underlying resources. The plugin page states some of them (dbNSFP has separate academic and commercial branches; PromoterAI needs a licence agreement; the AlphaMissense text conflicts with the licence in the data file we hold) and is silent on others",
+    "SpliceAI, Enformer, mutfunc, ProtVar and SpliceVault files are large (see the listing evidence); Ensembl does not generate SpliceAI scores for indels"
    ],
    "known_omissions": [
-    "Only directory names were verified for plugins other than MaveDB; their contents were not opened"
+    "Only the MaveDB plugin file is acquired; the other plugin data are catalogued with their sizes and not fetched",
+    "The plugin list was read from the documentation page; the plugins' own code and the data files' internal formats were not inspected"
    ],
    "overlap_with_existing": [
     "mavedb-human",
@@ -1567,22 +2077,172 @@
    },
    "status": {
     "accessible": "yes",
-    "notes": "FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB."
+    "notes": "FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earlier probe and was read on retry). MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB."
    },
    "acquisition_targets": [
     "ensembl_vep_mavedb_variants",
     "ensembl_vep_mavedb_variants_tbi"
    ],
    "unverified_fields": [
-    "complete plugin list",
-    "per-plugin licences"
+    "per-plugin data licences not stated on the plugin page"
    ],
    "evidence": [
-    "ensembl_vep/ftp_current_listing",
     "ensembl_vep/data_use",
-    "ensembl_vep/plugins_doc_plain",
-    "ensembl_vep/release116_variation_vep"
+    "ensembl_vep/ftp_current_listing",
+    "ensembl_vep/listing_enformer",
+    "ensembl_vep/listing_loeuf",
+    "ensembl_vep/listing_mutfunc",
+    "ensembl_vep/listing_protvar",
+    "ensembl_vep/listing_splicevault",
+    "ensembl_vep/plugin_list",
+    "ensembl_vep/plugins_doc_retry",
+    "ensembl_vep/release116_variation_listing",
+    "ensembl_vep/variation_plugins_listing",
+    "ensembl_vep/variation_plugins_readme"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "computational_prediction",
+     "direct_experimental",
+     "population_observation",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration",
+      "note": "consequence terms and predictor plugins"
+     },
+     {
+      "axis": "truncation_nmd",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration",
+      "note": "rule-based consequence terms (for example frameshift, stop gained) against transcript models"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "prediction",
+      "dimension": "regulation_expression_splicing",
+      "note": "SpliceAI and SpliceVault plugins"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "prediction",
+      "dimension": "regulation_expression_splicing",
+      "note": "Enformer plugin and promoter annotation"
+     },
+     {
+      "axis": "post_transcriptional",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "context",
+      "dimension": "regulation_expression_splicing",
+      "note": "RiboSeqORFs plugin"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "direct",
+      "dimension": "direct_experimental_variant_effects",
+      "note": "MaveDB plugin carries measured scores"
+     },
+     {
+      "axis": "population_constraint",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "population",
+      "dimension": "natural_knockouts_dosage",
+      "note": "LOEUF plugin"
+     },
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "sv"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration",
+      "note": "consequence terms for structural variants"
+     }
+    ],
+    "components": [
+     {
+      "name": "consequence terms against transcript models",
+      "evidence_kind": [
+       "computational_prediction"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "native"
+     },
+     {
+      "name": "predictor plugins (for example SpliceAI, SpliceVault, Enformer, AlphaMissense)",
+      "evidence_kind": [
+       "computational_prediction"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "external: published predictors"
+     },
+     {
+      "name": "MaveDB plugin",
+      "evidence_kind": [
+       "direct_experimental"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "mavedb"
+     },
+     {
+      "name": "LOEUF plugin",
+      "evidence_kind": [
+       "population_observation"
+      ],
+      "allele_resolution": "gene_level",
+      "origin": "gnomad_constraint"
+     }
+    ],
+    "biological_context": "A tool that annotates variants against transcript models and attaches plugin data. Every annotation is computed or looked up per transcript, so one variant can carry different consequences across transcripts and tools.",
+    "evidence_strength": "Mixed, and inherited from the plugin: consequence terms are deterministic rules against annotation, predictor plugins are hypotheses, MaveDB values are measurements and LOEUF is a gene-level population estimate. The evidence kind of each part persists.",
+    "mechanistic_confidence": "Low to moderate depending on the plugin. A consequence term names a molecular consequence class and does not show loss versus gain of function or tissue context; agreement between predictor plugins is not independent confirmation because they can share training data.",
+    "phenotype_implication": "None directly.",
+    "absence_means": "A missing plugin value means that plugin has no data for the variant (type, transcript or build); for example precomputed SpliceAI files cover SNVs in MANE Select transcripts and no indels. Absence is not a negative prediction.",
+    "overlaps_with_sources": [
+     {
+      "source": "alphamissense",
+      "relation": "aggregates",
+      "note": "AlphaMissense plugin"
+     },
+     {
+      "source": "mavedb",
+      "relation": "aggregates",
+      "note": "MaveDB plugin"
+     },
+     {
+      "source": "gnomad_constraint",
+      "relation": "aggregates",
+      "note": "LOEUF plugin"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1709,6 +2369,50 @@
     "eqtl_catalogue/license_page"
    ],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "statistical_association"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "regulation_expression_splicing",
+      "note": "gene-expression QTL"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "regulation_expression_splicing",
+      "note": "splicing QTL"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "association_finemapping_coloc",
+      "note": "SuSiE fine-mapped credible sets"
+     }
+    ],
+    "biological_context": "Public human studies, each with its own tissue or cell type, condition, quantification method and sample size, processed uniformly. Effects are changes in an expression or splicing phenotype per alternate allele in that context.",
+    "evidence_strength": "Statistical association with summary statistics and SuSiE fine-mapped credible sets. Credible sets narrow the candidate variants but do not establish the causal variant.",
+    "mechanistic_confidence": "Low to moderate for the regulatory axis. A QTL says a variant, or a linked variant, is associated with expression or splicing of a gene in that context; colocalisation with a trait and functional assays are needed to connect it to a phenotype.",
+    "phenotype_implication": "A molecular phenotype (gene expression or splice-event usage) in the studied tissue or cell type; not a disease phenotype.",
+    "absence_means": "No QTL means no association was detected in the sampled contexts at the available power. Tissues, cell states, developmental stages and rare alleles that were not sampled are unaddressed.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1803,6 +2507,19 @@
     "fairsharing/search_genomics"
    ],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "catalogue_metadata"
+    ],
+    "allele_resolution": "none",
+    "mechanism_evidence": [],
+    "biological_context": "Not biological evidence: the records describe standards, databases and policies.",
+    "evidence_strength": "Not applicable.",
+    "mechanistic_confidence": "Not applicable; the registry makes no biological assertion.",
+    "phenotype_implication": "None: registry entries carry no phenotype information.",
+    "absence_means": "A resource missing from the registry is unregistered, not unavailable.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1901,6 +2618,49 @@
     "gencode/mane_listing",
     "gencode/ncbi_policies"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "truncation_nmd",
+      "variant_classes": [
+       "gene_level",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "transcript structure on which decay rules are evaluated"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "gene_level",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "exon and splice-junction coordinates"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "the transcript that defines protein-level variant nomenclature"
+     }
+    ],
+    "biological_context": "Transcript models. The GENCODE comprehensive set lists supported transcripts; MANE Select designates one matched Ensembl and RefSeq transcript per gene as a clinical reference, and MANE Plus Clinical adds transcripts required to report variants.",
+    "evidence_strength": "Curated and automated annotation of transcript structure. Choosing a MANE transcript is a convention and not evidence of the dominant isoform in any tissue.",
+    "mechanistic_confidence": "Not applicable. It defines the frame (exons, coding sequence, start and stop) in which consequences are computed, and the consequence depends on the transcript chosen.",
+    "phenotype_implication": "None directly. A consequence in a non-MANE isoform can be misread as benign or damaging, so consequences are reported per transcript.",
+    "absence_means": "A gene without a MANE Select transcript, or a variant outside MANE transcripts, has no clinical-reference consequence here; this reflects the transcript set and not benignity.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1988,6 +2748,7 @@
     "gnomad_v4_1_lof_curation_incomplete_penetrance"
    ],
    "evidence": [
+    "ensembl_vep/listing_loeuf",
     "gnomad/downloads_page",
     "gnomad/gcs_lof_curation_v2_1_1",
     "gnomad/gcs_lof_curation_v4_1",
@@ -1996,6 +2757,52 @@
     "gnomad/s3_v4_1_lof_curation"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "population_constraint",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "population",
+      "dimension": "natural_knockouts_dosage"
+     },
+     {
+      "axis": "truncation_nmd",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "population",
+      "dimension": "natural_knockouts_dosage",
+      "note": "depletion of predicted loss-of-function variants"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "population",
+      "dimension": "natural_knockouts_dosage",
+      "note": "depletion of missense variants"
+     }
+    ],
+    "biological_context": "Gene- and transcript-level observed/expected counts of predicted loss-of-function, missense and synonymous variants in the gnomAD cohorts. Reflects selection against heterozygous variants, not against recessive-only effects.",
+    "evidence_strength": "Statistical depletion estimates with confidence bounds. They depend on the expectation model (mutation and methylation rates), coverage and sample size, and are weak for small genes.",
+    "mechanistic_confidence": "Low for any individual variant. Constraint is a gene property and does not say that a specific allele is damaging; strong constraint supports haploinsufficiency or severe missense sensitivity as a hypothesis.",
+    "phenotype_implication": "Intolerance to loss of function suggests, but does not show, a severe early-onset dominant phenotype. Tolerance does not exclude recessive disease, gain of function or missense mechanisms.",
+    "absence_means": "A gene without metrics (too few expected variants or poor coverage) is unscored, not unconstrained. A tolerant score is not evidence that a particular allele is benign.",
+    "overlaps_with_sources": [
+     {
+      "source": "gnomad_variants",
+      "relation": "derived_from",
+      "note": "constraint is computed from the gnomAD callsets; the counts are the same observations"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2086,12 +2893,47 @@
     "gnomad_sv_v4_1_sites_vcf"
    ],
    "evidence": [
-    "gnomad/s3_v4_1_genome_sv",
-    "gnomad/s3_v4_1_exome_cnv",
+    "gnomad/downloads_page",
     "gnomad/s3_lr",
-    "gnomad/downloads_page"
+    "gnomad/s3_v4_1_exome_cnv",
+    "gnomad/s3_v4_1_genome_sv",
+    "gnomad/sv_vcf_header_info"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation",
+     "computational_prediction"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "sv",
+       "cnv"
+      ],
+      "basis": "population",
+      "dimension": "structural_variation_cnv"
+     },
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "sv",
+       "cnv"
+      ],
+      "basis": "prediction",
+      "dimension": "structural_variation_cnv",
+      "note": "PREDICTED_LOF, PREDICTED_COPY_GAIN and related gene-overlap annotations"
+     }
+    ],
+    "biological_context": "Germline SV calls (genome callset) and CNV calls (exome callset) in the gnomAD cohorts. Algorithm and evidence fields record how each call was made, and PREDICTED_* INFO fields annotate the gene-level consequence of each call.",
+    "evidence_strength": "Population allele counts and frequencies for calls made by combining several algorithms. Sensitivity differs by size and type, and PREDICTED_* consequences are annotation predictions and not assays.",
+    "mechanistic_confidence": "Low to moderate. Dosage-type consequences (whole-gene deletion, duplication, exon overlap) follow from gene overlap; effects of breakpoints on regulation, gene fusion and position effects are not assessed.",
+    "phenotype_implication": "Frequency in population controls bounds pathogenic claims for dosage-sensitive genes; it does not give a phenotype.",
+    "absence_means": "Absence from the callset reflects detectability (size, type, repeat context, coverage) as well as rarity; poorly mappable regions are under-called.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2151,7 +2993,7 @@
    ],
    "mapping_methods": "Coordinates on GRCh38 (v4, v3) or GRCh37 (v2.1.1 with liftover files).",
    "quantitative": {
-    "summary": "Allele counts (AC), numbers (AN), frequencies (AF), homozygote counts, group-maximum (grpmax) and filtering allele frequencies (faf95/faf99) per site and per ancestry group; predictor scores per allele.",
+    "summary": "Allele counts (AC), numbers (AN), frequencies (AF), homozygote counts, group-maximum (grpmax) and filtering allele frequencies (fafmax_faf95_max) per site and per ancestry group; predictor scores per allele.",
     "units": "counts / frequency in [0, 1]; CADD phred; the other predictors on their own [0, 1] or signed scales",
     "uncertainty": "AC/AN; filtering allele frequencies give a conservative lower bound; no confidence interval on AF",
     "direction": "n/a (predictor scores point towards deleteriousness as defined by each tool)"
@@ -2198,6 +3040,66 @@
     "gnomad_v4_1_genomes_regional",
     "gnomad_v4_1_joint_regional"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation",
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "population_constraint",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "population",
+      "dimension": "population_frequency"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration",
+      "note": "in-silico scores carried in INFO"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration",
+      "note": "SpliceAI and Pangolin scores carried in INFO"
+     }
+    ],
+    "components": [
+     {
+      "name": "allele counts and frequencies per ancestry group",
+      "evidence_kind": [
+       "population_observation"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "native"
+     },
+     {
+      "name": "in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen)",
+      "evidence_kind": [
+       "computational_prediction"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "external: published predictors"
+     }
+    ],
+    "biological_context": "Aggregated germline variant calls from exome and genome sequencing cohorts, with allele counts per genetic ancestry group. No phenotype data accompany the variants.",
+    "evidence_strength": "Observed allele counts after quality filtering. Frequencies are reliable only where coverage and callability are adequate (FILTER and coverage fields) and differ by ancestry group; the in-silico scores are predictions and not measurements.",
+    "mechanistic_confidence": "None for mechanism. Frequency is indirect evidence: a high frequency argues against high-penetrance early-onset dominant pathogenicity, while a low frequency is consistent with pathogenicity without supporting it.",
+    "phenotype_implication": "Population frequency bounds the plausible penetrance and prevalence of an allele; no phenotype is attached.",
+    "absence_means": "A variant that is not found was not observed among the sequenced individuals, whose coverage and ancestry representation are uneven. It is not evidence of rarity or harm.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2280,8 +3182,8 @@
    },
    "update_frequency": "Major releases every few years (v8 2019, v10, v11).",
    "coverage_limitations": [
-    "About 950 donors, mostly adults of European ancestry",
-    "Post-mortem tissue; some tissues have few samples",
+    "About 950 donors (946 subjects, 943 with eQTL data in release v11); donor ancestry composition is not recorded in the stored evidence and is unverified here",
+    "Sampling conditions (including post-mortem collection) are described in the GTEx publications and were not retrieved here; some tissues have few samples",
     "Only open-access data are available here"
    ],
    "known_omissions": [
@@ -2306,7 +3208,53 @@
     "gtex/portal_downloads",
     "gtex/data_use"
    ],
-   "unverified_fields": [],
+   "unverified_fields": [
+    "coverage_limitations (donor ancestry composition and sampling conditions are from the GTEx publications, not retrieved)"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "statistical_association",
+     "experimental_annotation"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "association_finemapping_coloc",
+      "note": "eQTL"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "regulation_expression_splicing",
+      "note": "sQTL"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "context",
+      "dimension": "regulation_expression_splicing",
+      "note": "tissue-specific gene expression"
+     }
+    ],
+    "biological_context": "Bulk RNA-seq and whole-genome-sequencing genotypes from donors, across non-diseased tissues. Expression and QTL effects are averages over the cell types present in each tissue, and the number of donors differs between tissues.",
+    "evidence_strength": "Association statistics per tissue; release v11 lists 946 subjects (943 with eQTL data) in 54 tissues, 50 of them with eQTL results. Fine-mapping and colocalisation are needed before causal claims.",
+    "mechanistic_confidence": "Low to moderate. An eQTL or sQTL associates a variant, or a linked variant, with expression or splicing in a tissue; allele-specific expression collections add allele-resolved support but remain observational.",
+    "phenotype_implication": "A molecular phenotype in non-diseased tissue; disease relevance needs colocalisation with a trait and the relevant cell type or state.",
+    "absence_means": "No eQTL in a tissue means none was detected at the available power in bulk tissue. Cell-type-specific, context-specific and rare-allele effects are not covered.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2408,6 +3356,29 @@
     "gwas_catalog/docs",
     "gwas_catalog/downloads"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "statistical_association"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "association_finemapping_coloc"
+     }
+    ],
+    "biological_context": "Published genome-wide association results with ontology-annotated traits, study and ancestry tables. Each association belongs to a study with its own cohort, ancestry, genotyping platform and imputation.",
+    "evidence_strength": "Reported association statistics (p-value, effect size and risk-allele frequency where reported). Significance thresholds apply per study, and lead variants tag a locus.",
+    "mechanistic_confidence": "None. An associated locus does not identify the causal variant, gene or mechanism; mapped genes are positional.",
+    "phenotype_implication": "Statistical association with a trait or disease in the studied ancestry. Effects of common variants are generally small, and transfer across ancestries needs evidence.",
+    "absence_means": "A variant with no association in the catalogue has not reached the reporting threshold in catalogued studies, whose trait coverage, ancestry and power vary. It is not evidence of no effect.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2498,6 +3469,38 @@
    ],
    "unverified_fields": [],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "perturbation_evidence",
+      "note": "mouse knockout phenotype; orthology to the human gene is an inference"
+     },
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "natural_knockouts_dosage",
+      "note": "mouse knockout phenotype used as a proxy for loss-of-function tolerance"
+     }
+    ],
+    "biological_context": "Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered knockout in one organism, and phenotype calls are made per procedure.",
+    "evidence_strength": "Direct measurement of phenotypes in knockout mice, with statistical phenotype calls and release-specific thresholds.",
+    "mechanistic_confidence": "Moderate for the gene's role in the mouse. It is not allele-specific, differences between mouse and human physiology limit transfer, and compensation by paralogs is not resolved.",
+    "phenotype_implication": "Mouse phenotype terms. They support a human loss-of-function phenotype only when concordant with human genetics.",
+    "absence_means": "No phenotype call means none was detected in the procedures performed; screen breadth and genotype coverage vary, and lines that were not phenotyped or are lethal have no adult phenotype.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2595,6 +3598,36 @@
    "acquisition_targets": [
     "interpro_mavedb_proteins"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "protein_residue_level",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "protein_structure_function",
+      "note": "family, domain and site membership"
+     }
+    ],
+    "biological_context": "Protein family, domain and site annotations derived from sequence signatures of member databases (Pfam, SMART, PROSITE, CDD, PANTHER, CATH-Gene3D and others).",
+    "evidence_strength": "Signature-based computational annotation integrated from member databases. Membership is a sequence-similarity statement and not a measurement of function.",
+    "mechanistic_confidence": "Low. It places a residue in a family, domain or site; whether a substitution there alters function needs assays, structure or conservation.",
+    "phenotype_implication": "None: family, domain and site membership carries no phenotype information.",
+    "absence_means": "A residue outside every signature is unannotated, not functionally unimportant; signature coverage is incomplete for disordered and lineage-specific regions.",
+    "overlaps_with_sources": [
+     {
+      "source": "uniprot",
+      "relation": "independent_related",
+      "note": "UniProt entries cross-reference InterPro; domain boundaries from curated features and from signatures can differ, so compare"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2705,6 +3738,41 @@
     "mavedb/zenodo_dump_versions"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "direct_experimental"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv",
+       "indel",
+       "protein_level"
+      ],
+      "basis": "direct",
+      "dimension": "direct_experimental_variant_effects",
+      "note": "deep mutational scanning and related protein assays"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "direct",
+      "dimension": "direct_experimental_variant_effects",
+      "note": "MPRA and related reporter assays"
+     }
+    ],
+    "biological_context": "Each score set measures variants in a defined assay: a target sequence (gene, exon or regulatory element), an expression system, a selection or readout and a library. Scores are meaningful relative to that assay's controls and direction conventions.",
+    "evidence_strength": "Direct measurements with assay-specific replicates and, where deposited, standard errors. Scales are not harmonised across score sets, and a score set may include variants measured with few observations.",
+    "mechanistic_confidence": "Moderate to high for the assayed molecular function in the assayed system (for example growth, binding, abundance or reporter output). Mechanisms that give the same readout are not distinguished, and splicing or regulatory effects are missed unless the assay includes them.",
+    "phenotype_implication": "A molecular or cellular phenotype of the assay. Mapping to a disease phenotype needs calibration against clinical labels, which the repository holds only where authors supplied it.",
+    "absence_means": "A variant without a score was not measured, was filtered for low counts, or lies outside the assayed region; a position with no data is untested and not tolerant. A neutral score means no effect on the assayed function only.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2796,6 +3864,19 @@
     "nhgri/project_1000g"
    ],
    "acquisition_targets": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "documentation"
+    ],
+    "allele_resolution": "none",
+    "mechanism_evidence": [],
+    "biological_context": "Not biological evidence: educational definitions and narration, and an archived project description.",
+    "evidence_strength": "Not applicable; educational material with no variant-level data.",
+    "mechanistic_confidence": "Not applicable.",
+    "phenotype_implication": "None: educational pages carry no phenotype data.",
+    "absence_means": "A concept not covered is not defined here; the pages carry no data from which absence could be inferred.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2848,7 +3929,9 @@
    "variant_classes": [
     "snv",
     "indel",
-    "gene_level"
+    "gene_level",
+    "region_level",
+    "protein_level"
    ],
    "assemblies": [
     "GRCh38"
@@ -2899,6 +3982,8 @@
    "unverified_fields": [],
    "evidence": [
     "opentargets/api_meta",
+    "opentargets/dataset_sizes",
+    "opentargets/datasets_inventory",
     "opentargets/docs_licence",
     "opentargets/docs_variant",
     "opentargets/downloads_page",
@@ -2971,6 +4056,205 @@
      "reason": "Ensembl transcript table (29 MiB); the MANE summary already bridges Ensembl, RefSeq and HGNC identifiers for the joins in use. Fetch when transcript-level consequences are needed."
     }
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "aggregated_integration",
+     "statistical_association",
+     "curated_expert_classification",
+     "perturbation_experimental",
+     "computational_prediction"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "association_finemapping_coloc",
+      "note": "credible sets, studies and colocalisation"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "prediction",
+      "dimension": "association_finemapping_coloc",
+      "note": "locus-to-gene predictions"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel",
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "clinical_interpretation",
+      "note": "evidence from ClinVar, ClinGen and UniProt variants"
+     },
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "perturbation_evidence",
+      "note": "essentiality, CRISPR screens and knockout mouse phenotypes"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "region_level"
+      ],
+      "basis": "prediction",
+      "dimension": "regulation_expression_splicing",
+      "note": "enhancer-to-gene links"
+     },
+     {
+      "axis": "pharmacogenomic_haplotype",
+      "variant_classes": [
+       "snv",
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "functional_haplotypes_pgx",
+      "note": "pharmacogenomics dataset"
+     },
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "gene_level",
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "interaction and pathway context"
+     }
+    ],
+    "components": [
+     {
+      "name": "credible_set, study and colocalisation (GWAS and molecular QTL)",
+      "evidence_kind": [
+       "statistical_association"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "external: published GWAS and QTL studies"
+     },
+     {
+      "name": "l2g_prediction and enhancer_to_gene",
+      "evidence_kind": [
+       "computational_prediction"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "native"
+     },
+     {
+      "name": "evidence_eva",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "clinvar"
+     },
+     {
+      "name": "evidence_clingen",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "gene_level",
+      "origin": "clingen"
+     },
+     {
+      "name": "evidence_uniprot_variants",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "uniprot"
+     },
+     {
+      "name": "target_essentiality",
+      "evidence_kind": [
+       "perturbation_experimental"
+      ],
+      "allele_resolution": "gene_level",
+      "origin": "depmap"
+     },
+     {
+      "name": "evidence_impc",
+      "evidence_kind": [
+       "perturbation_experimental"
+      ],
+      "allele_resolution": "gene_level",
+      "origin": "impc"
+     }
+    ],
+    "biological_context": "Integrated target-disease evidence. The target-disease association is gene-level; variant-level datasets (credible sets, colocalisation, evidence from ClinVar and UniProt) are allele-specific but remain those of the originating source, whose profile governs.",
+    "evidence_strength": "Aggregated, with the evidence kind of each part retained: association statistics, curated assertions, perturbation results and predictions. Overall association scores combine datasets with fixed weights and are ranking aids, not evidence strength.",
+    "mechanistic_confidence": "Inherited from the originating dataset and generally low for allele-level mechanism: gene-level scores say nothing about a specific allele, and a locus-to-gene prediction is a hypothesis about the target gene.",
+    "phenotype_implication": "Disease and phenotype associations of genes and loci, ontology-mapped; each part carries the phenotype semantics of its source.",
+    "absence_means": "A target without evidence for a disease has no integrated evidence in this release, which reflects what the integrated sources cover and not the absence of a relationship.",
+    "overlaps_with_sources": [
+     {
+      "source": "alphamissense",
+      "relation": "aggregates"
+     },
+     {
+      "source": "clingen",
+      "relation": "aggregates"
+     },
+     {
+      "source": "clinvar",
+      "relation": "aggregates",
+      "note": "ClinVar via EVA"
+     },
+     {
+      "source": "eqtl_catalogue",
+      "relation": "aggregates"
+     },
+     {
+      "source": "gtex",
+      "relation": "aggregates"
+     },
+     {
+      "source": "gwas_catalog",
+      "relation": "aggregates"
+     },
+     {
+      "source": "gnomad_variants",
+      "relation": "aggregates",
+      "note": "population allele frequencies"
+     },
+     {
+      "source": "reactome",
+      "relation": "aggregates"
+     },
+     {
+      "source": "uniprot",
+      "relation": "aggregates"
+     },
+     {
+      "source": "pharmgkb",
+      "relation": "aggregates",
+      "note": "pharmacogenetics data from ClinPGx"
+     },
+     {
+      "source": "depmap",
+      "relation": "aggregates",
+      "note": "target_essentiality"
+     },
+     {
+      "source": "impc",
+      "relation": "aggregates",
+      "note": "evidence_impc"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -3133,6 +4417,30 @@
     "sifts_pdb_chain_uniprot",
     "sifts_uniprot_segments_observed"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation",
+     "experimental_structure"
+    ],
+    "allele_resolution": "protein_residue_level",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "protein_structure_function",
+      "note": "which UniProt residues are covered and observed in an experimental structure"
+     }
+    ],
+    "biological_context": "Residue-level mapping between PDB chains and UniProtKB sequences. The structures are experimentally determined constructs, often fragments or domains with ligands or engineered changes; the mapping says which UniProt residues each chain covers and which are observed.",
+    "evidence_strength": "Experimental structures with mapping tables. Resolution and model quality belong to each structure entry and are not in the mapping.",
+    "mechanistic_confidence": "Moderate for the structural context of observed residues (position, burial, contacts) when the construct is relevant. It does not show the effect of a substitution, and unobserved residues have no coordinates.",
+    "phenotype_implication": "None: residue mappings carry no phenotype information.",
+    "absence_means": "A residue not covered by any PDB chain, or not observed in the covering chains, has no experimental coordinates; this is not evidence of disorder.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -3230,6 +4538,65 @@
     "pharmgkb/data_usage"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "pharmacogenomic_haplotype",
+      "variant_classes": [
+       "snv",
+       "indel",
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "functional_haplotypes_pgx"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "curated",
+      "dimension": "clinical_interpretation",
+      "note": "variant-drug annotations with levels of evidence"
+     }
+    ],
+    "components": [
+     {
+      "name": "variant and clinical annotations from the literature",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "native"
+     },
+     {
+      "name": "clinical guideline annotations",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "haplotype_level",
+      "origin": "cpic"
+     }
+    ],
+    "biological_context": "Annotations linking variants, haplotypes, genes and drugs from published studies. Each annotation records the studied variant or haplotype, the drug, a phenotype category, the population and a level of evidence.",
+    "evidence_strength": "Literature-derived annotations with levels of evidence for clinical annotations. Individual studies are small and often conflict, and the annotation level is not an effect size.",
+    "mechanistic_confidence": "Low to moderate. Relationships state an association between genotype and drug response; molecular mechanism is annotated only where the study reports it.",
+    "phenotype_implication": "Drug-specific response phenotypes (efficacy, toxicity, dosage) in studied populations; not transferable across drugs or ancestries without evidence.",
+    "absence_means": "No annotation means no curated study for that variant-drug pair and not that genotype is irrelevant; rare variants and alleles outside the studied panels have no annotation.",
+    "overlaps_with_sources": [
+     {
+      "source": "cpic",
+      "relation": "aggregates",
+      "note": "ClinPGx comprises PharmGKB, CPIC and PharmCAT; clinical guideline annotations include CPIC guidelines, so count a guideline once"
+     }
+    ]
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -3336,6 +4703,31 @@
    "acquisition_targets": [
     "pharmvar_6_2_29"
    ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "haplotype_level",
+    "mechanism_evidence": [
+     {
+      "axis": "pharmacogenomic_haplotype",
+      "variant_classes": [
+       "snv",
+       "indel",
+       "gene_level"
+      ],
+      "basis": "context",
+      "dimension": "functional_haplotypes_pgx",
+      "note": "defining variants of star alleles; function is assigned elsewhere"
+     }
+    ],
+    "biological_context": "Nomenclature and defining variants for star alleles of 15 pharmacogenes, on RefSeqGene, GRCh37 and GRCh38 coordinates. Structural variation and complex variant types are described separately from sequence haplotypes.",
+    "evidence_strength": "Consortium-curated nomenclature. An allele definition lists the variants that define a haplotype; a name is a definition and not evidence of function.",
+    "mechanistic_confidence": "Not applicable to function. A star allele defines which variants occur together; function and drug response are assigned by other resources (CPIC, PharmGKB) and the mechanism of each variant is not given.",
+    "phenotype_implication": "None directly.",
+    "absence_means": "A variant not in any allele definition is not a named allele, so its function is unassigned and not normal. Genes outside the 15 are not covered.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -3428,6 +4820,30 @@
     "reactome/license"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "gene_level",
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "pathway membership and reactions; no allele-specific information"
+     }
+    ],
+    "biological_context": "Curated human pathways and reactions with gene, protein and small-molecule participants and interaction tables. Pathways are idealised and not tissue-specific.",
+    "evidence_strength": "Expert curation from the literature. Membership states that a participant takes part in a reaction, not how much a change in it matters.",
+    "mechanistic_confidence": "Low for variants. Pathway context helps frame hypotheses on compensation and buffering but does not show the effect of any allele.",
+    "phenotype_implication": "None directly; pathway enrichment is hypothesis-generating.",
+    "absence_means": "A gene absent from the pathways is uncurated, not unrelated; coverage is biased towards well-studied biology.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -3526,6 +4942,37 @@
     "strchive/loci"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "repeat_expansion",
+      "variant_classes": [
+       "str"
+      ],
+      "basis": "curated",
+      "dimension": "repeat_expansions_str"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "str"
+      ],
+      "basis": "curated",
+      "dimension": "repeat_expansions_str",
+      "note": "locus-disease association with inheritance mode"
+     }
+    ],
+    "biological_context": "Curated tandem-repeat loci associated with Mendelian disease: locus coordinates (hg38, hg19, T2T-CHM13), repeat motif and locus structure, inheritance mode, and normal and pathogenic length thresholds.",
+    "evidence_strength": "Expert curation from the literature. Thresholds differ between loci and are summarised as single numbers; intermediate ranges, repeat interruptions and somatic instability are not captured by one threshold.",
+    "mechanistic_confidence": "Moderate for repeat length and motif as the disease-relevant variable at curated loci. The molecular mechanism (RNA toxicity, polyglutamine proteotoxicity, silencing) varies by locus and is not resolved by length alone.",
+    "phenotype_implication": "Length above the pathogenic threshold associates with the named disease; onset, penetrance and severity depend on length and modifiers.",
+    "absence_means": "A locus missing from the catalogue is not curated as disease-associated. It is not shown to be benign, and the catalogue covers only loci with published disease associations.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -3623,6 +5070,59 @@
     "uniprot/rest_human_reviewed"
    ],
    "unverified_fields": [],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification",
+     "reference_annotation"
+    ],
+    "allele_resolution": "protein_residue_level",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level",
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "protein_structure_function",
+      "note": "function, domain, site and modification annotations"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "curated",
+      "dimension": "clinical_interpretation",
+      "note": "humsavar categories for missense variants"
+     }
+    ],
+    "components": [
+     {
+      "name": "sequence, function, domain, site and modification annotation",
+      "evidence_kind": [
+       "curated_expert_classification",
+       "reference_annotation"
+      ],
+      "allele_resolution": "protein_residue_level",
+      "origin": "native"
+     },
+     {
+      "name": "humsavar variant index (ACMG/AMP-style categories)",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "native"
+     }
+    ],
+    "biological_context": "Reviewed (Swiss-Prot) human protein entries with literature-curated annotation. Annotations refer to the canonical sequence, and isoforms are described by their differences.",
+    "evidence_strength": "Curated with evidence codes and literature references per annotation. The humsavar categories are curated from the literature with ACMG/AMP-style classes (likely pathogenic or pathogenic, likely benign or benign, uncertain significance).",
+    "mechanistic_confidence": "Moderate for annotated functional sites and domains; variant categories are classifications and not mechanisms.",
+    "phenotype_implication": "Disease associations are listed per variant where curated; a variant with several diseases appears once per disease.",
+    "absence_means": "A residue without annotation is uncurated, not functionally unimportant. A variant missing from humsavar is not curated as disease-related or benign.",
+    "overlaps_with_sources": []
+   },
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,

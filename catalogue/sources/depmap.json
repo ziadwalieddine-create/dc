@@ -14,7 +14,7 @@
   "release_date": "unknown",
   "verified": "unverified"
  },
- "scope": "Genome-scale CRISPR knockout and RNAi dependency screens across cancer cell lines, with expression and mutation context.",
+ "scope": "Dependency screens in cancer cell lines. Open Targets describes its DepMap essentiality dataset as dependencies seen when knocking out genes in cancer cellular models by CRISPR screening. Whether RNAi screens and expression and mutation context are also provided is unverified: the portal returned a human-verification page.",
  "variant_classes": [
   "gene_level"
  ],
@@ -28,12 +28,12 @@
   "DepMap model IDs",
   "HGNC symbol (Entrez ID)"
  ],
- "mapping_methods": "Gene-level scores per cell line; join on gene symbol/Entrez ID.",
+ "mapping_methods": "Gene-level scores per cell line. The identifier used for joins is unverified (the portal could not be read).",
  "quantitative": {
-  "summary": "Gene effect scores (negative = dependency) per cell line.",
-  "units": "normalised log-fold-change effect (Chronos)",
-  "uncertainty": "not provided per score",
-  "direction": "more negative = stronger dependency"
+  "summary": "Gene-level dependency scores per cell line; definition, units and direction are unverified (the portal could not be read).",
+  "units": "unverified",
+  "uncertainty": "unverified",
+  "direction": "unverified"
  },
  "licence": {
   "name": "Terms page not readable (verification wall); commonly CC BY 4.0",
@@ -59,15 +59,42 @@
   "notes": "Automated access met a human-verification page; not bypassed."
  },
  "unverified_fields": [
-  "version",
   "licence",
-  "update_frequency"
+  "scope details (RNAi screens, expression and mutation context)",
+  "mapping_methods (join identifiers)",
+  "quantitative (score definition, units, direction, uncertainty)",
+  "update_frequency",
+  "version"
  ],
  "evidence": [
   "depmap/data_page",
   "depmap/terms",
   "depmap/api_download_files",
-  "depmap/figshare_search"
+  "depmap/figshare_search",
+  "opentargets/downloads_page"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "perturbation_experimental"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "perturbation_evidence",
+    "note": "whole-gene knockout or knockdown in cancer cell lines; not allele-specific"
+   }
+  ],
+  "biological_context": "Dependency screens in cancer cell lines (CRISPR knockout, as documented by Open Targets). Dependency is conditional on lineage, genotype and culture conditions. Other screen types and the context data are unverified because the portal could not be read.",
+  "evidence_strength": "Measured effect of perturbing a gene on cell fitness in cultured cancer lines. The scoring model is unverified (portal unreadable).",
+  "mechanistic_confidence": "Moderate for whole-gene loss of function in the tested lines. It says nothing about a particular allele, other tissues or germline dosage, and does not separate a direct dependency from buffering or compensation.",
+  "phenotype_implication": "Cell-fitness effect in vitro; not an organismal phenotype. Essentiality in cancer cells does not imply a human germline disease phenotype.",
+  "absence_means": "Non-essential in the screened lines means no fitness effect was detected there. It does not show the gene is dispensable in other cell types, conditions or in development.",
+  "overlaps_with_sources": []
+ }
 }

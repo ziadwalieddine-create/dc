@@ -1,8 +1,8 @@
 # Master inventory of reusable genomic resources
 
-*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
-`✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension.
+`✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension. `integrated` (a documented, tested query layer that returns records by variant, gene, protein or region) is defined in `vocab.json` and credited to no source, because no such layer exists yet.
 
 35 sources catalogued. A source appears under its primary evidence dimension. Columns *acq/val/map* here cover all of the source's downloaded files; "Usable for" lists the dimensions for which the source is actually usable. See `COVERAGE_MATRIX.md` for the per-dimension view.
 
@@ -96,16 +96,16 @@
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **AlphaMissense** (`alphamissense`) | Static release; GCS objects dated 2023-08-03 · 2023-08-03 | open_with_terms · CC BY-NC-SA 4.0 (Zenodo record) | snv, protein_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D13 | retrieve_source |
+| **AlphaMissense** (`alphamissense`) | Static release; GCS objects dated 2023-08-03 · 2023-08-03 | open_with_terms · Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for  | snv, protein_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D13 | retrieve_source |
 | **dbNSFP** (`dbnsfp`) | August 2026 release (GENCODE 50 / Ensembl 116); column docs  · 2026-08 | registration_required · Academic branch CC BY-NC-ND 4.0 (about 50 GB); commercial branch under | snv · GRCh38, GRCh37 | ✓ | ✓ | · | · | · | — | adopt_curated |
-| **Ensembl VEP and release-116 plugin data** (`ensembl_vep`) | Ensembl release 116 (REST); plugin data directories dated 20 · 2026-08-07 (CHECKSUMS) | open_with_terms · Ensembl: no restrictions on data (verified); plugin resources carry up | snv, indel, sv · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D01 | adopt_curated |
-| **Open Targets Platform** (`opentargets`) | Data 26.09 (API 26.9.0) · 2026-09 | open · CC0 1.0 for Platform data (docs page); a separate data-source licensin | snv, indel, gene_level · GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D06, D04, D10, D11, D05, D07, D03, D14 | adopt_curated |
+| **Ensembl VEP and release-116 plugin data** (`ensembl_vep`) | Ensembl release 116 (REST); plugin data directories dated 20 · 2026-08-07 (CHECKSUMS) | open_with_terms · Ensembl: no restrictions on data (verified); plugin resources carry up | snv, indel, sv, gene_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D01 | adopt_curated |
+| **Open Targets Platform** (`opentargets`) | Data 26.09 (API 26.9.0) · 2026-09 | open · CC0 1.0 for Platform data (docs page); a separate data-source licensin | snv, indel, gene_level, region_level, protein_level · GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D06, D04, D10, D11, D05, D07, D03, D14 | adopt_curated |
 
 ## D14 Reference genomes, transcripts and gene models
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **Ensembl genome registry, assemblies and gene annotation (human)** (`ensembl_genomes`) | Ensembl release 116 (REST); integrated release 2026-07 in th · 2026-07 | open · Ensembl imposes no restrictions on access to or use of the data (discl | gene_level, region_level · GRCh37, GRCh38, T2T-CHM13, other | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | retrieve_source |
+| **Ensembl genome registry, assemblies and gene annotation (human)** (`ensembl_genomes`) | Ensembl release 116 (REST); integrated release 2026-07 in th · 2026-07 | open · Ensembl imposes no restrictions on access to or use of the data (discl | gene_level, region_level, complex_locus · GRCh37, GRCh38, T2T-CHM13, other | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | retrieve_source |
 | **GENCODE and MANE transcript sets** (`gencode_mane`) | GENCODE v50 (files dated 2026-06-09); MANE v1.5 (2025-12-04) · 2026-06-09 | open · GENCODE: 'all the GENCODE project data is open access' (GENCODE data-a | gene_level, region_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | retrieve_source |
 
 ## D15 Resource catalogues and classifications

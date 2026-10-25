@@ -1,0 +1,46 @@
+  ProteinGym
+Home
+Benchmarks
+Download
+ProteinGym
+
+ProteinGym is a collection of benchmarks aiming at comparing the ability of models to predict the effects of protein mutations. The benchmarks in ProteinGym are divided according to mutation type (substitutions vs. indels), ground truth source (DMS assay vs. clinical annotation), and training regime (zero-shot vs. supervised).
+
+DMS Benchmarks
+DMS Substitutions (217 assays, 2.5M mutants)
+DMS Substitutions (217 assays, 2.5M mutants)
+DMS Substitutions (217 assays, 2.5M mutants)
+DMS Substitutions (217 assays, 2.5M mutants)
+DMS Substitutions (217 assays, 2.5M mutants)
+DMS Indels (66 assays, 300K mutants)
+DMS Indels (66 assays, 300K mutants)
+DMS Indels (66 assays, 300K mutants)
+DMS Indels (66 assays, 300K mutants)
+DMS Indels (66 assays, 300K mutants)
+Clinical Benchmarks
+Clinical Substitutions (2.5K genes, 63K mutants)
+Clinical Substitutions (2.5K genes, 63K mutants)
+Clinical Substitutions (2.5K genes, 63K mutants)
+Clinical Substitutions (2.5K genes, 63K mutants)
+Clinical Substitutions (2.5K genes, 63K mutants)
+Clinical Indels (1.5K genes, 3K mutants)
+Clinical Indels (1.5K genes, 3K mutants)
+Clinical Indels (1.5K genes, 3K mutants)
+Clinical Indels (1.5K genes, 3K mutants)
+Clinical Indels (1.5K genes, 3K mutants)
+
+Find the github repository for the benchmark here
+
+Find the ProteinGym paper here
+
+This project has been developed and maintained by:
+
+Pascal Notin, Aaron Kollasch, Daniel Ritter, Lood Van Niekerk, Steffanie Paul, Han Spinner, Nathan Rollins, Ada Shaw, Rose Orenbuch, Ruben Weitzman, Jonathan Frazer, Mafalda Dias, Dinko Franceschi, Yarin Gal, Debora Marks, Peter Groth and Artem Gazizov.
+
+
+
+
+
+OATML - Oxford Applied and Theoretical Machine Learning Group
+
+Marks Lab - Harvard Medical School

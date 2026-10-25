@@ -66,5 +66,35 @@
  ],
  "acquisition_targets": [
   "interpro_mavedb_proteins"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "protein_residue_level",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "protein_structure_function",
+    "note": "family, domain and site membership"
+   }
+  ],
+  "biological_context": "Protein family, domain and site annotations derived from sequence signatures of member databases (Pfam, SMART, PROSITE, CDD, PANTHER, CATH-Gene3D and others).",
+  "evidence_strength": "Signature-based computational annotation integrated from member databases. Membership is a sequence-similarity statement and not a measurement of function.",
+  "mechanistic_confidence": "Low. It places a residue in a family, domain or site; whether a substitution there alters function needs assays, structure or conservation.",
+  "phenotype_implication": "None: family, domain and site membership carries no phenotype information.",
+  "absence_means": "A residue outside every signature is unannotated, not functionally unimportant; signature coverage is incomplete for disordered and lineage-specific regions.",
+  "overlaps_with_sources": [
+   {
+    "source": "uniprot",
+    "relation": "independent_related",
+    "note": "UniProt entries cross-reference InterPro; domain boundaries from curated features and from signatures can differ, so compare"
+   }
+  ]
+ }
 }

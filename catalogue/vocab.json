@@ -111,6 +111,13 @@
    "label": "Background documentation and terminology",
    "description": "Educational and documentation material that explains concepts and projects but contains no variant-level evidence.",
    "priority": "low"
+  },
+  {
+   "id": "D17",
+   "key": "complex_loci_callability",
+   "label": "Complex loci, paralogs and region reliability",
+   "description": "Context that decides whether a variant call and its interpretation are reliable or confounded: segmental duplications and paralogs, gene-conversion and pseudogene-rich loci, HLA, KIR and immunoglobulin loci, collapsed or falsely duplicated assembly regions, low-mappability and tandem-repeat regions, alternate and patch sequences.",
+   "priority": "high"
   }
  ],
  "variant_classes": [
@@ -121,7 +128,9 @@
   "str",
   "gene_level",
   "region_level",
-  "protein_level"
+  "protein_level",
+  "complex_locus",
+  "mtdna"
  ],
  "assemblies": [
   "GRCh37",
@@ -175,6 +184,270 @@
   [
    "usable",
    "Computed: acquired, validated and mapped for that dimension, with a licence verified live that permits research use. Not a claim that an analysis pipeline exists"
+  ],
+  [
+   "integrated",
+   "A documented, tested query layer in this repository returns the source's records by variant, gene, protein or region. Not built in this phase, so no source is credited with it; 'usable' is the highest stage computed"
   ]
+ ],
+ "evidence_kinds": {
+  "direct_experimental": "A measurement of the effect of specific alleles in an assay (for example deep mutational scanning, MPRA, saturation genome editing)",
+  "perturbation_experimental": "A gene- or region-level perturbation in cells or model organisms (knockout, knockdown, CRISPRi/a, overexpression); not allele-specific unless stated",
+  "population_observation": "Allele or genotype observations in cohorts (frequency, homozygosity, constraint derived from them); indirect evidence about function",
+  "statistical_association": "A statistical association between variants and a trait or molecular phenotype (GWAS, QTL, fine-mapping, colocalisation); association is not mechanism",
+  "curated_expert_classification": "A classification or assertion made by curators or expert panels from other evidence (clinical significance, gene-disease validity, dosage sensitivity, star-allele function)",
+  "computational_prediction": "A model or algorithm output; a hypothesis about effect, never a measurement",
+  "reference_annotation": "Reference sequence, gene models, transcript sets, region annotations and identifier maps",
+  "experimental_structure": "Atomic structures or residue coverage determined experimentally",
+  "predicted_structure": "Structure models predicted computationally",
+  "aggregated_integration": "A resource that aggregates and harmonises records from other sources; evidence kinds of the parts persist",
+  "catalogue_metadata": "Descriptions of resources (catalogues of databases and tools), not biological evidence",
+  "documentation": "Educational or background material with no variant-level data",
+  "experimental_annotation": "Assays of the biochemical activity of the genome (chromatin, binding, expression) that annotate regions or genes without measuring the effect of a particular allele",
+  "case_observation": "Observations of variants in affected individuals or families (case series, cohorts ascertained on phenotype, segregation); ascertained on phenotype, so frequency in cases is not a test of association"
+ },
+ "allele_resolutions": {
+  "allele_specific": "Records refer to specific alleles (chromosome, position, reference, alternate or an exact protein change)",
+  "haplotype_level": "Records refer to haplotypes, star alleles or named alleles composed of several variants",
+  "variant_class_level": "Records refer to classes of change (for example any loss-of-function change in a gene)",
+  "gene_level": "Records refer to genes or proteins as a whole (constraint, knockout phenotypes, essentiality); they do not describe any particular allele",
+  "region_level": "Records refer to genomic intervals or loci (regulatory elements, CNV and repeat regions, difficult regions)",
+  "protein_residue_level": "Records refer to residues, domains or structures of a protein",
+  "none": "No variant-level or gene-level content"
+ },
+ "mechanism_bases": {
+  "direct": "The source measures the effect or mechanism itself",
+  "curated": "Experts assert the effect or mechanism from other evidence",
+  "association": "A statistical association; the mechanism is not shown",
+  "prediction": "A computational prediction; a hypothesis to be tested",
+  "population": "Indirect evidence from frequency, constraint or selection",
+  "context": "Annotation needed to interpret mechanisms (gene models, structures, regions) without itself asserting an effect",
+  "case": "Observed in affected individuals or families, ascertained on phenotype; supports a candidate relationship but is not a controlled test"
+ },
+ "source_relations": {
+  "identical_records": "Both sources carry the same underlying records; combine them once, not twice",
+  "derived_from": "This source is built from, or re-expresses, the other; treat as one lineage",
+  "aggregates": "This source aggregates the other among others; prefer the aggregate for reuse and the original for fields the aggregate drops",
+  "independent_related": "Independent measurements or curations of related phenomena; keep both and compare",
+  "may_conflict": "Independent assertions that can disagree; never merged, disagreement is information"
+ },
+ "mechanism_axes": [
+  {
+   "key": "outcome_association",
+   "label": "Clinical or trait outcome (mechanism-agnostic)",
+   "description": "Assertions or associations that link variants or genes to a disease, trait or molecular phenotype without establishing how: clinical significance, gene-disease validity, GWAS and QTL associations.",
+   "competing": "causal variant versus a linked variant; ascertainment and testing bias; population-specific effects; reverse causation or confounding in association; classification circularity when predictors were calibrated on the same labels",
+   "discriminating": "fine-mapping and colocalisation, independent replication, functional assays, segregation, review status and conflicting-interpretation flags",
+   "variant_types": [
+    "snv",
+    "indel",
+    "cnv",
+    "sv",
+    "str",
+    "complex_locus",
+    "mtdna"
+   ],
+   "levels": [
+    "gene_level",
+    "region_level"
+   ]
+  },
+  {
+   "key": "protein_function",
+   "label": "Protein function, stability and interactions",
+   "description": "Altered activity, stability, folding, localisation or interactions from amino-acid substitutions, in-frame indels and start or stop changes.",
+   "competing": "loss versus gain of function; destabilisation versus active-site or interface disruption versus mislocalisation; dominant-negative versus haploinsufficient; a coding change acting instead through splicing or translation",
+   "discriminating": "allele-specific functional assays, structure and interface context, domain annotation, expression and dosage data, segregation and clinical classification",
+   "variant_types": [
+    "snv",
+    "indel"
+   ],
+   "levels": [
+    "protein_level",
+    "gene_level"
+   ]
+  },
+  {
+   "key": "truncation_nmd",
+   "label": "Truncation, frameshift and nonsense-mediated decay",
+   "description": "Premature termination, frameshifts, start loss and stop loss: decay of the transcript (haploinsufficiency) versus stable truncated proteins.",
+   "competing": "decay versus escape (last exon, 50-nucleotide rule); alternative start codons; exon skipping that restores frame; transcript-specific effects; genes that tolerate loss of function",
+   "discriminating": "transcript structure and decay rules, expression across transcripts (pext), loss-of-function curation, constraint, population loss-of-function counts, clinical classification",
+   "variant_types": [
+    "snv",
+    "indel"
+   ],
+   "levels": [
+    "gene_level"
+   ]
+  },
+  {
+   "key": "splicing",
+   "label": "Splicing",
+   "description": "Disrupted or created splice sites, exonic and intronic regulators, branch points and deep-intronic pseudoexons; exon skipping, inclusion and cryptic sites.",
+   "competing": "a splicing effect versus a protein effect of the same exonic change; partial versus complete; tissue-specific; rescue by cryptic sites",
+   "discriminating": "splice predictors, tissue RNA-seq splice events and sQTLs, minigene or MAVE splicing assays, transcript structure",
+   "variant_types": [
+    "snv",
+    "indel"
+   ],
+   "levels": [
+    "gene_level",
+    "region_level"
+   ]
+  },
+  {
+   "key": "transcription_regulation",
+   "label": "Transcriptional regulation",
+   "description": "Promoters, enhancers, silencers, insulators, transcription-factor binding, chromatin accessibility, 3D contacts and expression QTLs.",
+   "competing": "causal variant versus linkage with the causal variant; tissue- or state-specific effects; target-gene ambiguity; enhancer redundancy and buffering",
+   "discriminating": "fine-mapping and colocalisation, MPRA and CRISPRi/a, chromatin and cCRE annotation, allelic imbalance, tissue specificity",
+   "variant_types": [
+    "snv",
+    "indel",
+    "sv"
+   ],
+   "levels": [
+    "region_level",
+    "gene_level"
+   ]
+  },
+  {
+   "key": "post_transcriptional",
+   "label": "UTR, RNA stability and translation",
+   "description": "5 prime and 3 prime UTR variants, miRNA and RNA-binding sites, polyadenylation, RNA structure, upstream open reading frames and translation initiation.",
+   "competing": "transcript abundance versus RNA stability versus translation efficiency",
+   "discriminating": "ribosome profiling, UTR reporter assays, conservation, binding-site annotation",
+   "variant_types": [
+    "snv",
+    "indel"
+   ],
+   "levels": [
+    "region_level"
+   ]
+  },
+  {
+   "key": "gene_dosage",
+   "label": "Gene dosage",
+   "description": "Copy-number loss or gain, or loss of function, causing haploinsufficiency or triplosensitivity; imprinting; compound heterozygosity.",
+   "competing": "dosage versus disruption of regulatory elements (position effect); contiguous-gene effects of multi-gene CNVs; mosaicism; incomplete penetrance",
+   "discriminating": "dosage-sensitivity curation, constraint, population CNV frequencies, gene content of the interval",
+   "variant_types": [
+    "cnv",
+    "sv",
+    "indel"
+   ],
+   "levels": [
+    "gene_level",
+    "region_level"
+   ]
+  },
+  {
+   "key": "structural_rearrangement",
+   "label": "Structural rearrangement",
+   "description": "Inversions, translocations, insertions and complex events: gene disruption, fusion transcripts, disruption of regulatory domains.",
+   "competing": "breakpoint gene disruption versus enhancer hijacking versus dosage change versus mobile-element effects",
+   "discriminating": "breakpoint mapping, domain (TAD) annotation, expression, long-read resolution",
+   "variant_types": [
+    "sv",
+    "cnv",
+    "complex_locus"
+   ],
+   "levels": [
+    "region_level"
+   ]
+  },
+  {
+   "key": "repeat_expansion",
+   "label": "Repeat expansion and instability",
+   "description": "Short tandem repeat and VNTR length change: toxic RNA, polyglutamine proteotoxicity, silencing, somatic instability.",
+   "competing": "length threshold versus repeat interruptions and purity versus somatic mosaicism versus modifiers; motif identity",
+   "discriminating": "locus catalogues with thresholds and motifs, population allele-size distributions, long-read repeat sequence",
+   "variant_types": [
+    "str"
+   ],
+   "levels": [
+    "region_level"
+   ]
+  },
+  {
+   "key": "pharmacogenomic_haplotype",
+   "label": "Pharmacogenomic haplotypes",
+   "description": "Star alleles, including copy-number and hybrid alleles, that set enzyme or transporter activity and drug response.",
+   "competing": "function assigned by haplotype versus by the individual variant; phase ambiguity; rare variants outside the haplotype definitions; structural alleles; drug-specific effects",
+   "discriminating": "allele-definition tables, function and phenotype assignments, guideline evidence, long-read phasing",
+   "variant_types": [
+    "snv",
+    "indel",
+    "cnv",
+    "sv",
+    "complex_locus"
+   ],
+   "levels": [
+    "gene_level"
+   ]
+  },
+  {
+   "key": "paralog_complex_locus",
+   "label": "Paralogs and complex loci",
+   "description": "Variants in segmental duplications and paralog or pseudogene-rich or highly polymorphic loci (HLA, KIR, SMN1 and SMN2, CYP2D6 and CYP2D7, GBA and GBAP1): mis-mapping, gene conversion, copy-number polymorphism.",
+   "competing": "a true variant versus a paralogous sequence variant that was mis-mapped; gene conversion versus point mutation; copy-number-dependent genotype; a reference-sequence artefact (collapsed or falsely duplicated region)",
+   "discriminating": "region annotation of duplications and mappability, assembly-aware calling, long reads, haplotype-specific references",
+   "variant_types": [
+    "snv",
+    "indel",
+    "cnv",
+    "sv",
+    "complex_locus"
+   ],
+   "levels": [
+    "region_level"
+   ]
+  },
+  {
+   "key": "population_constraint",
+   "label": "Population frequency and constraint",
+   "description": "Indirect evidence from allele frequency, homozygosity, constraint and selection.",
+   "competing": "tolerance versus pathogenicity inferred from frequency; founder effects; ascertainment bias; absence from a callset is not evidence of harm",
+   "discriminating": "ancestry-specific frequencies, coverage, constraint with confidence intervals, curated loss-of-function variants",
+   "variant_types": [
+    "snv",
+    "indel",
+    "cnv",
+    "sv",
+    "str",
+    "mtdna"
+   ],
+   "levels": [
+    "gene_level"
+   ]
+  },
+  {
+   "key": "genetic_interaction",
+   "label": "Genetic interaction, epistasis and compensation",
+   "description": "Epistasis, pathway buffering, paralog compensation, modifier loci and oligogenic or digenic effects.",
+   "competing": "paralog compensation versus pathway redundancy versus modifier alleles; a gene-level knockout result does not describe a particular allele",
+   "discriminating": "combinatorial perturbation screens, interaction and pathway context, modifier association evidence",
+   "variant_types": [
+    "snv",
+    "indel",
+    "cnv"
+   ],
+   "levels": [
+    "gene_level",
+    "protein_level"
+   ]
+  },
+  {
+   "key": "mitochondrial",
+   "label": "Mitochondrial DNA variation",
+   "description": "mtDNA variants: heteroplasmy, tRNA, rRNA and protein-coding effects under the mitochondrial genetic code, maternal inheritance.",
+   "competing": "heteroplasmy level and tissue distribution versus nuclear modifiers; threshold effects",
+   "discriminating": "heteroplasmy-aware callsets, mtDNA curation resources",
+   "variant_types": [
+    "mtdna"
+   ],
+   "levels": []
+  }
  ]
 }

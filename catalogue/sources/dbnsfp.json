@@ -70,5 +70,76 @@
   "dbnsfp/license"
  ],
  "unverified_fields": [],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "computational_prediction",
+   "population_observation",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "prediction",
+    "dimension": "protein_structure_function"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration"
+   },
+   {
+    "axis": "population_constraint",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "population",
+    "dimension": "population_frequency"
+   }
+  ],
+  "components": [
+   {
+    "name": "deleteriousness predictors (37 algorithms)",
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "external: third-party algorithms"
+   },
+   {
+    "name": "allele frequencies from 1000 Genomes, gnomAD and others",
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "gnomad_variants"
+   }
+  ],
+  "biological_context": "Per-variant annotations for non-synonymous and splice-site SNVs. Predictors ignore tissue and cell type; they may share training data, so agreement among them is not independent confirmation.",
+  "evidence_strength": "Mixed: predictions (hypotheses), conservation and population frequencies (indirect). Score scales and thresholds differ between algorithms and are not calibrated to each other.",
+  "mechanistic_confidence": "Low. Predictors report a damaging or tolerated call and not a mechanism, and cover only missense and splice-site SNVs.",
+  "phenotype_implication": "Likelihood of a deleterious effect on the protein or on splicing; no phenotype.",
+  "absence_means": "Indels, synonymous and non-coding SNVs, copy-number and structural variants are outside its scope. A missing score for a covered SNV means that algorithm did not score it, not that it is benign.",
+  "overlaps_with_sources": [
+   {
+    "source": "alphamissense",
+    "relation": "aggregates"
+   },
+   {
+    "source": "gnomad_variants",
+    "relation": "aggregates"
+   },
+   {
+    "source": "1000genomes",
+    "relation": "aggregates"
+   }
+  ]
+ }
 }

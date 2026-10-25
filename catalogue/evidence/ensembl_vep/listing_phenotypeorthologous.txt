@@ -1,0 +1,8 @@
+ 
+ Index of /pub/release-116/variation/PhenotypeOrthologous 
+ Index of /pub/release-116/variation/PhenotypeOrthologous 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 22:00 132   
+ PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz 2026-02-24 13:25 3.3M   
+ PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz.tbi 2026-02-24 13:25 68K   

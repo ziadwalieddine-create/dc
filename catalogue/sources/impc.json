@@ -67,5 +67,37 @@
   "impc/licence"
  ],
  "unverified_fields": [],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "perturbation_experimental"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "perturbation_evidence",
+    "note": "mouse knockout phenotype; orthology to the human gene is an inference"
+   },
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "natural_knockouts_dosage",
+    "note": "mouse knockout phenotype used as a proxy for loss-of-function tolerance"
+   }
+  ],
+  "biological_context": "Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered knockout in one organism, and phenotype calls are made per procedure.",
+  "evidence_strength": "Direct measurement of phenotypes in knockout mice, with statistical phenotype calls and release-specific thresholds.",
+  "mechanistic_confidence": "Moderate for the gene's role in the mouse. It is not allele-specific, differences between mouse and human physiology limit transfer, and compensation by paralogs is not resolved.",
+  "phenotype_implication": "Mouse phenotype terms. They support a human loss-of-function phenotype only when concordant with human genetics.",
+  "absence_means": "No phenotype call means none was detected in the procedures performed; screen breadth and genotype coverage vary, and lines that were not phenotyped or are lethal have no adult phenotype.",
+  "overlaps_with_sources": []
+ }
 }

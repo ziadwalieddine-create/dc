@@ -1,0 +1,10 @@
+ 
+ Index of /pub/release-116/variation/SpliceVault 
+ Index of /pub/release-116/variation/SpliceVault 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 21:58 174   
+ SpliceVault_data_GRCh38.tsv.gz 2026-02-24 13:26 843M   
+ SpliceVault_data_GRCh38.tsv.gz.tbi 2026-02-24 13:26 730K   
+ SpliceVault_data_hg19.tsv.gz 2026-02-24 13:26 840M   
+ SpliceVault_data_hg19.tsv.gz.tbi 2026-02-24 13:26 731K   

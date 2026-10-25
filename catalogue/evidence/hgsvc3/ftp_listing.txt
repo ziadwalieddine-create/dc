@@ -1,0 +1,9 @@
+ 
+ Index of /vol1/ftp/data_collections/HGSVC3 
+ Index of /vol1/ftp/data_collections/HGSVC3 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ README_HGSVC3_datareuse_statement.md 2024-09-25 17:00 4.1K   
+ release/ 2026-09-24 10:39 -   
+ technical/ 2024-08-09 14:15 -   
+ working/ 2026-06-30 11:50 -   

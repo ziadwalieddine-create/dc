@@ -70,5 +70,34 @@
   "cpic/api_genes",
   "cpic/home",
   "cpic/license"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "haplotype_level",
+  "mechanism_evidence": [
+   {
+    "axis": "pharmacogenomic_haplotype",
+    "variant_classes": [
+     "snv",
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "functional_haplotypes_pgx"
+   }
+  ],
+  "biological_context": "Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline.",
+  "evidence_strength": "Expert-curated allele function and guideline recommendations with CPIC's own evidence levels; assertions derived from published studies, not measurements of a given sample's alleles.",
+  "mechanistic_confidence": "Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles and unresolved phase.",
+  "phenotype_implication": "Predicted metaboliser or transporter phenotype and a prescribing recommendation for a diplotype; drug-specific, not general.",
+  "absence_means": "An allele missing from the definition tables has unassigned function, which is different from normal function. A sample with no defining variant detected defaults to the reference allele by convention, an assumption about untested positions.",
+  "overlaps_with_sources": [
+   {
+    "source": "pharmvar",
+    "relation": "independent_related",
+    "note": "both describe star-allele definitions of the same genes; compare definitions, never sum counts"
+   }
+  ]
+ }
 }

@@ -1,6 +1,6 @@
 # Attribution and licence notes for the data we hold
 
-*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 One row per source whose files are in `data/external/` or whose tables are redistributed on the data branch. Licence and attribution wording is copied from the source records, which quote the pages they were read from; where a source asks for a particular citation, the source URL leads to it. A private repository would not remove any of these conditions.
 
@@ -8,7 +8,7 @@ One row per source whose files are in `data/external/` or whose tables are redis
 |---|---|---|---|
 | `1000genomes` | IGSR provides open data; terms of use are in the IGSR data disclaimer (not parsed) | Open data; cite IGSR | <https://www.internationalgenome.org> |
 | `alphafold_db` | CC BY 4.0, academic and commercial use (FAQ) | Attribution | <https://alphafold.ebi.ac.uk/faq> |
-| `alphamissense` | CC BY-NC-SA 4.0 (Zenodo record) | Non-commercial and share-alike | <https://zenodo.org/api/records/8208688> |
+| `alphamissense` | Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The bucket README.pdf (2024-03-13) says all materials are licensed under CC BY 4.0; the header of the data file (20 | Not redistributed here (data stay in git-ignored data/external/). Until the owner clarifies which statement governs the 2023 data files, redistribution would have to meet the stricter terms: attribution, non-commercial use, share-alike. | <https://zenodo.org/api/records/8208688> |
 | `biogrid_orcs` | MIT License (stated on the BioGRID download repository page for BioGRID-ORCS; data provided without warranty) | Free for academic and commercial use under the MIT License; cite the original contributing authors and Stark et al. 2006 (Nucleic Acids Res 34:D535). This repository does not redistribute the archive. | <https://downloads.thebiogrid.org/BioGRID-ORCS/Latest-Release/>, <https://wiki.thebiogrid.org/doku.php/licensing> |
 | `clingen` | ClinGen terms: curated content released openly, free to capture and use | Open; keep attribution | <https://clinicalgenome.org/docs/terms-of-use/> |
 | `clinvar` | NCBI public domain policy; submitters may claim rights in some content (NCBI policies page) | Freely distributable with NLM acknowledgement; keep NCBI disclaimer | <https://www.ncbi.nlm.nih.gov/home/about/policies/>, <https://www.ncbi.nlm.nih.gov/clinvar/docs/maintenance_use/> |

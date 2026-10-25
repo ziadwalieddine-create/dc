@@ -67,5 +67,34 @@
   "biogrid_orcs/downloads_listing",
   "biogrid_orcs/home",
   "biogrid_orcs/licence"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "perturbation_experimental"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "perturbation_evidence",
+    "note": "whole-gene perturbation in the screened system; not allele-specific"
+   }
+  ],
+  "biological_context": "Curated results of CRISPR screens in cell lines and cell types of several model organisms. Every hit is conditional on the screen's cell line, library, perturbation type and phenotype readout.",
+  "evidence_strength": "Curated from publications. Hit calls and scores follow each study's own method and threshold and are not uniformly reprocessed.",
+  "mechanistic_confidence": "Moderate for the effect of perturbing the whole gene in the tested context. No particular allele is described, and compensation by paralogs or pathways is not resolved.",
+  "phenotype_implication": "Gene-level cellular phenotype in vitro (for example viability or drug response); not an organismal or human phenotype.",
+  "absence_means": "A gene that is not a hit was not scored as a hit in the curated screens; power, context and threshold limit this. It is not shown to be dispensable elsewhere, and its alleles are not shown to be tolerated.",
+  "overlaps_with_sources": [
+   {
+    "source": "depmap",
+    "relation": "independent_related",
+    "note": "both report cancer cell-line perturbation screens; keep both and compare, do not count a gene twice when the same screen appears in both"
+   }
+  ]
+ }
 }

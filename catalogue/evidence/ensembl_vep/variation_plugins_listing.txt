@@ -1,0 +1,24 @@
+ 
+ Index of /pub/data_files/homo_sapiens/GRCh38/variation_plugins 
+ Index of /pub/data_files/homo_sapiens/GRCh38/variation_plugins 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ README 2025-10-16 14:01 1.5K   
+ spliceai_scores.masked.snv.ensembl_mane.grch38.110.vcf.gz 2023-10-27 11:59 27G   
+ spliceai_scores.masked.snv.ensembl_mane.grch38.110.vcf.gz.tbi 2023-10-27 11:59 1.2M   
+ spliceai_scores.masked.snv.ensembl_mane_v1.0.grch38.vcf.gz 2023-10-27 11:59 27G   
+ spliceai_scores.masked.snv.ensembl_mane_v1.0.grch38.vcf.gz.tbi 2023-10-27 11:59 1.2M   
+ spliceai_scores.masked.snv.ensembl_mane_v1.4.grch38.vcf.gz 2025-10-16 14:04 27G   
+ spliceai_scores.masked.snv.ensembl_mane_v1.4.grch38.vcf.gz.tbi 2025-10-16 14:04 1.2M   
+ spliceai_scores.masked.snv.mane_v1.0.grch38.vcf.gz 2023-10-27 11:59 27G   
+ spliceai_scores.masked.snv.mane_v1.0.grch38.vcf.gz.tbi 2023-10-27 11:59 1.2M   
+ spliceai_scores.raw.snv.ensembl_mane.grch38.107.vcf.gz 2022-05-19 14:04 27G   
+ spliceai_scores.raw.snv.ensembl_mane.grch38.107.vcf.gz.tbi 2022-05-19 14:04 1.2M   
+ spliceai_scores.raw.snv.ensembl_mane.grch38.110.vcf.gz 2023-04-28 16:34 27G   
+ spliceai_scores.raw.snv.ensembl_mane.grch38.110.vcf.gz.tbi 2023-04-28 16:34 1.2M   
+ spliceai_scores.raw.snv.ensembl_mane_v1.0.grch38.vcf.gz 2023-04-28 16:34 27G   
+ spliceai_scores.raw.snv.ensembl_mane_v1.0.grch38.vcf.gz.tbi 2023-04-28 16:34 1.2M   
+ spliceai_scores.raw.snv.ensembl_mane_v1.4.grch38.vcf.gz 2025-10-16 14:07 27G   
+ spliceai_scores.raw.snv.ensembl_mane_v1.4.grch38.vcf.gz.tbi 2025-10-16 14:07 1.2M   
+ spliceai_scores.raw.snv.mane_v1.0.grch38.vcf.gz 2023-04-28 16:34 27G   
+ spliceai_scores.raw.snv.mane_v1.0.grch38.vcf.gz.tbi 2023-04-28 16:34 1.2M   

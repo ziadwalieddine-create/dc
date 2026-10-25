@@ -1,0 +1,21 @@
+MPRAVarDB
+ About
+ Summary
+ Tutorial
+ Database
+ Analysis
+Background
+
+MPRAVarDB is an online database and web server for exploring regulatory effects of genetic variants. MPRAVarDB harbors 18 MPRA experiments designed to assess the regulatory effects of genetic variants in GWAS loci, eQTLs and various genomic features, resulting in a total of 242,818 variants tested across 32 cell lines and 37 disease. MPRAVarDB empowers the query of MPRA variants given genomic regions, disease and cell line or combination of query terms. Notably, MPRAVarDB offers a suite of pretrained machine learning models tailored to the specific diseases and cell lines, facilitating the genome-wide prediction of regulatory causal variants. MPRAVarDB is friendly to use, and users only need a few clicks to receive query and prediction results.
+
+Contact
+
+Authors: Weijia Jin (Maintainer), Javlon Nizomov
+
+Email: w.jin@ufl.edu
+
+Department of Biostatistics, College of Public Health & Health Professions
+
+University of Florida, Gainesville, FL 32603
+
+Select a disease/cell line:

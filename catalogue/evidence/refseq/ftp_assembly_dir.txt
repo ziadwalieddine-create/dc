@@ -1,0 +1,38 @@
+ 
+ Index of /genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14 
+ Index of /genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14 
+ Name Last modified Size Parent Directory - 
+ Annotation_comparison/ 2025-08-06 20:16 - 
+ GCF_000001405.40_GRCh38.p14_assembly_structure/ 2025-08-06 20:16 - 
+ GRCh38_major_release_seqs_for_alignment_pipelines/ 2021-03-02 22:14 - 
+ RefSeq_historical_alignments/ 2023-10-06 15:33 - 
+ RefSeq_transcripts_alignments/ 2025-08-06 20:16 - 
+ GCF_000001405.40-RS_2025_08_annotation_report.xml 2025-08-06 20:15 280K 
+ GCF_000001405.40_GRCh38.p14_assembly_regions.txt 2025-08-06 20:15 44K 
+ GCF_000001405.40_GRCh38.p14_assembly_report.txt 2025-08-06 20:15 79K 
+ GCF_000001405.40_GRCh38.p14_assembly_stats.txt 2025-08-28 14:31 90K 
+ GCF_000001405.40_GRCh38.p14_cds_from_genomic.fna.gz 2025-08-06 20:15 27M 
+ GCF_000001405.40_GRCh38.p14_fcs_report.txt 2025-11-17 12:38 536 
+ GCF_000001405.40_GRCh38.p14_feature_count.txt 2025-08-06 20:15 9.7K 
+ GCF_000001405.40_GRCh38.p14_feature_table.txt.gz 2025-08-06 20:15 8.7M 
+ GCF_000001405.40_GRCh38.p14_genomic.fna.gz 2025-08-06 20:15 928M 
+ GCF_000001405.40_GRCh38.p14_genomic.gbff.gz 2025-08-06 20:15 1.3G 
+ GCF_000001405.40_GRCh38.p14_genomic.gff.gz 2025-08-06 20:15 75M 
+ GCF_000001405.40_GRCh38.p14_genomic.gtf.gz 2025-08-06 20:15 54M 
+ GCF_000001405.40_GRCh38.p14_genomic_gaps.txt.gz 2025-08-06 20:15 11K 
+ GCF_000001405.40_GRCh38.p14_protein.faa.gz 2025-08-06 20:15 27M 
+ GCF_000001405.40_GRCh38.p14_protein.gpff.gz 2025-08-06 20:15 163M 
+ GCF_000001405.40_GRCh38.p14_pseudo_without_product.fna.gz 2025-08-06 20:15 8.9M 
+ GCF_000001405.40_GRCh38.p14_rm.out.gz 2025-08-06 20:15 179M 
+ GCF_000001405.40_GRCh38.p14_rm.run 2025-08-06 20:15 1.1K 
+ GCF_000001405.40_GRCh38.p14_rna.fna.gz 2025-08-06 20:15 129M 
+ GCF_000001405.40_GRCh38.p14_rna.gbff.gz 2025-08-06 20:15 471M 
+ GCF_000001405.40_GRCh38.p14_rna_from_genomic.fna.gz 2025-08-06 20:15 94M 
+ GCF_000001405.40_GRCh38.p14_translated_cds.faa.gz 2025-08-06 20:15 17M 
+ README.txt 2026-03-17 12:44 55K 
+ README_GCF_000001405.40-RS_2025_08 2025-08-06 20:15 2.1K 
+ annotation_hashes.txt 2025-08-06 20:16 411 
+ assembly_status.txt 2026-10-25 07:46 14 
+ md5checksums.txt 2026-05-13 15:26 197K 
+ uncompressed_checksums.txt 2026-10-25 09:30 12K 
+ HHS Vulnerability Disclosure 

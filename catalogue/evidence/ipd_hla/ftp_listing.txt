@@ -1,0 +1,36 @@
+ 
+ Index of /pub/databases/ipd/imgt/hla 
+ Index of /pub/databases/ipd/imgt/hla 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ Alignments_Rel_3660.zip 2026-10-15 16:00 13M   
+ Allele_status.txt 2026-10-15 16:00 2.0M   
+ Allelelist.txt 2026-10-15 16:00 948K   
+ Allelelist_history.txt 2026-10-15 16:00 28M   
+ Deleted_alleles.txt 2026-10-15 16:00 25K   
+ LICENCE.md 2026-07-14 14:10 4.9K   
+ Manual.md 2024-07-08 16:36 29K   
+ Nomenclature_2009.txt 2024-07-08 16:36 140K   
+ README.md 2026-07-14 14:10 17K   
+ alignments/ 2026-10-15 16:00 -   
+ allelelist/ 2026-10-15 16:00 -   
+ change_log.txt 2024-07-08 16:36 113   
+ fasta/ 2026-10-15 16:00 -   
+ hla.dat 2026-10-14 08:21 337M   
+ hla.dat.zip 2026-10-15 16:00 43M   
+ hla_gen.fasta 2026-10-14 08:21 136M   
+ hla_gen.fasta.zip 2026-10-15 16:00 8.1M   
+ hla_nuc.fasta 2026-10-15 16:00 41M   
+ hla_prot.fasta 2026-10-15 16:00 14M   
+ ihiw/ 2026-10-15 16:00 -   
+ md5checksum.txt 2026-10-15 16:00 1.0K   
+ msf/ 2026-10-15 16:00 -   
+ oid/ 2026-10-15 16:00 -   
+ pir/ 2026-10-15 16:00 -   
+ previous_releases/ 2016-01-19 12:49 -   
+ release_version.txt 2026-10-15 16:00 275   
+ sversion_history.txt 2026-10-15 16:00 8.0M   
+ tce/ 2026-10-15 16:00 -   
+ version_report.txt 2026-10-15 16:00 41K   
+ wmda/ 2026-10-15 16:00 -   
+ xml/ 2026-10-15 16:02 -   

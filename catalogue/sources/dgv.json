@@ -67,5 +67,34 @@
   "dgv/disclaimer",
   "dgv/downloads_https_plain",
   "dgv/faq"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "cnv",
+     "sv"
+    ],
+    "basis": "population",
+    "dimension": "structural_variation_cnv"
+   }
+  ],
+  "biological_context": "Variants reported by studies of healthy-control cohorts. Each study used its own platform and calling method, so breakpoints and frequencies are study-specific.",
+  "evidence_strength": "Observational calls with per-study sample sizes. Frequencies are not harmonised across studies, and overlapping calls from different studies can describe one event.",
+  "mechanistic_confidence": "None. DGV records intervals and types seen in controls and does not describe mechanisms.",
+  "phenotype_implication": "Observation in control cohorts is evidence that a CNV or SV is compatible with absence of overt disease in those individuals, weakened by incomplete phenotyping, reduced penetrance and late onset.",
+  "absence_means": "Not catalogued means not reported in these studies; it does not make a CNV rare, de novo or pathogenic.",
+  "overlaps_with_sources": [
+   {
+    "source": "gnomad_sv_cnv",
+    "relation": "independent_related",
+    "note": "independent population SV catalogues of different design; compare frequencies, do not pool"
+   }
+  ]
+ }
 }

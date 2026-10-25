@@ -42,14 +42,14 @@
   "direction": "higher = more likely pathogenic"
  },
  "licence": {
-  "name": "CC BY-NC-SA 4.0 (Zenodo record)",
-  "redistribution": "Non-commercial and share-alike",
+  "name": "Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The bucket README.pdf (2024-03-13) says all materials are licensed under CC BY 4.0; the header of the data file (2023) and the Zenodo record say CC BY-NC-SA 4.0; the Ensembl VEP plugin page repeats CC BY and adds that use is subject to the Google Cloud Platform Terms of Service.",
+  "redistribution": "Not redistributed here (data stay in git-ignored data/external/). Until the owner clarifies which statement governs the 2023 data files, redistribution would have to meet the stricter terms: attribution, non-commercial use, share-alike.",
   "access": "open_with_terms",
   "verified": "live"
  },
  "update_frequency": "Static (no update since 2023).",
  "coverage_limitations": [
-  "Prediction, not measurement; trained on ClinVar-like labels, so clinical circularity is a risk",
+  "Prediction, not measurement. The class thresholds (0.34 and 0.564) were chosen for 90% precision on pathogenic and benign ClinVar variants, so ClinVar-based benchmarks of the classes are not independent of the calibration; the Ensembl VEP plugin page states that the model was not trained on ClinVar variants. The paper describing training and calibration was not readable here (bot challenge)",
   "Missense only"
  ],
  "known_omissions": [],
@@ -67,10 +67,38 @@
   "alphamissense_hg38"
  ],
  "evidence": [
+  "alphamissense/bucket_readme_pdf",
   "alphamissense/gcs_hg38_meta",
   "alphamissense/gcs_listing",
   "alphamissense/zenodo_readme",
-  "alphamissense/zenodo_record"
+  "alphamissense/zenodo_record",
+  "ensembl_vep/plugin_list"
  ],
- "unverified_fields": []
+ "unverified_fields": [
+  "training and calibration details (paper not retrievable)",
+  "which licence statement governs the 2023 data files"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "computational_prediction"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv",
+     "protein_level"
+    ],
+    "basis": "prediction",
+    "dimension": "protein_structure_function"
+   }
+  ],
+  "biological_context": "Predicts a pathogenicity class for single amino-acid substitutions per transcript or isoform. No tissue, cell-type, dosage, inheritance or mechanism context is carried.",
+  "evidence_strength": "Computational prediction. Class thresholds were chosen to reach 90% precision on ClinVar labels although the model was not trained on ClinVar variants, so agreement with ClinVar is calibration and not independent confirmation. No per-variant uncertainty is provided.",
+  "mechanistic_confidence": "Low. The score does not say whether a change causes loss or gain of function, destabilisation or a dominant-negative effect, and it cannot see effects that act through splicing or regulation.",
+  "phenotype_implication": "A pathogenicity likelihood for the substitution; no phenotype, penetrance or mode of inheritance.",
+  "absence_means": "No score exists for synonymous, nonsense, splice, indel, structural or non-coding variants. Absence of a prediction is not evidence of a benign effect.",
+  "overlaps_with_sources": []
+ }
 }

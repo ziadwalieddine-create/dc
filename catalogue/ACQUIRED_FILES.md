@@ -1,14 +1,14 @@
 # Acquired files register
 
-*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Every download target with a verified manifest record, as it stands in `data/external/` (git-ignored). *Source date* is the HTTP Last-Modified of the file where the server gave one, otherwise the time we fetched it. *SHA-256* is ours; the source publishes a checksum only where `acquisition/manifest.jsonl` says so. Row counts come from the validation report.
 
 | Target | Source record | Path under `data/external/` | Size | SHA-256 | Source date | Validated | Rows / records | Supports | Licence | Scope note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | `alphafold_db_mavedb_proteins` | `alphafold_db` | `alphafold_db/` | 356.7 MB | `df5a9ddea9a1` | 2026-10-25T11:34:10Z | ✓ | 549 | protein_structure_function | CC BY 4.0, academic and commercial use (FAQ) | Only the 549 UniProt accessions named by the MaveDB human score sets |
-| `alphamissense_gene_hg38` | `alphamissense` | `alphamissense/AlphaMissense_gene_hg38.tsv.gz` | 253.6 KB | `428a8db2116b` | Tue, 19 Sep 2023 11:58:58 GMT | ✓ | 19,233 | annotation_integration | CC BY-NC-SA 4.0 (Zenodo record) | Gene (transcript) level means only; variant-level table is a separate target |
-| `alphamissense_hg38` | `alphamissense` | `alphamissense/AlphaMissense_hg38.tsv.gz` | 643.0 MB | `0516cfd71c07` | Thu, 03 Aug 2023 14:36:53 GMT | ✓ | 71,697,556 | annotation_integration | CC BY-NC-SA 4.0 (Zenodo record) |  |
+| `alphamissense_gene_hg38` | `alphamissense` | `alphamissense/AlphaMissense_gene_hg38.tsv.gz` | 253.6 KB | `428a8db2116b` | Tue, 19 Sep 2023 11:58:58 GMT | ✓ | 19,233 | annotation_integration | Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The b | Gene (transcript) level means only; variant-level table is a separate target |
+| `alphamissense_hg38` | `alphamissense` | `alphamissense/AlphaMissense_hg38.tsv.gz` | 643.0 MB | `0516cfd71c07` | Thu, 03 Aug 2023 14:36:53 GMT | ✓ | 71,697,556 | annotation_integration | Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The b |  |
 | `biogrid_orcs_human` | `biogrid_orcs` | `biogrid_orcs/BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz` | 752.7 MB | `39222a9650ee` | 2026-10-25T09:47:58Z | ✓ |  | perturbation_evidence | MIT License (stated on the BioGRID download repository page for BioGRID-ORCS; data provide |  |
 | `clingen_gene_curation_list` | `clingen` | `clingen/ClinGen_gene_curation_list_GRCh38.tsv` | 249.8 KB | `78e7b37c45c7` | Sun, 25 Oct 2026 07:32:01 GMT | ✓ | 1,540 | natural_knockouts_dosage | ClinGen terms: curated content released openly, free to capture and use |  |
 | `clingen_gene_validity` | `clingen` | `clingen/clingen_gene_disease_validity.csv` | 1.1 MB | `0daf6406d67f` | Sun, 25 Oct 2026 09:34:34 GMT | ✓ | 3,714 | clinical_interpretation | ClinGen terms: curated content released openly, free to capture and use |  |

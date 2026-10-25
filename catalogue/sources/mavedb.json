@@ -87,5 +87,40 @@
   "mavedb/zenodo_dump_latest",
   "mavedb/zenodo_dump_versions"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "direct_experimental"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv",
+     "indel",
+     "protein_level"
+    ],
+    "basis": "direct",
+    "dimension": "direct_experimental_variant_effects",
+    "note": "deep mutational scanning and related protein assays"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "direct",
+    "dimension": "direct_experimental_variant_effects",
+    "note": "MPRA and related reporter assays"
+   }
+  ],
+  "biological_context": "Each score set measures variants in a defined assay: a target sequence (gene, exon or regulatory element), an expression system, a selection or readout and a library. Scores are meaningful relative to that assay's controls and direction conventions.",
+  "evidence_strength": "Direct measurements with assay-specific replicates and, where deposited, standard errors. Scales are not harmonised across score sets, and a score set may include variants measured with few observations.",
+  "mechanistic_confidence": "Moderate to high for the assayed molecular function in the assayed system (for example growth, binding, abundance or reporter output). Mechanisms that give the same readout are not distinguished, and splicing or regulatory effects are missed unless the assay includes them.",
+  "phenotype_implication": "A molecular or cellular phenotype of the assay. Mapping to a disease phenotype needs calibration against clinical labels, which the repository holds only where authors supplied it.",
+  "absence_means": "A variant without a score was not measured, was filtered for low counts, or lies outside the assayed region; a position with no data is untested and not tolerant. A neutral score means no effect on the assayed function only.",
+  "overlaps_with_sources": []
+ }
 }

@@ -1,8 +1,8 @@
 # Coverage matrix: evidence dimensions by lifecycle stage
 
-*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
-`✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension.
+`✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension. `integrated` (a documented, tested query layer that returns records by variant, gene, protein or region) is defined in `vocab.json` and credited to no source, because no such layer exists yet.
 
 Counts are numbers of sources reaching the stage **for that dimension**. A dimension is not complete because a source is catalogued, or even because some of its files are downloaded.
 
@@ -24,6 +24,7 @@ Counts are numbers of sources reaching the stage **for that dimension**. A dimen
 | D14 Reference genomes, transcripts and gene models | highest | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
 | D15 Resource catalogues and classifications | low | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | D16 Background documentation and terminology | low | 1 | 1 | 1 | 1 | 1 | 0 | 0 |
+| D17 Complex loci, paralogs and region reliability | high | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ### D01 Direct experimental variant-effect measurements
 
@@ -31,7 +32,7 @@ Multiplexed/deep mutational scanning, MPRA and other assays that measure the eff
 
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
-| `ensembl_vep` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
+| `ensembl_vep` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earli  |
 | `mavedb` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 3/3 downloaded | API open; Zenodo reachable with an identifying user agent (generic curl user agent was refused earli existing assets mavedb-human: downloaded_verified |
 
 ### D02 Protein structure, stability, activity and interactions
@@ -43,7 +44,7 @@ Protein sequence/function annotation, domains, structural models and stability p
 | `alphafold_db` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | API returns model metadata; per-protein files for the MaveDB proteins are fetched by acquisition/fet  |
 | `alphamissense` | ✓ | ✓ | · | · | · | · | none targeted | GCS bucket metadata and MD5 verified.  |
 | `dbnsfp` | ✓ | ✓ | · | · | · | · | none targeted | Site and licence pages readable; bulk download gated by registration.  |
-| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
+| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earli  |
 | `interpro` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | API returns JSON; per-protein matches for the MaveDB proteins are fetched by acquisition/fetch_per_p  |
 | `pdbe_sifts` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | Flat files listed with dates in the FTP index; the files are replaced each week, so the manifest rec  |
 | `uniprot` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | REST total reviewed human = 20,431.  |
@@ -55,7 +56,7 @@ Expression by tissue, regulatory element maps, splicing effect predictions and s
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
 | `encode` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 8/8 downloaded | API and SCREEN download links resolved by rendering the downloads page.  |
-| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
+| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earli  |
 | `eqtl_catalogue` | ✓ | ✓ | · | · | · | · | none targeted | FTP listing verified; API retired.  |
 | `gtex` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | API v2 dataset list and bucket listing verified.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
@@ -78,7 +79,7 @@ Loss-of-function tolerance, observed/expected metrics and curated haploinsuffici
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
 | `clingen` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 3/3 downloaded | FTP and CSV export reachable.  |
-| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
+| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earli  |
 | `gnomad_constraint` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | S3 object size verified by HEAD.  |
 | `impc` | ✓ | ✓ | · | · | · | · | none targeted | Release page and FTP listing readable.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
@@ -166,7 +167,7 @@ Tools and resources that aggregate predictors and annotations per variant.
 |---|---|---|---|---|---|---|---|---|
 | `alphamissense` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | GCS bucket metadata and MD5 verified.  |
 | `dbnsfp` | ✓ | ✓ | · | · | · | · | none targeted | Site and licence pages readable; bulk download gated by registration.  |
-| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
+| `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earli  |
 | `gnomad_variants` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | Remote tabix over the proxy works (index opens in about 1 s; a region read takes about 0.5 s). Slice  |
 | `opentargets` | ✓ | ✓ | · | · | · | · | none targeted | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
 
@@ -196,3 +197,9 @@ Educational and documentation material that explains concepts and projects but c
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
 | `nhgri_education` | ✓ | ✓ | ✓ | ✓ | · | · | none targeted | Preserved unchanged; see inventory/EXISTING_ASSETS.md. existing assets nhgri-gwas, nhgri-1000-genomes: downloaded_verified |
+
+### D17 Complex loci, paralogs and region reliability
+
+Context that decides whether a variant call and its interpretation are reliable or confounded: segmental duplications and paralogs, gene-conversion and pseudogene-rich loci, HLA, KIR and immunoglobulin loci, collapsed or falsely duplicated assembly regions, low-mappability and tandem-repeat regions, alternate and patch sequences.
+
+*No source catalogued.*

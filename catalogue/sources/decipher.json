@@ -68,5 +68,30 @@
  "evidence": [
   "decipher/downloads"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "case_observation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "cnv",
+     "snv",
+     "indel"
+    ],
+    "basis": "case",
+    "dimension": "clinical_interpretation",
+    "note": "phenotype-linked case data; not assessed beyond the resource description"
+   }
+  ],
+  "biological_context": "Phenotype-linked CNV and variant data from clinical genomics projects, with public and consented tiers of access. Not assessed beyond the resource description because the site pages could not be retrieved (access denied).",
+  "evidence_strength": "Not assessed. Case-level observations from clinical cohorts are ascertained by clinical referral and are not a population sample.",
+  "mechanistic_confidence": "Not assessed; case data do not establish mechanism.",
+  "phenotype_implication": "Links individual observations to patient phenotypes; interpretation needs phenotype ontology terms, access and consent conditions that have not been verified here.",
+  "absence_means": "Absence reflects consent, referral and data-sharing choices and is not evidence that a CNV is benign or rare.",
+  "overlaps_with_sources": []
+ }
 }

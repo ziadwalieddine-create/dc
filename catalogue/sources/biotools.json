@@ -60,5 +60,24 @@
   "biotools/openebench_docs"
  ],
  "unverified_fields": [],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "catalogue_metadata"
+  ],
+  "allele_resolution": "none",
+  "mechanism_evidence": [],
+  "biological_context": "Not biological evidence: the records describe software and services and their EDAM annotations.",
+  "evidence_strength": "Not applicable. Annotation depth and accuracy differ between entries.",
+  "mechanistic_confidence": "Not applicable; the registry makes no biological assertion.",
+  "phenotype_implication": "None: registry entries carry no phenotype information.",
+  "absence_means": "A tool missing from the registry is unregistered, not unavailable; absent annotation terms mean undeclared, not unsupported.",
+  "overlaps_with_sources": [
+   {
+    "source": "fairsharing",
+    "relation": "independent_related",
+    "note": "both describe resources; use only for discovery"
+   }
+  ]
+ }
 }

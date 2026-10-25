@@ -1,0 +1,8 @@
+ 
+ Index of /pub/release-116/variation/GENCODE_promoter 
+ Index of /pub/release-116/variation/GENCODE_promoter 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 21:58 112   
+ gencode.v49.promoter_windows.sorted.gff3.gz 2026-05-18 11:03 653K   
+ gencode.v49.promoter_windows.sorted.gff3.gz.tbi 2026-05-18 11:03 176K   

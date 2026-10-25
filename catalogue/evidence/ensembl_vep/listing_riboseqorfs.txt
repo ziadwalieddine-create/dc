@@ -1,0 +1,8 @@
+ 
+ Index of /pub/release-116/variation/RiboSeqORFs 
+ Index of /pub/release-116/variation/RiboSeqORFs 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 21:52 67   
+ Ribo-seq_ORFs.bed.gz 2026-06-01 12:18 1.6M   
+ Ribo-seq_ORFs.bed.gz.tbi 2026-06-01 12:18 126K   

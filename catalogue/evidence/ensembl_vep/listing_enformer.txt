@@ -1,0 +1,10 @@
+ 
+ Index of /pub/release-116/variation/Enformer 
+ Index of /pub/release-116/variation/Enformer 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 22:00 150   
+ enformer_grch37.vcf.gz 2026-02-24 13:18 2.9G   
+ enformer_grch37.vcf.gz.tbi 2026-02-24 13:18 2.1M   
+ enformer_grch38.vcf.gz 2026-02-24 13:19 2.8G   
+ enformer_grch38.vcf.gz.tbi 2026-02-24 13:19 2.0M   

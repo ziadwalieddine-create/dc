@@ -68,7 +68,49 @@
  "evidence": [
   "dbvar/ftp_data_listing",
   "dbvar/ftp_listing",
-  "gencode/ncbi_policies"
+  "gencode/ncbi_policies",
+  "dgv/faq"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation",
+   "curated_expert_classification",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "sv",
+     "cnv"
+    ],
+    "basis": "population",
+    "dimension": "structural_variation_cnv"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "sv",
+     "cnv"
+    ],
+    "basis": "curated",
+    "dimension": "structural_variation_cnv",
+    "note": "clinical assertions where submitted"
+   }
+  ],
+  "biological_context": "Archive of SV and CNV calls submitted by studies of differing design, each with the submitting study's method, samples and assertion. Calls are intervals with breakpoint uncertainty.",
+  "evidence_strength": "An archive, not a curated truth set: every submission keeps its own method and quality, calls on the same samples can appear in more than one study, and clinical assertions are submitter judgements.",
+  "mechanistic_confidence": "Low. Records give interval, type and, where submitted, an assertion; gene content, breakpoints and regulatory effects must be annotated separately.",
+  "phenotype_implication": "Clinical assertions, where submitted, link a call to a condition; population studies link none.",
+  "absence_means": "Absence of an overlapping call reflects what submitted studies could detect and report, not rarity or safety.",
+  "overlaps_with_sources": [
+   {
+    "source": "dgv",
+    "relation": "identical_records",
+    "note": "studies shown in DGV are archived either in dbVar (accessions nsv, nssv) or in DGVa (esv, essv); count each study once"
+   }
+  ]
+ }
 }

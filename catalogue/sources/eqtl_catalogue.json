@@ -71,5 +71,49 @@
   "eqtl_catalogue/home",
   "eqtl_catalogue/license_page"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "statistical_association"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "regulation_expression_splicing",
+    "note": "gene-expression QTL"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "regulation_expression_splicing",
+    "note": "splicing QTL"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "association_finemapping_coloc",
+    "note": "SuSiE fine-mapped credible sets"
+   }
+  ],
+  "biological_context": "Public human studies, each with its own tissue or cell type, condition, quantification method and sample size, processed uniformly. Effects are changes in an expression or splicing phenotype per alternate allele in that context.",
+  "evidence_strength": "Statistical association with summary statistics and SuSiE fine-mapped credible sets. Credible sets narrow the candidate variants but do not establish the causal variant.",
+  "mechanistic_confidence": "Low to moderate for the regulatory axis. A QTL says a variant, or a linked variant, is associated with expression or splicing of a gene in that context; colocalisation with a trait and functional assays are needed to connect it to a phenotype.",
+  "phenotype_implication": "A molecular phenotype (gene expression or splice-event usage) in the studied tissue or cell type; not a disease phenotype.",
+  "absence_means": "No QTL means no association was detected in the sampled contexts at the available power. Tissues, cell states, developmental stages and rare alleles that were not sampled are unaddressed.",
+  "overlaps_with_sources": []
+ }
 }

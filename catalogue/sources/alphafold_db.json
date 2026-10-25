@@ -69,5 +69,33 @@
  "unverified_fields": [],
  "acquisition_targets": [
   "alphafold_db_mavedb_proteins"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "predicted_structure"
+  ],
+  "allele_resolution": "protein_residue_level",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "protein_structure_function"
+   }
+  ],
+  "biological_context": "Single-chain structure models of UniProt reference sequences. Ligands, binding partners, membranes, modifications and alternative conformations are not modelled.",
+  "evidence_strength": "Computational model. Per-residue confidence (pLDDT) is the only uncertainty provided and measures confidence of the model, not experimental support.",
+  "mechanistic_confidence": "Low on its own. A model can place a residue in a buried, exposed or interface-like environment; it cannot show that a substitution changes stability, binding or activity.",
+  "phenotype_implication": "None. Supports reasoning about missense and in-frame changes only in combination with experimental structures, domain annotation and variant-level assays.",
+  "absence_means": "A protein or isoform without a model, or a low-confidence region, has no usable structural context here; this is not evidence of disorder or of the lack of a structure.",
+  "overlaps_with_sources": [
+   {
+    "source": "pdbe_sifts",
+    "relation": "independent_related",
+    "note": "predicted models versus experimentally determined structures: compare, never merge"
+   }
+  ]
+ }
 }

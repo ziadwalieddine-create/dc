@@ -4291,10 +4291,19 @@
     "detail": "381765",
     "name": "Homo sapiens rows present",
     "ok": true
+   },
+   {
+    "detail": "{'TAS': 306555, 'IEA': 75210}",
+    "name": "Homo sapiens evidence codes are IEA or TAS",
+    "ok": true
    }
   ],
   "passed": true,
   "stats": {
+   "evidence_codes_homo_sapiens": {
+    "IEA": 75210,
+    "TAS": 306555
+   },
    "homo_sapiens_rows": 381765,
    "rows": 1294913
   }
@@ -4349,10 +4358,19 @@
     "detail": "161425",
     "name": "Homo sapiens rows present",
     "ok": true
+   },
+   {
+    "detail": "{'TAS': 128509, 'IEA': 32916}",
+    "name": "Homo sapiens evidence codes are IEA or TAS",
+    "ok": true
    }
   ],
   "passed": true,
   "stats": {
+   "evidence_codes_homo_sapiens": {
+    "IEA": 32916,
+    "TAS": 128509
+   },
    "homo_sapiens_rows": 161425,
    "rows": 942792
   }

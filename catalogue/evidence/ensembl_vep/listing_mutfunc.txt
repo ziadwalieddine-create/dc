@@ -1,0 +1,7 @@
+ 
+ Index of /pub/release-116/variation/mutfunc 
+ Index of /pub/release-116/variation/mutfunc 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 21:52 30   
+ mutfunc_data.db 2026-02-24 13:22 2.0G   

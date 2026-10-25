@@ -66,5 +66,18 @@
   "nhgri/glossary_gwas",
   "nhgri/project_1000g"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "documentation"
+  ],
+  "allele_resolution": "none",
+  "mechanism_evidence": [],
+  "biological_context": "Not biological evidence: educational definitions and narration, and an archived project description.",
+  "evidence_strength": "Not applicable; educational material with no variant-level data.",
+  "mechanistic_confidence": "Not applicable.",
+  "phenotype_implication": "None: educational pages carry no phenotype data.",
+  "absence_means": "A concept not covered is not defined here; the pages carry no data from which absence could be inferred.",
+  "overlaps_with_sources": []
+ }
 }

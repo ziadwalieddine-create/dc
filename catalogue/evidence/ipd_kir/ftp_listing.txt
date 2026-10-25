@@ -1,0 +1,50 @@
+ 
+ Index of /pub/databases/ipd/kir 
+ Index of /pub/databases/ipd/kir 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ Allele_status.txt 2025-12-10 14:24 105K   
+ Allelelist.100.txt 2025-01-04 13:02 1.4K   
+ Allelelist.110.txt 2025-01-04 13:02 1.8K   
+ Allelelist.111.txt 2025-01-04 13:02 2.8K   
+ Allelelist.120.txt 2025-01-04 13:02 3.4K   
+ Allelelist.121.txt 2025-01-04 13:02 3.4K   
+ Allelelist.130.txt 2025-01-04 13:02 3.7K   
+ Allelelist.140.txt 2025-01-04 13:02 3.9K   
+ Allelelist.200.txt 2025-01-04 13:02 5.9K   
+ Allelelist.201.txt 2025-01-04 13:02 5.9K   
+ Allelelist.210.txt 2025-01-04 13:02 6.5K   
+ Allelelist.220.txt 2025-01-04 13:02 7.9K   
+ Allelelist.230.txt 2025-01-04 13:02 14K   
+ Allelelist.240.txt 2025-01-04 13:02 14K   
+ Allelelist.250.txt 2025-01-04 13:02 15K   
+ Allelelist.260.txt 2025-01-04 13:02 18K   
+ Allelelist.270.txt 2025-01-04 13:02 20K   
+ Allelelist.271.txt 2025-01-04 13:02 21K   
+ Allelelist.280.txt 2025-01-04 13:02 22K   
+ Allelelist.290.txt 2025-01-04 13:02 21K   
+ Allelelist.2100.txt 2025-01-04 13:02 35K   
+ Allelelist.2110.txt 2025-01-04 13:02 35K   
+ Allelelist.2120.txt 2025-01-04 13:02 37K   
+ Allelelist.2130.txt 2025-01-04 13:02 51K   
+ Allelelist.2140.txt 2025-01-04 13:02 45K   
+ Allelelist.2150.txt 2025-12-10 14:24 52K   
+ Allelelist.txt 2025-12-10 14:24 52K   
+ Allelelist_history.txt 2025-12-10 14:24 399K   
+ Deleted_alleles.txt 2025-12-10 14:24 2.0K   
+ LICENCE.md 2025-01-04 13:02 2.7K   
+ Manual.md 2025-01-04 13:02 28K   
+ README.md 2025-12-16 10:14 9.3K   
+ allele_oid.txt 2025-12-10 14:24 107K   
+ fasta/ 2025-12-10 14:24 -   
+ kir.dat 2025-12-10 14:24 35M   
+ kir_gen.fasta 2025-12-10 14:24 20M   
+ kir_nuc.fasta 2025-12-10 14:24 2.6M   
+ kir_prot.fasta 2025-12-10 14:24 808K   
+ md5checksum.txt 2025-12-10 14:24 2.2K   
+ msf/ 2025-12-10 14:24 -   
+ pir/ 2025-12-10 14:24 -   
+ previous/ 2017-07-14 10:39 -   
+ release_version.txt 2025-12-10 14:24 268   
+ version_report.txt 2025-12-10 14:24 2.9K   
+ xml/ 2025-12-10 14:24 -   

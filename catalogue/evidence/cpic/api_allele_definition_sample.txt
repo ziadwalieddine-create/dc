@@ -1,0 +1,3 @@
+[{"id":9000,"version":1,"genesymbol":"HLA-A","name":"*31:01","pharmvarid":null,"matchesreferencesequence":false,"structuralvariation":false}, 
+ {"id":9001,"version":1,"genesymbol":"HLA-B","name":"*15:02","pharmvarid":null,"matchesreferencesequence":false,"structuralvariation":false}, 
+ {"id":9002,"version":1,"genesymbol":"HLA-B","name":"*57:01","pharmvarid":null,"matchesreferencesequence":false,"structuralvariation":false}]

@@ -1,0 +1,9 @@
+ 
+ Index of /refseq/H_sapiens/annotation 
+ Index of /refseq/H_sapiens/annotation 
+ Name Last modified Size Parent Directory - 
+ GRCh37_latest/ 2017-04-19 10:53 - 
+ GRCh38_latest/ 2017-04-19 09:14 - 
+ annotation_releases/ 2026-10-24 04:57 - 
+ README.txt 2017-04-19 14:58 876 
+ HHS Vulnerability Disclosure 

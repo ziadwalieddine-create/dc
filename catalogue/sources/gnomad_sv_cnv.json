@@ -68,10 +68,45 @@
   "gnomad_sv_v4_1_sites_vcf"
  ],
  "evidence": [
-  "gnomad/s3_v4_1_genome_sv",
-  "gnomad/s3_v4_1_exome_cnv",
+  "gnomad/downloads_page",
   "gnomad/s3_lr",
-  "gnomad/downloads_page"
+  "gnomad/s3_v4_1_exome_cnv",
+  "gnomad/s3_v4_1_genome_sv",
+  "gnomad/sv_vcf_header_info"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation",
+   "computational_prediction"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "sv",
+     "cnv"
+    ],
+    "basis": "population",
+    "dimension": "structural_variation_cnv"
+   },
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "sv",
+     "cnv"
+    ],
+    "basis": "prediction",
+    "dimension": "structural_variation_cnv",
+    "note": "PREDICTED_LOF, PREDICTED_COPY_GAIN and related gene-overlap annotations"
+   }
+  ],
+  "biological_context": "Germline SV calls (genome callset) and CNV calls (exome callset) in the gnomAD cohorts. Algorithm and evidence fields record how each call was made, and PREDICTED_* INFO fields annotate the gene-level consequence of each call.",
+  "evidence_strength": "Population allele counts and frequencies for calls made by combining several algorithms. Sensitivity differs by size and type, and PREDICTED_* consequences are annotation predictions and not assays.",
+  "mechanistic_confidence": "Low to moderate. Dosage-type consequences (whole-gene deletion, duplication, exon overlap) follow from gene overlap; effects of breakpoints on regulation, gene fusion and position effects are not assessed.",
+  "phenotype_implication": "Frequency in population controls bounds pathogenic claims for dosage-sensitive genes; it does not give a phenotype.",
+  "absence_means": "Absence from the callset reflects detectability (size, type, repeat context, coverage) as well as rarity; poorly mappable regions are under-called.",
+  "overlaps_with_sources": []
+ }
 }

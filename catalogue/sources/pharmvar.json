@@ -75,5 +75,30 @@
  ],
  "acquisition_targets": [
   "pharmvar_6_2_29"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "haplotype_level",
+  "mechanism_evidence": [
+   {
+    "axis": "pharmacogenomic_haplotype",
+    "variant_classes": [
+     "snv",
+     "indel",
+     "gene_level"
+    ],
+    "basis": "context",
+    "dimension": "functional_haplotypes_pgx",
+    "note": "defining variants of star alleles; function is assigned elsewhere"
+   }
+  ],
+  "biological_context": "Nomenclature and defining variants for star alleles of 15 pharmacogenes, on RefSeqGene, GRCh37 and GRCh38 coordinates. Structural variation and complex variant types are described separately from sequence haplotypes.",
+  "evidence_strength": "Consortium-curated nomenclature. An allele definition lists the variants that define a haplotype; a name is a definition and not evidence of function.",
+  "mechanistic_confidence": "Not applicable to function. A star allele defines which variants occur together; function and drug response are assigned by other resources (CPIC, PharmGKB) and the mechanism of each variant is not given.",
+  "phenotype_implication": "None directly.",
+  "absence_means": "A variant not in any allele definition is not a named allele, so its function is unassigned and not normal. Genes outside the 15 are not covered.",
+  "overlaps_with_sources": []
+ }
 }

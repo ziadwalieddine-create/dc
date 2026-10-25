@@ -1076,6 +1076,10 @@ def run(tid):
             else:
                 r.check('pathway IDs R-HSA present', sum(1 for x in rows if x[0].startswith('R-HSA')) > 1000)
             r.stats.update(rows=len(rows), homo_sapiens_rows=hs)
+            if tid != 'reactome_pathways':
+                codes = collections.Counter(x[4] for x in rows if len(x) > 5 and x[5] == 'Homo sapiens')
+                r.check('Homo sapiens evidence codes are IEA or TAS', bool(codes) and set(codes) <= {'IEA', 'TAS'}, dict(codes))
+                r.stats['evidence_codes_homo_sapiens'] = dict(codes)
         elif tid.startswith('clinpgx_'):
             names = v_zip(tid, r)
             r.check('archive has data members', len(names) >= 1, names[:5])

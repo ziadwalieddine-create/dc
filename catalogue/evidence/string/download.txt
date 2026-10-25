@@ -1,0 +1,49 @@
+ 
+ Downloads - STRING functional protein association networks 
+ Version: 
+ 12.5 Login Register Search Download Help My Data 
+ Download 
+ Files too large? 
+ Restrict data to a specific organism: You can restrict the downloaded data to contain only the information related to your organism of interest. The filtered files will be prefixed with the taxonomic identifier of the selected species. Choose an organism here: 
+   Cancel     Select   
+ +  Need more options? Click here. 
+ Filter interactions based on the combined confidence score: While all links in STRING are meaningful, some analyses might require only higher-confidence interactions, excluding the more exploratory part of the interaction spectrum. This can reduce file sizes by up to 90%. Note: Confidence scores in the files below are multiplied by 1000. 
+ All interactions (0.150) Medium confidence (0.400) High confidence (0.700) Highest confidence (0.900) 
+ Remove redundant interaction pairs (AB-BA): By default, the links files encode interactions in both directions (AB and BA). However, since functional and physical interactions are symmetric, recording them once (AB) is sufficient without losing information. This reduces links file sizes by 50%. This does not apply to regulatory links, where column order signifies directionality (A->B). 
+ Includes AB and BA pairs Includes AB pairs only 
+ Choose column delimiter: Different analysis tools may require specific delimiters (column separators). Select your preferred delimiter type for the links files to ensure compatibility with your analysis tools.   Note: This choice does not impact the content or file size. 
+ TXT (space separated) TSV (tab separated) CSV (comma separated) 
+ Update 
+ Interaction Data 
+ File Description Access 
+ protein.links.v12.5.txt.gz  (124.6 GB) protein network data (full network, scored links between proteins) protein.links.detailed.v12.5.txt.gz  (187.2 GB) protein network data (full network, incl. subscores per channel) protein.links.full.v12.5.txt.gz  (196.4 GB) protein network data (full network, incl. distinction: direct vs. interologs) protein.physical.links.v12.5.txt.gz  (13.9 GB) protein network data (physical subnetwork, scored links between proteins) protein.physical.links.detailed.v12.5.txt.gz  (17.5 GB) protein network data (physical subnetwork, incl. subscores per channel) protein.physical.links.full.v12.5.txt.gz  (18.2 GB) protein network data (physical subnetwork, incl. distinction: direct vs. interologs) protein.regulatory.links.v12.5.txt.gz  (2.3 GB) protein network data (directional subnetwork, scored links between proteins) protein.regulatory.links.detailed.v12.5.txt.gz  (3.2 GB) protein network data (directional subnetwork, incl. subscores per channel) protein.regulatory.links.full.v12.5.txt.gz  (3.3 GB) protein network data (directional subnetwork, incl. distinction: direct vs. interologs) COG.links.v12.5.txt.gz  (32.4 MB) association scores between orthologous groups COG.links.detailed.v12.5.txt.gz  (42.5 MB) association scores (incl. subscores per channel) COG.physical.links.v12.5.txt.gz  (3.0 MB) physical association scores between orthologous groups COG.physical.links.detailed.v12.5.txt.gz  (3.5 MB) physical association scores (incl. subscores per channel) Accessory Data 
+ File Description Access 
+ protein.info.v12.5.txt.gz  (1.2 GB) list of STRING proteins incl. their display names and descriptions protein.sequences.v12.5.fa.gz  (12.1 GB) sequences of the proteins in STRING (can be used as a blast db) protein.aliases.v12.5.txt.gz  (3.2 GB) aliases for STRING proteins: locus names, accessions, descriptions... protein.regulatory.events.v12.5.txt.gz  (10.7 MB) specific directed regulatory event annotations between STRING proteins protein.homology.v12.5.txt.gz  (17.4 GB) SW alignment scores between proteins within each STRING species protein.enrichment.terms.v12.5.txt.gz  (20.9 GB) list of terms associated with proteins used in the STRING enrichment clusters.proteins.v12.5.txt.gz  (10.7 GB) hierarchical STRING clusters and their proteins clusters.info.v12.5.txt.gz  (206.1 MB) hierarchical STRING clusters annotations clusters.tree.v12.5.txt.gz  (54.5 MB) hierarchical STRING clusters tree (represented as child-parent relationship) protein.network.embeddings.v12.5.h5 New  (18.2 GB) cross-species (aligned) eukaryotic protein network embeddings (see documentation) protein.sequence.embeddings.v12.5.h5 New  (38.3 GB) ProtT5 eukaryotic protein sequence embeddings (see documentation) protein.orthology.v12.5.txt.gz  (2.0 GB) hierarchical eggNOG orthologous groups and their proteins COG.mappings.v12.5.txt.gz  (720.3 MB) LCA orthologous groups (COGs,NOGs,KOGs,...) and their proteins species.v12.5.txt  (999.2 KB) organisms in STRING species.tree.v12.5.txt  (92.8 MB) STRING tree of species Full Database Dumps 
+ File Description Access 
+ database.schema.v12.5.pdf  (coming soon) STRING database schema items_schema.v12.5.sql.gz  (39.7 GB) full database, part I: the players (proteins, species, COGs,...) network_schema.v12.5.sql.gz  (226.3 GB) full database, part II: the networks (nodes, edges, scores,...) evidence_schema.v12.5.sql.gz  (53.3 GB) full database, part III: interaction evidence (but: excluding license-restricted data) 
+ © STRING Consortium 2026 
+ SIB - Swiss Institute of Bioinformatics 
+ CPR - Novo Nordisk Foundation Center Protein Research 
+ EMBL - European Molecular Biology Laboratory 
+ Credits 
+ Funding 
+ Datasources 
+ Partners 
+ Software 
+ Access 
+ Versions 
+ APIs 
+ Licensing 
+ Usage 
+ Info 
+ Scores 
+ Use scenarios 
+ FAQs 
+ Cookies/Privacy 
+ About 
+ Content 
+ References 
+ People 
+ Statistics 
+ STRING is a Core Data Resource as designated by Global Biodata Coalition and ELIXIR . 
+ 

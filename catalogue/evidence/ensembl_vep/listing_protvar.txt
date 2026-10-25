@@ -1,0 +1,7 @@
+ 
+ Index of /pub/release-116/variation/ProtVar 
+ Index of /pub/release-116/variation/ProtVar 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 21:52 30   
+ ProtVar_data.db 2026-02-24 13:17 1.3G   

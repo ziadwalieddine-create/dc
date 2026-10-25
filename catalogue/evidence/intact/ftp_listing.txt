@@ -1,0 +1,12 @@
+ 
+ Index of /pub/databases/intact/current 
+ Index of /pub/databases/intact/current 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHANGES 2026-01-14 11:13 4.1K   
+ all.zip 2026-01-14 11:15 15G   
+ cv/ 2026-01-14 11:16 -   
+ psi25/ 2026-01-14 11:32 -   
+ psi30/ 2026-01-14 11:45 -   
+ psimitab/ 2026-01-14 11:55 -   
+ various/ 2026-01-14 12:08 -   

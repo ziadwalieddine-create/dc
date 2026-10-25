@@ -1,0 +1,8 @@
+ 
+ Index of /pub/release-116/variation/LOEUF 
+ Index of /pub/release-116/variation/LOEUF 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 22:00 83   
+ loeuf_dataset_grch38.tsv.gz 2026-06-12 20:35 338M   
+ loeuf_dataset_grch38.tsv.gz.tbi 2026-06-12 20:36 185K   

@@ -1,0 +1,23 @@
+ 
+ Index of /ReferenceSamples/giab/release/genome-stratifications/v3.6 
+ Index of /ReferenceSamples/giab/release/genome-stratifications/v3.6 
+ Name Last modified Size Parent Directory - 
+ CHM13@all/ 2025-04-24 14:36 - 
+ GRCh37@all/ 2025-04-24 14:34 - 
+ GRCh38@all/ 2025-04-24 14:35 - 
+ HG002.mat@all/ 2025-04-24 14:33 - 
+ HG002.pat@all/ 2025-04-24 14:36 - 
+ validation/ 2025-04-24 14:33 - 
+ README.md 2025-04-24 14:30 10K 
+ genome-stratifications-CHM13@all.tar.gz 2025-04-24 14:32 897M 
+ genome-stratifications-GRCh37@all.tar.gz 2025-04-24 14:30 1.3G 
+ genome-stratifications-GRCh38@all.tar.gz 2025-04-24 14:31 1.3G 
+ genome-stratifications-HG002.mat@all.tar.gz 2025-04-24 14:33 1.0G 
+ genome-stratifications-HG002.pat@all.tar.gz 2025-04-24 14:33 970M 
+ genome-stratifications-bb-CHM13@all.tar.gz 2025-04-24 14:32 927M 
+ genome-stratifications-bb-GRCh37@all.tar.gz 2025-04-24 14:31 1.4G 
+ genome-stratifications-bb-GRCh38@all.tar.gz 2025-04-24 14:31 1.3G 
+ genome-stratifications-bb-HG002.mat@all.tar.gz 2025-04-24 14:33 1.0G 
+ genome-stratifications-bb-HG002.pat@all.tar.gz 2025-04-24 14:32 1.0G 
+ genome-stratifications-md5s.txt 2025-04-24 14:33 146K 
+ HHS Vulnerability Disclosure 

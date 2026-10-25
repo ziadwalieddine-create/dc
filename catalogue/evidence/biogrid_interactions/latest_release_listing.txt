@@ -1,0 +1,216 @@
+ 
+ BioGRID Download File Repository | BioGRID Downloads 
+ BioGRID Downloads 
+ Toggle navigation 
+ Home 
+ BioGRID 
+ BioGRID ORCS 
+ Welcome to the BioGRID Download File Repository 
+ Please use the file navigator below to browse and download archived BioGRID project files. All data provided are 100% freely available to both academic and commercial users under the MIT License , and are provided WITHOUT ANY WARRANTY . If you have any questions, please feel free to contact us . 
+ Publications are requested to please cite the original contributing authors (where applicable) and also: Stark C, Breitkreutz BJ, Reguly T, Boucher L, Breitkreutz A, Tyers M. Biogrid: A General Repository for Interaction Datasets. Nucleic Acids Res. Jan 1, 2006; 34:D535-9 .
+ Home 
+ BioGRID 
+ Latest-Release 
+ Name 
+ Back 
+ 177.21 MB
+ BIOGRID-ALL-LATEST.mitab.zip 
+ BIOGRID-ALL-LATEST.mitab.zip 
+ This zip archive contains a single file formatted in PSI MITAB level 2.5 compatible Tab Delimited Text file format containing 
+ all interaction and associated annotation data from the BIOGRID for all species and experimental systems. For more information on this format, check out our wiki . 
+ 56.91 MB
+ BIOGRID-ALL-LATEST.psi.zip 
+ BIOGRID-ALL-LATEST.psi.zip 
+ This zip archive contains a single file formatted in PSI level 1.0 compatible XML format containing all interaction 
+ and associated annotation data from the BIOGRID for all species and experimental systems. 
+ WARNING: This file format is obsolete, we highly recommend you use the PSI 2.5 format instead. 
+ 189.90 MB
+ BIOGRID-ALL-LATEST.psi25.zip 
+ BIOGRID-ALL-LATEST.psi25.zip 
+ This zip archive contains a single file formatted in PSI XML level 2.5 compatible XML format containing all interaction 
+ and associated annotation data from the BIOGRID for all species and experimental systems. For more information on this format, check out our wiki . 
+ 66.51 MB
+ BIOGRID-ALL-LATEST.tab.zip 
+ BIOGRID-ALL-LATEST.tab.zip 
+ This zip archive contains a single file formatted in Microsoft Excel tab delimited text file format containing all interaction 
+ and associated annotation data from the BIOGRID for all species and experimental systems. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 119.00 MB
+ BIOGRID-ALL-LATEST.tab2.zip 
+ BIOGRID-ALL-LATEST.tab2.zip 
+ This zip archive contains a single file formatted in BioGRID Tab 2.0 Delimited Text file format containing all interaction 
+ and associated annotation data from the BIOGRID for all species and experimental systems. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 174.41 MB
+ BIOGRID-ALL-LATEST.tab3.zip 
+ BIOGRID-ALL-LATEST.tab3.zip 
+ This zip archive contains a single file formatted in BioGRID Tab 3.0 Delimited Text file format containing all interaction 
+ and associated annotation data from the BIOGRID for all species and experimental systems. For more information on this format, check out our wiki . 
+ 1.31 MB
+ BIOGRID-CHEMICALS-LATEST.chemtab.zip 
+ BIOGRID-CHEMICALS-LATEST.chemtab.zip 
+ This zip file contains a listing of protein-chemical interactions for the entire BioGRID dataset. The file is a modified version of the BioGRID Tab 2.0 
+ format, designed to add in columns for chemical specific annotation. You can get full information on the formatting of this file in our wiki . 
+ 4.34 MB
+ BIOGRID-CORONAVIRUS-LATEST.tab3.zip 
+ 259.06 MB
+ BIOGRID-IDENTIFIERS-LATEST.tab.zip 
+ BIOGRID-IDENTIFIERS-LATEST.tab.zip 
+ This zip archive contains a single file formatted in Microsoft Excel tab delimited text file format containing a list of mappings 
+ between different identifiers stored in our database and the identifiers used in our downloads. You can use this file to map from 
+ one identifier type to another. For more information on this format, check out our wiki . 
+ 35.86 MB
+ BIOGRID-MV-Physical-LATEST.mitab.zip 
+ BIOGRID-MV-Physical-LATEST.mitab.zip 
+ This zip file contains a listing of Physical multi-validated interactions for the entire BioGRID dataset. For details on how this file is generated, visit our multi-validated details wiki page . The file is provided in PSI MITAB level 2.5 compatible Tab Delimited Text file format. You can get full information on the formatting of this file in our wiki . 
+ 41.43 MB
+ BIOGRID-MV-Physical-LATEST.psi25.zip 
+ BIOGRID-MV-Physical-LATEST.psi25.zip 
+ This zip file contains a listing of Physical multi-validated interactions for the entire BioGRID dataset. For details on how this file is generated, visit our multi-validated details wiki page . The file is provided in PSI XML level 2.5 compatible XML format. You can get full information on the formatting of this file in our wiki . 
+ 21.73 MB
+ BIOGRID-MV-Physical-LATEST.tab2.zip 
+ BIOGRID-MV-Physical-LATEST.tab2.zip 
+ This zip file contains a listing of Physical multi-validated interactions for the entire BioGRID dataset. For details on how this file is generated, visit our multi-validated details wiki page . The file is provided in BioGRID Tab 2.0 format. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 33.50 MB
+ BIOGRID-MV-Physical-LATEST.tab3.zip 
+ BIOGRID-MV-Physical-LATEST.tab3.zip 
+ This zip file contains a listing of Physical multi-validated interactions for the entire BioGRID dataset. For details on how this file is generated, visit our multi-validated details wiki page . The file is provided in BioGRID Tab 3.0 format. You can get full information on the formatting of this file in our wiki . 
+ 183.48 MB
+ BIOGRID-ORGANISM-LATEST.mitab.zip 
+ BIOGRID-ORGANISM-LATEST.mitab.zip 
+ This zip archive contains multiple files formatted in PSI MITAB level 2.5 compatible Tab Delimited Text format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Organism. For more information on this format, check out our wiki . 
+ 64.16 MB
+ BIOGRID-ORGANISM-LATEST.psi.zip 
+ BIOGRID-ORGANISM-LATEST.psi.zip 
+ This zip archive contains multiple files formatted in PSI Level 1.0 compatible XML format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Organism. 
+ WARNING: This file format is obsolete, we highly recommend you use the PSI 2.5 format instead. 
+ 197.49 MB
+ BIOGRID-ORGANISM-LATEST.psi25.zip 
+ BIOGRID-ORGANISM-LATEST.psi25.zip 
+ This zip archive contains multiple files formatted in PSI Level 2.5 compatible XML format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Organism. For more information on this format, check out our wiki . 
+ 68.62 MB
+ BIOGRID-ORGANISM-LATEST.tab.zip 
+ BIOGRID-ORGANISM-LATEST.tab.zip 
+ This zip archive contains multiple files formatted in Microsoft Excel Tab Delimited Text format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Organism. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 122.51 MB
+ BIOGRID-ORGANISM-LATEST.tab2.zip 
+ BIOGRID-ORGANISM-LATEST.tab2.zip 
+ This zip archive contains multiple files formatted in BioGRID Tab 2.0 Delimited Text file format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Organism. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 180.12 MB
+ BIOGRID-ORGANISM-LATEST.tab3.zip 
+ BIOGRID-ORGANISM-LATEST.tab3.zip 
+ This zip archive contains multiple files formatted in BioGRID Tab 3.0 Delimited Text file format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Organism. For more information on this format, check out our wiki . 
+ 38.31 MB
+ BIOGRID-OSPREY_DATASETS-LATEST.osprey.zip 
+ BIOGRID-OSPREY_DATASETS-LATEST.osprey.zip 
+ This zip archive contains multiple files formatted in Osprey Network Visualization System Custom Network format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate Organisms and Experimental Systems to be used in Osprey. For more information on this format, check out our wiki . 
+ 14.77 MB
+ BIOGRID-PROJECT-alzheimers_disease_project-LATEST.zip 
+ 1.83 MB
+ BIOGRID-PROJECT-arachidonic_acid_pathway_project-LATEST.zip 
+ 3.93 MB
+ BIOGRID-PROJECT-autism_spectrum_disorder_asd_project-LATEST.zip 
+ 4.57 MB
+ BIOGRID-PROJECT-autophagy_project-LATEST.zip 
+ BIOGRID-PROJECT-autophagy_project-LATEST.zip 
+ This zip file contains multiple files comprising Interactions, Post-Translational Modifications, and Chemical-Interactions for the Autophagy Project. For details on how these files are generated, visit our download format details wiki page . The files are provided in Tab-Delimited format. You can get full information on the formatting of this file in our wiki . 
+ 1.77 MB
+ BIOGRID-PROJECT-cell_cycle_mtor_pathway_project-LATEST.zip 
+ 7.17 MB
+ BIOGRID-PROJECT-cell_cycle_senescence_project-LATEST.zip 
+ 9.89 MB
+ BIOGRID-PROJECT-cell_cycle__mitotic_spindle_assembly_project-LATEST.zip 
+ 3.53 MB
+ BIOGRID-PROJECT-covid19_coronavirus_project-LATEST.zip 
+ BIOGRID-PROJECT-covid19_coronavirus_project-LATEST.zip 
+ This zip file contains multiple files comprising Interactions and Post-Translational Modifications for the COVID-19 Coronavirus Project. For details on how these files are generated, visit our download format details wiki page . The files are provided in Tab-Delimited format. You can get full information on the formatting of this file in our wiki . 
+ 12.48 MB
+ BIOGRID-PROJECT-fanconi_anemia_project-LATEST.zip 
+ BIOGRID-PROJECT-fanconi_anemia_project-LATEST.zip 
+ This zip file contains multiple files comprising Interactions, Post-Translational Modifications, and Chemical-Interactions for the Fanconi Anemia Project. For details on how these files are generated, visit our download format details wiki page . The files are provided in Tab-Delimited format. You can get full information on the formatting of this file in our wiki . 
+ 4.78 MB
+ BIOGRID-PROJECT-glioblastoma_project-LATEST.zip 
+ BIOGRID-PROJECT-glioblastoma_project-LATEST.zip 
+ This zip file contains multiple files comprising Interactions, Post-Translational Modifications, and Chemical-Interactions for the Glioblastoma Project. For details on how these files are generated, visit our download format details wiki page . The files are provided in Tab-Delimited format. You can get full information on the formatting of this file in our wiki . 
+ 17.69 MB
+ BIOGRID-PROJECT-human_papilloma_virus_hpv_project-LATEST.zip 
+ 6.94 MB
+ BIOGRID-PROJECT-kinome_project_sc-LATEST.zip 
+ BIOGRID-PROJECT-kinome_project_sc-LATEST.zip 
+ This zip file contains multiple files comprising Interactions, Post-Translational Modifications, and Chemical-Interactions for the BioGRID Kinome Project (Sc). For details on how these files are generated, visit our download format details wiki page . The files are provided in Tab-Delimited format. You can get full information on the formatting of this file in our wiki . 
+ 3.03 MB
+ BIOGRID-PROJECT-parkinsons_disease_project-LATEST.zip 
+ 35.04 MB
+ BIOGRID-PROJECT-ups_project-LATEST.zip 
+ BIOGRID-PROJECT-ups_project-LATEST.zip 
+ This zip file contains multiple files comprising Interactions, Post-Translational Modifications, and Chemical-Interactions for the Ubiquitin-Proteasome System Project. For details on how these files are generated, visit our download format details wiki page . The files are provided in Tab-Delimited format. You can get full information on the formatting of this file in our wiki . 
+ 56.47 MB
+ BIOGRID-PTMS-LATEST.ptm.zip 
+ BIOGRID-PTMS-LATEST.ptm.zip 
+ This zip archive contains multiple files formatted in PTM and PTMREL format containing post translational modification data 
+ and associated annotation data from the BIOGRID. For more information on this format, check out our wiki . 
+ 181.45 MB
+ BIOGRID-SYSTEM-LATEST.mitab.zip 
+ BIOGRID-SYSTEM-LATEST.mitab.zip 
+ This zip archive contains multiple files formatted in PSI MITAB level 2.5 compatible Tab Delimited Text format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Experimental System. For more information on this format, check out our wiki . 
+ 82.72 MB
+ BIOGRID-SYSTEM-LATEST.psi.zip 
+ BIOGRID-SYSTEM-LATEST.psi.zip 
+ This zip archive contains multiple files formatted in PSI LEvel 1.0 compatible XML format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Experimental System. 
+ WARNING: This file format is obsolete, we highly recommend you use the PSI 2.5 format instead. 
+ 208.89 MB
+ BIOGRID-SYSTEM-LATEST.psi25.zip 
+ BIOGRID-SYSTEM-LATEST.psi25.zip 
+ This zip archive contains multiple files formatted in PSI Level 2.5 compatible XML format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Experimental System. For more information on this format, check out our wiki . 
+ 68.47 MB
+ BIOGRID-SYSTEM-LATEST.tab.zip 
+ BIOGRID-SYSTEM-LATEST.tab.zip 
+ This zip archive contains multiple files formatted in Microsoft Excel Tab Delimited Text format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Experimental System. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 121.54 MB
+ BIOGRID-SYSTEM-LATEST.tab2.zip 
+ BIOGRID-SYSTEM-LATEST.tab2.zip 
+ This zip archive contains multiple files formatted in BioGRID Tab 2.0 Delimited Text file format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Experimental System. 
+ WARNING: This file format is obsolete, we highly recommend you use the BioGRID Tab 3 format instead. 
+ 178.54 MB
+ BIOGRID-SYSTEM-LATEST.tab3.zip 
+ BIOGRID-SYSTEM-LATEST.tab3.zip 
+ This zip archive contains multiple files formatted in BioGRID Tab 3.0 Delimited Text file format containing all interaction 
+ and associated annotation data from the BIOGRID separated into seperate distinct files based on Experimental System. For more information on this format, check out our wiki . 
+ BioGRID Release 5.0.262 
+ This download directory contains the 5.0.262 interaction data release from the BioGRID. 
+ This release was compiled on Sept. 25th, 2026 and contains all curated interaction data processed 
+ prior to this date. If you are starting 
+ a new project using our data, it is HIGHLY recommended that you use the data files in the most recent release 
+ as it will contain the most up-to-date version of our interaction dataset. The best dataset to use is in the CURRENT RELEASE directory. 
+ For more information about each of the available files, simply mouse over to see a description. 
+ To download each file, simply left click on it to start the download process. 
+ A BioGRID Project
+ Copyright © 2026 | TyersLab.com | All Rights Reserved 
+ Terms and Conditions | 
+ Privacy Policy | 
+ BioGRID |
+ CRISPR Database |
+ Osprey |
+ Yeast Kinome |
+ TyersLab.com |
+ SGD |
+ GitHub | 
+ YouTube |
+ Twitter 
+ 

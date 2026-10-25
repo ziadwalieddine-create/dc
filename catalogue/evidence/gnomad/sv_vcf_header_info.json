@@ -1,0 +1,3131 @@
+{
+ "fetched_utc": "2026-10-25T14:32:50Z",
+ "file": "data/external/gnomad/gnomad.v4.1.sv.sites.vcf.gz",
+ "bytes": 1743544245,
+ "sha256": "26a70c309a853c77c043c8d710016f97a326d4a55cc89a08bc45384e00de2b04",
+ "header": {
+  "fileformat": "VCFv4.2"
+ },
+ "n_info_fields": 619,
+ "ancestry_groups": [
+  "afr",
+  "ami",
+  "amr",
+  "asj",
+  "eas",
+  "fin",
+  "mid",
+  "nfe",
+  "rmi",
+  "sas"
+ ],
+ "filters": {
+  "PASS": "All filters passed",
+  "FAIL_MANUAL_REVIEW": "Low-quality variant that did not pass manual review of supporting evidence",
+  "HIGH_NCR": "Unacceptably high rate of no-call GTs",
+  "IGH_MHC_OVERLAP": "SVs that are overlapped by over 50% by IGH or MCH regions, these variants are of low confidence",
+  "LOWQUAL_WHAM_SR_DEL": "deletions under1Kb that are uniquely from wham and have SR-only support",
+  "MULTIALLELIC": "Multiallelic site",
+  "OUTLIER_SAMPLE_ENRICHED": "SVs that are enriched for non-reference genotypes in outlier samples, likely indicating noisy or unreliable genotypes",
+  "REDUNDANT_LG_CNV": "Multiple large CNVs called at the same locus likely indicates unreliable clustering and/or low-quality multiallelic locus",
+  "REFERENCE_ARTIFACT": "Likely reference artifact sites that are homozygous alternative in over 99% of the samples",
+  "UNRESOLVED": "Variant is unresolved"
+ },
+ "info": {
+  "ALGORITHMS": {
+   "number": ".",
+   "type": "String",
+   "description": "Source algorithms"
+  },
+  "BOTHSIDES_SUPPORT": {
+   "number": "0",
+   "type": "Flag",
+   "description": "Variant has read-level support for both sides of breakpoint.Indicates higher-confidence variants."
+  },
+  "CHR2": {
+   "number": "1",
+   "type": "String",
+   "description": "Chromosome for END coordinate"
+  },
+  "CPX_INTERVALS": {
+   "number": ".",
+   "type": "String",
+   "description": "Genomic intervals constituting complex variant."
+  },
+  "CPX_TYPE": {
+   "number": "1",
+   "type": "String",
+   "description": "Class of complex variant."
+  },
+  "END": {
+   "number": "1",
+   "type": "Integer",
+   "description": "End position of the structural variant"
+  },
+  "END2": {
+   "number": "1",
+   "type": "Integer",
+   "description": "End position of the structural variant on CHR2"
+  },
+  "EVIDENCE": {
+   "number": ".",
+   "type": "String",
+   "description": "Classes of random forest support."
+  },
+  "LOW_CONFIDENCE_REPETITIVE_LARGE_DUP": {
+   "number": "0",
+   "type": "Flag",
+   "description": "Duplications over 5Kb that are overlapped by segmental duplicates or simple repeats, these variants are not as high confident as others because of the affect by the repetitive sequences"
+  },
+  "MEMBERS": {
+   "number": ".",
+   "type": "String",
+   "description": "IDs of cluster's constituent records."
+  },
+  "MULTIALLELIC": {
+   "number": "0",
+   "type": "Flag",
+   "description": "Multiallelic site"
+  },
+  "NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs"
+  },
+  "OUTLIER_SAMPLE_ENRICHED_LENIENT": {
+   "number": "0",
+   "type": "Flag",
+   "description": "SVs that are enriched for non-reference genotypes in outlier samples (10%), likely indicating noisy or unreliable genotypes"
+  },
+  "PAR": {
+   "number": "0",
+   "type": "Flag",
+   "description": "Variant overlaps pseudoautosomal region."
+  },
+  "PCRMINUS_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in PCRMINUS samples"
+  },
+  "PCRPLUS_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Fraction of PCRPLUS sample GTs that are no-calls."
+  },
+  "PESR_GT_OVERDISPERSION": {
+   "number": "0",
+   "type": "Flag",
+   "description": "PESR genotyping data is overdispersed. Flags sites where genotypes are likely noisier."
+  },
+  "POS2": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Start position of the structural variant on CHR2"
+  },
+  "PREDICTED_BREAKEND_EXONIC": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) for which the SV breakend is predicted to fall in an exon."
+  },
+  "PREDICTED_COPY_GAIN": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) on which the SV is predicted to have a copy-gain effect."
+  },
+  "PREDICTED_DUP_PARTIAL": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) which are partially overlapped by an SV's duplication, but the transcription start site is not duplicated."
+  },
+  "PREDICTED_INTERGENIC": {
+   "number": "0",
+   "type": "Flag",
+   "description": "SV does not overlap any protein-coding genes."
+  },
+  "PREDICTED_INTRAGENIC_EXON_DUP": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) on which the SV is predicted to result in intragenic exonic duplication without breaking any coding sequences."
+  },
+  "PREDICTED_INTRONIC": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) where the SV was found to lie entirely within an intron."
+  },
+  "PREDICTED_INV_SPAN": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) which are entirely spanned by an SV's inversion."
+  },
+  "PREDICTED_LOF": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) on which the SV is predicted to have a loss-of-function effect."
+  },
+  "PREDICTED_MSV_EXON_OVERLAP": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) on which the multiallelic SV would be predicted to have a LOF, INTRAGENIC_EXON_DUP, COPY_GAIN, DUP_PARTIAL, TSS_DUP, or PARTIAL_EXON_DUP annotation if the SV were biallelic."
+  },
+  "PREDICTED_NEAREST_TSS": {
+   "number": ".",
+   "type": "String",
+   "description": "Nearest transcription start site to an intergenic variant."
+  },
+  "PREDICTED_NONCODING_BREAKPOINT": {
+   "number": ".",
+   "type": "String",
+   "description": "Class(es) of noncoding elements disrupted by SV breakpoint."
+  },
+  "PREDICTED_NONCODING_SPAN": {
+   "number": ".",
+   "type": "String",
+   "description": "Class(es) of noncoding elements spanned by SV."
+  },
+  "PREDICTED_PARTIAL_DISPERSED_DUP": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) overlapped partially by the duplicated interval involved in a dispersed duplication event in a complex SV."
+  },
+  "PREDICTED_PARTIAL_EXON_DUP": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) where the duplication SV has one breakpoint in the coding sequence."
+  },
+  "PREDICTED_PROMOTER": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) for which the SV is predicted to overlap the promoter region."
+  },
+  "PREDICTED_TSS_DUP": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) for which the SV is predicted to duplicate the transcription start site."
+  },
+  "PREDICTED_UTR": {
+   "number": ".",
+   "type": "String",
+   "description": "Gene(s) for which the SV is predicted to disrupt a UTR."
+  },
+  "RESOLVED_POSTHOC": {
+   "number": "0",
+   "type": "Flag",
+   "description": "SVs that are manually resolved posthoc."
+  },
+  "SOURCE": {
+   "number": "1",
+   "type": "String",
+   "description": "Source of inserted sequence."
+  },
+  "SVLEN": {
+   "number": "1",
+   "type": "Integer",
+   "description": "SV length"
+  },
+  "SVTYPE": {
+   "number": "1",
+   "type": "String",
+   "description": "Type of structural variant"
+  },
+  "UNRESOLVED_TYPE": {
+   "number": "1",
+   "type": "String",
+   "description": "Class of unresolved variant."
+  },
+  "AN": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of alleles genotyped (biallelic sites only)."
+  },
+  "AC": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference alleles observed (biallelic sites only)."
+  },
+  "AF": {
+   "number": "A",
+   "type": "Float",
+   "description": "Allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF": {
+   "number": "1",
+   "type": "Float",
+   "description": "Homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET": {
+   "number": "1",
+   "type": "Float",
+   "description": "Heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT": {
+   "number": "1",
+   "type": "Float",
+   "description": "Homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American alleles genotyped (biallelic sites only)."
+  },
+  "AC_afr": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference African-American alleles observed (biallelic sites only)."
+  },
+  "AF_afr": {
+   "number": "A",
+   "type": "Float",
+   "description": "African-American allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_afr": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_afr": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_afr": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_afr": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of African-American samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_afr": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in African-American samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_afr": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of African-American samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_afr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_afr": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of African-American samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish alleles genotyped (biallelic sites only)."
+  },
+  "AC_ami": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Amish alleles observed (biallelic sites only)."
+  },
+  "AF_ami": {
+   "number": "A",
+   "type": "Float",
+   "description": "Amish allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_ami": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_ami": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_ami": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_ami": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Amish samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_ami": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Amish samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_ami": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Amish samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_ami": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_ami": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Amish samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino alleles genotyped (biallelic sites only)."
+  },
+  "AC_amr": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Latino alleles observed (biallelic sites only)."
+  },
+  "AF_amr": {
+   "number": "A",
+   "type": "Float",
+   "description": "Latino allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_amr": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_amr": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_amr": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_amr": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Latino samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_amr": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Latino samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_amr": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Latino samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_amr": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_amr": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Latino samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish alleles genotyped (biallelic sites only)."
+  },
+  "AC_asj": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Ashkenazi Jewish alleles observed (biallelic sites only)."
+  },
+  "AF_asj": {
+   "number": "A",
+   "type": "Float",
+   "description": "Ashkenazi Jewish allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_asj": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_asj": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_asj": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_asj": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_asj": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Ashkenazi Jewish samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_asj": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Ashkenazi Jewish samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_asj": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_asj": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Ashkenazi Jewish samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian alleles genotyped (biallelic sites only)."
+  },
+  "AC_eas": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference East Asian alleles observed (biallelic sites only)."
+  },
+  "AF_eas": {
+   "number": "A",
+   "type": "Float",
+   "description": "East Asian allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_eas": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_eas": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_eas": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_eas": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of East Asian samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_eas": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in East Asian samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_eas": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of East Asian samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_eas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_eas": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of East Asian samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish alleles genotyped (biallelic sites only)."
+  },
+  "AC_fin": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Finnish alleles observed (biallelic sites only)."
+  },
+  "AF_fin": {
+   "number": "A",
+   "type": "Float",
+   "description": "Finnish allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_fin": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_fin": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_fin": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_fin": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Finnish samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_fin": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Finnish samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_fin": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Finnish samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_fin": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_fin": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Finnish samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern alleles genotyped (biallelic sites only)."
+  },
+  "AC_mid": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Middle Eastern alleles observed (biallelic sites only)."
+  },
+  "AF_mid": {
+   "number": "A",
+   "type": "Float",
+   "description": "Middle Eastern allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_mid": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_mid": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_mid": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_mid": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Middle Eastern samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_mid": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Middle Eastern samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_mid": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Middle Eastern samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_mid": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_mid": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Middle Eastern samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European alleles genotyped (biallelic sites only)."
+  },
+  "AC_nfe": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Non-Finnish European alleles observed (biallelic sites only)."
+  },
+  "AF_nfe": {
+   "number": "A",
+   "type": "Float",
+   "description": "Non-Finnish European allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_nfe": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_nfe": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_nfe": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_nfe": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_nfe": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Non-Finnish European samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_nfe": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Non-Finnish European samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_nfe": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_nfe": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Non-Finnish European samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals alleles genotyped (biallelic sites only)."
+  },
+  "AC_rmi": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Remaining individuals alleles observed (biallelic sites only)."
+  },
+  "AF_rmi": {
+   "number": "A",
+   "type": "Float",
+   "description": "Remaining individuals allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_rmi": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_rmi": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_rmi": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_rmi": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Remaining individuals samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_rmi": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Remaining individuals samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_rmi": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Remaining individuals samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_rmi": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_rmi": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Remaining individuals samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian alleles genotyped (biallelic sites only)."
+  },
+  "AC_sas": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference South Asian alleles observed (biallelic sites only)."
+  },
+  "AF_sas": {
+   "number": "A",
+   "type": "Float",
+   "description": "South Asian allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_sas": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_sas": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_sas": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_sas": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of South Asian samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_sas": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in South Asian samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_sas": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of South Asian samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_sas": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_sas": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of South Asian samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "XX_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in XX samples"
+  },
+  "XX_PCRMINUS_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in XX_PCRMINUS samples"
+  },
+  "XX_PCRPLUS_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in XX_PCRPLUS samples"
+  },
+  "XY_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in XY samples"
+  },
+  "XY_PCRMINUS_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in XY_PCRMINUS samples"
+  },
+  "XY_PCRPLUS_NCR": {
+   "number": "1",
+   "type": "Float",
+   "description": "Proportion of no-call GTs in XY_PCRPLUS samples"
+  },
+  "AN_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference XY alleles observed (biallelic sites only)."
+  },
+  "AF_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference XX alleles observed (biallelic sites only)."
+  },
+  "AF_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_afr_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference African-American XY alleles observed (biallelic sites only)."
+  },
+  "AF_afr_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "African-American XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_afr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_afr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_afr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_afr_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of African-American XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_afr_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in African-American XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_afr_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of African-American XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_afr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of African-American XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_afr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_afr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_afr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_afr_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference African-American XX alleles observed (biallelic sites only)."
+  },
+  "AF_afr_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "African-American XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_afr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_afr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_afr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "African-American XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of African-American XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_afr_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of African-American XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_afr_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in African-American XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_afr_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of African-American XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_afr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of African-American XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_afr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of African-American XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_ami_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Amish XY alleles observed (biallelic sites only)."
+  },
+  "AF_ami_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Amish XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_ami_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_ami_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_ami_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_ami_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Amish XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_ami_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Amish XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_ami_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Amish XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_ami_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Amish XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_ami_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_ami_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_ami_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_ami_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Amish XX alleles observed (biallelic sites only)."
+  },
+  "AF_ami_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Amish XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_ami_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_ami_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_ami_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Amish XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Amish XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_ami_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Amish XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_ami_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Amish XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_ami_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Amish XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_ami_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Amish XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_ami_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Amish XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_amr_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Latino XY alleles observed (biallelic sites only)."
+  },
+  "AF_amr_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Latino XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_amr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_amr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_amr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_amr_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Latino XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_amr_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Latino XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_amr_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Latino XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_amr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Latino XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_amr_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_amr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_amr_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_amr_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Latino XX alleles observed (biallelic sites only)."
+  },
+  "AF_amr_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Latino XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_amr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_amr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_amr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Latino XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Latino XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_amr_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Latino XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_amr_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Latino XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_amr_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Latino XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_amr_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Latino XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_amr_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Latino XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_asj_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Ashkenazi Jewish XY alleles observed (biallelic sites only)."
+  },
+  "AF_asj_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_asj_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_asj_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_asj_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_asj_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_asj_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Ashkenazi Jewish XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_asj_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Ashkenazi Jewish XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_asj_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Ashkenazi Jewish XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_asj_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_asj_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_asj_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_asj_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Ashkenazi Jewish XX alleles observed (biallelic sites only)."
+  },
+  "AF_asj_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_asj_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_asj_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_asj_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Ashkenazi Jewish XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Ashkenazi Jewish XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_asj_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_asj_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Ashkenazi Jewish XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_asj_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Ashkenazi Jewish XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_asj_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Ashkenazi Jewish XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_asj_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Ashkenazi Jewish XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_eas_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference East Asian XY alleles observed (biallelic sites only)."
+  },
+  "AF_eas_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "East Asian XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_eas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_eas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_eas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_eas_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_eas_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in East Asian XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_eas_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of East Asian XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_eas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of East Asian XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_eas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_eas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_eas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_eas_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference East Asian XX alleles observed (biallelic sites only)."
+  },
+  "AF_eas_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "East Asian XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_eas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_eas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_eas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "East Asian XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of East Asian XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_eas_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of East Asian XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_eas_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in East Asian XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_eas_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of East Asian XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_eas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of East Asian XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_eas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of East Asian XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_fin_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Finnish XY alleles observed (biallelic sites only)."
+  },
+  "AF_fin_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Finnish XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_fin_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_fin_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_fin_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_fin_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_fin_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Finnish XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_fin_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Finnish XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_fin_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Finnish XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_fin_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_fin_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_fin_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_fin_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Finnish XX alleles observed (biallelic sites only)."
+  },
+  "AF_fin_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Finnish XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_fin_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_fin_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_fin_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Finnish XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Finnish XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_fin_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Finnish XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_fin_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Finnish XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_fin_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Finnish XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_fin_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Finnish XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_fin_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Finnish XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_mid_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Middle Eastern XY alleles observed (biallelic sites only)."
+  },
+  "AF_mid_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Middle Eastern XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_mid_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_mid_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_mid_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_mid_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_mid_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Middle Eastern XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_mid_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Middle Eastern XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_mid_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Middle Eastern XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_mid_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_mid_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_mid_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_mid_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Middle Eastern XX alleles observed (biallelic sites only)."
+  },
+  "AF_mid_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Middle Eastern XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_mid_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_mid_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_mid_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Middle Eastern XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Middle Eastern XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_mid_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_mid_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Middle Eastern XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_mid_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Middle Eastern XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_mid_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Middle Eastern XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_mid_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Middle Eastern XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_nfe_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Non-Finnish European XY alleles observed (biallelic sites only)."
+  },
+  "AF_nfe_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Non-Finnish European XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_nfe_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_nfe_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_nfe_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_nfe_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_nfe_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Non-Finnish European XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_nfe_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Non-Finnish European XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_nfe_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Non-Finnish European XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_nfe_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_nfe_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_nfe_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_nfe_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Non-Finnish European XX alleles observed (biallelic sites only)."
+  },
+  "AF_nfe_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Non-Finnish European XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_nfe_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_nfe_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_nfe_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Non-Finnish European XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Non-Finnish European XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_nfe_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_nfe_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Non-Finnish European XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_nfe_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Non-Finnish European XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_nfe_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Non-Finnish European XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_nfe_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Non-Finnish European XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_rmi_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Remaining individuals XY alleles observed (biallelic sites only)."
+  },
+  "AF_rmi_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "Remaining individuals XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_rmi_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_rmi_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_rmi_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_rmi_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_rmi_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Remaining individuals XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_rmi_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Remaining individuals XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_rmi_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Remaining individuals XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_rmi_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_rmi_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_rmi_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_rmi_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference Remaining individuals XX alleles observed (biallelic sites only)."
+  },
+  "AF_rmi_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "Remaining individuals XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_rmi_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_rmi_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_rmi_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Remaining individuals XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of Remaining individuals XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_rmi_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_rmi_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in Remaining individuals XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_rmi_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of Remaining individuals XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_rmi_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of Remaining individuals XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_rmi_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of Remaining individuals XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "AN_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian XY alleles genotyped (biallelic sites only)."
+  },
+  "AC_sas_XY": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference South Asian XY alleles observed (biallelic sites only)."
+  },
+  "AF_sas_XY": {
+   "number": "A",
+   "type": "Float",
+   "description": "South Asian XY allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian XY samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_sas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XY homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_sas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XY heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_sas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XY homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian XY samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_sas_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_sas_XY": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in South Asian XY samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_sas_XY": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of South Asian XY samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_sas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of South Asian XY samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "N_HEMIREF_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples with hemizygous reference genotypes (biallelic sites only)."
+  },
+  "N_HEMIALT_sas_XY": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XY samples with hemizygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HEMIREF_sas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XY hemizygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HEMIALT_sas_XY": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XY hemizygous alternate genotype frequency (biallelic sites only)."
+  },
+  "AN_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian XX alleles genotyped (biallelic sites only)."
+  },
+  "AC_sas_XX": {
+   "number": "A",
+   "type": "Integer",
+   "description": "Number of non-reference South Asian XX alleles observed (biallelic sites only)."
+  },
+  "AF_sas_XX": {
+   "number": "A",
+   "type": "Float",
+   "description": "South Asian XX allele frequency (biallelic sites only)."
+  },
+  "N_BI_GENOS_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian XX samples with complete genotypes (biallelic sites only)."
+  },
+  "N_HOMREF_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XX samples with homozygous reference genotypes (biallelic sites only)."
+  },
+  "N_HET_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XX samples with heterozygous genotypes (biallelic sites only)."
+  },
+  "N_HOMALT_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XX samples with homozygous alternate genotypes (biallelic sites only)."
+  },
+  "FREQ_HOMREF_sas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XX homozygous reference genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HET_sas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XX heterozygous genotype frequency (biallelic sites only)."
+  },
+  "FREQ_HOMALT_sas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "South Asian XX homozygous alternate genotype frequency (biallelic sites only)."
+  },
+  "CN_NUMBER_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Total number of South Asian XX samples with estimated copy numbers (multiallelic CNVs only)."
+  },
+  "CN_COUNT_sas_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Number of South Asian XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_STATUS_sas_XX": {
+   "number": ".",
+   "type": "Integer",
+   "description": "Differnt copy states observed in South Asian XX samples, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_FREQ_sas_XX": {
+   "number": ".",
+   "type": "Float",
+   "description": "Frequency of South Asian XX samples observed at each copy state, starting from CN=0 (multiallelic CNVs only)."
+  },
+  "CN_NONREF_COUNT_sas_XX": {
+   "number": "1",
+   "type": "Integer",
+   "description": "Number of South Asian XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "CN_NONREF_FREQ_sas_XX": {
+   "number": "1",
+   "type": "Float",
+   "description": "Frequency of South Asian XX samples with non-reference copy states (multiallelic CNVs only)."
+  },
+  "GRPMAX_AF": {
+   "number": "1",
+   "type": "Float",
+   "description": "Maximum allele frequency across any genetic ancestry group (biallelic sites only)."
+  }
+ }
+}

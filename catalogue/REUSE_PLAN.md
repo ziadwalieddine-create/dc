@@ -1,6 +1,6 @@
 # Source-by-source reuse, acquisition and integration plan
 
-*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Decision hierarchy: reuse existing verified material → adopt existing curated datasets → extend existing integrations → retrieve uncovered source data → build original methods only where justified.
 
@@ -28,14 +28,14 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Why:** Open Targets 26.09 carries a target_essentiality (DepMap) dataset and CRISPR screen evidence; use that. Direct download needs the user to fetch from the DepMap downloads page manually.
 - **Status (all files):** catalogued✓ accessible· acquired· validated· mapped· · usable for: nothing yet
 - **Access:** blocked_for_automation (Terms page not readable (verification wall); commonly CC BY 4.0)
-- **Unverified:** version, licence, update_frequency
+- **Unverified:** licence, scope details (RNAi screens, expression and mutation context), mapping_methods (join identifiers), quantitative (score definition, units, direction, uncertainty), update_frequency, version
 
 ### `ensembl_vep`: Ensembl VEP and release-116 plugin data
 - **Why:** Ensembl already integrates MaveDB, LOEUF, SpliceAI, SpliceVault, ProtVar, mutfunc and Enformer for VEP; reuse these rather than re-deriving them. The MaveDB file is acquired first to measure overlap with the API-built set.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D01
 - **Access:** open_with_terms (Ensembl: no restrictions on data (verified); plugin resources carry upstream terms (e.g. gnomAD notes SpliceAI annotatio)
 - **Targets:** `ensembl_vep_mavedb_variants`, `ensembl_vep_mavedb_variants_tbi`
-- **Unverified:** complete plugin list, per-plugin licences
+- **Unverified:** per-plugin data licences not stated on the plugin page
 
 ### `eqtl_catalogue`: eQTL Catalogue
 - **Why:** Open Targets already consumes eQTL Catalogue credible sets for colocalisation; defer direct download of the very large sumstats until a locus-level analysis requires them.
@@ -86,8 +86,9 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 ### `alphamissense`: AlphaMissense
 - **Why:** Also embedded in dbNSFP, which needs registration; the open file lets us test predictor integration now. Both the gene-level table and the 643 MB variant table (71M canonical-transcript missense SNVs) are fetched, checksum-verified and structurally validated. Licence CC BY-NC-SA 4.0 (non-commercial, share-alike), so the data stay in the git-ignored data/ area.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D13
-- **Access:** open_with_terms (CC BY-NC-SA 4.0 (Zenodo record))
+- **Access:** open_with_terms (Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The bucket README.pdf (2024-03-13) )
 - **Targets:** `alphamissense_gene_hg38`, `alphamissense_hg38`
+- **Unverified:** training and calibration details (paper not retrievable), which licence statement governs the 2023 data files
 
 ### `biogrid_orcs`: BioGRID ORCS (Open Repository of CRISPR Screens)
 - **Why:** Open Targets lists evidence_crispr/evidence_crispr_screen, but its source mix is not verified to equal ORCS; fetch the human bundle for gene-level screen detail.
@@ -161,6 +162,7 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D03
 - **Access:** open (Open-access files free to download; raw sequence and full donor metadata are protected (dbGaP/AnVIL))
 - **Targets:** `gtex_v11_gene_median_tpm`, `gtex_datasets_api`
+- **Unverified:** coverage_limitations (donor ancestry composition and sampling conditions are from the GTEx publications, not retrieved)
 
 ### `interpro`: InterPro
 - **Why:** Per-protein retrieval of InterPro and member-database matches (with residue locations) for the UniProt proteins our MaveDB score sets are about; the bulk match files are not needed for that set.

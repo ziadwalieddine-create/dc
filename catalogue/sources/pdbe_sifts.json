@@ -75,5 +75,29 @@
  "acquisition_targets": [
   "sifts_pdb_chain_uniprot",
   "sifts_uniprot_segments_observed"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation",
+   "experimental_structure"
+  ],
+  "allele_resolution": "protein_residue_level",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "protein_structure_function",
+    "note": "which UniProt residues are covered and observed in an experimental structure"
+   }
+  ],
+  "biological_context": "Residue-level mapping between PDB chains and UniProtKB sequences. The structures are experimentally determined constructs, often fragments or domains with ligands or engineered changes; the mapping says which UniProt residues each chain covers and which are observed.",
+  "evidence_strength": "Experimental structures with mapping tables. Resolution and model quality belong to each structure entry and are not in the mapping.",
+  "mechanistic_confidence": "Moderate for the structural context of observed residues (position, burial, contacts) when the construct is relevant. It does not show the effect of a substitution, and unobserved residues have no coordinates.",
+  "phenotype_implication": "None: residue mappings carry no phenotype information.",
+  "absence_means": "A residue not covered by any PDB chain, or not observed in the covering chains, has no experimental coordinates; this is not evidence of disorder.",
+  "overlaps_with_sources": []
+ }
 }

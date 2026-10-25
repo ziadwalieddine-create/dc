@@ -1037,5 +1037,285 @@
   "url": "https://www.pharmvar.org/terms-and-conditions",
   "render": true,
   "note": "the footer link of the rendered home page; the earlier guessed URLs returned the empty application shell"
+ },
+ {
+  "source": "refseq",
+  "name": "ftp_assembly_dir",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/",
+  "note": "RefSeq GRCh38.p14 assembly directory"
+ },
+ {
+  "source": "refseq",
+  "name": "md5checksums",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/md5checksums.txt",
+  "note": "published MD5 of each file in the directory"
+ },
+ {
+  "source": "refseq",
+  "name": "assembly_report_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_report.txt",
+  "range": [
+   0,
+   6000
+  ],
+  "note": "maps RefSeq, GenBank, UCSC and Ensembl sequence names"
+ },
+ {
+  "source": "refseq",
+  "name": "genomic_gff_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_genomic.gff.gz",
+  "range": [
+   0,
+   6000
+  ],
+  "note": "GFF3 header: genome build and annotation release"
+ },
+ {
+  "source": "refseq",
+  "name": "annotation_listing",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/",
+  "note": "annotation releases and GRCh38_latest"
+ },
+ {
+  "source": "proteingym",
+  "name": "home",
+  "url": "https://proteingym.org/",
+  "render": true
+ },
+ {
+  "source": "proteingym",
+  "name": "download",
+  "url": "https://proteingym.org/download",
+  "render": true
+ },
+ {
+  "source": "alliance",
+  "name": "downloads",
+  "url": "https://www.alliancegenome.org/downloads",
+  "render": true
+ },
+ {
+  "source": "hpa",
+  "name": "download",
+  "url": "https://www.proteinatlas.org/about/download"
+ },
+ {
+  "source": "hpa",
+  "name": "licence",
+  "url": "https://www.proteinatlas.org/about/licence"
+ },
+ {
+  "source": "cpic",
+  "name": "api_root",
+  "url": "https://api.cpicpgx.org/v1/",
+  "note": "PostgREST OpenAPI description of the CPIC database tables"
+ },
+ {
+  "source": "cpic",
+  "name": "api_allele_definition_sample",
+  "url": "https://api.cpicpgx.org/v1/allele_definition?limit=3"
+ },
+ {
+  "source": "cpic",
+  "name": "licence",
+  "url": "https://cpicpgx.org/license/"
+ },
+ {
+  "source": "pharmcat",
+  "name": "home",
+  "url": "https://pharmcat.clinpgx.org/"
+ },
+ {
+  "source": "giab",
+  "name": "stratifications_listing",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/"
+ },
+ {
+  "source": "giab",
+  "name": "stratifications_v3_6_listing",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/"
+ },
+ {
+  "source": "ipd_hla",
+  "name": "ftp_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/"
+ },
+ {
+  "source": "ipd_hla",
+  "name": "licence",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/LICENCE.md"
+ },
+ {
+  "source": "ipd_hla",
+  "name": "release_version",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/release_version.txt"
+ },
+ {
+  "source": "ipd_hla",
+  "name": "md5checksum",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/md5checksum.txt"
+ },
+ {
+  "source": "ipd_hla",
+  "name": "allelelist_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/Allelelist.txt",
+  "range": [
+   0,
+   3000
+  ]
+ },
+ {
+  "source": "ipd_kir",
+  "name": "ftp_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/kir/"
+ },
+ {
+  "source": "ldlink",
+  "name": "home",
+  "url": "https://ldlink.nih.gov/"
+ },
+ {
+  "source": "mpravardb",
+  "name": "home",
+  "url": "https://mpravardb.rc.ufl.edu/",
+  "render": true
+ },
+ {
+  "source": "cadd",
+  "name": "download",
+  "url": "https://cadd.gs.washington.edu/download",
+  "render": true
+ },
+ {
+  "source": "cadd",
+  "name": "info",
+  "url": "https://cadd.gs.washington.edu/info",
+  "render": true
+ },
+ {
+  "source": "biogrid_interactions",
+  "name": "latest_release_listing",
+  "url": "https://downloads.thebiogrid.org/BioGRID/Latest-Release/"
+ },
+ {
+  "source": "intact",
+  "name": "ftp_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/intact/current/"
+ },
+ {
+  "source": "string",
+  "name": "download",
+  "url": "https://string-db.org/cgi/download"
+ },
+ {
+  "source": "trexplorer",
+  "name": "home",
+  "url": "https://trexplorer.broadinstitute.org/",
+  "render": true
+ },
+ {
+  "source": "hgsvc3",
+  "name": "ftp_listing",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/"
+ },
+ {
+  "source": "hgsvc3",
+  "name": "data_reuse_statement",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/README_HGSVC3_datareuse_statement.md"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v2_1_1_ld",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/2.1.1/ld/&delimiter=/",
+  "note": "linkage disequilibrium matrices (GRCh37)"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "plugins_doc_retry",
+  "url": "https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html",
+  "note": "retry of the plugin documentation that returned HTTP 504 earlier"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "plugins_doc_useast",
+  "url": "https://useast.ensembl.org/info/docs/tools/vep/script/vep_plugins.html",
+  "note": "same page on a mirror host"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "release116_variation_listing",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/",
+  "note": "plugin data directories of release 116 (the earlier probe named release116_variation_vep pointed at a missing path)"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "variation_plugins_listing",
+  "url": "https://ftp.ensembl.org/pub/data_files/homo_sapiens/GRCh38/variation_plugins/",
+  "note": "SpliceAI score files for MANE transcripts"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "variation_plugins_readme",
+  "url": "https://ftp.ensembl.org/pub/data_files/homo_sapiens/GRCh38/variation_plugins/README"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_splicevault",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/SpliceVault/",
+  "note": "contents and sizes of SpliceVault"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_protvar",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/ProtVar/",
+  "note": "contents and sizes of ProtVar"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_mutfunc",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/mutfunc/",
+  "note": "contents and sizes of mutfunc"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_enformer",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/Enformer/",
+  "note": "contents and sizes of Enformer"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_loeuf",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/LOEUF/",
+  "note": "contents and sizes of LOEUF"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_gencode_promoter",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/GENCODE_promoter/",
+  "note": "contents and sizes of GENCODE_promoter"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_phenotypeorthologous",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/PhenotypeOrthologous/",
+  "note": "contents and sizes of PhenotypeOrthologous"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_riboseqorfs",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/RiboSeqORFs/",
+  "note": "contents and sizes of RiboSeqORFs"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_pangenomes",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/pangenomes/",
+  "note": "contents and sizes of pangenomes"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "listing_indexed_vep_cache",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/indexed_vep_cache/",
+  "note": "contents and sizes of indexed_vep_cache"
  }
 ]

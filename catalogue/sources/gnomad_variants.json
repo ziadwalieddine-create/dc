@@ -37,7 +37,7 @@
  ],
  "mapping_methods": "Coordinates on GRCh38 (v4, v3) or GRCh37 (v2.1.1 with liftover files).",
  "quantitative": {
-  "summary": "Allele counts (AC), numbers (AN), frequencies (AF), homozygote counts, group-maximum (grpmax) and filtering allele frequencies (faf95/faf99) per site and per ancestry group; predictor scores per allele.",
+  "summary": "Allele counts (AC), numbers (AN), frequencies (AF), homozygote counts, group-maximum (grpmax) and filtering allele frequencies (fafmax_faf95_max) per site and per ancestry group; predictor scores per allele.",
   "units": "counts / frequency in [0, 1]; CADD phred; the other predictors on their own [0, 1] or signed scales",
   "uncertainty": "AC/AN; filtering allele frequencies give a conservative lower bound; no confidence interval on AF",
   "direction": "n/a (predictor scores point towards deleteriousness as defined by each tool)"
@@ -83,5 +83,65 @@
   "gnomad_v4_1_exomes_regional",
   "gnomad_v4_1_genomes_regional",
   "gnomad_v4_1_joint_regional"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation",
+   "computational_prediction"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "population_constraint",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "population",
+    "dimension": "population_frequency"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration",
+    "note": "in-silico scores carried in INFO"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration",
+    "note": "SpliceAI and Pangolin scores carried in INFO"
+   }
+  ],
+  "components": [
+   {
+    "name": "allele counts and frequencies per ancestry group",
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "native"
+   },
+   {
+    "name": "in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen)",
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "external: published predictors"
+   }
+  ],
+  "biological_context": "Aggregated germline variant calls from exome and genome sequencing cohorts, with allele counts per genetic ancestry group. No phenotype data accompany the variants.",
+  "evidence_strength": "Observed allele counts after quality filtering. Frequencies are reliable only where coverage and callability are adequate (FILTER and coverage fields) and differ by ancestry group; the in-silico scores are predictions and not measurements.",
+  "mechanistic_confidence": "None for mechanism. Frequency is indirect evidence: a high frequency argues against high-penetrance early-onset dominant pathogenicity, while a low frequency is consistent with pathogenicity without supporting it.",
+  "phenotype_implication": "Population frequency bounds the plausible penetrance and prevalence of an allele; no phenotype is attached.",
+  "absence_means": "A variant that is not found was not observed among the sequenced individuals, whose coverage and ancestry representation are uneven. It is not evidence of rarity or harm.",
+  "overlaps_with_sources": []
+ }
 }

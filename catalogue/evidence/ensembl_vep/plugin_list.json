@@ -1,0 +1,827 @@
+{
+ "source_url": "https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html",
+ "fetched_utc": "2026-10-25T14:30:54Z",
+ "page_bytes": 270115,
+ "page_sha256": "f9ee46231cc10196123f06eb60018c8b2a9afdb433e56ddc6a03062908202362",
+ "n_plugins": 74,
+ "categories": [
+  "conservation",
+  "external_id",
+  "frequency_data",
+  "functional_effect",
+  "gene_tolerance_to_change",
+  "hgvs",
+  "look_up",
+  "motif",
+  "nearby_features",
+  "pathogenicity_predictions",
+  "phenotype_data_and_citations",
+  "protein_annotation",
+  "regulatory_impact",
+  "sequence",
+  "splicing_predictions",
+  "transcript_annotation",
+  "variant_data",
+  "visualisation"
+ ],
+ "plugins": [
+  {
+   "plugin": "AlphaMissense",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This plugin for the Ensembl Variant Effect Predictor (VEP) annotates missense variants with the pre-computed AlphaMissense pathogenicity scores. AlphaMissense is a deep learning model developed by Google DeepMind that predicts the pathogenicity of single nucleotide missense variants. This plugin will add two annotations per missense variant: am_pathogenicity, a continuous score between 0 and 1 which can be interpreted as the predicted probability of the variant being pathogenic. am_class is the classification of the variant into one of three discrete categories: likely_pathogenic, likely_benign, or ambiguous. These are derived using the following thresholds of am_pathogenicity: likely_benign if am_pathogenicity < 0.34; likely_pathogenic if am_pathogenicity > 0.564; ambiguous otherwise. These thresholds were chosen to achieve 90% precision for both pathogenic and benign ClinVar variants. Note that AlphaMissense was not trained on ClinVar variants. Variants labeled as ambiguous should be treated as unknown or uncertain according to AlphaMissense. This plugin is available for both GRCh37 (hg19) and GRCh38 (hg38) genome builds. The prediction scores of AlphaMissense can be downloaded from https://console.cloud.google.com/storage/browser/dm_alphamissense (AlphaMissense Database Copyright (2023) DeepMind Technologies Limited). Data contained within the AlphaMissense Database is licensed under the Creative Commons Attribution 4.0 International License (CC-BY) (the \u201cLicense\u201d). You may obtain a copy of the License at: https://creativecommons.org/licenses/by/4.0/legalcode. Use of the AlphaMissense Database is subject to Google Cloud Platform Terms of Service Please cite the AlphaMissense publication alongside Ensembl VEP if you use this resource: https://doi.org/10.1126/science.a",
+   "licence_or_data_sentences": [
+    "The prediction scores of AlphaMissense can be downloaded from https://console.cloud.google.com/storage/browser/dm_alphamissense (AlphaMissense Database Copyright (2023) DeepMind Technologies Limited).",
+    "Data contained within the AlphaMissense Database is licensed under the Creative Commons Attribution 4.0 International License (CC-BY) (the \u201cLicense\u201d).",
+    "You may obtain a copy of the License at: https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "Use of the AlphaMissense Database is subject to Google Cloud Platform Terms of Service Please cite the AlphaMissense publication alongside Ensembl VEP if you use this resource: https://doi.org/10.1126/science.adg7492 Disclaimer: The AlphaMissense Database and other information provided on or linked to this site is for theoretical modelling only, caution should be exercised in use."
+   ]
+  },
+  {
+   "plugin": "AncestralAllele",
+   "category": "conservation",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves ancestral allele sequences from a FASTA file. Ensembl produces FASTA file dumps of the ancestral sequences of key species. Data files for GRCh37: https://ftp.ensembl.org/pub/release-75/fasta/ancestral_alleles/ Data files for GRCh38: https://ftp.ensembl.org/pub/current_fasta/ancestral_alleles/ For optimal retrieval speed, you should pre-process the FASTA files into a single bgzipped file that can be accessed via Bio::DB::HTS::Faidx (installed by INSTALL.pl - see Ensembl/ensembl-vep repository): wget https://ftp.ensembl.org/pub/current_fasta/ancestral_alleles/homo_sapiens_ancestor_GRCh38.tar.gz tar xfz homo_sapiens_ancestor_GRCh38.tar.gz cat homo_sapiens_ancestor_GRCh38/*.fa | bgzip -c > homo_sapiens_ancestor_GRCh38.fa.gz rm -rf homo_sapiens_ancestor_GRCh38/ homo_sapiens_ancestor_GRCh38.tar.gz ./vep -i variations.vcf --plugin AncestralAllele,homo_sapiens_ancestor_GRCh38.fa.gz The plugin is also compatible with Bio::DB::Fasta and an uncompressed FASTA file. Note the first time you run the plugin with a newly generated FASTA file it will spend some time indexing the file. DO NOT INTERRUPT THIS PROCESS, particularly if you do not have Bio::DB::HTS installed. Special cases: - represents an insertion ? indicates the chromosome could not be looked up in the FASTA Usage examples: mv AncestralAllele.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin AncestralAllele,homo_sapiens_ancestor_GRCh38.fa.gz",
+   "licence_or_data_sentences": [
+    "Data files for GRCh37: https://ftp.ensembl.org/pub/release-75/fasta/ancestral_alleles/ Data files for GRCh38: https://ftp.ensembl.org/pub/current_fasta/ancestral_alleles/ For optimal retrieval speed, you should pre-process the FASTA files into a single bgzipped file that can be accessed via Bio::DB::HTS::Faidx (installed by INSTALL.pl - see Ensembl/ensembl-vep repository): wget https://ftp.ensembl"
+   ]
+  },
+  {
+   "plugin": "AVADA",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "List::MoreUtils qw(uniq)",
+   "developer": "Ensembl",
+   "description": "Automatic VAriant evidence DAtabase is a novel machine learning tool that uses natural language processing to automatically identify pathogenic genetic variant evidence in full-text primary literature about monogenic disease and convert it to genomic coordinates. Please cite the AVADA publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/31467448/ NB: The plugin currently does not annotate for downstream_gene_variant and upstream_gene_variant. Pre-requisites AVADA data is available for GRCh37 and can be downloaded from: http://bejerano.stanford.edu/AVADA/avada_v1.00_2016.vcf.gz wget http://bejerano.stanford.edu/AVADA/avada_v1.00_2016.vcf.gz The file needs to be tabix indexed. You can do this by following commands: gzip -d avada_v1.00_2016.vcf.gz bgzip avada_v1.00_2016.vcf tabix avada_v1.00_2016.vcf.gz As you have already noticed, tabix utility must be installed in your path to use this plugin. The plugin can then be run to retrieve AVADA annotations. By default, the variants are matched with the HGNC gene symbol ./vep -i variations.vcf --plugin AVADA,file=path/to/file The output always includes one of the following columns depending on the option passed: AVADA_PMID: PubMed ID evidence for the variant as reported by AVADA AVADA_PMID_WITH_VARIANT: PubMed ID evidence for the variant as reported by AVADA along with the original variant string AVADA_PMID_WITH_FEATURE: PubMed ID evidence for the variant as reported by AVADA along with feature id AVADA_PMID_WITH_FEATURE_AND_VARIANT: PubMed ID evidence for the variant as reported by AVADA along with feature id and original variant string The plugin can optionally be run by specifying the feature to match with. In order to match by HGNC gene symbol: ./vep -i variations.vcf --plugin AVADA,fil",
+   "licence_or_data_sentences": [
+    "Please cite the AVADA publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/31467448/ NB: The plugin currently does not annotate for downstream_gene_variant and upstream_gene_variant.",
+    "Pre-requisites AVADA data is available for GRCh37 and can be downloaded from: http://bejerano.stanford.edu/AVADA/avada_v1.00_2016.vcf.gz wget http://bejerano.stanford.edu/AVADA/avada_v1.00_2016.vcf.gz The file needs to be tabix indexed."
+   ]
+  },
+  {
+   "plugin": "AVI",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves AlphaGenome Variant Impact (AVI) scores for single nucleotide variants from a tabix-indexed, bgzip-compressed TSV file. AVI scores were developed by Google DeepMind and are available for commercial and non-commercial use. They are available from : https://deepmind.google.com/science/alphagenome/downloads. Details on the features contributing to AVI scores can be accessed via Google DeepMind's AlphaGenome Atlas, which is available for non-commercial use. An example variant URL is: https://deepmind.google.com/science/alphagenome/atlas?q=chr11:5225450:A>T&m=variant The PHRED score is reported by default as AVI_PHRED. The optional raw=1 parameter additionally reports the RAW score as AVI_RAW. Score summaries: AVI_RAW (approximately -1.3 to +4.0). Variants with higher scores are more likely to have a deleterious impact. AVI_PHRED (0 to approximately 80) PHRED-scaled quantile. A phred of 20 means the variant is among the top 1% most deleterious substitutions genome-wide. Variants with higher scores are more likely to have a deleterious impact. Usage examples: mv AVI.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin AVI,file=/FULL_PATH/avi_scores.tsv.gz ./vep -i variations.vcf --plugin AVI,file=/FULL_PATH/avi_scores.tsv.gz,raw=1",
+   "licence_or_data_sentences": [
+    "AVI scores were developed by Google DeepMind and are available for commercial and non-commercial use.",
+    "They are available from : https://deepmind.google.com/science/alphagenome/downloads.",
+    "Details on the features contributing to AVI scores can be accessed via Google DeepMind's AlphaGenome Atlas, which is available for non-commercial use.",
+    "An example variant URL is: https://deepmind.google.com/science/alphagenome/atlas?q=chr11:5225450:A>T&m=variant The PHRED score is reported by default as AVI_PHRED."
+   ]
+  },
+  {
+   "plugin": "BayesDel",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds the BayesDel scores to Ensembl VEP output. BayesDel is a deleteriousness meta-score combining multiple deleteriousness predictors to create an overall score. It works for coding and non-coding variants, single nucleotide variants and small insertion/deletions. The range of the score is from -1.29334 to 0.75731. The higher the score, the more likely the variant is pathogenic. For more information please visit: https://fenglab.chpc.utah.edu/BayesDel/BayesDel.html Please cite the BayesDel publication alongside Ensembl VEP if you use this resource: https://onlinelibrary.wiley.com/doi/full/10.1002/humu.23158 BayesDel pre-computed scores can be downloaded from https://drive.google.com/drive/folders/1K4LI6ZSsUGBhHoChUtegC8bgCt7hbQlA Note: These files only contain pre-computed BayesDel scores for missense variants for assembly GRCh37. For GRCh37: tar zxvf BayesDel_170824_addAF.tgz rm *.gz.tbi gunzip *.gz for f in BayesDel_170824_addAF_chr*; do grep -v \"^#\" $f >> BayesDel_170824_addAF.txt; done cat BayesDel_170824_addAF.txt | sort -k1,1 -k2,2n > BayesDel_170824_addAF_sorted.txt grep \"^#\" BayesDel_170824_addAF_chr1 > BayesDel_170824_addAF_all_scores.txt cat BayesDel_170824_addAF_sorted.txt >> BayesDel_170824_addAF_all_scores.txt bgzip BayesDel_170824_addAF_all_scores.txt tabix -s 1 -b 2 -e 2 BayesDel_170824_addAF_all_scores.txt.gz For GRCh38: Remap GRCh37 file The tabix utility must be installed in your path to use this plugin. Usage examples: mv BayesDel.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin BayesDel,file=/path/to/BayesDel/BayesDel_170824_addAF_all_scores.txt.gz",
+   "licence_or_data_sentences": [
+    "For more information please visit: https://fenglab.chpc.utah.edu/BayesDel/BayesDel.html Please cite the BayesDel publication alongside Ensembl VEP if you use this resource: https://onlinelibrary.wiley.com/doi/full/10.1002/humu.23158 BayesDel pre-computed scores can be downloaded from https://drive.google.com/drive/folders/1K4LI6ZSsUGBhHoChUtegC8bgCt7hbQlA Note: These files only contain pre-compute"
+   ]
+  },
+  {
+   "plugin": "Blosum62",
+   "category": "conservation",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that looks up the BLOSUM 62 substitution matrix score for the reference and alternative amino acids predicted for a missense mutation. It adds one new entry to the output, BLOSUM62, which is the associated score. Usage examples: mv Blosum62.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin Blosum62",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "CADD",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves CADD scores for variants from one or tabix-indexed CADD data files. more Please cite the CADD publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pubmed/24487276 The tabix utility must be installed in your path to use this plugin. The CADD SNV and indels data files (and respective Tabix index files) can be downloaded from - http://cadd.gs.washington.edu/download The CADD SV data files (and respective Tabix index files) can be downloaded from - https://kircherlab.bihealth.org/download/CADD-SV/v1.1/ By default the plugin is designed to not annotate SV variant if a SNV and/or indels CADD annotation file is provided. Because it can results in too many lines matched from the annotation files and increase run time exponentially. You can override this behavior by providing force_annotate=1 which will force the plugin to annotate with the expense of increasing runtime. The plugin works with all versions of available CADD files. The plugin only reports scores and does not consider any additional annotations from a CADD file. It is therefore sufficient to use CADD files without the additional annotations. Usage examples: mv CADD.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin CADD,snv=/FULL_PATH_TO_CADD_FILE/whole_genome_SNVs.tsv.gz,indels=/FULL_PATH_TO_CADD_FILE/InDels.tsv.gz ./vep -i structural_variations.vcf --plugin CADD,sv=/FULL_PATH_TO_CADD_FILE/1000G_phase3_SVs.tsv.gz ./vep -i structural_variations.vcf --plugin CADD,snv=/FULL_PATH_TO_CADD_FILE/whole_genome_SNVs.tsv.gz,indels=/FULL_PATH_TO_CADD_FILE/InDels.tsv.gz,force_annotate=1",
+   "licence_or_data_sentences": [
+    "more Please cite the CADD publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pubmed/24487276 The tabix utility must be installed in your path to use this plugin.",
+    "The CADD SNV and indels data files (and respective Tabix index files) can be downloaded from - http://cadd.gs.washington.edu/download The CADD SV data files (and respective Tabix index files) can be downloaded from - https://kircherlab.bihealth.org/download/CADD-SV/v1.1/ By default the plugin is designed to not annotate SV variant if a SNV and/or indels CADD annotation file is provided."
+   ]
+  },
+  {
+   "plugin": "CAPICE",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves CAPICE scores for variants from one or tabix-indexed CAPICE data files, in order to predict their pathogenicity. more Please cite the CAPICE publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/32831124/ The tabix utility must be installed in your path to use this plugin. The CAPICE SNVs, InDels and respective index (TBI) files for GRCh37 can be downloaded from https://zenodo.org/record/3928295 To filter results, please use filter_vep with the output file or standard output. Documentation on filter_vep is available at: https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html For recommendations on threshold selection, please read the CAPICE publication. Usage examples: mv CAPICE.pm ~/.vep/Plugins # Download CAPICE SNVs, InDels and index (TBI) files to the same path # - capice_v1.0_build37_indels.tsv.gz # - capice_v1.0_build37_indels.tsv.gz.tbi # - capice_v1.0_build37_snvs.tsv.gz # - capice_v1.0_build37_snvs.tsv.gz.tbi ./vep -i variations.vcf --plugin CAPICE,snv=/FULL_PATH_TO_CAPICE_FILE/capice_v1.0_build37_snvs.tsv.gz,indels=/FULL_PATH_TO_CAPICE_FILE/capice_v1.0_build37_indels.tsv.gz ./filter_vep -i variant_effect_output.txt --filter \"CAPICE_SCORE >= 0.02\"",
+   "licence_or_data_sentences": [
+    "more Please cite the CAPICE publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/32831124/ The tabix utility must be installed in your path to use this plugin.",
+    "The CAPICE SNVs, InDels and respective index (TBI) files for GRCh37 can be downloaded from https://zenodo.org/record/3928295 To filter results, please use filter_vep with the output file or standard output.",
+    "Documentation on filter_vep is available at: https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html For recommendations on threshold selection, please read the CAPICE publication.",
+    "Usage examples: mv CAPICE.pm ~/.vep/Plugins # Download CAPICE SNVs, InDels and index (TBI) files to the same path # - capice_v1.0_build37_indels.tsv.gz # - capice_v1.0_build37_indels.tsv.gz.tbi # - capice_v1.0_build37_snvs.tsv.gz # - capice_v1.0_build37_snvs.tsv.gz.tbi ./vep -i variations.vcf --plugin CAPICE,snv=/FULL_PATH_TO_CAPICE_FILE/capice_v1.0_build37_snvs.tsv.gz,indels=/FULL_PATH_TO_CAPICE_"
+   ]
+  },
+  {
+   "plugin": "Carol",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "Math::CDF qw(pnorm qnorm)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that calculates the Combined Annotation scoRing toOL (CAROL) score (1) for a missense mutation based on the pre-calculated SIFT (2) and PolyPhen-2 (3) scores from the Ensembl API (4). It adds one new entry to the output, CAROL, which is the calculated CAROL score. Note that this module is a perl reimplementation of the original R script, available at: https://sanger.ac.uk/tool/carol/ I believe that both versions implement the same algorithm, but if there are any discrepancies the R version should be treated as the reference implementation. Bug reports are welcome. References: Lopes MC, Joyce C, Ritchie GRS, John SL, Cunningham F, Asimit J, Zeggini E. A combined functional annotation score for non-synonymous variants Human Heredity 73(1):47-51 (2012) doi:10.1159/000334984 Kumar P, Henikoff S, Ng PC. Predicting the effects of coding non-synonymous variants on protein function using the SIFT algorithm Nature Protocols 4(8):1073-1081 (2009) doi:10.1038/nprot.2009.86 Adzhubei IA, Schmidt S, Peshkin L, Ramensky VE, Gerasimova A, Bork P, Kondrashov AS, Sunyaev SR. A method and server for predicting damaging missense mutations Nature Methods 7(4):248-249 (2010) doi:10.1038/nmeth0410-248 Flicek P, et al. Ensembl 2012 Nucleic Acids Research 40(D1):D84-D90 (2011) doi: 10.1093/nar/gkr991 Usage examples: mv Carol.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin Carol",
+   "licence_or_data_sentences": [
+    "Note that this module is a perl reimplementation of the original R script, available at: https://sanger.ac.uk/tool/carol/ I believe that both versions implement the same algorithm, but if there are any discrepancies the R version should be treated as the reference implementation."
+   ]
+  },
+  {
+   "plugin": "ClinPred",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds pre-calculated scores from ClinPred. ClinPred is a prediction tool to identify disease-relevant nonsynonymous variants. Please cite the ClinPred publication alongside Ensembl VEP if you use this resource: https://www.sciencedirect.com/science/article/pii/S0002929718302714 ClinPred scores can be downloaded from https://sites.google.com/site/clinpred/download The following steps are neccessary to tabix the ClinPred.txt.gz file before running the plugin: For GRCh37: gzip -d ClinPred.txt.gz # to unzip the text file cat ClinPred.txt | tr \" \" \"\\t\" > ClinPred_tabbed.tsv # change to tab-delimited file sed -i '1s/.*/#&/' ClinPred_tabbed.tsv # comment the first line sed -i 1s/Chr/chr/ ClinPred_tabbed.tsv # convert Chr to chr bgzip ClinPred_tabbed.tsv tabix -f -s 1 -b 2 -e 2 ClinPred_tabbed.tsv.gz For GRCh38: gzip -d ClinPred_hg38.txt.gz # unzip the text file awk '($2 == \"Start\" || $2 ~ /^[0-9]+$/){print $0}' ClinPred_hg38.txt > \"ClinPred_hg38_tabbed.tsv\" # remove problematic lines sed -i '1s/.*/#&/' ClinPred_hg38_tabbed.tsv # comment the first line sed -i 1s/Chr/chr/ ClinPred_hg38_tabbed.tsv # convert Chr to chr { head -n 1 ClinPred_hg38_tabbed.tsv; tail -n +2 ClinPred_hg38_tabbed.tsv | sort -k1,1V -k2,2V; } > ClinPred_hg38_sorted_tabbed.tsv # sort file by chromosome and position bgzip ClinPred_hg38_sorted_tabbed.tsv tabix -f -s 1 -b 2 -e 2 ClinPred_hg38_sorted_tabbed.tsv.gz The tabix utility must be installed in your path to use this plugin. Check https://github.com/samtools/htslib.git for instructions. Usage examples: mv ClinPred.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin ClinPred,file=ClinPred_tabbed.tsv.gz",
+   "licence_or_data_sentences": [
+    "Please cite the ClinPred publication alongside Ensembl VEP if you use this resource: https://www.sciencedirect.com/science/article/pii/S0002929718302714 ClinPred scores can be downloaded from https://sites.google.com/site/clinpred/download The following steps are neccessary to tabix the ClinPred.txt.gz file before running the plugin: For GRCh37: gzip -d ClinPred.txt.gz # to unzip the text file cat",
+    "Check https://github.com/samtools/htslib.git for instructions."
+   ]
+  },
+  {
+   "plugin": "Condel",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that calculates the Consensus Deleteriousness (Condel) score (1) for a missense mutation based on the pre-calculated SIFT (2) and PolyPhen-2 (3) scores from the Ensembl API (4). It adds one new entry to the output, Condel, which is the calculated Condel score. This version of Condel was developed by the Biomedical Genomics Group of the Universitat Pompeu Fabra, at the Barcelona Biomedical Research Park and available at https://bg.upf.edu/condel. The code in this plugin is based on a script provided by this group and slightly reformatted to fit into the Ensembl API. The plugin takes 3 command line arguments by this order: Path to a Condel configuration directory which contains cutoffs and the distribution files, etc. Output: output the Condel score (s), prediction (p) or both (b); both (b) is the default. Version of Condel to use: either 1 (original version) or 2 (newer version); 2 is the default and is recommended to avoid false positive predictions from Condel in some circumstances. An example Condel configuration file and a set of distribution files can be found in the config/Condel directory in this repository. You should edit the config/Condel/config/condel_SP.conf file and set the condel.dir parameter to the full path to the location of the config/Condel directory on your system. References: Gonzalez-Perez A, Lopez-Bigas N. Improving the assessment of the outcome of non-synonymous SNVs with a Consensus deleteriousness score (Condel) Am J Hum Genet 88(4):440-449 (2011) doi:10.1016/j.ajhg.2011.03.004 Kumar P, Henikoff S, Ng PC. Predicting the effects of coding non-synonymous variants on protein function using the SIFT algorithm Nature Protocols 4(8):1073-1081 (2009) doi:10.1038/nprot.2009.86 Adzhubei IA, Schmidt S, Peshkin L, Ramensky VE, Gerasi",
+   "licence_or_data_sentences": [
+    "This version of Condel was developed by the Biomedical Genomics Group of the Universitat Pompeu Fabra, at the Barcelona Biomedical Research Park and available at https://bg.upf.edu/condel."
+   ]
+  },
+  {
+   "plugin": "Conservation",
+   "category": "conservation",
+   "external_libraries": "Net::FTP",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that retrieves a conservation score from the Ensembl Compara databases for variant positions. You can specify the method link type and species sets as command line options, the default is to fetch GERP scores from the EPO 35 way mammalian alignment (please refer to the Compara documentation for details of available analyses). more If a variant affects multiple nucleotides the average score for the position will be returned, and for insertions the average score of the 2 flanking bases will be returned. If the MAX parameter is used, the maximum score of any of the affected bases will be reported instead. The plugin uses the ensembl-compara API module (optional, see http://www.ensembl.org/info/docs/api/index.html) or obtains data directly from BigWig files (optional, see https://ftp.ensembl.org/pub/current_compara/conservation_scores/) Usage examples: mv Conservation.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin Conservation,mammals ./vep -i variations.vcf --plugin Conservation,/path/to/bigwigfile.bw ./vep -i variations.vcf --plugin Conservation,/path/to/bigwigfile.bw,MAX ./vep -i variations.vcf --plugin Conservation,database,GERP_CONSERVATION_SCORE,mammals ./vep -i variations.vcf --plugin Conservation,database,GERP_CONSERVATION_SCORE,mammals,MAX",
+   "licence_or_data_sentences": [
+    "The plugin uses the ensembl-compara API module (optional, see http://www.ensembl.org/info/docs/api/index.html) or obtains data directly from BigWig files (optional, see https://ftp.ensembl.org/pub/current_compara/conservation_scores/) Usage examples: mv Conservation.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin Conservation,mammals ./vep -i variations.vcf --plugin Conservation,/path/to/bigwig"
+   ]
+  },
+  {
+   "plugin": "dbNSFP",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "File::Basename qw(basename)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves data for missense variants from a tabix-indexed dbNSFP file. Please cite the dbNSFP publications alongside the VEP if you use this resource: A guide for version specific citations is available on their website here: https://www.dbnsfp.org/publications You must have the Bio::DB::HTS module or the tabix utility must be installed in your path to use this plugin. From v5.0 onwards, dbNSFP are kindly hosting Ensembl VEP ready files, which are available for download from https://www.dbnsfp.org/download The information below pertains to releases prior to v5.0 - ONLY REQUIRED FOR LEGACY DATA / VERSIONS --------------------------------------------------------------------------------------------------- About dbNSFP data files: Downoad dbNSFP files from https://sites.google.com/site/jpopgen/dbNSFP. There are two distinct branches of the files provided for academic and commercial usage. Please use the appropriate files for your use case. The file must be processed depending on dbNSFP release version and assembly (see commands below). We recommend using -T option with the sort command to specify a temporary directory with sufficient space. The resulting file must be indexed with tabix before use by this plugin (see commands below). For release 4.9c: version=4.9c wget https://dbnsfp.s3.amazonaws.com/dbNSFP${version}.zip unzip dbNSFP${version}.zip zcat dbNSFP${version}_variant.chr1.gz | head -n1 > h # GRCh38/hg38 data zgrep -h -v ^#chr dbNSFP${version}_variant.chr* | sort -k1,1 -k2,2n - | cat h - | bgzip -c > dbNSFP${version}_grch38.gz tabix -s 1 -b 2 -e 2 dbNSFP${version}_grch38.gz # GRCh37/hg19 data zgrep -h -v ^#chr dbNSFP${version}_variant.chr* | awk '$8 != \".\" ' | sort -k8,8 -k9,9n - | cat h - | bgzip -c > dbNSFP${version}_grch37.gz tabix -s 8",
+   "licence_or_data_sentences": [
+    "Please cite the dbNSFP publications alongside the VEP if you use this resource: A guide for version specific citations is available on their website here: https://www.dbnsfp.org/publications You must have the Bio::DB::HTS module or the tabix utility must be installed in your path to use this plugin.",
+    "From v5.0 onwards, dbNSFP are kindly hosting Ensembl VEP ready files, which are available for download from https://www.dbnsfp.org/download The information below pertains to releases prior to v5.0 - ONLY REQUIRED FOR LEGACY DATA / VERSIONS --------------------------------------------------------------------------------------------------- About dbNSFP data files: Downoad dbNSFP files from https://s",
+    "There are two distinct branches of the files provided for academic and commercial usage.",
+    "For release 4.9c: version=4.9c wget https://dbnsfp.s3.amazonaws.com/dbNSFP${version}.zip unzip dbNSFP${version}.zip zcat dbNSFP${version}_variant.chr1.gz | head -n1 > h # GRCh38/hg38 data zgrep -h -v ^#chr dbNSFP${version}_variant.chr* | sort -k1,1 -k2,2n - | cat h - | bgzip -c > dbNSFP${version}_grch38.gz tabix -s 1 -b 2 -e 2 dbNSFP${version}_grch38.gz # GRCh37/hg19 data zgrep -h -v ^#chr dbNSFP$",
+    "This plugin is fully compatible with such a setup - simply use the URL of the remote file: --plugin dbNSFP,http://my.files.com/dbNSFP.gz,col1,col2 The plugin replaces occurrences of ; with , and | with &.",
+    "Information on corresponding transcript(s) for MutationTaster fields can be found using http://www.mutationtaster.org/ChrPos.html Usage examples: mv dbNSFP.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin dbNSFP,/path/to/dbNSFP.gz,col1,col2 ./vep -i variations.vcf --plugin dbNSFP,'consequence=ALL',/path/to/dbNSFP.gz,col1,col2 ./vep -i variations.vcf --plugin dbNSFP,'consequence=3_prime_UTR_varia"
+   ]
+  },
+  {
+   "plugin": "dbscSNV",
+   "category": "splicing_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves data for splicing variants from a tabix-indexed dbscSNV file. Please cite the dbscSNV publication alongside Ensembl VEP if you use this resource: http://nar.oxfordjournals.org/content/42/22/13534 The Bio::DB::HTS perl library or tabix utility must be installed in your path to use this plugin. The dbscSNV data file can be downloaded from https://sites.google.com/site/jpopgen/dbNSFP. The file must be processed and indexed by tabix before use by this plugin. dbscSNV1.1 has coordinates for both GRCh38 and GRCh37; the file must be processed differently according to the assembly you use. wget ftp://dbnsfp:dbnsfp@dbnsfp.softgenetics.com/dbscSNV1.1.zip unzip dbscSNV1.1.zip head -n1 dbscSNV1.1.chr1 > h # GRCh38 cat dbscSNV1.1.chr* | grep -v ^chr | sort -k5,5 -k6,6n | cat h - | awk '$5 != \".\"' | bgzip -c > dbscSNV1.1_GRCh38.txt.gz tabix -s 5 -b 6 -e 6 -c c dbscSNV1.1_GRCh38.txt.gz # GRCh37 cat dbscSNV1.1.chr* | grep -v ^chr | cat h - | bgzip -c > dbscSNV1.1_GRCh37.txt.gz tabix -s 1 -b 2 -e 2 -c c dbscSNV1.1_GRCh37.txt.gz Note that in the last command we tell tabix that the header line starts with \"c\"; this may change to the default of \"#\" in future versions of dbscSNV. Tabix also allows the data file to be hosted on a remote server. This plugin is fully compatible with such a setup - simply use the URL of the remote file: --plugin dbscSNV,http://my.files.com/dbscSNV.txt.gz Note that transcript sequences referred to in dbscSNV may be out of sync with those in the latest release of Ensembl; this may lead to discrepancies with scores retrieved from other sources. Usage examples: mv dbscSNV.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin dbscSNV,/path/to/dbscSNV1.1_GRCh38.txt.gz",
+   "licence_or_data_sentences": [
+    "Please cite the dbscSNV publication alongside Ensembl VEP if you use this resource: http://nar.oxfordjournals.org/content/42/22/13534 The Bio::DB::HTS perl library or tabix utility must be installed in your path to use this plugin.",
+    "The dbscSNV data file can be downloaded from https://sites.google.com/site/jpopgen/dbNSFP.",
+    "This plugin is fully compatible with such a setup - simply use the URL of the remote file: --plugin dbscSNV,http://my.files.com/dbscSNV.txt.gz Note that transcript sequences referred to in dbscSNV may be out of sync with those in the latest release of Ensembl; this may lead to discrepancies with scores retrieved from other sources."
+   ]
+  },
+  {
+   "plugin": "DeNovo",
+   "category": "variant_data",
+   "external_libraries": "Cwd List::MoreUtils qw(uniq)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that identifies de novo variants in a VCF file. The plugin is not compatible with JSON output format. Options are passed to the plugin as key=value pairs:ArgumentDescription pedPath to PED file (mandatory) The file is tab or white-space delimited with five mandatory columns: family ID individual ID paternal ID maternal ID sex phenotype (optional) report_dirWrite files in report_dir (optional) full_reportSet to 1 to report all types of variants (optional) By default, the plugin only reports de novo variants. The plugin can then be run: ./vep -i variations.vcf --plugin DeNovo,ped=samples.ped ./vep -i variations.vcf --plugin DeNovo,ped=samples.ped,report_dir=path/to/dir ./vep -i variations.vcf --plugin DeNovo,ped=samples.ped,report_dir=path/to/dir,full_report=1 Usage examples: mv DeNovo.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin DeNovo,ped=samples.ped ./vep -i variations.vcf --plugin DeNovo,ped=samples.ped,full_report=1",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "DosageSensitivity",
+   "category": "gene_tolerance_to_change",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves haploinsufficiency and triplosensitivity probability scores for affected genes from a dosage sensitivity catalogue published in paper - https://www.sciencedirect.com/science/article/pii/S0092867422007887 Please cite the above publication alongside Ensembl VEP if you use this resource. This plugin returns two scores: pHaplo score gives the probability of a gene being haploinsufficient (deletion intolerant) pTriplo score gives the probability of a gene being triploinsensitive (duplication intolerant) Pre-requisites: You need the compressed tsv file containing the dosage sensitivity score. The file Collins_rCNV_2022.dosage_sensitivity_scores.tsv.gz can be downloaded from here - https://zenodo.org/record/6347673/files/Collins_rCNV_2022.dosage_sensitivity_scores.tsv.gz Options are passed to the plugin as key=value pairs:ArgumentDescription file(mandatory) compressed tsv file containing dosage sensitivity scores coverset value to 1 (0 by default) to report scores only if the variant covers the affected feature completely (e.g. - a CNV that duplicates the gene). The feature is a gene if using --database otherwise it is a transcript. Usage examples: mv DosageSensitivity.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin DosageSensitivity,file=/FULL_PATH_TO/Collins_rCNV_2022.dosage_sensitivity_scores.tsv.gz ./vep -i variations.vcf --plugin DosageSensitivity,file=/FULL_PATH_TO/Collins_rCNV_2022.dosage_sensitivity_scores.tsv.gz,cover=1",
+   "licence_or_data_sentences": [
+    "An Ensembl VEP plugin that retrieves haploinsufficiency and triplosensitivity probability scores for affected genes from a dosage sensitivity catalogue published in paper - https://www.sciencedirect.com/science/article/pii/S0092867422007887 Please cite the above publication alongside Ensembl VEP if you use this resource.",
+    "The file Collins_rCNV_2022.dosage_sensitivity_scores.tsv.gz can be downloaded from here - https://zenodo.org/record/6347673/files/Collins_rCNV_2022.dosage_sensitivity_scores.tsv.gz Options are passed to the plugin as key=value pairs:ArgumentDescription file(mandatory) compressed tsv file containing dosage sensitivity scores coverset value to 1 (0 by default) to report scores only if the variant co"
+   ]
+  },
+  {
+   "plugin": "Downstream",
+   "category": "nearby_features",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that predicts the downstream effects of a frameshift variant on the protein sequence of a transcript. It provides the predicted downstream protein sequence (including any amino acids overlapped by the variant itself), and the change in length relative to the reference protein. Note that changes in splicing are not predicted - only the existing translateable (i.e. spliced) sequence is used as a source of translation. Any variants with a splice site consequence type are ignored. In run in offline mode, using the flag --offline, a FASTA file is required. See: https://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html#fasta Sequence may be incomplete without a FASTA file or database connection. Usage examples: mv Downstream.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin Downstream",
+   "licence_or_data_sentences": [
+    "See: https://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html#fasta Sequence may be incomplete without a FASTA file or database connection."
+   ]
+  },
+  {
+   "plugin": "Draw",
+   "category": "visualisation",
+   "external_libraries": "GD::Polygon GD",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that draws pictures of the transcript model showing the variant location. Takes five optional paramters: File name stem for images Image width in pixels (default: 1000px) Image height in pixels (default: 100px) Transcript ID - only draw images for this transcript Variant ID - only draw images for this variant e.g. ./vep -i variations.vcf --plugin Draw,myimg,2000,100 Images are written to [file_stem]_[transcript_id]_[variant_id].png Requires GD library installed to run. Usage examples: mv Draw.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin Draw",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "Enformer",
+   "category": "regulatory_impact",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds pre-calculated Enformer predictions of variant impact on chromatin and gene expression. The predictions have been aggregated across all 896 spatial bins to generate 5313 features corresponding to track prediction changes in differnet assays and cell types. This plugin is available for GRCh37 and GRCh38 Please cite the Enformer publication alongside Ensembl VEP if you use this resource: https://www.nature.com/articles/s41592-021-01252-x GRCh38 scores were lifted over using CrossMap from the Enformer scores available here - https://console.cloud.google.com/storage/browser/dm-enformer/variant-scores/1000-genomes/enformer Enformer scores can be downloaded from https://ftp.ensembl.org/pub/current_variation/Enformer for GRCh37 and GRCh38. The plugin can then be run as default to retrieve SAD (SNP Activity Difference (SAD) and SAR (Same as SAD, by computing np.log2(1 + model(alternate_sequence)) - np.log2(1 + model(reference_sequence)) scores from Enforme : ./vep -i variations.vcf --assembly GRCh38 --plugin Enformer,file=/path/to/Enformer/data.vcf.gz or run with option to only retrieve the SAD (SNP Activity Difference (SAD) scores - main variant effect score computed as model(alternate_sequence) - model(reference_sequence) score ./vep -i variations.vcf --assembly GRCh38 --plugin Enformer,file=/path/to/Enformer/data.vcf.gz,SAD=1 or run with option to only retrieve the SAR (Same as SAD, by computing np.log2(1 + model(alternate_sequence)) - np.log2(1 + model(reference_sequence)) score ./vep -i variations.vcf --assembly GRCh38 --plugin Enformer,file=/path/to/Enformer/data.vcf.gz,SAR=1 or run with option to also retrieve the principal component scores which are a reduced representation of a much bigger vector",
+   "licence_or_data_sentences": [
+    "This plugin is available for GRCh37 and GRCh38 Please cite the Enformer publication alongside Ensembl VEP if you use this resource: https://www.nature.com/articles/s41592-021-01252-x GRCh38 scores were lifted over using CrossMap from the Enformer scores available here - https://console.cloud.google.com/storage/browser/dm-enformer/variant-scores/1000-genomes/enformer Enformer scores can be download",
+    "Check https://github.com/samtools/htslib.git for instructions."
+   ]
+  },
+  {
+   "plugin": "EVE",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds information from EVE (evolutionary model of variant effect). This plugin only report EVE scores for input variants and does not merge input lines to report on adjacent variants. It is only available for GRCh38. Please cite EVE publication alongside Ensembl VEP if you use this resource: https://www.nature.com/articles/s41586-021-04043-8 ######################################################################## # Get and prepare EVE data: script to merge all VCFs from EVE dataset. # ######################################################################## # EVE input file can be downloaded from https://evemodel.org/api/proteins/bulk/download/ # Input: VCF files by protein (vcf_files_missense_mutations inside zip folder) # Output: Compressed Merged VCF file (vcf.gz) + index file (.tbi) DATA_FOLDER=/<PATH-TO>/vcf_files_missense_mutations # Fill this line OUTPUT_FOLDER=/<PATH-TO>/eve_plugin # Fill this line OUTPUT_NAME=eve_merged.vcf # Default output name # Get header from first VCF cat `ls ${DATA_FOLDER}/*vcf | head -n1` > header # Get variants from all VCFs and add to a single-file ls ${DATA_FOLDER}/*vcf | while read VCF; do grep -v '^#' ${VCF} >> variants; done # Merge Header + Variants in a single file cat header variants | \\ awk '$1 ~ /^#/ {print $0;next} {print $0 | \"sort -k1,1V -k2,2n\"}' > ${OUTPUT_FOLDER}/${OUTPUT_NAME}; # Remove temporary files rm header variants # Compress and index bgzip ${OUTPUT_FOLDER}/${OUTPUT_NAME}; # If not installed, use: sudo apt install tabix tabix ${OUTPUT_FOLDER}/${OUTPUT_NAME}.gz; ######################################################################## # Get and prepare popEVE data # ######################################################################## # popEVE in",
+   "licence_or_data_sentences": [
+    "Please cite EVE publication alongside Ensembl VEP if you use this resource: https://www.nature.com/articles/s41586-021-04043-8 ######################################################################## # Get and prepare EVE data: script to merge all VCFs from EVE dataset.",
+    "# ######################################################################## # EVE input file can be downloaded from https://evemodel.org/api/proteins/bulk/download/ # Input: VCF files by protein (vcf_files_missense_mutations inside zip folder) # Output: Compressed Merged VCF file (vcf.gz) + index file (.tbi) DATA_FOLDER=/<PATH-TO>/vcf_files_missense_mutations # Fill this line OUTPUT_FOLDER=/<PATH-T"
+   ]
+  },
+  {
+   "plugin": "FATHMM",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that gets FATHMM scores and predictions for missense variants. You will need the fathmm.py script and its dependencies (Python, Python MySQLdb). You should create a \"config.ini\" file in the same directory as the fathmm.py script with the database connection options. More information about how to set up FATHMM can be found on the FATHMM website at https://github.com/HAShihab/fathmm A typical installation could consist of: wget https://raw.github.com/HAShihab/fathmm/master/cgi-bin/fathmm.py wget http://fathmm.biocompute.org.uk/database/fathmm.v2.3.SQL.gz gunzip fathmm.v2.3.SQL.gz mysql -h[host] -P[port] -u[user] -p[pass] -e\"CREATE DATABASE fathmm\" mysql -h[host] -P[port] -u[user] -p[pass] -Dfathmm < fathmm.v2.3.SQL echo -e \"[DATABASE]\\nHOST = [host]\\nPORT = [port]\\nUSER = [user]\\nPASSWD = [pass]\\nDB = fathmm\\n\" > config.ini Usage examples: mv FATHMM.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin FATHMM,\"python2 /path/to/fathmm/fathmm.py\"",
+   "licence_or_data_sentences": [
+    "More information about how to set up FATHMM can be found on the FATHMM website at https://github.com/HAShihab/fathmm A typical installation could consist of: wget https://raw.github.com/HAShihab/fathmm/master/cgi-bin/fathmm.py wget http://fathmm.biocompute.org.uk/database/fathmm.v2.3.SQL.gz gunzip fathmm.v2.3.SQL.gz mysql -h[host] -P[port] -u[user] -p[pass] -e\"CREATE DATABASE fathmm\" mysql -h[host"
+   ]
+  },
+  {
+   "plugin": "FATHMM_MKL",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves FATHMM-MKL scores for variants from a tabix-indexed FATHMM-MKL data file. See https://github.com/HAShihab/fathmm-MKL for details. NB: The currently available data file is for GRCh37 only. Usage examples: mv FATHMM_MKL.pm ~/.vep/Plugins ./vep -i input.vcf --plugin FATHMM_MKL,fathmm-MKL_Current.tab.gz",
+   "licence_or_data_sentences": [
+    "See https://github.com/HAShihab/fathmm-MKL for details."
+   ]
+  },
+  {
+   "plugin": "FlagLRG",
+   "category": "external_id",
+   "external_libraries": "Text::CSV",
+   "developer": "Stephen Kazakoff",
+   "description": "An Ensembl VEP plugin that retrieves the LRG ID matching either the RefSeq or Ensembl transcript IDs. You can obtain the list_LRGs_transcripts_xrefs.txt using: wget https://ftp.ebi.ac.uk/pub/databases/lrgex/list_LRGs_transcripts_xrefs.txt Usage examples: mv FlagLRG.pm ~/.vep/Plugins ./vep -i variants.vcf --plugin FlagLRG,/path/to/list_LRGs_transcripts_xrefs.txt",
+   "licence_or_data_sentences": [
+    "You can obtain the list_LRGs_transcripts_xrefs.txt using: wget https://ftp.ebi.ac.uk/pub/databases/lrgex/list_LRGs_transcripts_xrefs.txt Usage examples: mv FlagLRG.pm ~/.vep/Plugins ./vep -i variants.vcf --plugin FlagLRG,/path/to/list_LRGs_transcripts_xrefs.txt"
+   ]
+  },
+  {
+   "plugin": "FunMotifs",
+   "category": "motif",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds tissue-specific transcription factor motifs from FunMotifs to the output. Please cite the FunMotifs publication alongside Ensembl VEP if you use this resource. The preprint can be found at: https://www.biorxiv.org/content/10.1101/683722v1 FunMotifs files can be downloaded from: http://bioinf.icm.uu.se:3838/funmotifs/ At the time of writing, all BED files found through this link support GRCh37, however other assemblies are supported by the plugin if an appropriate BED file is supplied. The tabix utility must be installed in your path to use this plugin. Usage examples: mv FunMotifs.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin FunMotifs,/path/to/funmotifs/all_tissues.bed.gz,uterus ./vep -i variations.vcf --plugin FunMotifs,/path/to/funmotifs/blood.funmotifs_sorted.bed.gz,fscore,dnase_seq Parameters Required: [0] : FunMotifs BED file [1]+ : List of columns to include within the output (e.g. fscore, skin, contactingdomain)",
+   "licence_or_data_sentences": [
+    "The preprint can be found at: https://www.biorxiv.org/content/10.1101/683722v1 FunMotifs files can be downloaded from: http://bioinf.icm.uu.se:3838/funmotifs/ At the time of writing, all BED files found through this link support GRCh37, however other assemblies are supported by the plugin if an appropriate BED file is supplied."
+   ]
+  },
+  {
+   "plugin": "G2P",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "Text::CSV Scalar::Util qw(looks_like_number) FileHandle List::Util qw(any) Cwd",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that uses G2P (www.ebi.ac.uk/gene2phenotype) allelic requirements to assess variants in genes for potential phenotype involvement. The plugin has multiple configuration options, though minimally requires only the CSV file of G2P data. This Plugin is available for GRCh38 and GRCh37. For further information see: Thormann A, Halachev M, McLaren W, et al. Flexible and scalable diagnostic filtering of genomic variants using G2P with Ensembl VEP. Nature Communications. 2019 May;10(1):2373. doi:10.1038/s41467-019-10016-3. PMID: 31147538; PMCID: PMC6542828. To improve performance, we recommend running VEP with multiple forks using the --fork <n> option where <n> is the number of parallel processes. For the G2P plugin we recommend using 4 forks (--fork 4). G2P data file: To run the plugin it is necessary to provide an uncompressed data file downloaded from G2P, PanelApp or GenCC. G2P files can be downloaded from: Website https://www.ebi.ac.uk/gene2phenotype/download API https://www.ebi.ac.uk/gene2phenotype/api/panel/<name>/download ; Accepted panel names are: Cancer, Cardiac, DD, Ear, Eye, Skeletal, Skin (or All to download all panels in the same file) Options are passed to the plugin as key=value pairs, (defaults in parentheses):ArgumentDescription filePath to the input data file. Supported formats are csv (G2P, GenCC) and tsv (PanelApp). The file needs to be uncompressed. variant_include_listA list of variants to include even if variants do not pass allele frequency filtering. The include list needs to be a sorted, bgzipped and tabixed VCF file. af_monoallelicmaximum allele frequency for inclusion for monoallelic genes (0.0001) af_biallelicmaximum allele frequency for inclusion for biallelic genes (0.005) confidence_levelsConfidence levels include: defini",
+   "licence_or_data_sentences": [
+    "G2P data file: To run the plugin it is necessary to provide an uncompressed data file downloaded from G2P, PanelApp or GenCC.",
+    "G2P files can be downloaded from: Website https://www.ebi.ac.uk/gene2phenotype/download API https://www.ebi.ac.uk/gene2phenotype/api/panel/<name>/download ; Accepted panel names are: Cancer, Cardiac, DD, Ear, Eye, Skeletal, Skin (or All to download all panels in the same file) Options are passed to the plugin as key=value pairs, (defaults in parentheses):ArgumentDescription filePath to the input d",
+    "https://www.ebi.ac.uk/gene2phenotype/terminology Default levels are definitive, strong and moderate (and former terms: confirmed, probable).",
+    "More details in https://europepmc.org/article/MED/37982373 See here for the list of supported variant consequences in G2P: https://www.ebi.ac.uk/gene2phenotype/about/terminology#variant-consequence-section flag_consequence_matchflag if the VEP predicted consequence matches the G2P variant consequence term (GenCC term).",
+    "More details in https://europepmc.org/article/MED/37982373 only_maneset to 1 to ignore transcripts that are not MANE N/B - Information may be lost if this option is used.",
+    "For more information - https://www.ebi.ac.uk/gene2phenotype/variant-filtering Example: --plugin G2P,file=G2P.csv,af_monoallelic=0.05,types=stop_gained&frameshift_variant --plugin G2P,file=G2P.csv,af_monoallelic=0.05,af_from_vcf=1 --plugin G2P,file=G2P.csv,af_from_vcf=1,af_from_vcf_keys=topmed&gnomADe_r2.1.1 --plugin G2P,file=G2P.csv,af_from_vcf=1,af_from_vcf_keys=topmed&gnomADe_r2.1.1,confidence_l"
+   ]
+  },
+  {
+   "plugin": "GeneBe",
+   "category": "variant_data",
+   "external_libraries": "JSON",
+   "developer": "Ensembl Piotr Stawinski",
+   "description": "A user-contributed Ensembl VEP plugin that retrieves automatic ACMG variant classification data from https://genebe.net/ Please cite the GeneBe publication alongside Ensembl VEP if you use this resource: https://onlinelibrary.wiley.com/doi/10.1111/cge.14516 . Please be advised that the GeneBe API is freely accessible for academic purposes only, with a limited number of queries per day, albeit at a high threshold. Kindly utilize this resource judiciously to ensure its availability for others. For further information, please visit https://genebe.net/about/api. In order to extend your daily limits please make an account on https://genebe.net/ and use your username and API-key as follows: ./vep -i variations.vcf --plugin GeneBe,user=example@email.com,password=your_api_key Usage examples: mv GeneBe.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin GeneBe",
+   "licence_or_data_sentences": [
+    "A user-contributed Ensembl VEP plugin that retrieves automatic ACMG variant classification data from https://genebe.net/ Please cite the GeneBe publication alongside Ensembl VEP if you use this resource: https://onlinelibrary.wiley.com/doi/10.1111/cge.14516 .",
+    "Please be advised that the GeneBe API is freely accessible for academic purposes only, with a limited number of queries per day, albeit at a high threshold.",
+    "For further information, please visit https://genebe.net/about/api.",
+    "In order to extend your daily limits please make an account on https://genebe.net/ and use your username and API-key as follows: ./vep -i variations.vcf --plugin GeneBe,user=example@email.com,password=your_api_key Usage examples: mv GeneBe.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin GeneBe"
+   ]
+  },
+  {
+   "plugin": "GeneSplicer",
+   "category": "splicing_predictions",
+   "external_libraries": "Digest::MD5 qw(md5_hex)",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that runs GeneSplicer (https://ccb.jhu.edu/software/genesplicer/) to get splice site predictions. It evaluates a tract of sequence either side of and including the variant, both in reference and alternate states. The amount of sequence included either side defaults to 100bp, but can be modified by passing e.g. \"context=50\" as a parameter to the plugin. You will need to download the GeneSplicer binary and data from ftp://ftp.ccb.jhu.edu/pub/software/genesplicer/GeneSplicer.tar.gz. Extract the folder using: tar -xzf GeneSplicer.tar.gz GeneSplicer comes with precompiled binaries for multiple systems. If the provided binaries do not run, compile genesplicer from source: cd $GS/sources # if macOS, run this step [[ $(uname -s) == \"Darwin\" ]] && perl -pi -e \"s/^main /int main /\" genesplicer.cpp make cd - ./vep [options] --plugin GeneSplicer,$GS/sources/genesplicer,$GS/human Predicted splicing regions that overlap the variant are reported in the output with a /-separated string (e.g., loss/acceptor/727006-727007/High/16.231924) consisting of the following data by this order: state (no_change, diff, gain, loss) type (donor, acceptor) coordinates (start-end) confidence (Low, Medium, High) score If multiple sites are predicted, their reports are separated by \",\". For diff, the confidence and score for both the reference and alternate sequences is reported as REF-ALT, such as diff/donor/621915-621914/Medium-Medium/7.020731-6.988368. Several key=value parameters can be modified in the the plugin string:ArgumentDescription training(mandatory) directory to species-specific training data, such as GeneSplicer/human binarypath to genesplicer binary (default: genesplicer) contextchange the amount of sequence added either side",
+   "licence_or_data_sentences": [
+    "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that runs GeneSplicer (https://ccb.jhu.edu/software/genesplicer/) to get splice site predictions.",
+    "You will need to download the GeneSplicer binary and data from ftp://ftp.ccb.jhu.edu/pub/software/genesplicer/GeneSplicer.tar.gz."
+   ]
+  },
+  {
+   "plugin": "Geno2MP",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that adds information from Geno2MP, a web-accessible database of rare variant genotypes linked to phenotypic information. Parameters can be set using a key=value system:ArgumentDescriptionfileVCF file containing Geno2MP data colscolon-delimited list of Geno2MP columns to return from INFO fields (by default it only returns the column HPO_CT) urlbuild and return URL to Geno2MP variant page (boolean; 0 by default); the variant location in Geno2MP website is based on GRCh37 coordinates Please cite Geno2MP alongside Ensembl VEP if you use this resource: Geno2MP, NHGRI/NHLBI University of Washington-Center for Mendelian Genomics (UW-CMG), Seattle, WA (URL: http://geno2mp.gs.washington.edu [date (month, yr) accessed]). Usage examples: cp Geno2MP.pm ${HOME}/.vep/Plugins ./vep -i variations.vcf --plugin Geno2MP,file=/path/to/Geno2MP/data.vcf.gz # Return more columns from Geno2MP VCF file ./vep -i variations.vcf --plugin Geno2MP,file=/path/to/Geno2MP/data.vcf.gz,cols=HPO_CT:FXN:nhomalt_male_aff:nhomalt_male_unaff # Build and return Geno2MP URL based on GRCh37 variant location ./vep -i variations.vcf --plugin Geno2MP,file=/path/to/Geno2MP/data.vcf.gz,url=1",
+   "licence_or_data_sentences": [
+    "Parameters can be set using a key=value system:ArgumentDescriptionfileVCF file containing Geno2MP data colscolon-delimited list of Geno2MP columns to return from INFO fields (by default it only returns the column HPO_CT) urlbuild and return URL to Geno2MP variant page (boolean; 0 by default); the variant location in Geno2MP website is based on GRCh37 coordinates Please cite Geno2MP alongside Ensem"
+   ]
+  },
+  {
+   "plugin": "gnomADc",
+   "category": "frequency_data",
+   "external_libraries": "File::Basename File::Spec",
+   "developer": "Stephen Kazakoff",
+   "description": "An Ensembl VEP plugin that retrieves gnomAD annotation from either the genome or exome coverage files, available here: https://gnomad.broadinstitute.org/downloads To download the gnomad coverage file in TSV format: for Assembly GRCh37: gnomad genomes: wget https://storage.googleapis.com/gcp-public-data--gnomad/release/2.1/coverage/genomes/gnomad.genomes.coverage.summary.tsv.bgz --no-check-certificate gnomad exomes: wget https://storage.googleapis.com/gcp-public-data--gnomad/release/2.1/coverage/exomes/gnomad.exomes.coverage.summary.tsv.bgz --no-check-certificate for Assembly GRCh38: gnomad genomes: wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.0.1/coverage/genomes/gnomad.genomes.r3.0.1.coverage.summary.tsv.bgz --no-check-certificate Necessary before using the plugin for Assembly GRCh37: The following steps are necessary to tabix the gnomad genomes coverage file : gunzip -c gnomad.genomes.coverage.summary.tsv.bgz | sed '1s/.*/#&/' > gnomad.genomes.tabbed.tsv bgzip gnomad.genomes.tabbed.tsv tabix -s 1 -b 2 -e 2 gnomad.genomes.tabbed.tsv.gz The following steps are neccessary to tabix the gnomad exomes coverage file : gunzip -c gnomad.exomes.coverage.summary.tsv.bgz | sed '1s/.*/#&/' > gnomad.exomes.tabbed.tsv bgzip gnomad.exomes.tabbed.tsv tabix -s 1 -b 2 -e 2 gnomad.exomes.tabbed.tsv.gz for Assembly GRCh38: The following steps are necessary to tabix the gnomad genomes coverage file : gunzip -c gnomad.genomes.r3.0.1.coverage.summary.tsv.bgz | sed '1s/.*/#&/' > gnomad.genomesv3.tabbed.tsv sed \"1s/locus/chr\\tpos/; s/:/\\t/g\" gnomad.genomesv3.tabbed.tsv > gnomad.ch.genomesv3.tabbed.tsv bgzip gnomad.ch.genomesv3.tabbed.tsv tabix -s 1 -b 2 -e 2 gnomad.ch.genomesv3.tabbed.tsv This plugin also tries to be backwards compatible with older versions of the cove",
+   "licence_or_data_sentences": [
+    "An Ensembl VEP plugin that retrieves gnomAD annotation from either the genome or exome coverage files, available here: https://gnomad.broadinstitute.org/downloads To download the gnomad coverage file in TSV format: for Assembly GRCh37: gnomad genomes: wget https://storage.googleapis.com/gcp-public-data--gnomad/release/2.1/coverage/genomes/gnomad.genomes.coverage.summary.tsv.bgz --no-check-certific",
+    "If you use this plugin, please see the terms and data information: https://gnomad.broadinstitute.org/terms You must have the Bio::DB::HTS module or the tabix utility must be installed in your path to use this plugin."
+   ]
+  },
+  {
+   "plugin": "gnomADMt",
+   "category": "frequency_data",
+   "external_libraries": "List::Util qw(max)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves allele frequencies for mitochondrial variants from the gnomAD genomes mitochondrial annotations files, available here: https://gnomad.broadinstitute.org/downloads#v3-mitochondrial-dna Options are passed to the plugin as key=value pairs:ArgumentDescriptionfile(mandatory) Tabix-indexed VCF file from gnomAD fields(optional) Colon-separated list of information from mitochondrial variants to output (default: hap_AC_hom:hap_AC_het:hap_AF_hom:hap_AF_het:hap_AN); keyword all can be used to print all fields; Available fields are the names of INFO fields. hap_filter(optional) Colon-separated list of haplogroups to limit returned haplogroup field data to. The order of the list is preserved in the output. Example: HV:A:B. By default, data for all haplogroups is returned for all haplogroup fields (/hap_.+/). pop_filter(optional) Colon-separated list of populations to limit returned population field data to. The order of the list is preserved in the output. Example: eas:fin:afr. By default, data for all populations is returned for all population fields (/pop_.+/). To download the gnomad Mitochondrial allele annotations file in VCF format (GRCh38 based) and the corresponding index file: wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1/vcf/genomes/gnomad.genomes.v3.1.sites.chrM.vcf.bgz --no-check-certificate wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1/vcf/genomes/gnomad.genomes.v3.1.sites.chrM.vcf.bgz.tbi --no-check-certificate If you use this plugin, please see the terms and data information: https://gnomad.broadinstitute.org/terms You must have the Bio::DB::HTS module or the tabix utility must be installed in your path to use this plugin. Usage examples: mv gnomADMt.pm ~/.vep/Plugins # Default usa",
+   "licence_or_data_sentences": [
+    "An Ensembl VEP plugin that retrieves allele frequencies for mitochondrial variants from the gnomAD genomes mitochondrial annotations files, available here: https://gnomad.broadinstitute.org/downloads#v3-mitochondrial-dna Options are passed to the plugin as key=value pairs:ArgumentDescriptionfile(mandatory) Tabix-indexed VCF file from gnomAD fields(optional) Colon-separated list of information from",
+    "To download the gnomad Mitochondrial allele annotations file in VCF format (GRCh38 based) and the corresponding index file: wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1/vcf/genomes/gnomad.genomes.v3.1.sites.chrM.vcf.bgz --no-check-certificate wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1/vcf/genomes/gnomad.genomes.v3.1.sites.chrM.vcf.bgz.tbi --n"
+   ]
+  },
+  {
+   "plugin": "GO",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves Gene Ontology (GO) terms associated with transcripts (e.g. GRCh38) or their translations (e.g. GRCh37) using custom GFF annotation containing GO terms. The custom GFF files are automatically created if the input file do not exist by querying the Ensembl core database, according to database version, species and assembly used in Ensembl VEP. Note that automatic retrieval fails if using the --offline option. The GFF files containing the GO terms are saved to and loaded from the working directory by default. To change this, provide a directory path as an argument: --plugin GO,dir=${HOME}/go_terms If your GFF file has a custom name, please provide the filename directly: --plugin GO,file=${HOME}/custom_go_terms.gff.gz The GO terms can also be fetched by gene match (either gene Ensembl ID or gene symbol) instead: --plugin GO,match=gene --plugin GO,match=gene_symbol To create/use a custom GFF file, these programs must be installed in your path: The GNU zgrep and GNU sort commands to create the GFF file. The tabix and bgzip utilities to create and read the GFF file: check https://github.com/samtools/htslib.git for installation instructions. Alternatively, for compatibility purposes, the plugin allows to use a remote connection to the Ensembl API by using \"remote\" as a parameter. This method retrieves GO terms one by one at both the transcript and translation level. This is not compatible with any other parameters: --plugin GO,remote Usage examples: mv GO.pm ~/.vep/Plugins # automatically fetch GFF files with GO terms and annotate input with GO terms # not compatible with --offline option ./vep -i variations.vcf --plugin GO # set directory used to write and read GFF files with GO terms ./vep -i variations.vcf --plugin GO,dir=${HOME}/go_terms #",
+   "licence_or_data_sentences": [
+    "The tabix and bgzip utilities to create and read the GFF file: check https://github.com/samtools/htslib.git for installation instructions."
+   ]
+  },
+  {
+   "plugin": "GWAS",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "File::Basename Storable qw(dclone)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves relevant NHGRI-EBI GWAS Catalog data given the file. This plugin supports both the curated data that is found in the download section of the NHGRI-EBI GWAS Catalog website and the summary statistics file. By default the plugin assumes the file provided is the curated file but you can pass \"type=sstate\" to say you want to annotate with a summary statistics file. Please cite the following publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/30445434/ Pre-requisites: For curated NHGRI-EBI GWAS Catalog file - GWAS files can be downloaded from - https://www.ebi.ac.uk/gwas/api/search/downloads/alternative For summary statistics file - The plugin can process the harmonised version of the summary statistics file. Which can be downloaded from the FTP site - http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics They are under directory with related to their specific GCST id. For example - http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST000001-GCST001000/GCST000028/harmonised/17463246-GCST000028-EFO_0001360.h.tsv.gz Please keep the filename format as it is because filename is parsed to get information. When run for the first time for either type of file, the plugin will create a processed file that have genomic locations and indexed and put it under the --dir location determined by Ensembl VEP. If db=1 option is used, depending on the file size it might take hour(s) to create the processed file. Subsequent runs will be faster as the plugin will be using the already generated processed file. This option is not used by default and the variant information is generally taken directly from the file provided. Options are passed to the plugin as key=value pairs:ArgumentDescription file(mandato",
+   "licence_or_data_sentences": [
+    "This plugin supports both the curated data that is found in the download section of the NHGRI-EBI GWAS Catalog website and the summary statistics file.",
+    "Please cite the following publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/30445434/ Pre-requisites: For curated NHGRI-EBI GWAS Catalog file - GWAS files can be downloaded from - https://www.ebi.ac.uk/gwas/api/search/downloads/alternative For summary statistics file - The plugin can process the harmonised version of the summary statistics file.",
+    "Which can be downloaded from the FTP site - http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics They are under directory with related to their specific GCST id.",
+    "For example - http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST000001-GCST001000/GCST000028/harmonised/17463246-GCST000028-EFO_0001360.h.tsv.gz Please keep the filename format as it is because filename is parsed to get information."
+   ]
+  },
+  {
+   "plugin": "HGVSIntronOffset",
+   "category": "hgvs",
+   "external_libraries": "-",
+   "developer": "Stephen Kazakoff",
+   "description": "An Ensembl VEP plugin for the Ensembl Variant Effect Predictor (VEP) that returns HGVS intron start and end offsets. To be used with --hgvs option. Usage examples: mv HGVSIntronOffset.pm ~/.vep/Plugins ./vep -i variants.vcf --hgvs --plugin HGVSIntronOffset",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "IntAct",
+   "category": "functional_effect",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves molecular interaction data for variants as reprted by IntAct database. Please cite the IntAct publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/24234451/ Pre-requisites: IntAct files can be downloaded from - https://ftp.ebi.ac.uk/pub/databases/intact/current/various The genomic location mapped file needs to be tabix indexed. You can do this by following commands - a) filter, sort and then zip grep -v -e '^$' -e '^[#\\-]' mutation_gc_map.txt | sed '1s/.*/#&/' | awk -F \"\\t\" 'BEGIN { OFS=\"\\t\"} {if ($2 > $3) {a=$2; $2=$3; $3=a}; print $0 }' | sort -k1,1 -k2,2n -k3,3n | bgzip > mutation_gc_map.txt.gz b) create tabix indexed file - tabix -s 1 -b 2 -e 3 -f mutation_gc_map.txt.gz As you have already noticed, tabix utility must be installed in your path to use this plugin. Options are passed to the plugin as key=value pairs:ArgumentDescription mapping_file(mandatory) Path to tabix-indexed genomic location mapped file mutation_file(mandatory) Path to IntAct data file By default the output will always contain feature_type and interaction_ac from the IntAct data file. You can also add more fields using the following key=value options -ArgumentDescriptionfeature_acSet value to 1 to include Feature AC in the output feature_short_labelSet value to 1 to include Feature short label in the output feature_annotationSet value to 1 to include Feature annotation in the output ap_acSet value to 1 to include Affected protein AC in the output interaction_participantsSet value to 1 to include Interaction participants in the output pmidSet value to 1 to include PubMedID in the output There are also two other key=value options for customizing the output - ArgumentDescriptionallSet value to 1 to include all the fields min",
+   "licence_or_data_sentences": [
+    "Please cite the IntAct publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/24234451/ Pre-requisites: IntAct files can be downloaded from - https://ftp.ebi.ac.uk/pub/databases/intact/current/various The genomic location mapped file needs to be tabix indexed.",
+    "You can also add more fields using the following key=value options -ArgumentDescriptionfeature_acSet value to 1 to include Feature AC in the output feature_short_labelSet value to 1 to include Feature short label in the output feature_annotationSet value to 1 to include Feature annotation in the output ap_acSet value to 1 to include Affected protein AC in the output interaction_participantsSet val",
+    "For example, where the output reports an interaction_ac of EBI-12501485, the URL would be : https://www.ebi.ac.uk/intact/details/interaction/EBI-12501485 Usage examples: mv IntAct.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin IntAct,mutation_file=/FULL_PATH_TO_IntAct_FILE/mutations.tsv,mapping_file=/FULL_PATH_TO_IntAct_FILE/mutation_gc_map.txt.gz ./vep -i variations.vcf --plugin IntAct,mutati"
+   ]
+  },
+  {
+   "plugin": "LD",
+   "category": "variant_data",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that finds variants in linkage disequilibrium with any overlapping existing variants from the Ensembl variation databases. You can configure the population used to calculate the r2 value, and the r2 cutoff used by passing arguments to the plugin via the command line (separated by commas). This plugin adds a single new entry to the Extra column with a comma-separated list of linked variant IDs and the associated r2 values: LinkedVariants=rs123:0.879,rs234:0.943 If no arguments are supplied, the default population used is the CEU sample from the 1000 Genomes Project phase 3, and the default r2 cutoff used is 0.8. WARNING: Calculating LD is a relatively slow procedure, so this will increase runtime considerably when running on large numbers of variants. Consider running vep followed by filter_vep to get a smaller input set: ./vep -i input.vcf -cache -vcf -o input_vep.vcf ./filter_vep -i input_vep.vcf -filter \"Consequence is missense_variant\" > input_vep_filtered.vcf ./vep -i input_vep_filtered.vcf -cache -plugin LD Usage examples: mv LD.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin LD,1000GENOMES:phase_3:CEU,0.8 ./vep -i variations.vcf --plugin LD,'populations=1000GENOMES:phase_3:CEU&1000GENOMES:phase_3:PUR&1000GENOMES:phase_3:STU',0.8",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "LocalID",
+   "category": "look_up",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "The LocalID plugin allows you to use variant IDs as input without making a database connection. Requires sqlite3. A local sqlite3 database is used to look up variant IDs; this is generated either from Ensembl's public database (very slow, but includes synonyms), or from Ensembl VEP cache file (faster, excludes synonyms). NB: this plugin is NOT compatible with the ensembl-tools variant_effect_predictor.pl version of Ensembl VEP. Usage examples: mv LocalID.pm ~/.vep/Plugins ## first run create database # EITHER create from Ensembl variation database # VERY slow but includes variant synonyms, if not required see next command ./vep -i variant_ids.txt --plugin LocalID,create_db=1 -safe # OR create from cache directory # faster but does not include synonyms # parameter passed to from_cache may be full path to cache e.g. $HOME/.vep/homo_sapiens/88_GRCh38 # cache may be tabix converted or in default state (http://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html#convert) ./vep -i variant_ids.txt --plugin LocalID,create_db=1,from_cache=1 -safe # subsequent runs ./vep -i variant_ids.txt --plugin LocalID # db file can be specified with db=[file] # default file name is $HOME/.vep/[species]_[version]_[assembly].variant_ids.sqlite3 ./vep -i variant_ids.txt --plugin LocalID,db=my_db_file.txt",
+   "licence_or_data_sentences": [
+    "$HOME/.vep/homo_sapiens/88_GRCh38 # cache may be tabix converted or in default state (http://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html#convert) ./vep -i variant_ids.txt --plugin LocalID,create_db=1,from_cache=1 -safe # subsequent runs ./vep -i variant_ids.txt --plugin LocalID # db file can be specified with db=[file] # default file name is $HOME/.vep/[species]_[version]_[assembly]."
+   ]
+  },
+  {
+   "plugin": "LOEUF",
+   "category": "gene_tolerance_to_change",
+   "external_libraries": "Scalar::Util qw(looks_like_number)",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds the LOEUF scores to VEP output. LOEUF stands for the \"loss-of-function observed/expected upper bound fraction.\" The score can be added matching by either transcript or gene. When matched by gene: If multiple transcripts are available for a gene, the most severe score is reported. NB: The plugin currently does not add the score for downstream_gene_variant and upstream_gene_variant Please cite the LOEUF publication alongside the VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7334197/ LOEUF scores can be downloaded from GRCh37: https://gnomad.broadinstitute.org/downloads#v2-constraint (pLoF Metrics by Gene TSV) GRCh38: https://gnomad.broadinstitute.org/downloads#v4-constraint (Constraint metrics TSV) For GRCh37: These files can be tabix-processed by: zcat gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz | (head -n 1 && tail -n +2 | sort -t$'\\t' -k 76,76 -k 77,77n ) > loeuf_temp.tsv sed '1s/.*/#&/' loeuf_temp.tsv > loeuf_dataset.tsv bgzip loeuf_dataset.tsv tabix -f -s 76 -b 77 -e 78 loeuf_dataset.tsv.gz For GRCh38: The GRCh38 file does not have gene co-ordinates information. First you need to add the gene co-ordiates information. You can use the Ensembl Perl API to create a script and perform that - https://www.ensembl.org/info/docs/api/core/index.html. After adding the start and end position of the genes at the last 2 columns you can process the file as follows: cat gnomad.v4.1.1.constraint_metrics.tsv | (sed -u 1q; sort -k 114,114 -k 115,115n) | sed '1s/.*/#&/' | bgzip -c > loeuf_dataset_grch38.tsv.gz tabix -f -s 114 -b 115 -e 116 loeuf_dataset_grch38.tsv.gz The processed file can be downloaded from: https://ftp.ensembl.org/pub/current/variation/LOEUF/loeuf_dataset_grch38.tsv.gz",
+   "licence_or_data_sentences": [
+    "NB: The plugin currently does not add the score for downstream_gene_variant and upstream_gene_variant Please cite the LOEUF publication alongside the VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7334197/ LOEUF scores can be downloaded from GRCh37: https://gnomad.broadinstitute.org/downloads#v2-constraint (pLoF Metrics by Gene TSV) GRCh38: https://gnomad.broadinstitute",
+    "You can use the Ensembl Perl API to create a script and perform that - https://www.ensembl.org/info/docs/api/core/index.html.",
+    "After adding the start and end position of the genes at the last 2 columns you can process the file as follows: cat gnomad.v4.1.1.constraint_metrics.tsv | (sed -u 1q; sort -k 114,114 -k 115,115n) | sed '1s/.*/#&/' | bgzip -c > loeuf_dataset_grch38.tsv.gz tabix -f -s 114 -b 115 -e 116 loeuf_dataset_grch38.tsv.gz The processed file can be downloaded from: https://ftp.ensembl.org/pub/current/variatio"
+   ]
+  },
+  {
+   "plugin": "LoFtool",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "DBI",
+   "developer": "Ensembl",
+   "description": "Add LoFtool scores to Ensembl VEP output. LoFtool provides a rank of genic intolerance and consequent susceptibility to disease based on the ratio of Loss-of-function (LoF) to synonymous mutations for each gene in 60,706 individuals from ExAC, adjusting for the gene de novo mutation rate and evolutionary protein conservation. The lower the LoFtool gene score percentile the most intolerant is the gene to functional variation. For more details please see (Fadista J et al. 2017), PMID:27563026. The authors would like to thank the Exome Aggregation Consortium and the groups that provided exome variant data for comparison. A full list of contributing groups can be found at http://exac.broadinstitute.org/about. The LoFtool_scores.txt file is found alongside the plugin in the VEP_plugins GitHub repo. To use another scores file, add it as a parameter i.e. ./vep -i variants.vcf --plugin LoFtool,scores_file.txt Usage examples: mv LoFtool.pm ~/.vep/Plugins mv LoFtool_scores.txt ~/.vep/Plugins ./vep -i variants.vcf --plugin LoFtool",
+   "licence_or_data_sentences": [
+    "A full list of contributing groups can be found at http://exac.broadinstitute.org/about."
+   ]
+  },
+  {
+   "plugin": "LOVD",
+   "category": "variant_data",
+   "external_libraries": "LWP::UserAgent",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves LOVD variation data from http://www.lovd.nl/. Please be aware that LOVD is a public resource of curated variants, therefore please respect this resource and avoid intensive querying of their databases using this plugin, as it will impact the availability of this resource for others. Usage examples: mv LOVD.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin LOVD",
+   "licence_or_data_sentences": [
+    "An Ensembl VEP plugin that retrieves LOVD variation data from http://www.lovd.nl/."
+   ]
+  },
+  {
+   "plugin": "Mastermind",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that uses the Mastermind Genomic Search Engine (https://www.genomenon.com/mastermind) to report variants that have clinical evidence cited in the medical literature. It is available for both GRCh37 and GRCh38. Please cite the Mastermind publication alongside Ensembl VEP if you use this resource: https://www.frontiersin.org/article/10.3389/fgene.2020.577152 Running options: The plugin has multiple parameters, the first one is expected to be the file name path which can be followed by 3 optional flags. Default: the plugin matches the citation data with the specific mutation. Using first flag 1: returns the citations for all mutations/transcripts. Using the second flag 1: only returns the Mastermind variant identifier(s). Using the third flag 1: also returns the Mastermind URL. Output: The output includes three unique counts 'MMCNT1, MMCNT2, MMCNT3' and one identifier MMID3 to be used to build an URL which shows all articles from MMCNT3. MMCNT1 is the count of Mastermind articles with cDNA matches for a specific variant; MMCNT2 is the count of Mastermind articles with variants either explicitly matching at the cDNA level or given only at protein level; MMCNT3 is the count of Mastermind articles including other DNA-level variants resulting in the same amino acid change; MMID3 is the Mastermind variant identifier(s), as gene:key. Link to the Genomenon Mastermind Genomic Search Engine; To build the URL, substitute the gene:key in the following link with the value from MMID3: https://mastermind.genomenon.com/detail?mutation=gene:key If the third flag is used then the built URL is returned and it's identified by URL. More information can be found at: https://www.genomenon.com/cvr/ The following steps are necessary ",
+   "licence_or_data_sentences": [
+    "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that uses the Mastermind Genomic Search Engine (https://www.genomenon.com/mastermind) to report variants that have clinical evidence cited in the medical literature.",
+    "Please cite the Mastermind publication alongside Ensembl VEP if you use this resource: https://www.frontiersin.org/article/10.3389/fgene.2020.577152 Running options: The plugin has multiple parameters, the first one is expected to be the file name path which can be followed by 3 optional flags.",
+    "Link to the Genomenon Mastermind Genomic Search Engine; To build the URL, substitute the gene:key in the following link with the value from MMID3: https://mastermind.genomenon.com/detail?mutation=gene:key If the third flag is used then the built URL is returned and it's identified by URL.",
+    "More information can be found at: https://www.genomenon.com/cvr/ The following steps are necessary before running this plugin: Download and Registry (free): https://www.genomenon.com/cvr/ GRCh37 VCF: unzip mastermind_cited_variants_reference-XXXX.XX.XX-grch37-vcf.zip bgzip mastermind_cited_variants_reference-XXXX.XX.XX-GRCh37-vcf tabix -p vcf mastermind_cited_variants_reference-XXXX.XX.XX.GRCh37-v"
+   ]
+  },
+  {
+   "plugin": "MaveDB",
+   "category": "functional_effect",
+   "external_libraries": "File::Basename Bio::SeqUtils",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves data from MaveDB (https://www.mavedb.org), a database that contains multiplex assays of variant effect, including deep mutational scans and massively parallel report assays. To run the MaveDB plugin, please download the following files containing MaveDB data for GRCh38 (we do not currently host data for other assemblies): https://ftp.ensembl.org/pub/current_variation/MaveDB/MaveDB_variants.tsv.gz https://ftp.ensembl.org/pub/current_variation/MaveDB/MaveDB_variants.tsv.gz.tbi Options are passed to the plugin as key=value pairs:ArgumentDescriptionfile(mandatory) Tabix-indexed MaveDB file colsColon-separated columns to print from MaveDB files; if set to all, all columns are printed (default: urn:score:nt:pro:doi) single_aminoacid_changesReturn matches for single aminoacid changes only; if disabled, return all matches associated with a genetic variant (default: 1) transcript_matchReturn results only if (Ensembl or RefSeq) transcript identifiers match (default: 1) Please cite the MaveDB publication alongside Ensembl VEP if you use this resource: https://doi.org/10.1186/s13059-019-1845-6 The tabix utility must be installed in your path to use this plugin. Usage examples: mv MaveDB.pm ~/.vep/Plugins # print only scores for single aminoacid changes from MaveDB data (default) ./vep -i variations.vcf --plugin MaveDB,file=/full/path/to/data.csv.gz # print all scores associated with the genetic variant ./vep -i variations.vcf --plugin MaveDB,file=/full/path/to/data.csv.gz,single_aminoacid_changes=0 # print all columns from MaveDB data ./vep -i variations.vcf --plugin MaveDB,file=/full/path/to/data.csv.gz,cols=all",
+   "licence_or_data_sentences": [
+    "An Ensembl VEP plugin that retrieves data from MaveDB (https://www.mavedb.org), a database that contains multiplex assays of variant effect, including deep mutational scans and massively parallel report assays.",
+    "To run the MaveDB plugin, please download the following files containing MaveDB data for GRCh38 (we do not currently host data for other assemblies): https://ftp.ensembl.org/pub/current_variation/MaveDB/MaveDB_variants.tsv.gz https://ftp.ensembl.org/pub/current_variation/MaveDB/MaveDB_variants.tsv.gz.tbi Options are passed to the plugin as key=value pairs:ArgumentDescriptionfile(mandatory) Tabix-i"
+   ]
+  },
+  {
+   "plugin": "MaxEntScan",
+   "category": "splicing_predictions",
+   "external_libraries": "Digest::MD5 qw(md5_hex)",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that runs MaxEntScan (http://hollywood.mit.edu/burgelab/maxent/Xmaxentscan_scoreseq.html) to get splice site predictions. The plugin copies most of the code verbatim from the score5.pl and score3.pl scripts provided in the MaxEntScan download. To run the plugin you must get and unpack the archive from http://hollywood.mit.edu/burgelab/maxent/download/; the path to this unpacked directory is then the param you pass to the --plugin flag. The plugin executes the logic from one of the scripts depending on which splice region the variant overlaps: score5.pl : last 3 bases of exon --> first 6 bases of intron score3.pl : last 20 bases of intron --> first 3 bases of exon The plugin reports the reference, alternate and difference (REF - ALT) maximum entropy scores. If SWA is specified as a command-line argument, a sliding window algorithm is applied to subsequences containing the reference and alternate alleles to identify k-mers with the highest donor and acceptor splice site scores. To assess the impact of variants, reference comparison scores are also provided. For SNVs, the comparison scores are derived from sequence in the same frame as the highest scoring k-mers containing the alternate allele. For all other variants, the comparison scores are derived from the highest scoring k-mers containing the reference allele. The difference between the reference comparison and alternate scores (SWA_REF_COMP - SWA_ALT) are also provided. If NCSS is specified as a command-line argument, scores for the nearest upstream and downstream canonical splice sites are also included. By default, only scores are reported. Add verbose to the list of command- line arguments to include the sequence output associated with those scores. U",
+   "licence_or_data_sentences": [
+    "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that runs MaxEntScan (http://hollywood.mit.edu/burgelab/maxent/Xmaxentscan_scoreseq.html) to get splice site predictions.",
+    "The plugin copies most of the code verbatim from the score5.pl and score3.pl scripts provided in the MaxEntScan download.",
+    "To run the plugin you must get and unpack the archive from http://hollywood.mit.edu/burgelab/maxent/download/; the path to this unpacked directory is then the param you pass to the --plugin flag.",
+    "Usage examples: mv MaxEntScan.pm ~/.vep/Plugins ./vep -i variants.vcf --plugin MaxEntScan,/path/to/maxentscan/fordownload ./vep -i variants.vcf --plugin MaxEntScan,/path/to/maxentscan/fordownload,SWA,NCSS"
+   ]
+  },
+  {
+   "plugin": "MechPredict",
+   "category": "gene_tolerance_to_change",
+   "external_libraries": "Data::Dumper",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that annotates missense variants with predicted dominant-negative (DN), gain-of-function (GOF), or loss-of-function (LOF) mechanisms derived from a Support Vector Classification (SVC) model (Badonyi et al., 2024). These probabilities do not predict a gene is involved in disease, they predict the most likely molecular mechanism by which deleterious variants in a given gene could cause disease, if it was a dominant disease gene. Note: The plugin requires MechPredict_input.tsv, a pre-processed prediction dataset in TSV format. The wrangled file should contain gene-level probabilities for the three mechanism categories. The plugin adds the following fields to the VEP output: MechPredict_pDN: Probability of a **dominant-negative (DN) mechanism** MechPredict_pGOF: Probability of a **gain-of-function (GOF) mechanism** MechPredict_pLOF: Probability of a **loss-of-function (LOF) mechanism** MechPredict_prediction: Statement of the most likely mechanism based on empirically-derived cutoffs from Badonyi et al., 2024. Usage: Download the Badonyi et al., 2024 raw data, available at the links below: GOF: https://osf.io/h45ns DN: https://osf.io/xfy38 LOF https://osf.io/dj4qg 2. The plugin input data can then be prepared from the raw data using: `bash cut --complement -f4 pdn_svm_poly_2023-07-25.tsv | awk '{print $1 \" \" $2 \"\\t\" $0}' | sort >pdn_mod.tsv && cut --complement -f4 pgof_svm_poly_2023-07-25.tsv | awk '{print $1 \" \" $2 \"\\t\" $0}' | sort >pgof_mod.tsv && cut --complement -f4 plof_svm_poly_2023-07-28.tsv | awk '{print $1 \" \" $2 \"\\t\" $0}' | sort >plof_mod.tsv && join -t $'\\t' -1 1 -2 1 pdn_mod.tsv pgof_mod.tsv | join -t $'\\t' -1 1 -2 1 - plof_mod.tsv | cut --complement -f1,5,6,8,9 | sed '1i gene uniprot_id pDN pGOF pL",
+   "licence_or_data_sentences": [
+    "Usage: Download the Badonyi et al., 2024 raw data, available at the links below: GOF: https://osf.io/h45ns DN: https://osf.io/xfy38 LOF https://osf.io/dj4qg 2.",
+    "https://doi.org/10.1371/journal.pone.0307312 Usage examples: mv MechPredict.pm ~/.vep/Plugins ./vep -i input.vcf --plugin MechPredict,file=mechpredict_data.tsv"
+   ]
+  },
+  {
+   "plugin": "MPC",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves MPC scores for variants from a tabix-indexed MPC data file. MPC is a missense deleteriousness metric based on the analysis of genic regions depleted of missense mutations in the Exome Agggregation Consortium (ExAC) data. The MPC score is the product of work by Kaitlin Samocha (ks20@sanger.ac.uk). Publication currently in pre-print: Samocha et al bioRxiv 2017 (TBD) The MPC score file is available to download from: ftp://ftp.broadinstitute.org/pub/ExAC_release/release1/regional_missense_constraint/ The data are currently mapped to GRCh37 only. Not all transcripts are included; see README in the above directory for exclusion criteria. Usage examples: mv MPC.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin MPC,fordist_constraint_official_mpc_values.txt.gz",
+   "licence_or_data_sentences": [
+    "Publication currently in pre-print: Samocha et al bioRxiv 2017 (TBD) The MPC score file is available to download from: ftp://ftp.broadinstitute.org/pub/ExAC_release/release1/regional_missense_constraint/ The data are currently mapped to GRCh37 only."
+   ]
+  },
+  {
+   "plugin": "MTR",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Slave Petrovski Michael Silk",
+   "description": "An Ensembl VEP plugin that retrieves Missense Tolerance Ratio (MTR) scores for variants from a tabix-indexed flat file. MTR scores quantify the amount of purifying selection acting specifically on missense variants in a given window of protein-coding sequence. It is estimated across a sliding window of 31 codons and uses observed standing variation data from the WES component of the Exome Aggregation Consortium Database (ExAC), version 2.0 (http://gnomad.broadinstitute.org). Please cite the MTR publication alongside Ensembl VEP if you use this resource: http://genome.cshlp.org/content/27/10/1715 The Bio::DB::HTS perl library or tabix utility must be installed in your path to use this plugin. MTR flat files can be downloaded from http://biosig.unimelb.edu.au/mtr-viewer/downloads The following steps are necessary before running the plugin gzip -d mtrflatfile_2.0.txt.gz # to unzip the text file cat mtrflatfile_2.0.txt | tr \" \" \"\\t\" > mtrflatfile_2.00.tsv # to change the file to a tabbed delimited file sed '1s/.*/#&/' mtrflatfile_2.00.tsv > mtrflatfile_2.0.tsv # to add # to the first line of the file bgzip mtrflatfile_2.0.tsv tabix -f -s 1 -b 2 -e 2 mtrflatfile_2.0.tsv.gz NB: Data are available for GRCh37 only Usage examples: mv MTR.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin MTR,mtrflatfile_2.0.tsv.gz",
+   "licence_or_data_sentences": [
+    "It is estimated across a sliding window of 31 codons and uses observed standing variation data from the WES component of the Exome Aggregation Consortium Database (ExAC), version 2.0 (http://gnomad.broadinstitute.org).",
+    "Please cite the MTR publication alongside Ensembl VEP if you use this resource: http://genome.cshlp.org/content/27/10/1715 The Bio::DB::HTS perl library or tabix utility must be installed in your path to use this plugin.",
+    "MTR flat files can be downloaded from http://biosig.unimelb.edu.au/mtr-viewer/downloads The following steps are necessary before running the plugin gzip -d mtrflatfile_2.0.txt.gz # to unzip the text file cat mtrflatfile_2.0.txt | tr \" \" \"\\t\" > mtrflatfile_2.00.tsv # to change the file to a tabbed delimited file sed '1s/.*/#&/' mtrflatfile_2.00.tsv > mtrflatfile_2.0.tsv # to add # to the first line"
+   ]
+  },
+  {
+   "plugin": "mutfunc",
+   "category": "protein_annotation",
+   "external_libraries": "Digest::MD5 qw(md5_hex) DBI List::MoreUtils qw(first_index) Compress::Zlib",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves data from mutfunc db predicting destabilization of protein structure, interaction interface, and motif. Please cite the mutfunc publication alongside Ensembl VEP if you use this resource: http://msb.embopress.org/content/14/12/e8430 Pre-requisites: The data file. mutfunc SQLite db can be downloaded from - https://ftp.ensembl.org/pub/current_variation/mutfunc/mutfunc_data.db If you are using --offline please provide a FASTA file as this plugin requires the translation sequence to function. Options are passed to the plugin as key=value pairs:ArgumentDescription db(mandatory) Path to SQLite database containing data for other analysis. motifSelect this option to have mutfunc motif analysis in the output intSelect this option to have mutfunc protein interection analysis in the output modSelect this option to have mutfunc protein structure analysis in the output expSelect this option to have mutfunc protein structure (experimental) analysis in the output extendedBy default mutfunc outputs the most significant field for any analysis. Select this option to get more verbose output. By default all of the four type of analysis (motif, int, mod, and exp) data are available in the output. But if you want to have some selected analysis and not all of them just select the relevant options. Usage examples: mv mutfunc.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin mutfunc,motif=1,extended=1,db=/FULL_PATH_TO/mutfunc_data.db ./vep -i variations.vcf --plugin mutfunc,db=/FULL_PATH_TO/mutfunc_data.db",
+   "licence_or_data_sentences": [
+    "Please cite the mutfunc publication alongside Ensembl VEP if you use this resource: http://msb.embopress.org/content/14/12/e8430 Pre-requisites: The data file.",
+    "mutfunc SQLite db can be downloaded from - https://ftp.ensembl.org/pub/current_variation/mutfunc/mutfunc_data.db If you are using --offline please provide a FASTA file as this plugin requires the translation sequence to function."
+   ]
+  },
+  {
+   "plugin": "NearestExonJB",
+   "category": "nearby_features",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that finds the nearest exon junction boundary to a coding sequence variant. More than one boundary may be reported if the boundaries are equidistant or if using option --intronic. The plugin will report the Ensembl identifier of the exon, the distance to the exon boundary, the boundary type (start or end of exon) and the total length in nucleotides of the exon. Various key=value parameters can be altered by passing them to the plugin command:ArgumentDescription max_rangemaximum search range in bp (default: 10000) intronicset to 1 to check nearest exons for intronic variants (default: 0) returns the nearest exon upstream and downstream without considering the max_range. Parameters are passed e.g.: --plugin NearestExonJB,max_range=50000 --plugin NearestExonJB,max_range=50000,intronic=1 --plugin NearestExonJB,intronic=1 Usage examples: mv NearestExonJB.pm ~/.vep/Plugins ./vep -i variations.vcf --cache --plugin NearestExonJB",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "NearestGene",
+   "category": "nearby_features",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that finds the nearest gene(s) to a non-genic variant. More than one gene may be reported if the genes overlap the variant or if genes are equidistant or if option both_directions is used. Various key=value parameters can be altered by passing them to the plugin command:ArgumentDescription limitlimit the number of genes returned (default: 1) rangeinitial search range in bp (default: 1000) max_rangemaximum search range in bp (default: 50000) both_directionsreturn the nearest genes upstream and downstream of the variant this option overwrites the limit to 1 note that the max_range affects the search range in both directions Parameters are passed e.g.: --plugin NearestGene,limit=3,max_range=50000 --plugin NearestGene,max_range=50000,both_directions=1 This plugin requires a database connection. It cannot be run in offline mode i.e. using the --offline flag. Usage examples: mv NearestGene.pm ~/.vep/Plugins ./vep -i variations.vcf --cache --plugin NearestGene",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "NMD",
+   "category": "transcript_annotation",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that predicts if a variant allows the transcript escape nonsense-mediated mRNA decay based on certain rules. The rules are : The variant location falls in the last exon of the transcript. vvvv ES...EE..I.ES...EE.I.ES....EE.I.ES....EE (ES= exon_start,EE = exon_end, I = intron, v = variant location) The variant location falls 50 bases upstream of the penultimate (second to the last ) exon. vvv ES...EE..I.ES...EE.I.ES....EE.I.ES....EE (ES= exon_start,EE = exon_end, I = intron, v = variant location) The variant falls in the first 100 coding bases in the transcript. vvv ..ES...EE..I.ES...EE.I.ES....EE.I.ES....EE (ES= exon_start,EE = exon_end, I = intron, v = variant location) If the variant is in an intronless transcript, meaning only one exon exist in the transcript. The additional term NMD-escaping variant (nonsense-mediated mRNA decay escaping variants) will be added if the variant matches any of the rules. REFERENCES : Identifying Genes Whose Mutant Transcripts Cause Dominant Disease Traits by Potential Gain-of-Function Alleles (Coban-Akdemir, 2018) The rules and impact of nonsense-mediated mRNA decay in human cancers (Lindeboom, 2016) Usage examples: mv NMD.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin NMD",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "OpenTargets",
+   "category": "variant_data",
+   "external_libraries": "File::Basename Bio::SeqUtils",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that integrates data from Open Targets Platform (https://platform.opentargets.org), a target identification tool that includes comprehensive variant annotation and the results of state-of-the-art large-scale statistical analyses, including fine-mapping, colocalisation, and locus-to-gene assignment across all complex and molecular traits. Data from Open Targets Platform includes two types of associations: GWAS based and QTL base. For GWAS studies, the data contains a locus-to-gene (L2G) scores to predict causal genes at GWAS loci. The tabix utility must be installed in your path to use this plugin. The Open Targets Genetics file and respective index (TBI) file can be downloaded from: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/latest/etc/export/vep_data/ Before using the plugin, split the Open Targets file in two: a file containing all GWAS associations (and corresponding tabix index file) (zcat open_targets_vep.tsv.bgz | head -n 1 | sed 's/.*/#&/'; zcat open_targets_vep.tsv.bgz | awk -F $'\\t' '$7 == \"gwas\"' ) | cut -d $'\\t' -f 1-16,17-19 | bgzip -c > open_targets_vep_gwas.tsv.bgz tabix -s 1 -b 2 -e 2 open_targets_vep_gwas.tsv.bgz 2) a file containing all QTL associations (and corresponding tabix index file) (zcat open_targets_vep.tsv.bgz | head -n 1 | sed 's/.*/#&/'; zcat open_targets_vep.tsv.bgz | awk -F $'\\t' '$7 ~ /qtl$/' ) | cut -d $'\\t' -f 1-16,20,21 | bgzip -c > open_targets_vep_qtl.tsv.bgz tabix -s 1 -b 2 -e 2 open_targets_vep_qtl.tsv.bgz To use the original file (with all associations), comment out the header line and regenerate the tabix-index to include the header. zcat open_targets_vep.tsv.bgz | sed '1 s/.*/#&/' | bgzip -c > open_targets_vep.tsv.bgz.tmp; mv open_targets_vep.tsv.bgz.tmp open_targets_vep.tsv.bgz tabix -s 1 -b ",
+   "licence_or_data_sentences": [
+    "An Ensembl VEP plugin that integrates data from Open Targets Platform (https://platform.opentargets.org), a target identification tool that includes comprehensive variant annotation and the results of state-of-the-art large-scale statistical analyses, including fine-mapping, colocalisation, and locus-to-gene assignment across all complex and molecular traits.",
+    "The Open Targets Genetics file and respective index (TBI) file can be downloaded from: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/latest/etc/export/vep_data/ Before using the plugin, split the Open Targets file in two: a file containing all GWAS associations (and corresponding tabix index file) (zcat open_targets_vep.tsv.bgz | head -n 1 | sed 's/.*/#&/'; zcat open_targets_vep.tsv.bgz",
+    "(default: \"gwasLocusToGeneScore:gwasGeneId:gwasDiseases\" on GWAS annotations and \"qtlGeneId:qtlBiosampleName\" for QTL annotations); use all to print all data Please cite the Open Targets Platform publication alongside Ensembl VEP if you use this resource: https://doi.org/10.1093/nar/gkae1128 Usage examples: mv OpenTargets.pm ~/.vep/Plugins # print Open Targets Platform associations (both GWAS and "
+   ]
+  },
+  {
+   "plugin": "Paralogues",
+   "category": "variant_data",
+   "external_libraries": "Bio::SimpleAlign File::Basename Compress::Zlib List::Util qw(any) File::Spec",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that fetches variants overlapping the genomic coordinates of amino acids aligned between paralogue proteins. This is useful to predict the pathogenicity of variants in paralogue positions. This plugin can determine paralogue regions for a variant based on: Pre-computed matches between genomic regions and paralogue variants. For this approach, either download the file calculated using ClinVar variants and respective TBI from https://ftp.ensembl.org/pub/current_variation/Paralogues or create such matches file yourself. Details on how to create such matches file can be found below. Ensembl paralogue annotation. These versatile annotations can look up paralogue regions for all variants from any species with Ensembl paralogues, but take longer to process. After retrieving the paralogue regions, this plugin fetches variants overlapping those regions from one of the following sources (by this order): Custom VCF via the vcf parameter Ensembl VEP cache (in cache/offline mode) Ensembl API (in database mode) To create a matches file based on a custom set of variants, run using `--plugin Paralogues,regions=1,min_perc_cov=0,min_perc_pos=0,clnsig=ignore` and the --vcf option. Afterwards, process the output of the command: `perl -e \"use Paralogues; Paralogues::prepare_matches_file(variant_effect_output.txt)\"` Options are passed to the plugin as key=value pairs:ArgumentDescriptionmatchesTabix-indexed TSV file with pre-computed matches between genomic regions and paralogue variants (fastest method); this option is incompatible with the paralogues and vcf options dirDirectory with paralogue annotation (the annotation is created in this folder if the paralogue annotation files do not exist) paraloguesTabix-indexed TSV file with paralogue annotation (if the file does ",
+   "licence_or_data_sentences": [
+    "For this approach, either download the file calculated using ClinVar variants and respective TBI from https://ftp.ensembl.org/pub/current_variation/Paralogues or create such matches file yourself.",
+    "Usage examples: mv Paralogues.pm ~/.vep/Plugins # Find paralogue regions of all input variants using Ensembl paralogue annotation # (automatically created if not in current directory) and fetch variants within # those regions from Ensembl VEP cache and whose clinical significance partially # matches 'pathogenic' ./vep -i variations.vcf --cache --plugin Paralogues # Find paralogue regions of input "
+   ]
+  },
+  {
+   "plugin": "PhenotypeOrthologous",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves phenotype information associated with orthologous genes from model organisms. The plugin annotates human variants and reports orthologous information from rat and mouse. The plugin is only available for GRCh38. The PhenotypeOrthologous file can be downloaded from https://ftp.ensembl.org/pub/current_variation/PhenotypeOrthologous The plugin can be run: ./vep -i variations.vcf --plugin PhenotypeOrthologous,file=PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz The file option is mandatory to run this plugin To return only results for rat : ./vep -i variations.vcf --plugin PhenotypeOrthologous,file=PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz,model=rat To return only results for mouse: ./vep -i variations.vcf --plugin PhenotypeOrthologous,file=PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz,model=mouse The tabix utility must be installed in your path to use this plugin. Check https://github.com/samtools/htslib.git for instructions. Usage examples: mv PhenotypeOrthologous.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin PhenotypeOrthologous,file=PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz",
+   "licence_or_data_sentences": [
+    "The PhenotypeOrthologous file can be downloaded from https://ftp.ensembl.org/pub/current_variation/PhenotypeOrthologous The plugin can be run: ./vep -i variations.vcf --plugin PhenotypeOrthologous,file=PhenotypesOrthologous_homo_sapiens_112_GRCh38.gff3.gz The file option is mandatory to run this plugin To return only results for rat : ./vep -i variations.vcf --plugin PhenotypeOrthologous,file=Phen",
+    "Check https://github.com/samtools/htslib.git for instructions."
+   ]
+  },
+  {
+   "plugin": "Phenotypes",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves overlapping phenotype information. On the first run for each new version/species/assembly will download a GFF-format dump to ~/.vep/Plugins/ Ensembl provides phenotype annotations mapped to a number of genomic feature types, including genes, variants and QTLs. This plugin is best used with JSON output format; the output will be more verbose and include all available phenotype annotation data and metadata. For other output formats, only a concatenated list of phenotype description strings is returned. Several paramters can be set using a key=value system:ArgumentDescription dirPath to directory where to look for phenotypes annotation. If the required file does not exist, the file is downloaded and saved in the provided directory (download requires using database or cache mode). fileFile path to phenotypes annotation. If the file does not exist, the file is downloaded and saved with this name (download requires using database or cache mode). exclude_sources: &-separated list of phenotype sources to exclude. By default, HGMD-PUBLIC and COSMIC annotations are excluded. See http://www.ensembl.org/info/genome/variation/phenotype/sources_phenotype_documentation.html include_sources: &-separated list of phenotype sources to include. If defined, exclude_sources is ignored. exclude_types : &-separated list of feature types to exclude: Gene, Variation, QTL, StructuralVariation, SupportingStructuralVariation, RegulatoryFeature. By default, StructuralVariation and SupportingStructuralVariation annotations are always excluded (due to size issues) and Variation is excluded when annotating structural variants; to get these annotations in all cases, use include_types=StructuralVariation&SupportingStructuralVariation&Variation include_types : &-separa",
+   "licence_or_data_sentences": [
+    "On the first run for each new version/species/assembly will download a GFF-format dump to ~/.vep/Plugins/ Ensembl provides phenotype annotations mapped to a number of genomic feature types, including genes, variants and QTLs.",
+    "If the required file does not exist, the file is downloaded and saved in the provided directory (download requires using database or cache mode).",
+    "If the file does not exist, the file is downloaded and saved with this name (download requires using database or cache mode).",
+    "See http://www.ensembl.org/info/genome/variation/phenotype/sources_phenotype_documentation.html include_sources: &-separated list of phenotype sources to include.",
+    "(default: phenotype or source,phenotype,id if you set phenotype_feature=1) id_match : Return results only if the identifiers matches with the variant or the gene depending on the type (default: 0) Example: --plugin Phenotypes,file=${HOME}/phenotypes.gff.gz,include_types=Gene --plugin Phenotypes,dir=${HOME},include_types=Gene Usage examples: mv Phenotypes.pm ~/.vep/Plugins # Automatically download "
+   ]
+  },
+  {
+   "plugin": "pLI",
+   "category": "gene_tolerance_to_change",
+   "external_libraries": "List::MoreUtils qw/zip/ DBI",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that adds the probabililty of a gene being loss-of-function intolerant (pLI) to the output. Lek et al. (2016) estimated pLI using the expectation-maximization (EM) algorithm and data from 60,706 individuals from ExAC (http://exac.broadinstitute.org). The closer pLI is to 1, the more likely the gene is loss-of-function (LoF) intolerant. Note: the pLI was calculated using a representative transcript and is reported by gene in the plugin. The data for the plugin is provided by Kaitlin Samocha and Daniel MacArthur. See https://www.ncbi.nlm.nih.gov/pubmed/27535533 for a description of the dataset and analysis. The pLI_values.txt file is found alongside the plugin in the VEP_plugins GitHub repository. The file contains the fields gene and pLI extracted from the file at ftp://ftp.broadinstitute.org/pub/ExAC_release/release0.3/functional_gene_constraint/fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt From this file, extract gene or transcipt pLI scores: To extract gene scores : awk '{print $2, $20 }' fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt > plI_gene.txt NB: The gene scores file can also be found in the VEP_plugins directory. To extract transcript scores: awk '{print $1, $20 }' fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt > plI_transcript.txt NB: Using this file, No transcript score will be returned. To use another values file, add it as a parameter i.e. ./vep -i variants.vcf --plugin pLI,values_file.txt ./vep -i variants.vcf --plugin pLI,values_file.txt,transcript # to check for the transcript score. gnomAD v4 release expanded the scale of pLI score calculation. The file can be downloaded from - https://gnomad.broadinstitute.org/downloads#v4-constraint (Constraint metrics TSV) To use the data you can follow the same p",
+   "licence_or_data_sentences": [
+    "(2016) estimated pLI using the expectation-maximization (EM) algorithm and data from 60,706 individuals from ExAC (http://exac.broadinstitute.org).",
+    "See https://www.ncbi.nlm.nih.gov/pubmed/27535533 for a description of the dataset and analysis.",
+    "The file contains the fields gene and pLI extracted from the file at ftp://ftp.broadinstitute.org/pub/ExAC_release/release0.3/functional_gene_constraint/fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt From this file, extract gene or transcipt pLI scores: To extract gene scores : awk '{print $2, $20 }' fordist_cleaned_exac_r03_march16_z_pli_rec_null_data.txt > plI_gene.txt NB: The gene sco",
+    "The file can be downloaded from - https://gnomad.broadinstitute.org/downloads#v4-constraint (Constraint metrics TSV) To use the data you can follow the same procedure as above but needs to change the column number to accordingly."
+   ]
+  },
+  {
+   "plugin": "PolyPhen_SIFT",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "Digest::MD5 qw(md5_hex) DBI",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves PolyPhen and SIFT predictions from a locally constructed SQLite database. It can be used when your main source of transcript annotation (e.g. a GFF file or GFF-based cache) does not contain these predictions. You must create a SQLite database of the predictions or point to the SQLite database file already created. Compatible SQLite databases based on pangenome data are available at http://ftp.ensembl.org/pub/current_variation/pangenomes You may point to the file by adding parameter db=[file]. If the file is not in HOME/.vep, you can also use parameter dir=[dir] to indicate its path. --plugin PolyPhen_SIFT,db=[file] --plugin PolyPhen_SIFT,db=[file],dir=[dir] To create a SQLite database using PolyPhen/SIFT data from the Ensembl database, you must have an active database connection (i.e. not using --offline) and add parameter create_db=1. This will create a SQLite file named [species].PolyPhen_SIFT.db, placed in the directory specified by the dir parameter: --plugin PolyPhen_SIFT,create_db=1 --plugin PolyPhen_SIFT,create_db=1,dir=/some/specific/directory *** NB: this will take some hours! *** When creating a PolyPhen_SIFT by simply using create_db=1, you do not need to specify any parameters to load the appropriate file based on the species: --plugin PolyPhen_SIFT By default, this plugin gives SIFT score and prediction, Polyphen humvar and humdiv score and prediction. You can manipulate what you want using the following options - sift [p|s|b|o] provides SIFT prediction term, score, or both if the value is respectively p, s, or b. If the value is o then do not provide SIFT prediction or score. Default value is b. polyphen [p|s|b|o] provides PolyPhen humvar prediction term, score, or both if the value is respectively p, s, or b. If the va",
+   "licence_or_data_sentences": [
+    "Compatible SQLite databases based on pangenome data are available at http://ftp.ensembl.org/pub/current_variation/pangenomes You may point to the file by adding parameter db=[file]."
+   ]
+  },
+  {
+   "plugin": "PON_P2",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Abhishek Niroula Mauno Vihinen",
+   "description": "This plugin for Ensembl Variant Effect Predictor (VEP) computes the predictions of PON-P2 for amino acid substitutions in human proteins. PON-P2 is developed and maintained by Protein Structure and Bioinformatics Group at Lund University and is available at http://structure.bmc.lu.se/PON-P2/. If you use this data, please cite the following publication Niroula, A., Vihinen, M. Harmful somatic amino acid substitutions affect key pathways in cancers. BMC Med Genomics 8, 53 (2015). https://doi.org/10.1186/s12920-015-0125-x There are two ways to run the plugin: To compute the predictions from the PON-P2 API, use python script ponp2.py (*) and select the reference genome (acceptable values are: hg37 and hg38): --plugin PON_P2,pyscript=/path/to/python/script/ponp2.py,hg=hg37 (*) To run this mode, you will require a python script and its dependencies (Python, python suds). The python file can be downloaded from http://structure.bmc.lu.se/PON-P2/vep.html/ and the complete path to this file must be supplied while using this plugin. To fetch the predictions from a file containing pre-calculated predictions for somatic variations please use the following key=value option (only available for GRCh37):ArgumentDescription fileCOSMIC text file with pre-calculated predictions downloaded from http://structure.bmc.lu.se/PON-P2/cancer30.html/ The following steps are necessary before using the file: (head -n 1 COSMIC.txt && tail -n +2 COSMIC.txt | sort -t $'\\t' -k1,1 -k2,2n) > cosmic_sorted.txt sed -i 's/Chromosome/#Chromosome/' cosmic_sorted.txt bgzip cosmic_sorted.txt tabix -s 1 -b 2 -e 2 cosmic_sorted.txt.gz --plugin PON_P2,file=path/to/cosmic_sorted.txt.gz Usage examples: mv PON_P2.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin PON_P2,pyscript=/path/to/python/script/ponp2.py,hg=hg37",
+   "licence_or_data_sentences": [
+    "PON-P2 is developed and maintained by Protein Structure and Bioinformatics Group at Lund University and is available at http://structure.bmc.lu.se/PON-P2/.",
+    "https://doi.org/10.1186/s12920-015-0125-x There are two ways to run the plugin: To compute the predictions from the PON-P2 API, use python script ponp2.py (*) and select the reference genome (acceptable values are: hg37 and hg38): --plugin PON_P2,pyscript=/path/to/python/script/ponp2.py,hg=hg37 (*) To run this mode, you will require a python script and its dependencies (Python, python suds).",
+    "The python file can be downloaded from http://structure.bmc.lu.se/PON-P2/vep.html/ and the complete path to this file must be supplied while using this plugin.",
+    "To fetch the predictions from a file containing pre-calculated predictions for somatic variations please use the following key=value option (only available for GRCh37):ArgumentDescription fileCOSMIC text file with pre-calculated predictions downloaded from http://structure.bmc.lu.se/PON-P2/cancer30.html/ The following steps are necessary before using the file: (head -n 1 COSMIC.txt && tail -n +2 C"
+   ]
+  },
+  {
+   "plugin": "PrimateAI",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "The PrimateAI plugin is designed to retrieve clinical impact scores of variants, as described in https://www.nature.com/articles/s41588-018-0167-z. Please consider citing the paper if using this plugin. In brief, common missense mutations in non-human primate species are usually benign in humans. Thousands of common variants from six non-human primate species were used to train a deep neural network to identify pathogenic mutations in humans with a rare disease. This plugin uses files generated by the PrimateAI software, which is available from https://github.com/Illumina/PrimateAI. The files containing predicted pathogenicity scores can be downloaded from https://basespace.illumina.com/s/yYGFdGih1rXL (a free BaseSpace account may be required): PrimateAI_scores_v0.2.tsv.gz (for GRCh37/hg19) PrimateAI_scores_v0.2_hg38.tsv.gz (for GRCh38/hg38) Before running the plugin for the first time, the following steps must be taken to format the downloaded files: Unzip the score files Add '#' in front of the column description line Remove any empty lines. Sort the file by chromosome and position Compress the file in .bgz format Create tabix index (requires tabix to be installed). Command line examples for formatting input files: gunzip -cf PrimateAI_scores_v0.2.tsv.gz | sed '12s/.*/#&/' | sed '/^$/d' | awk 'NR<12{print $0;next}{print $0 | \"sort -k1,1 -k 2,2n -V\"}' | bgzip > PrimateAI_scores_v0.2_GRCh37_sorted.tsv.bgz tabix -s 1 -b 2 -e 2 PrimateAI_scores_v0.2_GRCh37_sorted.tsv.bgz gunzip -cf PrimateAI_scores_v0.2_hg38.tsv.gz | sed '12s/.*/#&/' | sed '/^$/d' | awk 'NR<12{print $0;next}{print $0 | \"sort -k1,1 -k 2,2n -V\"}' | bgzip > PrimateAI_scores_v0.2_GRCh38_sorted.tsv.bgz tabix -s 1 -b 2 -e 2 PrimateAI_scores_v0.2_GRCh38_sorted.tsv.bgz Usage examples: mv PrimateAI.pm ~/.vep/Plugi",
+   "licence_or_data_sentences": [
+    "The PrimateAI plugin is designed to retrieve clinical impact scores of variants, as described in https://www.nature.com/articles/s41588-018-0167-z.",
+    "This plugin uses files generated by the PrimateAI software, which is available from https://github.com/Illumina/PrimateAI.",
+    "The files containing predicted pathogenicity scores can be downloaded from https://basespace.illumina.com/s/yYGFdGih1rXL (a free BaseSpace account may be required): PrimateAI_scores_v0.2.tsv.gz (for GRCh37/hg19) PrimateAI_scores_v0.2_hg38.tsv.gz (for GRCh38/hg38) Before running the plugin for the first time, the following steps must be taken to format the downloaded files: Unzip the score files Ad"
+   ]
+  },
+  {
+   "plugin": "PromoterAI",
+   "category": "regulatory_impact",
+   "external_libraries": "Try::Tiny File::Spec File::Basename",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that adds PromoterAI scores to promoter variants, predicting their impact on gene expression. Options are passed to the plugin as key=value pairs:ArgumentDescriptionfile(mandatory) Tabix-indexed file from Illumina PromoterAI (see below) cols(optional) Colon-separated list of columns to return from the plugin file (default: \"tss_pos:promoterAI\"); use all to print all data match_to(optional) Feature type to match PromoterAI scores to. One of [\"transcript\", \"gene\", \"any\"] (default: \"transcript\"). When \"any\", matching is done only on the genomic location and the alternative allele sequence. Choosing \"any\" can be useful to annotate promotor variants that are further away from affected gene region, (\"intergenic\" variant in VEP, whithout link to the nearest gene region), but this can lead to more noisy output for variants in regions with multiple overlapping genes/transcripts. To download the PromoterAI scores file to use with VEP (GRCh38 based), please follow the instructions found in the README at https://github.com/Illumina/PromoterAI. You need a valid license agreement as described in the README to obtain and use the PromoterAI scores. Please cite the PromoterAI publication alongside Ensembl VEP if you use this resource: https://www.science.org/doi/10.1126/science.ads7373 Necessary before using the plugin: Do the following steps to index the annotations file before using the plugin: zcat promoterAI.tsv.gz | sed '1s/.*/#&/' | bgzip > promoterAI.tsv.bgz tabix -s 1 -b 2 -e 2 promoterAI.tsv.bgz You must have the Bio::DB::HTS module or the tabix utility must be installed in your path to use this plugin. Usage examples: mv PromoterAI.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin PromoterAI,file=/path/to/PromoterAI.tsv.gz",
+   "licence_or_data_sentences": [
+    "To download the PromoterAI scores file to use with VEP (GRCh38 based), please follow the instructions found in the README at https://github.com/Illumina/PromoterAI.",
+    "You need a valid license agreement as described in the README to obtain and use the PromoterAI scores.",
+    "Please cite the PromoterAI publication alongside Ensembl VEP if you use this resource: https://www.science.org/doi/10.1126/science.ads7373 Necessary before using the plugin: Do the following steps to index the annotations file before using the plugin: zcat promoterAI.tsv.gz | sed '1s/.*/#&/' | bgzip > promoterAI.tsv.bgz tabix -s 1 -b 2 -e 2 promoterAI.tsv.bgz You must have the Bio::DB::HTS module "
+   ]
+  },
+  {
+   "plugin": "ProteinSeqs",
+   "category": "sequence",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that prints out the reference and mutated protein sequences of any proteins found with non-synonymous mutations in the input file. You should supply the name of file where you want to store the reference protein sequences as the first argument, and a file to store the mutated sequences as the second argument. Note that, for simplicity, where stop codons are gained the plugin simply substitutes a '*' into the sequence and does not truncate the protein. Where a stop codon is lost any new amino acids encoded by the mutation are appended to the sequence, but the plugin does not attempt to translate until the next downstream stop codon. Also, the protein sequence resulting from each mutation is printed separately, no attempt is made to apply multiple mutations to the same protein. Usage examples: mv ProteinSeqs.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin ProteinSeqs,reference.fa,mutated.fa ./vep -i variations.vcf --plugin ProteinSeqs,reference=reference.fa,mutated=mutated.fa",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "ProtVar",
+   "category": "protein_annotation",
+   "external_libraries": "Digest::MD5 qw(md5_hex) DBI List::MoreUtils qw(first_index) Compress::Zlib",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves data from ProtVar resource providing contextualised information for missense variation, including destabilisation of protein structures, overlapping protein pockets, and protein-protein interaction interfaces. Please cite the ProtVar publication alongside Ensembl VEP if you use this resource: https://academic.oup.com/nar/article/52/W1/W140/7676839 Pre-requisites: The data file. ProtVar SQLite db can be downloaded from - https://ftp.ensembl.org/pub/current_variation/ProtVar/ProtVar_data.db If you are using --offline please provide a FASTA file as this plugin requires the translation sequence to function. Options are passed to the plugin as key=value pairs:ArgumentDescription db(mandatory) Path to SQLite database containing the data. stabilitySelect this option to have protein stability related output. Output contains - ddG - Free energy change upon mutation (in kcal/mol units). ddG > 2: likely to be destabilising. pocketSelect this option to have overlapping protein pocket related output. Output contains - id - Pocket id; score - Combined score measuring confidence in pocket. score < 800: low confidence score 800-900: high confidence score > 900: very high confidence MpLDDT - Mean pLDDT score of all the residues from AlphaFold2 model used to form the pocket energy - Pocket energy per volume (in kcal/mol units) buriedness - Pocket buriedness (0.0 means entirely exposed and 1.0 means entirely burried) RoG - Pocket compactness in terms of radius of gyration (in Angstrom units) residues - Position of residues that form the pocket according to UniProt canonical (and AlphaFold) numbering. intSelect this option to have protein-protein interface related output. Output contains - protein - Uniprot id of the protein with which the overlapping p",
+   "licence_or_data_sentences": [
+    "Please cite the ProtVar publication alongside Ensembl VEP if you use this resource: https://academic.oup.com/nar/article/52/W1/W140/7676839 Pre-requisites: The data file.",
+    "ProtVar SQLite db can be downloaded from - https://ftp.ensembl.org/pub/current_variation/ProtVar/ProtVar_data.db If you are using --offline please provide a FASTA file as this plugin requires the translation sequence to function."
+   ]
+  },
+  {
+   "plugin": "ReferenceQuality",
+   "category": "sequence",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that reports on the quality of the reference genome using GRC data at the location of your variants. More information can be found at: https://www.ncbi.nlm.nih.gov/grc/human/issues The following steps are necessary before running this plugin: GRCh38: wget https://ftp.ncbi.nlm.nih.gov/pub/grc/human/GRC/GRCh38/MISC/annotated_clone_assembly_problems_GCF_000001405.38.gff3 wget https://ftp.ncbi.nlm.nih.gov/pub/grc/human/GRC/Issue_Mapping/GRCh38.p12_issues.gff3 cat annotated_clone_assembly_problems_GCF_000001405.38.gff3 GRCh38.p12_issues.gff3 > GRCh38_quality_mergedfile.gff3 sort -k 1,1 -k 4,4n -k 5,5n GRCh38_quality_mergedfile.gff3 > sorted_GRCh38_quality_mergedfile.gff3 bgzip sorted_GRCh38_quality_mergedfile.gff3 tabix -p gff sorted_GRCh38_quality_mergedfile.gff3.gz The plugin can then be run with: ./vep -i variations.vcf --plugin ReferenceQuality,sorted_GRCh38_quality_mergedfile.gff3.gz GRCh37: wget https://ftp.ncbi.nlm.nih.gov/pub/grc/human/GRC/GRCh37/MISC/annotated_clone_assembly_problems_GCF_000001405.25.gff3 wget https://ftp.ncbi.nlm.nih.gov/pub/grc/human/GRC/Issue_Mapping/GRCh37.p13_issues.gff3 cat annotated_clone_assembly_problems_GCF_000001405.25.gff3 GRCh37.p13_issues.gff3 > GRCh37_quality_mergedfile.gff3 sort -k 1,1 -k 4,4n -k 5,5n GRCh37_quality_mergedfile.gff3 > sorted_GRCh37_quality_mergedfile.gff3 bgzip sorted_GRCh37_quality_mergedfile.gff3 tabix -p gff sorted_GRCh37_quality_mergedfile.gff3.gz The plugin can then be run with: ./vep -i variations.vcf --plugin ReferenceQuality,sorted_GRCh37_quality_mergedfile.gff3.gz The tabix utility must be installed in your path to use this plugin. Usage examples: mv ReferenceQuality.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin ReferenceQuality,/path/to/dat",
+   "licence_or_data_sentences": [
+    "More information can be found at: https://www.ncbi.nlm.nih.gov/grc/human/issues The following steps are necessary before running this plugin: GRCh38: wget https://ftp.ncbi.nlm.nih.gov/pub/grc/human/GRC/GRCh38/MISC/annotated_clone_assembly_problems_GCF_000001405.38.gff3 wget https://ftp.ncbi.nlm.nih.gov/pub/grc/human/GRC/Issue_Mapping/GRCh38.p12_issues.gff3 cat annotated_clone_assembly_problems_GCF"
+   ]
+  },
+  {
+   "plugin": "REVEL",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds the REVEL score for missense variants to the output. Please cite the REVEL publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pubmed/27666373 Running options: If available, the plugin will match the scores by transcript id (default). Using the flag 1 the plugin will not try to match by transcript id. REVEL scores can be downloaded from: https://sites.google.com/site/revelgenomics/downloads The plugin supports several REVEL file versions: REVEL file version Dec 2017, which has 7 columns and only GRCh37 coordinates REVEL file version Feb 2020, which has 8 columns with GRCh37 and GRCh38 coordinates REVEL file version May 2021, which has 9 columns with GRCh37 and GRCh38 coordinates and a new column with transcript ids These files can be tabix-processed by: unzip revel-v1.3_all_chromosomes.zip cat revel_with_transcript_ids | tr \",\" \"\\t\" > tabbed_revel.tsv sed '1s/.*/#&/' tabbed_revel.tsv > new_tabbed_revel.tsv bgzip new_tabbed_revel.tsv for GRCh37: tabix -f -s 1 -b 2 -e 2 new_tabbed_revel.tsv.gz for GRCh38: zcat new_tabbed_revel.tsv.gz | head -n1 > h zgrep -h -v ^#chr new_tabbed_revel.tsv.gz | awk '$3 != \".\" ' | sort -k1,1 -k3,3n - | cat h - | bgzip -c > new_tabbed_revel_grch38.tsv.gz tabix -f -s 1 -b 3 -e 3 new_tabbed_revel_grch38.tsv.gz The plugin can then be run as default: ./vep -i variations.vcf --assembly GRCh38 --plugin REVEL,file=/path/to/revel/data.tsv.gz or with the option to not match by transcript id: ./vep -i variations.vcf --assembly GRCh38 --plugin REVEL,file=/path/to/revel/data.tsv.gz,no_match=1 Requirements: The tabix utility must be installed in your path to use this plugin. The --assembly flag is required to use this plugin. Usage examples: mv RE",
+   "licence_or_data_sentences": [
+    "Please cite the REVEL publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pubmed/27666373 Running options: If available, the plugin will match the scores by transcript id (default).",
+    "REVEL scores can be downloaded from: https://sites.google.com/site/revelgenomics/downloads The plugin supports several REVEL file versions: REVEL file version Dec 2017, which has 7 columns and only GRCh37 coordinates REVEL file version Feb 2020, which has 8 columns with GRCh37 and GRCh38 coordinates REVEL file version May 2021, which has 9 columns with GRCh37 and GRCh38 coordinates and a new colum"
+   ]
+  },
+  {
+   "plugin": "RiboseqORFs",
+   "category": "transcript_annotation",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that uses a standardized catalog of human Ribo-seq ORFs to re-calculate consequences for variants located in these translated regions. This plugin reports new consequences based on the evidence from the Ribo-seq ORF annotation and supporting publications. The human Ribo-seq ORF data can be downloaded from: https://ftp.ebi.ac.uk/pub/databases/gencode/riboseq_orfs/data After downloading the annotation, please bgzip and tabix it: bgzip Ribo-seq_ORFs.bed tabix Ribo-seq_ORFs.bed.gz For optimal performance when running this plugin, please use a FASTA file (--fasta). A FASTA file is always required in offline mode. Please cite the publication for the Ribo-seq ORF annotation alongside Ensembl VEP if you use this resource: https://doi.org/10.1038/s41587-022-01369-0 The tabix utility must be installed in your path to use this plugin. Usage examples: ./vep -i variations.vcf --plugin RiboseqORFs,file=/path/to/Ribo-seq_ORFs.bed.gz",
+   "licence_or_data_sentences": [
+    "The human Ribo-seq ORF data can be downloaded from: https://ftp.ebi.ac.uk/pub/databases/gencode/riboseq_orfs/data After downloading the annotation, please bgzip and tabix it: bgzip Ribo-seq_ORFs.bed tabix Ribo-seq_ORFs.bed.gz For optimal performance when running this plugin, please use a FASTA file (--fasta).",
+    "Please cite the publication for the Ribo-seq ORF annotation alongside Ensembl VEP if you use this resource: https://doi.org/10.1038/s41587-022-01369-0 The tabix utility must be installed in your path to use this plugin."
+   ]
+  },
+  {
+   "plugin": "SameCodon",
+   "category": "variant_data",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that reports existing variants that fall in the same codon. This plugin requires a database connection, can not be run in offline mode Usage examples: mv SameCodon.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin SameCodon",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "satMutMPRA",
+   "category": "phenotype_data_and_citations",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves data for variants from a tabix-indexed satMutMPRA file (1-based file). The saturation mutagenesis-based massively parallel reporter assays (satMutMPRA) measures variant effects on gene RNA expression for 21 regulatory elements (11 enhancers, 10 promoters). The 20 disease-associated regulatory elements and one ultraconserved enhancer analysed in different cell lines are the following: ten promoters (of TERT, LDLR, HBB, HBG, HNF4A, MSMB, PKLR, F9, FOXE1 and GP1BB) and ten enhancers (of SORT1, ZRS, BCL11A, IRF4, IRF6, MYC (2x), RET, TCF7L2 and ZFAND3) and one ultraconserved enhancer (UC88). Please refer to the satMutMPRA web server and Kircher M et al. (2019) paper for more information: https://mpra.gs.washington.edu/satMutMPRA/ https://www.ncbi.nlm.nih.gov/pubmed/31395865 Parameters can be set using a key=value system:ArgumentDescriptionfilerequired - a tabix indexed file of the satMutMPRA data corresponding to desired assembly. pvaluep-value threshold (default: 0.00001) colscolon delimited list of data types to be returned from the satMutMPRA data (default: Value, P-Value, and Element) incl_replinclude replicates (default: off): full replicate for LDLR promoter (LDLR.2) and SORT1 enhancer (SORT1.2) a reversed sequence orientation for SORT1 (SORT1-flip) other conditions: PKLR-48h, ZRSh-13h2, TERT-GAa, TERT-GBM, TERG-GSc The Bio::DB::HTS perl library or tabix utility must be installed in your path to use this plugin. The satMutMPRA data file can be downloaded from https://mpra.gs.washington.edu/satMutMPRA/ satMutMPRA data can be downloaded for both GRCh38 and GRCh37 from the web server (https://mpra.gs.washington.edu/satMutMPRA/): Download section, select GRCh37 or GRCh38 for 'Genome release' and 'Download All Elements'. The file must b",
+   "licence_or_data_sentences": [
+    "(2019) paper for more information: https://mpra.gs.washington.edu/satMutMPRA/ https://www.ncbi.nlm.nih.gov/pubmed/31395865 Parameters can be set using a key=value system:ArgumentDescriptionfilerequired - a tabix indexed file of the satMutMPRA data corresponding to desired assembly.",
+    "The satMutMPRA data file can be downloaded from https://mpra.gs.washington.edu/satMutMPRA/ satMutMPRA data can be downloaded for both GRCh38 and GRCh37 from the web server (https://mpra.gs.washington.edu/satMutMPRA/): Download section, select GRCh37 or GRCh38 for 'Genome release' and 'Download All Elements'.",
+    "This plugin is fully compatible with such a setup - simply use the URL of the remote file: --plugin satMutMPRA,file=http://my.files.com/satMutMPRA.gz Note that gene locations referred to in satMutMPRA may be out of sync with those in the latest release of Ensembl; this may lead to discrepancies with information retrieved from other sources."
+   ]
+  },
+  {
+   "plugin": "SingleLetterAA",
+   "category": "hgvs",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that returns a HGVSp string with single amino acid letter codes Usage examples: mv SingleLetterAA.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin SingleLetterAA",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "SpliceAI",
+   "category": "splicing_predictions",
+   "external_libraries": "List::Util qw(max)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves pre-calculated annotations from SpliceAI. SpliceAI is a deep neural network, developed by Illumina, Inc that predicts splice junctions from an arbitrary pre-mRNA transcript sequence. By default, this plugin appends all scores from SpliceAI files. The plugin works with any file outputed by the SpliceAI tool - Ensembl provides scores for all SNVs overlapping MANE transcripts. For details see: 1. Download the input files more Delta score of a variant, defined as the maximum of (DS_AG, DS_AL, DS_DG, DS_DL), ranges from 0 to 1 and can be interpreted as the probability of the variant being splice-altering. The author-suggested cutoffs are: 0.2 (high recall) 0.5 (recommended) 0.8 (high precision) This plugin is available for both GRCh37 and GRCh38. More information can be found at: https://pypi.org/project/spliceai/ Please cite the SpliceAI publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pubmed/30661751 Running options: cutoff : Only return the scores for the speficied cutoff Accepted values are between 0 and 1 split_output : Return each type of score in a different header. This is easier for parsing the output file. Output: The output includes the gene symbol, delta scores (DS) and delta positions (DP) for acceptor gain (AG), acceptor loss (AL), donor gain (DG), and donor loss (DL). For tab the output contains one header \"SpliceAI_pred\" with all the delta scores and positions. The format is: \"SYMBOL|DS_AG|DS_AL|DS_DG|DS_DL|DP_AG|DP_AL|DP_DG|DP_DL\" For JSON the output is a hash with the following format: \"spliceai\": {\"DP_DL\":0,\"DS_AL\":0,\"DP_AG\":0,\"DS_DL\":0,\"SYMBOL\":\"X\",\"DS_AG\":0,\"DP_AL\":0,\"DP_DG\":0,\"DS_DG\":0} For VCF output and option split_output the delta scores and positions are stored in differen",
+   "licence_or_data_sentences": [
+    "Download the input files more Delta score of a variant, defined as the maximum of (DS_AG, DS_AL, DS_DG, DS_DL), ranges from 0 to 1 and can be interpreted as the probability of the variant being splice-altering.",
+    "More information can be found at: https://pypi.org/project/spliceai/ Please cite the SpliceAI publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pubmed/30661751 Running options: cutoff : Only return the scores for the speficied cutoff Accepted values are between 0 and 1 split_output : Return each type of score in a different header.",
+    "The following steps are necessary to run this plugin: Download the input files: Ensembl-generated files (only available for GRCh38) We calculated SpliceAI scores for all possible substitutions (SNV) within MANE Select transcripts.",
+    "The scores are available through the Ensembl FTP at https://ftp.ensembl.org/pub/data_files/homo_sapiens/GRCh38/variation_plugins/ Note: Ensembl does not provide INDEL annotations, please use the Illumina's files for INDEL scores.",
+    "To know more details on how the scores were calculated please read: https://ftp.ensembl.org/pub/data_files/homo_sapiens/GRCh38/variation_plugins/README Illumina-generated files Illumina calculated scores for all possible substitutions (SNV), 1 base insertions and 1-4 base deletions (INDEL), within genes are available through basespace (https://basespace.illumina.com/s/otSPW8hnhaZR).",
+    "To download via Illumina's basespace: 1.",
+    "Click filenames to download the relevant files - note that raw/masked, hg19/hg38 and snv/indel files are available."
+   ]
+  },
+  {
+   "plugin": "SpliceRegion",
+   "category": "splicing_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that provides granular predictions of splicing effects. more Three additional terms may be added: # splice_donor_5th_base_variant : variant falls in the 5th base after the splice donor junction (5' end of intron) v ...EEEEEIIIIIIIIII... (E = exon, I = intron, v = variant location) # splice_donor_region_variant : variant falls in region between 3rd and 6th base after splice junction (5' end of intron) vv vvv ...EEEEEIIIIIIIIII... # splice_polypyrimidine_tract_variant : variant falls in polypyrimidine tract at 3' end of intron, between 17 and 3 bases from the end vvvvvvvvvvvvvvv ...IIIIIIIIIIIIIIIIIIIIEEEEE... Usage examples: mv SpliceRegion.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin SpliceRegion To only show the additional consequence extended_intronic_splice_region_variant, use: ./vep -i variations.vcf --plugin SpliceRegion,Extended",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "SpliceVault",
+   "category": "splicing_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that retrieves SpliceVault data to predict exon-skipping events and activated cryptic splice sites based on the most common mis-splicing events around a splice site. This plugin returns the most common variant-associated mis-splicing events based on SpliceVault data. Each event includes the following information: Type: exon skipping (ES), cryptic donor (CD) or cryptic acceptor (CA) Transcript impact: For ES, describes skipped exons, e.g. ES:2 represents exon 2 skipping and ES:2-3 represents skipping of exon 2 and 3 For CD/CA, describes the distance from the annotated splice-site to the cryptic splice-site with reference to the transcript (distances to negative strand transcripts are reported according to the 5' to 3' distance) Percent of supporting samples: percent of samples supporting the event over total samples where splicing occurs in that site (note this may be above 100% if the event is seen in more samples than annotated splicing) Frameshift: inframe or out-of-frame event The plugin also returns information specific to each splice site: Site position/type: genomic location and type (donor/acceptor) of the splice-site predicted to be lost by SpliceAI. Cryptic positions are relative to this genomic coordinate. Out of frame events: fraction of the top events that cause a frameshift. As per https://pubmed.ncbi.nlm.nih.gov/36747048, sites with 3/4 or more in-frame events are likely to be splice-rescued and not loss-of-function (LoF). Site sample count and max depth: sample count for this splice site and max number of reads in any single sample representing annotated splicing in Genotype-Tissue Expression (GTEx). This information allows to filter events based on a minimum number of samples or minimum depth in GTEx. SpliceAI delta score (provided ",
+   "licence_or_data_sentences": [
+    "As per https://pubmed.ncbi.nlm.nih.gov/36747048, sites with 3/4 or more in-frame events are likely to be splice-rescued and not loss-of-function (LoF).",
+    "SpliceAI delta score (provided by SpliceVault) Please cite the SpliceVault publication alongside Ensembl VEP if you use this resource: https://pubmed.ncbi.nlm.nih.gov/36747048 The tabix utility must be installed in your path to use this plugin.",
+    "The SpliceVault TSV and respective index (TBI) for GRCh38 can be downloaded from here: https://ftp.ensembl.org/pub/current_variation/SpliceVault/SpliceVault_data_GRCh38.tsv.gz https://ftp.ensembl.org/pub/current_variation/SpliceVault/SpliceVault_data_GRCh38.tsv.gz.tbi and, for GRCh37 assembly can be downloaded from here: https://ftp.ensembl.org/pub/current_variation/SpliceVault/SpliceVault_data_hg",
+    "Documentation on filter_vep is available at: https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html Usage examples: mv SpliceVault.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin SpliceVault,file=/path/to/SpliceVault_data_GRCh38.tsv.gz # Stringently select predicted loss-of-function (pLoF) splicing variants ./filter_vep -i variant_effect_output.txt --filter \"SPLICEVAULT_OUT_OF_FRAME"
+   ]
+  },
+  {
+   "plugin": "SubsetVCF",
+   "category": "variant_data",
+   "external_libraries": "Data::Dumper Storable qw(dclone)",
+   "developer": "Joseph A. Prinz",
+   "description": "An Ensembl VEP plugin to retrieve overlapping records from a given VCF file. Values for POS, ID, and ALT, are retrieved as well as values for any requested INFO field. Additionally, the allele number of the matching ALT is returned. Though similar to using --custom, this plugin returns all ALTs for a given POS, as well as all associated INFO values. By default, only VCF records with a filter value of \"PASS\" are returned, however this behaviour can be changed via the filter option. The plugin accepts the following key=value parameters:ArgumentDescriptionnameshort name added used as a prefix (required) filepath to tabix-index vcf file (required) filteronly consider variants marked as PASS, 1 or 0 (default, 1) fieldsinfo fields to be returned (default, not used) '%' can delimit multiple fields '*' can be used as a wildcard Returns: <name>_POS: POS field from VCF <name>_REF: REF field from VCF (minimised) <name>_ALT: ALT field from VCF (minimised) <name>_alt_index: Index of matching variant (zero-based) <name>_<field>: List of requested info values Usage examples: ./vep -i variations.vcf --plugin SubsetVCF,file=filepath.vcf.gz,name=myvfc,fields=AC*%AN*",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "TranscriptAnnotator",
+   "category": "transcript_annotation",
+   "external_libraries": "File::Basename",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that annotates variant-transcript pairs based on a given file: --plugin TranscriptAnnotator,file=${HOME}/file.tsv.gz Example of a valid tab-separated annotation file: #Chrom Pos Ref Alt Transcript SIFT_score SIFT_pred Comment 11 436154 A G NM_001347882.2 0.03 Deleterious Bad 11 1887471 C T ENST00000421485 0.86 Tolerated Good Please bgzip and tabix the file with commands such as: bgzip file.txt tabix -b2 -e2 file.txt.gz Options are passed to the plugin as key=value pairs:ArgumentDescription file(mandatory) Tabix-indexed file to parse. Must contain variant location (chromosome, position, reference allele, alternative allele) and transcript ID as the first 5 columns. Accepted transcript IDs include those from Ensembl and RefSeq. colsColon-delimited list with names of the columns to append. Column names are based on the last header line. By default, all columns (except the first 5) are appended. prefixString to prefix the name of appended columns (default: basename of the filename without extensions). Set to 0 to avoid any prefix. trimTrim whitespaces from both ends of each column (default: 1). The tabix and bgzip utilities must be installed in your path to read the tabix-indexed annotation file: check https://github.com/samtools/htslib.git for installation instructions. Usage examples: mv TranscriptAnnotator.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin TranscriptAnnotator,file=/path/to/file.txt.gz",
+   "licence_or_data_sentences": [
+    "The tabix and bgzip utilities must be installed in your path to read the tabix-indexed annotation file: check https://github.com/samtools/htslib.git for installation instructions."
+   ]
+  },
+  {
+   "plugin": "TSSDistance",
+   "category": "nearby_features",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that calculates the distance from the transcription start site for upstream variants. Or variants in both directions if parameter both_direction=1 is provided. Usage examples: mv TSSDistance.pm ~/.vep/Plugins ./vep -i variations.vcf --plugin TSSDistance # Get both up and downstream distances: ./vep -i variations.vcf --plugin TSSDistance,both_direction=1",
+   "licence_or_data_sentences": []
+  },
+  {
+   "plugin": "UTRAnnotator",
+   "category": "transcript_annotation",
+   "external_libraries": "List::Util qw(min max) Scalar::Util qw(looks_like_number)",
+   "developer": "Ensembl",
+   "description": "An Ensembl VEP plugin that annotates the effect of 5' UTR variant especially for variant creating/disrupting upstream ORFs. Available for both GRCh37 and GRCh38. Options are passed to the plugin as key=value pairs:ArgumentDescription file(Required) Path to UTRAnnotator data file: Download uORF_5UTR_GRCh37_PUBLIC.txt or uORF_5UTR_GRCh38_PUBLIC.txt from https://github.com/Ensembl/UTRannotator Download from http://sorfs.org max_overlap(Optional) Maximum percentage of overlap between variant and UTR for UTR annotation (default: 100) Citation About the role of 5'UTR variants in human genetic disease: Whiffin, N., Karczewski, K.J., Zhang, X. et al. Characterising the loss-of-function impact of 5\u2019 untranslated region variants in 15,708 individuals. Nat Commun 11, 2523 (2020). https://doi.org/10.1038/s41467-019-10717-9 About UTRAnnotator: The original UTRAnnotator plugin is written by Xiaolei Zhang et al. Later adopted by Ensembl VEP plugins with some changes. You can find the original plugin here - https://github.com/ImperialCardioGenetics/UTRannotator Please cite the UTRannotator publication alongside Ensembl VEP if you use this resource - Annotating high-impact 5'untranslated region variants with the UTRannotator Zhang, X., Wakeling, M.N., Ware, J.S, Whiffin, N. Bioinformatics; doi: https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btaa783/5905476 Usage examples: mv UTRAnnotator.pm ~/.vep/Plugins vep -i variations.vcf --plugin UTRAnnotator,file=/path/to/uORF_starts_ends_GRCh38_PUBLIC.txt # skip annotation for variants with a 80% or higher overlap of the UTR vep -i variations.vcf --plugin UTRAnnotator,file=/path/to/uORF_starts_ends_GRCh38_PUBLIC.txt,max_overlap=80",
+   "licence_or_data_sentences": [
+    "Options are passed to the plugin as key=value pairs:ArgumentDescription file(Required) Path to UTRAnnotator data file: Download uORF_5UTR_GRCh37_PUBLIC.txt or uORF_5UTR_GRCh38_PUBLIC.txt from https://github.com/Ensembl/UTRannotator Download from http://sorfs.org max_overlap(Optional) Maximum percentage of overlap between variant and UTR for UTR annotation (default: 100) Citation About the role of ",
+    "https://doi.org/10.1038/s41467-019-10717-9 About UTRAnnotator: The original UTRAnnotator plugin is written by Xiaolei Zhang et al.",
+    "You can find the original plugin here - https://github.com/ImperialCardioGenetics/UTRannotator Please cite the UTRannotator publication alongside Ensembl VEP if you use this resource - Annotating high-impact 5'untranslated region variants with the UTRannotator Zhang, X., Wakeling, M.N., Ware, J.S, Whiffin, N.",
+    "Bioinformatics; doi: https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btaa783/5905476 Usage examples: mv UTRAnnotator.pm ~/.vep/Plugins vep -i variations.vcf --plugin UTRAnnotator,file=/path/to/uORF_starts_ends_GRCh38_PUBLIC.txt # skip annotation for variants with a 80% or higher overlap of the UTR vep -i variations.vcf --plugin UTRAnnotator,file=/path/to/uORF_sta"
+   ]
+  },
+  {
+   "plugin": "VARITY",
+   "category": "pathogenicity_predictions",
+   "external_libraries": "-",
+   "developer": "Ensembl",
+   "description": "This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds the pre-computed VARITY scores to predict pathogenicity of rare missense variants to the output. Please cite the VARITY publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8715197/ Running options : VARITY scores can be downloaded using wget http://varity.varianteffect.org/downloads/varity_all_predictions.tar.gz The files can be tabix processed by : tar -xzvf varity_all_predictions.tar.gz cat varity_all_predictions.txt | (head -n 1 && tail -n +2 | sort -t$'\\t' -k 1,1 -k 2,2n) > varity_all_predictions_sorted.tsv sed '1s/.*/#&/' varity_all_predictions_sorted.tsv > varity_all_predictions.tsv # to add a # in the first line of the file bgzip varity_all_predictions.tsv tabix -f -s 1 -b 2 -e 2 varity_all_predictions.tsv.gz Requirements: The tabix utility must be installed in your path to use this plugin. The --assembly flag is required to use this plugin. Usage examples: mv VARITY.pm ~/.vep/Plugins ./vep -i variations.vcf --assembly GRCh37 --plugin VARITY,file=/path/to/varity_all_predictions.txt",
+   "licence_or_data_sentences": [
+    "Please cite the VARITY publication alongside Ensembl VEP if you use this resource: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8715197/ Running options : VARITY scores can be downloaded using wget http://varity.varianteffect.org/downloads/varity_all_predictions.tar.gz The files can be tabix processed by : tar -xzvf varity_all_predictions.tar.gz cat varity_all_predictions.txt | (head -n 1 && tail "
+   ]
+  }
+ ]
+}

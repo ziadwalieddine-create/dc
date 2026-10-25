@@ -65,6 +65,7 @@
   "gnomad_v4_1_lof_curation_incomplete_penetrance"
  ],
  "evidence": [
+  "ensembl_vep/listing_loeuf",
   "gnomad/downloads_page",
   "gnomad/gcs_lof_curation_v2_1_1",
   "gnomad/gcs_lof_curation_v4_1",
@@ -72,5 +73,51 @@
   "gnomad/s3_v4_1_listing",
   "gnomad/s3_v4_1_lof_curation"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "population_constraint",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "population",
+    "dimension": "natural_knockouts_dosage"
+   },
+   {
+    "axis": "truncation_nmd",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "population",
+    "dimension": "natural_knockouts_dosage",
+    "note": "depletion of predicted loss-of-function variants"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "population",
+    "dimension": "natural_knockouts_dosage",
+    "note": "depletion of missense variants"
+   }
+  ],
+  "biological_context": "Gene- and transcript-level observed/expected counts of predicted loss-of-function, missense and synonymous variants in the gnomAD cohorts. Reflects selection against heterozygous variants, not against recessive-only effects.",
+  "evidence_strength": "Statistical depletion estimates with confidence bounds. They depend on the expectation model (mutation and methylation rates), coverage and sample size, and are weak for small genes.",
+  "mechanistic_confidence": "Low for any individual variant. Constraint is a gene property and does not say that a specific allele is damaging; strong constraint supports haploinsufficiency or severe missense sensitivity as a hypothesis.",
+  "phenotype_implication": "Intolerance to loss of function suggests, but does not show, a severe early-onset dominant phenotype. Tolerance does not exclude recessive disease, gain of function or missense mechanisms.",
+  "absence_means": "A gene without metrics (too few expected variants or poor coverage) is unscored, not unconstrained. A tolerant score is not evidence that a particular allele is benign.",
+  "overlaps_with_sources": [
+   {
+    "source": "gnomad_variants",
+    "relation": "derived_from",
+    "note": "constraint is computed from the gnomAD callsets; the counts are the same observations"
+   }
+  ]
+ }
 }

@@ -75,5 +75,36 @@
   "strchive/resources",
   "strchive/loci"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "repeat_expansion",
+    "variant_classes": [
+     "str"
+    ],
+    "basis": "curated",
+    "dimension": "repeat_expansions_str"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "str"
+    ],
+    "basis": "curated",
+    "dimension": "repeat_expansions_str",
+    "note": "locus-disease association with inheritance mode"
+   }
+  ],
+  "biological_context": "Curated tandem-repeat loci associated with Mendelian disease: locus coordinates (hg38, hg19, T2T-CHM13), repeat motif and locus structure, inheritance mode, and normal and pathogenic length thresholds.",
+  "evidence_strength": "Expert curation from the literature. Thresholds differ between loci and are summarised as single numbers; intermediate ranges, repeat interruptions and somatic instability are not captured by one threshold.",
+  "mechanistic_confidence": "Moderate for repeat length and motif as the disease-relevant variable at curated loci. The molecular mechanism (RNA toxicity, polyglutamine proteotoxicity, silencing) varies by locus and is not resolved by length alone.",
+  "phenotype_implication": "Length above the pathogenic threshold associates with the named disease; onset, penetrance and severity depend on length and modifiers.",
+  "absence_means": "A locus missing from the catalogue is not curated as disease-associated. It is not shown to be benign, and the catalogue covers only loci with published disease associations.",
+  "overlaps_with_sources": []
+ }
 }

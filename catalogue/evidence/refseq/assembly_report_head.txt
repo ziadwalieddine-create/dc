@@ -1,0 +1,94 @@
+# Assembly name:  GRCh38.p14
+# Description:    Genome Reference Consortium Human Build 38 patch release 14 (GRCh38.p14)
+# Organism name:  Homo sapiens (human)
+# Taxid:          9606
+# BioProject:     PRJNA31257
+# Submitter:      Genome Reference Consortium
+# Date:           2022-02-03
+# Synonyms:       hg38	
+# Assembly type:  haploid-with-alt-loci
+# Release type:   patch
+# Assembly level: Chromosome
+# Genome representation: full
+# RefSeq category: Reference Genome
+# GenBank assembly accession: GCA_000001405.29
+# RefSeq assembly accession: GCF_000001405.40
+# RefSeq assembly and GenBank assemblies identical: no
+#
+## Assembly-Units:
+## GenBank Unit Accession	RefSeq Unit Accession	Assembly-Unit name
+## GCA_000001305.2	GCF_000001305.16	Primary Assembly
+## GCA_000005045.27	GCF_000005045.26	PATCHES
+## GCA_000001315.2	GCF_000001315.3	ALT_REF_LOCI_1
+## GCA_000001325.2	GCF_000001325.3	ALT_REF_LOCI_2
+## GCA_000001335.2	GCF_000001335.2	ALT_REF_LOCI_3
+## GCA_000001345.2	GCF_000001345.2	ALT_REF_LOCI_4
+## GCA_000001355.2	GCF_000001355.2	ALT_REF_LOCI_5
+## GCA_000001365.2	GCF_000001365.3	ALT_REF_LOCI_6
+## GCA_000001375.2	GCF_000001375.2	ALT_REF_LOCI_7
+## GCA_000510225.1	GCF_000510225.1	ALT_REF_LOCI_8
+## GCA_000510235.1	GCF_000510235.1	ALT_REF_LOCI_9
+## GCA_000509915.1	GCF_000509915.1	ALT_REF_LOCI_10
+## GCA_000509925.1	GCF_000509925.1	ALT_REF_LOCI_11
+## GCA_000509935.1	GCF_000509935.1	ALT_REF_LOCI_12
+## GCA_000509945.1	GCF_000509945.1	ALT_REF_LOCI_13
+## GCA_000509955.1	GCF_000509955.1	ALT_REF_LOCI_14
+## GCA_000509965.1	GCF_000509965.1	ALT_REF_LOCI_15
+## GCA_000509975.1	GCF_000509975.1	ALT_REF_LOCI_16
+## GCA_000509985.1	GCF_000509985.1	ALT_REF_LOCI_17
+## GCA_000509995.1	GCF_000509995.1	ALT_REF_LOCI_18
+## GCA_000510005.1	GCF_000510005.1	ALT_REF_LOCI_19
+## GCA_000510015.1	GCF_000510015.1	ALT_REF_LOCI_20
+## GCA_000510025.1	GCF_000510025.1	ALT_REF_LOCI_21
+## GCA_000510035.1	GCF_000510035.1	ALT_REF_LOCI_22
+## GCA_000510045.1	GCF_000510045.1	ALT_REF_LOCI_23
+## GCA_000510055.1	GCF_000510055.1	ALT_REF_LOCI_24
+## GCA_000510065.1	GCF_000510065.1	ALT_REF_LOCI_25
+## GCA_000510075.1	GCF_000510075.1	ALT_REF_LOCI_26
+## GCA_000510085.1	GCF_000510085.1	ALT_REF_LOCI_27
+## GCA_000510095.1	GCF_000510095.1	ALT_REF_LOCI_28
+## GCA_000510105.1	GCF_000510105.1	ALT_REF_LOCI_29
+## GCA_000510125.1	GCF_000510125.1	ALT_REF_LOCI_30
+## GCA_000510135.1	GCF_000510135.1	ALT_REF_LOCI_31
+## GCA_000510145.1	GCF_000510145.1	ALT_REF_LOCI_32
+## GCA_000510155.1	GCF_000510155.1	ALT_REF_LOCI_33
+## GCA_000510165.1	GCF_000510165.1	ALT_REF_LOCI_34
+## GCA_000510175.1	GCF_000510175.1	ALT_REF_LOCI_35
+## GCA_000006015.1	GCF_000006015.1	non-nuclear
+#
+# Ordered by chromosome/plasmid; the chromosomes/plasmids are followed by
+# unlocalized scaffolds.
+# Unplaced scaffolds are listed at the end.
+# RefSeq is equal or derived from GenBank object.
+#
+# Sequence-Name	Sequence-Role	Assigned-Molecule	Assigned-Molecule-Location/Type	GenBank-Accn	Relationship	RefSeq-Accn	Assembly-Unit	Sequence-Length	UCSC-style-name
+1	assembled-molecule	1	Chromosome	CM000663.2	=	NC_000001.11	Primary Assembly	248956422	chr1
+2	assembled-molecule	2	Chromosome	CM000664.2	=	NC_000002.12	Primary Assembly	242193529	chr2
+3	assembled-molecule	3	Chromosome	CM000665.2	=	NC_000003.12	Primary Assembly	198295559	chr3
+4	assembled-molecule	4	Chromosome	CM000666.2	=	NC_000004.12	Primary Assembly	190214555	chr4
+5	assembled-molecule	5	Chromosome	CM000667.2	=	NC_000005.10	Primary Assembly	181538259	chr5
+6	assembled-molecule	6	Chromosome	CM000668.2	=	NC_000006.12	Primary Assembly	170805979	chr6
+7	assembled-molecule	7	Chromosome	CM000669.2	=	NC_000007.14	Primary Assembly	159345973	chr7
+8	assembled-molecule	8	Chromosome	CM000670.2	=	NC_000008.11	Primary Assembly	145138636	chr8
+9	assembled-molecule	9	Chromosome	CM000671.2	=	NC_000009.12	Primary Assembly	138394717	chr9
+10	assembled-molecule	10	Chromosome	CM000672.2	=	NC_000010.11	Primary Assembly	133797422	chr10
+11	assembled-molecule	11	Chromosome	CM000673.2	=	NC_000011.10	Primary Assembly	135086622	chr11
+12	assembled-molecule	12	Chromosome	CM000674.2	=	NC_000012.12	Primary Assembly	133275309	chr12
+13	assembled-molecule	13	Chromosome	CM000675.2	=	NC_000013.11	Primary Assembly	114364328	chr13
+14	assembled-molecule	14	Chromosome	CM000676.2	=	NC_000014.9	Primary Assembly	107043718	chr14
+15	assembled-molecule	15	Chromosome	CM000677.2	=	NC_000015.10	Primary Assembly	101991189	chr15
+16	assembled-molecule	16	Chromosome	CM000678.2	=	NC_000016.10	Primary Assembly	90338345	chr16
+17	assembled-molecule	17	Chromosome	CM000679.2	=	NC_000017.11	Primary Assembly	83257441	chr17
+18	assembled-molecule	18	Chromosome	CM000680.2	=	NC_000018.10	Primary Assembly	80373285	chr18
+19	assembled-molecule	19	Chromosome	CM000681.2	=	NC_000019.10	Primary Assembly	58617616	chr19
+20	assembled-molecule	20	Chromosome	CM000682.2	=	NC_000020.11	Primary Assembly	64444167	chr20
+21	assembled-molecule	21	Chromosome	CM000683.2	=	NC_000021.9	Primary Assembly	46709983	chr21
+22	assembled-molecule	22	Chromosome	CM000684.2	=	NC_000022.11	Primary Assembly	50818468	chr22
+X	assembled-molecule	X	Chromosome	CM000685.2	=	NC_000023.11	Primary Assembly	156040895	chrX
+Y	assembled-molecule	Y	Chromosome	CM000686.2	=	NC_000024.10	Primary Assembly	57227415	chrY
+HSCHR1_CTG1_UNLOCALIZED	unlocalized-scaffold	1	Chromosome	KI270706.1	=	NT_187361.1	Primary Assembly	175055	chr1_KI270706v1_random
+HSCHR1_CTG2_UNLOCALIZED	unlocalized-scaffold	1	Chromosome	KI270707.1	=	NT_187362.1	Primary Assembly	32032	chr1_KI270707v1_random
+HSCHR1_CTG3_UNLOCALIZED	unlocalized-scaffold	1	Chromosome	KI270708.1	=	NT_187363.1	Primary Assembly	127682	chr1_KI270708v1_random
+HSCHR1_CTG4_UNLOCALIZED	unlocalized-scaffold	1	Chromosome	KI270709.1	=	NT_187364.1	Primary Assembly	66860	chr1_KI270709v1_random
+HSCHR1_CTG5_UNLOCALIZED	unlocalized-scaffold	1	Chromosome	KI270710.1	=	NT_187365.1	Primary Assembly	40176	chr1_KI270710v1_random
+HSCHR1_CTG6_UNLOCALIZED	unlocalized-s

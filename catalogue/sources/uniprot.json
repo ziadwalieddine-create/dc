@@ -74,5 +74,58 @@
   "uniprot/relnotes",
   "uniprot/rest_human_reviewed"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification",
+   "reference_annotation"
+  ],
+  "allele_resolution": "protein_residue_level",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level",
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "protein_structure_function",
+    "note": "function, domain, site and modification annotations"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "curated",
+    "dimension": "clinical_interpretation",
+    "note": "humsavar categories for missense variants"
+   }
+  ],
+  "components": [
+   {
+    "name": "sequence, function, domain, site and modification annotation",
+    "evidence_kind": [
+     "curated_expert_classification",
+     "reference_annotation"
+    ],
+    "allele_resolution": "protein_residue_level",
+    "origin": "native"
+   },
+   {
+    "name": "humsavar variant index (ACMG/AMP-style categories)",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "native"
+   }
+  ],
+  "biological_context": "Reviewed (Swiss-Prot) human protein entries with literature-curated annotation. Annotations refer to the canonical sequence, and isoforms are described by their differences.",
+  "evidence_strength": "Curated with evidence codes and literature references per annotation. The humsavar categories are curated from the literature with ACMG/AMP-style classes (likely pathogenic or pathogenic, likely benign or benign, uncertain significance).",
+  "mechanistic_confidence": "Moderate for annotated functional sites and domains; variant categories are classifications and not mechanisms.",
+  "phenotype_implication": "Disease associations are listed per variant where curated; a variant with several diseases appears once per disease.",
+  "absence_means": "A residue without annotation is uncurated, not functionally unimportant. A variant missing from humsavar is not curated as disease-related or benign.",
+  "overlaps_with_sources": []
+ }
 }

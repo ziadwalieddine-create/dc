@@ -63,5 +63,18 @@
   "fairsharing/api_docs",
   "fairsharing/search_genomics"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "catalogue_metadata"
+  ],
+  "allele_resolution": "none",
+  "mechanism_evidence": [],
+  "biological_context": "Not biological evidence: the records describe standards, databases and policies.",
+  "evidence_strength": "Not applicable.",
+  "mechanistic_confidence": "Not applicable; the registry makes no biological assertion.",
+  "phenotype_implication": "None: registry entries carry no phenotype information.",
+  "absence_means": "A resource missing from the registry is unregistered, not unavailable.",
+  "overlaps_with_sources": []
+ }
 }

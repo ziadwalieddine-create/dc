@@ -19,11 +19,12 @@
   "release_date": "2026-08-07 (CHECKSUMS)",
   "verified": "live"
  },
- "scope": "Variant effect prediction tool with offline caches and pre-built data for plugins. Directory listing of release-116/variation shows: MaveDB, LOEUF, SpliceAI (27 GB raw/masked VCFs), SpliceVault, ProtVar, mutfunc, Enformer, GENCODE_promoter, PhenotypeOrthologous, RiboSeqORFs, pangenomes, vcf, gvf, indexed_vep_cache.",
+ "scope": "Variant effect prediction tool with offline caches and pre-built data for plugins. The documentation lists 74 plugins in 18 categories (catalogue/evidence/ensembl_vep/plugin_list.json). The release-116 variation directory holds plugin data for Enformer, GENCODE_promoter, LOEUF, MaveDB, PhenotypeOrthologous, ProtVar, RiboSeqORFs, SpliceAI, SpliceVault and mutfunc, besides pangenomes, vcf, gvf and indexed_vep_cache; Ensembl-generated SpliceAI scores for all possible SNVs in MANE Select transcripts (raw and masked, about 27 GB per file with a tabix index, no indels) are under data_files/homo_sapiens/GRCh38/variation_plugins/.",
  "variant_classes": [
   "snv",
   "indel",
-  "sv"
+  "sv",
+  "gene_level"
  ],
  "assemblies": [
   "GRCh37",
@@ -54,11 +55,12 @@
  },
  "update_frequency": "With each Ensembl release; plugin files updated irregularly (MaveDB file dated 2026-03-09).",
  "coverage_limitations": [
-  "Plugin documentation page returned HTTP 504 when probed, so the complete plugin list and per-plugin licences are not verified",
-  "SpliceAI/Enformer/mutfunc/ProtVar/SpliceVault files are very large (1 to 27 GB)"
+  "Plugin data licences are those of the underlying resources. The plugin page states some of them (dbNSFP has separate academic and commercial branches; PromoterAI needs a licence agreement; the AlphaMissense text conflicts with the licence in the data file we hold) and is silent on others",
+  "SpliceAI, Enformer, mutfunc, ProtVar and SpliceVault files are large (see the listing evidence); Ensembl does not generate SpliceAI scores for indels"
  ],
  "known_omissions": [
-  "Only directory names were verified for plugins other than MaveDB; their contents were not opened"
+  "Only the MaveDB plugin file is acquired; the other plugin data are catalogued with their sizes and not fetched",
+  "The plugin list was read from the documentation page; the plugins' own code and the data files' internal formats were not inspected"
  ],
  "overlap_with_existing": [
   "mavedb-human",
@@ -70,20 +72,170 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB."
+  "notes": "FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earlier probe and was read on retry). MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB."
  },
  "acquisition_targets": [
   "ensembl_vep_mavedb_variants",
   "ensembl_vep_mavedb_variants_tbi"
  ],
  "unverified_fields": [
-  "complete plugin list",
-  "per-plugin licences"
+  "per-plugin data licences not stated on the plugin page"
  ],
  "evidence": [
-  "ensembl_vep/ftp_current_listing",
   "ensembl_vep/data_use",
-  "ensembl_vep/plugins_doc_plain",
-  "ensembl_vep/release116_variation_vep"
- ]
+  "ensembl_vep/ftp_current_listing",
+  "ensembl_vep/listing_enformer",
+  "ensembl_vep/listing_loeuf",
+  "ensembl_vep/listing_mutfunc",
+  "ensembl_vep/listing_protvar",
+  "ensembl_vep/listing_splicevault",
+  "ensembl_vep/plugin_list",
+  "ensembl_vep/plugins_doc_retry",
+  "ensembl_vep/release116_variation_listing",
+  "ensembl_vep/variation_plugins_listing",
+  "ensembl_vep/variation_plugins_readme"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "computational_prediction",
+   "direct_experimental",
+   "population_observation",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration",
+    "note": "consequence terms and predictor plugins"
+   },
+   {
+    "axis": "truncation_nmd",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration",
+    "note": "rule-based consequence terms (for example frameshift, stop gained) against transcript models"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "prediction",
+    "dimension": "regulation_expression_splicing",
+    "note": "SpliceAI and SpliceVault plugins"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "prediction",
+    "dimension": "regulation_expression_splicing",
+    "note": "Enformer plugin and promoter annotation"
+   },
+   {
+    "axis": "post_transcriptional",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "context",
+    "dimension": "regulation_expression_splicing",
+    "note": "RiboSeqORFs plugin"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "direct",
+    "dimension": "direct_experimental_variant_effects",
+    "note": "MaveDB plugin carries measured scores"
+   },
+   {
+    "axis": "population_constraint",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "population",
+    "dimension": "natural_knockouts_dosage",
+    "note": "LOEUF plugin"
+   },
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "sv"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration",
+    "note": "consequence terms for structural variants"
+   }
+  ],
+  "components": [
+   {
+    "name": "consequence terms against transcript models",
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "native"
+   },
+   {
+    "name": "predictor plugins (for example SpliceAI, SpliceVault, Enformer, AlphaMissense)",
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "external: published predictors"
+   },
+   {
+    "name": "MaveDB plugin",
+    "evidence_kind": [
+     "direct_experimental"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "mavedb"
+   },
+   {
+    "name": "LOEUF plugin",
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "gene_level",
+    "origin": "gnomad_constraint"
+   }
+  ],
+  "biological_context": "A tool that annotates variants against transcript models and attaches plugin data. Every annotation is computed or looked up per transcript, so one variant can carry different consequences across transcripts and tools.",
+  "evidence_strength": "Mixed, and inherited from the plugin: consequence terms are deterministic rules against annotation, predictor plugins are hypotheses, MaveDB values are measurements and LOEUF is a gene-level population estimate. The evidence kind of each part persists.",
+  "mechanistic_confidence": "Low to moderate depending on the plugin. A consequence term names a molecular consequence class and does not show loss versus gain of function or tissue context; agreement between predictor plugins is not independent confirmation because they can share training data.",
+  "phenotype_implication": "None directly.",
+  "absence_means": "A missing plugin value means that plugin has no data for the variant (type, transcript or build); for example precomputed SpliceAI files cover SNVs in MANE Select transcripts and no indels. Absence is not a negative prediction.",
+  "overlaps_with_sources": [
+   {
+    "source": "alphamissense",
+    "relation": "aggregates",
+    "note": "AlphaMissense plugin"
+   },
+   {
+    "source": "mavedb",
+    "relation": "aggregates",
+    "note": "MaveDB plugin"
+   },
+   {
+    "source": "gnomad_constraint",
+    "relation": "aggregates",
+    "note": "LOEUF plugin"
+   }
+  ]
+ }
 }

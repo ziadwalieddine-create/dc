@@ -32,7 +32,12 @@ EXISTING_SOURCES = {'mavedb': (['mavedb-human'], ['direct_experimental_variant_e
                     'nhgri_education': (['nhgri-gwas', 'nhgri-1000-genomes'], ['background_documentation'], False)}
 REQUIRED = ['id', 'name', 'categories', 'maintainer', 'url', 'provenance', 'version', 'scope', 'variant_classes', 'assemblies', 'formats',
             'identifiers', 'mapping_methods', 'quantitative', 'licence', 'update_frequency', 'coverage_limitations', 'known_omissions',
-            'overlap_with_existing', 'reuse_decision', 'status', 'acquisition_targets', 'evidence', 'unverified_fields']
+            'overlap_with_existing', 'reuse_decision', 'status', 'acquisition_targets', 'evidence', 'unverified_fields', 'evidence_profile']
+PROFILE_TEXT = ['biological_context', 'evidence_strength', 'mechanistic_confidence', 'phenotype_implication', 'absence_means']
+GENE_LEVEL_CLASSES = {'gene_level', 'region_level', 'cnv', 'sv', 'str', 'complex_locus', 'mtdna'}
+# the evidence kinds a mechanism basis may rest on
+BASIS_KINDS = {'direct': {'direct_experimental', 'perturbation_experimental'}, 'curated': {'curated_expert_classification'}, 'association': {'statistical_association'},
+               'prediction': {'computational_prediction'}, 'population': {'population_observation'}, 'case': {'case_observation'}}
 STAGES = ['catalogued', 'accessible', 'acquired', 'validated', 'mapped', 'usable']
 
 
@@ -109,6 +114,75 @@ def validate(vocab, sources, ev, targets):
         for k in ('usable', 'mapped_to_dc'):
             if k in s['status']:
                 errs.append(f'{i}: status.{k} is hand-set; it is computed from the acquisition record')
+    axes = {a['key'] for a in vocab['mechanism_axes']}
+    all_ids = {s.get('id') for s in sources}
+    declared = {}
+    for s in sources:
+        i = s.get('id', '?')
+        pr = s.get('evidence_profile')
+        if not isinstance(pr, dict):
+            continue
+        absent = [k for k in ('evidence_kind', 'allele_resolution', 'mechanism_evidence', 'overlaps_with_sources') + tuple(PROFILE_TEXT) if k not in pr]
+        if absent:
+            errs.append(f'{i}: evidence_profile lacks {absent}')
+            continue
+        kinds = pr['evidence_kind']
+        if not kinds or any(k not in vocab['evidence_kinds'] for k in kinds):
+            errs.append(f'{i}: evidence_profile.evidence_kind must be a non-empty list from the vocabulary: {kinds}')
+            continue
+        if pr['allele_resolution'] not in vocab['allele_resolutions']:
+            errs.append(f"{i}: bad allele_resolution {pr['allele_resolution']}")
+        for k in PROFILE_TEXT:
+            if not isinstance(pr[k], str) or len(pr[k].strip()) < 8:
+                errs.append(f'{i}: evidence_profile.{k} must state something')
+        if pr['allele_resolution'] == 'none' and (pr['mechanism_evidence'] or not set(kinds) <= {'catalogue_metadata', 'documentation'}):
+            errs.append(f'{i}: allele_resolution none is for catalogue and documentation records, which carry no mechanism evidence')
+        for m in pr['mechanism_evidence']:
+            if m.get('axis') not in axes:
+                errs.append(f"{i}: unknown mechanism axis {m.get('axis')}")
+            if m.get('basis') not in vocab['mechanism_bases']:
+                errs.append(f"{i}: unknown mechanism basis {m.get('basis')}")
+            vcs = m.get('variant_classes', [])
+            if not vcs or any(v not in vocab['variant_classes'] for v in vcs):
+                errs.append(f"{i}: mechanism entry {m.get('axis')} has bad variant_classes {vcs}")
+            elif not set(vcs) <= set(s['variant_classes']):
+                errs.append(f"{i}: mechanism entry {m.get('axis')} names variant classes {sorted(set(vcs) - set(s['variant_classes']))} that the record does not list")
+            if m.get('dimension') is not None and m['dimension'] not in s['categories']:
+                errs.append(f"{i}: mechanism entry {m.get('axis')} names dimension {m['dimension']}, which is not a category of the record")
+            # a gene- or region-level resource must not be recorded as direct evidence about specific alleles or small variants
+            if m.get('basis') == 'direct' and pr['allele_resolution'] in ('gene_level', 'region_level') and not set(vcs) <= GENE_LEVEL_CLASSES:
+                errs.append(f"{i}: {pr['allele_resolution']} evidence cannot be direct evidence for {sorted(set(vcs) - GENE_LEVEL_CLASSES)} (a gene or region result does not describe a specific allele)")
+            need = BASIS_KINDS.get(m.get('basis'))
+            if need and not need & set(kinds):
+                errs.append(f"{i}: mechanism basis {m.get('basis')} needs one of the evidence kinds {sorted(need)}")
+        for c in pr.get('components', []):
+            ck = c.get('evidence_kind')
+            if not isinstance(c.get('name'), str) or len(c['name']) < 3 or not ck or any(k not in vocab['evidence_kinds'] for k in ck):
+                errs.append(f"{i}: bad component {c.get('name')}")
+                continue
+            if not set(ck) <= set(kinds):
+                errs.append(f"{i}: component {c['name']} has evidence kinds {sorted(set(ck) - set(kinds))} that the source profile does not list")
+            if c.get('allele_resolution') not in vocab['allele_resolutions']:
+                errs.append(f"{i}: component {c['name']} has bad allele_resolution {c.get('allele_resolution')}")
+            o = c.get('origin', '')
+            if not (o == 'native' or o in all_ids or o.startswith('external: ')):
+                errs.append(f"{i}: component {c['name']} origin must be native, a catalogue source id or 'external: ...': {o!r}")
+        if 'computational_prediction' in kinds and any(m['basis'] in ('direct', 'curated') for m in pr['mechanism_evidence']) and 'aggregated_integration' not in kinds:
+            errs.append(f'{i}: a computational prediction resource cannot also carry direct or curated mechanism evidence unless it aggregates other sources')
+        if set(kinds) <= {'reference_annotation', 'catalogue_metadata', 'documentation'} and any(m['basis'] != 'context' for m in pr['mechanism_evidence']):
+            errs.append(f'{i}: reference, catalogue and documentation resources can only provide context')
+        for o in pr['overlaps_with_sources']:
+            if o.get('source') not in all_ids or o.get('source') == i:
+                errs.append(f"{i}: overlap names unknown or own source {o.get('source')}")
+                continue
+            if o.get('relation') not in vocab['source_relations']:
+                errs.append(f"{i}: overlap relation {o.get('relation')} not in the vocabulary")
+            if o.get('relation') in ('identical_records', 'derived_from', 'may_conflict') and not o.get('note'):
+                errs.append(f"{i}: overlap {o['relation']} with {o['source']} needs a note stating what is shared or contested")
+            pair = frozenset((i, o['source']))
+            if pair in declared:
+                errs.append(f"{i}: overlap with {o['source']} is already declared by {declared[pair]}; declare each pair once")
+            declared[pair] = i
     claimed = {t for s in sources for t in s.get('acquisition_targets', [])}
     for tid, t in targets.items():
         if tid not in claimed:
@@ -193,7 +267,8 @@ def build(check_only=False):
            '`acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*')
     legend = ('`✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, '
               '**val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). '
-              'Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension.')
+              'Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension. '
+              '`integrated` (a documented, tested query layer that returns records by variant, gene, protein or region) is defined in `vocab.json` and credited to no source, because no such layer exists yet.')
 
     # ---- MASTER INVENTORY ---------------------------------------------------------------------------------
     by_dim = collections.defaultdict(list)
@@ -338,6 +413,117 @@ def build(check_only=False):
         lic = s['licence']
         L.append(f"| `{s['id']}` | {lic['name'][:200]}{'' if lic['verified'] == 'live' else ' (unverified)'} | {lic['redistribution'][:260]} | {where} |")
     open(os.path.join(HERE, 'ATTRIBUTION.md'), 'w').write('\n'.join(L) + '\n')
+    # ---- EVIDENCE PROFILES --------------------------------------------------------------------------------
+    prof = {s['id']: s['evidence_profile'] for s in sources}
+    L = ['# Evidence profiles', '', gen, '',
+         'Every source record carries an `evidence_profile` that keeps apart what the resource is (a measurement, a perturbation, a population observation, an association, a curated classification, a prediction, a reference annotation), '
+         'the resolution at which its records refer to alleles, the mechanisms it informs and on what basis, how strong the evidence is, how far a mechanistic reading can be trusted, what phenotype it implies and what absence means. '
+         'These fields are independent: a curated classification can be strong and carry no mechanism; a strong association says nothing about the causal variant; a gene-level knockout or constraint metric is never allele-specific evidence; '
+         'the absence of a study is never recorded as the absence of an effect. Hypotheses and competing explanations are listed per mechanism axis in `MECHANISM_MATRIX.md`.', '',
+         'Rules enforced by `build_catalogue.py --check`: a gene- or region-level resource cannot be direct evidence for a specific allele or small variant; a prediction basis needs the `computational_prediction` kind; every mechanism basis needs a matching evidence kind; '
+         'a prediction resource cannot also carry direct or curated mechanism evidence unless it aggregates other sources; reference, catalogue and documentation resources provide context only; mechanism entries cannot name variant classes the record does not list; '
+         'every overlap between sources is declared once, and identical, derived or conflicting records must say what is shared or contested.', '',
+         '## Evidence kinds', '', '| Kind | Meaning | Sources |', '|---|---|---|']
+    for k, desc in vocab['evidence_kinds'].items():
+        ss = [s['id'] for s in sources if k in prof[s['id']]['evidence_kind']]
+        L.append(f"| `{k}` | {desc} | {', '.join(f'`{x}`' for x in ss) or '—'} |")
+    L += ['', '## Allele resolution', '', 'The resolution at which a source\'s records refer to alleles. Gene-, region- and protein-level records describe a gene, interval or protein as a whole.', '', '| Resolution | Meaning | Sources |', '|---|---|---|']
+    for k, desc in vocab['allele_resolutions'].items():
+        ss = [s['id'] for s in sources if prof[s['id']]['allele_resolution'] == k]
+        L.append(f"| `{k}` | {desc} | {', '.join(f'`{x}`' for x in ss) or '—'} |")
+    L += ['', '## Per-source profiles', '']
+    for s in sorted(sources, key=lambda x: x['id']):
+        pr = prof[s['id']]
+        me = '<br>'.join(f"`{m['axis']}` · {m['basis']} · {', '.join(m['variant_classes'])}" + (f" · {m['dimension']}" if m.get('dimension') else '') + (f" ({m['note']})" if m.get('note') else '') for m in pr['mechanism_evidence']) or 'none (no mechanism content)'
+        comp = '<br>'.join(f"{c['name']} — {', '.join(c['evidence_kind'])} · {c['allele_resolution']} · from {c['origin']}" for c in pr.get('components', []))
+        ov = '<br>'.join(f"{o['relation']} · `{o['source']}`" + (f" ({o['note']})" if o.get('note') else '') for o in pr['overlaps_with_sources'])
+        L += [f"### `{s['id']}` · {s['name']}", '', '| | |', '|---|---|',
+              f"| Evidence kinds | {', '.join(pr['evidence_kind'])} |", f"| Allele resolution | {pr['allele_resolution']} |", f'| Mechanism evidence | {me} |']
+        if comp:
+            L.append(f'| Components | {comp} |')
+        L += [f"| Biological context | {pr['biological_context']} |", f"| Evidence strength | {pr['evidence_strength']} |", f"| Mechanistic confidence | {pr['mechanistic_confidence']} |",
+              f"| Phenotype implication | {pr['phenotype_implication']} |", f"| Absence means | {pr['absence_means']} |"]
+        if ov:
+            L.append(f'| Overlaps (declared here) | {ov} |')
+        L.append('')
+    L += ['## Overlaps and deduplication', '',
+          'Policy: identical records are combined once; independent experiments are never merged only because they concern the same gene or variant; assertions that can disagree are kept side by side, and disagreement is information. '
+          'For an aggregate, reuse the aggregate and consult the original for fields the aggregate drops; count the underlying evidence once. A pair is declared once, by the source that depends on or restates the other.', '',
+          '| Source | Relation | With | What is shared or contested |', '|---|---|---|---|']
+    rels = [(s['id'], o) for s in sorted(sources, key=lambda x: x['id']) for o in prof[s['id']]['overlaps_with_sources']]
+    for sid, o in sorted(rels, key=lambda x: (x[1]['relation'], x[0], x[1]['source'])):
+        L.append(f"| `{sid}` | {o['relation']} | `{o['source']}` | {o.get('note', '')} |")
+    if not rels:
+        L.append('| none | | | |')
+    L += ['', 'Relations: ' + '; '.join(f'**{k}** — {v}' for k, v in vocab['source_relations'].items()), '']
+    aggs = [(s['id'], c) for s in sorted(sources, key=lambda x: x['id']) for c in prof[s['id']].get('components', [])]
+    if aggs:
+        L += ['## Components of mixed sources', '', 'Where one resource carries parts of different evidence kinds, each part keeps its own kind and resolution. The origin tells whether the part is native, taken from another catalogued source, or from an external method.', '',
+              '| Source | Component | Evidence kind | Allele resolution | Origin |', '|---|---|---|---|---|']
+        for sid, c in aggs:
+            L.append(f"| `{sid}` | {c['name']} | {', '.join(c['evidence_kind'])} | {c['allele_resolution']} | {c['origin']} |")
+        L.append('')
+    open(os.path.join(HERE, 'EVIDENCE_PROFILES.md'), 'w').write('\n'.join(L))
+
+    # ---- MECHANISM MATRIX ---------------------------------------------------------------------------------
+    LET = {'direct': 'D', 'curated': 'C', 'association': 'A', 'prediction': 'P', 'population': 'F', 'context': 'X', 'case': 'K'}
+    EMPIRICAL = ('direct', 'curated', 'association', 'case')
+    TYPES = ['snv', 'indel', 'cnv', 'sv', 'str', 'complex_locus', 'mtdna']
+    LEVELS = ['gene_level', 'region_level', 'protein_level']
+    entries = [(s, m) for s in sources for m in prof[s['id']]['mechanism_evidence']]
+
+    def entry_state(s, m):
+        st = life[(s['id'], m['dimension'] if m.get('dimension') else None)][0]
+        if st['usable']:
+            return True, ''
+        why = next((k for k in ('acquired', 'validated', 'mapped') if st[k] is not True), 'licence')
+        return False, why
+
+    def cell(axis, classes):
+        es = [(s, m) for s, m in entries if m['axis'] == axis['key'] and set(classes) & set(m['variant_classes'])]
+        use = collections.Counter(LET[m['basis']] for s, m in es if entry_state(s, m)[0])
+        pend = sum(1 for s, m in es if not entry_state(s, m)[0])
+        return (' '.join(f'{k}{v}' for k, v in sorted(use.items())) or '·') + (f' (+{pend})' if pend else '')
+    legend_m = ('Cell = number of **usable** sources by basis: **D** direct measurement, **C** curated assertion, **A** statistical association, **K** case-level observation, **P** prediction, **F** population frequency or constraint, **X** context only; '
+                '`(+n)` = n further sources declare the entry but are not yet usable (not acquired, validated or mapped, or without a verified licence); `·` = nothing; `n/a` = the axis does not apply to that class. '
+                'Gene-, region- and protein-level entries are counted in the last column only and never fill an allele-level cell.')
+    L = ['# Mechanism matrix: variant types by mechanism axis', '', gen, '',
+         'Which mechanisms the catalogued evidence can inform for each type of called variant, on what basis, and what is usable now. The axes and their competing explanations are defined in `catalogue/vocab.json`; '
+         'a hypothesis is never recorded as a finding, and a gene-level result is never recorded as an allele-specific one.', '', legend_m, '',
+         '| Mechanism axis | ' + ' | '.join(TYPES) + ' | gene / region / protein level |', '|---|' + '---|' * (len(TYPES) + 1)]
+    for a in vocab['mechanism_axes']:
+        L.append(f"| {a['label']} (`{a['key']}`) | " + ' | '.join(cell(a, [t]) if t in a['variant_types'] else 'n/a' for t in TYPES) + ' | ' + (cell(a, [l for l in LEVELS if l in a['levels']]) if a['levels'] else 'n/a') + ' |')
+    L += ['', '## Computed gaps', '',
+          'An applicable (axis, class) cell is a gap when no usable source offers direct, curated, associational or case-level evidence for it. Context, population and prediction entries can inform but do not fill it.', '',
+          '| Mechanism axis | Class | Usable but non-empirical | Declared, not yet usable (first missing stage) |', '|---|---|---|---|']
+    ngap = 0
+    for a in vocab['mechanism_axes']:
+        for t in a['variant_types']:
+            es = [(s, m) for s, m in entries if m['axis'] == a['key'] and t in m['variant_classes']]
+            if any(entry_state(s, m)[0] and m['basis'] in EMPIRICAL for s, m in es):
+                continue
+            ngap += 1
+            soft = sorted({f"`{s['id']}` ({LET[m['basis']]})" for s, m in es if entry_state(s, m)[0]})
+            pend = sorted({f"`{s['id']}` ({LET[m['basis']]}; {entry_state(s, m)[1]})" for s, m in es if not entry_state(s, m)[0]})
+            L.append(f"| {a['label']} | {t} | {', '.join(soft) or '—'} | {', '.join(pend) or '—'} |")
+    if not ngap:
+        L.append('| none | | | |')
+    L += ['', f'{ngap} applicable cells have no usable empirical evidence.', '']
+    for a in vocab['mechanism_axes']:
+        L += [f"## {a['label']} (`{a['key']}`)", '', a['description'], '', f"- **Competing explanations:** {a['competing']}", f"- **What discriminates them:** {a['discriminating']}",
+              f"- **Applies to:** {', '.join(a['variant_types'])}" + (f"; levels: {', '.join(a['levels'])}" if a['levels'] else ''), '']
+        es = [(s, m) for s, m in entries if m['axis'] == a['key']]
+        if not es:
+            L += ['*No catalogued source declares evidence on this axis.*', '']
+            continue
+        L += ['| Source | Basis | Classes | Dimension | Usable now | Note |', '|---|---|---|---|---|---|']
+        for s, m in sorted(es, key=lambda x: (x[1]['basis'], x[0]['id'])):
+            ok, why = entry_state(s, m)
+            L.append(f"| `{s['id']}` | {m['basis']} | {', '.join(m['variant_classes'])} | {m.get('dimension') or 'all'} | {'✓' if ok else 'no (' + why + ')'} | {m.get('note', '')} |")
+        L.append('')
+    none_ = [s['id'] for s in sources if not prof[s['id']]['mechanism_evidence']]
+    L += ['## Sources with no mechanism content', '', ', '.join(f'`{x}`' for x in none_) or 'none', '']
+    open(os.path.join(HERE, 'MECHANISM_MATRIX.md'), 'w').write('\n'.join(L))
     summary = {k: sum(1 for s in sources if life[(s['id'], None)][0][k] is True) for k in STAGES}
     print('sources reaching each stage (all files):', summary)
     print('sources usable for at least one dimension:', sum(1 for s in sources if usable_dims[s['id']]))

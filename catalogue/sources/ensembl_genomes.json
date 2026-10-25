@@ -19,7 +19,8 @@
  "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies. The GRCh38 reference sequence (toplevel FASTA) and the release-116 gene annotation (GTF) are mirrored.",
  "variant_classes": [
   "gene_level",
-  "region_level"
+  "region_level",
+  "complex_locus"
  ],
  "assemblies": [
   "GRCh37",
@@ -90,5 +91,54 @@
   "ensembl_grch38_dna_toplevel_gzi",
   "ensembl_grch38_gtf_116",
   "ensembl_grch38_reference_regional"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "gene_level",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "exon and intron structure of transcript models"
+   },
+   {
+    "axis": "truncation_nmd",
+    "variant_classes": [
+     "gene_level",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "reading frame and exon junctions needed to evaluate decay"
+   },
+   {
+    "axis": "paralog_complex_locus",
+    "variant_classes": [
+     "complex_locus"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "alternate, patch and haplotype sequences"
+   }
+  ],
+  "biological_context": "Reference assemblies (primary, alternate and patch sequences, T2T-CHM13 and haplotype assemblies) and gene annotation. The GRCh38 reference is a single consensus sequence and its annotation is a set of transcript models, not a map of which isoform is expressed where.",
+  "evidence_strength": "Reference data. The properties to verify are coordinates and sequence (done here by published checksums and reference-allele concordance), not an effect or association strength.",
+  "mechanistic_confidence": "Not applicable. It supplies the sequence and transcript frame needed to define consequences (exon boundaries, reading frame, splice sites) and asserts no effect.",
+  "phenotype_implication": "None: reference sequence and gene models carry no phenotype information.",
+  "absence_means": "A position outside annotated genes is not shown to be non-functional. Sequence that is carried only on alternate or haplotype assemblies may be unmappable on the primary reference.",
+  "overlaps_with_sources": [
+   {
+    "source": "gencode_mane",
+    "relation": "derived_from",
+    "note": "the human gene annotation distributed by Ensembl is merged with the GENCODE gene set"
+   }
+  ]
+ }
 }

@@ -52,8 +52,8 @@
  },
  "update_frequency": "Major releases every few years (v8 2019, v10, v11).",
  "coverage_limitations": [
-  "About 950 donors, mostly adults of European ancestry",
-  "Post-mortem tissue; some tissues have few samples",
+  "About 950 donors (946 subjects, 943 with eQTL data in release v11); donor ancestry composition is not recorded in the stored evidence and is unverified here",
+  "Sampling conditions (including post-mortem collection) are described in the GTEx publications and were not retrieved here; some tissues have few samples",
   "Only open-access data are available here"
  ],
  "known_omissions": [
@@ -78,5 +78,51 @@
   "gtex/portal_downloads",
   "gtex/data_use"
  ],
- "unverified_fields": []
+ "unverified_fields": [
+  "coverage_limitations (donor ancestry composition and sampling conditions are from the GTEx publications, not retrieved)"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "statistical_association",
+   "experimental_annotation"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "association_finemapping_coloc",
+    "note": "eQTL"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "regulation_expression_splicing",
+    "note": "sQTL"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "context",
+    "dimension": "regulation_expression_splicing",
+    "note": "tissue-specific gene expression"
+   }
+  ],
+  "biological_context": "Bulk RNA-seq and whole-genome-sequencing genotypes from donors, across non-diseased tissues. Expression and QTL effects are averages over the cell types present in each tissue, and the number of donors differs between tissues.",
+  "evidence_strength": "Association statistics per tissue; release v11 lists 946 subjects (943 with eQTL data) in 54 tissues, 50 of them with eQTL results. Fine-mapping and colocalisation are needed before causal claims.",
+  "mechanistic_confidence": "Low to moderate. An eQTL or sQTL associates a variant, or a linked variant, with expression or splicing in a tissue; allele-specific expression collections add allele-resolved support but remain observational.",
+  "phenotype_implication": "A molecular phenotype in non-diseased tissue; disease relevance needs colocalisation with a trait and the relevant cell type or state.",
+  "absence_means": "No eQTL in a tissue means none was detected at the available power in bulk tissue. Cell-type-specific, context-specific and rare-allele effects are not covered.",
+  "overlaps_with_sources": []
+ }
 }

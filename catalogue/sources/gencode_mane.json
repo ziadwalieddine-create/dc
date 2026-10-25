@@ -75,5 +75,48 @@
   "gencode/latest_listing",
   "gencode/mane_listing",
   "gencode/ncbi_policies"
- ]
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "truncation_nmd",
+    "variant_classes": [
+     "gene_level",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "transcript structure on which decay rules are evaluated"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "gene_level",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "exon and splice-junction coordinates"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "the transcript that defines protein-level variant nomenclature"
+   }
+  ],
+  "biological_context": "Transcript models. The GENCODE comprehensive set lists supported transcripts; MANE Select designates one matched Ensembl and RefSeq transcript per gene as a clinical reference, and MANE Plus Clinical adds transcripts required to report variants.",
+  "evidence_strength": "Curated and automated annotation of transcript structure. Choosing a MANE transcript is a convention and not evidence of the dominant isoform in any tissue.",
+  "mechanistic_confidence": "Not applicable. It defines the frame (exons, coding sequence, start and stop) in which consequences are computed, and the consequence depends on the transcript chosen.",
+  "phenotype_implication": "None directly. A consequence in a non-MANE isoform can be misread as benign or damaging, so consequences are reported per transcript.",
+  "absence_means": "A gene without a MANE Select transcript, or a variant outside MANE transcripts, has no clinical-reference consequence here; this reflects the transcript set and not benignity.",
+  "overlaps_with_sources": []
+ }
 }

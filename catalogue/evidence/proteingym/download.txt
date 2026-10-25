@@ -1,0 +1,53 @@
+  ProteinGym
+Home
+Benchmarks
+Download
+Data
+DMS Assays
+Substitutions
+Indels
+Raw Substitutions
+Raw Indels
+Clinical Variants
+Substitutions
+Indels
+Raw Substitutions
+Raw Indels
+Multiple Sequence Alignments
+DMS Assays
+Clinical Variants
+Multiple Sequence Alignment Weights
+DMS Assays
+Clinical Variants
+Protein Structures
+DMS Structures
+Supervised Cross-Validation Splits
+Substitution Singles
+Substitution Multiples
+Indels
+
+
+Model Scores
+Zero-Shot DMS Assay Scores
+Zero-shot Substitutions
+Zero-shot Indels
+Supervised DMS Assay Scores
+Supervised Substitutions
+Supervised Indels
+Zero-Shot Clinical Variant Scores
+Zero-shot Substitutions
+Zero-shot Indels
+
+
+Reference Files
+DMS
+Substitutions
+Indels
+Clinical
+Substitutions
+Indels
+
+
+Additional Links
+Paper
+Github Repository

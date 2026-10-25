@@ -1,0 +1,19 @@
+ 
+ Index of /pub/release-116/variation 
+ Index of /pub/release-116/variation 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ Enformer/ 2026-08-07 22:00 -   
+ GENCODE_promoter/ 2026-08-07 21:58 -   
+ LOEUF/ 2026-08-07 22:00 -   
+ MaveDB/ 2026-08-07 22:00 -   
+ PhenotypeOrthologous/ 2026-08-07 22:00 -   
+ ProtVar/ 2026-08-07 21:52 -   
+ RiboSeqORFs/ 2026-08-07 21:52 -   
+ SpliceAI/ 2026-08-07 21:58 -   
+ SpliceVault/ 2026-08-07 21:58 -   
+ gvf/ 2026-05-20 06:19 -   
+ indexed_vep_cache/ 2026-09-23 14:31 -   
+ mutfunc/ 2026-08-07 21:52 -   
+ pangenomes/ 2026-05-20 06:19 -   
+ vcf/ 2026-05-20 06:19 -   

@@ -76,5 +76,36 @@
   "1000genomes/igsr_data_reuse",
   "1000genomes/sample_index_head"
  ],
- "unverified_fields": []
+ "unverified_fields": [],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "population_constraint",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "population",
+    "dimension": "population_frequency"
+   },
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "sv"
+    ],
+    "basis": "population",
+    "dimension": "structural_variation_cnv"
+   }
+  ],
+  "biological_context": "Openly consented samples from people who declared themselves healthy, grouped by population label. The callsets describe germline variation in reference cohorts; no tissue, expression or phenotype data accompany the variants.",
+  "evidence_strength": "Observational genotype calls with sample and population metadata. No effect size or per-variant uncertainty is attached, and call quality differs between SNV, indel and SV callsets.",
+  "mechanistic_confidence": "None for mechanism. Presence of an allele in a healthy-declared cohort is indirect evidence of tolerance only and cannot separate a benign allele from one with recessive, late-onset or reduced-penetrance effects.",
+  "phenotype_implication": "Observation in healthy-declared individuals argues against a high-penetrance, early-onset dominant effect of that allele; it does not exclude recessive, late-onset or reduced-penetrance effects.",
+  "absence_means": "An allele missing from the callset was not observed in this cohort. Coverage, callset design and population representation decide what could be seen; absence is not evidence of rarity or harm.",
+  "overlaps_with_sources": []
+ }
 }
