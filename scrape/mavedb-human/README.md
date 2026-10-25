@@ -23,7 +23,14 @@ Together: 1,110 experiments, 712 distinct target names, 5,170,093 variants.
 - `scores_manifest.jsonl`: one record per downloaded table (URN, kind, file name, row count, column names, gzipped size, sha256 of the gzip file)
 
 ## Score tables
-`download_scores.py` fetches, for each of the 1,402 score sets, `GET /score-sets/{urn}/scores` and, for the 578 sets with count columns, `GET /score-sets/{urn}/counts`. Output goes to `scores/` as `urn_mavedb_<id>.<scores|counts>.csv.gz`: 1,980 files, about 237 MB gzipped, 5,170,093 score rows and 1,544,328 count rows. `scores/` is git-ignored and the container it was built in is ephemeral, so rerun `python3 download_scores.py` to recreate it (resumable; tens of minutes). `python3 verify_scores.py` re-checks everything (exit status 0 means no problems).
+`download_scores.py` fetches, for each of the 1,402 score sets, `GET /score-sets/{urn}/scores` and, for the 578 sets with count columns, `GET /score-sets/{urn}/counts`. Output goes to `scores/` as `urn_mavedb_<id>.<scores|counts>.csv.gz`: 1,980 files, about 237 MB gzipped, 5,170,093 score rows and 1,544,328 count rows. `scores/` is git-ignored on `main`. The tables are stored on the separate branch `data/mavedb-scores` (not meant to be merged; see `DATA_NOTICE.md` there for licences and attribution). Restore them with:
+
+```
+git fetch origin data/mavedb-scores
+git archive origin/data/mavedb-scores scrape/mavedb-human/scores | tar -x
+```
+
+(`git archive` does not stage the files.) Alternatively rerun `python3 download_scores.py` to rebuild them from the API (resumable; tens of minutes). Restoring from the branch was tested from a fresh checkout of `main`: 1,980 files, `verify_scores.py` reports 0 problems. `python3 verify_scores.py` re-checks everything (exit status 0 means no problems).
 
 - Verification covers: the metadata files agree on the same set of score sets; the manifest lists exactly the expected files; every file's sha256, header and row count match the manifest and the score set's `numVariants`; all rows have the header's width. Last run: 0 problems.
 - Whole-table requests for very large sets time out at the gateway, so sets over 100k variants (only `urn:mavedb:00000053-a-1`, 648,022 variants) are fetched in 50k-row pages. Its 648,022 accessions are all unique.
