@@ -1,0 +1,299 @@
+About
+Content
+Docs
+Tools
+Community
+Download
+ Go!
+Downloads
+
+Reactome provides open-source and open-data. We have continuously supported the major open-data standards, including BioPAX, PSI-MITAB, SBML and SBGN export formats. The Reactome data and source code continue to be publicly accessible under the terms of Creative Commons Licenses. Please refer to our License Agreement.
+
+Please contact the Reactome Helpdesk if you have questions about the files. 
+
+Services and Repositories
+Content Service: Our Content Service provides outside users with direct access to pathway data in Reactome via an API. 
+Analysis Service: The Reactome Pathway Analysis Tools offer direct access to pathway analysis via an API, and are also available for integration into third party websites.
+Zenodo Repository: The Zenodo download directory is created for every Reactome (reactome.org) release quarterly, starting from version 89 (06/2024), containing download files. 
+GitHub Repository   
+
+ 
+
+Database
+Reactome Knowledge Graph
+
+For more information on the installation of the Reactome Graph Database,
+
+please refer to the Get Started section of the Graph Database 
+
+documentation in the Developer Guide.
+
+Reactome Graph Database
+Reactome Graph Database Dump File 
+Reactome Graph Database ECR Container
+	
+MySQL dumps of Reactome database                                 
+Main database
+Stable identifiers database
+
+ 
+
+Mapping Files
+Identifier mapping files
+
+Mapping files link the source database identifier to the lowest level pathway diagram or subset of the pathway, all levels of the pathway hierarchy or database identifier to all reactions.   
+
+
+Lowest level pathway diagram / Subset of the pathway
+
+UniProt to pathways
+ChEBI to pathways
+ENSEMBL to pathways
+miRBase to pathways
+NCBI to pathways
+GtoP to pathways
+	
+
+All levels of the pathway hierarchy.     
+
+UniProt to All pathways
+ChEBI to All pathways
+ENSEMBL to All pathways
+miRBase to All pathways
+NCBI to All pathways
+GtoP to All pathways
+	
+
+Database identifier to all reactions.         
+
+UniProt to All reactions
+ChEBI to All reactions
+ENSEMBL to All reactions
+miRBase to All reactions
+NCBI to All reactions
+GtoP to All reactions
+Physical Entity (PE) Identifier mapping files 
+
+Mapping files link the source database identifier to the lowest level pathway diagram or subset of the pathway.     
+
+Lowest level pathway diagram / Subset of the pathway
+
+UniProt to pathways
+ChEBI to pathways
+ENSEMBL to pathways
+miRBase to pathways
+NCBI to pathways
+GtoP to pathways
+	
+
+All levels of the pathway hierarchy.     
+
+UniProt to All pathways
+ChEBI to All pathways
+ENSEMBL to All pathways
+miRBase to All pathways
+NCBI to All pathways
+GtoP to All pathways
+	
+
+Database identifier to all reactions           
+
+UniProt to All reactions
+ChEBI to All reactions
+ENSEMBL to All reactions
+miRBase to All reactions
+NCBI to All reactions
+GtoP to All reactions
+Other Mappings
+BioModels to Pathways
+Reaction PMIDs    
+Reactome to OMIM   
+Protein Role Reaction   
+Disease Variant EWAS mapping file (Read more about our disease variant annotations here).
+Human Pathways with Entity-level Diagrams   
+Icons
+
+The icon mapping files link the source database identifier to elements of the icon library. This folder contains a number of different mapping files to reflect the different source databases.   
+
+Complexes
+Human complexes with their participating protein molecules
+Reactome External Identifiers
+Reactome Stable Identifiers 
+
+  
+
+ Pathway Information
+Pathway Information
+
+These files describe the Reactome pathway hierarchy   
+
+ 
+
+Complete List of Pathways
+
+Pathways hierarchy relationship
+
+Complexes to Pathways (Human)
+
+EWAS to Pathways (Human)
+
+	
+Pathway Diagrams & Figures
+
+Human pathway diagrams & figures: SVG or PNG                         
+
+	 	
+Gene Ontology Association Files
+
+Read more about our GO-CAM project here
+
+Gene association file
+
+Pathways to Gene Ontology
+
+Reactions to Gene Ontology 
+
+ 
+
+
+
+Systems Biology Formats
+
+Human reactions in SBML (level 3, v1)
+
+All Species reactions in SBML (level 3, v1)
+
+Events in the BioPAX level 3 format
+
+Human pathway diagrams in the SBGN format
+
+ 
+
+Note: As of Reactome V94, the “Events in BioPAX level 2 format" will no longer be available.
+If you require these files for your work, please let our team know via help@reactome.org.
+
+	
+Reactome Pathways Gene Set
+
+Reactome Pathways Gene Set
+
+ 
+
+	 	
+Ontology Files
+
+Note: As of Reactome V94, the “Protégé 2.0 ontology files” will no longer be available.
+If you require these files for your work, please let our team know via help@reactome.org.
+
+	 	 
+
+ 
+
+Protein-Protein Interaction Files 
+ 	 
+
+Protein-Protein Interactions derived from Reactome pathways
+
+Interactions are inferred between all protein components of a complex. To limit the creation of false-positive inferences, only complexes with four or fewer protein components are considered. More information
+
+ 
+
+PSI-MITAB format interaction files
+
+All interactions, including non-human species
+Human protein-protein interactions
+
+TAB-delimited format interaction files
+
+All interactions, including non-human species
+Human protein-protein interactions
+
+ 
+
+ 
+
+	 
+
+Functional interactions (FIs) derived from Reactome, and other pathway and interaction databases
+
+For details about FIs, please see Wu G, Feng X, Stein L. To use these FI networks, please try our ReactomeFIViz Cytoscape app.
+
+Version 2026
+
+Version 2025
+
+Version 2024 (FIs from KEGG are not included any more)
+
+Version 2022 (Constructed with a new random forest classifier. For more information, refer to Illuminating Dark Proteins using Reactome Pathways)
+
+Version 2021
+
+	 
+Curation Team Software
+
+The Curator tool is meant for use by curators to annotate biological pathways based on the Reactome schema. Please note that this tool will only work with a database using our internal database format; the database available from this web page will not work with them.
+
+Curator Tool (version 4.0.4, build 119, November 26, 2025)
+
+ 
+
+Our textbook of biological pathways and processes
+PDF format
+About
+What is Reactome ?
+News
+Team
+Scientific Advisory Board
+Funding
+Editorial Calendar
+Release Calendar
+Statistics
+Our Logo
+License Agreement
+Privacy Notice
+Disclaimer
+Digital Preservation
+Contact us
+Content
+Table of Contents
+DOIs
+Data Schema
+Reactome Research Spotlight
+ORCID Integration Project
+COVID-19 Disease Pathways
+Docs
+Userguide
+Developer's Zone
+Icon Info
+Data Model
+Curator Guide
+Release Documentation
+Computationally inferred events
+FAQ
+Linking to Us
+Citing us
+Tools
+Pathway Browser
+Analyse gene list
+Analyse gene expression
+Species Comparison
+Tissue Distribution
+Analysis Service
+Content Service
+ReactomeFIViz
+Advanced Data Search
+Site Search
+Community
+Contribute Pathway Knowledge
+Icon Library
+Outreach
+Events
+Publications
+Partners
+Contributors
+Resources Guide
+Download
+
+© 2026 Reactome
+
+This website requires cookies and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our Privacy Notice. I agree, dismiss this banner

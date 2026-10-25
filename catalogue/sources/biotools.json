@@ -1,0 +1,66 @@
+{
+ "id": "biotools",
+ "name": "bio.tools and OpenEBench tool registry",
+ "categories": [
+  "resource_catalogues"
+ ],
+ "maintainer": "ELIXIR (bio.tools); Barcelona Supercomputing Center (OpenEBench)",
+ "url": "https://bio.tools",
+ "provenance": [
+  "https://openebench.bsc.es/monitor/tool/"
+ ],
+ "version": {
+  "value": "OpenEBench snapshot: 180,237 records; newest record timestamp 2026-10-23",
+  "release_date": "2026-10-23",
+  "verified": "live"
+ },
+ "scope": "Registry of bioinformatics tools and services with EDAM topic/operation annotation. bio.tools API sits behind a JavaScript bot challenge; OpenEBench aggregates bio.tools (47,015 records), Bioconda, Galaxy and OpenEBench-native entries under CC BY 4.0. Records carrying EDAM terms include: Genetic variation 2,244; Genomics 2,905; GWAS study 941; Variant calling 1,356; Variant effect prediction 353.",
+ "variant_classes": [],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "JSON-LD (OpenEBench)"
+ ],
+ "identifiers": [
+  "bio.tools IDs",
+  "EDAM IRIs"
+ ],
+ "mapping_methods": "n/a",
+ "quantitative": {
+  "summary": "Not applicable (reference/annotation data).",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "OpenEBench records carry CC BY 4.0 (per-record @license)",
+  "redistribution": "Attribution",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Daily to weekly.",
+ "coverage_limitations": [
+  "bio.tools API not accessible from this environment (bot challenge not bypassed)",
+  "EDAM semantics exist only on bio.tools-namespace records"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "Used for discovery only. Counts derived by catalogue/derive/openebench_counts.py from a 253 MB snapshot that is not stored."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "OpenEBench reachable; bio.tools API challenge page returned HTTP 200 with no data.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "evidence": [
+  "biotools/openebench_edam_counts",
+  "biotools/api_all",
+  "biotools/openebench_docs"
+ ],
+ "unverified_fields": [],
+ "acquisition_targets": []
+}

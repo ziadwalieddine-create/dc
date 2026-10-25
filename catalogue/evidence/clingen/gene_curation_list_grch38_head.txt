@@ -1,0 +1,37 @@
+#ClinGen Gene Curation Results
+#25 Oct,2026
+#Genomic Locations are reported on GRCh38 (hg38): GCF_000001405.36
+#https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen
+#to create link: https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/clingen_gene.cgi?sym=Gene Symbol
+#Gene Symbol	Gene ID	cytoBand	Genomic Location	Haploinsufficiency Score	Haploinsufficiency Description	Haploinsufficiency PMID1	Haploinsufficiency PMID2	Haploinsufficiency PMID3	Haploinsufficiency PMID4	Haploinsufficiency PMID5	Haploinsufficiency PMID6	Triplosensitivity Score	Triplosensitivity Description	Triplosensitivity PMID1	Triplosensitivity PMID2	Triplosensitivity PMID3	Triplosensitivity PMID4	Triplosensitivity PMID5	Triplosensitivity PMID6	Date Last Evaluated	Haploinsufficiency Disease ID	Triplosensitivity Disease ID
+A4GALT	53947	22q13.2	chr22:42692121-42721301	30	Gene associated with autosomal recessive phenotype							0	No evidence available							2014-12-11		
+AAGAB	79719	15q23	chr15:67200667-67255198	3	Sufficient evidence for dosage pathogenicity	23064416	23000146					0	No evidence available							2013-02-28	MONDO:0007858	
+AARS1	16	16q22.1	chr16:70252298-70289506	0	No evidence available							0	No evidence available							2018-01-11		
+AARS2	57505	6p21.1	chr6:44298731-44313347	30	Gene associated with autosomal recessive phenotype	24808023						Not yet evaluated	Not yet evaluated							2025-06-27	MONDO:0014387	
+AASS	10157	7q31.32	chr7:122073549-122144249	30	Gene associated with autosomal recessive phenotype	10775527	23890588	23570448				0	No evidence available							2025-10-08	MONDO:0009388	
+ABAT	18	16p13.2	chr16:8674617-8784570	30	Gene associated with autosomal recessive phenotype							Not yet evaluated	Not yet evaluated							2016-08-22	MONDO:0013166	
+ABCB11	8647	2q31.1	chr2:168915390-169031324	30	Gene associated with autosomal recessive phenotype							0	No evidence available							2020-07-08	MONDO:0011156	
+ABCB4	5244	7q21.12	chr7:87365896-87476027	3	Sufficient evidence for dosage pathogenicity	21989363	23684896	25544413				0	No evidence available							2024-04-16	MONDO:0010939	
+ABCC8	6833	11p15.1	chr11:17392498-17476845	30	Gene associated with autosomal recessive phenotype							0	No evidence available							2012-02-24	MONDO:0009734	
+ABCD1	215	Xq28	chrX:153724856-153744755	3	Sufficient evidence for dosage pathogenicity	8040304	23835273	25835712	7825602			0	No evidence available							2020-12-02	MONDO:0018544	
+ABCG5	64240	2p21	chr2:43806211-43839231	30	Gene associated with autosomal recessive phenotype	11138003	28521186	16029460	17976197			0	No evidence available							2025-09-28	MONDO:0020747	
+ABCG8	64241	2p21	chr2:43838971-43882988	30	Gene associated with autosomal recessive phenotype	11099417	15210841	16029460	28521186	24166850	32166861	0	No evidence available							2025-02-03	MONDO:0008863	
+ABHD12	26090	20p11.21	chr20:25294743-25390835	30	Gene associated with autosomal recessive phenotype	25743180	20797687	28448692	22938382			Not yet evaluated	Not yet evaluated							2025-07-18	MONDO:0012984	
+ABR	29	17p13.3	chr17:1003519-1229722	0	No evidence available							0	No evidence available							2012-09-05		
+ABRAXAS1	84142	4q21.23	chr4:83459517-83485100	0	No evidence available	31159747	37198153	29484706				0	No evidence available							2023-07-18		
+ACAD8	27034	11q25	chr11:134253568-134265855	30	Gene associated with autosomal recessive phenotype	16857760	15505379	30253142				0	No evidence available							2026-03-27	MONDO:0012648	
+ACADM	34	1p31.1	chr1:75724709-75763679	30	Gene associated with autosomal recessive phenotype							0	No evidence available							2016-08-22	MONDO:0008721	
+ACADSB	36	10q26.13	chr10:123009006-123058290	30	Gene associated with autosomal recessive phenotype							Not yet evaluated	Not yet evaluated							2016-08-22	MONDO:0012392	
+ACADVL	37	17p13.1	chr17:7217125-7225266	30	Gene associated with autosomal recessive phenotype	27209629						0	No evidence available							2025-09-26	MONDO:0008723	
+ACD	65057	16q22.1	chr16:67657512-67660260	0	No evidence available							0	No evidence available							2025-04-24		
+ACOX1	51	17q25.1	chr17:75941507-75979166	30	Gene associated with autosomal recessive phenotype	33234382	26965209	18536048	17458872			0	No evidence available							2025-12-12	MONDO:0009919	
+ACP5	54	19p13.2	chr19:11574660-11578975	30	Gene associated with autosomal recessive phenotype							0	No evidence available							2016-08-22	MONDO:0011939	
+ACSF3	197322	16q24.3	chr16:89093852-89156233	30	Gene associated with autosomal recessive phenotype	30740739	26827111					0	No evidence available							2025-10-24	MONDO:0013661	
+ACSL4	2182	Xq23	chrX:109641335-109733257	1	Little evidence for dosage pathogenicity	11889465	12525535	21584729	31481330	26350204	22581936	0	No evidence available	25956375						2025-06-10	MONDO:0010313	
+ACTA2	59	10q23.31	chr10:88935074-88991337	1	Little evidence for dosage pathogenicity	32209317	30056620	34498425				0	No evidence available							2022-09-28	MONDO:0019625	
+ACTB	60	7p22.1	chr7:5527148-5530601	0	No evidence available	29220674	31898838	30315159	29274487			0	No evidence available							2022-02-08	MONDO:0000508	
+ACTC1	70	15q14	chr15:34790230-34795549	1	Little evidence for dosage pathogenicity	17947298	34495297	32233023				0	No evidence available							2024-09-10	MONDO:0100547	
+ACTL6B	51412	7q22.1	chr7:100643097-100656448	30	Gene associated with autosomal recessive phenotype	32312822	30656450	31031012				Not yet evaluated	Not yet evaluated							2022-11-23	MONDO:0100062	
+ACVRL1	94	12q13.13	chr12:51906944-51923361	3	Sufficient evidence for dosage pathogenicity	20414677						0	No evidence available							2025-02-11	MONDO:0010880	
+ADA2	51816	22q11.1	chr22:17178790-17221848	30	Gene associated with autosomal recessive phenotype	35774100	24737293	35852217				0	No evidence available							2025-10-24	MONDO:0014306	
+ADAM9	8754	8p11.22	chr8:38996973-39105261	30	Gene associated with autosomal recessive phenotype	19409519	25091951	11581183	23661369			0	No evidence available							2026-03-27	M

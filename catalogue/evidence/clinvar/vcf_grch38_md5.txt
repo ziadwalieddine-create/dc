@@ -1,0 +1,1 @@
+e649bbb1dfe11baafa9feab81a7a7cdd  /netmnt/vast01/clinvar_gtr/ftp_test_MGG_REPORT/vcv_xml_product/vcf_GRCh38/clinvar_20261019.vcf.gz

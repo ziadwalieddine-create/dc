@@ -1,0 +1,81 @@
+{
+ "id": "strchive",
+ "name": "STRchive and related tandem-repeat catalogues",
+ "categories": [
+  "repeat_expansions_str"
+ ],
+ "maintainer": "STRchive (Dashnow lab, University of Colorado, and collaborators)",
+ "url": "https://strchive.org",
+ "provenance": [
+  "https://strchive.org/loci/",
+  "https://strchive.org/resources"
+ ],
+ "version": {
+  "value": "Site v2.28.0; 82 disease loci",
+  "release_date": "2026",
+  "verified": "live"
+ },
+ "scope": "Curated tandem-repeat loci associated with Mendelian disease with hg38/hg19/T2T coordinates and catalogues for TRGT, ExpansionHunter-style, atarva, longTR, straglr and Stranger. The resources page also points to gnomAD tandem repeats, PlatinumTRs (7.8 million reference TRs) and STRipy.",
+ "variant_classes": [
+  "str"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38",
+  "T2T-CHM13"
+ ],
+ "formats": [
+  "BED",
+  "JSON",
+  "TRGT catalogue BED"
+ ],
+ "identifiers": [
+  "gene symbol",
+  "locus ID",
+  "coordinates"
+ ],
+ "mapping_methods": "Locus definitions per assembly; breadth chosen to allow interruptions (site notes that definitions differ between resources).",
+ "quantitative": {
+  "summary": "Pathogenic thresholds, motif, inheritance; population allele-size data via gnomAD TR.",
+  "units": "repeat units",
+  "uncertainty": "n/a",
+  "direction": "expansion above threshold = pathogenic"
+ },
+ "licence": {
+  "name": "CC BY 4.0 (site footer); research use only",
+  "redistribution": "Attribution",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Frequent site releases.",
+ "coverage_limitations": [
+  "Disease loci only; genome-wide repeat catalogues are separate resources",
+  "Locus definitions differ across catalogues"
+ ],
+ "known_omissions": [
+  "Population allele-size distributions are in gnomAD TR (not acquired)"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Small, openly licensed disease-locus catalogue. Catalogue files are linked for download from the STRchive site itself (hosted as raw files on GitHub)."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Site pages rendered; download links extracted.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "strchive_hg38_general",
+  "strchive_hg38_trgt",
+  "strchive_hg38_stranger_json"
+ ],
+ "evidence": [
+  "strchive/home",
+  "strchive/about",
+  "strchive/resources",
+  "strchive/loci"
+ ],
+ "unverified_fields": []
+}

@@ -1,0 +1,19 @@
+ 
+ Index of /refseq/MANE/MANE_human/current 
+ Index of /refseq/MANE/MANE_human/current 
+ Name Last modified Size Parent Directory - 
+ MANE.GRCh38.v1.5.changed_select_accessions.txt.gz 2025-12-04 14:57 3.6K 
+ MANE.GRCh38.v1.5.ensembl_genomic.gff.gz 2025-12-04 14:59 9.9M 
+ MANE.GRCh38.v1.5.ensembl_genomic.gtf.gz 2025-12-04 14:59 8.2M 
+ MANE.GRCh38.v1.5.ensembl_protein.faa.gz 2025-12-04 14:59 7.6M 
+ MANE.GRCh38.v1.5.ensembl_rna.fna.gz 2025-12-04 14:59 22M 
+ MANE.GRCh38.v1.5.protein_coding_genes_not_in_mane.txt.gz 2025-12-04 14:54 2.0K 
+ MANE.GRCh38.v1.5.refseq_genomic.gff.gz 2025-12-04 14:43 7.9M 
+ MANE.GRCh38.v1.5.refseq_genomic.gtf.gz 2025-12-04 14:43 8.7M 
+ MANE.GRCh38.v1.5.refseq_protein.faa.gz 2025-12-04 14:46 6.8M 
+ MANE.GRCh38.v1.5.refseq_protein.gpff.gz 2025-12-04 14:48 45M 
+ MANE.GRCh38.v1.5.refseq_rna.fna.gz 2025-12-04 14:47 21M 
+ MANE.GRCh38.v1.5.refseq_rna.gbff.gz 2025-12-04 14:52 83M 
+ MANE.GRCh38.v1.5.summary.txt.gz 2025-12-04 14:53 1.1M 
+ README_versions.txt 2025-12-04 14:59 96 
+ HHS Vulnerability Disclosure 

@@ -1,0 +1,25 @@
+ 
+ Index of /vol1/ftp/data_collections 
+ Index of /vol1/ftp/data_collections 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ 1KG_ONT_VIENNA/ 2025-03-26 11:58 -   
+ 1000G_2504_high_coverage/ 2022-11-21 15:22 -   
+ 1000G_2504_high_coverage_SV/ 2021-02-17 13:36 -   
+ 1000_genomes_project/ 2019-11-22 15:37 -   
+ HGDP/ 2022-06-07 14:58 -   
+ HGDP_transcriptome/ 2021-06-27 08:57 -   
+ HGSVC2/ 2025-03-18 09:37 -   
+ HGSVC3/ 2026-09-24 10:39 -   
+ HLA_types/ 2018-11-30 09:38 -   
+ README_data_collections.md 2015-09-17 17:01 1.4K   
+ gambian_genome_variation_project/ 2021-03-30 14:40 -   
+ gambian_genome_variation_project_GRCh37/ 2020-01-20 11:36 -   
+ geuvadis/ 2019-09-09 22:38 -   
+ han_chinese_high_coverage/ 2019-06-17 17:25 -   
+ hgsv_sv_discovery/ 2019-07-15 15:55 -   
+ hprc/ 2026-08-21 04:37 -   
+ illumina_platinum_pedigree/ 2016-10-31 17:00 -   
+ mage_rnaseq/ 2025-06-12 14:06 -   
+ mysql_test/ 2026-06-11 12:07 -   
+ simons_diversity_data/ 2020-12-02 14:23 -   

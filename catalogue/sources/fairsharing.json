@@ -1,0 +1,69 @@
+{
+ "id": "fairsharing",
+ "name": "FAIRsharing",
+ "categories": [
+  "resource_catalogues"
+ ],
+ "maintainer": "FAIRsharing (University of Oxford)",
+ "url": "https://fairsharing.org",
+ "provenance": [
+  "https://fairsharing.org/search"
+ ],
+ "version": {
+  "value": "Live registry",
+  "release_date": "2026-10-25",
+  "verified": "live"
+ },
+ "scope": "Curated registry of data standards, databases and policies with relationships between them.",
+ "variant_classes": [],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "Web UI; API requires login"
+ ],
+ "identifiers": [
+  "FAIRsharing DOIs"
+ ],
+ "mapping_methods": "n/a",
+ "quantitative": {
+  "summary": "Not applicable (reference/annotation data).",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "API terms not retrieved; the API requires registration",
+  "redistribution": "Unverified",
+  "access": "registration_required",
+  "verified": "unverified"
+ },
+ "update_frequency": "Continuous curation.",
+ "coverage_limitations": [
+  "Programmatic access needs an account token; the web UI was readable without one"
+ ],
+ "known_omissions": [
+  "No FAIRsharing records were harvested"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "A discovery and classification aid, not an evidence source. Use it to cross-check this catalogue for missing resources; programmatic harvesting would need the user to create an account."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "Web pages rendered.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "API access terms",
+  "licence"
+ ],
+ "evidence": [
+  "fairsharing/home",
+  "fairsharing/api_docs",
+  "fairsharing/search_genomics"
+ ],
+ "acquisition_targets": []
+}

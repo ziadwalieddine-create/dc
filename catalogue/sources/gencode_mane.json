@@ -1,0 +1,78 @@
+{
+ "id": "gencode_mane",
+ "name": "GENCODE and MANE transcript sets",
+ "categories": [
+  "reference_annotation"
+ ],
+ "maintainer": "GENCODE (EMBL-EBI/Sanger); MANE (NCBI and EMBL-EBI)",
+ "url": "https://www.gencodegenes.org",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/",
+  "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/"
+ ],
+ "version": {
+  "value": "GENCODE v50 (files dated 2026-06-09); MANE v1.5 (2025-12-04)",
+  "release_date": "2026-06-09",
+  "verified": "live"
+ },
+ "scope": "Comprehensive human gene annotation (GENCODE) and the matched Ensembl/RefSeq clinical transcript set (MANE Select / Plus Clinical).",
+ "variant_classes": [
+  "gene_level",
+  "region_level"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "GTF/GFF3/FASTA",
+  "MANE summary TSV"
+ ],
+ "identifiers": [
+  "ENSG/ENST",
+  "RefSeq NM_/NP_",
+  "HGNC"
+ ],
+ "mapping_methods": "Matched Ensembl and RefSeq transcripts at identical genomic positions.",
+ "quantitative": {
+  "summary": "Not applicable.",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Open (GENCODE/Ensembl and NCBI public data); exact GENCODE terms not parsed",
+  "redistribution": "Open with attribution",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "GENCODE ~twice yearly; MANE ~annually.",
+ "coverage_limitations": [
+  "MANE covers one transcript per protein-coding gene"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [
+  "ensembl-human-genomes"
+ ],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD; the GENCODE genome FASTA (806 to 856 MB) is deferred."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Directory listings verified.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "mane_summary_v1_5",
+  "mane_gtf_v1_5"
+ ],
+ "unverified_fields": [
+  "licence"
+ ],
+ "evidence": [
+  "gencode/latest_listing",
+  "gencode/mane_listing"
+ ]
+}

@@ -1,0 +1,27 @@
+ 
+ Index of /pub/clinvar 
+ Index of /pub/clinvar 
+ Name Last modified Size Parent Directory - 
+ ClinGen/ 2018-12-14 09:17 - 
+ document_archives/ 2014-04-24 08:19 - 
+ netmnt/ 2026-04-08 15:43 - 
+ presentations/ 2025-12-11 10:57 - 
+ release_notes/ 2026-10-19 11:27 - 
+ submission_examples/ 2020-08-03 13:46 - 
+ submission_templates/ 2025-07-30 16:33 - 
+ tab_delimited/ 2026-10-19 15:38 - 
+ temp/ 2026-09-18 12:03 - 
+ vcf_GRCh37/ 2026-10-19 15:29 - 
+ vcf_GRCh38/ 2026-10-19 15:29 - 
+ xml/ 2026-10-19 15:38 - 
+ xsd_public/ 2026-03-05 00:08 - 
+ xsd_submission/ 2020-05-22 13:21 - 
+ ConceptID_history.txt 2026-10-24 10:14 1.4M 
+ README.txt 2026-01-13 16:25 46K 
+ README_VCF.txt 2024-01-30 15:35 9.0K 
+ clinvar_submission.xsd 2020-05-22 13:21 124K 
+ disease_names 2026-10-24 10:14 5.4M 
+ functional_assay_types.txt 2026-06-10 22:01 1.1K 
+ functional_consequences.txt 2026-04-03 10:56 18K 
+ gene_condition_source_id 2026-10-24 10:17 1.3M 
+ HHS Vulnerability Disclosure 

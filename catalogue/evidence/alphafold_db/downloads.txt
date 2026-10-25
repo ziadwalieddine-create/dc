@@ -1,0 +1,12 @@
+Access Denied
+
+We're sorry, you've been incorrectly blocked from accessing this service.
+
+If you believe this is an error, please contact us at alphafolddb@ebi.ac.uk and include:
+
+The date and time the issue occurred (including your time zone)
+Your browser and version
+Your device and operating system
+Whether you were using a VPN, proxy, or corporate network
+
+This information helps us investigate the issue more quickly.

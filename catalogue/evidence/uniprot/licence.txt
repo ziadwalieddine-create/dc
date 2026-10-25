@@ -1,0 +1,66 @@
+BLASTAlignPeptide searchID mappingSPARQL
+UniProtKB
+Advanced
+|
+List
+Search
+Help
+License & disclaimer
+License
+
+We have chosen to apply the Creative Commons Attribution 4.0 International (CC BY 4.0) License to all copyrightable parts of our databases.
+
+How to cite us
+
+Disclaimer
+
+We make no warranties regarding the correctness of the data, and disclaim liability for damages resulting from its use. We cannot provide unrestricted permission regarding the use of the data, as some data may be covered by patents or other rights.
+
+Any medical or genetic information is provided for research, educational and informational purposes only. It is not in any way intended to be used as a substitute for professional medical advice, diagnosis, treatment or care.
+
+Page last modified: Wed Dec 18 2024
+Related article
+Submissions and updates
+Release 2026_03 | Statistics
+
+© 2002 – 2026 UniProt consortium
+
+License & Disclaimer | Privacy Notice
+
+Core data
+Proteins (UniProtKB)
+Species (Proteomes)
+Protein clusters (UniRef)
+Sequence archive (UniParc)
+Supporting data
+Literature citations
+Taxonomy
+Keywords
+Subcellular locations
+Cross-referenced databases
+Diseases
+Tools
+BLAST
+Align
+Retrieve/ID mapping
+Peptide search
+Tool results
+Information
+Cite UniProt
+About & Help
+UniProtKB manual
+Technical corner
+Expert biocuration
+Statistics
+
+Get in touch 
+
+UniProt is an ELIXIR core data resource
+
+UniProt is a GBC global core biodata resource
+
+Main funding by:
+National Institutes of Health
+This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our Privacy Notice.I agree, dismiss this banner
+Help
+⬆

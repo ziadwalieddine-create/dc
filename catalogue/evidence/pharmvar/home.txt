@@ -1,0 +1,29 @@
+HOME
+ABOUT
+GENES
+SUBMISSIONS
+EXPERT PANELS
+PUBLICATIONS
+RESOURCES
+CONTACT
+LOG IN
+
+
+
+PharmVar
+Pharmacogene Variation Consortium
+
+The Pharmacogene Variation (PharmVar) Consortium is a central repository for pharmacogene (PGx) variation that focuses on haplotype structure and allelic variation.
+
+The information in this resource facilitates basic and clinical research as well as the interpretation of pharmacogenetic test results to guide precision medicine.
+
+
+PharmVar API Services are available for third party use. For more information, visit the API Service Documentation Page
+What's New
+
+PharmVar Publications
+
+GeneFocus and other PharmVar articles are available on the publications page.
+
+Feedback or suggestions? Please contact us at support@pharmvar.org
+Version 6.2.29 Last Updated Sep 22 2026

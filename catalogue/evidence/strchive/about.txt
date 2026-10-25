@@ -1,0 +1,54 @@
+chive
+v2.28.0
+Home
+Loci
+Resources
+About
+criTRia
+GitHub
+Table of Contents
+About
+Contact
+
+To get in touch about STRchive, use the contact buttons on any page, found in the corner of the screenor thebottom of the page.
+
+Cite
+Hiatt, L., Weisburd, B., Dolzhenko, E., Rubinetti, V., Avvaru, A.K., VanNoy, G.E., Kurtas, N.E., Rehm, H.L., Quinlan, A. and Dashnow, H., 2025.
+STRchive: a dynamic resource detailing population-level and locus-specific insights at tandem repeat disease loci.
+Genome Med doi: https://doi.org/10.1101/2024.05.21.24307682 
+Contribute
+
+STRchive welcomes community contributions. An accurate and up to date resource helps everyone. If you find this data useful, consider adding new STR loci or updating existing ones by submitting an issue or pull request on GitHub:
+
+GitHub
+Team
+Harriet Dashnow
+PI
+University of Colorado
+Laurel Hiatt
+MD/PhD candidate
+University of Utah
+Akshay Avvaru
+Postdoc
+University of Colorado
+Vincent Rubinetti
+Web Developer
+University of Colorado
+Ben Weisburd
+Computational Scientist
+Broad Institute
+Egor Dolzhenko
+Bioinformatics Scientist
+PacBio
+Macayla Weiner
+Research Assistant
+University of Colorado
+Gabriel Zinser
+Research Assistant
+University of Colorado
+Contact
+Cite
+Contribute
+Research use only.The content on and linked from this website does not constitute professional medical guidance.
+Licensed under
+CC BY 4.0

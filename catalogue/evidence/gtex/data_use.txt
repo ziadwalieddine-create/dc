@@ -1,0 +1,92 @@
+ Contact
+ FAQs
+ Access Biospecimens
+ Publications
+ About Adult GTEx
+
+
+Home
+Downloads 
+Expression 
+Single Cell 
+QTL 
+IGV Browser
+Tissues & Histology 
+Documentation 
+About 
+Adult GTEx
+
+
+Project Overview
+
+The Adult Genotype Tissue Expression (GTEx) Project is a comprehensive public resource to study human gene expression and regulation, and its relationship to genetic variation across multiple diverse tissues and individuals. GTEx donor recruitment and molecular data generation are complete for core molecular assays including WGS, WES, and RNA-seq.
+
+Goals
+
+The project collected samples from up to 54 non-diseased tissue sites across nearly 1,000 deceased individuals. All individuals were densely genotyped to assess genetic variation within their genomes by Whole Genome Sequencing (WGS). Gene expression of each tissue was assessed by RNA sequencing (bulk RNA-seq). Expression quantitative trait loci (eQTLs) were identified as genetic variants that were significantly correlated with changes in the expression of nearby genes. The project provides a comprehensive identification of tissue-shared and tissue-specific human eQTLs, as well as a valuable basis for the mechanistic interpretation of the many non-coding genetic variants that have been associated with common human diseases, such as heart disease, cancer, diabetes, asthma, and stroke.
+
+The project's goals are described in: The GTEx marker paper. 
+
+Details about sample collections, exclusion/inclusion criteria, and pathology are described in: Carithers et al. (2015) .
+
+Several studies associated with donor enrollment for the study are described in:
+
+Siminoff, et al. (2021) , Wilson-Genderson, et al. (2018) , Siminoff, et al. (2018) , Siminoff, et al. (2016) , Mosavel, et al. (2019) .
+
+The main Consortium analyses and associated detailed methods are described in a series of papers:
+
+An initial pilot study: The GTEx Consortium (2015) 
+
+A set of analyses performed at the mid-point of the study: The GTEx Consortium (2017) 
+
+A final set of analyses performed on the near complete data: The GTEx Consortium (2020) 
+
+Additional data generation efforts that were funded to enhance the core GTEx data are described in: eGTEx Project (2017) .
+
+A collaborative study between ENCODE and GTEx is described in: Rozowksy, et al. (2023) 
+
+A complete list of all consortia published papers can be found here.
+
+Analyses and Data
+
+Data generation, QC, and analysis methods are described in the Supplementary Material for The GTEx Consortium (2020)  and also here.
+
+Much of the GTEx data and metadata are protected access (e.g., sequence data and complete donor metadata, etc.). Access to these data requires users to complete a data access request in dbGaP  and then access the data in AnVIL .
+
+Open access GTEx data including expression counts and eQTLs are available for visual exploration and download on the GTEx Portal.
+
+Protocols used for tissue sampling are available here: GTEx Tissue Harvesting Work Instruction . Histology images and pathology QC notes are available here.
+
+A subset of tissues from 16 donors were also characterized using single-cell RNA sequencing, as described in: Eraslen, et al. (2022) .
+
+V10 Release	# Tissues	# Donors	# Samples
+RNA-seq Total	54	946	19788
+RNA-seq with matched donor Genotype	54	946	19788
+Has eQTL Analysis*	50	943	19466
+Biobank
+
+All remaining collected tissue samples and derived nucleic acids are in a biobank and are available to be requested for future studies.
+
+Funding
+
+The Genotype-Tissue Expression (GTEx) Project was supported by the Common Fund  of the Office of the Director of the National Institutes of Health , and by the National Cancer Institute , the National Human Genome Research Institute , the National Heart, Lung, and Blood Institute , the National Institute on Drug Abuse , the National Institute of Mental Health , the National Institute of Neurological Disorders and Stroke .
+
+Citing GTEx
+
+Please cite usage of GTEx data as follows:
+
+The data used for the analyses described in this manuscript [or presentation] were obtained from: [insert, where appropriate] the GTEx Portal on MM/DD/YY and/or dbGaP accession number phs000424.vN.pN  on MM/DD/YYYY.
+
+
+
+
+
+
+©2026 Broad Institute of MIT and Harvard. All rights reserved.
+
+FAQs
+Publication Policy
+Lab and Analysis Methods
+License
+CONNECT @GTExPortal  @GTExPortal  Contact Us
+EXTERNAL LINKSdbGaP | NIH Common Fund | NHGRI

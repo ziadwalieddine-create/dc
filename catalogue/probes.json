@@ -1,0 +1,812 @@
+[
+ {
+  "source": "clinvar",
+  "name": "readme",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/README.txt"
+ },
+ {
+  "source": "clinvar",
+  "name": "readme_vcf",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/README_VCF.txt"
+ },
+ {
+  "source": "clinvar",
+  "name": "vcf_grch38_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz",
+  "range": [
+   0,
+   8000
+  ],
+  "note": "gz prefix; header lines only"
+ },
+ {
+  "source": "clinvar",
+  "name": "vcf_grch38_md5",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.md5"
+ },
+ {
+  "source": "clinvar",
+  "name": "listing_root",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/"
+ },
+ {
+  "source": "clinvar",
+  "name": "listing_tab_delimited",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/"
+ },
+ {
+  "source": "clinvar",
+  "name": "data_use",
+  "url": "https://www.ncbi.nlm.nih.gov/clinvar/docs/maintenance_use/"
+ },
+ {
+  "source": "clinvar",
+  "name": "ncbi_policies",
+  "url": "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+ },
+ {
+  "source": "clingen",
+  "name": "ftp_listing",
+  "url": "https://ftp.clinicalgenome.org/"
+ },
+ {
+  "source": "clingen",
+  "name": "ftp_readme",
+  "url": "https://ftp.clinicalgenome.org/README"
+ },
+ {
+  "source": "clingen",
+  "name": "gene_curation_list_grch38_head",
+  "url": "https://ftp.clinicalgenome.org/ClinGen_gene_curation_list_GRCh38.tsv",
+  "range": [
+   0,
+   6000
+  ]
+ },
+ {
+  "source": "clingen",
+  "name": "downloads_page",
+  "url": "https://search.clinicalgenome.org/kb/downloads"
+ },
+ {
+  "source": "clingen",
+  "name": "terms",
+  "url": "https://clinicalgenome.org/docs/terms-of-use/"
+ },
+ {
+  "source": "clingen",
+  "name": "gene_validity_csv_head",
+  "url": "https://search.clinicalgenome.org/kb/gene-validity/download",
+  "range": [
+   0,
+   4000
+  ]
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_release_listing",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/&delimiter=/"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v4_1_listing",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/4.1/&delimiter=/"
+ },
+ {
+  "source": "1000genomes",
+  "name": "ftp_listing",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/"
+ },
+ {
+  "source": "1000genomes",
+  "name": "ftp_readme",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/README.ftp_structure"
+ },
+ {
+  "source": "1000genomes",
+  "name": "igsr_data_portal",
+  "url": "https://www.internationalgenome.org/data-portal/sample"
+ },
+ {
+  "source": "1000genomes",
+  "name": "igsr_home",
+  "url": "https://www.internationalgenome.org/"
+ },
+ {
+  "source": "gnomad",
+  "name": "downloads_page",
+  "url": "https://gnomad.broadinstitute.org/downloads",
+  "render": true
+ },
+ {
+  "source": "gnomad",
+  "name": "policies",
+  "url": "https://gnomad.broadinstitute.org/policies",
+  "render": true
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v4_1_constraint",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/4.1/constraint/"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v4_1_genome_sv",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/4.1/genome_sv/"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v4_1_exome_cnv",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/4.1/exome_cnv/"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v4_1_tsv",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/4.1/tsv/"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_lr",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/lr/&delimiter=/"
+ },
+ {
+  "source": "1000genomes",
+  "name": "ftp_data_collections",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/"
+ },
+ {
+  "source": "1000genomes",
+  "name": "ftp_release",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/"
+ },
+ {
+  "source": "1000genomes",
+  "name": "igsr_data_reuse",
+  "url": "https://www.internationalgenome.org/data",
+  "render": true
+ },
+ {
+  "source": "dbnsfp",
+  "name": "download_page",
+  "url": "https://www.dbnsfp.org/download",
+  "render": true
+ },
+ {
+  "source": "dbnsfp",
+  "name": "home",
+  "url": "https://www.dbnsfp.org/",
+  "render": true
+ },
+ {
+  "source": "dbnsfp",
+  "name": "license",
+  "url": "https://www.dbnsfp.org/license",
+  "render": true
+ },
+ {
+  "source": "opentargets",
+  "name": "ftp_platform_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/"
+ },
+ {
+  "source": "opentargets",
+  "name": "api_meta",
+  "url": "https://api.platform.opentargets.org/api/v4/graphql",
+  "method": "POST",
+  "json": {
+   "query": "{ meta { name apiVersion { x y z } dataVersion { year month iteration } } }"
+  }
+ },
+ {
+  "source": "opentargets",
+  "name": "docs_licence",
+  "url": "https://platform-docs.opentargets.org/licence",
+  "render": true
+ },
+ {
+  "source": "opentargets",
+  "name": "docs_datasets",
+  "url": "https://platform-docs.opentargets.org/data-access/datasets",
+  "render": true
+ },
+ {
+  "source": "opentargets",
+  "name": "downloads_page",
+  "url": "https://platform.opentargets.org/downloads",
+  "render": true
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "rest_software",
+  "url": "https://rest.ensembl.org/info/software?content-type=application/json"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "rest_data",
+  "url": "https://rest.ensembl.org/info/data?content-type=application/json"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "rest_ping",
+  "url": "https://rest.ensembl.org/info/ping?content-type=application/json"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "plugins_doc",
+  "url": "https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html",
+  "render": true
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "vep_cache_listing",
+  "url": "https://ftp.ensembl.org/pub/current_variation/vep/"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "ftp_current_listing",
+  "url": "https://ftp.ensembl.org/pub/"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "licence",
+  "url": "https://www.ensembl.org/info/about/legal/code_licence.html",
+  "render": true
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "data_use",
+  "url": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+  "render": true
+ },
+ {
+  "source": "fairsharing",
+  "name": "home",
+  "url": "https://fairsharing.org/",
+  "render": true
+ },
+ {
+  "source": "fairsharing",
+  "name": "api_docs",
+  "url": "https://api.fairsharing.org/",
+  "render": true
+ },
+ {
+  "source": "fairsharing",
+  "name": "search_genomics",
+  "url": "https://fairsharing.org/search?q=human%20genomics",
+  "render": true
+ },
+ {
+  "source": "biotools",
+  "name": "api_variant_effect",
+  "url": "https://bio.tools/api/tool/?format=json&operation=%22Variant%20effect%20prediction%22&page=1",
+  "note": "bio.tools API is behind a JavaScript bot challenge for non-browser clients; not circumvented. Alternative: OpenEBench (see biotools/openebench_* probes)."
+ },
+ {
+  "source": "biotools",
+  "name": "api_genetic_variation",
+  "url": "https://bio.tools/api/tool/?format=json&topic=%22Genetic%20variation%22&page=1",
+  "note": "bio.tools API is behind a JavaScript bot challenge for non-browser clients; not circumvented. Alternative: OpenEBench (see biotools/openebench_* probes)."
+ },
+ {
+  "source": "biotools",
+  "name": "api_all",
+  "url": "https://bio.tools/api/tool/?format=json&page=1",
+  "note": "bio.tools API is behind a JavaScript bot challenge for non-browser clients; not circumvented. Alternative: OpenEBench (see biotools/openebench_* probes)."
+ },
+ {
+  "source": "biotools",
+  "name": "about",
+  "url": "https://bio.tools/about",
+  "render": true
+ },
+ {
+  "source": "gtex",
+  "name": "portal_downloads",
+  "url": "https://gtexportal.org/home/downloads/adult-gtex/overview",
+  "render": true
+ },
+ {
+  "source": "gtex",
+  "name": "bucket_listing",
+  "url": "https://storage.googleapis.com/adult-gtex/?prefix=bulk-qtl/&delimiter=/"
+ },
+ {
+  "source": "gtex",
+  "name": "bucket_top",
+  "url": "https://storage.googleapis.com/storage/v1/b/adult-gtex/o?delimiter=/&maxResults=50"
+ },
+ {
+  "source": "gtex",
+  "name": "api_dataset",
+  "url": "https://gtexportal.org/api/v2/metadata/dataset"
+ },
+ {
+  "source": "gtex",
+  "name": "data_use",
+  "url": "https://gtexportal.org/home/documentationPage",
+  "render": true
+ },
+ {
+  "source": "encode",
+  "name": "api_experiment_human",
+  "url": "https://www.encodeproject.org/search/?type=Experiment&replicates.library.biosample.donor.organism.scientific_name=Homo+sapiens&status=released&limit=0&format=json"
+ },
+ {
+  "source": "encode",
+  "name": "citing",
+  "url": "https://www.encodeproject.org/help/citing-encode/",
+  "render": true
+ },
+ {
+  "source": "encode",
+  "name": "screen_downloads",
+  "url": "https://screen.wenglab.org/downloads",
+  "render": true
+ },
+ {
+  "source": "encode",
+  "name": "wenglab_listing",
+  "url": "https://downloads.wenglab.org/"
+ },
+ {
+  "source": "eqtl_catalogue",
+  "name": "home",
+  "url": "https://www.ebi.ac.uk/eqtl/",
+  "render": true
+ },
+ {
+  "source": "eqtl_catalogue",
+  "name": "api_v2_gone",
+  "url": "https://www.ebi.ac.uk/eqtl/api/v2/datasets?size=1"
+ },
+ {
+  "source": "eqtl_catalogue",
+  "name": "api_v3_datasets",
+  "url": "https://www.ebi.ac.uk/eqtl/api/v3/datasets?size=1"
+ },
+ {
+  "source": "eqtl_catalogue",
+  "name": "ftp_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/eQTL/"
+ },
+ {
+  "source": "eqtl_catalogue",
+  "name": "data_access",
+  "url": "https://www.ebi.ac.uk/eqtl/Data_access/",
+  "render": true
+ },
+ {
+  "source": "pharmgkb",
+  "name": "downloads",
+  "url": "https://www.pharmgkb.org/downloads",
+  "render": true
+ },
+ {
+  "source": "pharmgkb",
+  "name": "data_usage",
+  "url": "https://www.pharmgkb.org/page/dataUsagePolicy",
+  "render": true
+ },
+ {
+  "source": "pharmvar",
+  "name": "home",
+  "url": "https://www.pharmvar.org/",
+  "render": true
+ },
+ {
+  "source": "pharmvar",
+  "name": "downloads",
+  "url": "https://www.pharmvar.org/download",
+  "render": true
+ },
+ {
+  "source": "pharmvar",
+  "name": "terms",
+  "url": "https://www.pharmvar.org/terms-of-use",
+  "render": true
+ },
+ {
+  "source": "cpic",
+  "name": "api_genes",
+  "url": "https://api.cpicpgx.org/v1/gene?limit=3"
+ },
+ {
+  "source": "cpic",
+  "name": "home",
+  "url": "https://cpicpgx.org/",
+  "render": true
+ },
+ {
+  "source": "cpic",
+  "name": "license",
+  "url": "https://cpicpgx.org/license/",
+  "render": true
+ },
+ {
+  "source": "depmap",
+  "name": "api_download_files",
+  "url": "https://depmap.org/portal/api/download/files",
+  "range": [
+   0,
+   30000
+  ]
+ },
+ {
+  "source": "depmap",
+  "name": "data_page",
+  "url": "https://depmap.org/portal/data_page/",
+  "render": true
+ },
+ {
+  "source": "depmap",
+  "name": "terms",
+  "url": "https://depmap.org/portal/terms/",
+  "render": true
+ },
+ {
+  "source": "impc",
+  "name": "release_page",
+  "url": "https://www.mousephenotype.org/data/release",
+  "render": true
+ },
+ {
+  "source": "impc",
+  "name": "ftp_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/impc/"
+ },
+ {
+  "source": "impc",
+  "name": "licence",
+  "url": "https://www.mousephenotype.org/about-impc/license/",
+  "render": true
+ },
+ {
+  "source": "biogrid_orcs",
+  "name": "home",
+  "url": "https://orcs.thebiogrid.org/",
+  "render": true
+ },
+ {
+  "source": "biogrid_orcs",
+  "name": "downloads_listing",
+  "url": "https://downloads.thebiogrid.org/BioGRID-ORCS/Latest-Release/"
+ },
+ {
+  "source": "biogrid_orcs",
+  "name": "licence",
+  "url": "https://wiki.thebiogrid.org/doku.php/licensing",
+  "render": true
+ },
+ {
+  "source": "uniprot",
+  "name": "relnotes",
+  "url": "https://ftp.uniprot.org/pub/databases/uniprot/current_release/relnotes.txt",
+  "range": [
+   0,
+   6000
+  ]
+ },
+ {
+  "source": "uniprot",
+  "name": "rest_human_reviewed",
+  "url": "https://rest.uniprot.org/uniprotkb/search?query=reviewed:true+AND+organism_id:9606&size=1&format=json",
+  "note": "total in x-total-results header"
+ },
+ {
+  "source": "uniprot",
+  "name": "licence",
+  "url": "https://www.uniprot.org/help/license",
+  "render": true
+ },
+ {
+  "source": "uniprot",
+  "name": "human_proteome_listing",
+  "url": "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Eukaryota/UP000005640/"
+ },
+ {
+  "source": "interpro",
+  "name": "api_root",
+  "url": "https://www.ebi.ac.uk/interpro/api/"
+ },
+ {
+  "source": "interpro",
+  "name": "api_entry_count",
+  "url": "https://www.ebi.ac.uk/interpro/api/entry/interpro/?page_size=1"
+ },
+ {
+  "source": "interpro",
+  "name": "licence",
+  "url": "https://interpro-documentation.readthedocs.io/en/latest/",
+  "render": true
+ },
+ {
+  "source": "alphafold_db",
+  "name": "api_p04637",
+  "url": "https://alphafold.ebi.ac.uk/api/prediction/P04637"
+ },
+ {
+  "source": "alphafold_db",
+  "name": "ftp_latest_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/alphafold/latest/"
+ },
+ {
+  "source": "alphafold_db",
+  "name": "downloads",
+  "url": "https://alphafold.ebi.ac.uk/download",
+  "render": true
+ },
+ {
+  "source": "alphafold_db",
+  "name": "faq_licence",
+  "url": "https://alphafold.ebi.ac.uk/faq",
+  "render": true
+ },
+ {
+  "source": "reactome",
+  "name": "content_version",
+  "url": "https://reactome.org/ContentService/data/database/version"
+ },
+ {
+  "source": "reactome",
+  "name": "download_current_listing",
+  "url": "https://reactome.org/download/current/"
+ },
+ {
+  "source": "reactome",
+  "name": "license",
+  "url": "https://reactome.org/license",
+  "render": true
+ },
+ {
+  "source": "reactome",
+  "name": "download_data",
+  "url": "https://reactome.org/download-data",
+  "render": true
+ },
+ {
+  "source": "dgv",
+  "name": "downloads",
+  "url": "https://dgv.tcag.ca/dgv/app/downloads",
+  "render": true
+ },
+ {
+  "source": "dgv",
+  "name": "home",
+  "url": "https://dgv.tcag.ca/dgv/app/home",
+  "render": true
+ },
+ {
+  "source": "dbvar",
+  "name": "ftp_listing",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/dbVar/"
+ },
+ {
+  "source": "dbvar",
+  "name": "ftp_data_listing",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/"
+ },
+ {
+  "source": "decipher",
+  "name": "downloads",
+  "url": "https://www.deciphergenomics.org/about/downloads/data",
+  "render": true
+ },
+ {
+  "source": "strchive",
+  "name": "home",
+  "url": "https://strchive.org/",
+  "render": true
+ },
+ {
+  "source": "strchive",
+  "name": "about",
+  "url": "https://strchive.org/about",
+  "render": true
+ },
+ {
+  "source": "strchive",
+  "name": "data_page",
+  "url": "https://strchive.org/data",
+  "render": true
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "api_root",
+  "url": "https://www.ebi.ac.uk/gwas/rest/api/v2/"
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "ftp_latest",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/latest/"
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "docs",
+  "url": "https://www.ebi.ac.uk/gwas/docs/about",
+  "render": true
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "downloads",
+  "url": "https://www.ebi.ac.uk/gwas/docs/file-downloads",
+  "render": true
+ },
+ {
+  "source": "alphamissense",
+  "name": "gcs_listing",
+  "url": "https://storage.googleapis.com/storage/v1/b/dm_alphamissense/o?maxResults=50"
+ },
+ {
+  "source": "alphamissense",
+  "name": "paper_page",
+  "url": "https://www.science.org/doi/10.1126/science.adg7492",
+  "render": true
+ },
+ {
+  "source": "gencode",
+  "name": "latest_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/"
+ },
+ {
+  "source": "gencode",
+  "name": "mane_listing",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/"
+ },
+ {
+  "source": "mavedb",
+  "name": "api_version",
+  "url": "https://api.mavedb.org/api/v1/api/version"
+ },
+ {
+  "source": "mavedb",
+  "name": "licenses_active",
+  "url": "https://api.mavedb.org/api/v1/licenses/active"
+ },
+ {
+  "source": "mavedb",
+  "name": "published_count",
+  "url": "https://api.mavedb.org/api/v1/statistics/record/score-set/published/count"
+ },
+ {
+  "source": "mavedb",
+  "name": "organism_stats",
+  "url": "https://api.mavedb.org/api/v1/statistics/target/gene/organism"
+ },
+ {
+  "source": "mavedb",
+  "name": "zenodo_dump_record",
+  "url": "https://zenodo.org/api/records/14172004",
+  "note": "expected blocked from this network"
+ },
+ {
+  "source": "biotools",
+  "name": "openebench_docs",
+  "url": "https://openebench.bsc.es/",
+  "render": true
+ },
+ {
+  "source": "mavedb",
+  "name": "zenodo_dump_latest",
+  "url": "https://zenodo.org/api/records/14172004/versions/latest"
+ },
+ {
+  "source": "mavedb",
+  "name": "zenodo_dump_versions",
+  "url": "https://zenodo.org/api/records/14172004/versions"
+ },
+ {
+  "source": "alphamissense",
+  "name": "zenodo_record",
+  "url": "https://zenodo.org/api/records/8208688"
+ },
+ {
+  "source": "alphamissense",
+  "name": "gcs_hg38_meta",
+  "url": "https://storage.googleapis.com/storage/v1/b/dm_alphamissense/o/AlphaMissense_hg38.tsv.gz"
+ },
+ {
+  "source": "clinvar",
+  "name": "tab_variant_summary_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz",
+  "range": [
+   0,
+   3000
+  ]
+ },
+ {
+  "source": "dgv",
+  "name": "downloads_https_plain",
+  "url": "https://dgv.tcag.ca/dgv/app/downloads"
+ },
+ {
+  "source": "dgv",
+  "name": "grch38_variants_head",
+  "url": "https://dgv.tcag.ca/dgv/docs/GRCh38_hg38_variants_2020-02-25.txt",
+  "range": [
+   0,
+   2500
+  ]
+ },
+ {
+  "source": "strchive",
+  "name": "resources",
+  "url": "https://strchive.org/resources",
+  "render": true
+ },
+ {
+  "source": "strchive",
+  "name": "loci",
+  "url": "https://strchive.org/loci",
+  "render": true
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "plugins_doc_plain",
+  "url": "https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html"
+ },
+ {
+  "source": "ensembl_vep",
+  "name": "release116_variation_vep",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/vep/"
+ },
+ {
+  "source": "biogrid_orcs",
+  "name": "download_dir_html",
+  "url": "https://downloads.thebiogrid.org/BioGRID-ORCS/Latest-Release/"
+ },
+ {
+  "source": "1000genomes",
+  "name": "sample_index_head",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/20130606_g1k_3202_samples_ped_population.txt",
+  "range": [
+   0,
+   1500
+  ]
+ },
+ {
+  "source": "pharmvar",
+  "name": "terms_alt",
+  "url": "https://www.pharmvar.org/documents/terms",
+  "render": true
+ },
+ {
+  "source": "pharmgkb",
+  "name": "download_list_head",
+  "url": "https://api.clinpgx.org/v1/download/file/data/relationships.zip",
+  "range": [
+   0,
+   200
+  ]
+ },
+ {
+  "source": "depmap",
+  "name": "figshare_search",
+  "url": "https://api.figshare.com/v2/articles/search",
+  "method": "POST",
+  "json": {
+   "search_for": ":title: DepMap",
+   "page_size": 10
+  }
+ },
+ {
+  "source": "opentargets",
+  "name": "ftp_26_09_output",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/"
+ },
+ {
+  "source": "opentargets",
+  "name": "ftp_26_09_root",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/"
+ },
+ {
+  "source": "nhgri",
+  "name": "glossary_gwas",
+  "url": "https://www.genome.gov/genetics-glossary/Genome-Wide-Association-Studies"
+ },
+ {
+  "source": "nhgri",
+  "name": "project_1000g",
+  "url": "https://www.genome.gov/27528684/1000-genomes-project"
+ }
+]

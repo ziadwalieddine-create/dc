@@ -1,0 +1,262 @@
+HOME
+ABOUT
+GENES
+SUBMISSIONS
+EXPERT PANELS
+PUBLICATIONS
+RESOURCES
+CONTACT
+LOG IN
+
+
+
+Downloads
+Select Database Version:
+6.2.29 (Latest Version)
+6.2.28 (Jul 31 2026)
+6.2.27 (Jul 7 2026)
+6.2.26 (Jun 29 2026)
+6.2.25 (May 28 2026)
+6.2.24 (May 27 2026)
+6.2.23 (May 26 2026)
+6.2.22 (Mar 24 2026)
+6.2.21.1 (Mar 19 2026)
+6.2.21 (Feb 5 2026)
+6.2.20 (Feb 3 2026)
+6.2.19 (Feb 1 2026)
+6.2.18 (Dec 2 2025)
+6.2.17.2 (Oct 28 2025)
+6.2.17.1 (Oct 27 2025)
+6.2.17 (Oct 14 2025)
+6.2.16 (Oct 13 2025)
+6.2.15 (Jul 24 2025)
+6.2.14 (Jun 10 2025)
+6.2.13 (Jun 10 2025)
+6.2.12 (Jun 9 2025)
+6.2.11 (Jun 7 2025)
+6.2.10 (Jun 7 2025)
+6.2.9 (Jun 5 2025)
+6.2.8 (Jun 4 2025)
+6.2.7 (May 20 2025)
+6.2.6 (Apr 29 2025)
+6.2.5 (Apr 24 2025)
+6.2.4 (Apr 22 2025)
+6.2.3 (Mar 22 2025)
+6.2.2 (Mar 5 2025)
+6.2.1 (Mar 3 2025)
+6.2 (Dec 16 2024)
+6.1.8 (Nov 5 2024)
+6.1.7 (Nov 1 2024)
+6.1.6 (Oct 23 2024)
+6.1.5 (Sep 2 2024)
+6.1.4 (Aug 28 2024)
+6.1.3 (Jun 28 2024)
+6.1.2.1 (May 24 2024)
+6.1.2 (Apr 18 2024)
+6.1.1 (Apr 16 2024)
+6.1 (Mar 11 2024)
+6.0.10 (Jan 29 2024)
+6.0.9 (Jan 23 2024)
+6.0.8 (Dec 15 2023)
+6.0.7 (Sep 26 2023)
+6.0.6 (Aug 30 2023)
+6.0.5 (Aug 29 2023)
+6.0.4 (Aug 29 2023)
+6.0.3 (Aug 1 2023)
+6.0.2 (May 31 2023)
+6.0.1 (May 29 2023)
+6.0 (May 12 2023)
+5.2.22 (Apr 19 2023)
+5.2.21 (Apr 17 2023)
+5.2.20.1 (Apr 14 2023)
+5.2.20 (Apr 13 2023)
+5.2.19.2 (Apr 5 2023)
+5.2.19.1 (Mar 10 2023)
+5.2.19 (Feb 21 2023)
+5.2.18 (Feb 20 2023)
+5.2.17 (Jan 25 2023)
+5.2.16 (Jan 24 2023)
+5.2.15 (Jan 23 2023)
+5.2.14.1 (Dec 20 2022)
+5.2.14 (Dec 1 2022)
+5.2.13 (Nov 8 2022)
+5.2.12 (Nov 1 2022)
+5.2.11 (Oct 27 2022)
+5.2.10 (Oct 25 2022)
+5.2.9 (Oct 18 2022)
+5.2.8 (Oct 12 2022)
+5.2.7 (Sep 26 2022)
+5.2.6 (Sep 21 2022)
+5.2.5 (Sep 20 2022)
+5.2.4 (Aug 31 2022)
+5.2.3 (Aug 9 2022)
+5.2.2 (Aug 1 2022)
+5.2.1 (Jul 27 2022)
+5.2 (Jul 22 2022)
+5.1.15 (May 31 2022)
+5.1.14 (May 2 2022)
+5.1.13 (Apr 27 2022)
+5.1.12 (Apr 15 2022)
+5.1.11 (Apr 14 2022)
+5.1.10 (Mar 23 2022)
+5.1.9 (Mar 22 2022)
+5.1.8 (Feb 18 2022)
+5.1.7 (Feb 8 2022)
+5.1.6 (Jan 24 2022)
+5.1.5 (Dec 20 2021)
+5.1.4 (Nov 17 2021)
+5.1.3 (Nov 5 2021)
+5.1.2 (Oct 26 2021)
+5.1.1.2 (Oct 26 2021)
+5.1.1.1 (Oct 20 2021)
+5.1.1 (Oct 19 2021)
+5.1.0.1 (Oct 15 2021)
+5.1 (Oct 14 2021)
+5.0.1 (Aug 4 2021)
+5.0 (Aug 2 2021)
+4.4.1 (Jul 9 2021)
+4.4 (Jul 1 2021)
+4.3 (Jun 11 2021)
+4.2.7.2 (May 26 2021)
+4.2.7.1 (May 3 2021)
+4.2.7 (Apr 30 2021)
+4.2.6.2 (Apr 29 2021)
+4.2.6.1 (Mar 3 2021)
+4.2.6 (Jan 29 2021)
+4.2.5 (Jan 15 2021)
+4.2.4 (Nov 19 2020)
+4.2.3 (Oct 13 2020)
+4.2.2 (Oct 2 2020)
+4.2.1 (Sep 22 2020)
+4.2 (Sep 15 2020)
+4.1.9 (Aug 30 2020)
+4.1.8 (Aug 10 2020)
+4.1.7 (Jul 3 2020)
+4.1.6 (May 22 2020)
+4.1.5 (Apr 13 2020)
+4.1.4 (Feb 14 2020)
+4.1.3 (Jan 9 2020)
+4.1.2 (Nov 18 2019)
+4.1.1 (Sep 19 2019)
+4.1 (Sep 4 2019)
+4.0.5 (Aug 28 2019)
+4.0.4 (Aug 14 2019)
+4.0.3 (Jun 21 2019)
+4.0.2 (Jun 4 2019)
+4.0.1 (May 8 2019)
+4.0 (May 7 2019)
+3.4 (Feb 6 2019)
+3.3 (Dec 17 2018)
+3.2 (Nov 19 2018)
+3.1 (Nov 5 2018)
+3.0 (Nov 5 2018)
+2.0 (Jul 27 2018)
+1.1.9.2 (May 22 2018)
+1.1.9 (May 21 2018)
+Download Complete Database
+PharmVar Terms and Conditions
+
+PharmVar provides data downloads of allele definitions for all genes that have been incorporated into the PharmVar database. Data can be downloaded either from the gene page or from the tool above. Allele definitions are available in the following formats:
+
+FASTA
+
+FASTA downloads contain the nucleotide sequence representing the allele. FASTA sequences will be the based on the primary locus reference sequence (RefSeqGene or LRG) for the gene. The allele sequence will start at the first base of the locus reference sequence (usually approximately 5kb upstream of the ATG start) and will continue until the end of the reference sequence (usually approximately 2kb downstream of the stop codon). The allele sequence will contain all variants defined for the haplotype.
+
+FASTA sequences will have a header line that includes the haplotype identifier, the reference sequence the haplotype sequence is based on and the PharmVar version. An example for the CYP2C9*5B haplotype is as follows:
+
+CYP2C19*5B NG_008384.3 pharm-var-1.3
+
+Variant Call File (VCF)
+
+Allele definitions are provided in VCF format where the entire file represents the differences between the requested allele and a specific reference sequence (e.g. the locus reference sequence or the relevant chromosomal reference sequence in a genome build). VCF files are presented in VCF 4.2 format. Variant positions in the VCF file will always be based on counting the first nucleotide of the locus sequence as position 1 (i.e. Sequence Start).
+
+Tab Separated Values (TSV)
+
+Allele definitions are provided in a tab-separated file with one line per haplotype/variant combination. This means that for haplotypes containing multiple variants, the haplotype definition will take up multiple lines in the file. Similarly, variants that appear in multiple haplotypes will appear multiple times in the file. Haplotype variants will be grouped together sequentially and sorted by position. Like VCF files, variant positions will always be based on counting the first nucleotide of the reference sequence as position 1 (i.e. Sequence Start). TSV files have a header as the first line of the file that defines the following columns:
+
+haplotype identifier (name)
+gene symbol
+dbSNP rsID (if applicable)
+reference sequence
+variant start
+variant stop
+reference allele
+variant allele
+variant type
+
+As an example, using this format, the CYP2C9*1B haplotype, defined by a two base deletion and a substitution compared to NG_008385.1, would be represented as follows:
+
+CYP2C9*1B CYP2C9 rs71486745 NG_008385.1 2363 2364 TG - deletion
+
+CYP2C9*1B CYP2C9 rs4918758 NG_008385.1 3838 3838 T C substitution
+
+Special Cases / Exclusions
+Reference alleles (*1)
+
+Alleles that represent the wildtype reference (e.g. *1 of most genes) and that have no variants defined for them will have the following special cases in the downloads
+
+FASTA: The resulting sequence will be identical to the locus reference sequence.
+
+VCF: No VCF file is provided for haplotypes that have no variants on a selected reference sequence. Note that the reference haplotype may have variants defined in the context of a difference reference sequence. For example, the CYP2D6 reference gene sequence has multiple differences when compared to the GRCh37 genome build. In this case, a VCF file for the reference haplotype is available for the GRCh37 reference sequence.
+
+TSV: A single entry for the reference haplotype is listed in the TSV file. This entry has ‘REFERENCE’ under the reference allele column and ‘.’ in the variant allele column.
+
+Structural variants and complex variant types
+
+Haplotypes defined by structural variation, including rearrangements and large deletions that are not strictly defined by positional notation, are not included in the downloads currently.
+
+RefSeqTranscript
+
+Downloads are not available for transcript reference sequences. This is due to complications in accurately representing the sequence produced in cases where variants in the haplotype interrupt splicing behavior.
+
+Download Types
+
+The content of the download will vary according to which download type is selected. The three types of downloads available are as follows:
+
+Single Haplotype
+
+These downloads are available from the gene page by clicking the download icon  next to the haplotype identifier. Haplotype downloads are available in VCF or FASTA format. VCF files will contain variants for the haplotype in comparison to the currently selected reference sequence on the gene page. FASTA files will always contain a version of the locus reference sequence. Individual haplotypes downloaded from the gene page will always contain the current version of the haplotype.
+
+Gene
+
+All definitions can be downloaded for a single gene by clicking the ‘Download Gene Data’ button on the gene detail page. The download will consist of a .zip archive containing the following files:
+
+multi-entry FASTA file containing all haplotype sequences for the gene
+TSV file containing all haplotype definitions for the gene for each reference sequence
+One VCF file for every haplotype for each reference sequence
+Database
+
+All haplotype definitions for all genes in the PharmVar database can be downloaded together from this page. Database downloads will contain all data for a single, selected version of the PharmVar database with the default being the current version. Previous versions can be selected using the select menu above. The full database download consists of a .zip archive containing the following files:
+
+multi-entry FASTA file containing all haplotype sequences for the gene
+one TSV file for each gene containing all haplotype definitions for the gene on a specific reference sequence, one file for each reference sequence
+VCF files for every haplotype in every gene for each reference sequence
+
+The database zip archive is organized into directories by gene and reference sequence. An abbreviated example structure of the archive is as follows:
+
+pharm-var-1.3/
+
+CYP2C9/
+
+CYP2C9.haplotypes.fasta
+
+RefSeqGene/
+
+CYP2C9.NG_008384.3.tsv
+
+CYP2C9_1B.vcf (one file per haplotype)
+
+GRCh37/
+
+CYP2C9.NC_000010.10.haplotypes.tsv
+
+CYP2C9_1B.vcf (one file per haplotype)
+
+GRCh38/
+
+CYP2C9.NC_000010.11.haplotypes.tsv
+
+CYP2C9_1B.vcf (one file per haplotype)
+
+Feedback or suggestions? Please contact us at support@pharmvar.org
+Version 6.2.29 Last Updated Sep 22 2026

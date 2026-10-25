@@ -1,0 +1,9 @@
+CANCER DEPENDENCY MAP PORTAL
+Quick check before you enter
+
+We’re verifying you’re a person, not a bot. This helps keep the portal responsive for researchers.
+
+Need DepMap data in bulk? You’re always welcome to grab everything from the downloads section — please don’t scrape the portal.
+
+Enter DepMap →
+Cookies must be enabled to access this site.

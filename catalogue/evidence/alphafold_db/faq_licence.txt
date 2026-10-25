@@ -1,0 +1,663 @@
+EMBL-EBI
+About us
+Training
+Research
+Services
+EMBL-EBI home
+AlphaFold Protein Structure Database
+Home
+About
+FAQs
+Downloads
+API
+Collaborators
+Search
+Search
+Examples: MENFQKVEKIGEGTYGV...Free fatty acid receptor 2At1g58602Q9I1F6E. coli
+See search help
+Go to online course
+Frequently asked questions
+Collapse all
+How does AlphaFold work?
+
+ 
+
+DeepMind’s 2021 methods paper is the best reference for this. It gives an overview of the most important ideas, and there is a detailed description of all aspects of the system in the Supplementary Information.
+Note that the architecture of the system used at CASP14 differs significantly from the version used at CASP13, making it important to refer to the 2021 publication.
+
+Visit our online training course to learn more about AlphaFold.
+
+ 
+
+Which proteins are included?
+
+ 
+
+AlphaFold DB has grown in several stages:
+
+July 2021: included 20 model organism proteomes, with sequences taken from the “one sequence per gene” reference proteomes provided in UniProt 2021_02.
+December 2021: added Swiss-Prot, from UniProt 2021_04.
+January 2022: added a collection of proteomes relevant to global health, taken from priority lists compiled by the World Health Organization. Sequences were again taken from the “one sequence per gene” reference proteomes provided in UniProt 2021_04.
+July 2022: added most of the remaining UniProt 2021_04. As part of this release we have also included an additional tar file on the AFDB download page and FTP, containing predictions in MANE select.
+Nov 2022: updated a set of structures affected by a temporary numerical bug (miscompilation) in the previous July release (list of affected accessions, N.B. 160 MiB). This temporary issue resulted in low accuracy predictions with correspondingly low pLDDT for ~4% of the total structure predictions available in the database. This release includes:
+Updated coordinates for affected structures. You can still access all old coordinates as v3 files, and easily compare v3 and v4 coordinates
+Minor metadata changes in the mmCIF files for the rest of the structures (these files are released as v4). Please refer to our changelog for more details. Note that as part of this release we’ve also removed predictions with Ca-Ca >10A.
+Sep 2025: all entries were synchronised to UniProt 2025_03. This release also included predictions for isoforms. Additionally, the MSAs computed for each entry are now available.
+Feb 2026: added predictions for isoforms and new entries from AllTheBacteria, Kinetoplastids, Viro3D and Big Fantastic Virus Database.
+March 2026: 1,754,199 homodimers derived from Swiss-Prot, the WHO list, and model reference proteomes were made available under the NVIDIA dataset.
+May 2026: This release included ~ 2.2M homodimers and heterodimers derived from 4,777 proteomes in Uniprot and Swiss-Prot for proteins belonging to the 16 model organisms and 30 WHO global health proteomes.
+Sep 2026: Added ~1.7 million predictions for viral protein complexes spanning ~3,500 viral proteomes, generated through an international research consortium, together with entries from the Viral AlphaFold Database (VAD) from the Atkinson Lab. This release also introduced Portal View, which makes it easier to discover predictions from across AlphaFold DB related to key global health research areas, including pandemic preparedness, antimicrobial resistance, neglected tropical diseases, and WHO global health proteomes.
+
+The wider UniProt predictions are the output of a single model, while Swiss-Prot / proteomes entries represent the most confident prediction out of 5 model runs. Internal benchmarking on CASP14 shows that the model used for UniProt (“model_2_ptm”) is insignificantly less accurate (-1 GDT versus five models), and that there is a slight bias toward lower confidence (-1 pLDDT) due to the effect of using one model rather than selecting from 5.
+
+Not all sequences are covered; the most common reasons for a missing sequence are:
+
+It is outside our length range. The minimum length is 16 amino acids, while the maximum is 2,700 for proteomes / Swiss-Prot and 1,280 for the rest of UniProt. For the human proteome only, our download includes longer proteins segmented into fragments.
+It contains non-standard amino acids (e.g. X, O).
+It is not in the UniProt reference proteome “one sequence per gene” Fasta file or is not from a collaborator’s dataset.
+It has been added or modified by UniProt in a more recent release.
+While many viral proteins are now included in the database from the Big Fantastic Virus Database (BFVD), some may still be missing.
+
+We plan to continue updating the database. In the meantime, if your sequence(s) aren’t included, you can generate your own AlphaFold predictions using the open source code, which also support multimer predictions..
+
+ 
+
+How many proteins are there in the database?
+
+ 
+
+There are 261,552,403 predicted models available on the AlphaFold DB website, including 40,054 isoforms and 46 complete proteomes available for bulk download.
+
+ 
+
+Why are there many entries for one UniProt ID?
+
+ 
+
+You may see several entries for one UniProt ID because AlphaFold DB includes isoforms, fragments, and entries from different source datasets.
+
+An isoform or processed sequence will typically have a hyphenated number at the end of the UniProt ID, such as P42167-2. Fragments are identified by an "-F" suffix followed by a number, such as Q8WZ42-F1 and Q8WZ42-F2.
+
+Additionally, an entry might have been generated for different datasets. In these cases, we recommend reviewing the predictions to check if they were made using different methods and to compare the model creation dates.
+
+ 
+
+Why does a viral protein have bacterial metadata or UniProt links?
+
+ 
+
+Some viral proteins come from viral DNA that has become integrated into a bacterial genome, known as a prophage. Because the sequence is found within the bacterial genome, some source metadata and UniProt links may refer to the bacterium rather than the virus.
+
+ 
+
+What information does AlphaFold use from the Protein Data Bank?
+
+ 
+
+AlphaFold is trained on protein chains in the PDB released before 2018-04-30. Predictions can also make use of up to 4 templates released before 2021-02-15. However, templates are not a critical input for AlphaFold to make an accurate prediction; the model can make a strong prediction based on a multiple sequence alignment alone.
+
+Additionally, AlphaFold can ignore templates if they appear unhelpful - it isn’t required to copy their structure. As of this latest release, PDB structures shown to the model are recorded in the prediction mmCIF file.
+
+ 
+
+How does AlphaFold compare to other structure prediction tools?
+
+ 
+
+The CASP14 assessment compared leading structure prediction methods in detail; the results are available here. AlphaFold was the top-ranked method, with a median GDT (Global Distance Test) score of 92.4 across all targets and 87.0 on the challenging free-modelling category, compared to 72.8 and 61.0 for the next best methods in these categories.
+
+Structural biologists more often express the similarity between two protein structures by first optimally superposing the structures and then calculating the root-mean-square distance (RMSD) between the Cα atoms of equivalent residues. Taking the median RMSD-Cα on the best predicted 95% of residues reduces the effect of flexible tails and crystal-packing artefacts. On this metric AlphaFold’s CASP14 predictions had a median distance of 0.96 Å to the experimental models, compared to 2.83 Å for the next-best method.
+
+ 
+
+What use cases does AlphaFold not support?
+
+ 
+
+AlphaFold DB includes both single-chain structure predictions and, where available, predicted protein complexes. However, many other use cases remain active areas of research, for example:
+
+For regions that are intrinsically disordered or unstructured in isolation AlphaFold is expected to produce a low-confidence prediction (pLDDT < 50) and the predicted structure will have a ribbon-like appearance. AlphaFold may be of use in identifying such regions, but the prediction makes no statement about the relative likelihood of different conformations (it is not a sample from the Boltzmann distribution).
+AlphaFold has not been validated for predicting the effect of mutations. In particular, AlphaFold is not expected to produce an unfolded protein structure given a sequence containing a destabilising point mutation.
+Where a protein is known to have multiple conformations, AlphaFold usually only produces one of them. The output conformation cannot be reliably controlled.
+AlphaFold does not predict the positions of any non-protein components found in experimental structures (such as cofactors, metals, ligands, ions, DNA/RNA, or post-translational modifications). However, AlphaFold is trained to predict the structure of proteins as they might appear in the PDB. Therefore backbone and side chain coordinates are frequently consistent with the expected structure in the presence of ions (e.g. for zinc-binding sites) or cofactors (e.g. side chain geometry consistent with heme binding).
+ 
+
+What is the AllTheBacteria dataset?
+
+ 
+
+The AllTheBacteria dataset contains over 17.7 million AlphaFold predictions for hypothetical proteins from more than 2.4 million high-quality bacterial and archaeal genomes. These proteins represent 11,824 distinct species; therefore, some entries might be unnamed.
+
+Predictions were generated using ColabFold v1.5.5 (Mirdita et al., 2022). The dataset includes predictions for proteins up to 3,000 amino acids long; larger proteins were fragmented into overlapping fragments.
+
+Most entries do not have a UniProt accession as they were derived directly from genome assemblies. When the sequence has a 100% sequence identity over 100% sequence length to a member of Uniprot (2025_03 release), we will show the organisms where this is present.
+
+The sequence version date for this dataset is the date when the protein sequences were finalised, deduplicated, and their source assemblies passed quality control checks. The project can be explored at the AllTheBacteria website. 
+
+Coordinate files can be downloaded via the FTP area (see the bulk download FAQ for details). Multiple sequence alignments (MSAs) are not currently provided for this dataset in the FTP area.
+
+For a comprehensive description of the dataset, please refer to the pre-print: AllTheBacteria - all bacterial genomes assembled, available and searchable.
+
+ 
+
+What is the Big Fantastic Virus Database?
+
+ 
+
+The Big Fantastic Virus Database (BFVD) contains protein structure predictions for 351,242 viral sequences.​
+
+This dataset was generated from the UniRef30 snapshot (release 2023_02), which includes sequences from both UniProtKB and UniParc. Consequently, not all entries have a corresponding UniProt accession, and some may be from now-obsolete accessions.
+
+Predictions were generated using ColabFold v1.5.2 (Mirdita et al., 2022). The sequence version date aligns with the UniProt/UniRef 2023_02 release.
+
+Coordinate files and MSAs can be downloaded via the FTP area (see the bulk download FAQ for details).
+
+For more details, refer to the paper: BFVD - a large repository of predicted viral protein structures. Nucleic Acids Research (2025).
+
+ 
+
+What is the Kinetoplastid dataset?
+
+ 
+
+The Kinetoplastid dataset is a collection of 16,887 predicted models specifically for kinetoplastid organisms, such as Trypanosoma and Leishmania.
+
+Predictions were generated using ColabFold v1.0-alpha (Mirdita et al., 2022). The dataset includes predictions for proteins up to 2,000 amino acids long; larger proteins were fragmented into overlapping fragments.
+
+Protein sequences were sourced from the TriTrypDB genome databases (release 53, 2021-07-09), and the sequence version date aligns with this release. While most predictions have a corresponding UniProt accession, some may be missing one if the sequence is not present in or differs from the UniProt database.
+
+Coordinate files and MSAs can be downloaded via the FTP area (see the bulk download FAQ for details).
+
+For a comprehensive description of the dataset, refer to the paper: A resource for improved predictions of Trypanosoma and Leishmania protein three-dimensional structure. PLoS One (2021).
+
+ 
+
+What is the Proteome-scale dimer structures (NVIDIA) dataset?
+
+ 
+
+This dataset provides predicted homodimer and heterodimer structures for proteins from Swiss-Prot and Uniprot , including 30 World Health Organization (WHO) global health proteomes, and 16 model reference proteomes from the Uniprot 2025_04 release.
+
+The predictions were generated using a customised version of ColabFold (v1.6.0) using official AlphaFold2 and AlphaFold-Multimer weights and parameters. For each target, a single model (model1) was used, with recycling limited to 4 or fewer recycles, and the final prediction was taken as the reported structure.
+
+Multiple Sequence Alignments (MSAs) were generated using MMseqs2-GPU (version 18-8cc5c) with pairing and filtering enabled, using the following settings: --use-env 0 --pairing_strategy 1 --pair-mode paired --filter 2 --db-load-mode 2. The underlying sequence database was the prebuilt ColabFold GPU-accelerated search database uniref30_2302.
+
+Note: For the NVIDIA dataset, only models with pDockQ2max ≥ 0.23, and ipSAEmax ≥ 0.6 are displayed on the entry pages, resulting in 2,158,419 homodimer structures and 79,156 heterodimer structures. A complete list of accessions and their associated scores is available in the FTP area.
+
+MSAs for all generated predicted models are available for download from the FTP area.
+
+ 
+
+What is the VAD dataset?
+
+ 
+
+This dataset contains 53,716 predicted structures of full-length viral proteins from RefSeq comprising of 26,962 monomeric and 26,754 homodimeric predictions, of which 4,681 homodimers reached the high-confidence interface thresholds (pDockQ2max ≥ 0.23, and ipSAEmax ≥ 0.6) and are displayed on the web interface. The VAD dataset expands viral structural coverage and provides homodimer predictions that capture biologically relevant protein interfaces and oligomeric states not represented by monomer models alone.
+
+Predictions were generated using AlphaFold v2.3.2 without modifications to the official code. Multiple Sequence Alignments (MSAs) were generated using the reference AlphaFold strategy with HHblits and JackHMMer, using BFD, MGnify, PDB, UniRef, UniProt, and UniClust sequence and structural databases. Unlike viral structure resources using MMseqs2-based pipelines, this approach provides high-sensitivity sequence searches that can improve predictions, particularly for remote viral homologs.
+
+All predictions were generated from full-length RefSeq protein sequences, without fragmentation or truncation, with models selected using pLDDT for monomers and pTM + ipTM for multimers.
+
+For more details, refer to the paper: The Viral AlphaFold Database of monomers and homodimers reveals conserved protein folds in viruses of bacteria, archaea, and eukaryotes; Odai et al., 2025, DOI: 10.1126/sciadv.adz8560
+
+ 
+
+What is the Viral complexes dataset?
+
+ 
+
+The viral complexes dataset contains 1,703,992 predicted protein–protein interactions across ~2,800 viral proteomes from 23 viral families known to infect humans and/or animals.
+
+The dataset was generated using an accelerated implementation of AlphaFold2-Multimer to systematically predict pairwise protein complexes at the whole-proteome level. By sampling multiple viruses from each family, it captures both known human viruses and related animal viruses, while enabling the identification of conserved protein interactions across viral diversity.
+
+The dataset was provided through a collaboration between EMBL-EBI, Google DeepMind, the Grove Lab at the MRC–University of Glasgow Centre for Virus Research, the Mirdita Lab, at Sungkyunkwan University School of Medicine, NVIDIA, Philippe Le Mercier and the ViralZone team at SIB Swiss Institute of Bioinformatics and the Steinegger Lab at Seoul National University.
+
+The dataset provides a resource for exploring viral protein function, generating hypotheses about virus biology, and supporting research into pandemic preparedness, vaccines and therapeutics.
+
+ 
+
+What is the Viro3D dataset?
+
+ 
+
+The Viro3D dataset contains 82,424 protein structure predictions from 4,407 human and animal viruses.
+
+Predictions were generated using LocalColabFold v1.5.2 (Mirdita et al., 2022). For each target, five models were produced using three recycles and no PDB templates. The Multiple Sequence Alignments (MSAs) were assembled using MMseqs2 v15.6f452. The underlying sequence data for these alignments and predictions were derived from the colabfold_envdb_202108, pdb100_230517 and uniref30_2302 database versions.
+
+Coordinate files and MSAs can be downloaded via the FTP area (see the bulk download FAQ for details).
+
+For more details, refer to the paper: Viro3D: a comprehensive database of virus protein structure predictions. Mol Syst Biol (2025).
+
+ 
+
+How do I search the database?
+
+ 
+
+The search bar at the top of the page accepts queries based on protein name (e.g. Free fatty acid receptor 2), gene name (e.g. At1g58602), UniProt accession (e.g. Q9I1F6), or organism name (e.g. E. coli).
+
+ 
+
+What is the Portal View in the AlphaFold Database?
+
+ 
+
+The Portal View makes it easier to discover AlphaFold protein structure predictions related to key global health research areas. Predictions included in any specific key topic are gathered across all the data in the AlphaFold Database which combines contributions from Google DeepMind and other 3rd-party collaborators. For some sequences, there will be multiple predictions across the database content because different contributors have created the predicted models independently, and each one represents its own hypothesis. For example Bcl-2-like gene 16 protein (UniProt accession Q01001) is found in the data provided by Viro3D, BFVD, Nvidia and Viral AlphaFold Database providing four independent predictions for this protein in the “Pandemic Preparedness Portal”. Also, any particular sequence may be present in more than one portal. For example, some bacterial proteins like those from Staphylococcus aureus will be present under the portal “Antimicrobial Resistance (AMR)” and “WHO Global Health Proteomes” since this pathogen is a major public-health threat due to its antimicrobial resistance.
+
+From the main search page, you can browse entries by the following categories:
+
+Pandemic Preparedness: Includes protein structure predictions from viruses, supporting research into viral mechanisms, vaccines, and antiviral development. The entries included in this portal cover viral sequences across different data sources included in the database, namely Viro3D, BFVD, Nvidia and Viral AlphaFold Database. Due to a lack of consensus regarding what is considered a pathogen with pandemic potential, only viruses are currently reported.
+Antimicrobial Resistance (AMR): Finds proteins relevant to drug resistance and the search for new antimicrobial targets. The models collected under this portal cover bacterial proteomes from the WHO Global Health Proteomes and other bacterial protein sequences from UniProt folded by Google DeepMind and NVIDIA. Additionally, we added the full set of ATBC predictions to this portal. As taxonomy identifiers from NCBI were used to identify bacterial predictions in the database, sub-species and different strains are also included.
+Neglected Tropical Diseases (NTDs): Gives you access to proteins from disease-causing organisms from tropical regions that remain comparatively understudied despite their deleterious impact on human health. Models aggregated into this portal include understudied pathogens from the WHO Global Health Proteomes predicted by Google DeepMind complemented with the kinetoplastid dataset, as well as models from AllTheBacteria, Big Fantastic Virus Database, and Viro3D. Predictions for homo- and heterodimers are provided by NVIDIA.
+WHO Global Health Proteomes: Browse 30 WHO priority proteomes, providing a proteome-wide view of pathogens with major public-health impact. The predictions for this portal were provided by Google DeepMind, ATBC, VAD and NVIDIA. As models were identified across each dataset using NCBI taxonomy identifiers, there will be sequences that have more than one prediction available, each of them created by providers independently.
+ 
+
+How does sequence-based search work?
+
+ 
+
+AlphaFold Database sequence-based similarity search is implemented using the Protein Basic Local Alignment Search Tool (BLASTP, see further information here: https://github.com/ncbi/docker/blob/master/blast/README.md). This tool compares a protein sequence query to the sequences of the predictions in the AlphaFold Database and returns a list of AlphaFold predictions with similar sequences to the one the user provided. 
+
+The search process can take up to 10 minutes to complete. To revisit, review or share your results, you can copy or bookmark the url to the results page. Note that the query must be at least 20 amino acids long and only standard residues are accepted.
+
+We display a pairwise sequence alignment, where the top row is the input sequence, the middle row is the matching amino acid positions between the input sequence query and the target sequence from the database, and the bottom row shows the target sequence. 
+
+Results can be sorted by HSP score (Local alignment with no gaps that achieves one of the highest alignment scores in a given search), E-value (Number of hits the query sequence is expected to match by random chance with the AlphaFold database sequences), Percent identity, query coverage (Fraction of query sequence covered by a hit sequence), target length (number of amino acids in the target sequence) or align length (number of amino acids aligned between input and target sequences).
+
+ 
+
+What if I can’t find the protein I’m interested in?
+
+ 
+
+If you can’t find the structure you’re looking for, here are some suggestions to improve your search results:
+
+Try searching by protein or gene name rather than specific UniProt accession.
+If running a sequence search, the input query should contain at least 20 amino acids, and only standard amino acids are accepted.
+Sequence search is the most reliable method for finding entries, especially since many proteins don’t have a specific name.
+Check that the protein or complex isn’t excluded by any of the criteria coveredin a previous FAQ.
+
+Not all proteins or complexes are included in the AlphaFold DB. In some cases, you may need to generate a prediction separately using the source code, which supports predicting multimer structures.
+
+ 
+
+How do I interpret and filter search results?
+
+ 
+
+When browsing search results, each entry displays key information to help you identify and prioritise the most relevant structures.
+
+Reviewed vs. Unreviewed entries: Search results indicate whether a protein has been manually reviewed by annotators. Entries labelled Reviewed (Swiss-Prot) have been manually curated by UniProt experts, meaning their annotations, including function, sequence, and variants, have been verified against the literature. Entries labelled Unreviewed (TrEMBL) are computationally annotated and have not yet undergone manual curation. If you are looking for a well-characterised protein, filtering to show only Reviewed entries can help narrow your results to the most reliably annotated proteins. This filter is available on the search results page.
+
+Filtering by model confidence: Each search result includes an overall pLDDT confidence score for the predicted structure. You can use the pLDDT slider on the search results page to restrict results to models above a confidence threshold of your choice. This is particularly useful if you are only interested in high-confidence predictions, for example when planning experimental follow-up. Keep in mind that a lower overall score does not necessarily mean the entire structure is unreliable. Confidence can vary considerably along a chain, and high-confidence regions may still be highly informative even in lower-scoring models. Note, that the scores represent AlphaFold's confidence in the 3D arrangement of the amino acid chain but is not a confidence in the biological correctness of the predicted model.
+
+ 
+
+How can I search for similar structures in the AlphaFold Database?
+
+ 
+
+Foldseek has been integrated into the AlphaFold Database, enabling easy access to similar structures across both experimentally determined structures from the PDB (Protein Data Bank) and predicted structures from the clustered AlphaFold Database (AFDB50).
+
+Search results are organised into tabs based on the source:
+
+AFDB: The clustered AlphaFold Database at 50% sequence identity (AFDB50).
+PDB: Experimental structures. Note that NMR structures do not have a resolution value.
+Specialised datasets: AllTheBacteria, Big Fantastic Virus Database, Viro3D and Kinetoplastid parasites.
+
+Each row includes: a pairwise sequence alignment, residue range indicating the specific range of amino acids in the alignment, E-value to show the statistical significance of the alignment, sequence identity, resolution (for PDB structures), and average pLDDT (for AlphaFold2 structures).
+
+You can select which structures to superimpose in the 3D viewer. The structural alignment, along with RMSD (Root Mean Square Deviation) is reported based on the superposition of Cɑ atoms. Once the structures are aligned, you can download the aligned coordinates in mmCIF format.
+
+ 
+
+What is Foldseek?
+
+ 
+
+Foldseek is a tool for fast and sensitive protein structure search. It compares protein structures by representing them as sequences over a 3Di alphabet that describes the local tertiary interactions between residues in the structure. This allows Foldseek to efficiently search vast protein structure databases to find similar structures.
+
+For technical details on Foldseek, please refer to the original publication: Fast and accurate protein structure search with Foldseek. Nature (2023).
+
+ 
+
+How do cluster members work?
+
+ 
+
+Collaborating with the Steinegger lab, we grouped structurally similar proteins into clusters using Foldseek Cluster. Our clustering approach was a two-phase process:
+
+The first phase, AFDB50/MMSeqs2, involved clustering the UniProtKB protein sequences from the AlphaFold Database using MMseqs2, with a maximum of 50% sequence identity and a 90% sequence overlap. This reduced dataset was called AFDB50. In the second phase, AFDB/Foldseek, proteins were grouped based on structural similarity. Representatives of each cluster from the first phase were chosen according to the highest pLDDT score. Structural clustering was performed with Foldseek Cluster, using a minimum structural alignment overlap of 90% and an E-value cutoff of 0.01.
+
+For more details about the clustering process, please refer to the following paper: Clustering predicted structures at the scale of the known protein universe. Nature (2023).
+
+ 
+
+How confident should I be in a prediction?
+
+ 
+
+AlphaFold produces a per-residue estimate of its confidence on a scale from 0 - 100 . This confidence measure is called pLDDT and corresponds to the model’s predicted score on the lDDT-Cα metric. pLDDT reflects local confidence for each residue, but in complexes it does not by itself indicate whether the relative placement of chains or the predicted interface is correct. It is stored in the B-factor fields of the mmCIF and PDB files available for download (although unlike a B-factor, higher pLDDT is better). pLDDT is also used to colour-code the residues of the model in the 3D structure viewer. The following rules of thumb provide guidance on the expected reliability of a given region:
+
+Regions with pLDDT > 90 are expected to be modelled to high accuracy. These should be suitable for any application that benefits from high accuracy (e.g. characterising binding sites).
+Regions with pLDDT between 70 and 90 are expected to be modelled well (a generally good backbone prediction).
+Regions with pLDDT between 50 and 70 are low confidence and should be treated with caution.
+The 3D coordinates of regions with pLDDT < 50 often have a ribbon-like appearance and should not be interpreted. We show in our paper that pLDDT < 50 is a reasonably strong predictor of disorder, i.e. it suggests such a region is either unstructured in physiological conditions or only structured as part of a complex. (Note: this relationship has typically been tested in the context of well-studied proteins, which may have more evolutionarily-related sequences available than a randomly chosen UniProt entry.)
+Structured domains with many inter-residue contacts are likely to be more reliable than extended linkers or isolated long helices.
+Unphysical bond lengths and clashes do not usually appear in confident regions. Any part of a structure with several of these should be disregarded.
+
+Note that the PDB and mmCIF files contain coordinates for all regions, regardless of their pLDDT score. It is up to the user to interpret the model judiciously, in accordance with the guidance above.
+
+ 
+
+How should I interpret the relative positions of domains?
+
+ 
+
+Independent of the 3D structure, AlphaFold produces an output called “Predicted Aligned Error” (PAE). This is shown at the bottom of structure pages as an interactive 2D plot.
+
+The colour at (x, y) indicates AlphaFold’s expected position error at residue x if the predicted and true structures were aligned on residue y.
+If the PAE is generally low for residue pairs x, y from two different domains, it indicates that AlphaFold predicts well-defined relative positions and orientations for them.
+If the PAE is generally high for residue pairs x, y from two different domains, then the relative positions and/or orientations of these domains in the 3D structure are uncertain and should not be interpreted.
+
+AlphaFold produces a useful inter-domain prediction in some cases. However, in CASP14 intra-domain prediction accuracy was more extensively validated and is therefore expected to be more reliable.
+
+In protein complexes, inter-chain PAE can also help indicate whether the relative placement of subunits is well defined, although interface-specific metrics provide a more direct assessment of complex confidence.
+
+Note that the PAE scores are asymmetrical, meaning there might be variations in PAE values between (x,y) and (y,x) positions.
+
+ 
+
+How confident should I be in a predicted complex?
+
+ 
+
+For protein complexes, confidence is often assessed using interface-focused metrics that estimate how reliable the predicted interactions between chains are. These scores are complementary: some are more sensitive to the confidence of the interface itself, while others are better at highlighting local or flexible interactions. In general, higher values indicate greater confidence in the predicted interface, but each metric captures a slightly different aspect of interface quality. It is therefore best to consider multiple scores together rather than relying on a single metric.
+
+Several commonly used confidence metrics are shown on the entry pages:
+
+ipTM (interface predicted Template Modelling) ranges from 0 to 1 and measures the quality of the predicted interaction between protein chains. While pLDDT measures confidence within an individual chain, ipTM reflects confidence in the predicted relative positions of the subunits in the complex. As a general guide, ipTM > 0.8 indicates a confident, high-quality prediction; ipTM 0.6-0.8 suggests the prediction is uncertain; and ipTM < 0.6 suggests the complex may be incorrect. Please note that disordered regions and regions with low pLDDT can reduce the ipTM score, even when the predicted interaction is biologically meaningful.
+ipSAE (interaction prediction Score from Aligned Errors) is an ipTM-like metric derived from AlphaFold’s predicted aligned error (PAE) between residues of different chains in the predicted complex. For each pair of chains the score only considers residue pairs that have a PAE < 10 Å and are within 15 Å of distance in the predicted structure. This restricts the calculation to interface regions where AlphaFold predicts a more reliable relative positioning. The retained PAE values are converted into TM-like confidence values and averaged to calculate the score. ipSAE recalculates its scaling based on the number of residues that pass the PAE and distance cutoff, rather than on the full chain lengths. As a result, ipSAE is less influenced by disordered regions or non-interacting domains. For more details, see: Rēs ipSAE loquuntur: What’s wrong with AlphaFold’s ipTM score and how to fix it. bioRxiv (2025).
+
+The following ranges can be used when interpreting ipSAE values:
+
+
+Very high (ipSAE ≥ 0.8) – The predicted homodimer interface is modelled with high accuracy.
+Confident (0.8 > ipSAE ≥ 0.7) – The predicted interface is likely correct with a well-arranged interaction.
+Low (0.7 > ipSAE ≥ 0.6) – The interaction may be correct but should be interpreted cautiously.
+Very low (ipSAE < 0.6) – The predicted interaction is unlikely to represent a reliable complex.
+pDockQ2 (predicted DockQ score 2) is a modified version of pDockQ (Bryant, P., et al., 2022). It combines two AlphaFold confidence scores: the average local confidence of the interface residues (pLDDT) and the average confidence of their relative positioning across the interface (PAE). These are combined and then passed through a calibrated sigmoid function to produce a single predicted score. A pDockQ2 value above ~0.23 can be used as a practical guide for a likely acceptable interface. For more details, see: Evaluation of AlphaFold-Multimer prediction on multi-chain protein complexes. Bioinformatics (2023).
+LIS(Local Interaction Score) is calculated from the inter-chain PAE. Residue-residue pairs with PAE <12 Å are retained as the local interaction area, and these retained values are inversely mapped onto a 0-1 scale so that lower PAE gives a higher score. LIS is the average of these inverted values across the interface of the interacting protein pair. Higher LIS values indicate greater confidence in the predicted interaction interface. For more details, see: Enhanced Protein-Protein Interaction Discovery via AlphaFold-Multimer. bioRxiv (2024).
+
+Note: The displayed values of ipSAE, pDockQ2 and LIS correspond to the maximum values; ipSAEmax, pDockQ2max and LISmax. In addition, although the confidence metrics described above, namely ipTM, ipSAE, pDockQ2 and LIS, typically have theoretical ranges between 0 and 1, the entries displayed on the website are filtered using thresholds of pDockQ2max ≥ 0.23, and ipSAEmax ≥ 0.6 , so they will not span their full theoretical ranges across the entries. In practice, these scores often appear skewed toward higher values because lower-confidence predictions have already been removed by the pDockQ2 and ipSAE filtering step.
+
+A complete list of predictions and their associated scores is available in the FTP area.
+
+ 
+
+What is included on a structure page for monomers?
+
+ 
+
+Structure pages for monomers have four tabs: Summary and Model Confidence, Domains, Annotations, and Similar Proteins. The Summary and Model Confidence tab displays basic information about the protein or complex (drawn from UniProt where available), together with AlphaFold prediction outputs and confidence measures.
+
+AlphaFold generates three outputs: 3D coordinates, predicted local distance difference test (pLDDT), and Predicted Aligned Error (PAE) matrix.
+
+The first is a set of 3D coordinates for all atoms in the target amino acid sequence including side chains, as displayed in the molecule viewer when clicking on a residue in the sequence viewer.
+
+The second output is a per-residue confidence metric called pLDDT, which is used to colour the residues by AlphaFold's confidence for the prediction. Note, that model confidence can vary greatly along a chain so it is important to consult the confidence estimates when interpreting structural features. The lower confidence bands may be associated with disorder (see our publication).
+
+The third output is Predicted Aligned Error (PAE), which is necessary to assess confidence in the domain packing and large-scale topology of the protein. See the FAQ below on how to interpret relative domain positions.
+
+The Domains tab displays all structural domains identified in the model by TED (The Encyclopedia of Domains). For each domain, key information is shown including its CATH classification, quality score, residue boundaries, length, and average pLDDT. For a full explanation of these fields, see How can I interpret TED data? below.
+
+Domains are also represented as a linear annotation track along the x-axis of the PAE matrix, spanning the full length of the protein sequence. This provides information about how the domains are distributed along the protein chain. Clicking on a domain in the annotation track highlights its corresponding residues in the sequence, making it easy to cross-reference a domain of interest with the full protein context.
+
+The 3D viewer in this tab can be switched to colour the model by domain, assigning a distinct colour to each domain so relative arrangement and packing of the domains can be visualised in three dimensions. One can also switch back to pLDDT colouring at any time to assess local confidence across the same regions.
+
+The Annotations tab displays another annotation track spanning the full length of the protein sequence. The default annotation displayed is coloured by the previously mentioned pLDDT confidence score, using the same colour scheme representing the four confidence bands. Hovering over any position on the bar reveals the amino acid, its ordinal position and its pLDDT score, while simultaneously highlighting the corresponding residue on the 3D model. The in 3D button below the pLDDT track toggles this colouring directly onto the structure viewer. The tab also includes a Custom Tracks feature. This allows you to assign your own set of residues to an annotation with a name, and map them onto the annotation track and 3D viewer. This is useful for highlighting any region of interest directly on the structure. For example, a known functional site or a set of residues relevant to your analysis. Each custom track has its own in 3D button to toggle its display on the model independently, and tracks can be managed via the settings icon next to the Custom Tracks label.
+
+For human canonical proteins, the Annotations tab additionally displays an AlphaMissense Pathogenicity Heatmap, showing the predicted pathogenicity of all possible single amino acid substitutions across the sequence, coloured from likely benign (blue) to likely pathogenic (red). An in 3D button maps the selected colouring onto the structure viewer. See What is AlphaMissense?
+
+The Similar Proteins tab allows the discovery of structurally similar proteins across multiple databases using Foldseek. Results are organised by database, including the Protein Data Bank (PDB), the AlphaFold Database clustered to 50% sequence identity (AFDB50), AllTheBacteria, Big Fantastic Virus Database, Kinetoplastid Parasites, and Viro3D. The number of hits found in each database is shown on its tab. Selecting a tab displays the results from that database only.
+
+For each hit, the table displays the entry ID and chain, protein description, species, aligned residue range, E-value, sequence identity, and resolution where available. Results can be filtered by species using the search box, and the full dataset for each tab can be downloaded via the Download data option. For more information, see How can I search for similar structures in the AlphaFold Database?
+
+Each hit can be superimposed onto the 3D viewer individually using the Align in 3D toggle, enabling direct visual comparison between the AlphaFold model and the similar structure. The user interface allows hits from multiple databases to be aligned simultaneously onto the query protein. The viewer can be coloured by pLDDT to retain confidence information during the comparison. Aligned coordinates can also be downloaded in mmCIF format for use in external structure viewing or analysis software.
+
+Below the similar structures results, the tab also includes a Structure Similarity Cluster section, which shows other AlphaFold database entries that cluster with your protein. This is provided by AFDB Clusters and is presented across two tabs:
+
+AFDB50/MMseqs2 — clustered using MMseqs2 based on sequence similarity. Each cluster contains sequences sharing a maximum of 50% sequence identity and at least 90% bi-directional sequence overlap with the longest sequence of the cluster representative.
+AFDB/Foldseek — clustered using Foldseek based on structural similarity. Each cluster contains structures meeting an E-value threshold below 0.01 and at least 90% bi-directional structural overlap with the largest structure of the cluster representative.
+
+Each tab lists the AFDB accession, protein description, species, sequence length, and average pLDDT of cluster members, sorted by average pLDDT by default. For more information see How do cluster members work?.
+
+ 
+
+What is included on a structure page for multimers/complexes?
+
+ 
+
+Structure pages for multimers have five tabs: Summary and Model Confidence, Macromolecules, Domains, Annotations, and Similar Proteins. The Summary and Model Confidence tab displays basic information about the complex (drawn from UniProt where available), together with AlphaFold prediction outputs and confidence measures.
+
+AlphaFold generates three outputs: 3D coordinates, predicted local distance difference test (pLDDT), and Predicted Aligned Error (PAE) matrix.
+
+The first is a set of 3D coordinates for all atoms in the target amino acid sequence including side chains, as displayed in the molecule viewer when clicking on a residue in the sequence viewer.
+
+The second output is a per-residue confidence metric called pLDDT, which is used to colour the residues by AlphaFold's confidence for the prediction. Note, that model confidence can vary greatly along a chain so it is important to consult the confidence estimates when interpreting structural features. The lower confidence bands may be associated with disorder (see our publication).
+
+The third output is Predicted Aligned Error (PAE), which is necessary to assess confidence in the domain packing and large-scale topology of the protein. See the FAQ below on how to interpret relative domain positions.
+
+For multimers, interface quality scores are also displayed — ipSAE, ipTM, pDockQ2, and LIS — which provide complementary assessments of the reliability of the predicted interaction between chains. See the FAQs below for guidance on how to interpret these scores.
+
+The tab also lists the complex composition under Components, showing the number of copies of each chain with links to their UniProt entries, and the source organism. The amino acid sequence for each chain is displayed below, alongside the PAE matrix with chain boundaries labelled on both axes. A chain selector above the 3D viewer and the Macromolecules panel on the right allow you to preview individual chains in the 3D viewer.
+
+The Macromolecules tab provides detailed information for each distinct protein in the complex. Selecting a protein from the sidebar on the left displays its gene name, source organism, UniProt accession, and biological function (drawn from UniProt). It also shows how many other complexes in the AFDB this protein appears in as a component, and links to any available experimental structures in PDBe-KB. The corresponding amino acid sequence, PAE matrix, and 3D viewer are displayed below. Domains, Annotations and Similar Proteins tabs are currently not available.
+
+ 
+
+What is AlphaMissense?
+
+ 
+
+AlphaMissense is an AI model that builds on Google DeepMind’s AlphaFold2 to categorise ‘missense’ mutations in different proteins as either ‘likely pathogenic’, ‘likely benign’ or ‘uncertain’, producing a score that estimates the likelihood of a variant being pathogenic. AlphaMissense leverages AlphaFold2’s capability to model protein structure, and its capacity to learn evolutionary constraints from related sequences. The implementation is closely aligned with AlphaFold2, with some architectural differences.
+
+AlphaMissense was used to classify the effects of all possible 216 million single amino acid sequence substitutions across the 19,233 canonical human proteins.
+
+Using an amino acid sequence as an input, AlphaMissense:
+
+Gives an indication of which mutations are more likely to underlie human diseases - such as rare genetic disorders or developmental diseases - by categorising missense mutations into likely pathogenic or likely benign. Combined with other types of information, it can help to decipher what mutations may be causing a disease.
+Helps to highlight potential functionally important regions of the protein.
+
+Note that AlphaMissense does not predict the change in protein structure, or biophysical properties such as stability, upon mutation. Instead, it uses related protein sequences and protein structure as contextual information to estimate pathogenicity.
+
+For more information about AlphaMissense, please refer to the paper: Accurate proteome-wide missense variant effect prediction with AlphaMissense. Science (2023).
+
+AlphaMissense scores for all human missense variants are available on the Google Cloud Public Dataset.
+
+ 
+
+What data can I download from AlphaMissense?
+
+ 
+
+We provide downloadable files in csv format to help you explore the data for a specific canonical human protein:
+
+Heatmap data. This file contains the scores estimating the likelihood of  pathogenicity and classifications for each possible amino acid substitution within the protein. This file is used to visualise the heatmap you see on the entry pages.
+Column am_class categorises the mutation based on the score:
+LPath: Likely pathogenic
+LBen: Likely benign
+Amb: Ambiguous
+Pathogenicity scores (HG19 and HG38). These files include AlphaMissense scores for all possible missense single nucleotide variants across the human reference genome. Each file corresponds to a specific genome assembly with information on specific genome position.
+HG19. Corresponds to the GRCh37 human genome reference assembly.
+HG38. Corresponds to the GRCh38 human genome reference assembly.
+ 
+
+What is The Encyclopedia of Domains (TED)?
+
+ 
+
+The Encyclopedia of Domains (TED) is a resource dedicated to identifying and classifying structural domains within the AlphaFold Protein Structure Database (AFDB) using deep learning-based domain parsing and structure comparison.
+
+TED provides a powerful framework for understanding how protein domains are organised and it is a valuable resource for evolutionary, structural and functional studies.
+
+For more information please refer to the paper: Exploring structural diversity across the protein universe with The Encyclopedia of Domains. Science (2024)
+
+ 
+
+How can I interpret TED data?
+
+ 
+
+The TED workflow combines different methods for domain identification and classification. When a given AlphaFold entry has TED Domain annotations available, some of the resulting data from this workflow can be seen in the modal windows by clicking on a domain.
+
+It includes the following information:
+
+Domain index: This number indicates the order in which a domain appears in the protein sequence, starting from the N-terminal residue.
+CATH identifiers: These identifiers classify a protein domain based on its 3D structure. They consist of up to four numbers separated by dots. The last two levels represent Topology/fold ( 3-level C.A.T, e.g. 2.60.400) and Homologous Superfamily (4-level C.A.T.H, e.g. 2.60.40.10). Note that the assignment workflow for TED labels differs from the CATH protocol. In addition, domains without classification labels indicate no similarity to CATH domains used during TED’s classification workflow. For more information, refer to the paper: Exploring structural diversity across the protein universe with The Encyclopedia of Domains. Science (2024).
+Quality label: Quality label: This label represents the overall quality of a domain assignment:
+“High-confidence ★★”: Domains with a Qscore ≥ 75 and full 4-level C.A.T.H assignment (Error rate 5%).
+“Moderate ★”: Domains with 3 or 4-level C.A.T/C.A.T.H assignments and a Qscore  ≥ 70 (Error rate 10%).
+“Uncertain”: Domains without 3-level or 4-level C.A.T/C.A.T.H assignment, regardless of Qscore.
+Note that Qscore is a float quality metric from 0-100 calculated as a weighted average between the following parameters:
+a) Minimum value between the query and the target coverage by Foldseek scans vs CATH SSG5 domains (50% weight). For more information about SSG5 domains, refer to the paper: The CATH classification revisited—architectures reviewed and new ways to characterize structural divergence in superfamilies. Nucleic Acids Research (2008).
+b) Low, medium and high TED consensus with values 0.5 for medium consensus and 1 for high consensus. (12.5% weight)
+c) Compactness (globularity) of a domain with 0 indicating non-globular and 1 globular. (12.5% weight)
+d) Mean pLDDT score normalised on a 0 to 1 scale (12.5% weight)
+e) Modified E-value factor that measures the statistical significance of the structural match between the domain and the CATH database. E-value is transformed into a normalised score between 0 and 1, where higher values indicate stronger matches; values below ~0.5 are considered low-confidence and contribute minimally to the final consensus (12.5% weight).
+
+Error rate indicates the likelihood of a CATH assignment being rejected by any of the following: Poor model quality; boundary error (inability to correctly assign the domain to the H or T level); incorrect CATH classification (i.e. coverage error, only matches partial structures in a CATH level).
+Boundaries: These residue ranges define the start and end positions of all segments within a TED Domain. Protein domains are not always continuous stretches of sequence; they can consist of multiple, separated segments.
+Length: The total number of residues in all the segments of a domain. Insertions between segments are not included.
+Average pLDDT: The average pLDDT score for residues in a domain. Insertions between segments are excluded. pLDDT is a measure of local confidence in the AlphaFold prediction for that domain.
+ 
+
+How are residue and point mutation annotations generated in AlphaFold DB?
+
+ 
+
+Residue and point mutation annotations are identified automatically from the scientific literature using an AI-based named entity recognition (NER) system developed by PDBe. The model is based on PubMedBERT and was fine-tuned using a human-in-the-loop workflow in which expert biocurators initially iteratively annotated and validated protein structure publications and later served as proof-readers for the automated system.
+
+To ensure reliability, only residue mentions with sequence positions and point mutations are processed further. These annotations are first validated against experimentally determined protein structures in the Protein Data Bank (PDB) and then mapped to UniProt reference sequences using the SIFTS (Structure Integration with Function, Taxonomy, and Sequence) resource. For more details read the paper here: PDBe-SIFTS: an open-source tool for Structure Integration with Function, Taxonomy, and Sequences, featuring improved alignment, scoring scheme, and accelerated search (2026) Bellaiche A, Choudhary P, Nair S, Harrus D, Yu CW, Tanweer SA, Evans GL, Lo SW, Martin MJ, Fleming JR and Velankar S bioRxiv 2026.04.30.721839. doi: https://doi.org/10.64898/2026.04.30.721839. The validated annotations from PDB are subsequently displayed in AlphaFold DB alongside predicted protein structures, allowing users to explore experimentally supported evidence describing the functional importance of individual residues and mutations.
+
+ 
+
+How are text-mined residue and point mutation annotations generated in AlphaFold DB?
+
+ 
+
+Residue and point mutation annotations are identified using an AI-based named entity recognition (NER) system built on the PubMedBERT transformer model and fine-tuned specifically on structural biology literature. Developed using a human-in-the-loop approach, expert PDBe biocurators iteratively annotated and corrected publications to improve the model. The final model achieved an overall precision of 0.90, recall of 0.92, and an F1 score of 0.91. For more details, refer to the paper: Dataset from a human-in-the-loop approach to identify functionally important protein residues from literature (2024) Vollmar M, Tirunagari S, Harrus D, Armstrong D, Gaborova R, Gupta D, Afonso MQL, Evans G and Velankar S Sci Data 11: 1032, doi: https://doi.org/10.1038/s41597-024-03841-9
+
+Residue mentions with explicit sequence numbers and point mutations are processed further. Residues are first validated against experimentally determined structures in the Protein Data Bank (PDB) and then mapped to UniProt reference sequences using the SIFTS (Structure Integration with Function, Taxonomy, and Sequence) framework, for more details read the paper here: PDBe-SIFTS: an open-source tool for Structure Integration with Function, Taxonomy, and Sequences, featuring improved alignment, scoring scheme, and accelerated search (2026) Bellaiche A, Choudhary P, Nair S, Harrus D, Yu CW, Tanweer SA, Evans GL, Lo SW, Martin MJ, Fleming JR and Velankar S bioRxiv 2026.04.30.721839. doi: https://doi.org/10.64898/2026.04.30.721839. These experimentally supported annotations are displayed alongside AlphaFold predictions, linking predicted structures to literature describing residue function, interactions, and experimentally observed mutations.
+
+Finally, the experimentally validated annotations found in PDBe are transferred across through sequence identity matching to predicted models in AFDB.
+
+ 
+
+How can I download a structure prediction?
+
+ 
+
+Coordinate files can be downloaded from the menu in the top right of the structure page in mmCIF or PDB format. These formats are widely accepted by 3D structure viewing software, such as PyMOL and Chimera.
+
+ 
+
+How can I download and use the Predicted Aligned Error (PAE) file?
+
+ 
+
+The PAE is displayed as an interactive plot for each of the structure predictions. If you need the raw data with PAE for all residue pairs, you can download the PAE as a JSON file using the button at the top of the structure page.
+
+This file is in a custom format and it isn’t supported by any existing software – you will have to use Python or another programming language to analyse or plot the information that is contained in it.
+
+For a protein of length num_res, the JSON file has the following structure of arrays format:
+[
+    {
+        "predicted_aligned_error": [[0, 1, 4, 7, 9, ...], ...], # Shape: (num_res, num_res).
+        "max_predicted_aligned_error": 31.75
+    }
+]
+
+
+
+The fields in the JSON file are:
+
+predicted_aligned_error: The PAE value of the residue pair, rounded to the closest integer. For the PAE value at position (i, j), i is the residue on which the structure is aligned, j is the residue on which the error is predicted.
+max_predicted_aligned_error: A number that denotes the maximum possible value of PAE. The smallest possible value of PAE is 0.
+
+We updated the PAE JSON file format on 28th July 2022 to reduce file size by 4x. Please ensure you read the 2D matrix of PAE values from the predicted_aligned_error field instead of the removed 1D "distances" field and avoid using the old "residue1" and "residue2" fields.
+
+If you are using a script or third party tool to read the PAE JSON file programmatically and you are seeing errors (e.g. missing field "distance"), check with the author of the program whether the latest PAE JSON format is supported.
+
+ 
+
+How can I bulk download the data?
+
+ 
+
+Predictions for individual proteomes and for Swiss-Prot are available via our downloads page and via the FTP site:
+https://ftp.ebi.ac.uk/pub/databases/alphafold.
+
+For collaborator datasets, coordinate files (PDB and mmCIF) are compressed  by using zstd and distributed in chunked .tar archives in the collaborations subdirectory of the FTP area. For datasets that include them, corresponding Multiple Sequence Alignments (MSAs) are provided as .tar chunks in the msas subdirectory. AllTheBacteria does not currently include MSAs in the FTP area.
+
+ 
+
+How should I cite this resource?
+
+ 
+
+EMBL-EBI expects attribution (e.g., in publications, services, or products) for any of its online services, databases, or software in accordance with good scientific practice.
+
+If you use this resource, please cite the following paper:
+Jumper, J et al. Highly accurate protein structure prediction with AlphaFold. Nature (2021).
+Bertoni D. et al. AlphaFold Protein Structure Database 2025: a redesigned interface and updated structural coverage, Nucleic Acids Research, (2025)
+
+For AlphaFold Data provided by third party data providers:
+
+VAD dataset (2026)
+Odai, R et al. The Viral AlphaFold Database of monomers and homodimers reveals conserved protein folds in viruses of bacteria, archaea, and eukaryotes. Science Advances (2025)
+Kinetoplastid data copyright (2025) Wheeler Lab
+Wheeler RJ. A resource for improved predictions of Trypanosoma and Leishmania protein three-dimensional structure. PLoS One (2021)
+AllTheBacteria data copyright (2025) AllTheBacteria Consortium
+Hunt M, Lima L, Anderson D,  Bouras G, Hall M, Hawkey J,  Schwengers O, Shen W,  Lees JA,  Zamin Iqbal Z. BioRXiV (2025)
+BFVD Data Copyright (2025) The BFVD Development Team
+Kim, RS et al. BFVD—a large repository of predicted viral protein structures. NAR (2024)
+Viro3D dataset (2025)
+Litvin, U et al. Viro3D: a comprehensive database of virus protein structure predictions. Mol Syst Biol (2025)
+
+If you use data from AlphaMissense in your work, please cite the following paper:
+Cheng, J et al. Accurate proteome-wide missense variant effect prediction with AlphaMissense. Science (2023).
+
+ 
+
+What licence applies to the predictions?
+
+ 
+
+Data is available for academic and commercial use, under a Creative Commons Attribution 4.0 (CC-BY 4.0) licence terms.
+
+ 
+
+Who can submit datasets and how?
+
+ 
+
+Eligible datasets must use AlphaFold 2 or AlphaFold multimer and be on a coherent theme. To apply to contribute a dataset or check with the AFDB team if your data qualify, please email afdbhelp@ebi.ac.uk describing the nature and quality of your dataset and providing a scientific justification for including them in the database. If the dataset is deemed suitable for integration into AFDB, we will contact the contributing team and will follow up with the submitter for additional information.
+
+ 
+
+Where can I deposit AlphaFold structure predictions that are not in the database?
+
+ 
+
+We do not currently have functionality to deposit individual structure predictions. If you have generated AlphaFold structure predictions that you would like to make available to the community, you can take a look at the Research Data Management kit being developed by the ELIXIR 3D-BioInfo community that describes guidelines on how to make models and the relevant metadata available according to FAIR principles.
+
+We are, however, now accepting eligible datasets that have used AlphaFold 2 or AlphaFold Multimer and that are on a coherent theme. To apply to contribute a dataset or check with the AFDB team if your data qualify, please email afdbhelp@ebi.ac.uk describing the nature and quality of your dataset and providing a scientific justification for including them in the database. If the dataset is deemed suitable for integration into AFDB, we will contact the contributing team and will follow up with the submitter for additional information.
+
+ 
+
+Who should I contact with enquiries?
+
+ 
+
+For sharing feedback on structure predictions, please use

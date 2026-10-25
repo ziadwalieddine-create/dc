@@ -1,0 +1,80 @@
+{
+ "id": "pharmgkb",
+ "name": "ClinPGx / PharmGKB",
+ "categories": [
+  "functional_haplotypes_pgx",
+  "clinical_interpretation"
+ ],
+ "maintainer": "ClinPGx (formerly PharmGKB)",
+ "url": "https://www.clinpgx.org",
+ "provenance": [
+  "https://www.pharmgkb.org/downloads",
+  "https://api.clinpgx.org/v1/download/file/data/"
+ ],
+ "version": {
+  "value": "Archives dated 2026-10-05",
+  "release_date": "2026-10-05",
+  "verified": "live"
+ },
+ "scope": "Annotations linking variants, genes and drugs: variant annotations (4.1 MB zip), relationships (4.1 MB), summary annotations (1.2 MB), clinical guideline annotations, drug labels, pathways.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "gene_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "ZIP of TSV/JSON"
+ ],
+ "identifiers": [
+  "PA IDs",
+  "rsIDs",
+  "star alleles",
+  "drug names/ATC"
+ ],
+ "mapping_methods": "rsID- and haplotype-level; coordinates must be mapped separately.",
+ "quantitative": {
+  "summary": "Evidence levels and categorical annotations; some effect sizes in variant annotations.",
+  "units": "n/a",
+  "uncertainty": "level of evidence",
+  "direction": "increased/decreased response or toxicity"
+ },
+ "licence": {
+  "name": "CC BY-SA 4.0 (data usage policy)",
+  "redistribution": "Share-alike and attribution required for redistribution",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Frequent (files dated 2026-10-05).",
+ "coverage_limitations": [
+  "Literature-curated; coverage reflects published studies"
+ ],
+ "known_omissions": [
+  "Structural/copy-number haplotypes (e.g. CYP2D6 duplications) need PharmVar/CPIC definitions"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Small archives; Open Targets only carries a pharmacogenomics subset."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "HEAD sizes and last-modified verified.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "clinpgx_variantAnnotations",
+  "clinpgx_relationships",
+  "clinpgx_summaryAnnotations",
+  "clinpgx_guidelineAnnotations",
+  "clinpgx_drugLabels"
+ ],
+ "evidence": [
+  "pharmgkb/downloads",
+  "pharmgkb/data_usage"
+ ],
+ "unverified_fields": []
+}

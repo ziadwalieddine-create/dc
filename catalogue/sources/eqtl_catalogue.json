@@ -1,0 +1,78 @@
+{
+ "id": "eqtl_catalogue",
+ "name": "eQTL Catalogue",
+ "categories": [
+  "association_finemapping_coloc",
+  "regulation_expression_splicing"
+ ],
+ "maintainer": "EMBL-EBI",
+ "url": "https://www.ebi.ac.uk/eqtl/",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/spot/eQTL/",
+  "https://www.ebi.ac.uk/eqtl/Data_access/"
+ ],
+ "version": {
+  "value": "Release 7 and pre-release r8_beta (FTP directory dated 2026-01-28); home page cites 32 published studies",
+  "release_date": "2026-01-28",
+  "verified": "live"
+ },
+ "scope": "Uniformly processed gene-expression and splicing QTL summary statistics and SuSiE fine-mapped credible sets from public human studies.",
+ "variant_classes": [
+  "snv",
+  "indel"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "tab-delimited, tabix-indexed",
+  "Parquet"
+ ],
+ "identifiers": [
+  "study QTS/dataset QTD IDs",
+  "Ensembl gene IDs",
+  "variant chr_pos_ref_alt"
+ ],
+ "mapping_methods": "Uniform pipeline on GRCh38.",
+ "quantitative": {
+  "summary": "Beta, SE, p-value, PIP and credible-set membership.",
+  "units": "SD of normalised expression per allele",
+  "uncertainty": "SE, credible sets",
+  "direction": "alt allele effect sign"
+ },
+ "licence": {
+  "name": "Not confirmed: a License page is linked from the site but its text was not retrieved",
+  "redistribution": "Treat as open with citation until read",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "Irregular releases.",
+ "coverage_limitations": [
+  "REST API v2 and v3 endpoints return HTTP 410 (retired); access is via FTP only",
+  "Per-study sample sizes vary widely"
+ ],
+ "known_omissions": [
+  "Metadata tables are hosted in a GitHub repository outside this session scope"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Open Targets already consumes eQTL Catalogue credible sets for colocalisation; defer direct download of the very large sumstats until a locus-level analysis requires them."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "FTP listing verified; API retired.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "licence"
+ ],
+ "evidence": [
+  "eqtl_catalogue/home",
+  "eqtl_catalogue/data_access",
+  "eqtl_catalogue/ftp_listing",
+  "eqtl_catalogue/api_v3_datasets"
+ ],
+ "acquisition_targets": []
+}

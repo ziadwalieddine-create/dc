@@ -1,0 +1,91 @@
+Search
+Menu
+Focus
+Help
+®
+Guidelines
+Genes-Drugs
+Publications
+Gene Tables
+Resources
+Members
+(opens in new window)
+What is CPIC?
+
+The Clinical Pharmacogenetics Implementation Consortium (CPIC®) is an international consortium of individual volunteers and a small dedicated staff who are interested in facilitating use of pharmacogenetic tests for patient care.
+
+One barrier to implementation of pharmacogenetic testing in the clinic is the difficulty in translating genetic laboratory test results into actionable prescribing decisions for affected drugs.
+
+CPIC's goal is to address this barrier to clinical implementation of pharmacogenetic tests by creating, curating, and posting freely available, peer-reviewed, evidence-based, updatable, and detailed gene/drug clinical practice guidelines (see all CPIC publications
+(opens in new window)
+). CPIC guidelines follow standardized formats, include systematic grading of evidence and clinical recommendations, use standardized terminology
+(opens in new window)
+, are peer-reviewed, and are published in a leading journal (in partnership with Clinical Pharmacology and Therapeutics
+(opens in new window)
+) with simultaneous posting on this site, where they are regularly updated. CPIC's Informatics Working Group supports the adoption of CPIC guidelines by identifying and addressing technical barriers to their implementation in electronic health records.
+
+CPIC started as a shared project between PharmGKB and the Pharmacogenomics Research Network (PGRN)
+(opens in new window)
+ in 2009.
+
+Licensing
+
+CPIC resources are freely available under a Creative Commons public domain license. Read the licensing page for more details.
+
+Endorsements and support for CPIC guidelines
+
+The Association for Molecular Pathology (AMP
+(opens in new window)
+) has endorsed
+(opens in new window)
+ CPIC's Term Standardization for Clinical Pharmacogenetics Test Results Project. The American Society for Clinical Pharmacology and Therapeutics (ASCPT
+(opens in new window)
+) Board of Directors has endorsed
+(opens in new window)
+ CPIC guidelines. The American Society of Health-System Pharmacists (ASHP
+(opens in new window)
+) has endorsed
+(opens in new window)
+ multiple CPIC guidelines. The College of American Pathologists (CAP) has stated: "CAP applauds and supports the objectives, processes and work completed as of December 2018 by the Clinical Pharmacogenetics Implementation Consortium (CPIC®). These efforts will help clinicians, laboratories, health care providers and vendors." ClinGen
+(opens in new window)
+ references CPIC guidelines. CPIC guidelines are indexed in PubMed
+(opens in new window)
+ as clinical guidelines.
+
+External Expert Panel
+
+CPIC's Steering Committee is also referred to as CPIC's External Expert Panel.
+
+Contact
+
+Contact us with any questions or comments.
+
+Contact CPIC
+ Have a question or comment about allele function or diplotype-phenotype tables?Submit a request
+
+Get announcements including guideline updates, news, and solicitation of feedback.
+
+Subscribe
+About ClinPGx
+Acknowledgements
+FAQ
+Publications
+Downloads
+Citing
+Licensing & Usage
+Privacy Policy
+ClinPGx @ YouTube
+(opens in new window)
+ClinPGx @ Bluesky
+(opens in new window)
+ClinPGx @ LinkedIn
+(opens in new window)
+ClinPGx Blog
+(opens in new window)
+(opens in new window)
+
+The information on this website is not intended for direct diagnostic use or medical decision-making without review by a health care professional. Individuals should not change their health behavior solely on the basis of information contained on this website. If you have questions about the information contained on this website, please see a health care professional.
+
+ClinPGx is comprised of PharmGKB®, CPIC©, and PharmCAT. PharmGKB is a registered trademark of HHS and is financially supported by NIH/NHGRI/NICHD/NIDA/NCI. PharmGKB is managed at Stanford University (U24HG010615). ©2001-2026. CPIC is a registered service mark of the US Department of Health & Human Services (HHS). CPIC is managed at Stanford University & St. Jude Children's Research Hospital (U24HG013077). PharmCAT is managed at Stanford University & University of Pennsylvania (NHGRI U24HG013077).
+
+The use of ClinPGx and PharmGKB® data is governed by our data usage policy.

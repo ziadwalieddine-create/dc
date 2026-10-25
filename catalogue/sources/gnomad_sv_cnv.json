@@ -1,0 +1,77 @@
+{
+ "id": "gnomad_sv_cnv",
+ "name": "gnomAD structural variants and copy-number variants",
+ "categories": [
+  "structural_variation_cnv"
+ ],
+ "maintainer": "gnomAD consortium",
+ "url": "https://gnomad.broadinstitute.org/downloads",
+ "provenance": [
+  "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/genome_sv/",
+  "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/exome_cnv/"
+ ],
+ "version": {
+  "value": "SVs v4.1.0, CNVs v4.1.0 (site header); also SVs v2.1",
+  "release_date": "2024-04-25 (CNV VCF)",
+  "verified": "live"
+ },
+ "scope": "Genome SV callset (VCF 1.74 GB sites file) and exome CNV callset (8.9 MB VCF; non-neuro and non-neuro-controls subsets).",
+ "variant_classes": [
+  "sv",
+  "cnv"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "VCF",
+  "BED",
+  "Hail Table"
+ ],
+ "identifiers": [
+  "SV IDs",
+  "genomic intervals"
+ ],
+ "mapping_methods": "Interval-based on GRCh38.",
+ "quantitative": {
+  "summary": "Allele counts/frequencies per ancestry, SV type and size.",
+  "units": "counts/frequency",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "CC0 for primary data (policies page)",
+  "redistribution": "Open",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Per major release.",
+ "coverage_limitations": [
+  "Short-read SV sensitivity is limited for repeats and complex events",
+  "CNV callset is exome-based so non-coding CNVs are missed"
+ ],
+ "known_omissions": [
+  "Long-read SV catalogue (release/lr) was listed but not inspected"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "CNV VCF is small and fetched now; the 1.74 GB SV sites VCF is deferred until SV analysis begins."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "S3 listings give exact sizes.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "gnomad_exome_cnv_v4_1"
+ ],
+ "evidence": [
+  "gnomad/s3_v4_1_genome_sv",
+  "gnomad/s3_v4_1_exome_cnv",
+  "gnomad/s3_lr",
+  "gnomad/downloads_page"
+ ],
+ "unverified_fields": []
+}

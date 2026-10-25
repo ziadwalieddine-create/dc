@@ -1,0 +1,69 @@
+STANDARDS
+DATABASES
+POLICIES
+COLLECTIONS
+ORGANISATIONS
+ADD CONTENT
+STATS
+LOGIN
+SEARCH
+ADVANCED SEARCH
+LOGIN
+STANDARDS
+DATABASES
+POLICIES
+COLLECTIONS
+ORGANISATIONS
+ADD CONTENT
+STATS
+A curated, informative and educational resource on data and metadata standards, inter-related to databases and data policies.
+
+Guides consumers to discover, select and use these resources with confidence.
+Helps producers to make their resources more visible, more widely adopted and cited.
+Provides humans and tools with access to trustworthy content to enable data management tasks.
+
+Thursday, October 22nd 2026, 11:37: Work on our site firewall is planned between 18:00 and 22:00 on the 22nd of October and there may be some brief periods of disruption. Apologies for any inconvenience.
+Data sharing licence and attribution, via the web and API
+
+Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution and Share-alike (CC-BY-SA) International 4.0 licence.
+
+In addition, we request that any data taken from FAIRsharing, either by the API, scraping the site or other means, is attributed and cited appropriately. We request that a link and the FAIRsharing logo is presented next to the data taken from FAIRsharing. For details of how to use the FAIRsharing API please visit https://fairsharing.org/API_doc
+
+The code below may be used to create a link to our logo.
+
+<img src="https://api.fairsharing.org/img/fairsharing-attribution.svg" alt="FAIRsharing Logo">
+Search Engines
+
+We encourage search engines to index FAIRsharing and provide mechanisms for this. We are also involved in the schema.org and the BioSchemas projects, extending the vocabulary of tags to annotate our content. We will mark up FAIRsharing content with these tags in the near future.
+
+Screen Scraping
+
+Please do not scrape the HTML page content. Much of the data is generated dynamically and is updated daily. Instead, please use our API or contact us directly and ask for a cut of the data. We're friendly and don't bite.
+
+Developed By
+The FAIRsharing team
+Data Readiness Group
+University of Oxford
+Contacts and News
+ Blog
+ Email us for all enquiries
+ Bluesky
+ Mastodon
+Users and Contributors
+Adopters and Collaborators
+Community Champions
+Educational / FAQ
+Activities
+About Us
+How to cite us
+Governance
+Terms of use
+Documentation
+In-depth Guidance
+API and data licence
+Privacy Policy
+Sustainability and Preservation
+
+© FAIRsharing 2009-Present | Licenced under
+
+Creative Commons by Share Alike 4.0 International

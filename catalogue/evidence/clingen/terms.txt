@@ -1,0 +1,376 @@
+ 
+ Citing ClinGen & Terms of Use - ClinGen | Clinical Genome Resource 
+ -->
+ -->
+ Data Sharing Resources 
+ GenomeConnect 
+ Events 
+ Citing ClinGen 
+ Contact 
+ Dashboard 
+ Toggle navigation 
+ Navigation 
+ Get Started 
+ About Us 
+ About ClinGen 
+ ClinGen & ClinVar Partnership 
+ ClinGen-ClinPGx Partnership 
+ ClinGen Opportunities 
+ Citing ClinGen & Terms of Use 
+ Contact ClinGen 
+ Events & Conferences 
+ FDA Recognition 
+ Leadership 
+ NIH Funded Expert Panels 
+ Member Directory 
+ Partnerships 
+ Policies 
+ Website SiteMap 
+ Curation Activities 
+ About ClinGen's Curation Activities 
+ Gene-Disease Validity 
+ Training Materials 
+ Browse Curations 
+ Variant Pathogenicity 
+ Training Materials 
+ Browse Curations 
+ Clinical Actionability 
+ Training Materials 
+ Browse Curations 
+ Dosage Sensitivity 
+ Training Materials 
+ Browse Curations 
+ Somatic Cancer Variant 
+ Training Materials 
+ Interface 
+ Baseline Annotation 
+ Training Materials 
+ Community Curation Database 
+ ClinGen Curation of ClinVar 
+ Browse All ClinGen's Curated Genes 
+ Working Groups 
+ All Working Groups 
+ Actionability 
+ AI and Automation 
+ Biocurator 
+ Cancer Variant Interpretation (CVI) 
+ ClinGen Curation of ClinVar 
+ Clinical Domain Working Group Oversight Committee 
+ Community Curation (C3) 
+ Copy Number Variant Interpretation Guidelines 
+ Curated Disease Entity 
+ Data Access, Protection, and Confidentiality (DAPC) 
+ Data Platform 
+ Dosage Sensitivity Curation 
+ Education, Coordination and Training 
+ FDA- Regulatory 
+ Gene Curation 
+ Germline/Somatic Working Group 
+ HLA Working Group 
+ Partnership 
+ Pharmacogenomics Interpretation Committee 
+ Phenotyping 
+ Population Genetics 
+ RISE 
+ Steering Committee 
+ Variant Classification 
+ VCEP Management 
+ Expert Panels 
+ All Expert Panels 
+ Gene Curation Expert Panels 
+ Variant Curation Expert Panels 
+ Somatic Cancer Variant Curation Expert Panels 
+ Learn how to start an Expert Panel 
+ Documents & Announcements 
+ All Documents & Announcements 
+ ClinGen Exhibit Booth Materials 
+ Curation Activity Procedures 
+ Conflict Of Interest (COI) 
+ Data Sharing Resources 
+ Expert Panel Applications 
+ News 
+ MOC/CME Forms 
+ Patient Data Sharing 
+ Policies/Position Statements 
+ Presentations 
+ Publications 
+ Supporting Documents 
+ Training Materials 
+ Website Updates 
+ Tools 
+ Gene 
+ Gene Symbol 
+ Gene Name 
+ Disease Name 
+ Drug Name 
+ Region (GRCh37) 
+ Region (GRCh38) 
+ Variant 
+ Website Content 
+ Search 
+ Curated Genes
+ All Curated Genes 
+ ACMG SF v3.3 Curations 
+ Gene-Disease Validity
+ All Curations 
+ Curations by Expert Panel 
+ File Downloads 
+ Dosage Sensitivity
+ All Curations 
+ Recurrent CNV 
+ FTP File Downloads (CSV, BED, TSV) 
+ Clinical Actionability
+ All Curations 
+ Curations in Adult Context 
+ Curations in Pediatric Context 
+ Scoring Metric 
+ File Downloads & APIs 
+ Curated Variants
+ All Curations 
+ File Downloads & APIs 
+ Statistics
+ More
+ All Genes 
+ All Disease 
+ All Drugs & Medications 
+ File Downloads & APIs 
+ About ClinGen's Website 
+ Learn About New Features 
+ How To Cite ClinGen 
+ External Data Attribution 
+ Contact Us 
+ Documents & Announcements 
+ Citing ClinGen & Terms of Use 
+ Curated content (e.g. gene-disease validity, dosage sensitivity and clinical actionability) distributed on the ClinGen website is released openly for the benefit of the wider community. You can freely capture the data and we encourage the use and publication of results generated from these data. All curated content published by ClinGen is available free of restriction under the  CC0 1.0 Universal (CC0 1.0) Public Domain Dedication . However, ClinGen requests that you give attribution to ClinGen and provide the date accessed whenever possible and appropriate. 
+ Example Attribution Statements 
+ The following curated content was obtained from the Clinical Genome Resource ( www.clinicalgenome.org ): Gene-Disease Validity classifications [date accessed], Gene Dosage Sensitivity classification [date accessed] and Clinical Actionability scores [date accessed] . 
+ The authors would like to thank the Clinical Genome Resource (ClinGen) for generating curated content used in this project. ClinGen's curated content was obtained at  www.clinicalgenome.org  [date accessed]. 
+ Our gene panel was designed based on expert curated content from the ClinGen RASopathy Expert Panel [citation]. Up to date classifications are available at  www.clinicalgenome.org . 
+ Citing ClinGen 
+ For citing the overall Clinical Genome Resource program, please cite our 2015 marker paper:  ClinGen The Clinical Genome Resource. Heidi L. Rehm, Ph.D., Jonathan S. Berg, M.D., Ph.D., Lisa D. Brooks, Ph.D., Carlos D. Bustamante, Ph.D., James P. Evans, M.D., Ph.D., Melissa J. Landrum, Ph.D., David H. Ledbetter, Ph.D., Donna R. Maglott, Ph.D., Christa Lese Martin, Ph.D., Robert L. Nussbaum, M.D., Sharon E. Plon, M.D., Ph.D., Erin M. Ramos, Ph.D., Stephen T. Sherry, Ph.D., and Michael S. Watson, Ph.D., for ClinGen. N Engl J Med 2015; 372:2235-2242 June 4, 2015 DOI:  10.1056/NEJMsr1406261 . 
+ If your work is focused on ClinGen curation activities, please also cite the 2024 ClinGen Consortium paper that describes ClinGen's types of curation activities and access to curated data and frameworks:  The Clinical Genome Resource (ClinGen): Advancing genomic knowledge through global curation. ClinGen Consortium. Genet Med. 2024 Oct 14:101228. DOI: 10.1016/j.gim.2024.101228 . 
+ For citing specific work within ClinGen, please cite the relevant  publication . 
+ To cite a specific content on our website, please use the following format: 
+ Clinical Genome Resource. URL [date accessed]. 
+ Use of ClinGen Logo 
+ The ClinGen logo cannot be used without prior approval of the ClinGen Steering Committee. 
+ ClinGen Variant Curation Interface (VCI) Terms of Use, User Agreement 
+ See the ClinGen VCI Terms of Use, User Agreement  here .  
+ Date 
+ January 26, 2018 
+ Send Feedback 
+ The information on this website is not intended for direct diagnostic use or medical decision-making without review by a genetics professional. Individuals should not change their health behavior solely on the basis of information contained on this website. If you have questions about the information contained on this website, please see a health care professional.
+ @ClinGenResource 
+ youtube.com 
+ Get Started 
+ Curation Activities 
+ About ClinGen's Curation Activities 
+ Gene-Disease Validity 
+ Variant Pathogenicity 
+ Clinical Actionability 
+ Dosage Sensitivity 
+ Somatic Cancer Variant 
+ Baseline Annotation 
+ ClinGen Curation of ClinVar 
+ Browse All ClinGen's Curated Genes 
+ Tools 
+ About Us 
+ About ClinGen 
+ ClinGen & ClinVar Partnership 
+ ClinGen-ClinPGx Partnership 
+ ClinGen Opportunities 
+ Citing ClinGen & Terms of Use 
+ Contact ClinGen 
+ Events & Conferences 
+ FDA Recognition 
+ Leadership 
+ NIH Funded Expert Panels 
+ Member Directory 
+ Partnerships 
+ Policies 
+ Website SiteMap 
+ Working Groups 
+ Actionability 
+ AI and Automation 
+ Biocurator 
+ Cancer Variant Interpretation (CVI) 
+ ClinGen Curation of ClinVar 
+ Clinical Domain Working Group Oversight Committee 
+ Community Curation (C3) 
+ Copy Number Variant Interpretation Guidelines 
+ Curated Disease Entity 
+ Data Access, Protection, and Confidentiality (DAPC) 
+ Data Platform 
+ Dosage Sensitivity Curation 
+ Education, Coordination and Training 
+ FDA- Regulatory 
+ Gene Curation 
+ Germline/Somatic Working Group 
+ HLA Working Group 
+ Partnership 
+ Pharmacogenomics Interpretation Committee 
+ Phenotyping 
+ Population Genetics 
+ RISE 
+ Steering Committee 
+ Variant Classification 
+ VCEP Management 
+ Expert Panels 
+ ABCA4 Variant Curation Expert Panel 
+ ACADVL Variant Curation Expert Panel 
+ Albinism Variant Curation Expert Panel 
+ ALPL Variant Curation Expert Panel 
+ Alport Syndrome Variant Curation Expert Panel 
+ Aminoacidopathy Gene Curation Expert Panel 
+ Amyotrophic Lateral Sclerosis Spectrum Disorders Gene Curation Expert Panel 
+ Amyotrophic Lateral Sclerosis Spectrum Disorders Variant Curation Expert Panel 
+ Antibody Deficiencies Gene Curation Expert Panel 
+ Arrhythmogenic Right Ventricular Cardiomyopathy Gene Curation Expert Panel 
+ BCR::ABL1-like B-lymphoblastic Leukemia/Lymphoma Somatic Cancer Variant Curation Expert Panel 
+ Brain Malformations Gene Curation Expert Panel 
+ Brain Malformations Variant Curation Expert Panel 
+ Breast/Ovarian Cancer Gene Curation Expert Panel 
+ Brugada Syndrome Gene Curation Expert Panel 
+ Cardiomyopathy Variant Curation Expert Panel 
+ Catecholaminergic Polymorphic Ventricular Tachycardia Gene Curation Expert Panel 
+ Cerebellar Ataxia Gene Curation Expert Panel 
+ Cerebral Creatine Deficiency Syndromes Variant Curation Expert Panel 
+ Cerebral Palsy Gene Curation Expert Panel 
+ Charcot-Marie-Tooth Disease Gene Curation Expert Panel 
+ Charcot-Marie-Tooth Disease Variant Curation Expert Panel 
+ Childhood, Adolescent and Young Adult Cancer Predisposition Gene Curation Expert Panel 
+ Coagulation Factor Deficiency Variant Curation Expert Panel 
+ Colon Cancer Gene Curation Expert Panel 
+ Complement-Mediated Kidney Diseases Gene Curation Expert Panel 
+ Congenital Anomalies of the Kidney and Urinary Tract Gene Curation Expert Panel 
+ Congenital Disorders of Glycosylation Gene Curation Expert Panel 
+ Congenital Heart Disease Gene Curation Expert Panel 
+ Congenital Heart Disease Variant Curation Expert Panel 
+ Congenital Myopathies and Myasthenic Syndromes Gene Curation Expert Panel 
+ Congenital Myopathies Variant Curation Expert Panel 
+ Craniofacial Malformations Gene Curation Expert Panel 
+ Desmosomal Cardiomyopathy Variant Curation Expert Panel 
+ DICER1 and miRNA-Processing Gene Variant Curation Expert Panel 
+ Dilated Cardiomyopathy Gene Curation Expert Panel 
+ Dopa Decarboxylase (Aromatic L-Amino Acid Decarboxylase) Variant Curation Expert Panel 
+ EGFR Somatic Cancer Variant Curation Expert Panel 
+ Endocrine Tumor Predisposition Variant Curation Expert Panel 
+ ENIGMA BRCA1 and BRCA2 Variant Curation Expert Panel 
+ Epilepsy Gene Curation Expert Panel 
+ Epilepsy Sodium Channel Variant Curation Expert Panel 
+ Established Significance Somatic Cancer Variant Curation Expert Panel 
+ Familial Hypercholesterolemia Variant Curation Expert Panel 
+ Fatty Acid Oxidation Disorders Gene Curation Expert Panel 
+ FBN1 Variant Curation Expert Panel 
+ Female Reproductive Disorders Gene Curation Expert Panel 
+ Fibroblast Growth Factor Receptor Mutations (SNVs) Somatic Cancer Variant Curation Expert Panel 
+ FLT3 (Fms Related Receptor Tyrosine Kinase 3) Somatic Cancer Variant Curation Expert Panel 
+ Galactosemia Variant Curation Expert Panel 
+ Gastric Cancer Variant Curation Expert Panel 
+ General Gene Curation Expert Panel 
+ General Inborn Errors of Metabolism Gene Curation Expert Panel 
+ Glaucoma and Neuro-Ophthalmology Gene Curation Expert Panel 
+ Glaucoma Variant Curation Expert Panel 
+ Glomerulopathy Gene Curation Expert Panel 
+ Glucose-6-phosphate dehydrogenase Variant Curation Expert Panel 
+ GRIN Disorders Variant Curation Expert Panel 
+ Hearing Loss Gene Curation Expert Panel 
+ Hearing Loss Variant Curation Expert Panel 
+ Hemoglobinopathy Variant Curation Expert Panel 
+ Hemostasis/Thrombosis Gene Curation Expert Panel 
+ Hereditary Angioedema Variant Curation Expert Panel 
+ Hereditary Breast, Ovarian and Pancreatic Cancer Variant Curation Expert Panel 
+ Hereditary Cancer Gene Curation Expert Panel 
+ Hereditary Cardiovascular Disease Gene Curation Expert Panel 
+ Hereditary Hemorrhagic Telangiectasia Variant Curation Expert Panel 
+ Heritable Thoracic Aortic Aneurysm and Dissection Gene Curation Expert Panel 
+ Histone H3 Somatic Cancer Variant Curation Expert Panel 
+ Hypertrophic Cardiomyopathy Gene Curation Expert Panel 
+ InSiGHT Hereditary Colorectal Cancer/Polyposis Variant Curation Expert Panel 
+ Intellectual Disability and Autism Gene Curation Expert Panel 
+ Interstitial Lung Disease Gene Curation Expert Panel 
+ KCNQ Channel Brain Disorders Variant Curation Expert Panel 
+ Kidney Cystic and Ciliopathy Disorders Gene Curation Expert Panel 
+ Kidney Cystic and Ciliopathy Disorders Variant Curation Expert Panel 
+ Leber Congenital Amaurosis/early onset Retinal Dystrophy Variant Curation Expert Panel 
+ Leukodystrophy and Leukoencephalopathy Gene Curation Expert Panel 
+ Leukodystrophy and Leukoencephalopathy Variant Curation Expert Panel 
+ Limb Girdle Muscular Dystrophy Variant Curation Expert Panel 
+ Long QT syndrome Gene Curation Expert Panel 
+ Lysosomal Diseases Gene Curation Expert Panel 
+ Lysosomal Diseases Variant Curation Expert Panel 
+ Maculopathy Variant Curation Expert Panel 
+ Male Infertility Gene Curation Expert Panel 
+ Malignant Hyperthermia Susceptibility Variant Curation Expert Panel 
+ MAPK/ERK Pathway Somatic Cancer Variant Curation Expert Panel 
+ Mitochondrial Disease Nuclear and Mitochondrial Variant Curation Expert Panel 
+ Mitochondrial Diseases Gene Curation Expert Panel 
+ Monogenic Autoinflammatory Diseases Gene Curation Expert Panel 
+ Monogenic Diabetes Gene Curation Expert Panel 
+ Monogenic Diabetes Variant Curation Expert Panel 
+ Monogenic Systemic and Incomplete Lupus Erythematosus Gene Curation Expert Panel 
+ Motile Ciliopathy Gene Curation Expert Panel 
+ Motile Ciliopathy Variant Curation Expert Panel 
+ Muscular Dystrophies and Myopathies Gene Curation Expert Panel 
+ Myeloid Malignancy Variant Curation Expert Panel 
+ Neurofibromatoses and schwannomatosis Variant Curation Expert Panel 
+ Neurovascular Gene Curation Expert Panel 
+ NTRK Fusions Somatic Cancer Variant Curation Expert Panel 
+ Ocular Anterior Segment Disorder Variant Curation Expert Panel 
+ Ocular Oncology Variant Curation Expert Panel 
+ Optic Nerve Atrophy Variant Curation Expert Panel 
+ Parkinson's Disease Gene Curation Expert Panel 
+ Parkinson's Disease Variant Curation Expert Panel 
+ Pediatric Cataract Variant Curation Expert Panel 
+ Peroxisomal Disorders Gene Curation Expert Panel 
+ Peroxisomal Disorders Variant Curation Expert Panel 
+ Phenylketonuria Variant Curation Expert Panel 
+ Platelet Disorders Variant Curation Expert Panel 
+ Potassium Channel Arrhythmia Variant Curation Expert Panel 
+ Prenatal Gene Curation Expert Panel 
+ Primary Immune Regulatory Disorders Gene Curation Expert Panel 
+ Primary Immune Regulatory Disorders Variant Curation Expert Panel 
+ Propionic Acidemia and Methylmalonic Acidemia Variant Curation Expert Panel 
+ PTEN Variant Curation Expert Panel 
+ Pulmonary Hypertension Gene Curation Expert Panel 
+ Pulmonary Hypertension Variant Curation Expert Panel 
+ RASopathy Gene Curation Expert Panel 
+ RASopathy Variant Curation Expert Panel 
+ Retina Gene Curation Expert Panel 
+ Rett and Angelman-like Disorders Variant Curation Expert Panel 
+ Rhodopsin Variant Curation Expert Panel 
+ RYR2 Variant Curation Expert Panel 
+ SCID-CID Gene Curation Expert Panel 
+ Severe Combined Immunodeficiency Disease Variant Curation Expert Panel 
+ Short QT syndrome Gene Curation Expert Panel 
+ Skeletal Disorders Gene Curation Expert Panel 
+ Skeletal Disorders Variant Curation Expert Panel 
+ Sodium and Calcium Channel Arrhythmia Variant Curation Expert Panel 
+ Somatic Mosaicism of Vascular Anomalies Gene Curation Expert Panel 
+ Syndromic Disorders Gene Curation Expert Panel 
+ Thrombosis Variant Curation Expert Panel 
+ TP53 Variant Curation Expert Panel 
+ Tuberous Sclerosis Complex Variant Curation Expert Panel 
+ Tubulopathy Gene Curation Expert Panel 
+ Urea Cycle Disorders Variant Curation Expert Panel 
+ VHL Variant Curation Expert Panel 
+ von Willebrand Disease Variant Curation Expert Panel 
+ X-linked Inherited Retinal Disease Variant Curation Expert Panel 
+ Documents & Announcements 
+ ClinGen Exhibit Booth Materials 
+ Curation Activity Procedures 
+ Conflict Of Interest (COI) 
+ Data Sharing Resources 
+ Expert Panel Applications 
+ News 
+ MOC/CME Forms 
+ Patient Data Sharing 
+ Policies/Position Statements 
+ Presentations 
+ Publications 
+ Supporting Documents 
+ Training Materials 
+ Website Updates 
+ Back to top 
+ © ClinGen 
+ 

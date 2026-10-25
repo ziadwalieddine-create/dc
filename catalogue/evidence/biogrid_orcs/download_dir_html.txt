@@ -1,0 +1,62 @@
+ 
+ BioGRID Download File Repository | BioGRID Downloads 
+ BioGRID Downloads 
+ Toggle navigation 
+ Home 
+ BioGRID 
+ BioGRID ORCS 
+ Welcome to the BioGRID Download File Repository 
+ Please use the file navigator below to browse and download archived BioGRID project files. All data provided are 100% freely available to both academic and commercial users under the MIT License , and are provided WITHOUT ANY WARRANTY . If you have any questions, please feel free to contact us . 
+ Publications are requested to please cite the original contributing authors (where applicable) and also: Stark C, Breitkreutz BJ, Reguly T, Boucher L, Breitkreutz A, Tyers M. Biogrid: A General Repository for Interaction Datasets. Nucleic Acids Res. Jan 1, 2006; 34:D535-9 .
+ Home 
+ BioGRID-ORCS 
+ Latest-Release 
+ Name 
+ Back 
+ 3.83 MB
+ BIOGRID-ORCS-ALL-chlorocebus_sabaeus-LATEST.screens.tar.gz 
+ BIOGRID-ORCS-ALL-chlorocebus_sabaeus-LATEST.screens.tar.gz 
+ This gzip archive contains multiple files containing available screens for African Green Monkey (Chlorocebus sabaeus) 
+ and associated annotation data from BIOGRID ORCS. For more information on this format, check out our wiki . 
+ 0.73 MB
+ BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz 
+ BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz 
+ This gzip archive contains multiple files containing available screens for Fruit Fly (Drosophila melanogaster) 
+ and associated annotation data from BIOGRID ORCS. For more information on this format, check out our wiki . 
+ 717.79 MB
+ BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz 
+ BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz 
+ This gzip archive contains multiple files containing available screens for Human (Homo sapiens) 
+ and associated annotation data from BIOGRID ORCS. For more information on this format, check out our wiki . 
+ 54.73 MB
+ BIOGRID-ORCS-ALL-mus_musculus-LATEST.screens.tar.gz 
+ BIOGRID-ORCS-ALL-mus_musculus-LATEST.screens.tar.gz 
+ This gzip archive contains multiple files containing available screens for Mouse (Mus musculus) 
+ and associated annotation data from BIOGRID ORCS. For more information on this format, check out our wiki . 
+ 3.07 MB
+ BIOGRID-ORCS-ALL-saccharomyces_cerevisiae_S288C-LATEST.screens.tar.gz 
+ BIOGRID-ORCS-ALL-saccharomyces_cerevisiae_S288C-LATEST.screens.tar.gz 
+ This gzip archive contains multiple files containing available screens for Budding Yeast (Saccharomyces Cerevisiae) 
+ and associated annotation data from BIOGRID ORCS. For more information on this format, check out our wiki . 
+ BioGRID ORCS Release 2.0.18 
+ This download directory contains the 2.0.18 data release from BioGRID ORCS. 
+ This release was compiled on Sept 9, 2025 and contains all curated CRISPR screen data processed 
+ prior to this date. If you are starting 
+ a new project using our data, it is HIGHLY recommended that you use the data files in the most recent release 
+ as it will contain the most up-to-date version of our data. The best data to use is in the CURRENT RELEASE directory. 
+ For more information about each of the available files, simply mouse over to see a description. 
+ To download each file, simply left click on it to start the download process. 
+ A BioGRID Project
+ Copyright © 2026 | TyersLab.com | All Rights Reserved 
+ Terms and Conditions | 
+ Privacy Policy | 
+ BioGRID |
+ CRISPR Database |
+ Osprey |
+ Yeast Kinome |
+ TyersLab.com |
+ SGD |
+ GitHub | 
+ YouTube |
+ Twitter 
+ 

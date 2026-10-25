@@ -1,0 +1,80 @@
+{
+ "id": "ensembl_genomes",
+ "name": "Ensembl genome registry, assemblies and gene annotation (human)",
+ "categories": [
+  "reference_annotation"
+ ],
+ "maintainer": "EMBL-EBI / Ensembl",
+ "url": "https://www.ensembl.org",
+ "provenance": [
+  "https://rest.ensembl.org",
+  "https://ftp.ensembl.org/pub/",
+  "https://www.ensembl.org/api/metadata"
+ ],
+ "version": {
+  "value": "Ensembl release 116 (REST); integrated release 2026-07 in the genome selector",
+  "release_date": "2026-07",
+  "verified": "live"
+ },
+ "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies.",
+ "variant_classes": [
+  "gene_level",
+  "region_level"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38",
+  "T2T-CHM13",
+  "other"
+ ],
+ "formats": [
+  "JSON (REST/metadata API)",
+  "FASTA, GTF/GFF3 on FTP (not downloaded)"
+ ],
+ "identifiers": [
+  "ENSG/ENST/ENSP",
+  "genome UUID",
+  "GCA accession"
+ ],
+ "mapping_methods": "Stable Ensembl IDs with cross-references; liftover/assembly mapping through Ensembl tools.",
+ "quantitative": {
+  "summary": "Not applicable (reference data).",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Ensembl imposes no restrictions on access to or use of the data (disclaimer page)",
+  "redistribution": "Unrestricted per the disclaimer; check third-party components",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Integrated releases several times a year (2026-07 live).",
+ "coverage_limitations": [
+  "Only the genome registry and details for three assemblies are downloaded; no sequence or annotation files yet"
+ ],
+ "known_omissions": [
+  "Variation and regulation data exist for few of the 560 sample assemblies (96 with variation, 2 with regulation)"
+ ],
+ "overlap_with_existing": [
+  "ensembl-human-genomes"
+ ],
+ "reuse_decision": {
+  "action": "reuse_existing",
+  "rationale": "Registry already collected and verified; fetch FASTA/GTF only when an analysis needs them, preferring GENCODE/MANE files already staged for acquisition."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time.",
+  "mapped_to_dc": true,
+  "usable": true
+ },
+ "evidence": [
+  "ensembl_vep/rest_software",
+  "ensembl_vep/rest_data",
+  "ensembl_vep/data_use",
+  "ensembl_vep/ftp_current_listing"
+ ],
+ "unverified_fields": [],
+ "acquisition_targets": []
+}

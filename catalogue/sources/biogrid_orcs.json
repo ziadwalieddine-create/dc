@@ -1,0 +1,74 @@
+{
+ "id": "biogrid_orcs",
+ "name": "BioGRID ORCS (Open Repository of CRISPR Screens)",
+ "categories": [
+  "perturbation_evidence"
+ ],
+ "maintainer": "BioGRID (Tyers lab and collaborators)",
+ "url": "https://orcs.thebiogrid.org",
+ "provenance": [
+  "https://downloads.thebiogrid.org/BioGRID-ORCS/Latest-Release/"
+ ],
+ "version": {
+  "value": "Index version 2.0.18",
+  "release_date": "2026",
+  "verified": "live"
+ },
+ "scope": "Curated CRISPR screen results from 418 publications (home page); human screens bundled in BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz.",
+ "variant_classes": [
+  "gene_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "tab-delimited inside tar.gz",
+  "REST service"
+ ],
+ "identifiers": [
+  "BioGRID gene IDs",
+  "Entrez/official symbols"
+ ],
+ "mapping_methods": "Gene-level hit calls per screen.",
+ "quantitative": {
+  "summary": "Per-screen scores and hit calls, protocol-dependent.",
+  "units": "screen-specific",
+  "uncertainty": "screen-specific",
+  "direction": "screen-specific"
+ },
+ "licence": {
+  "name": "Licensing wiki page does not exist; terms not confirmed",
+  "redistribution": "Check README inside the release before reuse",
+  "access": "open_with_terms",
+  "verified": "unverified"
+ },
+ "update_frequency": "Regular index releases.",
+ "coverage_limitations": [
+  "Screen design, cell line and readout vary widely; hits are not directly comparable"
+ ],
+ "known_omissions": [
+  "Variant-level perturbation (base editing) screens are not its focus"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Open Targets lists evidence_crispr/evidence_crispr_screen, but its source mix is not verified to equal ORCS; fetch the human bundle for gene-level screen detail."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Download directory readable.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "biogrid_orcs_human"
+ ],
+ "unverified_fields": [
+  "licence"
+ ],
+ "evidence": [
+  "biogrid_orcs/home",
+  "biogrid_orcs/downloads_listing",
+  "biogrid_orcs/licence"
+ ]
+}

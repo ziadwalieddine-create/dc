@@ -1,0 +1,86 @@
+{
+ "id": "encode",
+ "name": "ENCODE and SCREEN candidate cis-regulatory elements",
+ "categories": [
+  "regulation_expression_splicing"
+ ],
+ "maintainer": "ENCODE Consortium (Stanford DCC); SCREEN (Weng lab, UMass)",
+ "url": "https://www.encodeproject.org",
+ "provenance": [
+  "https://www.encodeproject.org/search/",
+  "https://screen.wenglab.org/downloads",
+  "https://downloads.wenglab.org/Registry-V4/"
+ ],
+ "version": {
+  "value": "Registry V4 cCREs (Nature 2026 citation); ENCODE portal queried 2026-10-25",
+  "release_date": "2026",
+  "verified": "live"
+ },
+ "scope": "20,450 released human experiments (e.g. TF ChIP-seq 3,502; DNase-seq 3,144; histone ChIP-seq 3,090; total RNA-seq 1,650; ATAC-seq 463); SCREEN Registry V4 lists 2,348,854 human cCREs in 1,888 cell types with per-class BED files.",
+ "variant_classes": [
+  "region_level"
+ ],
+ "assemblies": [
+  "GRCh38",
+  "GRCh37"
+ ],
+ "formats": [
+  "BED",
+  "portal JSON",
+  "bigWig/BAM on portal"
+ ],
+ "identifiers": [
+  "ENCSR experiment accessions",
+  "EH38E cCRE accessions"
+ ],
+ "mapping_methods": "cCREs are genomic intervals; variants are intersected by coordinates (GRCh37 files are lifted down from GRCh38).",
+ "quantitative": {
+  "summary": "Element classes and signal tracks; not variant effects.",
+  "units": "signal tracks (RPM/fold change)",
+  "uncertainty": "replicate concordance on portal",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Not confirmed: the ENCODE citing/data-use page returned HTTP 403 to automated access",
+  "redistribution": "Treat as open with citation until the terms page is read manually",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "Registry versions every few years; portal continuous.",
+ "coverage_limitations": [
+  "cCREs are predicted from biochemical marks and are not proof of regulatory function",
+  "Cell-type coverage uneven"
+ ],
+ "known_omissions": [
+  "Variant-to-function effects require MPRA/CRISPR data (see MaveDB) or predictors (Enformer)"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "SCREEN already integrates ENCODE and partner data into a registry; use the class BED files (about 129 MB for non-overlapping classes) instead of parsing thousands of experiments."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "API and SCREEN download links resolved by rendering the downloads page.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "screen_ccre_pls",
+  "screen_ccre_pels",
+  "screen_ccre_dels",
+  "screen_ccre_ca_ctcf",
+  "screen_ccre_ca_h3k4me3",
+  "screen_ccre_ca_tf",
+  "screen_ccre_ca",
+  "screen_ccre_tf"
+ ],
+ "unverified_fields": [
+  "licence"
+ ],
+ "evidence": [
+  "encode/api_experiment_human",
+  "encode/screen_downloads",
+  "encode/citing"
+ ]
+}

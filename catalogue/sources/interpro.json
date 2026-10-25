@@ -1,0 +1,71 @@
+{
+ "id": "interpro",
+ "name": "InterPro",
+ "categories": [
+  "protein_structure_function"
+ ],
+ "maintainer": "EMBL-EBI",
+ "url": "https://www.ebi.ac.uk/interpro/",
+ "provenance": [
+  "https://www.ebi.ac.uk/interpro/api/"
+ ],
+ "version": {
+  "value": "API live; 54,922 InterPro entries; release number not retrieved",
+  "release_date": "2026-10-25 (query date)",
+  "verified": "unverified"
+ },
+ "scope": "Protein families, domains and sites integrating member databases (Pfam, SMART, PROSITE, CDD, PANTHER, CATH-Gene3D and others listed by the API).",
+ "variant_classes": [
+  "protein_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "REST JSON",
+  "FTP"
+ ],
+ "identifiers": [
+  "IPR accessions",
+  "member database accessions"
+ ],
+ "mapping_methods": "Domain boundaries on UniProt sequences.",
+ "quantitative": {
+  "summary": "Match coordinates and signature scores.",
+  "units": "residue positions",
+  "uncertainty": "member-database e-values",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Licence page text not retrieved (commonly CC0)",
+  "redistribution": "Unverified",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "Every 8 weeks.",
+ "coverage_limitations": [
+  "Domain membership is predicted by signatures"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Query by protein on demand; UniProt cross-references already carry domain information. Bulk match files are large."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "API root and entry count returned JSON.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "licence",
+  "release number"
+ ],
+ "evidence": [
+  "interpro/api_root",
+  "interpro/api_entry_count",
+  "interpro/licence"
+ ],
+ "acquisition_targets": []
+}

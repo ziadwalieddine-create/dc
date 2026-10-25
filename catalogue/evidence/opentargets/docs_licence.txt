@@ -1,0 +1,256 @@
+Ctrl
+K
+OT Platform
+Community
+Blog
+Open Targets Platform
+Getting started
+Target
+Disease or Phenotype
+Variant
+Study
+🆕
+Drug
+Credible Set
+Target–disease evidence
+Target–disease associations
+GWAS & functional genomics
+Bibliography
+Web interface
+Data and code access
+FAQs
+Release notes
+Citation
+Licence
+Terms of use
+Partner Preview Platform
+Powered by GitBook
+ON THIS PAGE
+Data
+Codebases
+Data sources licensing
+
+Was this helpful?
+
+Published for free with GitBook’s Community Plan
+
+Sponsored via GitBook
+
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+Licence
+
+As one of Open Targets flagship informatics products, the team that maintains the Open Targets Platform is committed to building open source tools and supporting open access research.
+
+If you use our code and/or our data, please cite our latest publication.
+
+Data
+
+Open Targets Platform is marked with CC0 1.0. This dedicates the data to the public domain, allowing downstream users to consume the data without restriction.
+
+The Platform also conforms to the EBI long-term data preservation policies.
+
+Please contact us on the Open Targets Community if you have questions about our licence or using our data and codebases.
+
+Codebases
+
+The codebases that power the Platform - including our pipelines, GraphQL API, and React UI - are all open source and licensed under the APACHE LICENSE, VERSION 2.0.
+
+You can find all of our code repositories on GitHub at https://github.com/opentargets.
+
+Data sources licensing
+
+See list below if you are interested in knowing more about our data sources and their licensing status.
+
+Please note that all data sources listed in the table, including the ones labeled with 'commercial use for Open Targets', have agreed for their data to be used without restriction by all Open Targets users.
+
+Data source
+Licence
+
+AlphaMissense
+
+CC-BY 4.0
+
+Cancer Gene Census
+
+Commercial use for Open Targets
+
+Cancer Genome Interpreter
+
+CC-BY 4.0
+
+Cell Ontology
+
+CC BY 4.0
+
+ChEMBL
+
+CC BY-SA 3.0
+
+ClinGen
+
+CC0 1.0
+
+ClinVar (via EVA)
+
+EMBL-EBI terms of use 
+
+EFO
+
+Apache 2.0
+
+Ensembl
+
+CC-BY 4.0
+
+Europe PMC
+
+CC-BY, CC-BY-NC or CC0 license or open access (depending on publication licenses)
+
+eQTL Catalogue
+
+CC-BY 4.0
+
+Expression Atlas
+
+CC-BY 4.0
+
+FAERS
+
+CC0 1.0
+
+FinnGen R12
+
+Summary statistics can be requested here.
+
+Gene Ontology
+
+CC-BY 4.0
+
+Gene Signature
+
+Apache 2.0
+
+Gene2Phenotype
+
+EMBL-EBI terms of use
+
+Genomics England PanelApp
+
+Commercial use for Open Targets
+
+gnomAD
+
+CC0 1.0
+
+GTEx
+
+CC-BY 4.0
+
+GWAS Catalog
+
+EMBL-EBI terms of use (Summary statistics are under CC0 1.0)
+
+HeCaTos
+
+CC-BY 4.0
+
+HPO
+
+CC0 1.0
+
+Human Protein Atlas
+
+CC BY-SA 3.0
+
+Intact
+
+EMBL-EBI terms of use
+
+IntOGen
+
+CC0 1.0
+
+MGI
+
+CC-BY 4.0
+
+MONDO
+
+CC-BY 4.0
+
+Orphanet
+
+CC-BY 4.0
+
+panUKB
+
+CC BY 4.0
+
+PhenoDigm
+
+CC-BY 4.0
+
+Probes and Drugs
+
+CC-BY 4.0
+
+PROGENy
+
+Apache 2.0
+
+Project Score
+
+Commercial use for Open Targets 
+
+Reactome
+
+CC-BY 4.0
+
+Sequence Ontology
+
+CC-BY 4.0
+
+Signor (via Intact)
+
+EMBL-EBI terms of use
+
+SLAPenrich
+
+MIT terms of use 
+
+String DB
+
+CC-BY 4.0
+
+TEP
+
+CC-BY 4.0
+
+Tox21
+
+CC0 1.0
+
+Uberon
+
+CC BY 3.0
+
+UKB-PPP
+
+Apache 2.0
+
+UniProt
+
+CC-BY 4.0
+
+Previous
+Citation
+Next
+Terms of use
+
+Last updated 11 months ago
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

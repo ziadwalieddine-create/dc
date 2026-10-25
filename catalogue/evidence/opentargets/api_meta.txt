@@ -1,0 +1,1 @@
+{"data":{"meta":{"name":"Open Targets GraphQL & REST API Beta","apiVersion":{"x":"26","y":"9","z":"0"},"dataVersion":{"year":"26","month":"09","iteration":null}}}}

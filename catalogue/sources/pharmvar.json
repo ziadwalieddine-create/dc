@@ -1,0 +1,81 @@
+{
+ "id": "pharmvar",
+ "name": "PharmVar (Pharmacogene Variation Consortium)",
+ "categories": [
+  "functional_haplotypes_pgx"
+ ],
+ "maintainer": "PharmVar Consortium",
+ "url": "https://www.pharmvar.org",
+ "provenance": [
+  "https://www.pharmvar.org/download"
+ ],
+ "version": {
+  "value": "Site version 6.2.29 (footer: \"Last Updated Sep 22 2026\")",
+  "release_date": "2026-09-22",
+  "verified": "live"
+ },
+ "scope": "Haplotype (star allele) definitions per pharmacogene with sequence-level variants in VCF, FASTA and TSV downloads; API services are offered for third parties.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "gene_level"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38",
+  "none/not_applicable"
+ ],
+ "formats": [
+  "VCF",
+  "FASTA",
+  "TSV",
+  "REST API"
+ ],
+ "identifiers": [
+  "star allele names",
+  "rsIDs",
+  "RefSeqGene/LRG positions"
+ ],
+ "mapping_methods": "Positions given on locus reference sequences (RefSeqGene/LRG) and genome builds.",
+ "quantitative": {
+  "summary": "Haplotype definitions, not effect sizes.",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Terms and Conditions page not retrievable (HTTP 404 on the URLs tried)",
+  "redistribution": "Unknown; read the terms manually before use",
+  "access": "unverified",
+  "verified": "unverified"
+ },
+ "update_frequency": "Irregular (site footer date).",
+ "coverage_limitations": [
+  "Haplotypes defined by structural variation are not included in downloads (per the download page)",
+  "Downloads are not available for transcript reference sequences"
+ ],
+ "known_omissions": [
+  "Terms of use unread"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Licence and bulk download route unverified. Use CPIC/ClinPGx tables meanwhile; revisit after reading the terms."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "Home and download pages readable; terms page not found.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "licence",
+  "release date"
+ ],
+ "evidence": [
+  "pharmvar/home",
+  "pharmvar/downloads",
+  "pharmvar/terms"
+ ],
+ "acquisition_targets": []
+}

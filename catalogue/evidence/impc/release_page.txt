@@ -1,0 +1,230 @@
+Cite IMPCHelpIMPC CloudJoin the IMPCContact us
+ABOUT THE IMPCDATAHUMAN DISEASESPUBLICATIONSNEWSBLOG
+About the IMPC
+Institutional Members
+Collaborations
+Corporate Associates
+Funding
+Animal Welfare
+About KOMP
+Awards of Excellence
+Training & Workshops
+
+Training
+
+Workshops
+
+Getting Started with IMPC Data
+
+IMPC Data Generation
+
+How to Use Gene Pages
+
+Citing IMPC Data
+
+Allele design
+
+IMPC Data Collections
+
+Late Adult Data
+
+Histopathology
+
+Essential genes
+
+Embryo Development
+
+Cardiovascular
+
+Accessing the Data
+
+Latest Data Release
+
+Access via API
+
+Access via FTP
+
+Batch query
+
+Advanced Tools
+
+Disease Models
+
+PhenoDCC Tools
+
+GenTaR
+
+OpenStats
+
+IMPReSS
+
+Embryo Viewer
+
+Software
+
+Latest IMPC Papers
+Data Supporting IMPC Papers
+
+Pain Sensitivity Associated Genes
+
+Essential Genes - Linking to Disease
+
+Essential Genes - Translating to Other Species
+
+Sexual Dimorphism
+
+Genes Critical for Hearing Identified
+
+Genetic Basis for Metabolic Diseases
+
+Papers Using IMPC Resources
+GENESPHENOTYPESHELP, NEWS, BLOG
+
+RELEASE NOTES
+
+IMPC Data Release 24.0 Notes
+
+16 March 2026
+
+Summary
+Number of phenotyped genes:
+9,605
+Number of phenotyped mutant lines:
+10,341
+Number of phenotype calls:
+111,664
+Data access
+FTP interface 
+RESTful interfaces 
+Statistical package: OpenStats (1.20.0)
+Genome Assembly: Mus musculus (GRCm39)
+Highlights
+
+Release notes
+
+Represents a major data release.
+
+This release includes:
+
+Approximately 4.5 million more data points.
+The release contains 2,139 fewer phenotype calls than the previous release due to the removal of duplicated Histopathology and Gross Pathology phenotypes.
+The data reports have been restructured to ensure they are machine readable and outdated links have been updated. In addition, several data issues have been fixed for the viability and procedureCompletenessAndPhenotypeHits reports. Please see the README file for more information.
+This release uses an updated annotation pipeline that improves MP term assignment for sex specific terms.
+A procedure sequence_id was included for metadata group determination in minispec data from GMC for late adult pipelines to enable grouping of the appropriate datasets for analysis and display on the website.
+Links to the Tremblay lab early lethal phenotype data have been added.
+Total number of lines and specimens in DR 24.0
+Phenotyping Center
+	Mutant Lines
+	Baseline Mice
+	Mutant Mice
+
+
+BCM	1,325	10,633	39,720
+CCP-IMG	495	4,745	9,132
+HMGU	602	8,345	12,092
+ICS	241	2,642	3,914
+JAX	2,238	17,131	64,019
+KMPC	113	3,584	4,344
+MARC	233	1,858	3,588
+MRC Harwell	846	7,510	20,644
+RBRC	116	2,398	2,715
+TCP	798	9,720	32,258
+UC Davis	1,714	10,090	42,175
+WTSI	1,621	5,364	18,660
+Experimental data and quality checks
+Data Type
+	QC Passed Data Points
+
+
+time series *	31,384,597
+categorical	29,448,975
+unidimensional	26,509,567
+ontological *	2,169,851
+image record *	878,279
+text *	701,700
+* Excluded from statistical analysis.
+Distribution of phenotype annotations
+Production status
+Overall
+ES Cell Null Lines
+ES Cell Conditional Lines
+Crispr Null Lines
+Crispr Conditional Lines
+Phenotyping
+By Center
+ES Cell Null Lines
+ES Cell Conditional Lines
+Crispr Null Lines
+Crispr Conditional Lines
+Phenotyping
+
+More charts and status information are available from our mouse tracking service GenTaR.
+
+Phenotype associations
+Trends
+Genes/Mutant Lines/MP Calls
+By Data Release
+Data Points by Data Release
+Previous releases
+Release 23.0 notes 
+Release 22.1 notes 
+Release 22.0 notes 
+Release 21.1 notes 
+Release 21.0 notes 
+Release 20.1 notes 
+Release 20.0 notes 
+Release 19.1 notes 
+Release 19.0 notes 
+Release 18.0 notes 
+Release 17.0 notes 
+Release 16.0 notes 
+Release 15.1 notes 
+Release 15.0 notes 
+Release 14.0 notes 
+Release 13.0 notes 
+Release 12.0 notes 
+Release 11.0 notes 
+Release 10.1 notes 
+Release 10.0 notes 
+Release 9.2 notes 
+Release 9.1 notes 
+Release 8.0 notes 
+Release 7.0 notes 
+Release 6.1 notes 
+Release 6.0 notes 
+Release 5.0 notes 
+Release 4.3 notes 
+Release 4.2 notes 
+Release 4.0 notes 
+Release 3.4 notes 
+Release 3.3 notes 
+Release 3.2 notes 
+Release 3.1 notes 
+Release 3.0 notes 
+Release 2.0 notes 
+Release 1.1 notes 
+Release 1.0 notes 
+
+ 
+
+Content on this site is licensed under a
+Creative Commons Attribution 4.0 International license
+
+Privacy & Cookies
+Terms of use
+
+About the IMPC
+Data
+Human Diseases
+Publications
+News
+Blog
+Cite IMPC
+Help
+IMPC Cloud
+Join the IMPC
+Contact us
+IMPC LinkedIn
+IMPC YouTube
+Access Data Release 24.0 Data
+Batch queryAccess via APIAccess via FTP

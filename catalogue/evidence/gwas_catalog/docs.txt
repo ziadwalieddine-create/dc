@@ -1,0 +1,94 @@
+Skip to main content
+GWAS Catalog
+Documentation
+News
+GWAS Catalog search
+Documentation
+Training
+About the GWAS Catalog
+Training & Related resources
+Sharing and standards workshop
+Methods
+Summary statistics
+Submission
+Downloads
+Programmatic access
+FAQs
+Curation of population descriptors
+Ontology
+Reference
+Citing the GWAS Catalog
+TrainingAbout the GWAS Catalog
+About the GWAS Catalog
+
+The Catalog was founded by the NHGRI in 2008, in response to the rapid increase in the number of published genome-wide association studies (GWAS). These studies provide an unprecedented opportunity to investigate the impact of common variants on complex disease; however identifying published GWAS can be challenging, and the vast wealth of data contained within these publications is effectively inaccessible to researchers without systematic cataloguing and summarization of the observed associations. The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of SNP-trait associations, which can be easily integrated with other resources, and is accessed by scientists, clinicians and other users worldwide. It is also one of the largest repositories of full genome-wide summary statistics, which can be submitted directly by researchers.
+
+Within the Catalog, all eligible published GWA studies are identified by literature search and assessed by our curators, who then extract the reported trait, significant SNP-trait associations, and sample metadata. We aim to curate eligible studies as soon as possible after publication, dependent on staffing and the volume of new studies, and the data is released on a bi-weekly cycle. We have also accepted submissions of unpublished GWAS data since 2020.
+
+Published Catalog data is available through our search interface, downloads, programmatic-access services and iconic GWAS diagram of SNP-trait associations, mapped onto the human genome by chromosomal location and displayed on the human karyotype. Summary statistics files are available to download from our FTP site via links from the study in the search interface or our designated summary statistics page. Unpublished GWAS data is available through a separate download.
+
+Since 2010, delivery and development of the Catalog has been a collaborative project between the EMBL-EBI and NHGRI. The Catalog website and infrastructure is hosted by EMBL-EBI. A team of curators, all of whom are experienced geneticists or molecular biologists, curate the data, and provide user support. The curation team is supported by dedicated software developers, and is led by Helen Parkinson at EMBL-EBI and Mike Inouye at the University of Cambridge, and supported by NHGRI staff. We work closely with the SPOT and Ensembl teams at the EBI, and receive input from an independent Scientific Advisory Board. The GWAS catalog is an Elixir Core Data Resource and a Global Core Biodata Resource.
+
+For more details about the Catalog curation process and data extraction procedures, please refer to the Methods page.
+
+Contact​
+Contacting the GWAS Catalog team​
+
+To contact the GWAS Catalog team, with queries, comments or feedback please email gwas-info@ebi.ac.uk. Please see our FAQ page for answers to some common queries about the GWAS Catalog.
+
+To submit data to the GWAS Catalog please visit our submission page.
+
+For more help using the GWAS Catalog, please have a look at our training resources.
+
+Keeping up-to-date​
+
+We announce new releases and other developments on our announcement list, gwas-announce@ebi.ac.uk. Sign up for updates.
+
+You can also follow us on LinkedIn, BlueSky @gwascatalog.bsky.social and X @GWASCatalog.
+
+Funding acknowledgements​
+
+The NHGRI-EBI GWAS Catalog is funded by NHGRI Grant Number 1U24HG012542-01, and delivered by collaboration between the NHGRI, EMBL-EBI, University of Cambridge and NCBI. We recieve additional funding from Open Targets.
+
+Citing the GWAS Catalog​
+
+For information on how to cite the GWAS Catalog, please visit the citation page.
+
+Licensing information​
+
+The NHGRI-EBI GWAS Catalog and all its contents are available under the general Terms of Use for EMBL-EBI Services. Summary statistics are made available under CC0 unless otherwise stated. We advise consumers of data hosted by the GWAS Catalog to note the license terms of individual datasets, if applicable to their specific use case.
+
+GWAS Catalog logos, and data visualisations such as the GWAS Diagram and LD plots, are available for re-use under CC-BY-4.0.
+
+The GWAS Catalog develops and maintains a range of open source software, data standards, and tools, which are available from our GitHub organisation. The code is freely available under the Apache version 2.0 license
+
+The GWAS Catalog adheres to the FAIR indicators of Findability, Accessibility, Interoperability, and Reusability, described in more detail in MacArthur et al, Workshop proceedings: GWAS Catalog standards and sharing, Cell Genomics (2021) and registered on fairsharing.org.
+
+Privacy policy​
+
+More details about our privacy policies can be found by following the links below.
+
+GWAS & PGS Catalog Deposition Services applies to the data submitted to the GWAS Catalog (eg. Summary statistics files).
+
+GWAS Catalog Mailing Lists applies to our public e-mail lists such as gwas-info@ebi.ac.uk, gwas-subs@ebi.ac.uk, gwas-announce@ebi.ac.uk and gwas-users@ebi.ac.uk.
+
+GWAS Catalog Literature Curation applies to any personal data acquired from publications, or from communication with authors (including author names, e-mails and addresses), that we retain in order to track GWAS publications through our curation processes as part of making those publications available as part of the GWAS Catalog.
+
+GWAS & PGS Catalog Public Websites applies to cookies and limited processing of personal data required for the website to function.
+
+Previous
+Training
+Next
+Training & Related resources
+Contact
+Contacting the GWAS Catalog team
+Keeping up-to-date
+Funding acknowledgements
+Citing the GWAS Catalog
+Licensing information
+Privacy policy
+Copyright © EMBL-EBI 2026 | EMBL-EBI is an Outstation of the European Molecular Biology Laboratory | Terms of use | Data Preservation Statement | Documentation available under CC BY 4.0
+
+This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our Privacy Notice and Terms of Use.
+
+I agree, dismiss this banner

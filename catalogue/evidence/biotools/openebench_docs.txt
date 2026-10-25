@@ -1,0 +1,83 @@
+BENCHMARKING
+PROJECTS
+TOOLS
+SW OBSERVATORY
+DOCS
+ABOUT
+BENCHMARK YOUR TOOL
+LOGIN
+OpenEBench uses 🍪 to ensure you get the best experience on our website.
+Got it!
+Welcome to OpenEBench
+The ELIXIR gateway to benchmarking communities, software monitoring, and quality metrics for life sciences tools and workflows
+
+I want to search for benchmarking communities and results
+
+SCIENTIFIC BENCHMARKING
+
+I want to see how to develop sustainable research tools
+
+SW OBSERVATORY
+Search for individual tools
+What does OpenEBench offer?
+Supporting community-driven benchmarking
+Monitoring of software quality in life sciences
+Contributing towards the adoption of best practices for research software development
+What can you do in OpenEBench?
+Benchmarks
+
+Explore existing community-driven scientific benchmark results for Life Sciences software
+
+EXPLORE
+Tools & Metrics
+
+Individually browse technical metrics for popular research software in Life Sciences
+
+EXPLORE
+SW Observatory
+
+Quantitative monitoring of the technical quality of software in Life Sciences
+
+EXPLORE
+Project Spaces
+
+Community spaces for projects to collaborate on software in life sciences
+
+EXPLORE
+0
+Communities
+0
+Tools
+0
+Project Spaces
+Our partners
+
+©  BSC-CNS 2026
+
+OpenEBench
+Benchmarking
+Projects
+Tools
+Docs
+Observatory
+Overview
+Trends
+FAIRness Scoreboard
+FAIRsoft Evaluator
+Data
+About
+Software
+Publications
+Collaboration
+The Team
+Legal
+Legal Notice
+Disclaimer
+Cookies Policy
+ 
+
+OpenEBench receives funding from different EC funding Research & Innovation programmes.
+Learn more 
+
+Made with
+in Barcelona.

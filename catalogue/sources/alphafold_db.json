@@ -1,0 +1,73 @@
+{
+ "id": "alphafold_db",
+ "name": "AlphaFold Protein Structure Database",
+ "categories": [
+  "protein_structure_function"
+ ],
+ "maintainer": "EMBL-EBI / Google DeepMind",
+ "url": "https://alphafold.ebi.ac.uk",
+ "provenance": [
+  "https://alphafold.ebi.ac.uk/api/prediction/",
+  "https://ftp.ebi.ac.uk/pub/databases/alphafold/latest/"
+ ],
+ "version": {
+  "value": "Model version 6 (P04637 model created 2025-08-01); human proteome UP000005640_9606_HUMAN_v6.tar 5.18 GB",
+  "release_date": "2025-08",
+  "verified": "live"
+ },
+ "scope": "Predicted structures with per-residue confidence (pLDDT) for UniProt proteins; proteome bundles on FTP.",
+ "variant_classes": [
+  "protein_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "PDB/mmCIF",
+  "PAE JSON",
+  "tar proteome bundles"
+ ],
+ "identifiers": [
+  "UniProt accession",
+  "AF-<acc>-F<n>"
+ ],
+ "mapping_methods": "Residue numbering follows UniProt canonical sequence.",
+ "quantitative": {
+  "summary": "pLDDT 0-100 per residue; predicted aligned error.",
+  "units": "pLDDT; angstrom (PAE)",
+  "uncertainty": "pLDDT/PAE",
+  "direction": "higher pLDDT = higher confidence"
+ },
+ "licence": {
+  "name": "CC BY 4.0, academic and commercial use (FAQ)",
+  "redistribution": "Attribution",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Irregular model version updates.",
+ "coverage_limitations": [
+  "Predicted, not experimental; low confidence in disordered regions and for complexes/ligands"
+ ],
+ "known_omissions": [
+  "The browser downloads page denied automated access; API and FTP were used instead"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "5.18 GB human proteome bundle is not needed yet. Fetch structures per protein for MaveDB targets when structure-based work starts; ProtVar/mutfunc (Ensembl) may already hold variant-level structural effects."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "API returned model metadata.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "evidence": [
+  "alphafold_db/api_p04637",
+  "alphafold_db/ftp_latest_listing",
+  "alphafold_db/faq_licence",
+  "alphafold_db/downloads"
+ ],
+ "unverified_fields": [],
+ "acquisition_targets": []
+}

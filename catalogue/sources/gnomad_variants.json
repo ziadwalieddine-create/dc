@@ -1,0 +1,81 @@
+{
+ "id": "gnomad_variants",
+ "name": "gnomAD v4.1 (exomes and genomes) allele frequencies",
+ "categories": [
+  "population_frequency"
+ ],
+ "maintainer": "gnomAD consortium (Broad Institute)",
+ "url": "https://gnomad.broadinstitute.org",
+ "provenance": [
+  "https://gnomad.broadinstitute.org/downloads",
+  "s3://gnomad-public-us-east-1/release/",
+  "gs://gcp-public-data--gnomad/release/"
+ ],
+ "version": {
+  "value": "v4.1 (4.1.2 for constraint); site shows v4.1.2, v3.1.2, v2.1.1",
+  "release_date": "2026-09-23 (4.1.2 constraint)",
+  "verified": "live"
+ },
+ "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group.",
+ "variant_classes": [
+  "snv",
+  "indel"
+ ],
+ "assemblies": [
+  "GRCh38",
+  "GRCh37"
+ ],
+ "formats": [
+  "VCF per chromosome",
+  "Hail Tables",
+  "TSV"
+ ],
+ "identifiers": [
+  "chr-pos-ref-alt",
+  "rsID"
+ ],
+ "mapping_methods": "Coordinates on GRCh38 (v4, v3) or GRCh37 (v2.1.1 with liftover files).",
+ "quantitative": {
+  "summary": "Allele counts, numbers and frequencies; filtering annotations.",
+  "units": "counts/frequency",
+  "uncertainty": "AC/AN; no CI provided in sites VCF",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Primary exome/genome data released under CC0; some annotations carry separate terms (SpliceAI is CC BY-NC 4.0)",
+  "redistribution": "CC0 for primary data; honour separate annotation terms",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Major releases every few years; point releases (4.1.1, 4.1.2) in between.",
+ "coverage_limitations": [
+  "Per-chromosome VCFs are very large (e.g. exome chr1 17.56 GiB, genome chr1 41.25 GiB)",
+  "Case-control/cohort composition affects representativeness",
+  "Not a random sample of any population"
+ ],
+ "known_omissions": [
+  "Individual-level genotypes not available",
+  "Allele-frequency filtering bias against disease cohorts is noted by the consortium"
+ ],
+ "overlap_with_existing": [
+  "nhgri-1000-genomes"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Chromosome-scale files are hundreds of GiB. Do not mirror; use the Ensembl VEP gnomAD/frequency plugins, dbNSFP frequency fields or on-demand tabix/API queries, and acquire regional slices when a target analysis needs them."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Downloads page rendered; S3 listing reachable.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "evidence": [
+  "gnomad/downloads_page",
+  "gnomad/policies",
+  "gnomad/s3_release_listing",
+  "gnomad/s3_v4_1_listing"
+ ],
+ "unverified_fields": [],
+ "acquisition_targets": []
+}

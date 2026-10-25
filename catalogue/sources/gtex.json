@@ -1,0 +1,84 @@
+{
+ "id": "gtex",
+ "name": "GTEx (Genotype-Tissue Expression)",
+ "categories": [
+  "regulation_expression_splicing",
+  "association_finemapping_coloc"
+ ],
+ "maintainer": "GTEx Consortium (NIH Common Fund)",
+ "url": "https://gtexportal.org",
+ "provenance": [
+  "https://gtexportal.org/api/v2/metadata/dataset",
+  "https://storage.googleapis.com/adult-gtex/"
+ ],
+ "version": {
+  "value": "v11 (946 subjects, 54 tissues, 50 eQTL tissues, GRCh38, GENCODE v47); v10 also available",
+  "release_date": "2025-08-22 (v11 RNA-seq files)",
+  "verified": "live"
+ },
+ "scope": "Bulk RNA-seq expression and eQTL/sQTL resources across non-diseased tissues, plus long-read, single-cell and haplotype-expression collections in the open bucket.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "gene_level"
+ ],
+ "assemblies": [
+  "GRCh38",
+  "GRCh37"
+ ],
+ "formats": [
+  "GCT",
+  "Parquet",
+  "TSV"
+ ],
+ "identifiers": [
+  "Ensembl gene IDs (versioned)",
+  "tissue names",
+  "variant IDs chr_pos_ref_alt_b38"
+ ],
+ "mapping_methods": "GRCh38 genotypes with GENCODE gene annotation.",
+ "quantitative": {
+  "summary": "TPM, read counts, eQTL effect sizes and p-values.",
+  "units": "TPM; slope per allele (eQTL)",
+  "uncertainty": "standard errors / q-values",
+  "direction": "effect allele and slope sign"
+ },
+ "licence": {
+  "name": "Open-access files free to download; raw sequence and full donor metadata are protected (dbGaP/AnVIL)",
+  "redistribution": "Open-access derivatives allowed with acknowledgement; protected data excluded",
+  "access": "open",
+  "verified": "live",
+  "note": "Exact reuse wording on the documentation page was not parsed."
+ },
+ "update_frequency": "Major releases every few years (v8 2019, v10, v11).",
+ "coverage_limitations": [
+  "About 950 donors, mostly adults of European ancestry",
+  "Post-mortem tissue; some tissues have few samples",
+  "Only open-access data are available here"
+ ],
+ "known_omissions": [
+  "Rare-variant and ancestry-specific effects are underpowered"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Median expression table is small and fetched now. Large eQTL tables are available but Open Targets and eQTL Catalogue provide fine-mapped, harmonised versions; pull only what is needed."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "API v2 dataset list and bucket listing verified.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "gtex_v11_gene_median_tpm",
+  "gtex_datasets_api"
+ ],
+ "evidence": [
+  "gtex/api_dataset",
+  "gtex/bucket_top",
+  "gtex/portal_downloads",
+  "gtex/data_use"
+ ],
+ "unverified_fields": []
+}

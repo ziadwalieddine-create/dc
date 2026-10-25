@@ -1,0 +1,111 @@
+ 
+ Genome-Wide Association Studies (GWAS) 
+ Scan to visit 
+ Skip to main content
+ NIH Websites Are Changing Get the Latest Updates and FAQs on the transition. Per Executive Order 14434 , federal agencies are now using "Super Intelligence" (SI) in place of "Artificial Intelligence" (AI). You may see both terms across NIH content during this transition. 
+ × 
+ Skip to navigation 
+ Skip to search 
+ Skip to slider 
+ Skip to about 
+ Skip to
+ subscription 
+ Skip to footer 
+ About Genomics
+ About Genomics
+ Introduction to Genomics 
+ Educational Resources 
+ Policy Issues in Genomics 
+ The Human Genome Project 
+ History of Genomics Program 
+ Research Funding
+ Research Funding
+ Funding Opportunities 
+ Funded Programs & Projects 
+ Division and Program Directors 
+ Scientific Program Analysts 
+ Contacts by Research Area 
+ News & Events 
+ Research at NHGRI
+ Research at NHGRI
+ Research Areas 
+ Research Investigators 
+ Staff Clinicians 
+ Research Projects 
+ Inaccessible 
+ Data Tools & Resources 
+ News & Events 
+ About Health
+ About Health
+ Genomics & Medicine 
+ Family Health History 
+ For Patients & Families 
+ For Health Professionals 
+ Careers & Training
+ Careers & Training
+ Jobs at NHGRI 
+ Training at NHGRI 
+ Funding for Research Training 
+ Professional Development Programs 
+ NHGRI Culture 
+ News & Events
+ News & Events
+ News 
+ Events 
+ Social Media 
+ Broadcast Media 
+ Image Gallery 
+ Videos 
+ Press Resources 
+ About NHGRI
+ About NHGRI
+ Organization 
+ Mission and Vision 
+ Policies and Guidance 
+ Budget 
+ Institute Advisors 
+ Strategic Vision 
+ Partner with NHGRI 
+ Staff Search 
+ Contact Us 
+ Breadcrumb 
+ Home 
+ About Genomics 
+ Educational Resources 
+ Talking Glossary of Genomic and Genetic Terms 
+ Genome-Wide Association Studies (GWAS) 
+ Home 
+ About Genomics 
+ Educational Resources 
+ Talking Glossary of Genomic and Genetic Terms 
+ En Español 
+ ​Genome-Wide Association Studies (GWAS) 
+ updated: October 25, 2026 
+ Definition
+ A genome-wide association study (abbreviated GWAS) is a research approach used to identify genomic variants that are statistically associated with a risk for a disease or a particular trait. The method involves surveying the genomes of many people, looking for genomic variants that occur more frequently in those with a specific disease or trait compared to those without the disease or trait. Once such genomic variants are identified, they are typically used to search for nearby variants that contribute directly to the disease or trait. 
+ Narration 
+ Genome-Wide Association Study, GWAS. The goal of genome-wide association studies, or GWAS as we call them, is to screen the entire genome of large numbers of individuals to look for associations between millions of genetic variants within those individuals and their disease outcomes or sometimes for associations between the variants and non-disease trait such as height. The first GWAS was published in 2005 and after that, the study approach just took off exponentially. Over time, GWAS have grown significantly both in terms of sample size going from initial sample sizes of several thousand individuals to current sample sizes of tens and hundreds of thousands of individuals and in terms of the number of disease [inaudible] studied as well as the associated variants that have been discovered. Results from GWAS have been curated in the NHGRI-EBI GWAS catalog. The methods and results of GWAS have informed other applications in applied epidemiologic research such as gene environment studies, Mendelian randomization studies, and polygenic risk score approaches. As I noted, GWAS focus on statistical associations. They inform us of correlation not causation. A major challenge posed by GWAS is the exploration of the functional consequences of identified variants which will provide insights into the biology of disease.
+ Carolyn M. Hutter, Ph.D. 
+ Acting Director 
+ Division of Genome Sciences 
+ Search 
+ Back to Glossary 
+ Related 
+ Risk
+ Genomic Variation
+ Genome
+ Polygenic Risk Score (PRS)
+ Get Updates 
+ Enter your email address to receive updates about the latest advances in genomics research. 
+ Subscribe!
+ Social Media Stream 
+ Footer Links 
+ Contact 
+ Accessibility 
+ Site Map 
+ Staff Search 
+ Plug-Ins Used by HHS 
+ FOIA 
+ Privacy 
+ Copyright 
+ HHS Vulnerability Disclosure 

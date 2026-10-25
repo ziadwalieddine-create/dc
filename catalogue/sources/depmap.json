@@ -1,0 +1,75 @@
+{
+ "id": "depmap",
+ "name": "DepMap (Cancer Dependency Map)",
+ "categories": [
+  "perturbation_evidence"
+ ],
+ "maintainer": "Broad Institute DepMap",
+ "url": "https://depmap.org/portal/",
+ "provenance": [
+  "https://depmap.org/portal/data_page/"
+ ],
+ "version": {
+  "value": "Not retrieved: the portal presented a human-verification page to automated clients",
+  "release_date": "unknown",
+  "verified": "unverified"
+ },
+ "scope": "Genome-scale CRISPR knockout and RNAi dependency screens across cancer cell lines, with expression and mutation context.",
+ "variant_classes": [
+  "gene_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "CSV matrices"
+ ],
+ "identifiers": [
+  "DepMap model IDs",
+  "HGNC symbol (Entrez ID)"
+ ],
+ "mapping_methods": "Gene-level scores per cell line; join on gene symbol/Entrez ID.",
+ "quantitative": {
+  "summary": "Gene effect scores (negative = dependency) per cell line.",
+  "units": "normalised log-fold-change effect (Chronos)",
+  "uncertainty": "not provided per score",
+  "direction": "more negative = stronger dependency"
+ },
+ "licence": {
+  "name": "Terms page not readable (verification wall); commonly CC BY 4.0",
+  "redistribution": "Unknown until read",
+  "access": "blocked_for_automation",
+  "verified": "unverified"
+ },
+ "update_frequency": "Quarterly public releases (not verified here).",
+ "coverage_limitations": [
+  "Cancer cell lines only; essentiality in culture does not equal organismal or human-germline effect",
+  "Portal states bulk data should be taken from its downloads section, not scraped"
+ ],
+ "known_omissions": [
+  "Figshare search did not return DepMap Public release records"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Open Targets 26.09 carries a target_essentiality (DepMap) dataset and CRISPR screen evidence; use that. Direct download needs the user to fetch from the DepMap downloads page manually."
+ },
+ "status": {
+  "accessible": "no",
+  "notes": "Automated access met a human-verification page; not bypassed.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "version",
+  "licence",
+  "update_frequency"
+ ],
+ "evidence": [
+  "depmap/data_page",
+  "depmap/terms",
+  "depmap/api_download_files",
+  "depmap/figshare_search"
+ ],
+ "acquisition_targets": []
+}

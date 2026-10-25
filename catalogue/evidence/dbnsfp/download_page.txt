@@ -1,0 +1,57 @@
+Skip to main content
+dbNSFP
+Home
+Releases
+Query
+Download
+Blog
+Publications
+Benchmark
+License
+About
+Download
+Public Use
+
+We make the dbNSFP Public Variant Browser free to all users for fast single-variant or small-batch lookups, without the need to download the large database. The variant annotation results can also be shared with a permanent link (example).
+
+Academic Use
+
+The full dbNSFP data in academic branch (~50GB) is provided free to academic and non-commercial users under the CC BY-NC-ND 4.0 license for bulk annotation and local workflow integration.
+
+Registration with an institutional email is required because several upstream resources are licensed by their authors with restrictions on commercial use — see the README file and the license page for the details.
+
+Step 1:
+Register with your institutional email
+
+New users receive an access code after domain verification.
+
+Register
+Step 2:
+Request download links
+
+Use the registered email address and access code.
+
+Request download
+
+Academic users can also search the full academic branch online through the Academic Portal with the same access code.
+
+Commercial Use
+
+Commercial license subscribers can download the full dbNSFP commercial branch data for research and product development at their own site. Licensing supports the continued development of dbNSFP as core data infrastructure for clinical genomics and genetics research. See the license page for details and instructions to request a commercial license.
+
+If you are already a dbNSFP commercial subscriber and need download links or have questions about the current release, please contact license@dbnsfp.org.
+
+Download Formats
+The full dbNSFP database is provided in a ZIP file that includes per-chromosome variant tables, the gene table, and the search_dbNSFP program.
+The search_dbNSFP Java program includes both CLI and GUI interfaces, runs on all major operating systems, and is optimized for annotating large variant sets locally.
+dbNSFP 5.x maintains the variant and gene tables in the same format to be compatible with existing software and platforms using dbNSFP. Column descriptions for the current release are available: Variant Columns v5.4a and Gene Columns v5.4.
+We also provide the dbNSFP variant tables in a single tabix-indexed BGZF format file for each genome build (GRCh37 and GRCh38), ready for use with Ensembl VEP and SnpSift.
+Software and Platforms Using dbNSFP
+
+dbNSFP is integrated into a range of third-party software and platforms. Local annotation tools such as Ensembl VEP, ANNOVAR, and SnpSift read dbNSFP data files that you obtain yourself, so the academic registration or commercial license described above still applies.
+
+Hosted services such as the Ensembl VEP web version, OpenCRAVAT, VarSome, UCSC Genome Browser, and HGMD serve dbNSFP data as part of their own platforms, so no dbNSFP license is needed to use them. Each service provider decides which dbNSFP version and which subset of columns it carries, and some are built on legacy dbNSFP versions, so the data there may lag the current release.
+
+If your software or platform uses dbNSFP and you would like it listed here, please contact collaboration@dbnsfp.org.
+
+© 2024–2026 Genos Bioinformatics LLC (Texas, USA).

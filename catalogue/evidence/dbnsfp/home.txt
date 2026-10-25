@@ -1,0 +1,47 @@
+Skip to main content
+dbNSFP
+Home
+Releases
+Query
+Download
+Blog
+Publications
+Benchmark
+License
+About
+What is dbNSFP?
+
+dbNSFP is a comprehensive, one-stop resource for functional annotations and deleteriousness predictions for all possible non-synonymous single-nucleotide variants (nsSNVs) in the human genome. Since its initial release in 2011, dbNSFP has established itself as trusted data infrastructure for human genetics and genomics research, as well as for regulatory-compliant clinical genomics platforms worldwide.
+
+The current release (August 2026) is based on GENCODE Human release 50 (Ensembl version 116) and includes 86,701,498 nsSNVs (non-synonymous SNVs) and 2,582,202 ssSNVs (splicing-site SNVs) derived from all known protein-coding genes in the human genome, including mitochondrial DNA.
+
+dbNSFP compiles functional annotations and deleteriousness prediction scores from 37 algorithms:
+
+SIFT, SIFT4G, PROVEAN, Polyphen2-HDIV, Polyphen2-HVAR, MutationTaster 2021, MutationAssessor, FATHMM-XF coding, CADD, VEST4, DANN, MetaSVM, MetaLR, MetaRNN, Eigen, Eigen-PC, M-CAP, REVEL, MutPred2, MVP, gMVP, MPC, PrimateAI, DEOGEN2, ALoFT, BayesDel, ClinPred, LIST-S2, VARITY, ESM1b, AlphaMissense, PHACTboost, MutFormer, MutScore, MisFit, popEVE, and GPN-MSA.
+
+Evolutionary conservation scores:
+
+PhyloP (3 versions), phastCons (3 versions), GERP++, GERP_92_mammals, and bStatistic.
+
+Observed allele frequencies from large population sequencing projects:
+
+The 1000 Genomes Project, gnomAD v4.1 and v2.1.1 (including non-neuro, non-cancer, and control sample subsets), TOPMed, All of Us, RGC Million Exome, and ALFA (aggregated from dbGaP and dbSNP).
+
+dbNSFP also curates comprehensive gene-level annotations, including:
+
+Various gene IDs from HGNC.
+Gene-disease relationships: GenCC, OMIM, Orphanet, The Human Phenotype Ontology, GWAS Catalog, ClinGen Dosage Sensitivity, etc.
+Protein functions and structures: The Human Protein Atlas, UniProt, Gene Ontology, IntAct, etc.
+Gene-level constraint measures: LOEUF, MOEUF from gnomAD 4.1, etc.
+Metabolic and signaling pathways: ConsensusPathDB, KEGG pathway, etc.
+Model organism experiment data: MGI, ZFIN, etc.
+
+For a full list of data sources and version information, please see the current dbNSFP README on the Releases page.
+
+We also make the dbNSFP Public Variant Browser free to all users for fast single-variant or small-batch lookups, without the need to download the large database. The variant annotation results can also be shared with a permanent link (example).
+
+Developer Collaboration
+
+We welcome developers of functional prediction methods to contribute predictions and scores to dbNSFP. Please contact us at collaboration@dbnsfp.org.
+
+© 2024–2026 Genos Bioinformatics LLC (Texas, USA).

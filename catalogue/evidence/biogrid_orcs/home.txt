@@ -1,0 +1,125 @@
+BioGRID ORCS 2.0.18.2
+Home
+Browse 
+Help Wiki
+Tools
+Statistics
+Downloads
+About Us 
+Welcome to the BioGRID Open Repository of CRISPR Screens (ORCS)
+
+BioGRID ORCS is an open repository of CRISPR screens compiled through comprehensive curation efforts. Our current index is version 2.0.18 and searches 418 publications and 94,219 genes to return 2,217 CRISPR screens from 5 major model organism species, 825 cell lines, and 145 cell types. All screen data are freely provided through our search index and available via download in a wide variety of standardized formats.
+
+Screen Statistics 
+Latest Downloads 
+ Search BioGRID ORCS:
+By Screen
+By Protein/Gene
+By Publication
+By Cell Type
+By Cell Line
+By Phenotype
+By Condition/Drug
+By Library Type
+By Enzyme
+By Library Name
+By Format
+By Analysis
+By Methodology
+By Experiment
+All Organisms
+Chlorocebus sabaeus (African Green Monkey)
+Drosophila melanogaster (Fruit Fly)
+Homo sapiens (Human)
+Mus musculus (House Mouse)
+Saccharomyces cerevisiae S288C (Budding Yeast)
+SEARCH 
+example searches
+Advanced Search
+Key Search Tips
+Featured Screens
+Related Resources 
+BioGRID - The Biological General Repository for Interaction Datasets
+
+The Biological General Repository for Interaction Datasets (BioGRID) is an interaction, post-translational modification, and chemical association repository with data compiled through comprehensive curation efforts
+
+Learn more 
+BioGRID Themed Curation Projects
+
+BioGRID themed curation projects focus on specific biological processes with disease relevance. Core genes/proteins central to the process are assembled with expert input and relevant publications curated for biological interactions. Themed curation projects are updated monthly and additional projects are generated on a regular basis.
+
+Learn more 
+The BioGRID ORCS REST Webservice
+
+CRISPR Screen data in BioGRID ORCS can be accessed via the BioGRID ORCS REST web service. Screens in various formats can be fetched from the BioGRID ORCS REST Service over HTTPS, programmatically or in a browser.
+
+Learn more 
+Partners 
+More Partners 
+Latest News 
+BioGRID Version 5.0.262 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,684 publications. These additions bring our total number of non-redundant interactions to 2,364,201, raw interactions to 3,035,956, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: October 1st, 2026 - 12:06 AM
+BioGRID Version 5.0.261 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,684 publications. These additions bring our total number of non-redundant interactions to 2,352,894, raw interactions to 3,021,750, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: September 1st, 2026 - 02:09 AM
+BioGRID Version 5.0.260 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,591 publications. These additions bring our total number of non-redundant interactions to 2,335,350, raw interactions to 3,001,894, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: August 1st, 2026 - 12:16 AM
+BioGRID Version 5.0.259 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,471 publications. These additions bring our total number of non-redundant interactions to 2,331,024, raw interactions to 2,996,529, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: July 1st, 2026 - 12:06 AM
+BioGRID Version 5.0.258 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,276 publications. These additions bring our total number of non-redundant interactions to 2,321,348, raw interactions to 2,985,900, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: June 1st, 2026 - 02:05 AM
+BioGRID Version 5.0.257 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,182 publications. These additions bring our total number of non-redundant interactions to 2,289,632, raw interactions to 2,947,386, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: May 1st, 2026 - 01:36 AM
+BioGRID Version 5.0.256 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 88,077 publications. These additions bring our total number of non-redundant interactions to 2,286,551, raw interactions to 2,943,480, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: April 1st, 2026 - 01:16 AM
+BioGRID Version 5.0.255 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 87,975 publications. These additions bring our total number of non-redundant interactions to 2,278,277, raw interactions to 2,933,176, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: March 1st, 2026 - 12:09 AM
+BioGRID Version 5.0.254 Released
+
+The BioGRID's curated set of data have been updated to include interactions, chemical associations, and post-translational modifications (PTM) from 87,794 publications. These additions bring our total number of non-redundant interactions to 2,267,832, raw interactions to 2,920,886, non-redundant chemical associations to 14,024, raw chemical associations to 31,540, Non-Redundant PTM Sites to 563,757 and Un-Assigned PTMs to 57,396.
+
+New curated data are added in curation updates on a monthly basis. For a more comprehensive breakdown of our numbers, check out our latest statistics. To download these data, visit our download page or utilize our web service.
+
+ Posted: February 1st, 2026 - 12:18 AM
+A BioGRID Project
+Copyright © 2026 | TyersLab.com | All Rights Reserved
+Terms and Conditions | Privacy Policy | BioGRID | Osprey | Yeast Kinome | TyersLab.com | SGD | GitHub | YouTube | Bluesky

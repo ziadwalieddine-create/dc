@@ -1,0 +1,66 @@
+ Contact
+ FAQs
+ Access Biospecimens
+ Publications
+ About Adult GTEx
+
+
+Home
+Downloads 
+Expression 
+Single Cell 
+QTL 
+IGV Browser
+Tissues & Histology 
+Documentation 
+About 
+Download Open Access Datasets
+Select project:
+Adult GTEx
+Enhancing GTEx (eGTEx)
+Developmental GTEx
+Non-human Primate dGTEx
+Overview
+Bulk tissue expression
+QTL
+Single cell
+Long read data
+Haplotype expression
+Variants
+Reference
+Metadata
+Additional GTEx datasets
+
+The Adult Genotype-Tissue Expression (GTEx) project is a comprehensive public resource for the study of tissue-specific gene expression and regulation. Samples were collected from 54 non-diseased tissue sites across nearly 1000 individuals, primarily for molecular assays including WGS, WES, and RNA-Seq.
+
+All data files generated in the GTEx project are available for download. Only open access data files are available here on the GTEx portal. All raw sequence data files (DNA and RNA), and the full donor metadata files, are protected access data. Please see our Protected Data Downloads page for instructions on how to request access to those data.
+
+Note that GTEx protected access data files are housed in AnVIL , NOT in the Sequence Read Archive (SRA).
+
+Downloading Adult GTEx data
+
+Explore and download open-access Adult GTEx data by clicking on the subsequent tabs on this page. Users interested in accessing protected data must apply for access separately and can learn how to do so by visiting our protected data access page.
+
+Additional assays were run on Adult GTEx samples as part of the Enhancing GTEx (eGTEx) project. Select the eGTEx dataset at the top of the page to learn more and to download available data.
+
+Citing/acknowledging the GTEx project
+
+GTEx data, visualizations, and tools can all be used with acknowledgement. An example acknowledgment statement follows:
+
+The data used for the analyses described in this manuscript were obtained from: [insert, where appropriate] the GTEx Portal on MM/DD/YY and/or dbGaP accession number phs000424.vN.pN on MM/DD/YYYY.
+
+Related pages
+The Tissue Sampling Sites page shows more information about our tissue sampling procedures.
+The Tissue Summary page shows summary statistics about the current release.
+The Release History page shows the history of our releases.
+The Single Cell Dataset Overview page shows an overview of our single cell data.
+The Lab and Analysis Methods page shows information about our methods.
+
+©2026 Broad Institute of MIT and Harvard. All rights reserved.
+
+FAQs
+Publication Policy
+Lab and Analysis Methods
+License
+CONNECT @GTExPortal  @GTExPortal  Contact Us
+EXTERNAL LINKSdbGaP | NIH Common Fund | NHGRI

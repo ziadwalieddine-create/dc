@@ -1,0 +1,74 @@
+Skip to main content
+Skip to local navigation
+Skip to EBI global navigation menu
+Skip to expanded EBI global navigation menu (includes all sub-sections)
+ 
+About us
+Training
+Research
+Services
+EMBL-EBI
+Expression and splicing QTLs recomputed from public datasets
+Project
+Methods
+Data access
+Studies
+License
+Team
+Release notes
+Federated analysis
+What do we do?
+
+The eQTL Catalogue aims to provide uniformly processed gene expression and splicing QTLs from all available public studies on human.
+
+Quantitative trait loci (QTL) are genomic variants that are significantly associated to a measurable phenotype. This resource focuses on expression cis-QTLs (cis-eQTL) where variants are associated to expression levels of nearby genes, and on splicing QTLs (sQTL) where variants are associated to specific splicing events on nearby splice junctions.
+
+They have proven particularly useful to (statistical) geneticists exploring GWAS results, who wish to associate non-coding GWAS SNP associations to a molecular mechanism, such as perturbed gene expression or splicing.
+
+To compute them we process public studies with our uniform pipeline. We currently provide access to 32 published studies, with an aim to cover all accessible studies on human.
+
+A complete explanation can be found in our flagship paper and a presentation on our webinar.
+
+Access our results
+
+You can access our results via FTP, or query part of our data via our eQTL Catalogue Browser. Our results are also displayed on the Open Targets Platform. More information on our re-use policy is on the License tab.
+
+Let us know what you think!
+
+Feel free to send us your feedback at eqtlcatalogue@ebi.ac.uk or submit an issue to our GitHub repository.
+
+Follow us
+
+Keep up to date on the eQTL Catalogue through announcements on our Twitter account @eQTLCatalogue.
+
+EMBL-EBI Intranet for staff
+Services
+Data resources and tools
+Data submission
+Help & Support
+Licensing
+Research
+Publications
+Research groups
+Postdocs & PhDs
+Training
+Live training
+On-demand training
+Support for trainers
+Contact organisers
+Industry
+Members Area
+Contact Industry team
+About
+Contact us
+Events
+Jobs
+News
+People & groups
+
+EMBL-EBI, Wellcome Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK. +44 (0)1223 49 44 44
+
+Copyright © EMBL 2026 | EMBL-EBI is part of the European Molecular Biology Laboratory | Terms of use
+
+This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our Privacy Notice and Terms of Use.
+I agree, dismiss this banner

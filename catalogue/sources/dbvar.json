@@ -1,0 +1,76 @@
+{
+ "id": "dbvar",
+ "name": "dbVar (NCBI database of genomic structural variation)",
+ "categories": [
+  "structural_variation_cnv"
+ ],
+ "maintainer": "NCBI",
+ "url": "https://www.ncbi.nlm.nih.gov/dbvar/",
+ "provenance": [
+  "https://ftp.ncbi.nlm.nih.gov/pub/dbVar/"
+ ],
+ "version": {
+  "value": "FTP root lists ISCA/, archive/, clingen/, data/, sandbox/; data/ last modified 2021-01-21",
+  "release_date": "2021-01-21",
+  "verified": "live"
+ },
+ "scope": "Archive of SV submissions with studies, variant calls and clinical assertions.",
+ "variant_classes": [
+  "sv",
+  "cnv"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "VCF",
+  "GVF",
+  "tab-delimited"
+ ],
+ "identifiers": [
+  "nsv/esv/nssv accessions",
+  "study IDs"
+ ],
+ "mapping_methods": "Submitted coordinates remapped by NCBI.",
+ "quantitative": {
+  "summary": "Calls with supporting evidence; clinical significance where submitted.",
+  "units": "n/a",
+  "uncertainty": "per study",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "NCBI public domain policy applies (not confirmed for dbVar specifically)",
+  "redistribution": "Unverified",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "The FTP data directory shows 2021 as its last modification; currency not established.",
+ "coverage_limitations": [
+  "Directory dates suggest the FTP may lag the web service"
+ ],
+ "known_omissions": [
+  "Contents not inspected"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Catalogued only: ClinGen, gnomAD-SV and DGV cover the near-term needs; inspect dbVar contents and currency before any download."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Only directory listings read.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "licence",
+  "currency",
+  "contents"
+ ],
+ "evidence": [
+  "dbvar/ftp_listing",
+  "dbvar/ftp_data_listing"
+ ],
+ "acquisition_targets": []
+}

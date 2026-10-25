@@ -1,0 +1,121 @@
+STANDARDS
+DATABASES
+POLICIES
+COLLECTIONS
+ORGANISATIONS
+ADD CONTENT
+STATS
+LOGIN
+SEARCH
+ADVANCED SEARCH
+LOGIN
+STANDARDS
+DATABASES
+POLICIES
+COLLECTIONS
+ORGANISATIONS
+ADD CONTENT
+STATS
+A curated, informative and educational resource on data and metadata standards, inter-related to databases and data policies.
+
+Guides consumers to discover, select and use these resources with confidence.
+Helps producers to make their resources more visible, more widely adopted and cited.
+Provides humans and tools with access to trustworthy content to enable data management tasks.
+
+Thursday, October 22nd 2026, 11:37: Work on our site firewall is planned between 18:00 and 22:00 on the 22nd of October and there may be some brief periods of disruption. Apologies for any inconvenience.
+EVERYONE
+RESEARCHERS
+DEVELOPERS & CURATORS
+JOURNAL PUBLISHERS
+LIBRARIANS & TRAINERS
+SOCIETIES & ALLIANCES
+FUNDERS
+Everyone
+
+Watch our webinar to learn how FAIRsharing has grown in scope, connectivity and reuse, and how we support data management, FAIR assessment, policy implementation and more.
+
+read more
+1997 Standards
+Terminology Artifact
+850
+Model/Format
+677
+Reporting Guideline
+331
+Identifier Schema
+73
+VIEW ALL
+3411 Databases
+Repositories
+1978
+Knowledgebases
+1172
+Institutional Repositories
+323
+Knowledgebase/Repositories
+261
+VIEW ALL
+449 Policies
+Journal
+198
+Funder
+108
+Institution
+75
+Journal publisher
+41
+Society
+16
+Project
+11
+VIEW ALL
+EXPLORE & LEARN
+ADVANCED SEARCH
+SEARCH
+standards
+databases
+policies
+collections
+BROWSE BY SUBJECT
+Recommendations
+Standards and/or databases recommended by organisational data policies.
+FIND
+Collections
+Standards and/or databases grouped by domain, species or organisation.
+DISCOVER
+Educational
+Infographics and factsheets covering content and functionalities for all stakeholders.
+LEARN
+Community Champions
+Put your expertise into action and get credited by joining our Community Champions programme.
+VIEW AND JOIN IN
+Adopters and Collaborators
+Learn about the people and communities who contribute to and advocate for FAIRsharing.
+VIEW ALL
+Developed By
+The FAIRsharing team
+Data Readiness Group
+University of Oxford
+Contacts and News
+ Blog
+ Email us for all enquiries
+ Bluesky
+ Mastodon
+Users and Contributors
+Adopters and Collaborators
+Community Champions
+Educational / FAQ
+Activities
+About Us
+How to cite us
+Governance
+Terms of use
+Documentation
+In-depth Guidance
+API and data licence
+Privacy Policy
+Sustainability and Preservation
+
+© FAIRsharing 2009-Present | Licenced under
+
+Creative Commons by Share Alike 4.0 International

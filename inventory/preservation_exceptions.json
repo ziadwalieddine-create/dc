@@ -1,0 +1,8 @@
+[
+ {
+  "path": "scrape/mavedb-human/README.md",
+  "date": "2026-10-25",
+  "sha256_after": "fb15b75306a2d92efd2cb945c12a98fdb62bd2593512001bab740c32242ebc35",
+  "reason": "Factual correction: the README stated that every score set the public API can return was accounted for. Later work found 52 published superseded score sets hidden from the search listing. Only the Coverage-check paragraph changed (one line); see AUDIT_LOG.md."
+ }
+]

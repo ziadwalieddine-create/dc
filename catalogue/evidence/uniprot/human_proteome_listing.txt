@@ -1,0 +1,16 @@
+ 
+ Index of /pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Eukaryota/UP000005640 
+ Index of /pub/databases/uniprot/current_release/knowledgebase/reference_proteomes/Eukaryota/UP000005640 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ RELEASE.metalink 2026-09-15 12:16 8.7K   
+ UP000005640_9606.dat.gz 2026-09-15 09:21 127M   
+ UP000005640_9606.fasta.gz 2026-09-15 09:21 7.4M   
+ UP000005640_9606.gene2acc.gz 2026-09-14 10:50 901K   
+ UP000005640_9606.idmapping.gz 2026-09-15 10:14 26M   
+ UP000005640_9606.xml.gz 2026-09-15 10:08 177M   
+ UP000005640_9606_DNA.fasta.gz 2026-09-14 10:56 17M   
+ UP000005640_9606_DNA.miss.gz 2026-09-14 10:56 4.2K   
+ UP000005640_9606_additional.dat.gz 2026-09-15 09:21 247M   
+ UP000005640_9606_additional.fasta.gz 2026-09-15 09:21 40M   
+ UP000005640_9606_additional.xml.gz 2026-09-15 10:08 445M   

@@ -1,0 +1,72 @@
+{
+ "id": "dgv",
+ "name": "DGV (Database of Genomic Variants)",
+ "categories": [
+  "structural_variation_cnv"
+ ],
+ "maintainer": "The Centre for Applied Genomics (SickKids)",
+ "url": "https://dgv.tcag.ca/dgv/app/home",
+ "provenance": [
+  "https://dgv.tcag.ca/dgv/app/downloads"
+ ],
+ "version": {
+  "value": "Latest release 2025-12-01 (GRCh38 variants file 364,191,405 bytes)",
+  "release_date": "2025-12-01",
+  "verified": "live"
+ },
+ "scope": "Curated catalogue of structural variation from healthy-control studies; downloadable tab-delimited files for hg18, hg19 and hg38, plus supporting and filtered variant sets.",
+ "variant_classes": [
+  "cnv",
+  "sv"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "tab-delimited text",
+  "GFF3 for filtered variants"
+ ],
+ "identifiers": [
+  "DGV accessions (esv, dgv)",
+  "study references"
+ ],
+ "mapping_methods": "Intervals; studies with newer assemblies are not mapped back to older builds.",
+ "quantitative": {
+  "summary": "Observed gain/loss counts and sample sizes per variant region.",
+  "units": "counts",
+  "uncertainty": "n/a",
+  "direction": "gain vs loss"
+ },
+ "licence": {
+  "name": "Usage disclaimer page not parsed",
+  "redistribution": "Unknown; read the disclaimer",
+  "access": "open_with_terms",
+  "verified": "unverified"
+ },
+ "update_frequency": "Irregular releases (2013 to 2025 listed).",
+ "coverage_limitations": [
+  "Array/short-read era studies dominate; breakpoint resolution is limited"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Complements gnomAD-SV with older, study-level control CNVs. Large (364 MB), so held at tier B."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Download links extracted from the downloads page HTML.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "dgv_grch38_variants_2025_12_01"
+ ],
+ "unverified_fields": [
+  "licence"
+ ],
+ "evidence": [
+  "dgv/downloads_https_plain"
+ ]
+}

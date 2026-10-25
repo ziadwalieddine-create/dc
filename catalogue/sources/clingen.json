@@ -1,0 +1,88 @@
+{
+ "id": "clingen",
+ "name": "ClinGen (dosage sensitivity, gene-disease validity, region curation)",
+ "categories": [
+  "natural_knockouts_dosage",
+  "structural_variation_cnv",
+  "clinical_interpretation"
+ ],
+ "maintainer": "ClinGen Consortium",
+ "url": "https://clinicalgenome.org",
+ "provenance": [
+  "https://ftp.clinicalgenome.org/",
+  "https://search.clinicalgenome.org/kb/downloads"
+ ],
+ "version": {
+  "value": "Files regenerated daily (gene curation list dated 2026-10-25); recurrent CNV V2.1 since 2026-03-18",
+  "release_date": "2026-10-25",
+  "verified": "live"
+ },
+ "scope": "Haploinsufficiency and triplosensitivity scores for genes and genomic regions, recurrent CNV regions (V2.1), and curated gene-disease validity.",
+ "variant_classes": [
+  "gene_level",
+  "region_level",
+  "cnv"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "TSV",
+  "BED",
+  "CSV",
+  "AED"
+ ],
+ "identifiers": [
+  "HGNC symbol and NCBI Gene ID",
+  "MONDO disease ID",
+  "genomic coordinates"
+ ],
+ "mapping_methods": "Gene- and region-level; coordinates given for GRCh37 and GRCh38.",
+ "quantitative": {
+  "summary": "Categorical dosage scores (0-3, 30, 40) and validity classifications.",
+  "units": "n/a",
+  "uncertainty": "evidence descriptions with PMIDs",
+  "direction": "haploinsufficiency vs triplosensitivity"
+ },
+ "licence": {
+  "name": "ClinGen terms: curated content released openly, free to capture and use",
+  "redistribution": "Open; keep attribution",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Daily (FTP README).",
+ "coverage_limitations": [
+  "Only genes and regions that have been through curation"
+ ],
+ "known_omissions": [
+  "Variant-level classifications are in ClinVar / ClinGen Allele Registry, not in these files"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Small, openly licensed and directly addresses dosage sensitivity and CNV interpretation; Open Targets carries only evidence_clingen gene-disease links."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP and CSV export reachable.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "clingen_gene_curation_list",
+  "clingen_region_curation_list",
+  "clingen_haploinsufficiency_gene",
+  "clingen_triplosensitivity_gene",
+  "clingen_recurrent_cnv_v2_1",
+  "clingen_gene_validity"
+ ],
+ "evidence": [
+  "clingen/ftp_readme",
+  "clingen/ftp_listing",
+  "clingen/gene_curation_list_grch38_head",
+  "clingen/gene_validity_csv_head",
+  "clingen/terms"
+ ],
+ "unverified_fields": []
+}

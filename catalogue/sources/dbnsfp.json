@@ -1,0 +1,76 @@
+{
+ "id": "dbnsfp",
+ "name": "dbNSFP",
+ "categories": [
+  "annotation_integration",
+  "protein_structure_function",
+  "population_frequency"
+ ],
+ "maintainer": "dbNSFP team (commercial licences via Genos Bioinformatics LLC)",
+ "url": "https://www.dbnsfp.org",
+ "provenance": [
+  "https://www.dbnsfp.org/download",
+  "https://www.dbnsfp.org/license"
+ ],
+ "version": {
+  "value": "August 2026 release (GENCODE 50 / Ensembl 116); column docs v5.4a",
+  "release_date": "2026-08",
+  "verified": "live"
+ },
+ "scope": "Functional annotations and deleteriousness predictions for all possible non-synonymous SNVs (86,701,498 nsSNVs) and splice-site SNVs (2,582,202 ssSNVs) from 37 algorithms (e.g. SIFT, PolyPhen-2, CADD, REVEL, AlphaMissense, ESM1b, popEVE), plus conservation scores and allele frequencies (1000 Genomes, gnomAD v4.1, others).",
+ "variant_classes": [
+  "snv"
+ ],
+ "assemblies": [
+  "GRCh38",
+  "GRCh37"
+ ],
+ "formats": [
+  "ZIP of per-chromosome tables",
+  "search_dbNSFP Java program"
+ ],
+ "identifiers": [
+  "chr:pos:ref:alt",
+  "Ensembl/UniProt/HGNC IDs"
+ ],
+ "mapping_methods": "Predictions precomputed per variant on GENCODE transcripts.",
+ "quantitative": {
+  "summary": "Per-predictor scores and rank scores.",
+  "units": "predictor-specific",
+  "uncertainty": "mostly none",
+  "direction": "predictor-specific"
+ },
+ "licence": {
+  "name": "Academic branch CC BY-NC-ND 4.0 (about 50 GB); commercial branch under paid licence",
+  "redistribution": "No derivatives and non-commercial; do not commit or republish data or transformed copies",
+  "access": "registration_required",
+  "verified": "live",
+  "note": "Registration with an institutional email and an access code is required before download links are issued."
+ },
+ "update_frequency": "3 to 5 releases per year (site FAQ).",
+ "coverage_limitations": [
+  "Predictions are not experimental measurements",
+  "Missense/splice-site SNVs only; no indels, CNVs or SVs"
+ ],
+ "known_omissions": [
+  "Several upstream scores excluded from the commercial branch"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Best single consolidated source of missense predictors and frequencies. Not acquired: it needs the user to register with an institutional email."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "Site and licence pages readable; bulk download gated by registration.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "evidence": [
+  "dbnsfp/home",
+  "dbnsfp/download_page",
+  "dbnsfp/license"
+ ],
+ "unverified_fields": [],
+ "acquisition_targets": []
+}

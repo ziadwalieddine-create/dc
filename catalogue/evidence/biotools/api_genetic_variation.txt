@@ -1,0 +1,24 @@
+ 
+ SDU | Forbidden | 403 
+html, body {
+ margin: 0;
+ padding: 0;
+ height: 100%;
+ font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+ Helvetica, Arial, sans-serif;
+ background: #FAF9F6;
+ color: #000;
+}
+.page {
+ min-height: 100%;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+ padding: 2rem;
+ box-sizing: border-box;
+}
+.page img {
+ max-width: 750px;
+ width: 40v

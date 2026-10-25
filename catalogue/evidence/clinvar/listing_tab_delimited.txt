@@ -1,0 +1,31 @@
+ 
+ Index of /pub/clinvar/tab_delimited 
+ Index of /pub/clinvar/tab_delimited 
+ Name 
+ Size 
+ Released 
+ Last Modified 
+ Parent Directory - supplements/ - 2021-12-03 09:41:31 
+ special_requests/ - 2021-12-03 09:41:31 
+ archive/ - 2026-10-01 00:05:51 
+ allele_gene.txt.gz 93,636,838 2024-03-31 05:31:50 2026-10-19 00:08:35 
+ allele_gene.txt.gz.md5 87 2024-03-31 19:46:12 2026-10-19 15:29:39 
+ cross_references.txt 111,556,004 2024-03-31 04:43:28 2026-10-18 23:40:17 
+ cross_references.txt.md5 89 2024-03-31 19:46:01 2026-10-19 15:29:38 
+ gene_specific_summary.txt 3,498,695 2024-03-31 04:45:50 2026-10-18 23:41:17 
+ gene_specific_summary.txt.md5 94 2024-03-31 19:46:01 2026-10-19 15:29:36 
+ hgvs4variation.txt.gz 538,672,844 2024-03-31 05:04:34 2026-10-19 00:06:04 
+ hgvs4variation.txt.gz.md5 90 2024-03-31 19:46:09 2026-10-19 15:29:44 
+ organization_summary.txt 944,962 2024-03-31 04:52:33 2026-10-19 00:01:31 
+ organization_summary.txt.md5 93 2024-03-31 19:46:06 2026-10-19 15:29:48 
+ README 47,147 2024-03-07 04:06:55 2026-01-13 16:25:43 
+ submission_summary.txt.gz 404,817,924 2021-11-30 02:41:14 2026-10-19 00:49:39 
+ submission_summary.txt.gz.md5 94 2024-03-31 19:46:08 2026-10-19 15:29:54 
+ summary_of_conflicting_interpretations.txt 2,061,604,362 2021-11-30 02:39:52 2026-10-19 00:33:11 
+ summary_of_conflicting_interpretations.txt.md5 111 2024-03-31 19:46:21 2026-10-19 15:30:18 
+ var_citations.txt 258,710,600 2024-03-31 04:44:43 2026-10-19 00:05:28 
+ var_citations.txt.md5 86 2024-03-31 19:46:05 2026-10-19 15:29:43 
+ variant_summary.txt.gz 456,505,123 2024-03-31 19:30:16 2026-10-19 04:45:10 
+ variant_summary.txt.gz.md5 91 2024-03-31 19:46:01 2026-10-19 15:30:07 
+ variation_allele.txt.gz 24,855,542 2024-03-31 05:03:31 2026-10-18 23:40:11 
+ variation_allele.txt.gz.md5 92 2024-03-31 19:46:11 2026-10-19 15:30:11 

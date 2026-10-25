@@ -1,0 +1,77 @@
+{
+ "id": "alphamissense",
+ "name": "AlphaMissense",
+ "categories": [
+  "annotation_integration",
+  "protein_structure_function"
+ ],
+ "maintainer": "Google DeepMind",
+ "url": "https://zenodo.org/records/8208688",
+ "provenance": [
+  "https://storage.googleapis.com/dm_alphamissense/",
+  "https://zenodo.org/records/8208688"
+ ],
+ "version": {
+  "value": "Static release; GCS objects dated 2023-08-03",
+  "release_date": "2023-08-03",
+  "verified": "live"
+ },
+ "scope": "Pathogenicity predictions for all possible human missense variants (hg38 file 642,961,469 bytes; hg19 622,293,310; isoform and amino-acid tables; gene-level averages).",
+ "variant_classes": [
+  "snv",
+  "protein_level"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "TSV (gzip)"
+ ],
+ "identifiers": [
+  "chr:pos:ref:alt",
+  "UniProt",
+  "transcript ID",
+  "protein variant"
+ ],
+ "mapping_methods": "Precomputed per variant on Ensembl/UniProt isoforms.",
+ "quantitative": {
+  "summary": "am_pathogenicity score 0-1 and class (benign/ambiguous/pathogenic).",
+  "units": "probability-like score",
+  "uncertainty": "none; calibrated categories",
+  "direction": "higher = more likely pathogenic"
+ },
+ "licence": {
+  "name": "CC BY-NC-SA 4.0 (Zenodo record)",
+  "redistribution": "Non-commercial and share-alike",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Static (no update since 2023).",
+ "coverage_limitations": [
+  "Prediction, not measurement; trained on ClinVar-like labels, so clinical circularity is a risk",
+  "Missense only"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Also embedded in dbNSFP, which needs registration; the open file lets us test predictor integration now. Gene-level table fetched in tier A, the 643 MB variant file in tier B."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "GCS bucket metadata and MD5 verified.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "alphamissense_gene_hg38",
+  "alphamissense_hg38"
+ ],
+ "evidence": [
+  "alphamissense/zenodo_record",
+  "alphamissense/gcs_listing",
+  "alphamissense/gcs_hg38_meta"
+ ],
+ "unverified_fields": []
+}

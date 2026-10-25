@@ -1,0 +1,75 @@
+{
+ "id": "reactome",
+ "name": "Reactome",
+ "categories": [
+  "pathways_interactions_epistasis"
+ ],
+ "maintainer": "Reactome (OICR, NYU, EMBL-EBI)",
+ "url": "https://reactome.org",
+ "provenance": [
+  "https://reactome.org/download/current/",
+  "https://reactome.org/ContentService/data/database/version"
+ ],
+ "version": {
+  "value": "Version 97 (mapping files dated 2026-06-19/20)",
+  "release_date": "2026-06",
+  "verified": "live"
+ },
+ "scope": "Curated human pathways and reactions with gene/protein/small-molecule mappings and interaction tables.",
+ "variant_classes": [
+  "gene_level",
+  "protein_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "tab-delimited mapping files",
+  "BioPAX/SBML/Neo4j on request"
+ ],
+ "identifiers": [
+  "Reactome stable IDs (R-HSA-)",
+  "Ensembl, UniProt"
+ ],
+ "mapping_methods": "Gene/protein to pathway mapping files for Ensembl and UniProt IDs.",
+ "quantitative": {
+  "summary": "Categorical membership; no effect sizes.",
+  "units": "n/a",
+  "uncertainty": "evidence tags (IEA vs TAS)",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Data licensed CC0; illustrations CC BY 4.0 (license page)",
+  "redistribution": "Open",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "About quarterly.",
+ "coverage_limitations": [
+  "Pathways are curated models, not complete or tissue specific",
+  "Does not encode epistasis or compensation quantitatively"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Small mapping files; Open Targets also carries a reactome dataset."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Version endpoint returned 97.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "reactome_ensembl2reactome",
+  "reactome_uniprot2reactome_all_levels",
+  "reactome_pathways"
+ ],
+ "evidence": [
+  "reactome/content_version",
+  "reactome/download_current_listing",
+  "reactome/license"
+ ],
+ "unverified_fields": []
+}

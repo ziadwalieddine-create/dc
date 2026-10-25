@@ -1,0 +1,76 @@
+{
+ "id": "uniprot",
+ "name": "UniProtKB (Swiss-Prot and TrEMBL)",
+ "categories": [
+  "protein_structure_function"
+ ],
+ "maintainer": "UniProt Consortium",
+ "url": "https://www.uniprot.org",
+ "provenance": [
+  "https://rest.uniprot.org",
+  "https://ftp.uniprot.org/pub/databases/uniprot/current_release/"
+ ],
+ "version": {
+  "value": "Release 2026_03 (150,006,383 entries; Swiss-Prot 575,748)",
+  "release_date": "2026-09-02",
+  "verified": "live"
+ },
+ "scope": "Protein sequences with curated function, domains, variants, PTMs and cross-references. 20,431 reviewed (Swiss-Prot) human entries.",
+ "variant_classes": [
+  "protein_level",
+  "gene_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "TSV/JSON/XML via REST",
+  "flat files and FASTA on FTP"
+ ],
+ "identifiers": [
+  "UniProt accession",
+  "HGNC",
+  "Ensembl",
+  "PDB",
+  "AlphaFold DB"
+ ],
+ "mapping_methods": "Cross-references to Ensembl, RefSeq, HGNC, PDB and AlphaFold DB.",
+ "quantitative": {
+  "summary": "Mostly categorical annotation; curated variant effects as text.",
+  "units": "n/a",
+  "uncertainty": "evidence codes",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "CC BY 4.0 for copyrightable parts",
+  "redistribution": "Attribution",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Every 8 weeks or so.",
+ "coverage_limitations": [
+  "Curated annotation lags primary literature",
+  "Variant sections are not systematic experimental measurements"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Primary source; fetch the reviewed human table with identifier cross-references (needed to join protein-level MaveDB targets to genes and structures)."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "REST total reviewed human = 20,431.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "uniprot_human_reviewed"
+ ],
+ "evidence": [
+  "uniprot/relnotes",
+  "uniprot/rest_human_reviewed",
+  "uniprot/licence"
+ ],
+ "unverified_fields": []
+}

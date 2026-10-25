@@ -1,0 +1,90 @@
+Skip to main content
+GWAS Catalog
+Documentation
+News
+GWAS Catalog search
+Documentation
+Training
+Methods
+Summary statistics
+Submission
+Downloads
+Downloading the GWAS Catalog
+Downloading the GWAS Diagram
+Downloading summary statistics
+Programmatic access
+FAQs
+Curation of population descriptors
+Ontology
+Reference
+Citing the GWAS Catalog
+DownloadsDownloading the GWAS Catalog
+Downloading the GWAS Catalog
+
+Version numbers refer to the file format version. Data is released biweekly. The download links in the table below point to the latest directory. For dated releases, see the release archive. To check the current release, see the footer of the GWAS Catalog home page or follow the metadata API example.
+
+Description	Download Link	Format	Column header descriptions
+All associations v1.0	Download (full list); Download (split by pub. year)	tab separated file (zipped)	Click to view
+All associations v1.0.2 - with added ontology annotations, GWAS Catalog study accession numbers and genotyping technology	Download (full list); Download (split by pub. year)	tab separated file (zipped)	Click to view
+All studies v1.0	Click to download	tab separated file	Click to view
+All studies v1.0.2.1 - With study accession numbers, ontology annotations, genotyping technology, cohort identifiers and full summary statistics availability	Click to download	tab separated file	Click to view
+All studies v1.0.3.1 - with added fields to match the unpublished downloads, including cohort identifiers and full summary statistics availability	Click to download	tab separated file	Click to view
+All ancestry data v1.0 (see FAQ page)	Click to download	tab separated file	Click to view
+All ancestry data v1.0.3.1 - with added fields to match unpublished downloads (see below) (see FAQ page)	Click to download	tab separated file	Click to view
+Unpublished GWAS​
+Description	Download Link	Format	Column header descriptions
+All unpublished studies v1.0.3.1 - new format, with added cohort identifiers	Click to download	tab separated file	Click to view
+All unpublished ancestries v1.0.3.1 - unpublished ancestries, new format	Click to download	tab separated file	Click to view
+File name conventions​
+
+v1.0 indicates the columns originally proposed by the NCBI
+
+v1.0.1 indicates the addition of ontology annotations, GWAS Catalog study accession numbers and other new columns (dismissed from 1 May 2018)
+
+v1.0.2 indicates the addition of ontology annotations, GWAS Catalog study accession numbers and other new columns such as genotyping technology
+
+v1.0.2.1 indicates the addition of all fields in v1.0.2, plus cohort identifiers and summary statistics availability in the studies download
+
+v1.0.3 indicates the addition of unpublished data and additional trait information (dismissed from 1 Dec 2023)
+
+V1.0.3.1 indicates the addition of all fields in v1.0.3, plus cohort identifiers and summary statistics availability in the studies download
+
+eXX indicates the Ensembl release version that the data is mapped to
+
+rYYYY-MM-DD, when present in a versioned filename, indicates the date on which the GWAS Catalog was released
+
+Older versions of the GWAS Catalog, with or without ontology annotations, can be found on our FTP server.
+
+Checking the current release programmatically​
+
+The metadata API returns current release information and record counts:
+
+curl -s -H 'accept: application/json' \
+
+  'https://www.ebi.ac.uk/gwas/rest/api/v2/metadata'
+
+
+To obtain custom downloads of study and association data for a specific trait, gene, variant, genomic region or publication please access the relevant search pages and use the export option on the data tables.
+
+GWAS to EFO mappings​
+
+A file showing all GWAS Catalog reported trait to EFO mappings, including the parent category each trait is mapped to on the diagram can be found here. Note that mappings are not one-to-one, i.e. one EFO term may be mapped to several different GWAS Catalog reported traits and vice versa.
+
+Citing the GWAS Catalog​
+
+Please see the citation page for citation guidance.
+
+Previous
+Downloads
+Next
+Downloading the GWAS Diagram
+Unpublished GWAS
+File name conventions
+Checking the current release programmatically
+GWAS to EFO mappings
+Citing the GWAS Catalog
+Copyright © EMBL-EBI 2026 | EMBL-EBI is an Outstation of the European Molecular Biology Laboratory | Terms of use | Data Preservation Statement | Documentation available under CC BY 4.0
+
+This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our Privacy Notice and Terms of Use.
+
+I agree, dismiss this banner

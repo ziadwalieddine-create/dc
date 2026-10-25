@@ -1,0 +1,76 @@
+{
+ "id": "gwas_catalog",
+ "name": "NHGRI-EBI GWAS Catalog",
+ "categories": [
+  "association_finemapping_coloc"
+ ],
+ "maintainer": "NHGRI-EBI",
+ "url": "https://www.ebi.ac.uk/gwas/",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/latest/"
+ ],
+ "version": {
+  "value": "Release files dated 2026-10-22",
+  "release_date": "2026-10-22",
+  "verified": "live"
+ },
+ "scope": "Published genome-wide association results with ontology-annotated traits, study and ancestry tables.",
+ "variant_classes": [
+  "snv",
+  "indel"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "TSV",
+  "ZIP of TSV"
+ ],
+ "identifiers": [
+  "GCST study accessions",
+  "rsIDs",
+  "EFO trait IDs"
+ ],
+ "mapping_methods": "Variants mapped to Ensembl genes by distance/within-gene rules; coordinates on current assembly (GRCh38 not confirmed from the evidence retrieved).",
+ "quantitative": {
+  "summary": "Effect size (beta or OR), CI, p-value, risk allele frequency.",
+  "units": "trait-specific",
+  "uncertainty": "CI, p-value",
+  "direction": "risk allele"
+ },
+ "licence": {
+  "name": "EMBL-EBI general terms of use; summary statistics CC0 unless otherwise stated",
+  "redistribution": "Check per file",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Frequent (weekly or more).",
+ "coverage_limitations": [
+  "Lead associations rather than causal variants; ancestry bias towards European cohorts"
+ ],
+ "known_omissions": [
+  "Full summary statistics are in a separate repository"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Open Targets integrates GWAS Catalog studies into credible sets; the flat associations table is small and fetched for direct lookups. The flat studies.tsv was fetched first and discarded: it has no study accession column; the associations file carries STUDY ACCESSION."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP listing verified; web REST API root URL guessed incorrectly (404) and not needed.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "gwas_catalog_associations"
+ ],
+ "unverified_fields": [
+  "assembly"
+ ],
+ "evidence": [
+  "gwas_catalog/ftp_latest",
+  "gwas_catalog/docs",
+  "gwas_catalog/downloads"
+ ]
+}

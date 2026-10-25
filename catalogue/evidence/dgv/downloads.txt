@@ -1,0 +1,3 @@
+agent-proxy relay: this proxy only accepts HTTPS CONNECT tunnels. Plain-HTTP/absolute-form requests are not supported — common causes are axios releases before 1.16.1 (broken HTTPS proxy handling) or a tool configured with HTTP_PROXY pointing at this relay.
+GET /__agentproxy/status on this proxy port shows proxy state and recent failures.
+

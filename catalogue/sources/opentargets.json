@@ -1,0 +1,91 @@
+{
+ "id": "opentargets",
+ "name": "Open Targets Platform",
+ "categories": [
+  "annotation_integration",
+  "association_finemapping_coloc",
+  "perturbation_evidence",
+  "pathways_interactions_epistasis",
+  "clinical_interpretation",
+  "natural_knockouts_dosage",
+  "functional_haplotypes_pgx",
+  "regulation_expression_splicing"
+ ],
+ "maintainer": "Open Targets (EMBL-EBI, Sanger, others)",
+ "url": "https://platform.opentargets.org",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/26.09/output/",
+  "https://api.platform.opentargets.org/api/v4/graphql",
+  "https://platform-docs.opentargets.org"
+ ],
+ "version": {
+  "value": "Data 26.09 (API 26.9.0)",
+  "release_date": "2026-09",
+  "verified": "live"
+ },
+ "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "gene_level"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "Parquet",
+  "GraphQL API",
+  "Croissant metadata"
+ ],
+ "identifiers": [
+  "Ensembl gene IDs",
+  "EFO/MONDO disease IDs",
+  "variant IDs (chr_pos_ref_alt)",
+  "study IDs"
+ ],
+ "mapping_methods": "Evidence is mapped to Ensembl targets and EFO diseases by Open Targets pipelines; variant-level datasets keyed by GRCh38 coordinates (assembly not confirmed from the live evidence).",
+ "quantitative": {
+  "summary": "Association scores, credible-set posterior probabilities, colocalisation statistics, locus-to-gene scores, essentiality scores.",
+  "units": "dataset-specific",
+  "uncertainty": "credible-set PIPs and coloc posteriors where provided",
+  "direction": "dataset-specific"
+ },
+ "licence": {
+  "name": "CC0 1.0 for Platform data (docs page); a separate data-source licensing list exists on the same page",
+  "redistribution": "CC0 for the Platform; upstream source terms should be checked from the data-source list",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Quarterly releases (24.03 through 26.09 listed).",
+ "coverage_limitations": [
+  "Aggregated and filtered by Open Targets rules; original studies may contain more detail",
+  "Datasets are large Parquet; only selected ones should be pulled"
+ ],
+ "known_omissions": [
+  "Rendered downloads page showed only 42 of the 61 datasets; the FTP listing is the complete inventory"
+ ],
+ "overlap_with_existing": [
+  "mavedb-human"
+ ],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Already integrates GWAS credible sets, colocalisation, DepMap, CRISPR screens, IMPC, ClinGen, ClinVar (EVA) and pharmacogenomics. Use it as the primary route for those dimensions instead of scraping each source; keep the originals only where Open Targets omits information."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP, GraphQL and docs reachable. No datasets downloaded yet; sizes per dataset still to be measured.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "assemblies"
+ ],
+ "evidence": [
+  "opentargets/api_meta",
+  "opentargets/docs_licence",
+  "opentargets/ftp_platform_listing",
+  "opentargets/ftp_26_09_output",
+  "opentargets/downloads_page"
+ ],
+ "acquisition_targets": []
+}

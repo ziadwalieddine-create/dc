@@ -1,0 +1,53 @@
+urn,title,published_date,num_variants,human_target,target_genes,target_accessions,license,superseded_by,replaces,has_scores_table,has_counts_table
+urn:mavedb:00000005-a-1,CBS low-B6 imputed and refined,2018-12-04,11263,True,CBS,,CC0,urn:mavedb:00000005-a-4,,True,False
+urn:mavedb:00000005-a-2,CBS high-B6 imputed and refined,2018-12-04,11243,True,CBS,,CC0,urn:mavedb:00000005-a-3,,True,False
+urn:mavedb:00000094-a-14,Normalized currents of 62 KCNQ1 missense SNVs in the homozygous state,2022-06-16,62,True,KCNQ1,,CC0,urn:mavedb:00000094-a-15,,True,False
+urn:mavedb:00000097-a-1,BRCA1 SGE Exon 2 Replicate 1,2022-07-22,312,True,BRCA1 Exon 2,,CC0,urn:mavedb:00000097-a-2,,True,True
+urn:mavedb:00000097-b-1,BRCA1 SGE Exon 2 Replicate 2,2022-07-22,312,True,BRCA1 Exon 2,,CC0,urn:mavedb:00000097-b-2,,True,False
+urn:mavedb:00000097-c-1,BRCA1 SGE Exon 3 Replicate 1,2022-07-22,292,True,BRCA1 Exon 3,,CC0,urn:mavedb:00000097-c-2,,True,True
+urn:mavedb:00000097-d-1,BRCA1 SGE Exon 3 Replicate 2,2022-07-22,292,True,BRCA1 Exon 3,,CC0,urn:mavedb:00000097-d-2,,True,True
+urn:mavedb:00000097-e-1,BRCA1 SGE Exon 4 Replicate 1,2022-07-22,293,True,BRCA1 Exon 4,,CC0,urn:mavedb:00000097-e-2,,True,True
+urn:mavedb:00000097-f-1,BRCA1 SGE Exon 4 Replicate 2,2022-07-22,293,True,BRCA1 Exon 4,,CC0,urn:mavedb:00000097-f-2,,True,True
+urn:mavedb:00000097-g-1,BRCA1 SGE Exon 5 Replicate 1,2022-07-22,303,True,BRCA1 Exon 5,,CC0,urn:mavedb:00000097-g-2,,True,True
+urn:mavedb:00000097-h-1,BRCA1 SGE Exon 5 Replicate 2,2022-07-22,303,True,BRCA1 Exon 5,,CC0,urn:mavedb:00000097-h-2,,True,True
+urn:mavedb:00000097-i-1,BRCA1 SGE Exon 15 Replicate 1,2022-07-22,306,True,BRCA1 Exon 15,,CC0,urn:mavedb:00000097-i-2,,True,True
+urn:mavedb:00000097-j-1,BRCA1 SGE Exon 15 Replicate 2,2022-07-22,306,True,BRCA1 Exon 15,,CC0,urn:mavedb:00000097-j-2,,True,True
+urn:mavedb:00000097-k-1,BRCA1 SGE Exon 16 Replicate 1,2022-07-22,311,True,BRCA1 Exon 16,,CC0,urn:mavedb:00000097-k-2,,True,True
+urn:mavedb:00000097-l-1,BRCA1 SGE Exon 16 Replicate 2,2022-07-22,311,True,BRCA1 Exon 16,,CC0,urn:mavedb:00000097-l-2,,True,True
+urn:mavedb:00000097-m-1,BRCA1 SGE Exon 17 Replicate 1,2022-07-22,287,True,BRCA1 Exon 17,,CC0,urn:mavedb:00000097-m-2,,True,True
+urn:mavedb:00000097-n-1,BRCA1 SGE Exon 17 Replicate 2,2022-07-22,287,True,BRCA1 Exon 17,,CC0,urn:mavedb:00000097-n-2,,True,True
+urn:mavedb:00000097-o-1,BRCA1 SGE Exon 18 Replicate 1,2022-07-22,294,True,BRCA1 Exon 18,,CC0,urn:mavedb:00000097-o-2,,True,True
+urn:mavedb:00000097-p-1,BRCA1 SGE Exon 18 Replicate 2,2022-07-22,294,True,BRCA1 Exon 18,,CC0,urn:mavedb:00000097-p-2,,True,True
+urn:mavedb:00000097-q-1,BRCA1 SGE Exon 19 Replicate 1,2022-07-22,303,True,BRCA1 Exon 19,,CC0,urn:mavedb:00000097-q-2,,True,True
+urn:mavedb:00000097-r-1,BRCA1 SGE Exon 19 Replicate 2,2022-07-22,303,True,BRCA1 Exon 19,,CC0,urn:mavedb:00000097-r-2,,True,True
+urn:mavedb:00000097-s-1,BRCA1 SGE Exon 20 Replicate 1,2022-07-22,287,True,BRCA1 Exon 20,,CC0,urn:mavedb:00000097-s-2,,True,True
+urn:mavedb:00000097-t-1,BRCA1 SGE Exon 20 Replicate 2,2022-07-22,287,True,BRCA1 Exon 20,,CC0,urn:mavedb:00000097-t-2,,True,True
+urn:mavedb:00000097-u-1,BRCA1 SGE Exon 21 Replicate 1,2022-07-22,305,True,BRCA1 Exon 21,,CC0,urn:mavedb:00000097-u-2,,True,True
+urn:mavedb:00000097-v-1,BRCA1 SGE Exon 21 Replicate 2,2022-07-22,305,True,BRCA1 Exon 21,,CC0,urn:mavedb:00000097-v-2,,True,True
+urn:mavedb:00000097-w-1,BRCA1 SGE Exon 22 Replicate 1,2022-07-22,288,True,BRCA1 Exon 22,,CC0,urn:mavedb:00000097-w-2,,True,True
+urn:mavedb:00000097-x-1,BRCA1 SGE Exon 22 Replicate 2,2022-07-22,288,True,BRCA1 Exon 22,,CC0,urn:mavedb:00000097-x-2,,True,True
+urn:mavedb:00000097-y-1,BRCA1 SGE Exon 23 Replicate 1,2022-07-22,312,True,BRCA1 Exon 23,,CC0,urn:mavedb:00000097-y-2,,True,True
+urn:mavedb:00000097-z-1,BRCA1 SGE Exon 23 Replicate 2,2022-07-22,312,True,BRCA1 Exon 23,,CC0,urn:mavedb:00000097-z-2,,True,True
+urn:mavedb:00000098-a-1,SCN5A response to veratridine+brevetoxin+ouabain mixture,2022-07-28,248,True,SCN5A,,CC0,urn:mavedb:00000098-a-2,,True,False
+urn:mavedb:00000108-a-3,Missense variant effect map for human HMBS,2022-12-06,6590,True,HMBS,,CC0,urn:mavedb:00000108-0-1,,True,False
+urn:mavedb:00000672-d-2,PLpro Abundance - Individual Synonymous Wildtype Scores - see urn:mavedb:00000672-d-4,2024-03-12,405,False,SARS-CoV-2 PLpro,,CC0,urn:mavedb:00000672-d-4,,True,False
+urn:mavedb:00000674-a-1,Functional MAVE scores for KCNE1 ,2024-04-24,2539,True,KCNE1,,CC0,urn:mavedb:00000674-b-1,,True,False
+urn:mavedb:00001217-a-1,SOD1 abundance map score set,2025-02-24,2906,True,SOD1,,CC0,urn:mavedb:00001217-a-3,,True,False
+urn:mavedb:00001217-a-2,SOD1 activity map score set,2025-02-24,2850,True,SOD1,,CC0,urn:mavedb:00001217-a-4,,True,False
+urn:mavedb:00001222-a-1,Scores from growth assay of BRCA1 variants,2025-05-08,1427,True,BRCA1,,CC0,urn:mavedb:00001222-a-2,,True,False
+urn:mavedb:00001222-b-1,Scores from multiplexed functional assay of BRCA1 variants,2025-05-08,2271,True,BRCA1,,CC0,urn:mavedb:00001222-b-2,,True,False
+urn:mavedb:00001227-a-1,Scores from deep mutational scanning CRX transcription factor in HEK 293-derived cells,2025-05-08,5284,True,CRX,,CC0,urn:mavedb:00001227-a-2,,True,False
+urn:mavedb:00001229-a-1,Scores from cell surface localization assay of KCNH2,2025-05-08,220,True,KCNH2,,CC0,urn:mavedb:00001229-a-2,,True,False
+urn:mavedb:00001230-a-1,Scores from arrayed automated patch clamp experiment for KCNH2,2025-05-08,76,True,KCNH2,,CC0,urn:mavedb:00001230-a-2,,True,False
+urn:mavedb:00001231-a-1,Scores from cell surface expression deep mutational scan of KCNH2 in HEK293T cells,2025-05-08,22824,True,KCNH2,,CC0,urn:mavedb:00001231-a-2,,True,False
+urn:mavedb:00001250-a-1,Saturation Genome Editing of BARD1 scores,2025-10-21,11318,True,BARD1,NC_000002.12,CC0,urn:mavedb:00001250-a-2,,True,False
+urn:mavedb:00001250-a-2,Saturation Genome Editing of BARD1 scores,2026-06-08,10911,True,BARD1,NM_000465.4,CC0,urn:mavedb:00001250-a-3,urn:mavedb:00001250-a-1,True,False
+urn:mavedb:00001259-a-1,Saturation Genome Editing of PALB2 scores,2026-01-10,10513,True,PALB2,NC_000016.10,CC0,urn:mavedb:00001259-a-2,,True,False
+urn:mavedb:00001260-a-1,Saturation Genome Editing of RAD51D scores,2026-01-10,5410,True,RAD51D,NC_000017.11,CC0,urn:mavedb:00001260-a-2,,True,False
+urn:mavedb:00001262-a-1,Saturation Genome Editing of CTCF scores,2026-01-10,5995,True,CTCF,NC_000016.10,CC0,urn:mavedb:00001262-a-2,,True,False
+urn:mavedb:00001262-a-2,Saturation Genome Editing of CTCF scores,2026-06-08,8490,True,CTCF,NM_006565.4,CC0,urn:mavedb:00001262-a-3,urn:mavedb:00001262-a-1,True,False
+urn:mavedb:00001263-a-1,Saturation Genome Editing of BRCA2 scores,2026-01-10,871,True,BRCA2,NC_000013.11,CC0,urn:mavedb:00001263-a-2,,True,False
+urn:mavedb:00001264-a-1,Saturation genome editing of XRCC2 scores,2026-01-10,3740,True,XRCC2,NC_000007.14,CC0,urn:mavedb:00001264-a-2,,True,False
+urn:mavedb:00001265-a-1,Saturation Genome Editing of SFPQ scores,2026-01-13,2769,True,SFPQ,NC_000001.11,CC0,urn:mavedb:00001265-a-2,,True,False
+urn:mavedb:00001267-a-2,TSC2 Tuberin Domain Updated Scores,2026-03-04,3951,True,TSC2 Tuberin,,CC0,urn:mavedb:00001267-a-3,,True,True
+urn:mavedb:00001267-b-2,TSC2 RapGAP Domain Updated Scores,2026-03-04,6017,True,TSC2 RapGAP,,CC0,urn:mavedb:00001267-b-3,,True,True

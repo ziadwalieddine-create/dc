@@ -1,0 +1,82 @@
+{
+ "id": "1000genomes",
+ "name": "1000 Genomes Project / IGSR (International Genome Sample Resource)",
+ "categories": [
+  "population_frequency",
+  "structural_variation_cnv"
+ ],
+ "maintainer": "IGSR (EMBL-EBI)",
+ "url": "https://www.internationalgenome.org",
+ "provenance": [
+  "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/",
+  "https://www.internationalgenome.org/data"
+ ],
+ "version": {
+  "value": "FTP data_collections include 1000G_2504_high_coverage (3,202 samples), 1000G_2504_high_coverage_SV, HGDP, HGSVC2, HGSVC3, hprc and others",
+  "release_date": "2020-05-25 (sample index file)",
+  "verified": "live"
+ },
+ "scope": "Phased variant call sets and sample/population metadata from the 1000 Genomes Project and related collections; IGSR hosts the data after the project ended.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "sv"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "VCF",
+  "CRAM",
+  "tab-delimited metadata"
+ ],
+ "identifiers": [
+  "sample IDs (HG/NA)",
+  "population and superpopulation codes"
+ ],
+ "mapping_methods": "Call sets on GRCh37 (phase 3) and GRCh38 (high-coverage).",
+ "quantitative": {
+  "summary": "Genotypes and haplotypes of individual open-consent samples; frequencies derived.",
+  "units": "genotype calls",
+  "uncertainty": "genotype likelihoods in some collections",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "IGSR provides open data; terms of use are in the IGSR data disclaimer (not parsed)",
+  "redistribution": "Open data; cite IGSR",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Collections added irregularly.",
+ "coverage_limitations": [
+  "Only about 2.5k to 3.2k individuals; limited ancestry and rare-variant resolution",
+  "Phase 3 GRCh37; GRCh38 high-coverage set is separate"
+ ],
+ "known_omissions": [
+  "Disease cohorts absent"
+ ],
+ "overlap_with_existing": [
+  "nhgri-1000-genomes"
+ ],
+ "reuse_decision": {
+  "action": "extend_integration",
+  "rationale": "The existing NHGRI page gives project documentation only. Acquire the 3,202-sample population table now (links genotypes to ancestry); fetch chromosome-scale genotype files only on demand, since gnomAD/dbNSFP already carry 1000 Genomes frequencies."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP and portal reachable.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "igsr_1000g_samples"
+ ],
+ "evidence": [
+  "1000genomes/ftp_listing",
+  "1000genomes/ftp_data_collections",
+  "1000genomes/igsr_data_reuse",
+  "1000genomes/sample_index_head"
+ ],
+ "unverified_fields": []
+}

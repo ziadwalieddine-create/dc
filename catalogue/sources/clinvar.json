@@ -1,0 +1,86 @@
+{
+ "id": "clinvar",
+ "name": "ClinVar",
+ "categories": [
+  "clinical_interpretation"
+ ],
+ "maintainer": "NCBI / NLM",
+ "url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+ "provenance": [
+  "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/"
+ ],
+ "version": {
+  "value": "VCF fileDate 2026-10-19",
+  "release_date": "2026-10-19",
+  "verified": "live"
+ },
+ "scope": "Submitted interpretations of variants and their relationship to conditions, with review status and submitter evidence.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "sv",
+  "cnv"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "VCF",
+  "tab-delimited (variant_summary etc.)",
+  "XML"
+ ],
+ "identifiers": [
+  "VariationID",
+  "RCV/SCV",
+  "rsID",
+  "HGVS",
+  "MedGen/OMIM/MONDO condition IDs"
+ ],
+ "mapping_methods": "Submitters provide HGVS; NCBI normalises and maps to GRCh37/GRCh38.",
+ "quantitative": {
+  "summary": "Categorical classifications and review status; no effect-size measurement.",
+  "units": "n/a",
+  "uncertainty": "review status / star rating",
+  "direction": "pathogenic to benign categories"
+ },
+ "licence": {
+  "name": "NCBI public domain policy; submitters may claim rights in some content (NCBI policies page)",
+  "redistribution": "Freely distributable with NLM acknowledgement; keep NCBI disclaimer",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Monthly (first Thursday) and weekly (Mondays) per README.",
+ "coverage_limitations": [
+  "Classification reflects submitter evidence and varies in quality",
+  "Biased to genes and conditions that are commonly tested"
+ ],
+ "known_omissions": [
+  "Absence from ClinVar does not mean benign"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Source of record for clinical classifications; Open Targets only carries a subset (EVA evidence), so the VCF is retrieved directly."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "VCF 200,670,148 bytes with published MD5.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "clinvar_vcf_grch38",
+  "clinvar_readme",
+  "clinvar_readme_vcf"
+ ],
+ "evidence": [
+  "clinvar/readme",
+  "clinvar/readme_vcf",
+  "clinvar/vcf_grch38_head",
+  "clinvar/vcf_grch38_md5",
+  "clinvar/ncbi_policies",
+  "clinvar/data_use"
+ ],
+ "unverified_fields": []
+}

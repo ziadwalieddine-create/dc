@@ -1,0 +1,1856 @@
+gnomAD browser
+gnomAD v4.1.2
+gnomAD v3.1.2
+gnomAD SVs v4.1.0
+gnomAD CNVs v4.1.0
+gnomAD v2.1.1
+gnomAD SVs v2.1
+ExAC
+About
+Team
+Federated
+Stats
+Policies
+Publications
+Blog
+Changelog
+Data
+Forum
+Contact
+Help/FAQ
+Missed our recent talk on common misconceptions about gnomAD? Watch the recording covering what the resource is, what metadata are available, and the types of studies it includes.
+Data
+Summary
+v4 Downloads
+v3 Downloads
+v2 Liftover Downloads
+v2 Downloads
+ExAC Downloads
+gnomAD API
+Warning Access to gnomAD data in Azure Open Datasets ended on August 15. The data is available in Google Cloud Public Datasets or the Registry of Open Data on AWS.
+Summary
+
+gnomAD data is available for download through Google Cloud Public Datasets, and the Registry of Open Data on AWS. We recommend using Hail, our Hail utilities for gnomAD, and the gnomAD toolbox to work with this data.
+
+In addition to the files listed below, Terra has a demo workspace for working with gnomAD data.
+
+The API used by the gnomAD browser is also open to the public. In use cases involving querying a relatively small number of records with low latency, using the API to request records as needed may be more suitable than working with downloaded gnomAD data. If you're unsure which would be better for your use case, please reach out to the browser team on the gnomAD forum.
+
+Download Overview
+Google Cloud Public Datasets
+
+Files can be browsed and downloaded using gsutil.
+
+gsutil ls gs://gcp-public-data--gnomad/release/
+
+gnomAD variants are also available as a BigQuery dataset.
+
+Please note, this BigQuery dataset is maintained entirely by Google. The gnomAD team has no ability to provide a consistent experience in BigQuery.
+
+Registry of Open Data on AWS
+
+Files can be browsed and downloaded using the AWS Command Line Interface.
+
+aws s3 ls s3://gnomad-public-us-east-1/release/
+
+Downloads
+
+See “What's the difference between different versions of gnomad?” to decide which version is right for you.
+
+Core Dataset vs Secondary Analyses
+
+Within a versioned release, datasets available for download fall under two categories. The Core Dataset is the gnomAD database and analyses created and maintained by the gnomAD production team. Secondary Analyses are additional analyses developed in collaboration with laboratories of the gnomAD steering committee.
+
+v4 Downloads
+
+The gnomAD v4 data set contains data from 730,947 exomes and 76,215 whole genomes, all mapped to the GRCh38 reference sequence.
+
+Core Dataset
+
+gnomAD database and features created and maintained by the gnomAD production team.
+
+Variants
+
+For more information, read the gnomAD v4.0.0 blog post and the gnomAD v4.1.0 blog post.
+
+Exomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+chr1 sites VCF
+17.56 GiB, MD5: 2e08659636b631c38dae62c79553bc65
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+13.35 GiB, MD5: ec198762f8cb807ac6871de00c157dec
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+10.83 GiB, MD5: aec7d7e4300b719e345fa69dfaf6538e
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+7.21 GiB, MD5: fc436e1ae0de3d6fd134efd584959d8a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+7.94 GiB, MD5: d13df61b30bf5009565890be990727cf
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+8.54 GiB, MD5: cdc8f1a61497cf5fc6b77e935c84e02c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+9.04 GiB, MD5: b12707e3fcf2b57193c9038153b3843b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+6.8 GiB, MD5: 5eeab891ab132801c9f8da1f4967c02f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+7.52 GiB, MD5: 4d2a672b96f7898ba41ace82b7f3b705
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+7.35 GiB, MD5: 82779ca0a54f6906511c939199a975be
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+10.88 GiB, MD5: c03170a93d0877bfd097f5979350ada3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+9.94 GiB, MD5: 375e39ff8f59f13eea20846ca8f47ee8
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+3.31 GiB, MD5: 147de89a0b62789886aa8ba949dfac09
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+6.23 GiB, MD5: 330dae70fc6c26031c02ab4f4d0e05b9
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+6.89 GiB, MD5: 4ac058ec1ea74a523e4faf9f2082cb5f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+9.14 GiB, MD5: bc776c8cbf2352ed4eede17d6cbff567
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+11.23 GiB, MD5: a929e8043e0719fecb4b72245cc2a490
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+3.17 GiB, MD5: 71e0e6fc629e3f8dc7a0c6cadcd8b612
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+11.8 GiB, MD5: bfffbc0986c81b2d08acf508502ce112
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+4.45 GiB, MD5: 14f01ad046abd41d8ba542a38bead27b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+2.1 GiB, MD5: f8b112938d68ea61c9dcc4ba26e09ef1
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+4.73 GiB, MD5: 4543f706701bc746bf291884fd277934
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+5.43 GiB, MD5: 7e1df7f412ae48b8f8a8a2c71df173b6
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY sites VCF
+108.72 MiB, MD5: d541c53ca6551434fbd55c3bdf3e2486
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Genomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+chr1 sites VCF
+41.25 GiB, MD5: 21939573565c47e54edaf3c8a9bf50f3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+43.57 GiB, MD5: 3211b86b12fa71c187914fc5161eb037
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+36.73 GiB, MD5: 26bd6279907cf7d8c4af7d64ca2aaf51
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+33.71 GiB, MD5: b34adf5d22bf3e4cef2ed7d90c7abff3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+30.6 GiB, MD5: 5e4669f942d647a3274bab54e729288e
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+29.74 GiB, MD5: b78e1717d6b79101ae188ef5e587de84
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+29.24 GiB, MD5: 2948b4e3fded433dcf59cf5d4e2e40e9
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+27.41 GiB, MD5: 7e0f96ede0cab3d431bcb61bdd50b5bd
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+23.17 GiB, MD5: 6683e973b5931fe30a059ea157644b07
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+25.12 GiB, MD5: eafd6ae544ce6d2e54e103a8516e9dba
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+24.7 GiB, MD5: c7d1ddeb1b2da2c74c3e0bdec91307f5
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+24.28 GiB, MD5: 2c7adf6e982838fa692ce7716d55e17a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+16.0 GiB, MD5: de54f559704bf06abbc3f413ba561923
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+16.71 GiB, MD5: 6471ff6deec38d5e04a9479fa9b587b8
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+15.82 GiB, MD5: bb966d401f1b43954aeec2b55acce917
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+17.7 GiB, MD5: 311fe5c98d585a7bcb03a5560bcb80b3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+16.3 GiB, MD5: 08776a899230bc9cadf8250da87aec4b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+13.5 GiB, MD5: a5afa2140f64c8ea45bd9caaad9d9559
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+12.8 GiB, MD5: f5420e0cdce4e33a9644296b93313e3b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+11.08 GiB, MD5: 49f1f7ffc17d5c45aa5a5cd18731d2ff
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+7.26 GiB, MD5: bd088f86e1924a9702c5ba5dc5e16053
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+8.17 GiB, MD5: 8018e6e02b9bf7ec97c3367928c7e105
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+21.36 GiB, MD5: 2d0515434ddceef8a6d5e48199b76e91
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY sites VCF
+573.63 MiB, MD5: 853a50d5462b4bcf904b0ffd6f052baa
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Joint Frequency
+Joint sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+chr1 sites VCF
+67.11 GiB, MD5: 11c62331b0a654fce6a9cd43838de648
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+64.64 GiB, MD5: 563a8fe6f148621169b0215ac9f19602
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+52.28 GiB, MD5: c44f1661bafc15685f1eee593b4886ea
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+48.04 GiB, MD5: e6d438b84539c6adad5bc67d6febb33b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+46.04 GiB, MD5: d226db0e0055b5e87e72f4b63158664a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+44.57 GiB, MD5: 2820f13a2439ebbdf55066a0c320cdb5
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+44.26 GiB, MD5: d1d50e4fa082246a5787eee76c036189
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+39.26 GiB, MD5: 195f2825e94c9b5e43b34bb2b1ab5c7b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+35.19 GiB, MD5: 1c739fb01fd9de816e3fddc958668627
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+36.48 GiB, MD5: e2f174f150b5d709d5d7349ac241c438
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+39.79 GiB, MD5: b8651f2e5a0aafa23d7fc3406b35bc69
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+38.53 GiB, MD5: 62795bafd326eae566ef49781a26bc91
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+23.84 GiB, MD5: 92244327bee6d45973f6077a8134ccd9
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+25.82 GiB, MD5: f7a8344b03a4162cb71cdb628dd1e15b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+25.58 GiB, MD5: 40c8ab829f973688d2ef891ce5acabb7
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+29.46 GiB, MD5: 58a5f920fc191b2069126c41278cc077
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+29.64 GiB, MD5: aa48657f45d8db7711c69fbf71a25cdc
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+19.08 GiB, MD5: 80dd729bc61be464c964d3a3bfb0f41a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+27.07 GiB, MD5: 1853ca4993ceb25bd6f3a4554173f7cf
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+18.11 GiB, MD5: 09263d3c29b822760c61607c6398f5c4
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+11.03 GiB, MD5: 2ec2d9876d61fc9c5b1e84ab6841b62e
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+14.57 GiB, MD5: df15a5ea8ae2e3090eae112f548c74ef
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+35.49 GiB, MD5: a5288ced0c2fe893fcfae4d2022b9cd9
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY sites VCF
+777.46 MiB, MD5: 7b882f00919d582139acbc116a7a559f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+All sites allele numbers
+Exomes
+Exomes all site allele number Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Exomes all site allele number TSV
+1.07 GiB, MD5: ee71ce1ccfa5c1d9dd86e1ee1b1d11e2
+Download from Google / Amazon
+Genomes
+Genomes all site allele number Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Genomes all site allele number TSV
+11.19 GiB, MD5: 7101516dd79d48d10c28fa548b22884a
+Download from Google / Amazon
+Browser Tables
+
+For more information about these files, see our changelog entry on the browser tables, and the help text.
+
+Browser variants
+Browser variants Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Exome copy number variant Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Genome structural variant Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Browser gene models
+Browser GRCh38 gene models Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Coverage
+Exome coverage Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Exome coverage summary TSV
+3.77 GiB, MD5: a6955332c9cccae7efb9c95581282a73
+Download from Google / Amazon
+Genetic ancestry group classification
+
+For more information about these files, see our blog post on using the gnomAD genetic ancestry group principal components analysis loadings and random forest classifier on your dataset.
+
+Principal component analysis (PCA) variant loadings
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Random forest (RF) .pkl model
+Download from Google / Amazon
+Random forest (RF) .onnx model
+Download from Google / Amazon
+Constraint
+
+For information on constraint, see our help text
+
+Note v4.1.2 updates only the gene constraint metrics Hail Table and TSV. For more information about this release, see our changelog entry.
+
+README
+Download from Google / Amazon
+Constraint metrics Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Constraint metrics TSV
+Download from Google / Amazon
+LOEUF gene percentile TSV
+Download from Google / Amazon
+Mutation rate Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Mutation rate TSV
+Download from Google / Amazon
+Mutation rate README
+Download from Google / Amazon
+Methylation rate Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Methylation rate README
+Download from Google / Amazon
+Structural variants
+
+For information on structural variants, see our help text
+
+Genome SV VCF
+1.62 GiB, MD5: 3ee614951c2f0c36659842876f7ce0ba
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Genome SV non neuro controls VCF
+3.19 GiB, MD5: 442b43a740f7f12f1f9b054f9d09b530
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Genome SV BED
+1.26 GiB, MD5: a898e3e37aacfdb1e4d6218d5479683a
+Download from Google / Amazon
+Genome SV non neuro controls BED
+1.95 GiB, MD5: 42cc0071d81dd8ae0492a53a462e8c33
+Download from Google / Amazon
+Copy number variants
+
+For information on copy number variants, see our help text
+
+Exome CNV VCF
+8.5 MiB, MD5: 74000fc29d0b9bc547859cfc2ba4ac84
+Download from Google / Amazon
+Exome CNV non neuro VCF
+7.9 MiB, MD5: e2976db50823d608f2cf2fb8077f0ddd
+Download from Google / Amazon
+Exome CNV non neuro controls VCF
+5.32 MiB, MD5: 10e6b0d9585d79d9620c40c96c257e4c
+Download from Google / Amazon
+Proportion expressed across transcripts (pext)
+
+For information on pext, see Transcript expression-aware annotation improves rare variant interpretation. Nature 581, 452–458 (2020)
+
+Annotation-level pext for all possible SNVs Hail table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Annotation-level pext for all possible SNVs TSV
+Download from Google / Amazon
+Base-level pext Hail table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Base-level pext TSV
+Download from Google / Amazon
+De novo variants (DNVs)
+
+For more information on DNVs, see the DNVs changelog
+
+High-quality coding DNVs Hail table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+High-quality coding DNVs TSV
+Download from Google / Amazon
+High-quality coding DNVs README
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+ClinVar
+
+For more information about these files, including how to download a specific previous version of the gnomAD browser ClinVar GRCh38 table, see the help text.
+
+Latest ClinVar GRCh38 Browser Hail Table
+Show URL for Google
+Copy URL for Google
+Resources
+Exome sex ploidy cutoffs TSV
+Download from Google / Amazon
+Exome calling intervals Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Exome calling intervals flat file
+Download from Google / Amazon
+REVEL v4.1 README
+Download from Google / Amazon
+Exomes REVEL supplementary TSV
+Download from Google / Amazon
+Genomes REVEL supplementary TSV
+Download from Google / Amazon
+Secondary Analyses
+
+Additional research analyses created using the core gnomAD releases in collaboration with members of the gnomAD steering committee.
+
+Loss-of-function curation results
+
+For information on v4 loss-of-function curation results, see The mutational constraint spectrum quantified from variation in 141,456 humans. Nature 581, 434–443 (2020) (all homozygous LoF curation results), Transcript expression-aware annotation improves rare variant interpretation. Nature 581, 452–458 (2020) (haploinsufficient genes LoF curation results), and Advanced variant classification framework reduces the false positive rate of predicted loss-of-function variants in population sequencing data. Am J Hum Genet 110, 1496-1508 (2023).
+
+Incomplete penetrance LoF curation results
+Download from Google / Amazon
+v3 Downloads
+
+The gnomAD v3.1.2 data set contains 76,156 whole genomes (and no exomes), all mapped to the GRCh38 reference sequence.
+
+Core Dataset
+
+gnomAD database and features created and maintained by the gnomAD production team.
+
+Variants
+
+Note Find out what changed in the latest release in the gnomAD v3.1.2 blog post.
+
+The variant dataset files below contain all subsets (non-cancer, non-neuro, non-v2, non-TOPMed, controls/biobanks, 1KG, and HGDP).
+
+Genomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+chr1 sites VCF
+182.01 GiB, MD5: 65b21b95252786012721de95458a90e3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+193.31 GiB, MD5: 6ad213299e21959d7b91787928d6f8b5
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+158.78 GiB, MD5: 13e380299b1cb61d2d18a45a522e8810
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+152.11 GiB, MD5: 90021c65fa7dabfed1a404b713db503f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+140.43 GiB, MD5: fc17883bc83787524b7872ba3002a05f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+133.43 GiB, MD5: 3f1a3910c97e3625fe12962d2ed69a9a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+130.4 GiB, MD5: 98fa44053cf0f907b9ae52ac461bb717
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+122.3 GiB, MD5: 5ac0337761d358832aa4adb041d1c3b7
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+103.13 GiB, MD5: 1a6fcfc564cd1d8e58db3e330b743303
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+109.82 GiB, MD5: f84d74e58e9eb568bdfe349e6daa2645
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+108.34 GiB, MD5: 843ec265623593200dd64d56a5a045b3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+106.21 GiB, MD5: 31f76395874ec62a7998e9fb3b2850a1
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+74.87 GiB, MD5: 78a27d411d3512dbbc6eb4b120391cb8
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+73.11 GiB, MD5: e8273eef9760aac6ad9f799a52082d5d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+68.73 GiB, MD5: 89d6cd19e5c7621f627fab6577cd0e87
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+76.75 GiB, MD5: 33ef1541b49d0347d6141609a287bdc7
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+68.76 GiB, MD5: d13b9287a89e11d8119a93bc0f094c77
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+59.86 GiB, MD5: e95595ca7a90edc528a09b209ea9bc4c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+54.47 GiB, MD5: 32308281570563a5bc71a815ac11154f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+49.63 GiB, MD5: 5cb14ed936340875c8ef664dbe6e772d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+32.92 GiB, MD5: 92c4b4f1bd63a7bd64ac8378d88d86e2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+35.77 GiB, MD5: 35f4d25b924ab2e9520c725dd9699ee5
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+95.6 GiB, MD5: 040080a18046533728fa60800eedcf4b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY sites VCF
+2.29 GiB, MD5: 112ed724f8d1cf13b031006def03f55e
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Coverage
+Genome coverage Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Genome coverage summary TSV
+75.38 GiB, MD5: 6c809627ff7922dcfc8d2c67bba017ff
+Download from Google / Amazon
+HGDP + 1KG callset
+
+These files contain individual genotypes for all samples in the HGDP and 1KG subsets. For more information, see the gnomAD v3.1.2 blog post and the HGDP + 1KG dense MatrixTable annotation descriptions.
+
+Genomes
+Dense Hail MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Sparse Hail MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variant annotations Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Sample metadata Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Sample metadata TSV
+Download from Google / Amazon
+chr1 VCF
+260.95 GiB, MD5: 66b515f3bc2f54ec01c974b359f93686
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 VCF
+274.93 GiB, MD5: 3dcfa0a6eaf1b322422620c35e302ab0
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 VCF
+224.56 GiB, MD5: f7911776bef12fae38c2c7ff477893be
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 VCF
+222.16 GiB, MD5: 26d97a4da3b7b0ffce4f42c37ede10fd
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 VCF
+202.47 GiB, MD5: 4b1e3553262b8077b50940c953c8e00f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 VCF
+193.78 GiB, MD5: eb9b309051b2f059500056cec856b220
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 VCF
+189.71 GiB, MD5: e18af68af38a91c523d1de6b4e390579
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 VCF
+175.21 GiB, MD5: 35fbd4be95c70ab4683005ef58734535
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 VCF
+148.36 GiB, MD5: 26d0842911a0a42d470e766a9d44741a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 VCF
+160.43 GiB, MD5: f8d79f3ac86d8b50c89a330e1b3f7989
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 VCF
+154.64 GiB, MD5: fbbe9b8042105e791e5906c69af5166d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 VCF
+152.53 GiB, MD5: 52f20182eeb07782663bd2615789c55c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 VCF
+110.43 GiB, MD5: 3c69f708ffcf7e44927ff4c08d4c66f7
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 VCF
+106.29 GiB, MD5: d493751b424c20a0a2a298ba369b1e96
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 VCF
+98.83 GiB, MD5: ff2e043db7bb1643dfafd0a21a41ec59
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 VCF
+110.94 GiB, MD5: 9bc8a00d6faf1c349992e34c22168a2d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 VCF
+100.7 GiB, MD5: 840b73079d2de44bf3f0b0f03c84c173
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 VCF
+86.69 GiB, MD5: 55010a092c0246295eefed8a5c275b62
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 VCF
+82.66 GiB, MD5: a807d07199e3218bc5a330ad13beebd2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 VCF
+74.09 GiB, MD5: 7b4bedc5cbeaea2271ebda41a290350b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 VCF
+51.26 GiB, MD5: 13f97437754916a293a0900c4993e358
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 VCF
+55.38 GiB, MD5: eb04c341491a1553cb020bb0d2a4cf36
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX VCF
+136.42 GiB, MD5: b20924dca26a6ab12a3d7ee61e88ad92
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY VCF
+8.42 GiB, MD5: 407654bf8a3914582ee472762e0d2d11
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Mitochondrial DNA (mtDNA)
+
+For details about these files, see the gnomAD v3.1 Mitochondrial DNA Variants blog post.
+
+chrM sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+chrM sites VCF
+4.77 MiB, MD5: d0ef2bd882ae44236897d743cb5528cf
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrM coverage Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+chrM sites TSV (reduced annotations)
+1 MiB, MD5: 45a91b22ddc3c1176c103d4afee080f5
+Download from Google / Amazon
+Genetic ancestry group classification
+
+For more information about these files, see our blog post on using the gnomAD genetic ancestry group principal components analysis loadings and random forest classifier on your dataset.
+
+Principal component analysis (PCA) variant loadings
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Random forest (RF) model
+Download from Google / Amazon
+Local ancestry
+
+For more information about these files, see our blog posts on local ancestry inference for Admixed American and African/African American samples in gnomAD.
+
+Admixed American Sites VCF
+Download from Google / Amazon
+African/African American Sites VCF
+Download from Google / Amazon
+Short tandem repeats
+
+These files contain the data that underlies the gnomAD tandem repeat pages. For more information, see our blog post on the addition of short tandem repeat calls to gnomAD.
+
+Update (July 2026): [changelog entry]
+README
+Download from Google / Amazon
+Genotypes (TSV)
+Download from Google / Amazon
+Distributions (JSON)
+Download from Google / Amazon
+
+Update (March 2025): [changelog entry]
+README
+Download from Google / Amazon
+Genotypes (TSV)
+Download from Google / Amazon
+Distributions (JSON)
+Download from Google / Amazon
+
+Original release:
+README
+Download from Google / Amazon
+Genotypes (TSV)
+Download from Google / Amazon
+Distributions (JSON)
+Download from Google / Amazon
+Secondary Analyses
+
+Additional research analyses created using the core gnomAD releases in collaboration with members of the gnomAD steering committee.
+
+Genomic constraint
+
+For more information about these files, see the README included in the download.
+
+README
+Download from Google / Amazon
+Raw genomic constraint by 1kb regions
+Download from Google / Amazon
+QCed genomic constraint by 1kb regions
+Download from Google / Amazon
+Non-coding constraint for gene tissue enhancers
+Download from Google / Amazon
+HGDP + 1KG tutorials
+
+For more information about these files, see the README and the File Descriptions.
+
+Please note: while these files were generated from the HGDP + 1KG callset files above, the quality control steps may differ slightly. This would lead to minor differences in sample counts. See the tutorials for details.
+
+README
+File Descriptions
+Dense Hail MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Sample metadata TSV
+Download from Google / Amazon
+Subset of the HGDP+1KG callset MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Related sample IDs Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Principal component analysis (PCA) PC score tables GCS Bucket
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+PCA outliers table
+Download from Google / Amazon
+PCA PC score tables without outliers GCS Buckets
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variants and unrelated samples MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variants and related samples MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Population-level statistical summary TSV
+Download from Google / Amazon
+Doubleton counts CSV
+Download from Google / Amazon
+Variants and unrelated sample PLINK files - .bed
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variants and unrelated sample PLINK files - .bim
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variants and unrelated sample PLINK files - .fam
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Population-level mean fixation index table
+Download from Google / Amazon
+Gambian Genome Variation Project MatrixTable
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Principal component analysis (PCA) variant loadings Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Random forest (RF) model PKL
+Download from Google / Amazon
+HGDP+1KG and GVV intersection Matrix Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Super population labels TSV
+Download from Google / Amazon
+Phased haplotypes of HGDP+1KG dataset GCS Bucket
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Pre-QC plotting tables
+Pre-QC column fields Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Pre-QC expected heterozygosity Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Pre-QC actual heterozygosity Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Post-QC plotting tables
+Post-QC column fields Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Post-QC expected heterozygosity Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Post-QC actual heterozygosity Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Post-QC site frequency spectrum table
+Download from Google / Amazon
+Phased haplotype ChrX PAR1
+Download from Google / Amazon
+Download CSI from Google / Amazon
+Phased haplotype ChrX PAR2
+Download from Google / Amazon
+Download CSI from Google / Amazon
+Phased haplotype ChrX Non-PAR
+Download from Google / Amazon
+Download CSI from Google / Amazon
+Mitochondrial constraint
+
+For more information about mitochondrial constraint, see Quantifying constraint in the human mitochondrial genome. Nature 635, 390–397 (2024).
+
+Mitochondrial gene constraint README
+Download from Google / Amazon
+Mitochondrial regional constraint README
+Download from Google / Amazon
+Mitochondrial gene constraint TSV
+Download from Google / Amazon
+Mitochondrial regional constraint TSV
+Download from Google / Amazon
+v2 Liftover Downloads
+
+The gnomAD v2.1.1 liftover data set contains data from 125,748 exomes and 15,708 whole genomes, lifted over from the GRCh37 to the GRCh38 reference sequence.
+
+Core Dataset
+
+gnomAD database and features created and maintained by the gnomAD production team.
+
+Variants (GRCh38 liftover)
+
+The variant dataset files below contain all subsets (non-neuro, non-cancer, controls-only, and non-TOPMed).
+
+Exomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+All chromosomes VCF
+85.31 GiB, MD5: cff8d0cfed50adc9211d1feaed2d4ca7
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr1 sites VCF
+5.3 GiB, MD5: 6afa2df088f1627eb649c6d24d8784e8
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+3.85 GiB, MD5: 570b5aee023938c7b5ab660f28a79651
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+3.02 GiB, MD5: 29dd5e955afe7cc9c8342aa1ee88e099
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+1.99 GiB, MD5: 560e0fb2c514411ea35638fb2b2a35bf
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+2.31 GiB, MD5: 5e777b38fe2437b56b32b455de80015c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+2.6 GiB, MD5: 8815cd575bd71504d8dd243136995d16
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+2.62 GiB, MD5: 70d4fbaf888017ab0a12e3c0dced5700
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+1.95 GiB, MD5: 39017f2660ac88916a6a9470f0192eda
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+2.2 GiB, MD5: 9c683f3b8a17e2aee1eac8b5ad860edf
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+2.04 GiB, MD5: 72073e8257316017f5356b986b779dd2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+3.32 GiB, MD5: 89bf2840850664fad81d2f1277bd0d7a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+2.82 GiB, MD5: 50b5cb95f9d7125e385ee3153992fea1
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+892.17 MiB, MD5: 8bf51379fa45b205461eb27a8664f2c2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+1.85 GiB, MD5: 75bdaaea3b2ace57cd1165799b29fbd5
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+1.91 GiB, MD5: 30f244130bf6ac58006463cd87d56272
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+2.81 GiB, MD5: 1ac5e4d7d6ee3255ceedd652691b6cd0
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+3.33 GiB, MD5: 947b32de25fe137a8cc95948b852e757
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+810.06 MiB, MD5: 6bf85f4d674917346d3b658646b4fdbf
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+3.94 GiB, MD5: f882913ec97cdbbbf195b777ca4be732
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+1.32 GiB, MD5: 9167cd594f30321fec62f31ade758c2c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+599.31 MiB, MD5: 113d7a5d058b617c60db768ce527a96f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+1.31 GiB, MD5: 394dc422f48914496646f33e92eacd27
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+1.19 GiB, MD5: 047145d2b7fb416b516566201e1bc694
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY sites VCF
+14.18 MiB, MD5: 4b8cfe3f9051050c94948dab4871c9ce
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Genomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+All chromosomes VCF
+743.06 GiB, MD5: 83de3d5b52669f714e810d4fcf047c18
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr1 sites VCF
+33.37 GiB, MD5: 49a18c485dbf68fa6bc92312c4a646eb
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+35.88 GiB, MD5: c5f5ec623377b1d2dbc30502cd31d086
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+29.47 GiB, MD5: 0ad77689edb3bc731c71d6d140dfaacd
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+28.47 GiB, MD5: e0b1dc365600bc31cb48debb6b03c561
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+26.56 GiB, MD5: ea53a6e364cade4f6ed5504d5cd14d62
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+24.88 GiB, MD5: b717eb2c2154740558ca3f62adf30a4a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+24.37 GiB, MD5: 5b97c8c80b9b8404f611d5725d4f563d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+22.99 GiB, MD5: f502012b3b6fd771e1f97878d4c89831
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+18.76 GiB, MD5: d9cb3ac24eb9cdd891bbeaf554b7f701
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+19.93 GiB, MD5: 8b4573aee1f13efcaa822a736cea3be3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+20.53 GiB, MD5: 340101c9092be9a2e408c82c78f860fc
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+19.97 GiB, MD5: e7612e7a222cbf7077f3766eb793f75b
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+13.99 GiB, MD5: e8146ed73263cfc6c733bcb9e942a05f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+13.71 GiB, MD5: 3b437d953f169a299df69ab51726117a
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+12.92 GiB, MD5: d03e682c7271dac3d333da2aab17b486
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+14.51 GiB, MD5: f38fe23fe7bdc3debf5f43945f160383
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+12.67 GiB, MD5: 732e899517000c1505898ca918a38267
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+11.34 GiB, MD5: de2e98425c57ba805145dea4f2483867
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+10.48 GiB, MD5: 60f5d011e1684f6db81b3d052ae75bc0
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+9.04 GiB, MD5: 1da4057634c7143a0f33f61f49ebbe5f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+5.77 GiB, MD5: be37bea3ac95097021e8c130291d45de
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+6.07 GiB, MD5: 0f5703d8373516eb3753bcf89a547621
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+16.41 GiB, MD5: 898a122480632cfdc58450bbbb3554c1
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Structural variants (GRCh38 liftover)
+
+Note The lifted over structural variant dataset was created by dbVar and has not been assessed by the gnomAD production team.
+
+nstd166 (gnomAD Structural Variants)
+v2 Downloads
+
+The gnomAD v2.1.1 data set contains data from 125,748 exomes and 15,708 whole genomes, all mapped to the GRCh37/hg19 reference sequence.
+
+Core Dataset
+
+gnomAD database and features created and maintained by the gnomAD production team.
+
+Variants
+
+Note Find out what changed in the latest release in the gnomAD v2.1.1 README.
+
+The variant dataset files below contain all subsets (non-neuro, non-cancer, controls-only, and non-TOPMed).
+
+Exomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+All chromosomes sites VCF
+58.81 GiB, MD5: f034173bf6e57fbb5e8ce680e95134f2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr1 sites VCF
+5.77 GiB, MD5: 9817acdf1d9600efb3355e4cb4b7ee1f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+4.2 GiB, MD5: c2822d7a914d06ede28d1078970336ac
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+3.29 GiB, MD5: d03d8a6741d109f95ab1d8771c76eb2c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+2.17 GiB, MD5: 579f67cf5b58e70d933e386ffa57bdea
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+2.51 GiB, MD5: e517127575fc9652469cf9306b3fedb3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+2.83 GiB, MD5: b895ac937bcb4b317f66a9da7fcc12f2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+2.88 GiB, MD5: 791980836c644ba6a2d41ef615a75554
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+2.13 GiB, MD5: ed8e5417fec3fc49b5553a4cfb2fe2c9
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+2.4 GiB, MD5: e60b08f23b57d7c42840a4bef218dcb2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+2.23 GiB, MD5: 9fd88f3e846e522ecd0361caef2c260c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+3.61 GiB, MD5: 33bc258f61fe541f25720ae71b724f2c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+3.07 GiB, MD5: c569364a4610fbb89de87409395cfd69
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+976.73 MiB, MD5: 1de4e8967e7718e2b26ab96b3996634c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+2.02 GiB, MD5: 0f645d977acae762b3535b8018d489aa
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+2.08 GiB, MD5: 6ffb2113d851c6eebeec601f37937b34
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+3.04 GiB, MD5: e4740b2798df34aa396d0364c9a8368f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+3.62 GiB, MD5: 8c93bad11b73a94b0f1b41141f50d536
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+882.14 MiB, MD5: f77f723fece7a690ec34a3f65d59e445
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+4.3 GiB, MD5: c8ed6f651aeb051090c88f29e3874ff4
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+1.44 GiB, MD5: 49a46fab6ff9b68143831caa5bc12483
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+652.73 MiB, MD5: 7eea9c7ceb4ac1a86a634c1b3ec808c4
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+1.43 GiB, MD5: 766303a757547e413b3daccc1290213f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+1.33 GiB, MD5: 57082d2021cdd1b93a23b4203dcbbb7d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrY sites VCF
+15.66 MiB, MD5: fa412becb3aba27b9acf2529bb76b895
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Genomes
+Sites Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+All chromosomes sites VCF
+460.93 GiB, MD5: e6eadf5ac7b2821b40f350da6e1279a2
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Exome calling intervals VCF
+9.7 GiB, MD5: e5bd69a0f89468149bc3afca78cd5acc
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr1 sites VCF
+35.83 GiB, MD5: b81951f2b7cb2dbef63932677b58f57e
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr2 sites VCF
+38.21 GiB, MD5: f7db44e30f5be3378486c07494aa035f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr3 sites VCF
+31.35 GiB, MD5: 69bd6a52695d5eedb6e66847fff512b9
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr4 sites VCF
+30.33 GiB, MD5: 2dbf7408b56daca57b5a33274c8d46a4
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr5 sites VCF
+28.27 GiB, MD5: b4439ed58fa62e3c9d1b67c472e521ee
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr6 sites VCF
+26.5 GiB, MD5: c66d92dc5b677df537f19f3d7d6b1815
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr7 sites VCF
+26.05 GiB, MD5: bb70cc16431d746c5a516d21019a6be5
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr8 sites VCF
+24.47 GiB, MD5: 9ed8ba30f63e2ccf2e0d91fb6b944e3c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr9 sites VCF
+20.03 GiB, MD5: df50f25ed54b6fbca76fa302451eb139
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr10 sites VCF
+21.22 GiB, MD5: d886702d52e91632ffbfe508c7eeeec0
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr11 sites VCF
+21.83 GiB, MD5: 6f0721fe85c9fa4c4166d68b3033e9eb
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr12 sites VCF
+21.26 GiB, MD5: ae0eb6ec036f751d05375d5d38b5e54c
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr13 sites VCF
+14.92 GiB, MD5: 7d599634271e6478d64df5c193ce1d97
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr14 sites VCF
+14.63 GiB, MD5: a25f665eb214f334251b8798e893cd8f
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr15 sites VCF
+13.77 GiB, MD5: 094be1d4b82d7022f79556b469c324b3
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr16 sites VCF
+15.43 GiB, MD5: 082bedc2d5eed158c50d638529ab86da
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr17 sites VCF
+13.52 GiB, MD5: addd19da8057da3b392d5af04b8b60ba
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr18 sites VCF
+12.07 GiB, MD5: 2e72f12ffe39a6b9cc7377bd2e7f3ef1
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr19 sites VCF
+11.22 GiB, MD5: 116b0c4b52effdbccf6cd15a6c07c74e
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr20 sites VCF
+9.62 GiB, MD5: b06ce8dcedfa761ba781e4416ede6ad8
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr21 sites VCF
+6.12 GiB, MD5: afd34a5ec39d8efb1d374534637895e7
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chr22 sites VCF
+6.49 GiB, MD5: 113cded38a70f8f4abbef10f5c63e81d
+Download from Google / Amazon
+Download TBI from Google / Amazon
+chrX sites VCF
+17.8 GiB, MD5: 77d25e87e94d360eb2acedaaedaf3df1
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Browser Tables
+
+For more information about these files, see our changelog entry on the browser tables, and the help text.
+
+Browser gene models
+Browser GRCh37 gene models Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Coverage
+Exome coverage Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Exome coverage summary TSV
+1.57 GiB, MD5: 73cddb8cac2c2db4f82662584ede6d20
+Download from Google / Amazon
+Genome coverage Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Genome coverage summary TSV
+50.74 GiB, MD5: bd68fd9241e14eb4debcee63a1c35064
+Download from Google / Amazon
+Structural variants
+
+For information on gnomAD structural variants, see A structural variation reference for medical and population genetics. Nature 581, 444–451 (2020).
+
+SV 2.1 sites VCF
+Download from Google / Amazon
+Download TBI from Google / Amazon
+SV 2.1 sites BED
+Download from Google / Amazon
+Download TBI from Google / Amazon
+SV 2.1 (controls) sites VCF
+Download from Google / Amazon
+Download TBI from Google / Amazon
+SV 2.1 (controls) sites BED
+Download from Google / Amazon
+Download TBI from Google / Amazon
+SV 2.1 (non-neuro) sites VCF
+Download from Google / Amazon
+Download TBI from Google / Amazon
+SV 2.1 (non-neuro) sites BED
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Linkage disequilibrium
+
+Population 
+African/African American
+Admixed American
+Ashkenazi Jewish
+East Asian
+European (Finnish)
+European (non-Finnish)
+Estonian
+North-western European
+Southern European
+
+LD matrix Hail BlockMatrix for African/African American population
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variant indices Hail Table for African/African American population
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+LD scores Hail Table for African/African American population
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+LDSC .ldscore.bgz file for African/African American population
+Download from Google / Amazon
+LDSC .M file for African/African American population
+Download from Google / Amazon
+LDSC .M_5_50 file for African/African American population
+Download from Google / Amazon
+Ancestry classification
+
+For more information about these files, see our blog post on using the gnomAD ancestry principal components analysis loadings and random forest classifier on your dataset.
+
+Principal component analysis (PCA) variant loadings
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Random forest (RF) model
+Download from Google / Amazon
+Regional Missense Constraint
+Regional missense constraint Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Regional missense constraint TSV (transcripts with RMC)
+Download from Google / Amazon
+Regional missense constraint TSV (transcripts without RMC)
+Download from Google / Amazon
+ClinVar
+
+For more information about these files, including how to download a specific previous version of the gnomAD browser ClinVar GRCh37 table, see the help text.
+
+Latest ClinVar GRCh37 Browser Hail Table
+Show URL for Google
+Copy URL for Google
+Resources
+Exome calling regions
+Download from Google / Amazon
+Genome calling regions
+Download from Google / Amazon
+All pLoF variants
+Download from Google / Amazon
+Browser pipeline GTEx Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Browser pipeline pext Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Secondary Analyses
+
+Additional research analyses created using the core gnomAD releases in collaboration with members of the gnomAD steering committee.
+
+Constraint
+
+For information on constraint, see The mutational constraint spectrum quantified from variation in 141,456 humans. Nature 581, 434–443 (2020). Descriptions of the fields in these files can be found in the Supplementary Dataset 11 section on pages 74-77 of the Supplementary Information.
+
+pLoF Metrics by Transcript Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+pLoF Metrics by Transcript TSV
+Download from Google / Amazon
+pLoF Metrics by Gene TSV
+Download from Google / Amazon
+pLoF Metrics Downsamplings TSV
+Download from Google / Amazon
+Multi-nucleotide variants (MNVs)
+
+For information on multi-nucleotide variants in gnomAD, see Landscape of multi-nucleotide variants in 125,748 human exomes and 15,708 genomes. Nature Communications 11, 2539 (2020).
+
+README
+Download from Google / Amazon
+Coding MNVs TSV
+Download from Google / Amazon
+Coding MNVs consisting of 3 SNVs TSV
+Download from Google / Amazon
+MNVs genome wide
+Distance = 1 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 1 TSV
+Download from Google / Amazon
+Distance = 2 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 2 TSV
+Download from Google / Amazon
+Distance = 3 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 3 TSV
+Download from Google / Amazon
+Distance = 4 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 4 TSV
+Download from Google / Amazon
+Distance = 5 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 5 TSV
+Download from Google / Amazon
+Distance = 6 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 6 TSV
+Download from Google / Amazon
+Distance = 7 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 7 TSV
+Download from Google / Amazon
+Distance = 8 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 8 TSV
+Download from Google / Amazon
+Distance = 9 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 9 TSV
+Download from Google / Amazon
+Distance = 10 Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Distance = 10 TSV
+Download from Google / Amazon
+Proportion expressed across transcripts (pext)
+
+For information on pext, see Transcript expression-aware annotation improves rare variant interpretation. Nature 581, 452–458 (2020)
+
+Annotation-level pext for all possible SNVs Hail table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Annotation-level pext for all possible SNVs TSV
+Download from Google / Amazon
+Base-level pext Hail table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Base-level pext TSV
+Download from Google / Amazon
+Variant co-occurrence
+README
+Download from Google / Amazon
+Variant co-occurrence Hail Table
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Variant co-occurrence by gene (homozygous rare variants)
+Download from Google / Amazon
+Variant co-occurrence by gene (two heterozygous rare variants)
+Download from Google / Amazon
+Loss-of-function curation results
+
+For information on loss-of-function curation results, see The mutational constraint spectrum quantified from variation in 141,456 humans. Nature 581, 434–443 (2020) (all homozygous LoF curation results) and Transcript expression-aware annotation improves rare variant interpretation. Nature 581, 452–458 (2020) (haploinsufficient genes LoF curation results).
+
+All homozygous LoF curation results
+Download from Google / Amazon
+Lysosomal storage disease genes LoF curation results
+Download from Google / Amazon
+AP4 LoF curation results
+Download from Google / Amazon
+FIG4 LoF curation results
+Download from Google / Amazon
+MCOLN1 LoF curation results
+Download from Google / Amazon
+Haploinsufficient genes LoF curation results
+Download from Google / Amazon
+Metabolic conditions genes LoF curation results
+Download from Google / Amazon
+gnomAD addendum LoF curation results
+Download from Google / Amazon
+NSD1 LoF curation results
+Download from Google / Amazon
+ExAC Downloads
+
+The ExAC data set contains data from 60,706 exomes, all mapped to the GRCh37/hg19 reference sequence.
+
+Core Dataset
+
+gnomAD database and features created and maintained by the gnomAD production team.
+
+Variants
+Exomes
+All chromosomes VCF
+4.56 GiB, MD5: f2b57a6f0660a00e7550f62da2654948
+Download from Google / Amazon
+Download TBI from Google / Amazon
+Coverage
+chr1 exome coverage summary TSV
+121.55 MiB, MD5: 8b731303596cd0679901bdae25ae654a
+Download from Google / Amazon
+chr2 exome coverage summary TSV
+90.79 MiB, MD5: 9a4bd5fb85a33dc6bde9c932341f9c31
+Download from Google / Amazon
+chr3 exome coverage summary TSV
+70.64 MiB, MD5: 8478c82b6c9ab8e809beb292d2e7db81
+Download from Google / Amazon
+chr4 exome coverage summary TSV
+47.61 MiB, MD5: 1c6133720ac5c7d3f02c28294bee2de3
+Download from Google / Amazon
+chr5 exome coverage summary TSV
+54.83 MiB, MD5: 2f9f69c09f22ec5a1f82e0b7ae8e2305
+Download from Google / Amazon
+chr6 exome coverage summary TSV
+61.85 MiB, MD5: c966f6c3edc6b765077c3e67bf7bd1d6
+Download from Google / Amazon
+chr7 exome coverage summary TSV
+59.2 MiB, MD5: 36ddc76034139a05521bbdf5aa99c0a3
+Download from Google / Amazon
+chr8 exome coverage summary TSV
+42.09 MiB, MD5: 4e062b04b24312c213a295dbd39ba038
+Download from Google / Amazon
+chr9 exome coverage summary TSV
+49.1 MiB, MD5: 5819b51d6ab2de6d1eaa1e5319b97f8f
+Download from Google / Amazon
+chr10 exome coverage summary TSV
+48.53 MiB, MD5: 701c07357a8b3de9b7700bc668f8bbb1
+Download from Google / Amazon
+chr11 exome coverage summary TSV
+71.92 MiB, MD5: c144266babddf8dacaea59016d8205c1
+Download from Google / Amazon
+chr12 exome coverage summary TSV
+66.15 MiB, MD5: 13e7b9051ba705da601d82173bf20458
+Download from Google / Amazon
+chr13 exome coverage summary TSV
+21.78 MiB, MD5: 9adaeba72ff1722ef00bd7a00ec90dad
+Download from Google / Amazon
+chr14 exome coverage summary TSV
+40.46 MiB, MD5: 3a4917008415ba8e50dcd821010b9f07
+Download from Google / Amazon
+chr15 exome coverage summary TSV
+43.05 MiB, MD5: 50cfce80e42d66627cc89c53a5c1724d
+Download from Google / Amazon
+chr16 exome coverage summary TSV
+52.89 MiB, MD5: 7cdc218a4dbd3dc1f0d168127fa0e71e
+Download from Google / Amazon
+chr17 exome coverage summary TSV
+71.83 MiB, MD5: 1f9e9fa7d010fb1cf7e3348e5eec568f
+Download from Google / Amazon
+chr18 exome coverage summary TSV
+18.98 MiB, MD5: 964467483c15bd37ffd8e9c83cc65033
+Download from Google / Amazon
+chr19 exome coverage summary TSV
+78.92 MiB, MD5: 4af2ebb9460fcb1bc572262479b84063
+Download from Google / Amazon
+chr20 exome coverage summary TSV
+29.74 MiB, MD5: cddbed4801a75607d1ccd3244acf9f0f
+Download from Google / Amazon
+chr21 exome coverage summary TSV
+12.49 MiB, MD5: 03787ccb8aea3ceb8a7bc363200fc817
+Download from Google / Amazon
+chr22 exome coverage summary TSV
+26.81 MiB, MD5: 36023dcc64c9fa2dd8af6fce50051429
+Download from Google / Amazon
+chrX exome coverage summary TSV
+46.46 MiB, MD5: 8bdd0a3a62e3d45db0b9fcf7730bef3e
+Download from Google / Amazon
+chrY exome coverage summary TSV
+1.6 MiB, MD5: cc42d39bde6e6591901060b3c43b3956
+Download from Google / Amazon
+Constraint
+Gene constraint scores TSV
+Download from Google / Amazon
+Regional Missense Constraint
+Regional missense constraint TSV
+Download from Google / Amazon
+Resources
+Exome calling regions
+Download from Google / Amazon
+Other
+Manuscript data
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+Subset VCFs (non-TCGA and non-psych)
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+CNV counts and intolerance scores
+Show URL for Google / Amazon
+Copy URL for Google / Amazon
+gnomAD API
+
+The gnomAD browser gets its data through a GraphQL API which is open to the public. Access to the API is rate-limited to 10 requests per IP address per 60-second period.
+
+The API can be queried programatically by making an HTTP request to https://gnomad.broadinstitute.org/api. Please see the GraphQL documentation for details on how to construct a query and format it to send it over HTTP.
+
+You can also use the API interactively by visiting the same address in your browser, which is useful for experimenting with queries. That interface also allows you to explore the API schema interactively.
+
+The following is an annotated GraphQL query that can be run from the command line, with some small example programs for a subset of that query in Python and JavaScript. This query gets similar data to the CSV export of all variants for gene BRCA1.
+
+Command Line
+Python
+JavaScript
+curl https://gnomad.broadinstitute.org/api -H 'Content-Type: application/graphql; charset=utf-8' --data-binary @- << END_OF_QUERY
+# Lines beginning with a "#" character are comments that are ignored by the API.
+#
+# "VariantsInGene" is the operation name for the query. This is optional but
+# recommended.
+#
+query VariantsInGene {
+  # We could alternatively look up the gene by Ensembl ID by using the
+  # "gene_id" argument rather than "gene_symbol".
+  #
+  # In this query, the gene symbol must be provided with quotes ("BRCA1"). This
+  # does not apply to the reference genome build or gnomAD dataset version
+  # because the gene symbol is defined as a string, but the reference genome
+  # and dataset version are defined as enumerated types that only have specific
+  # values (e.g., reference genome can only be one of GRCh37 or GRCh38). See
+  # https://graphql.org/learn/schema/#enumeration-types.
+  #
+  gene(gene_symbol: "BRCA1", reference_genome: GRCh38) {
+    variants(dataset: gnomad_r4) {
+      variant_id
+
+      # Position
+      pos
+
+      # dbSNP reference SNP IDs
+      rsids
+
+      transcript_id
+      transcript_version
+
+      # HGVS DNA, coding sequence, and protein consequences
+      hgvs
+      hgvsc
+      hgvsp
+
+      # VEP annotation
+      consequence
+
+      # Flags on the variant generally
+      flags
+
+      # The API separates the frequency data into exome data, genome data, and
+      # joint frequency data. Which of these are available depends on the
+      # dataset used, and not all variants in a dataset necessarily have all
+      # of the possible kinds.
+      #
+      # Note that the exome and genome data have the same schema, but joint
+      # frequency data is slightly different.
+      #
+      exome {
+        # Full allele count, and hemizygote/homozygote allele counts.
+        ac
+        ac_hemi
+        ac_hom
+
+	# Allele number
+        an
+
+	# Allele frequency
+        af
+
+	# Allele counts and numbers by population
+        populations {
+          id
+          ac
+          an
+          ac_hemi
+          ac_hom
+        }
+
+	# Filters and flags for exome data
+        filters
+	flags
+      }
+
+      # Schema for genome data is same for that as exome data
+      genome {
+        ac
+        ac_hemi
+        ac_hom
+        an
+        af
+        populations {
+          id
+          ac
+          an
+          ac_hemi
+          ac_hom
+        }
+        filters
+	flags
+      }
+
+      joint {
+        # Full allele count, and hemizygote/homozygote allele counts.
+        ac
+        hemizygote_count
+        homozygote_count
+
+	# Allele number
+    

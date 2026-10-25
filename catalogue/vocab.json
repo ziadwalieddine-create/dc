@@ -1,0 +1,180 @@
+{
+ "dimensions": [
+  {
+   "id": "D01",
+   "key": "direct_experimental_variant_effects",
+   "label": "Direct experimental variant-effect measurements",
+   "description": "Multiplexed/deep mutational scanning, MPRA and other assays that measure the effect of specific variants.",
+   "priority": "highest"
+  },
+  {
+   "id": "D02",
+   "key": "protein_structure_function",
+   "label": "Protein structure, stability, activity and interactions",
+   "description": "Protein sequence/function annotation, domains, structural models and stability predictors.",
+   "priority": "high"
+  },
+  {
+   "id": "D03",
+   "key": "regulation_expression_splicing",
+   "label": "Transcription, splicing, regulatory elements, tissue-specific expression",
+   "description": "Expression by tissue, regulatory element maps, splicing effect predictions and sequence-to-function models.",
+   "priority": "high"
+  },
+  {
+   "id": "D04",
+   "key": "perturbation_evidence",
+   "label": "Knockout, knockdown, CRISPRi/a, overexpression, knock-in and rescue experiments",
+   "description": "Genome-scale perturbation screens and model-organism knockout phenotypes.",
+   "priority": "high"
+  },
+  {
+   "id": "D05",
+   "key": "natural_knockouts_dosage",
+   "label": "Human natural knockouts, constraint and dosage sensitivity",
+   "description": "Loss-of-function tolerance, observed/expected metrics and curated haploinsufficiency/triplosensitivity.",
+   "priority": "highest"
+  },
+  {
+   "id": "D06",
+   "key": "association_finemapping_coloc",
+   "label": "Genetic association, fine-mapping, LD and colocalisation",
+   "description": "GWAS associations, credible sets, molecular QTLs, colocalisation and locus-to-gene evidence.",
+   "priority": "high"
+  },
+  {
+   "id": "D07",
+   "key": "functional_haplotypes_pgx",
+   "label": "Functional haplotypes and pharmacogenomics",
+   "description": "Star-allele/haplotype definitions, gene-drug annotations and guidelines.",
+   "priority": "medium"
+  },
+  {
+   "id": "D08",
+   "key": "structural_variation_cnv",
+   "label": "Structural variation and copy-number variation",
+   "description": "Population SV/CNV catalogues, dosage-sensitive regions and clinically curated CNVs.",
+   "priority": "high"
+  },
+  {
+   "id": "D09",
+   "key": "repeat_expansions_str",
+   "label": "Repeat expansions and short tandem repeats (STR/VNTR)",
+   "description": "Pathogenic repeat loci, reference tandem-repeat catalogues and population repeat distributions.",
+   "priority": "medium"
+  },
+  {
+   "id": "D10",
+   "key": "pathways_interactions_epistasis",
+   "label": "Pathways, molecular interactions, epistasis and compensation",
+   "description": "Curated pathways, protein/genetic interactions and network context.",
+   "priority": "medium"
+  },
+  {
+   "id": "D11",
+   "key": "clinical_interpretation",
+   "label": "Clinical variant interpretation and disease association",
+   "description": "Clinically classified variants, gene-disease validity and phenotype links.",
+   "priority": "highest"
+  },
+  {
+   "id": "D12",
+   "key": "population_frequency",
+   "label": "Population allele frequencies and haplotype structure",
+   "description": "Allele counts/frequencies across ancestries, phased haplotypes and reference panels.",
+   "priority": "highest"
+  },
+  {
+   "id": "D13",
+   "key": "annotation_integration",
+   "label": "Integrated variant annotation and predictors",
+   "description": "Tools and resources that aggregate predictors and annotations per variant.",
+   "priority": "high"
+  },
+  {
+   "id": "D14",
+   "key": "reference_annotation",
+   "label": "Reference genomes, transcripts and gene models",
+   "description": "Assemblies, transcript sets and identifier mapping required to place every evidence type on one coordinate system.",
+   "priority": "highest"
+  },
+  {
+   "id": "D15",
+   "key": "resource_catalogues",
+   "label": "Resource catalogues and classifications",
+   "description": "Registries of databases, standards and tools used to discover and classify resources.",
+   "priority": "low"
+  },
+  {
+   "id": "D16",
+   "key": "background_documentation",
+   "label": "Background documentation and terminology",
+   "description": "Educational and documentation material that explains concepts and projects but contains no variant-level evidence.",
+   "priority": "low"
+  }
+ ],
+ "variant_classes": [
+  "snv",
+  "indel",
+  "cnv",
+  "sv",
+  "str",
+  "gene_level",
+  "region_level",
+  "protein_level"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38",
+  "T2T-CHM13",
+  "none/not_applicable",
+  "other"
+ ],
+ "access": [
+  "open",
+  "open_with_terms",
+  "registration_required",
+  "restricted_agreement",
+  "blocked_for_automation",
+  "unverified"
+ ],
+ "reuse_actions": [
+  "reuse_existing",
+  "adopt_curated",
+  "extend_integration",
+  "retrieve_source",
+  "build_original",
+  "defer",
+  "do_not_acquire"
+ ],
+ "verification": [
+  "live",
+  "unverified"
+ ],
+ "lifecycle": [
+  [
+   "catalogued",
+   "A catalogue record exists with provenance"
+  ],
+  [
+   "accessible",
+   "Live probes returned usable data from this environment (or a documented block)"
+  ],
+  [
+   "acquired",
+   "Files downloaded and verified against size/checksums the source publishes"
+  ],
+  [
+   "validated",
+   "A representative sample was parsed and checked against the source's own description"
+  ],
+  [
+   "mapped",
+   "Identifiers/coordinates were joined to existing dc assets in a demonstrated test"
+  ],
+  [
+   "usable",
+   "Mapped, licence-compatible, documented and reproducible end to end"
+  ]
+ ]
+}

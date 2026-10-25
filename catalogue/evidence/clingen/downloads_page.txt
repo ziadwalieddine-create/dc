@@ -1,0 +1,429 @@
+ 
+ ClinGen Web 
+ Data Sharing Resources 
+ GenomeConnect 
+ Events 
+ Citing ClinGen 
+ Contact 
+ Member 
+ Dashboard 
+ Logout
+ Login 
+ Toggle navigation 
+ Navigation 
+ Get Started 
+ About Us 
+ About ClinGen 
+ ClinGen & ClinVar Partnership 
+ ClinGen, CPIC and PharmGKB Partnership  
+ ClinGen Job Opportunities 
+ Citing ClinGen & Terms of Use 
+ Contact ClinGen 
+ Events & Conferences 
+ FDA Recognition 
+ JEDI Action Plan 
+ -->
+ Leadership 
+ Member Directory 
+ Organization Directory 
+ Partnerships 
+ Policies 
+ Website SiteMap 
+ Curation Activities 
+ About ClinGen Curation Activities 
+ Gene-Disease Validity 
+ Training Materials 
+ Browse Curations 
+ Variant Pathogenicity 
+ Training Materials 
+ Browse Curations 
+ Clinical Actionability 
+ Training Materials 
+ Browse Curations 
+ Dosage Sensitivity 
+ Training Materials 
+ Browse Curations 
+ Somatic Cancer Variant 
+ Training Materials 
+ Interface 
+ Baseline Annotation 
+ Training Materials 
+ Community Curation Database 
+ ClinGen Curation of ClinVar 
+ ClinGen Curation of ClinVar 
+ Browse All ClinGen's Curated Genes 
+ Working Groups 
+ All Working Groups 
+ Actionability 
+ AI and Automation 
+ Biocurator 
+ Cancer Variant Interpretation (CVI) 
+ ClinGen Curation of ClinVar 
+ Clinical Domain Working Group Oversight Committee 
+ Community Curation (C3) 
+ Copy Number Variant Interpretation Guidelines 
+ Curated Disease Entity 
+ Data Access, Protection, and Confidentiality (DAPC) 
+ Data Platform 
+ Dosage Sensitivity Curation 
+ Education, Coordination and Training 
+ FDA- Regulatory 
+ Gene Curation 
+ Germline/Somatic Working Group 
+ HLA Working Group 
+ Partnership 
+ Pharmacogenomics Interpretation Committee 
+ Phenotyping 
+ Population Genetics 
+ RISE 
+ Steering Committee 
+ Variant Classification 
+ VCEP Management 
+ Expert Panels 
+ All Expert Panels 
+ Gene Curation Expert Panels 
+ Variant Curation Expert Panels 
+ Somatic Cancer Variant Curation Expert Panels 
+ Learn how to start an Expert Panel 
+ Documents & Annoucements 
+ Tools 
+ New features were added April 8, 2024 - Click here for more information! 
+ -->
+ Gene Symbol 
+ Gene Symbol 
+ Gene Name 
+ Disease Name 
+ Drug Name 
+ Region (GRCh37) 
+ Region (GRCh38) 
+ Variant 
+ Website Content 
+ Search 
+ Curated Genes
+ All Curated Genes 
+ ACMG SF v3.3 Curations 
+ Gene-Disease Validity
+ All Curations 
+ Curations by Expert Panel 
+ File Downloads 
+ Dosage Sensitivity
+ All Curations 
+ Recurrent CNV 
+ FTP File Downloads (CSV, BED, TSV) 
+ Clinical Actionability
+ All Curations 
+ Curations in Adult Context 
+ Curations in Pediatric Context 
+ Scoring Metric 
+ File Downloads & APIs 
+ Curated Variants
+ All Curations 
+ File Downloads & APIs 
+ Statistics
+ Downloads
+ More
+ All Genes 
+ All Disease 
+ All Drugs & Medications 
+ File Downloads & APIs 
+ About ClinGen's Website 
+ Learn About New Features 
+ How To Cite ClinGen 
+ External Data Attribution 
+ Contact Us 
+ ClinGen's File Downloads & APIs 
+ Sign up for the ClinGen General Interest Mailing list to get news and updates delivered to your mailbox. If you are interested in notifications when ClinGen file formats change, please opt in to the ClinGen Website File Format Change Notification List. 
+ Sign-up 
+ This page provides files for download and information about API resources for the following activities. 
+ Summary Report 
+ Gene-Disease Validity 
+ Dosage Sensitivity 
+ Clinical Actionability 
+ Variant Pathogenicity 
+ Summary Report 
+ ClinGen Curation Activity Summary Report 
+ This file provides summary curation information about Gene-Disease Validity, Dosage Sensitivity, and Clinical Actionability. Curations for each activity are grouped by gene (HGNC) and disease (MONDO). This file is helpful for those seeking to understand all of the genes and/or diseases ClinGen has curated along with summary information. 
+ CSV 
+ Gene-Disease Validity Downloads 
+ Gene-Disease Validity Curations 
+ This file provides a summary of the Gene-Disease Validity curations completed by ClinGen's GCEPs. This file is built in real-time. 
+ CSV 
+ Gene-Disease Validity Curations w/ Lumping & Splitting 
+ This file provides a summary of the Gene-Disease Validity curations completed by ClinGen's GCEPs. This file is built in real-time and includes the associated Lumping & Splitting details. 
+ CSV 
+ -->
+ Dosage Sensitivity Downloads 
+ As previously announced, important changes were made to the Dosage Sensitivity download files on December 19th, 2021. Please view the README file for more information. 
+ -->
+ README 
+ This files are produced by the ClinGen Dosage Sensitivity Curation Working Group, formerly the International Standards for Cytogenomic Arrays (ISCA) Consortium Evidence-Based Review Committee. The goal of this group is to curate regions of the genome (both single genes and particular genomic regions) with respect to their haploinsufficiency and/or triplosensitivity. 
+ README 
+ Dosage Sensitivity Curations (Genes Only) 
+ This file provides a summary of the Dosage Sensitivity gene curations completed by ClinGen. This file is built in real-time. 
+ CSV 
+ Dosage Sensitivity Curations (Genes and Regions) 
+ This file provides a summary of the Dosage Sensitivity gene and region curations completed by ClinGen. This file is built in real-time. 
+ CSV 
+ Dosage Sensitivity Curated Gene List 
+ The files in this directory contain data for genes that have been through the review process. These files are updated daily. Files are available for genes and regions localized on both GRCh37 and GRCh38. The tsv files have a header and contain all of the curation information found on the ClinGen Dosage Sensitivity Map web pages, including disease name (when applicable), PMIDs used as evidence, and comments. 
+ GRCh37 (tsv) 
+ GRCh38 (tsv) 
+ Dosage Sensitivity Curated Region List 
+ The files in this directory contain data for regions that have been through the review process. These files are updated daily. Files are available for genes and regions localized on both GRCh37 and GRCh38. The tsv files have a header and contain all of the curation information found on the ClinGen Dosage Sensitivity Map web pages, including disease name (when applicable), PMIDs used as evidence, and comments. 
+ GRCh37 (tsv) 
+ GRCh38 (tsv) 
+ Dosage Sensitivity Haploinsufficiency Genes 
+ BED files are available for gene curation. There are separate files for haploinsufficiency and triplosensitivity as the BED file only has one column for 'score'. Because the score column expects a number rather than text, "Dosage sensitivity unlikely" is represented by the score of 40, and "Gene associated with autosomal recessive phenotype" is represented by the score of 30. 
+ GRCh37 (bed) 
+ GRCh38 (bed) 
+ Dosage Sensitivity Triplosensitivity Genes 
+ BED files are available for gene curation. There are separate files for haploinsufficiency and triplosensitivity as the BED file only has one column for 'score'. Because the score column expects a number rather than text, "Dosage sensitivity unlikely" is represented by the score of 40, and "Gene associated with autosomal recessive phenotype" is represented by the score of 30. 
+ GRCh37 (bed) 
+ GRCh38 (bed) 
+ Dosage Sensitivity Recurrent CNV 
+ These files contains recurrent copy number variations (CNV) that have been, or are in the process of being, reviewed by the recurrent CNV ClinGen DSC Subgroup. This file is available in genome build hg37 and hg38 and can be opened in ChAS software (.aed) or in array analysis software that utilizes (.bed) files as well as the UCSC genome browser. The orange bars represent each recurrent region. The black bars represent the segmental duplication clusters/breakpoints. 
+ HG37 (bed) 
+ HG37 (aed) 
+ HG38 (bed) 
+ HG38 (aed) 
+ All Dosage Sensitivity Download FTP Files and Archives 
+ All Dosage Sensitivity download files are refreshed nightly are available for the last 60 days. 
+ Current FTP Files 
+ FTP File Archives 
+ Clinical Actionability Downloads 
+ Clinical Actionability API - Adult JSON 
+ REST-API endpoints to get the actionability curation data for the Adult context in a JSON format. 
+ NESTED JSON 
+ FLAT JSON 
+ Clinical Actionability API - Pediatric JSON 
+ REST-API endpoints to get the actionability curation data for the Pediatric context in a JSON format. 
+ NESTED JSON 
+ FLAT JSON 
+ Summary of Overall Scores from Released Reports 
+ Summary of overall scores from released reports is available for Adult and Pediatric contexts. 
+ ADULT - TSV 
+ Pediatric - TSV 
+ Summary of Individual Scores from Released Reports 
+ Summary of individual scores from released reports is available for Adult and Pediatric contexts. 
+ ADULT - TSV 
+ Pediatric - TSV 
+ Summary of All Assertions from Released Reports 
+ Summary of all assertions from released reports is available for Adult and Pediatric contexts. 
+ ADULT - TSV 
+ Pediatric - TSV 
+ Summary of Consensus Assertions from Released Reports 
+ Summary of consensus assertions from released reports is available for Adult and Pediatric contexts. 
+ ADULT - TSV 
+ Pediatric - TSV 
+ Additional Clinical Actionability Download Options 
+ Clinical Actionability data can be downloaded by clicking the link to the right and choosing the “Export” option on the top-right of the reports table. 
+ Website 
+ Variant Pathogenicity Downloads 
+ Variant Pathogenicity 
+ This file provides a summary of the Variant Pathogenicitycurations completed by ClinGen's VCEPs. 
+ CSV 
+ TSV 
+ Evidence Repository API 
+ REST-API endpoints to get variant pathogenicity classifications from ClinGen Evidence Repository 
+ API 
+ Evidence Repository API Documentation 
+ Documentation of the REST-API endpoints to get Variant Pathogenicity classifications from ClinGen Evidence Repository 
+ API Documentation 
+ Allele Registry API 
+ REST-API endpoints to get variant data from ClinGen Allele Registry 
+ API 
+ Allele Registry API Documentation 
+ Documentation of the REST-API endpoints to get variant data from ClinGen Allele Registry 
+ Documentation 
+ Criteria Specification Registry API 
+ REST-API endpoints to get criteria specifications and related data from ClinGen Criteria Specification Registry 
+ API 
+ Criteria Specification Registry API Documentation 
+ Documentation of the REST-API endpoints to get criteria specifications and related data from ClinGen Criteria Specification Registry 
+ Documentation 
+ Linked Data Hub API 
+ REST-API endpoints to get aggregated variant annotations from ClinGen Linked Data Hub 
+ API 
+ Linked Data Hub API Documentation 
+ Documentation of REST-API endpoints and data entities to get aggregated variant annotations from ClinGen Linked Data Hub 
+ Documentation 
+ My Account 
+ Email 
+ Password 
+ Remember Me
+ Forgot password? 
+ Login 
+ or login with
+ -->
+ Don't have a ClinGen account? Register Here 
+ Terms of use. 
+ Privacy policy 
+ -->
+ Create Acount 
+ First Name 
+ Last Name 
+ Organization (Optional) 
+ Email 
+ Password 
+ Confirm Password 
+ Register 
+ Already have an account? Login Here 
+ Terms of use. 
+ Privacy policy 
+ -->
+ Forgot Password 
+ Email 
+ Send Reset Link 
+ Return to Login Page here 
+ Back To Top 
+ Send Feedback 
+ Click here to learn more about how to cite ClinGen and to see a list of the external resources utilized. 
+ The information on this website is not intended for direct diagnostic use or medical decision-making without review by a genetics professional. Individuals should not change their health behavior solely on the basis of information contained on this website. If you have questions about the information contained on this website, please see a healthcare professional. 
+ @ClinGenResource 
+ youtube.com 
+ Get Started 
+ Curation Activities 
+ Gene-Disease Validity 
+ Variant Pathogenicity 
+ Clinical Actionability 
+ Dosage Sensitivity 
+ Browse All ClinGen's Curated Genes 
+ Tools 
+ About Us 
+ ClinGen & ClinVar Collaboration 
+ ClinGen Terms of Use 
+ Collaborations 
+ Contact ClinGen 
+ Events & Conferences 
+ Leadership 
+ Member Directory 
+ Policies 
+ Website SiteMap 
+ Working Groups 
+ Actionability 
+ Ancestry and Diversity 
+ Biocurator 
+ Cancer Variant Interpretation 
+ ClinGen Community Curation (C3) 
+ CADRe (Consent & Disclosure Recommendations) 
+ -->
+ ClinGen Curation of ClinVar 
+ Clinical Domain Working Groups 
+ Complex Disease 
+ -->
+ Copy Number Variant Interpretation Guidelines 
+ Curated Disease Entity 
+ Data Access, Protection, and Confidentiality 
+ Data Platform 
+ Disease Naming Advisory Committee 
+ -->
+ Dosage Sensitivity Curation 
+ Education, Coordination and Training 
+ EHR 
+ -->
+ External Scientific Panel 
+ Gene Curation 
+ Genomic Variant 
+ -->
+ Low Penetrance/Risk Allele Working Group 
+ Partnership 
+ Lumping and Splitting 
+ -->
+ Pharmacogenomics Intrepretation Committee 
+ Pseudodeficiency Working Group 
+ Sequence Variant Inter-Laboratory Discrepancy Resolution 
+ -->
+ Sequence Variant Interpretation 
+ Germline/Somatic Working Group 
+ Stakeholder Partnership 
+ -->
+ Steering Committee 
+ Variant Curation 
+ Expert Panels 
+ ACADVL Variant Curation Expert Panel 
+ Aminoacidopathy Gene Curation Expert Panel 
+ Arrhythmogenic Right Ventricular Cardiomyopathy Gene Curation Expert Panel 
+ Brain Malformations Gene Curation Expert Panel 
+ Brain Malformations Variant Curation Expert Panel 
+ Breast/Ovarian Cancer Gene Curation Expert Panel 
+ Brugada Syndrome Gene Curation Expert Panel 
+ Cardiomyopathy Variant Curation Expert Panel 
+ CDH1 Variant Curation Expert Panel 
+ Cerebral Creatine Deficiency Syndromes Variant Curation Expert Panel 
+ Charcot-Marie-Tooth Disease Gene Curation Expert Panel 
+ Coagulation Factor Deficiency Variant Curation Expert Panel 
+ Colon Cancer Gene Curation Expert Panel 
+ Congenital Myopathies Gene Curation Expert Panel 
+ Congenital Myopathies Variant Curation Expert Panel 
+ Craniofacial Malformations Gene Curation Expert Panel 
+ DICER1 and miRNA-Processing Gene Variant Curation Expert Panel 
+ Dilated Cardiomyopathy Gene Curation Expert Panel 
+ Epilepsy Gene Curation Expert Panel 
+ Familial Hypercholesterolemia Variant Curation Expert Panel 
+ Familial Thoracic Aortic Aneurysm and Dissection Gene Curation Expert Panel 
+ Fatty Acid Oxidation Disorders Gene Curation Expert Panel 
+ FBN1 Variant Curation Expert Panel 
+ General Gene Curation Expert Panel 
+ Glaucoma Variant Curation Expert Panel 
+ GRIN Disorders Variant Curation Expert Panel 
+ Hearing Loss Gene Curation Expert Panel 
+ Hearing Loss Variant Curation Expert Panel 
+ Hemoglobinopathy Variant Curation Expert Panel 
+ Hemostasis/Thrombosis Gene Curation Expert Panel 
+ Hereditary Breast, Ovarian and Pancreatic Cancer Variant Curation Expert Panel 
+ Hereditary Cancer Gene Curation Expert Panel 
+ Hereditary Hemorrhagic Telangiectasia Variant Curation Expert Panel 
+ Humoral Defects Gene Curation Expert Panel 
+ Hypertrophic Cardiomyopathy Gene Curation Expert Panel 
+ Intellectual Disability and Autism Gene Curation Expert Panel 
+ KCNQ1 Variant Curation Expert Panel 
+ Kidney Cystic and Ciliopathy Disorders Gene Curation Expert Panel 
+ Kidney Cystic and Ciliopathy Disorders Variant Curation Expert Panel 
+ Leber Congenital Amaurosis/early onset Retinal Dystrophy Variant Curation Expert Panel 
+ Limb Girdle Muscular Dystrophy Gene Curation Expert Panel 
+ Limb Girdle Muscular Dystrophy Variant Curation Expert Panel 
+ Long QT Syndrome Gene Curation Expert Panel 
+ Lysosomal Storage Disorders Variant Curation Expert Panel 
+ Malignant Hyperthermia Susceptibility Variant Curation Expert Panel 
+ Mitochondrial Disease Nuclear and Mitochondrial Variant Curation Expert Panel 
+ Mitochondrial Diseases Gene Curation Expert Panel 
+ Monogenic Diabetes Gene Curation Expert Panel 
+ Monogenic Diabetes Variant Curation Expert Panel 
+ Myeloid Malignancy Variant Curation Expert Panel 
+ NTRK Fusions Somatic Cancer Variant Curation Expert Panel 
+ Parkinson's Disease Gene Curation Expert Panel 
+ Peroxisomal Disorders Gene Curation Expert Panel 
+ Peroxisomal Disorders Variant Curation Expert Panel 
+ Phenylketonuria Variant Curation Expert Panel 
+ Platelet Disorders Variant Curation Expert Panel 
+ PTEN Variant Curation Expert Panel 
+ Pulmonary Hypertension Gene Curation Expert Panel 
+ RASopathy Gene Curation Expert Panel 
+ RASopathy Variant Curation Expert Panel 
+ Retina Gene Curation Expert Panel 
+ Rett and Angelman-like Disorders Variant Curation Expert Panel 
+ SCID-CID Gene Curation Expert Panel 
+ Skeletal Disorders Gene Curation Expert Panel 
+ Syndromic Disorders Gene Curation Expert Panel 
+ Thrombosis Variant Curation Expert Panel 
+ TP53 Variant Curation Expert Panel 
+ VHL Variant Curation Expert Panel 
+ von Willebrand Disease Variant Curation Expert Panel 
+ X-linked Inherited Retinal Disease Variant Curation Expert Panel 
+ Documents & Announcements 
+ Announcements 
+ ClinGen Exhibit Booth Materials 
+ Curation Activity Procedures 
+ Conflict Of Interest (COI) 
+ Data Sharing Resources 
+ Expert Panel Applications 
+ News 
+ MOC/CME Forms 
+ Patient Data Sharing 
+ Policies/Position Statements 
+ Presentations 
+ Publication 
+ Supporting Documents 
+ Training Materials 
+ Back to top 
+ © ClinGen 

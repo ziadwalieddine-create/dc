@@ -1,0 +1,73 @@
+{
+ "id": "nhgri_education",
+ "name": "NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)",
+ "categories": [
+  "background_documentation"
+ ],
+ "maintainer": "NHGRI",
+ "url": "https://www.genome.gov",
+ "provenance": [
+  "https://www.genome.gov/genetics-glossary/Genome-Wide-Association-Studies",
+  "https://www.genome.gov/27528684/1000-genomes-project"
+ ],
+ "version": {
+  "value": "Glossary entries updated 2026-10-24; 1000 Genomes page archived, last updated 2017-10-04",
+  "release_date": "2026-10-24",
+  "verified": "live"
+ },
+ "scope": "Definitions and narration for GWAS, risk, genomic variation, genome and polygenic risk score; archived project description and tutorial slides for the 1000 Genomes Project.",
+ "variant_classes": [],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "HTML",
+  "text",
+  "MP3",
+  "PDF",
+  "JSON"
+ ],
+ "identifiers": [
+  "none"
+ ],
+ "mapping_methods": "n/a",
+ "quantitative": {
+  "summary": "Not applicable.",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "US government work, NHGRI site content (reuse terms not reviewed)",
+  "redistribution": "Unreviewed",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "Static for the archived page; glossary updated periodically.",
+ "coverage_limitations": [
+  "Background and terminology only; no variant-level data"
+ ],
+ "known_omissions": [],
+ "overlap_with_existing": [
+  "nhgri-gwas",
+  "nhgri-1000-genomes"
+ ],
+ "reuse_decision": {
+  "action": "reuse_existing",
+  "rationale": "Already collected, verified and preserved under scrape/. No further acquisition."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Preserved unchanged; see inventory/EXISTING_ASSETS.md.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "licence"
+ ],
+ "evidence": [
+  "nhgri/glossary_gwas",
+  "nhgri/project_1000g"
+ ],
+ "acquisition_targets": []
+}

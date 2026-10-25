@@ -1,0 +1,262 @@
+Search
+Menu
+Focus
+Help
+Downloads
+
+ClinPGx data and knowledge are available as download files. We have found that it is often critical for users to check with our team at feedback@clinpgx.org
+(opens in new window)
+ before embarking on a large project using these data to be sure that the files and data we make available are being interpreted correctly. We generally do not need to be a co-author on such analyses; we just want to make sure that there is a correct understanding of our data before lots of resources are spent.
+
+Examples of papers that have been written by others using ClinPGx/PharmGKB information
+
+Annotations Data
+Downloads contain information from our annotations.
+Summary and Variant Annotations Data
+
+Summary annotations.
+
+summaryAnnotations.zip
+(opens in new window)
+ 1.2MB 
+About summary annotation archive
+
+Variant annotations.
+
+variantAnnotations.zip
+(opens in new window)
+ 4.1MB 
+About variant annotation archive
+Variant, Gene and Drug Relationship Data
+
+Relationships summarized from ClinPGx annotations.
+
+relationships.zip
+(opens in new window)
+ 4.1MB 
+About Relationships archive
+Clinical Guideline Annotations
+
+Detailed clinical guideline annotations in JSON
+(opens in new window)
+ format:
+
+guidelineAnnotations.json.zip
+(opens in new window)
+ 834.3kB 
+About Clinical Guideline Annotations archive
+Drug Label Annotations
+
+Drug label annotations in TSV
+(opens in new window)
+ format:
+
+drugLabels.zip
+(opens in new window)
+ 58.6kB 
+About Drug Label Annotations archive
+Pathways
+
+Pathways data in BioPAX XML
+(opens in new window)
+, TSV
+(opens in new window)
+, and JSON
+(opens in new window)
+ formats:
+
+pathways-biopax.zip
+(opens in new window)
+ 619.2kB 
+About Pathway Biopax archive
+pathways-tsv.zip
+(opens in new window)
+ 200.9kB 
+About Pathway TSV archive
+pathways.json.zip
+(opens in new window)
+ 1.9MB 
+About Pathway JSON archive
+Clinical Variant Data
+
+This file contains a list of variant-drug pairs and level of evidence for all clinical annotations in TSV
+(opens in new window)
+ format:
+
+clinicalVariants.zip
+(opens in new window)
+ 72.3kB 
+About Clinical Variant archive
+Literature Occurrence
+
+A list of objects that occur in ClinPGx literature and pathways.
+
+occurrences.zip
+(opens in new window)
+ 3.3MB 
+About Occurrence archive
+Primary Data
+Downloads contain term mappings and/or cross-references to multiple vocabularies, and an indication of whether the term has been annotated in ClinPGx.
+Genes
+
+A summary of the gene information used by ClinPGx and how it has been annotated.
+
+genes.zip
+(opens in new window)
+ 2.8MB 
+About Genes archive
+Variants
+
+A summary of variants annotated by ClinPGx that have also been tracked in dbSNP.
+
+variants.zip
+(opens in new window)
+ 887.4kB 
+About Variants archive
+Drugs/Chemicals
+
+Summaries of chemical information annotated by ClinPGx. The list of drugs is a subset of the list of all chemicals annotated by ClinPGx.
+
+drugs.zip
+(opens in new window)
+ 663.1kB 
+About Drugs archive
+chemicals.zip
+(opens in new window)
+ 797kB 
+About Chemicals archive
+Phenotypes
+
+A summary of disease and other phenotypes that have been annotated by ClinPGx.
+
+phenotypes.zip
+(opens in new window)
+ 183.1kB 
+About Phenotypes archive
+Other Datasets
+ClinPGx Training Exercises
+
+These exercises are intended to help new users familiarize themselves with the ClinPGx website. Be aware that this download includes the answers to the exercises. As a result, these exercises are not recommended to be used for credit/CME.
+
+ClinPGx Training Exercises
+(opens in new window)
+Papers of Interest Archive
+
+This is an archive of all papers of interest (aka Curators Favorite Papers) from May 2006 to April 2017. All future papers of interest will be integrated into the ClinPGx Blog
+(opens in new window)
+.
+
+Papers of Interest Archive
+(opens in new window)
+AllOfUs Biobank Frequencies
+
+Haplotype, phenotype, and activity score frequencies from an analysis of the AllOfUs dataset using PharmCAT.
+
+pharmgkb_haplotype_frequencies_AllOfUs.zip
+(opens in new window)
+ 57.1kB
+UK Biobank Frequencies
+
+Haplotype frequencies from an analysis of the UK Biobank dataset using PharmCAT. Data from Frequencies of pharmacogenomic alleles across biogeographic groups in a large-scale biobank (PMID: 37757824)
+
+pharmgkb_haplotype_frequencies_UKBB.zip
+(opens in new window)
+ 29kB
+Automated Annotations
+
+This file contains possible relationship between a variant and a drug in a sentence from an abstract in PubMed or an article in PubMed Central. Sentences are identified automatically by a text mining system and have not been reviewed or validated manually by ClinPGx.
+
+Compiled October 2020
+
+automated_annotations.zip
+(opens in new window)
+ 1.8MB 
+About Automated Annotations archive
+NAT2 Biobank Frequencies
+
+NAT2 allele, diplotype, and phenotype frequencies from an analysis of the UK Biobank, All of Us Research program, and PennMedicine BioBank using PharmCAT v3.0.1. Data published in “Global population frequencies of NAT2 star alleles observed in three large biobanks”. (PMID: 42326816)
+
+NAT2 Supplemental Files @ Stanford Digital Repository
+(opens in new window)
+From Related Projects
+
+These downloads are from published projects that ClinPGx has participated in or has some connection to.
+
+These data are not covered by the ClinPGx Data Usage Agreement. For information about about data usage restrictions please contact the original author of the data.
+
+International Tamoxifen Pharmacogenomics Consortium (ITPC)
+
+Data from CYP2D6 Genotype and Adjuvant Tamoxifen: Meta-analysis of Heterogeneous Study Populations (PMID:24060820):
+
+ITPC Data Set
+(opens in new window)
+PharmGKB Analysis Code
+(opens in new window)
+PharmGKB Analysis Github repository
+(opens in new window)
+SAS Analysis Code
+(opens in new window)
+SAS Reports
+(opens in new window)
+International SSRI Pharmacogenomics Consortium (ISPC)
+
+Data from A genome-wide association study of antidepressant treatment response (PMID:25897834):
+
+ISPC Data Set @ Stanford Data Repository
+(opens in new window)
+International Warfarin Pharmacogenetics Consortium (IWPC)
+
+Data from Estimation of the warfarin dose with clinical and pharmacogenetic data (PMID:19228618):
+
+IWPC Data Set
+(opens in new window)
+Ethnicity Data Set
+(opens in new window)
+Dosing Algorithm
+(opens in new window)
+
+Data from Genetic variants associated with warfarin dose in African-American individuals: a genome-wide association study (PMID:23755828):
+
+Lancet Data Set 1
+(opens in new window)
+Lancet Data Set 2
+(opens in new window)
+Translational Pharmacogenetics Project (TPP)
+
+Data from The Pharmacogenomics Research Network Translational Pharmacogenetics Program: Outcomes and Metrics of Pharmacogenetic Implementations Across Diverse Healthcare Systems. (PMID:28090649)
+
+Gene Look-up Tables @ Stanford Data Repository
+(opens in new window)
+Data-driven prediction of drug effects and interactions
+
+Data from Data-driven prediction of drug effects and interactions (PMID:22422992) by Tatonetti, et al.
+
+Any questions regarding this data should be sent to Dr. Tatonetti, at nick.tatonetti@columbia.edu
+(opens in new window)
+.
+
+Data @ Stanford Data Repository
+(opens in new window)
+About ClinPGx
+Acknowledgements
+FAQ
+Publications
+Downloads
+Citing
+Licensing & Usage
+Privacy Policy
+ClinPGx @ YouTube
+(opens in new window)
+ClinPGx @ Bluesky
+(opens in new window)
+ClinPGx @ LinkedIn
+(opens in new window)
+ClinPGx Blog
+(opens in new window)
+(opens in new window)
+
+The information on this website is not intended for direct diagnostic use or medical decision-making without review by a health care professional. Individuals should not change their health behavior solely on the basis of information contained on this website. If you have questions about the information contained on this website, please see a health care professional.
+
+ClinPGx is comprised of PharmGKB®, CPIC©, and PharmCAT. PharmGKB is a registered trademark of HHS and is financially supported by NIH/NHGRI/NICHD/NIDA/NCI. PharmGKB is managed at Stanford University (U24HG010615). ©2001-2026. CPIC is a registered service mark of the US Department of Health & Human Services (HHS). CPIC is managed at Stanford University & St. Jude Children's Research Hospital (U24HG013077). PharmCAT is managed at Stanford University & University of Pennsylvania (NHGRI U24HG013077).
+
+The use of ClinPGx and PharmGKB® data is governed by our data usage policy.

@@ -1,0 +1,76 @@
+{
+ "id": "cpic",
+ "name": "CPIC (Clinical Pharmacogenetics Implementation Consortium)",
+ "categories": [
+  "functional_haplotypes_pgx"
+ ],
+ "maintainer": "CPIC",
+ "url": "https://cpicpgx.org",
+ "provenance": [
+  "https://api.cpicpgx.org/v1/"
+ ],
+ "version": {
+  "value": "Public API (gene, guideline endpoints) queried 2026-10-25",
+  "release_date": "2026-10-25",
+  "verified": "live"
+ },
+ "scope": "Gene-drug guidelines, allele function tables and diplotype-phenotype translations.",
+ "variant_classes": [
+  "gene_level",
+  "snv"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "JSON (REST)"
+ ],
+ "identifiers": [
+  "HGNC/Ensembl/NCBI gene IDs",
+  "star alleles"
+ ],
+ "mapping_methods": "Allele definitions refer to reference sequences; coordinate mapping to be done via PharmVar/ClinPGx.",
+ "quantitative": {
+  "summary": "Allele function and phenotype categories.",
+  "units": "n/a",
+  "uncertainty": "evidence ratings",
+  "direction": "function categories"
+ },
+ "licence": {
+  "name": "The CPIC licence URL resolves to the ClinPGx data-use text (CC BY-SA 4.0)",
+  "redistribution": "Share-alike and attribution",
+  "access": "open_with_terms",
+  "verified": "live",
+  "note": "The licence page content was identical (same size) to the ClinPGx page; confirm CPIC-specific terms before redistribution."
+ },
+ "update_frequency": "With guideline updates.",
+ "coverage_limitations": [
+  "Limited to genes with CPIC guidelines"
+ ],
+ "known_omissions": [
+  "Endpoints beyond gene and guideline lists were not explored"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Small API tables; combine with ClinPGx and PharmVar."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "API returns JSON.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "cpic_genes",
+  "cpic_guidelines"
+ ],
+ "unverified_fields": [
+  "CPIC-specific licence terms"
+ ],
+ "evidence": [
+  "cpic/api_genes",
+  "cpic/home",
+  "cpic/license"
+ ]
+}

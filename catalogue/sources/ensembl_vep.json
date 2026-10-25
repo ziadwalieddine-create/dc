@@ -1,0 +1,91 @@
+{
+ "id": "ensembl_vep",
+ "name": "Ensembl VEP and release-116 plugin data",
+ "categories": [
+  "annotation_integration",
+  "direct_experimental_variant_effects",
+  "natural_knockouts_dosage",
+  "regulation_expression_splicing",
+  "protein_structure_function"
+ ],
+ "maintainer": "EMBL-EBI / Ensembl",
+ "url": "https://www.ensembl.org/info/docs/tools/vep/",
+ "provenance": [
+  "https://ftp.ensembl.org/pub/release-116/variation/",
+  "https://ftp.ensembl.org/pub/release-116/variation/indexed_vep_cache/"
+ ],
+ "version": {
+  "value": "Ensembl release 116 (REST); plugin data directories dated 2025-10 to 2026-08",
+  "release_date": "2026-08-07 (CHECKSUMS)",
+  "verified": "live"
+ },
+ "scope": "Variant effect prediction tool with offline caches and pre-built data for plugins. Directory listing of release-116/variation shows: MaveDB, LOEUF, SpliceAI (27 GB raw/masked VCFs), SpliceVault, ProtVar, mutfunc, Enformer, GENCODE_promoter, PhenotypeOrthologous, RiboSeqORFs, pangenomes, vcf, gvf, indexed_vep_cache.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "sv"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "tabix-indexed TSV/VCF",
+  "SQLite (.db)",
+  "tar.gz caches"
+ ],
+ "identifiers": [
+  "Ensembl IDs",
+  "HGVS",
+  "rsIDs"
+ ],
+ "mapping_methods": "VEP consequence calling against Ensembl/RefSeq transcripts; plugin files keyed by GRCh38 coordinates.",
+ "quantitative": {
+  "summary": "Plugin data carry their source scores (e.g. MaveDB scores, SpliceAI delta scores, LOEUF).",
+  "units": "per plugin",
+  "uncertainty": "per plugin",
+  "direction": "per plugin"
+ },
+ "licence": {
+  "name": "Ensembl: no restrictions on data (verified); plugin resources carry upstream terms (e.g. gnomAD notes SpliceAI annotations as CC BY-NC 4.0)",
+  "redistribution": "Check each plugin resource before redistribution",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "With each Ensembl release; plugin files updated irregularly (MaveDB file dated 2026-03-09).",
+ "coverage_limitations": [
+  "Plugin documentation page returned HTTP 504 when probed, so the complete plugin list and per-plugin licences are not verified",
+  "SpliceAI/Enformer/mutfunc/ProtVar/SpliceVault files are very large (1 to 27 GB)"
+ ],
+ "known_omissions": [
+  "Only directory names were verified for plugins other than MaveDB; their contents were not opened"
+ ],
+ "overlap_with_existing": [
+  "mavedb-human",
+  "ensembl-human-genomes"
+ ],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Ensembl already integrates MaveDB, LOEUF, SpliceAI, SpliceVault, ProtVar, mutfunc and Enformer for VEP; reuse these rather than re-deriving them. The MaveDB file is acquired first to measure overlap with the API-built set."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "acquisition_targets": [
+  "ensembl_vep_mavedb_variants",
+  "ensembl_vep_mavedb_variants_tbi"
+ ],
+ "unverified_fields": [
+  "complete plugin list",
+  "per-plugin licences"
+ ],
+ "evidence": [
+  "ensembl_vep/ftp_current_listing",
+  "ensembl_vep/data_use",
+  "ensembl_vep/plugins_doc_plain",
+  "ensembl_vep/release116_variation_vep"
+ ]
+}

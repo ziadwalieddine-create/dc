@@ -1,0 +1,36 @@
+{
+  "kind": "storage#objects",
+  "prefixes": [
+    "additional_GTEx_datasets/",
+    "annotations/",
+    "bulk-gex/",
+    "bulk-qtl/",
+    "haplotype-expression/",
+    "long-read-data/",
+    "references/",
+    "single-cell/",
+    "variants/"
+  ],
+  "items": [
+    {
+      "kind": "storage#object",
+      "id": "adult-gtex/description.tsv/1696601697054377",
+      "selfLink": "https://www.googleapis.com/storage/v1/b/adult-gtex/o/description.tsv",
+      "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/adult-gtex/o/description.tsv?generation=1696601697054377&alt=media",
+      "name": "description.tsv",
+      "bucket": "adult-gtex",
+      "generation": "1696601697054377",
+      "metageneration": "1",
+      "contentType": "text/tab-separated-values",
+      "storageClass": "STANDARD",
+      "size": "1396",
+      "md5Hash": "sPBo/GAR2xbJRiwj3HZdOA==",
+      "crc32c": "QZX4DQ==",
+      "etag": "CKnd6evN4YEDEAE=",
+      "timeCreated": "2023-10-06T14:14:57.083Z",
+      "updated": "2023-10-06T14:14:57.083Z",
+      "timeStorageClassUpdated": "2023-10-06T14:14:57.083Z",
+      "timeFinalized": "2023-10-06T14:14:57.083Z"
+    }
+  ]
+}

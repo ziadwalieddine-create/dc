@@ -1,0 +1,11 @@
+ 
+ Index of /pub/databases/spot/eQTL 
+ Index of /pub/databases/spot/eQTL 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ coverage_plots/ 2023-04-06 14:39 -   
+ imported/ 2024-06-18 11:41 -   
+ r8_beta/ 2026-01-28 20:35 -   
+ references/ 2022-03-29 14:19 -   
+ sumstats/ 2024-05-20 18:14 -   
+ susie/ 2024-05-20 18:20 -   

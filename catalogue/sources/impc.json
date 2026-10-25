@@ -1,0 +1,73 @@
+{
+ "id": "impc",
+ "name": "IMPC (International Mouse Phenotyping Consortium)",
+ "categories": [
+  "perturbation_evidence",
+  "natural_knockouts_dosage"
+ ],
+ "maintainer": "IMPC",
+ "url": "https://www.mousephenotype.org",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/impc/",
+  "https://www.mousephenotype.org/data/release"
+ ],
+ "version": {
+  "value": "Data Release 24.0 (GRCm39; OpenStats 1.20.0)",
+  "release_date": "2026-03-16",
+  "verified": "live"
+ },
+ "scope": "Systematic knockout mouse phenotyping: 9,605 phenotyped genes, 10,341 mutant lines, 111,664 phenotype calls (release 24.0).",
+ "variant_classes": [
+  "gene_level"
+ ],
+ "assemblies": [
+  "other"
+ ],
+ "formats": [
+  "CSV/TSV on FTP",
+  "REST API"
+ ],
+ "identifiers": [
+  "MGI IDs",
+  "MP ontology terms"
+ ],
+ "mapping_methods": "Mouse genes; human relevance through orthologs (Open Targets provides evidence_impc and mouse_phenotype).",
+ "quantitative": {
+  "summary": "Statistical significance and effect size per phenotype call.",
+  "units": "per parameter",
+  "uncertainty": "p-values",
+  "direction": "per parameter"
+ },
+ "licence": {
+  "name": "Creative Commons Attribution 4.0 (site footer statement)",
+  "redistribution": "Attribution",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Several releases per year.",
+ "coverage_limitations": [
+  "Mouse, not human; ortholog mapping required",
+  "Homozygous knockouts mainly; hypomorphic and missense effects absent"
+ ],
+ "known_omissions": [
+  "Human phenotype of a human variant cannot be read directly from mouse knockouts"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "Open Targets integrates IMPC as evidence_impc and mouse_phenotype with human ortholog mapping; fetch source tables only if gene-level mouse detail is needed."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Release page and FTP listing readable.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "evidence": [
+  "impc/release_page",
+  "impc/ftp_listing",
+  "impc/licence"
+ ],
+ "unverified_fields": [],
+ "acquisition_targets": []
+}

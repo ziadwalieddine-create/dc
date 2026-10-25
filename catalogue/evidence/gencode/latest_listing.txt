@@ -1,0 +1,50 @@
+ 
+ Index of /pub/databases/gencode/Gencode_human/latest_release 
+ Index of /pub/databases/gencode/Gencode_human/latest_release 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ GRCh37_mapping/ 2026-06-09 13:56 -   
+ GRCh38.p14.genome.fa.gz 2026-06-09 13:55 856M   
+ GRCh38.primary_assembly.genome.fa.gz 2026-06-09 13:55 806M   
+ MD5SUMS 2026-06-09 13:56 3.0K   
+ _README.TXT 2026-06-09 13:55 67K   
+ gencode.v50.2wayconspseudos.gff3.gz 2026-06-09 13:55 351K   
+ gencode.v50.2wayconspseudos.gtf.gz 2026-06-09 13:55 320K   
+ gencode.v50.annotation.gff3.gz 2026-06-09 13:55 153M   
+ gencode.v50.annotation.gtf.gz 2026-06-09 13:55 119M   
+ gencode.v50.basic.annotation.gff3.gz 2026-06-09 13:55 97M   
+ gencode.v50.basic.annotation.gtf.gz 2026-06-09 13:55 76M   
+ gencode.v50.chr_patch_hapl_scaff.annotation.gff3.gz 2026-06-09 13:55 158M   
+ gencode.v50.chr_patch_hapl_scaff.annotation.gtf.gz 2026-06-09 13:55 123M   
+ gencode.v50.chr_patch_hapl_scaff.basic.annotation.gff3.gz 2026-06-09 13:55 101M   
+ gencode.v50.chr_patch_hapl_scaff.basic.annotation.gtf.gz 2026-06-09 13:55 79M   
+ gencode.v50.lncRNA_transcripts.fa.gz 2026-06-09 13:55 36M   
+ gencode.v50.long_noncoding_RNAs.gff3.gz 2026-06-09 13:55 17M   
+ gencode.v50.long_noncoding_RNAs.gtf.gz 2026-06-09 13:55 13M   
+ gencode.v50.metadata.Annotation_remark.gz 2026-06-09 13:55 3.3M   
+ gencode.v50.metadata.EntrezGene.gz 2026-06-09 13:55 2.1M   
+ gencode.v50.metadata.Exon_supporting_feature.gz 2026-06-09 13:55 148M   
+ gencode.v50.metadata.Gene_source.gz 2026-06-09 13:55 369K   
+ gencode.v50.metadata.HGNC.gz 2026-06-09 13:55 2.6M   
+ gencode.v50.metadata.PDB.gz 2026-06-09 13:55 1.2M   
+ gencode.v50.metadata.PolyA_feature.gz 2026-06-09 13:55 2.7M   
+ gencode.v50.metadata.Pubmed_id.gz 2026-06-09 13:55 2.7M   
+ gencode.v50.metadata.RefSeq.gz 2026-06-09 13:55 1.0M   
+ gencode.v50.metadata.Selenocysteine.gz 2026-06-09 13:55 893   
+ gencode.v50.metadata.SwissProt.gz 2026-06-09 13:55 420K   
+ gencode.v50.metadata.TrEMBL.gz 2026-06-09 13:55 868K   
+ gencode.v50.metadata.Transcript_source.gz 2026-06-09 13:55 2.5M   
+ gencode.v50.metadata.Transcript_supporting_feature.gz 2026-06-09 13:55 89K   
+ gencode.v50.pc_transcripts.fa.gz 2026-06-09 13:55 124M   
+ gencode.v50.pc_translations.fa.gz 2026-06-09 13:55 20M   
+ gencode.v50.polyAs.gff3.gz 2026-06-09 13:55 2.2M   
+ gencode.v50.polyAs.gtf.gz 2026-06-09 13:55 1.9M   
+ gencode.v50.primary_assembly.annotation.gff3.gz 2026-06-09 13:55 153M   
+ gencode.v50.primary_assembly.annotation.gtf.gz 2026-06-09 13:55 119M   
+ gencode.v50.primary_assembly.basic.annotation.gff3.gz 2026-06-09 13:55 97M   
+ gencode.v50.primary_assembly.basic.annotation.gtf.gz 2026-06-09 13:55 76M   
+ gencode.v50.promoter_windows.gff3.gz 2026-06-09 13:55 653K   
+ gencode.v50.tRNAs.gff3.gz 2026-06-09 13:55 30K   
+ gencode.v50.tRNAs.gtf.gz 2026-06-09 13:55 22K   
+ gencode.v50.transcript_rankings.txt.gz 2026-06-09 13:55 8.2M   
+ gencode.v50.transcripts.fa.gz 2026-06-09 13:55 175M   

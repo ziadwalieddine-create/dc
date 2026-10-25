@@ -1,0 +1,104 @@
+Search
+Menu
+Focus
+Help
+Data Usage Policy
+
+License information for
+
+ClinPGx
+CPIC guidelines and content
+PharmCAT
+ClinPGx/PharmGKB data
+
+PharmGKB (now ClinPGx) is a NIH sponsored research project (U24HG010615) funded to collect, encode, and disseminate knowledge about the impact of human genetic variations on drug response. The knowledge and data covered by this agreement include and are not limited to research variant annotations from the literature, clinical interpretations of these variants, gene summaries for very important pharmacogenes (VIPs), pathway and network diagrams, relationships between gene, drugs and diseases and all software that support the ClinPGx/PharmGKB.
+
+ClinPGx/PharmGKB grants use of its data and contents under the Creative Commons Attribution-ShareAlike 4.0 International License
+(opens in new window)
+. Some requirements of this license include:
+
+Attribution: You must give appropriate credit to PharmGKB, provide a link to this license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests PharmGKB endorses you or approves of your use.
+Share-Alike: If you alter, amend, reuse or otherwise change ClinPGx/PharmGKB data, you must distribute your contributions using this license as well. You may not apply legal terms or technological measures that legally restrict others from doing anything this license permits.
+
+Read the full license
+(opens in new window)
+ for more details.
+
+Terms and Conditions of Use
+
+ClinPGx/PharmGKB is for research purposes. Prior to initiating research with this data as the researcher, you are obligated to be aware of applicable privacy laws.
+
+By accessing the data on the website, you are agreeing to the following:
+
+to collect statistics about your general use of the website through third-party analytics services (e.g. Google Analytics),
+to use the data for research purposes and not with any intent to offer all or any part of the data for sale as a commercial item, and
+acknowledge that the accuracy of the data in this knowledge base cannot be guaranteed and must be considered when using this data.
+Clinical PGx Guidelines
+
+Clinical Pharmacogenetics Implementation Consortium (CPIC) Guidelines Disclaimer: CPIC guidelines reflect expert consensus based on clinical evidence and peer-reviewed literature available at the time they are written and are intended only to assist clinicians in decision making and to identify questions for further research. New evidence may have emerged since the time a guideline was submitted for publication. Guidelines are limited in scope and are not applicable to interventions or diseases not specifically identified. Guidelines do not account for all individual variations among patients and cannot be considered inclusive of all proper methods of care or exclusive of other treatments. It remains the responsibility of the healthcare provider to determine the best course of treatment for a patient. Adherence to any guideline is voluntary, with the ultimate determination regarding its application to be made solely by the clinician and the patient. CPIC assumes no responsibility for any injury to persons or damage to persons or property arising out of or related to any use of CPIC's guidelines or for any errors or omissions.
+
+All Other PGx Guidelines: All other dosing guidelines on ClinPGx/PharmGKB reflect expert consensus based on clinical evidence and peer-reviewed literature available at the time they are written and are intended only to assist clinicians in decision making and to identify questions for further research. New evidence may have emerged since the time a guideline was submitted for publication. Guidelines are limited in scope and are not applicable to interventions or diseases not specifically identified. Guidelines do not account for all individual variations among patients and cannot be considered inclusive of all proper methods of care or exclusive of other treatments. It remains the responsibility of the healthcare provider to determine the best course of treatment for a patient. Adherence to any guideline is voluntary, with the ultimate determination regarding its application to be made solely by the clinician and the patient. PharmGKB assumes no responsibility for any injury to persons or damage to persons or property arising out of or related to any use of dosing guidelines on ClinPGx/PharmGKB or for any errors or omissions.
+
+Drug Labels
+
+FDA Drug Labels: Please follow all FDA drug label recommendations. Please visit the FDA website
+(opens in new window)
+ for more information.
+
+Responsibility
+
+This data is provided "as is", "where is" and without any express or implied warranties, including, but not limited to, any implied warranties of merchantability and/or fitness for a particular purpose. In no event shall Stanford University
+(opens in new window)
+, nor its agents, employers or representatives be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way or form out of the use of this data, even if advised of the possibility of such damage.
+
+All users assume the risk and responsibility for the accuracy, completeness or usefulness, or lack thereof, of any information, apparatus, product or process disclosed or that the use hereof would or would not infringe the rights of any other party.
+
+CPIC License
+
+CPIC resources are freely available for use by anyone. All curated content published by CPIC is available free of restriction under the CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+(opens in new window)
+. However, CPIC requests that you give attribution to CPIC whenever possible and appropriate and that you acknowledge:
+
+The primary source is at ClinPGx
+(opens in new window)
+.
+Cite the relevant publication(s), if applicable.
+Indicate that CPIC guidelines and content are subject to updates and modifications, and users should refer to ClinPGx to confirm they are accessing the most current content.
+The CPIC logo and acronym may not be reproduced on another website or in advertising materials without the permission of NIH.
+To cite specific content, indicate CPIC®. URL [date accessed].
+CPIC Database and API User Agreement The CPIC database and API are also bound by these licensing and terms of use. To cite content downloaded via the API or from the CPIC database, please indicate the URL, the date accessed, and the version number.
+DISCLAIMER Clinical Pharmacogenetics Implementation Consortium (CPIC) guidelines reflect expert consensus based on clinical evidence and peer‐reviewed literature available at the time they are written and are intended only to assist clinicians in decision making and to identify questions for further research. New evidence may have emerged since the time a guideline was submitted for publication or since data were updated on the CPIC site or in the CPIC database. Nuances about how to use CPIC data are contained in the CPIC guidelines that may not be obvious from downloads of tables from the CPIC database or API; users should consult the relevant guideline pages and read the guideline and any updates before using CPIC data for any gene/drug pair. It should be noted that the CPIC database and API may sometimes be unavailable or may not have been updated to reflect content noted on the guideline page. The date last updated for data downloaded via the API or from the CPIC database should be noted by users and are not guaranteed to reflect the most recently available evidence. Guidelines are limited in scope and are not applicable to interventions or diseases that are not specifically identified. Guidelines do not account for individual variations among patients and cannot be considered inclusive of all proper methods of care or exclusive of other treatments. It remains the responsibility of the healthcare provider to determine the best course of treatment for a patient. Adherence to any guideline is voluntary, with the ultimate determination regarding its application to be made solely by the clinician and the patient. CPIC assumes no responsibility for any injury or damage to persons or property arising out of or related to any use of CPIC's guidelines, CPIC website contents, CPIC database contents, or for any errors or omissions.
+
+CPIC® is a registered service mark of the US Department of Health & Human Services (HHS).
+
+PharmCAT License
+
+PharmCAT is licensed under the Mozilla Public License 2.0 (MPL-2.0)
+(opens in new window)
+.
+
+Last modified: 03/04/2026
+
+About ClinPGx
+Acknowledgements
+FAQ
+Publications
+Downloads
+Citing
+Licensing & Usage
+Privacy Policy
+ClinPGx @ YouTube
+(opens in new window)
+ClinPGx @ Bluesky
+(opens in new window)
+ClinPGx @ LinkedIn
+(opens in new window)
+ClinPGx Blog
+(opens in new window)
+(opens in new window)
+
+The information on this website is not intended for direct diagnostic use or medical decision-making without review by a health care professional. Individuals should not change their health behavior solely on the basis of information contained on this website. If you have questions about the information contained on this website, please see a health care professional.
+
+ClinPGx is comprised of PharmGKB®, CPIC©, and PharmCAT. PharmGKB is a registered trademark of HHS and is financially supported by NIH/NHGRI/NICHD/NIDA/NCI. PharmGKB is managed at Stanford University (U24HG010615). ©2001-2026. CPIC is a registered service mark of the US Department of Health & Human Services (HHS). CPIC is managed at Stanford University & St. Jude Children's Research Hospital (U24HG013077). PharmCAT is managed at Stanford University & University of Pennsylvania (NHGRI U24HG013077).
+
+The use of ClinPGx and PharmGKB® data is governed by our data usage policy.

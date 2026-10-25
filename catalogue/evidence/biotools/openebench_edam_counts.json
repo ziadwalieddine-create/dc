@@ -1,0 +1,75 @@
+{
+  "source": "https://openebench.bsc.es/monitor/tool/",
+  "fetched_utc": "2026-10-25T09:21:52Z",
+  "snapshot_bytes": 253219745,
+  "snapshot_sha256": "9d4c534f95adc144572588eddcabb992a350ed862277007a8e3e2313ecf7f26b",
+  "licence": "CC BY 4.0 (per-record @license)",
+  "records_total": 180237,
+  "by_namespace": {
+    "biotools": 47015,
+    "openebench": 48481,
+    "bioconda": 83197,
+    "galaxy": 1544
+  },
+  "deprecated_flag_by_namespace": {
+    "biotools:True": 47015,
+    "openebench:None": 48481,
+    "bioconda:None": 83197,
+    "galaxy:None": 1544
+  },
+  "deprecated_flag_note": "In this snapshot every bio.tools-namespace record has deprecated=true and no other namespace sets it, so the flag marks the namespace rather than individual tools; it is not used as a filter.",
+  "latest_record_timestamp": "2026-10-25T06:59:59.647931276Z",
+  "note": "Counts are records carrying the EDAM term (only bio.tools-namespace records carry EDAM semantics); a tool can carry several terms, so rows overlap.",
+  "topics": {
+    "topic_0199 (Genetic variation)": {
+      "all": 2244,
+      "biotools_namespace": 2244
+    },
+    "topic_3574 (Human genetics)": {
+      "all": 122,
+      "biotools_namespace": 122
+    },
+    "topic_3517 (GWAS study)": {
+      "all": 941,
+      "biotools_namespace": 941
+    },
+    "topic_3056 (Population genetics)": {
+      "all": 485,
+      "biotools_namespace": 485
+    },
+    "topic_3175 (Structural variation)": {
+      "all": 344,
+      "biotools_namespace": 344
+    },
+    "topic_0622 (Genomics)": {
+      "all": 2905,
+      "biotools_namespace": 2905
+    }
+  },
+  "operations": {
+    "operation_3227 (Variant calling)": {
+      "all": 1356,
+      "biotools_namespace": 1356
+    },
+    "operation_3225 (Variant classification)": {
+      "all": 269,
+      "biotools_namespace": 269
+    },
+    "operation_3228 (Structural variation detection)": {
+      "all": 110,
+      "biotools_namespace": 110
+    },
+    "operation_0331 (Variant effect prediction)": {
+      "all": 353,
+      "biotools_namespace": 353
+    },
+    "operation_3675 (Variant filtering)": {
+      "all": 127,
+      "biotools_namespace": 127
+    },
+    "operation_3197 (Genetic variation analysis)": {
+      "all": 658,
+      "biotools_namespace": 658
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+ "id": "mavedb",
+ "name": "MaveDB (Multiplexed Assays of Variant Effect database)",
+ "categories": [
+  "direct_experimental_variant_effects"
+ ],
+ "maintainer": "MaveDB project",
+ "url": "https://www.mavedb.org",
+ "provenance": [
+  "https://api.mavedb.org/api/v1",
+  "https://zenodo.org/records/20840937"
+ ],
+ "version": {
+  "value": "API 2026.3.2; bulk dump v4 (Zenodo 20840937)",
+  "release_date": "2026-06-25 (dump); API queried 2026-10-25",
+  "verified": "live"
+ },
+ "scope": "Published MAVE score sets (deep mutational scanning, MPRA and related assays). The public search lists 2,938 published score sets; 1,402 have a human target (1,320 by organism filter + 82 by GRCh38/transcript accession).",
+ "variant_classes": [
+  "snv",
+  "protein_level",
+  "indel"
+ ],
+ "assemblies": [
+  "GRCh38",
+  "none/not_applicable"
+ ],
+ "formats": [
+  "CSV (scores/counts)",
+  "JSON (metadata)",
+  "Zenodo dump (tar.gz)",
+  "Ensembl VEP plugin TSV (tabix)"
+ ],
+ "identifiers": [
+  "score set URN (urn:mavedb:...)",
+  "variant accession <urn>#n",
+  "HGVS (nt, splice, pro)",
+  "UniProt/RefSeq/Ensembl target IDs"
+ ],
+ "mapping_methods": "Per-score-set target sequence or accession; MaveDB maps variants to genomic coordinates in a separate step (mapping state complete for 888 of 1,402 human sets in our records). Ensembl distributes a coordinate-mapped TSV for VEP.",
+ "quantitative": {
+  "summary": "Assay-specific scores with optional sd/se/other columns; 91 of the 1,320 organism-filter sets carry score calibrations.",
+  "units": "assay-specific (no universal unit)",
+  "uncertainty": "sd/se columns in many sets; absent in others",
+  "direction": "defined per score set; must be read from its metadata"
+ },
+ "licence": {
+  "name": "Per record: CC0 (1,340), CC BY 4.0 (45), CC BY-SA 4.0 (11), CC BY-NC-SA 4.0 (6) among our 1,402 human sets; Zenodo bulk dump contains CC0 records only",
+  "redistribution": "Follow each record licence; private repository status does not override it",
+  "access": "open",
+  "verified": "live",
+  "note": "Counts from our API-built records; Zenodo licence from the record metadata (cc-zero)."
+ },
+ "update_frequency": "Continuous; Zenodo bulk dumps on versions dated 2024-05-20, 2024-11-15, 2025-06-12, 2026-02-06 and 2026-06-25.",
+ "coverage_limitations": [
+  "Uneven gene coverage; most sets are missense/small-variant libraries of one gene or domain",
+  "Scores are not comparable across score sets without per-set calibration",
+  "Mapping to genomic coordinates incomplete (888 complete, 321 incomplete, 181 failed, 9 queued of 1,402)",
+  "322 of 1,402 sets have processing state incomplete"
+ ],
+ "known_omissions": [
+  "Private/unpublished score sets",
+  "Variants not assayed; absence of a score is not evidence of no effect"
+ ],
+ "overlap_with_existing": [
+  "mavedb-human"
+ ],
+ "reuse_decision": {
+  "action": "reuse_existing",
+  "rationale": "Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump are being compared against it before any change."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "API open; Zenodo reachable with an identifying user agent (generic curl user agent was refused earlier).",
+  "mapped_to_dc": true,
+  "usable": true
+ },
+ "acquisition_targets": [
+  "mavedb_zenodo_dump_v4",
+  "ensembl_vep_mavedb_variants",
+  "ensembl_vep_mavedb_variants_tbi"
+ ],
+ "evidence": [
+  "mavedb/api_version",
+  "mavedb/licenses_active",
+  "mavedb/published_count",
+  "mavedb/organism_stats",
+  "mavedb/zenodo_dump_record",
+  "mavedb/zenodo_dump_latest",
+  "mavedb/zenodo_dump_versions"
+ ],
+ "unverified_fields": []
+}

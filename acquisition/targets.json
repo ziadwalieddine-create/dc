@@ -1,0 +1,485 @@
+[
+ {
+  "id": "mavedb_zenodo_dump_v4",
+  "source": "mavedb",
+  "url": "https://zenodo.org/api/records/20840937/files/mavedb-dump.2026062418131.tar.gz/content",
+  "dest": "mavedb/mavedb-dump.2026062418131.tar.gz",
+  "tier": "A",
+  "kind": "tar.gz",
+  "licence": "CC0 (CC0-licensed MaveDB records only)",
+  "note": "Official MaveDB Bulk Download v4 (Zenodo 20840937, 2026-06-25). Evaluate against the API-built set in scrape/mavedb-human.",
+  "expected_size": 1907736956,
+  "expected_md5": "2cb818f9add61a378c30766d9b4b45ce"
+ },
+ {
+  "id": "clinvar_vcf_grch38",
+  "source": "clinvar",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz",
+  "dest": "clinvar/clinvar.vcf.gz",
+  "tier": "A",
+  "kind": "vcf.gz",
+  "licence": "NCBI public domain (submitters may assert rights)",
+  "note": "ClinVar GRCh38 VCF, weekly; fileDate in the header gives the release.",
+  "expected_size": 200670148,
+  "md5_url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.md5"
+ },
+ {
+  "id": "clinvar_readme",
+  "source": "clinvar",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/README.txt",
+  "dest": "clinvar/README.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "NCBI public domain",
+  "note": "ClinVar FTP README (field definitions)."
+ },
+ {
+  "id": "clinvar_readme_vcf",
+  "source": "clinvar",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/README_VCF.txt",
+  "dest": "clinvar/README_VCF.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "NCBI public domain",
+  "note": "ClinVar VCF README."
+ },
+ {
+  "id": "clingen_gene_curation_list",
+  "source": "clingen",
+  "url": "https://ftp.clinicalgenome.org/ClinGen_gene_curation_list_GRCh38.tsv",
+  "dest": "clingen/ClinGen_gene_curation_list_GRCh38.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen terms: released openly, free to use (verified live)",
+  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+ },
+ {
+  "id": "clingen_region_curation_list",
+  "source": "clingen",
+  "url": "https://ftp.clinicalgenome.org/ClinGen_region_curation_list_GRCh38.tsv",
+  "dest": "clingen/ClinGen_region_curation_list_GRCh38.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen terms: released openly, free to use (verified live)",
+  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+ },
+ {
+  "id": "clingen_haploinsufficiency_gene",
+  "source": "clingen",
+  "url": "https://ftp.clinicalgenome.org/ClinGen_haploinsufficiency_gene_GRCh38.bed",
+  "dest": "clingen/ClinGen_haploinsufficiency_gene_GRCh38.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ClinGen terms: released openly, free to use (verified live)",
+  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+ },
+ {
+  "id": "clingen_triplosensitivity_gene",
+  "source": "clingen",
+  "url": "https://ftp.clinicalgenome.org/ClinGen_triplosensitivity_gene_GRCh38.bed",
+  "dest": "clingen/ClinGen_triplosensitivity_gene_GRCh38.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ClinGen terms: released openly, free to use (verified live)",
+  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+ },
+ {
+  "id": "clingen_recurrent_cnv_v2_1",
+  "source": "clingen",
+  "url": "https://ftp.clinicalgenome.org/ClinGen_recurrent_CNV_V2.1-hg38.bed",
+  "dest": "clingen/ClinGen_recurrent_CNV_V2.1-hg38.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ClinGen terms: released openly, free to use (verified live)",
+  "note": "ClinGen dosage sensitivity / curation, GRCh38."
+ },
+ {
+  "id": "clingen_gene_validity",
+  "source": "clingen",
+  "url": "https://search.clinicalgenome.org/kb/gene-validity/download",
+  "dest": "clingen/clingen_gene_disease_validity.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "ClinGen terms: released openly, free to use (verified live)",
+  "note": "ClinGen gene-disease validity classifications (CSV export).",
+  "expected_size": 1133460
+ },
+ {
+  "id": "gnomad_constraint_v4_1_2",
+  "source": "gnomad",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1.2/constraint/gnomad.v4.1.2.constraint_metrics.tsv.bgz",
+  "dest": "gnomad/gnomad.v4.1.2.constraint_metrics.tsv.bgz",
+  "tier": "A",
+  "kind": "tsv.bgz",
+  "licence": "CC0 (gnomAD primary data); some annotations carry separate terms (verified live)",
+  "note": "Current gene/transcript constraint (v4.1.2, 2026-09-23); supersedes the v4.1 file of 2024-04.",
+  "expected_size": 574538527
+ },
+ {
+  "id": "gnomad_exome_cnv_v4_1",
+  "source": "gnomad",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/exome_cnv/gnomad.v4.1.cnv.all.vcf.gz",
+  "dest": "gnomad/gnomad.v4.1.cnv.all.vcf.gz",
+  "tier": "A",
+  "kind": "vcf.gz",
+  "licence": "CC0 (gnomAD primary data)",
+  "note": "gnomAD v4.1 exome CNV sites (all samples); GRCh38. Size from the S3 Content-Length; MD5 as listed on the gnomAD downloads page.",
+  "expected_size": 8917685,
+  "expected_md5": "74000fc29d0b9bc547859cfc2ba4ac84"
+ },
+ {
+  "id": "gwas_catalog_associations",
+  "source": "gwas_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/latest/gwas-catalog-associations_ontology-annotated-full.zip",
+  "dest": "gwas_catalog/gwas-catalog-associations_ontology-annotated-full.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "EMBL-EBI terms of use; summary statistics CC0 unless stated (verified live)",
+  "note": "GWAS Catalog associations, ontology annotated (release 2026-10-22)."
+ },
+ {
+  "id": "reactome_ensembl2reactome",
+  "source": "reactome",
+  "url": "https://reactome.org/download/current/Ensembl2Reactome.txt",
+  "dest": "reactome/Ensembl2Reactome.txt",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "CC0 for data (verified live)",
+  "note": "Reactome v97 gene/protein to pathway mapping."
+ },
+ {
+  "id": "reactome_uniprot2reactome_all_levels",
+  "source": "reactome",
+  "url": "https://reactome.org/download/current/UniProt2Reactome_All_Levels.txt",
+  "dest": "reactome/UniProt2Reactome_All_Levels.txt",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "CC0 for data (verified live)",
+  "note": "Reactome v97 gene/protein to pathway mapping."
+ },
+ {
+  "id": "reactome_pathways",
+  "source": "reactome",
+  "url": "https://reactome.org/download/current/ReactomePathways.txt",
+  "dest": "reactome/ReactomePathways.txt",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "CC0 for data (verified live)",
+  "note": "Reactome v97 gene/protein to pathway mapping."
+ },
+ {
+  "id": "clinpgx_variantAnnotations",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/variantAnnotations.zip",
+  "dest": "pharmgkb/variantAnnotations.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (verified live)",
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+ },
+ {
+  "id": "clinpgx_relationships",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/relationships.zip",
+  "dest": "pharmgkb/relationships.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (verified live)",
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+ },
+ {
+  "id": "clinpgx_summaryAnnotations",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/summaryAnnotations.zip",
+  "dest": "pharmgkb/summaryAnnotations.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (verified live)",
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+ },
+ {
+  "id": "clinpgx_guidelineAnnotations",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/guidelineAnnotations.json.zip",
+  "dest": "pharmgkb/guidelineAnnotations.json.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (verified live)",
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+ },
+ {
+  "id": "clinpgx_drugLabels",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/drugLabels.zip",
+  "dest": "pharmgkb/drugLabels.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (verified live)",
+  "note": "ClinPGx (PharmGKB) annotation archive. Share-alike applies to redistribution."
+ },
+ {
+  "id": "cpic_genes",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/gene",
+  "dest": "cpic/cpic_genes.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "See catalogue entry (licence page resolves to ClinPGx terms, CC BY-SA 4.0)",
+  "note": "CPIC gene table via public API."
+ },
+ {
+  "id": "cpic_guidelines",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/guideline",
+  "dest": "cpic/cpic_guidelines.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "See catalogue entry",
+  "note": "CPIC guideline table via public API."
+ },
+ {
+  "id": "gtex_v11_gene_median_tpm",
+  "source": "gtex",
+  "url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v11/rna-seq/GTEx_Analysis_2025-08-22_v11_RNASeQCv2.4.3_gene_median_tpm.gct.gz",
+  "dest": "gtex/GTEx_Analysis_2025-08-22_v11_RNASeQCv2.4.3_gene_median_tpm.gct.gz",
+  "tier": "A",
+  "kind": "gct.gz",
+  "licence": "GTEx open-access data (verified live: open access vs protected)",
+  "note": "GTEx v11 median gene TPM by tissue; GRCh38, GENCODE v47.",
+  "expected_size": 10129906,
+  "expected_md5_base64": "NGTVkUc51xDyiHOdVhUAIA=="
+ },
+ {
+  "id": "gtex_datasets_api",
+  "source": "gtex",
+  "url": "https://gtexportal.org/api/v2/metadata/dataset",
+  "dest": "gtex/gtex_datasets.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "GTEx open-access",
+  "note": "GTEx dataset registry (v7, v8, v10, v11)."
+ },
+ {
+  "id": "mane_summary_v1_5",
+  "source": "gencode",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/MANE.GRCh38.v1.5.summary.txt.gz",
+  "dest": "mane/MANE.GRCh38.v1.5.summary.txt.gz",
+  "tier": "A",
+  "kind": "txt.gz",
+  "licence": "NCBI/EMBL-EBI open",
+  "note": "MANE Select/Plus Clinical transcript pairs (v1.5, 2025-12-04)."
+ },
+ {
+  "id": "mane_gtf_v1_5",
+  "source": "gencode",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/MANE.GRCh38.v1.5.ensembl_genomic.gtf.gz",
+  "dest": "mane/MANE.GRCh38.v1.5.ensembl_genomic.gtf.gz",
+  "tier": "A",
+  "kind": "gtf.gz",
+  "licence": "NCBI/EMBL-EBI open",
+  "note": "MANE transcript models (Ensembl), GRCh38."
+ },
+ {
+  "id": "igsr_1000g_samples",
+  "source": "1000genomes",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/20130606_g1k_3202_samples_ped_population.txt",
+  "dest": "1000genomes/20130606_g1k_3202_samples_ped_population.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "IGSR data reuse policy (see catalogue entry)",
+  "note": "1000G 3,202-sample pedigree and population table (links genotypes to ancestry)."
+ },
+ {
+  "id": "uniprot_human_reviewed",
+  "source": "uniprot",
+  "url": "https://rest.uniprot.org/uniprotkb/stream?query=%28reviewed%3Atrue%29+AND+%28organism_id%3A9606%29&format=tsv&fields=accession%2Cid%2Cgene_primary%2Cgene_names%2Cprotein_name%2Clength%2Cxref_ensembl%2Cxref_hgnc%2Cxref_alphafolddb%2Ccc_function",
+  "dest": "uniprot/uniprot_human_reviewed.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "CC BY 4.0 (verified live)",
+  "note": "UniProtKB/Swiss-Prot human entries with cross-references (release 2026_03 at the time of the probe)."
+ },
+ {
+  "id": "biogrid_orcs_human",
+  "source": "biogrid_orcs",
+  "url": "https://downloads.thebiogrid.org/Download/BioGRID-ORCS/Latest-Release/BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz",
+  "dest": "biogrid_orcs/BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz",
+  "tier": "A",
+  "kind": "tar.gz",
+  "licence": "Licence not verified (BioGRID licensing wiki page missing); check README inside release",
+  "note": "BioGRID ORCS 2.0.18 human CRISPR screens. Corrected URL: the earlier /BioGRID-ORCS/ path returns an HTML landing page (rejected by the new signature check); the download page prints each size before the filename, so the human archive is 717.79 MiB (752.7 MB), not 54.73 MiB as first misread."
+ },
+ {
+  "id": "alphamissense_gene_hg38",
+  "source": "alphamissense",
+  "url": "https://storage.googleapis.com/dm_alphamissense/AlphaMissense_gene_hg38.tsv.gz",
+  "dest": "alphamissense/AlphaMissense_gene_hg38.tsv.gz",
+  "tier": "A",
+  "kind": "tsv.gz",
+  "licence": "CC BY-NC-SA 4.0 (Zenodo record, verified live): non-commercial, share-alike",
+  "note": "AlphaMissense gene-level pathogenicity averages.",
+  "expected_size": 253636,
+  "expected_md5_base64": "Up47Uc7AeScsVxr/3m8Ddg=="
+ },
+ {
+  "id": "alphamissense_hg38",
+  "source": "alphamissense",
+  "url": "https://storage.googleapis.com/dm_alphamissense/AlphaMissense_hg38.tsv.gz",
+  "dest": "alphamissense/AlphaMissense_hg38.tsv.gz",
+  "tier": "B",
+  "kind": "tsv.gz",
+  "licence": "CC BY-NC-SA 4.0 (Zenodo record, verified live): non-commercial, share-alike",
+  "note": "AlphaMissense missense predictions, GRCh38 (643 MB).",
+  "expected_size": 642961469,
+  "expected_md5_base64": "n9Fnc18Wobh9pus+TCX8tQ=="
+ },
+ {
+  "id": "ensembl_vep_mavedb_variants",
+  "source": "ensembl_vep",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/MaveDB/MaveDB_variants.tsv.gz",
+  "dest": "ensembl_vep/MaveDB_variants.tsv.gz",
+  "tier": "A",
+  "kind": "tsv.gz",
+  "licence": "Ensembl: no restrictions on data use (disclaimer page, verified live); underlying MaveDB per-record licences apply",
+  "note": "Ensembl-prepared MaveDB scores mapped to GRCh38 coordinates for the VEP MaveDB plugin (release 116). Compare against scrape/mavedb-human.",
+  "expected_bsd_sum": [
+   22727,
+   547461
+  ]
+ },
+ {
+  "id": "ensembl_vep_mavedb_variants_tbi",
+  "source": "ensembl_vep",
+  "url": "https://ftp.ensembl.org/pub/release-116/variation/MaveDB/MaveDB_variants.tsv.gz.tbi",
+  "dest": "ensembl_vep/MaveDB_variants.tsv.gz.tbi",
+  "tier": "A",
+  "kind": "tbi",
+  "licence": "as above",
+  "note": "Tabix index for the file above.",
+  "expected_bsd_sum": [
+   45918,
+   21
+  ]
+ },
+ {
+  "id": "strchive_hg38_general",
+  "source": "strchive",
+  "url": "https://raw.githubusercontent.com/dashnowlab/STRchive/refs/heads/main/data/catalogs/STRchive-disease-loci.hg38.general.bed",
+  "dest": "strchive/STRchive-disease-loci.hg38.general.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "CC BY 4.0 (site footer, verified live)",
+  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci."
+ },
+ {
+  "id": "strchive_hg38_trgt",
+  "source": "strchive",
+  "url": "https://raw.githubusercontent.com/dashnowlab/STRchive/refs/heads/main/data/catalogs/STRchive-disease-loci.hg38.TRGT.bed",
+  "dest": "strchive/STRchive-disease-loci.hg38.TRGT.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "CC BY 4.0 (site footer, verified live)",
+  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci."
+ },
+ {
+  "id": "strchive_hg38_stranger_json",
+  "source": "strchive",
+  "url": "https://raw.githubusercontent.com/dashnowlab/STRchive/refs/heads/main/data/catalogs/STRchive-disease-loci.hg38.stranger.json",
+  "dest": "strchive/STRchive-disease-loci.hg38.stranger.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "CC BY 4.0 (site footer, verified live)",
+  "note": "STRchive disease repeat loci catalogue, hg38 (v2.28.0 site). File published for download on strchive.org/loci."
+ },
+ {
+  "id": "dgv_grch38_variants_2025_12_01",
+  "source": "dgv",
+  "url": "https://dgv.tcag.ca/dgv/docs/GRCh38_hg38_variants_2025-12-01.txt",
+  "dest": "dgv/GRCh38_hg38_variants_2025-12-01.txt",
+  "tier": "B",
+  "kind": "tsv",
+  "licence": "DGV usage disclaimer (not parsed; licence unverified)",
+  "note": "DGV curated CNV/SV catalogue, GRCh38, release 2025-12-01 (364 MB uncompressed).",
+  "expected_size": 364191405
+ },
+ {
+  "id": "screen_ccre_pls",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.PLS.bed",
+  "dest": "encode/GRCh38-cCREs.PLS.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class PLS, GRCh38."
+ },
+ {
+  "id": "screen_ccre_pels",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.pELS.bed",
+  "dest": "encode/GRCh38-cCREs.pELS.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class pELS, GRCh38."
+ },
+ {
+  "id": "screen_ccre_dels",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.dELS.bed",
+  "dest": "encode/GRCh38-cCREs.dELS.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class dELS, GRCh38."
+ },
+ {
+  "id": "screen_ccre_ca_ctcf",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.CA-CTCF.bed",
+  "dest": "encode/GRCh38-cCREs.CA-CTCF.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class CA-CTCF, GRCh38."
+ },
+ {
+  "id": "screen_ccre_ca_h3k4me3",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.CA-H3K4me3.bed",
+  "dest": "encode/GRCh38-cCREs.CA-H3K4me3.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class CA-H3K4me3, GRCh38."
+ },
+ {
+  "id": "screen_ccre_ca_tf",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.CA-TF.bed",
+  "dest": "encode/GRCh38-cCREs.CA-TF.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class CA-TF, GRCh38."
+ },
+ {
+  "id": "screen_ccre_ca",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.CA.bed",
+  "dest": "encode/GRCh38-cCREs.CA.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class CA, GRCh38."
+ },
+ {
+  "id": "screen_ccre_tf",
+  "source": "encode",
+  "url": "https://downloads.wenglab.org/Registry-V4/GRCh38-cCREs.TF.bed",
+  "dest": "encode/GRCh38-cCREs.TF.bed",
+  "tier": "A",
+  "kind": "bed",
+  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "note": "SCREEN Registry V4 human cCREs, class TF, GRCh38."
+ }
+]

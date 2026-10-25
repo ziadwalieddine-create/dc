@@ -1,0 +1,10 @@
+ 
+ Index of /pub/dbVar 
+ Index of /pub/dbVar 
+ Name Last modified Size Parent Directory - 
+ ISCA/ 2020-02-24 15:08 - 
+ archive/ 2018-06-07 14:20 - 
+ clingen/ 2020-02-24 15:08 - 
+ data/ 2021-01-21 19:16 - 
+ sandbox/ 2021-09-02 16:10 - 
+ HHS Vulnerability Disclosure 

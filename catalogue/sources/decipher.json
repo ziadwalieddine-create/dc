@@ -1,0 +1,74 @@
+{
+ "id": "decipher",
+ "name": "DECIPHER",
+ "categories": [
+  "structural_variation_cnv",
+  "clinical_interpretation"
+ ],
+ "maintainer": "DECIPHER / Wellcome Sanger Institute",
+ "url": "https://www.deciphergenomics.org",
+ "provenance": [
+  "https://www.deciphergenomics.org/about/downloads/data"
+ ],
+ "version": {
+  "value": "Not retrieved",
+  "release_date": "unknown",
+  "verified": "unverified"
+ },
+ "scope": "Phenotype-linked CNV and variant data from clinical genomics projects (public and consented access tiers).",
+ "variant_classes": [
+  "cnv",
+  "snv",
+  "indel"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "formats": [
+  "unknown"
+ ],
+ "identifiers": [
+  "DECIPHER patient/variant IDs"
+ ],
+ "mapping_methods": "n/a",
+ "quantitative": {
+  "summary": "Not applicable (reference/annotation data).",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Automated access to the downloads page returned {\"error\":\"Access Denied\"}; data access normally requires an agreement",
+  "redistribution": "Restricted",
+  "access": "restricted_agreement",
+  "verified": "unverified"
+ },
+ "update_frequency": "unknown",
+ "coverage_limitations": [
+  "Access-controlled"
+ ],
+ "known_omissions": [
+  "Everything: no data or terms were read"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "Access-controlled and denied automated access; not circumvented. User would have to apply for access."
+ },
+ "status": {
+  "accessible": "no",
+  "notes": "Access Denied.",
+  "mapped_to_dc": false,
+  "usable": false
+ },
+ "unverified_fields": [
+  "version",
+  "licence",
+  "everything except the access denial"
+ ],
+ "evidence": [
+  "decipher/downloads"
+ ],
+ "acquisition_targets": []
+}
