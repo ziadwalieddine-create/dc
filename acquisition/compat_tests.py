@@ -63,6 +63,8 @@ USED = [
     ('reactome', 'MaveDB ENSG', ['reactome_ensembl2reactome']),
     ('reactome', 'MaveDB UniProt', ['reactome_uniprot2reactome_all_levels']),
     ('uniprot', '', ['uniprot_human_reviewed']),
+    ('alphafold_db', '', ['alphafold_db_mavedb_proteins']),
+    ('interpro', '', ['interpro_mavedb_proteins']),
     ('clingen', 'MaveDB symbol -> ClinGen dosage', ['clingen_gene_curation_list']),
     ('clingen', 'MaveDB symbol -> ClinGen gene-disease', ['clingen_gene_validity']),
     ('clingen', 'Interval overlap: MaveDB-mapped SNV positions x ClinGen haploinsufficiency', ['clingen_haploinsufficiency_gene', 'ensembl_vep_mavedb_variants']),
@@ -79,6 +81,7 @@ USED = [
     ('clinvar', 'Exact SNV', ['clinvar_vcf_grch38', 'ensembl_vep_mavedb_variants']),
     ('clinvar', '', ['clinvar_vcf_grch38']),
     ('encode', '', SCREEN_IDS + ['ensembl_vep_mavedb_variants']),
+    ('gnomad_sv_cnv', 'Interval overlap: MaveDB-mapped SNV positions x gnomAD genome SV', ['gnomad_sv_v4_1_sites_vcf', 'ensembl_vep_mavedb_variants']),
     ('gnomad_sv_cnv', '', ['gnomad_exome_cnv_v4_1', 'ensembl_vep_mavedb_variants']),
     ('biogrid_orcs', '', ['biogrid_orcs_human']),
 ]
@@ -141,10 +144,12 @@ src('ensembl_genomes', 'Registry reference assembly (GRCh38) matches the assembl
 
 # MANE: ENSG <-> symbol <-> Entrez  (bridge used by other joins)
 mane = {}
+mane_rows = []   # a gene can have a MANE Select and a MANE Plus Clinical transcript; transcript-level joins need every row
 with opn(os.path.join(D, 'mane/MANE.GRCh38.v1.5.summary.txt.gz')) as f:
     rd = csv.DictReader(f, delimiter='\t')
     for row in rd:
         mane[row['Ensembl_Gene'].split('.')[0]] = row
+        mane_rows.append(row)
 mane_sym = {v['symbol']: k for k, v in mane.items()}
 entrez = {v['symbol']: v['#NCBI_GeneID'].replace('GeneID:', '') for v in mane.values()}
 sym_from_ensg = {k: v['symbol'] for k, v in mane.items()}
@@ -216,6 +221,41 @@ src('uniprot', 'MaveDB UniProt accession -> reviewed human entry', len(M_uni & s
 afdb = sum(1 for k in M_uni & set(uni) if uni[k].get('AlphaFoldDB'))
 src('uniprot', 'UniProt cross-reference to AlphaFold DB for MaveDB proteins', afdb > 0, with_alphafold_xref=afdb)
 
+# AlphaFold DB and InterPro files fetched per protein for the MaveDB UniProt accessions
+af_dir = os.path.join(D, 'alphafold_db', 'prediction')
+if os.path.isdir(af_dir):
+    af_all = {os.path.basename(f)[:-5] for f in glob.glob(os.path.join(af_dir, '*.json'))}
+    af_have = set()          # accessions with a canonical model AF-<acc>-F1 (very long proteins have isoform models only)
+    for acc in af_all:
+        if any(x.get('entryId') == f'AF-{acc}-F1' for x in json.load(open(os.path.join(af_dir, acc + '.json')))):
+            af_have.add(acc)
+    plddt = []
+    cmp_g = same_g = 0
+    for acc in sorted(M_uni & af_have):
+        pred = json.load(open(os.path.join(af_dir, acc + '.json')))
+        e = next(x for x in pred if x.get('entryId') == f'AF-{acc}-F1')
+        plddt.append(e.get('globalMetricValue'))
+        row = uni.get(acc)
+        if row:
+            cmp_g += 1
+            same_g += (row.get('Gene Names (primary)') or '').split(';')[0].strip() == e.get('gene')
+    src('alphafold_db', 'MaveDB UniProt -> AlphaFold DB canonical model (gene symbol agrees with UniProt)', len(M_uni & af_have) / max(1, len(M_uni)) > 0.9 and cmp_g > 0 and same_g / cmp_g > 0.95,
+        mavedb_uniprot=len(M_uni), with_canonical_model=len(M_uni & af_have), isoform_models_only=sorted((M_uni & af_all) - af_have), coverage=round(len(M_uni & af_have) / max(1, len(M_uni)), 3), gene_symbol_agrees=[same_g, cmp_g],
+        mean_global_plddt=round(sum(x for x in plddt if x is not None) / max(1, len([x for x in plddt if x is not None])), 2), without_model_examples=sorted(M_uni - af_have)[:8])
+ip_dir = os.path.join(D, 'interpro')
+if os.path.isdir(ip_dir):
+    ip_have = {os.path.basename(f)[:-5] for f in glob.glob(os.path.join(ip_dir, '*.json'))}
+    kinds = collections.Counter()
+    dbs = collections.Counter()
+    for acc in sorted(M_uni & ip_have):
+        d = json.load(open(os.path.join(ip_dir, acc + '.json')))
+        for res in d['results']:
+            dbs[res['metadata']['source_database']] += 1
+            if res['metadata']['source_database'] == 'interpro':
+                kinds[res['metadata']['type']] += 1
+    src('interpro', 'MaveDB UniProt -> InterPro matches with residue locations', len(M_uni & ip_have) / max(1, len(M_uni)) > 0.8,
+        mavedb_uniprot=len(M_uni), with_matches=len(M_uni & ip_have), coverage=round(len(M_uni & ip_have) / max(1, len(M_uni)), 3), interpro_entry_types=dict(kinds), matches_by_database=dict(dbs.most_common(10)))
+
 # ClinGen
 cg = {}
 with opn(os.path.join(D, 'clingen/ClinGen_gene_curation_list_GRCh38.tsv')) as f:
@@ -267,7 +307,7 @@ src('pharmgkb', 'MaveDB symbol -> ClinPGx relationship genes', True, relationshi
     note='join mechanics verified; overlap is informative, not a pass criterion')
 
 # AlphaMissense gene table (transcript level) via MANE
-mane_enst = {v['Ensembl_nuc'].split('.')[0]: k for k, v in mane.items()}
+mane_enst = {row['Ensembl_nuc'].split('.')[0]: row['Ensembl_Gene'].split('.')[0] for row in mane_rows}
 am = {}
 with opn(os.path.join(D, 'alphamissense/AlphaMissense_gene_hg38.tsv.gz')) as f:
     for row in csv.DictReader((l for l in f if not l.startswith('#')), delimiter='\t'):
@@ -289,7 +329,7 @@ src('strchive', 'STRchive loci parsed (hg38 BED, gene names from name field)', l
 log('reading Ensembl MaveDB_variants ...')
 ens_rows = 0
 ens_urns = collections.Counter()
-ens_snv = {}   # accession -> (chrom,pos,ref,alt) for SNVs of our sets
+ens_snv = {}   # accession -> set of (chrom,pos,ref,alt): Ensembl lists every codon-compatible genomic allele of a protein-level variant
 ens_pro = {}   # (chrom,pos,ref,alt) -> one-letter protein changes implied by the Ensembl file's HGVS p. (missense and nonsense only)
 AA3 = dict(Ala='A', Arg='R', Asn='N', Asp='D', Cys='C', Gln='Q', Glu='E', Gly='G', His='H', Ile='I', Leu='L', Lys='K', Met='M', Phe='F', Pro='P', Ser='S', Thr='T', Trp='W', Tyr='Y', Val='V', Ter='*')
 RX_PRO = re.compile(r'p\.([A-Z][a-z]{2})(\d+)([A-Z][a-z]{2})$')
@@ -305,15 +345,16 @@ with gzip.open(os.path.join(D, 'ensembl_vep/MaveDB_variants.tsv.gz'), 'rt', erro
         chroms[p[0]] += 1
         if urn in sets and len(p[3]) == 1 and len(p[4]) == 1:
             key = (p[0], int(p[1]), p[3], p[4])
-            ens_snv[p[ci['accession']]] = key
+            ens_snv.setdefault(p[ci['accession']], set()).add(key)
             m_ = RX_PRO.search(p[ci['hgvs']])
             if m_ and m_.group(1) in AA3 and m_.group(3) in AA3 and m_.group(1) != m_.group(3):
                 ens_pro.setdefault(key, set()).add(AA3[m_.group(1)] + m_.group(2) + AA3[m_.group(3)])
 ours_in_ens = set(ens_urns) & set(sets)
+ens_alleles = set().union(*ens_snv.values()) if ens_snv else set()
 REPORT['details']['ensembl_mavedb_file'] = dict(rows=ens_rows, distinct_score_sets=len(ens_urns), contigs=len(chroms), columns=len(hdr),
-    our_human_sets_covered=len(ours_in_ens), our_human_sets_total=len(sets), snv_variants_from_our_sets=len(ens_snv))
+    our_human_sets_covered=len(ours_in_ens), our_human_sets_total=len(sets), snv_variants_from_our_sets=len(ens_snv), snv_alleles_from_our_sets=len(ens_alleles))
 src('ensembl_vep', 'Ensembl MaveDB file covers our human score sets', len(ours_in_ens) > 0, rows=ens_rows, covered=len(ours_in_ens), of=len(sets),
-    coverage=round(len(ours_in_ens) / len(sets), 3), snv_rows_from_our_sets=len(ens_snv), contigs_sample=sorted(chroms)[:30])
+    coverage=round(len(ours_in_ens) / len(sets), 3), snv_variants_with_alleles=len(ens_snv), snv_alleles_from_our_sets=len(ens_alleles), contigs_sample=sorted(chroms)[:30])
 
 log('reading dump annotations ...')
 ann_dir = glob.glob(os.path.join(D, 'mavedb/dump_v4_extract/*/csv'))[0]
@@ -321,6 +362,7 @@ ann_sets = ann_vars = ann_g = ann_vep = ann_af = ann_ca = ann_cv = 0
 vep_terms = collections.Counter()
 sets_with_g = set()
 dump_snv = {}
+dump_af = {}      # (chrom,pos,ref,alt) -> gnomAD allele frequency as annotated by MaveDB's own pipeline
 nc2chr = {f'NC_{n:06d}': (str(n) if n <= 22 else {23: 'X', 24: 'Y'}[n]) for n in range(1, 25)}
 rx = re.compile(r'^(NC_\d{6})\.\d+:g\.(\d+)([ACGT])>([ACGT])$')
 for fp in glob.glob(os.path.join(ann_dir, 'urn-mavedb-*.annotations.csv')):
@@ -340,6 +382,8 @@ for fp in glob.glob(os.path.join(ann_dir, 'urn-mavedb-*.annotations.csv')):
                 m = rx.match(g)
                 if m and m.group(1) in nc2chr:
                     dump_snv[row['accession']] = (nc2chr[m.group(1)], int(m.group(2)), m.group(3), m.group(4))
+                    if row['gnomad.gnomad_af'] != 'NA':
+                        dump_af[(nc2chr[m.group(1)], int(m.group(2)), m.group(3), m.group(4))] = float(row['gnomad.gnomad_af'])
             if row['vep.vep_functional_consequence'] != 'NA':
                 ann_vep += 1
                 vep_terms[row['vep.vep_functional_consequence']] += 1
@@ -356,18 +400,18 @@ src('mavedb', 'Dump v4 annotations cover our human score sets', ann_sets > 0, sc
 
 # relationship between two independent mapping products (Ensembl file vs MaveDB's own mapper in the dump)
 both = set(ens_snv) & set(dump_snv)
-agree = sum(1 for a in both if ens_snv[a] == dump_snv[a])
+agree = sum(1 for a in both if dump_snv[a] in ens_snv[a])
 ens_sets_snv = {a.split('#')[0] for a in ens_snv}
 dump_sets_g = {a.split('#')[0] for a in dump_snv}
-coord_overlap = set(ens_snv.values()) & set(dump_snv.values())
-rel = dict(variants_compared_by_accession=len(both), agree=agree, ensembl_snv_alleles=len(ens_snv), dump_snv_alleles=len(dump_snv),
+coord_overlap = ens_alleles & set(dump_snv.values())
+rel = dict(variants_compared_by_accession=len(both), agree=agree, ensembl_snv_alleles=len(ens_alleles), ensembl_variants_with_snv_alleles=len(ens_snv), dump_snv_alleles=len(dump_snv),
            ensembl_sets_with_snv_alleles=len(ens_sets_snv), dump_sets_with_genomic_hgvs=len(dump_sets_g), sets_in_both=len(ens_sets_snv & dump_sets_g),
            identical_coordinate_alleles=len(coord_overlap),
            interpretation='Ensembl expands each protein-level variant into every codon-compatible genomic allele (one to many); the MaveDB mapper assigns genomic HGVS only to nucleotide-level assay variants. The products cover largely different sets and are complementary, not interchangeable.')
 REPORT['details']['mapping_products_relationship'] = rel
 ok_conc = (agree / len(both) > 0.95) if len(both) > 100 else None
 src('ensembl_vep', 'Relationship of Ensembl coordinate file to the MaveDB-mapper genomic HGVS (SNVs)', ok_conc, **{k: v for k, v in rel.items() if k != 'interpretation'},
-    disagreement_examples=[(a, ens_snv[a], dump_snv[a]) for a in list(both) if ens_snv[a] != dump_snv[a]][:5])
+    disagreement_examples=[(a, sorted(ens_snv[a])[:3], dump_snv[a]) for a in list(both) if dump_snv[a] not in ens_snv[a]][:5])
 
 log('reading ClinVar ...')
 cv = {}
@@ -381,7 +425,7 @@ with gzip.open(os.path.join(D, 'clinvar/clinvar.vcf.gz'), 'rt', errors='replace'
         m = sig_re.search(p[7])
         cv[(p[0], int(p[1]), p[3], p[4])] = m.group(1).split(',')[0].split('/')[0] if m else 'NA'
         chrs_cv.add(p[0])
-keys = list({**ens_snv}.values()) + [v for a, v in dump_snv.items() if a not in ens_snv]
+keys = list(ens_alleles | set(dump_snv.values()))
 uniq = set(keys)
 hit = [k for k in uniq if k in cv]
 sig = collections.Counter(cv[k] for k in hit)
@@ -438,6 +482,28 @@ cs = {c: build_index([(a - 1, b) for a, b in v]) for c, v in cnv.items()}
 cnv_hits = sum(1 for chrom, pos in pos_set if chrom in cs and covered(cs[chrom], pos - 1))
 src('gnomad_sv_cnv', 'Interval overlap: MaveDB-mapped SNV positions x gnomAD exome CNV intervals', n_cnv > 1000, cnv_intervals=n_cnv, positions_tested=len(pos_set), positions_overlapping_a_cnv=cnv_hits,
     note='exact interval stabbing query (VCF POS/END converted to half-open)')
+
+log('reading gnomAD genome SV ...')
+svi = collections.defaultdict(list)
+n_sv = n_sv_iv = 0
+sv_types = collections.Counter()
+with gzip.open(os.path.join(D, 'gnomad/gnomad.v4.1.sv.sites.vcf.gz'), 'rt', errors='replace') as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        p = line.split('\t', 8)
+        n_sv += 1
+        info = p[7]
+        m_end, m_t = re.search(r'(?:^|;)END=(\d+)', info), re.search(r'(?:^|;)SVTYPE=(\w+)', info)
+        if m_t:
+            sv_types[m_t.group(1)] += 1
+        if m_end and m_t and m_t.group(1) in ('DEL', 'DUP', 'INV', 'CPX', 'CNV', 'MCNV') and int(m_end.group(1)) > int(p[1]):
+            svi[p[0].replace('chr', '')].append((int(p[1]) - 1, int(m_end.group(1))))
+            n_sv_iv += 1
+sx = {c: build_index(v) for c, v in svi.items()}
+sv_hits = sum(1 for chrom, pos in pos_set if chrom in sx and covered(sx[chrom], pos - 1))
+src('gnomad_sv_cnv', 'Interval overlap: MaveDB-mapped SNV positions x gnomAD genome SV intervals', n_sv_iv > 100_000, sv_records=n_sv, interval_records=n_sv_iv, svtype=dict(sv_types),
+    positions_tested=len(pos_set), positions_overlapping_an_sv=sv_hits, note='only DEL/DUP/INV/CPX/CNV/MCNV records with END > POS form intervals; INS, BND and CTX are points or breakends and are excluded')
 
 # ClinGen HI/TS BED overlap with positions
 for nm, fn in (('haploinsufficiency', 'ClinGen_haploinsufficiency_gene_GRCh38.bed'), ('triplosensitivity', 'ClinGen_triplosensitivity_gene_GRCh38.bed')):
@@ -500,6 +566,44 @@ per_type = {t: sum(1 for chrom, pos in pos_set if chrom in ix_ and covered(ix_[c
             for t, ix_ in ((t, {c: build_index(v) for c, v in d.items()}) for t, d in dgv_by_type.items())}
 src('dgv', 'Interval overlap: MaveDB-mapped SNV positions x DGV GRCh38 variants', n_dgv > 1_000_000, dgv_intervals=n_dgv, positions_tested=len(pos_set), positions_overlapping_a_dgv_variant=dgv_hits,
     per_varianttype=per_type, note='DGV is a catalogue of structural variation in control samples (variants >50 bp); an overlap is a coordinate relationship, not evidence of benignity')
+
+# gnomAD v4.1 regional slices (remote tabix at the MaveDB-mapped positions)
+GN = {}
+for kind in ('exomes', 'genomes'):
+    fp = os.path.join(D, 'gnomad_regional', f'gnomad_v4_1_{kind}_at_mavedb_positions.tsv.gz')
+    if os.path.exists(fp):
+        with gzip.open(fp, 'rt', newline='') as f:
+            GN[kind] = {(r['chrom'], int(r['pos']), r['ref'], r['alt']): r for r in csv.DictReader(f, delimiter='\t')}
+bed_fp = os.path.join(D, 'gnomad_regional', 'mavedb_snv_regions.bed')
+if GN and os.path.exists(bed_fp):
+    reg_pos = collections.defaultdict(list)
+    for line in open(bed_fp):
+        c, a_, b_ = line.split('\t')
+        reg_pos[c[3:]].append((int(a_), int(b_)))
+    ridx = {c: build_index(v) for c, v in reg_pos.items()}
+    gn_chroms = {str(i) for i in range(1, 23)} | {'X', 'Y'}
+    need = [(c, p_) for c, p_ in pos_set if c in gn_chroms]
+    uncovered = [(c, p_) for c, p_ in need if not (c in ridx and covered(ridx[c], p_ - 1))]
+    src('gnomad_variants', 'Regional slices were requested for every MaveDB-mapped SNV position on chr1-22/X/Y', not uncovered, positions_on_gnomad_chromosomes=len(need), positions_outside_requested_regions=len(uncovered),
+        note='checks that fetch_gnomad_regional.py and this script derive the same position set from the same assets')
+    for kind, tbl in GN.items():
+        hit = [k for k in uniq if k in tbl]
+        rows_ = [tbl[k] for k in hit]
+        ac_pos = sum(1 for r_ in rows_ if r_['AC'] not in ('', '0'))
+        src('gnomad_variants', f'Exact SNV allele join: MaveDB-mapped alleles -> gnomAD v4.1 {kind} regional slice', len(hit) > 1000,
+            targets=[f'gnomad_v4_1_{kind}_regional', 'ensembl_vep_mavedb_variants'], mavedb_unique_snvs=len(uniq), slice_alleles=len(tbl), matched=len(hit), match_rate=round(len(hit) / max(1, len(uniq)), 4),
+            matched_with_AC_gt_0=ac_pos, matched_pass_filter=sum(1 for r_ in rows_ if r_['filter'] == 'PASS'), with_cadd=sum(1 for r_ in rows_ if r_['cadd_phred']),
+            with_revel=sum(1 for r_ in rows_ if r_['revel_max']), with_spliceai=sum(1 for r_ in rows_ if r_['spliceai_ds_max']),
+            note='an allele absent from the slice was not observed in this callset or was removed, which is not the same as a frequency of zero')
+    both_af = [(k, float(r_['AF'])) for k, r_ in GN.get('exomes', {}).items() if k in dump_af and r_['AF']]
+    if dump_af:
+        res = {}
+        for kind, tbl in GN.items():
+            cmp_ = [(dump_af[k], float(tbl[k]['AF'])) for k in dump_af if k in tbl and tbl[k]['AF']]
+            res[kind] = dict(compared=len(cmp_), equal_within_1e_3_relative=sum(1 for a_, b_ in cmp_ if abs(a_ - b_) <= 1e-3 * max(a_, b_, 1e-12)))
+        src('gnomad_variants', "Relationship of MaveDB-annotated gnomAD AF (dump) to the regional slices' AF", None, targets=['gnomad_v4_1_exomes_regional', 'gnomad_v4_1_genomes_regional', 'mavedb_zenodo_dump_v4'],
+            dump_variants_with_af=len(dump_af), **{k_: v_ for k_, v_ in res.items()},
+            interpretation='shows which gnomAD callset (exomes or genomes) MaveDB annotated from, and whether it is the same release')
 
 # Equivalence of dump tables vs API-built tables (sample extracted from the dump)
 eq = []
@@ -574,6 +678,6 @@ write_report()   # checkpoint before the Parquet tests, which need pyarrow
 if 'ot' not in a.skip:
     sys.path.insert(0, HERE)
     import compat_opentargets
-    compat_opentargets.run(dict(src=src, log=log, D=D, M_ensg_all=M_ensg_all, uniq=uniq, pos_set=pos_set, build_index=build_index, covered=covered, sym_from_ensg=sym_from_ensg))
+    compat_opentargets.run(dict(src=src, log=log, D=D, M_ensg_all=M_ensg_all, uniq=uniq, pos_set=pos_set, build_index=build_index, covered=covered, sym_from_ensg=sym_from_ensg, gnomad_slices=GN))
     write_report()
 log('done')

@@ -968,5 +968,74 @@
   "supports": [
    "clinical_interpretation"
   ]
+ },
+ {
+  "id": "gnomad_sv_v4_1_sites_vcf",
+  "source": "gnomad",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/genome_sv/gnomad.v4.1.sv.sites.vcf.gz",
+  "dest": "gnomad/gnomad.v4.1.sv.sites.vcf.gz",
+  "tier": "B",
+  "kind": "vcf.gz",
+  "licence": "CC0 (gnomAD primary data)",
+  "note": "gnomAD v4.1 genome structural variants, sites VCF (GRCh38). Size from the S3 listing, MD5 from the gnomAD downloads page (\"Genome SV VCF, 1.62 GiB\").",
+  "expected_size": 1743544245,
+  "expected_md5": "3ee614951c2f0c36659842876f7ce0ba",
+  "supports": [
+   "structural_variation_cnv"
+  ]
+ },
+ {
+  "id": "alphafold_db_mavedb_proteins",
+  "source": "alphafold_db",
+  "url": "https://alphafold.ebi.ac.uk/api/prediction/{UniProt accession}",
+  "dest": "alphafold_db/",
+  "tier": "A",
+  "kind": "per_entity",
+  "licence": "CC BY 4.0, academic and commercial use (AlphaFold DB FAQ, verified live); attribution required",
+  "note": "AlphaFold DB prediction metadata, canonical model (mmCIF) and per-residue confidence (pLDDT) for every UniProt protein named by the MaveDB human score sets. Fetched by acquisition/fetch_per_protein.py.",
+  "supports": [
+   "protein_structure_function"
+  ]
+ },
+ {
+  "id": "interpro_mavedb_proteins",
+  "source": "interpro",
+  "url": "https://www.ebi.ac.uk/interpro/api/entry/all/protein/uniprot/{UniProt accession}/",
+  "dest": "interpro/",
+  "tier": "A",
+  "kind": "per_entity",
+  "licence": "CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable data (InterPro documentation licence page, verified live)",
+  "note": "InterPro and member-database matches with residue locations for every UniProt protein named by the MaveDB human score sets. Fetched by acquisition/fetch_per_protein.py.",
+  "supports": [
+   "protein_structure_function"
+  ]
+ },
+ {
+  "id": "gnomad_v4_1_exomes_regional",
+  "source": "gnomad",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr{N}.vcf.bgz",
+  "dest": "gnomad_regional/gnomad_v4_1_exomes_at_mavedb_positions.tsv.gz",
+  "tier": "A",
+  "kind": "regional_slice",
+  "licence": "CC0 (gnomAD primary data, verified live); the in-silico predictor scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) keep their authors' licences",
+  "note": "gnomAD v4.1 exomes sites, GRCh38: single-nucleotide records at the genomic positions of MaveDB-mapped SNVs, read by remote tabix (no whole-file download). Frequencies per ancestry group, group-maximum, and the predictor scores gnomAD carries in INFO. Written by acquisition/fetch_gnomad_regional.py.",
+  "supports": [
+   "population_frequency",
+   "annotation_integration"
+  ]
+ },
+ {
+  "id": "gnomad_v4_1_genomes_regional",
+  "source": "gnomad",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/genomes/gnomad.genomes.v4.1.sites.chr{N}.vcf.bgz",
+  "dest": "gnomad_regional/gnomad_v4_1_genomes_at_mavedb_positions.tsv.gz",
+  "tier": "A",
+  "kind": "regional_slice",
+  "licence": "CC0 (gnomAD primary data, verified live); the in-silico predictor scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) keep their authors' licences",
+  "note": "gnomAD v4.1 genomes sites, GRCh38: single-nucleotide records at the genomic positions of MaveDB-mapped SNVs, read by remote tabix (no whole-file download). Frequencies per ancestry group, group-maximum, and the predictor scores gnomAD carries in INFO. Written by acquisition/fetch_gnomad_regional.py.",
+  "supports": [
+   "population_frequency",
+   "annotation_integration"
+  ]
  }
 ]

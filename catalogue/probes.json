@@ -881,5 +881,16 @@
   "name": "screen_help",
   "url": "https://screen.wenglab.org/help",
   "render": true
+ },
+ {
+  "source": "interpro",
+  "name": "documentation_license",
+  "url": "https://interpro-documentation.readthedocs.io/en/latest/license.html"
+ },
+ {
+  "source": "interpro",
+  "name": "api_entry_q93086",
+  "url": "https://www.ebi.ac.uk/interpro/api/entry/all/protein/uniprot/Q93086/",
+  "note": "example per-protein response; the interpro-version header is recorded by fetch_per_protein.py"
  }
 ]

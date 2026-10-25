@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25 10:38 UTC",
+ "generated_utc": "2026-10-25 11:02 UTC",
  "sources": [
   {
    "id": "1000genomes",
@@ -163,12 +163,12 @@
    ],
    "overlap_with_existing": [],
    "reuse_decision": {
-    "action": "defer",
-    "rationale": "5.18 GB human proteome bundle is not needed yet. Fetch structures per protein for MaveDB targets when structure-based work starts; ProtVar/mutfunc (Ensembl) may already hold variant-level structural effects."
+    "action": "retrieve_source",
+    "rationale": "Per-protein retrieval for the UniProt proteins our MaveDB score sets are about (models, per-residue pLDDT and prediction metadata through the API); the 5.18 GB human proteome bundle is not needed for that set."
    },
    "status": {
     "accessible": "yes",
-    "notes": "API returned model metadata."
+    "notes": "API returns model metadata; per-protein files for the MaveDB proteins are fetched by acquisition/fetch_per_protein.py."
    },
    "evidence": [
     "alphafold_db/api_p04637",
@@ -177,11 +177,13 @@
     "alphafold_db/downloads"
    ],
    "unverified_fields": [],
-   "acquisition_targets": [],
+   "acquisition_targets": [
+    "alphafold_db_mavedb_proteins"
+   ],
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
-    "acquired": false,
+    "acquired": true,
     "validated": false,
     "mapped": false,
     "usable": false
@@ -190,13 +192,15 @@
     "protein_structure_function": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
+     "acquired": true,
      "validated": false,
      "mapped": false,
      "usable": false
     }
    },
-   "lifecycle_notes": []
+   "lifecycle_notes": [
+    "validation failures: alphafold_db_mavedb_proteins"
+   ]
   },
   {
    "id": "alphamissense",
@@ -340,10 +344,10 @@
     "direction": "screen-specific"
    },
    "licence": {
-    "name": "Licensing wiki page does not exist; terms not confirmed",
-    "redistribution": "Check README inside the release before reuse",
-    "access": "open_with_terms",
-    "verified": "unverified"
+    "name": "MIT License (stated on the BioGRID download repository page for BioGRID-ORCS; data provided without warranty)",
+    "redistribution": "Free for academic and commercial use under the MIT License; cite the original contributing authors and Stark et al. 2006 (Nucleic Acids Res 34:D535). This repository does not redistribute the archive.",
+    "access": "open",
+    "verified": "live"
    },
    "update_frequency": "Regular index releases.",
    "coverage_limitations": [
@@ -364,12 +368,11 @@
    "acquisition_targets": [
     "biogrid_orcs_human"
    ],
-   "unverified_fields": [
-    "licence"
-   ],
+   "unverified_fields": [],
    "evidence": [
-    "biogrid_orcs/home",
+    "biogrid_orcs/download_dir_html",
     "biogrid_orcs/downloads_listing",
+    "biogrid_orcs/home",
     "biogrid_orcs/licence"
    ],
    "lifecycle_all_targets": {
@@ -378,7 +381,7 @@
     "acquired": true,
     "validated": true,
     "mapped": true,
-    "usable": false
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "perturbation_evidence": {
@@ -387,7 +390,7 @@
      "acquired": true,
      "validated": true,
      "mapped": true,
-     "usable": false
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -1260,8 +1263,8 @@
     "accessible": true,
     "acquired": true,
     "validated": true,
-    "mapped": false,
-    "usable": false
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "structural_variation_cnv": {
@@ -1269,8 +1272,8 @@
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -1318,8 +1321,8 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "Not confirmed: the ENCODE citing/data-use page returned HTTP 403 to automated access",
-    "redistribution": "Treat as open with citation until the terms page is read manually",
+    "name": "No licence name found. SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moore et al. (2026, Nature); ENCODE's own data-use page returned HTTP 403 to automated access and is unread.",
+    "redistribution": "Not confirmed; treat as use-with-citation and do not redistribute until the ENCODE data-use terms are read.",
     "access": "open",
     "verified": "unverified"
    },
@@ -1355,8 +1358,10 @@
    ],
    "evidence": [
     "encode/api_experiment_human",
-    "encode/screen_downloads",
-    "encode/citing"
+    "encode/cite_page_render",
+    "encode/citing",
+    "encode/screen_about",
+    "encode/screen_downloads"
    ],
    "lifecycle_all_targets": {
     "catalogued": true,
@@ -1474,7 +1479,7 @@
     }
    },
    "lifecycle_notes": [
-    "existing asset ensembl-human-genomes: downloaded_verified"
+    "existing assets ensembl-human-genomes: downloaded_verified"
    ]
   },
   {
@@ -1849,10 +1854,10 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "Open (GENCODE/Ensembl and NCBI public data); exact GENCODE terms not parsed",
-    "redistribution": "Open with attribution",
+    "name": "GENCODE: 'all the GENCODE project data is open access' (GENCODE data-access page), under the EMBL-EBI Terms of Use (freely available, no additional restriction, attribution expected). MANE files are hosted by NCBI: NCBI places no restrictions on use or distribution, though original submitters may claim rights, and acknowledgement of NLM is requested.",
+    "redistribution": "Open with attribution (cite GENCODE and MANE); NCBI notes that third-party rights may exist in submitted data. Only the MANE files are acquired here.",
     "access": "open",
-    "verified": "unverified"
+    "verified": "live"
    },
    "update_frequency": "GENCODE ~twice yearly; MANE ~annually.",
    "coverage_limitations": [
@@ -1874,12 +1879,14 @@
     "mane_summary_v1_5",
     "mane_gtf_v1_5"
    ],
-   "unverified_fields": [
-    "licence"
-   ],
+   "unverified_fields": [],
    "evidence": [
+    "gencode/data_access",
+    "gencode/ebi_terms_of_use",
+    "gencode/gencode_home",
     "gencode/latest_listing",
-    "gencode/mane_listing"
+    "gencode/mane_listing",
+    "gencode/ncbi_policies"
    ],
    "lifecycle_all_targets": {
     "catalogued": true,
@@ -1887,7 +1894,7 @@
     "acquired": true,
     "validated": true,
     "mapped": true,
-    "usable": false
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "reference_annotation": {
@@ -1896,7 +1903,7 @@
      "acquired": true,
      "validated": true,
      "mapped": true,
-     "usable": false
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -2056,7 +2063,8 @@
     "notes": "S3 listings give exact sizes."
    },
    "acquisition_targets": [
-    "gnomad_exome_cnv_v4_1"
+    "gnomad_exome_cnv_v4_1",
+    "gnomad_sv_v4_1_sites_vcf"
    ],
    "evidence": [
     "gnomad/s3_v4_1_genome_sv",
@@ -2089,7 +2097,8 @@
    "id": "gnomad_variants",
    "name": "gnomAD v4.1 (exomes and genomes) allele frequencies",
    "categories": [
-    "population_frequency"
+    "population_frequency",
+    "annotation_integration"
    ],
    "maintainer": "gnomAD consortium (Broad Institute)",
    "url": "https://gnomad.broadinstitute.org",
@@ -2103,7 +2112,7 @@
     "release_date": "2026-09-23 (4.1.2 constraint)",
     "verified": "live"
    },
-   "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group.",
+   "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group, group-maximum and filtering allele frequencies, and in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) plus GA4GH VRS allele IDs. The header of the exome file defines 413 INFO fields and that of the genome file 240.",
    "variant_classes": [
     "snv",
     "indel"
@@ -2123,10 +2132,10 @@
    ],
    "mapping_methods": "Coordinates on GRCh38 (v4, v3) or GRCh37 (v2.1.1 with liftover files).",
    "quantitative": {
-    "summary": "Allele counts, numbers and frequencies; filtering annotations.",
-    "units": "counts/frequency",
-    "uncertainty": "AC/AN; no CI provided in sites VCF",
-    "direction": "n/a"
+    "summary": "Allele counts (AC), numbers (AN), frequencies (AF), homozygote counts, group-maximum (grpmax) and filtering allele frequencies (faf95/faf99) per site and per ancestry group; predictor scores per allele.",
+    "units": "counts / frequency in [0, 1]; CADD phred; the other predictors on their own [0, 1] or signed scales",
+    "uncertainty": "AC/AN; filtering allele frequencies give a conservative lower bound; no confidence interval on AF",
+    "direction": "n/a (predictor scores point towards deleteriousness as defined by each tool)"
    },
    "licence": {
     "name": "Primary exome/genome data released under CC0; some annotations carry separate terms (SpliceAI is CC BY-NC 4.0)",
@@ -2136,9 +2145,11 @@
    },
    "update_frequency": "Major releases every few years; point releases (4.1.1, 4.1.2) in between.",
    "coverage_limitations": [
-    "Per-chromosome VCFs are very large (e.g. exome chr1 17.56 GiB, genome chr1 41.25 GiB)",
+    "An allele missing from a slice was not observed in the callset or was removed by QC; it is not a measured frequency of zero, and coverage tracks are not fetched",
     "Case-control/cohort composition affects representativeness",
-    "Not a random sample of any population"
+    "Not a random sample of any population",
+    "Per-chromosome VCFs are very large (e.g. exome chr1 17.56 GiB, genome chr1 41.25 GiB)",
+    "The regional slices kept here cover only the positions of MaveDB-mapped SNVs (about 146k positions in about 1.5k regions); other regions must be sliced the same way when needed"
    ],
    "known_omissions": [
     "Individual-level genotypes not available",
@@ -2148,21 +2159,25 @@
     "nhgri-1000-genomes"
    ],
    "reuse_decision": {
-    "action": "defer",
-    "rationale": "Chromosome-scale files are hundreds of GiB. Do not mirror; use the Ensembl VEP gnomAD/frequency plugins, dbNSFP frequency fields or on-demand tabix/API queries, and acquire regional slices when a target analysis needs them."
+    "action": "retrieve_source",
+    "rationale": "Whole-chromosome VCFs (11-67 GiB each) are not mirrored. The files are bgzip + tabix on a public bucket, so regions are read by HTTP range requests: slices for the genomic positions that our assets name (MaveDB-mapped SNVs) are fetched and kept; the same primitive serves later lookups for variants of interest. Absence of a record in a slice means not observed or filtered out, not a frequency of zero."
    },
    "status": {
     "accessible": "yes",
-    "notes": "Downloads page rendered; S3 listing reachable."
+    "notes": "Remote tabix over the proxy works (index opens in about 1 s; a region read takes about 0.5 s). Slices for the MaveDB positions are written by acquisition/fetch_gnomad_regional.py."
    },
    "evidence": [
     "gnomad/downloads_page",
     "gnomad/policies",
     "gnomad/s3_release_listing",
-    "gnomad/s3_v4_1_listing"
+    "gnomad/s3_v4_1_listing",
+    "gnomad/vcf_header_info_v4_1"
    ],
    "unverified_fields": [],
-   "acquisition_targets": [],
+   "acquisition_targets": [
+    "gnomad_v4_1_exomes_regional",
+    "gnomad_v4_1_genomes_regional"
+   ],
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -2173,6 +2188,14 @@
    },
    "lifecycle_by_dimension": {
     "population_frequency": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    },
+    "annotation_integration": {
      "catalogued": true,
      "accessible": true,
      "acquired": false,
@@ -2495,9 +2518,9 @@
     "https://www.ebi.ac.uk/interpro/api/"
    ],
    "version": {
-    "value": "API live; 54,922 InterPro entries; release number not retrieved",
+    "value": "InterPro 110.0 (interpro-version response header of the API, 2026-10-25)",
     "release_date": "2026-10-25 (query date)",
-    "verified": "unverified"
+    "verified": "live"
    },
    "scope": "Protein families, domains and sites integrating member databases (Pfam, SMART, PROSITE, CDD, PANTHER, CATH-Gene3D and others listed by the API).",
    "variant_classes": [
@@ -2522,10 +2545,10 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "Licence page text not retrieved (commonly CC0)",
-    "redistribution": "Unverified",
+    "name": "CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable data; InterProScan under the Apache License (InterPro documentation licence page)",
+    "redistribution": "Free, including commercial use; cite the resource and the member databases. Signature collections of included scanning tools may carry other terms.",
     "access": "open",
-    "verified": "unverified"
+    "verified": "live"
    },
    "update_frequency": "Every 8 weeks.",
    "coverage_limitations": [
@@ -2534,27 +2557,28 @@
    "known_omissions": [],
    "overlap_with_existing": [],
    "reuse_decision": {
-    "action": "defer",
-    "rationale": "Query by protein on demand; UniProt cross-references already carry domain information. Bulk match files are large."
+    "action": "retrieve_source",
+    "rationale": "Per-protein retrieval of InterPro and member-database matches (with residue locations) for the UniProt proteins our MaveDB score sets are about; the bulk match files are not needed for that set."
    },
    "status": {
     "accessible": "yes",
-    "notes": "API root and entry count returned JSON."
+    "notes": "API returns JSON; per-protein matches for the MaveDB proteins are fetched by acquisition/fetch_per_protein.py."
    },
-   "unverified_fields": [
-    "licence",
-    "release number"
-   ],
+   "unverified_fields": [],
    "evidence": [
-    "interpro/api_root",
     "interpro/api_entry_count",
+    "interpro/api_entry_q93086",
+    "interpro/api_root",
+    "interpro/documentation_license",
     "interpro/licence"
    ],
-   "acquisition_targets": [],
+   "acquisition_targets": [
+    "interpro_mavedb_proteins"
+   ],
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
-    "acquired": false,
+    "acquired": true,
     "validated": false,
     "mapped": false,
     "usable": false
@@ -2563,7 +2587,7 @@
     "protein_structure_function": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
+     "acquired": true,
      "validated": false,
      "mapped": false,
      "usable": false
@@ -2680,7 +2704,7 @@
     }
    },
    "lifecycle_notes": [
-    "existing asset mavedb-human: downloaded_verified"
+    "existing assets mavedb-human: downloaded_verified"
    ]
   },
   {
@@ -2756,8 +2780,8 @@
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
-    "acquired": false,
-    "validated": false,
+    "acquired": true,
+    "validated": true,
     "mapped": false,
     "usable": false
    },
@@ -2765,13 +2789,15 @@
     "background_documentation": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
-     "validated": false,
+     "acquired": true,
+     "validated": true,
      "mapped": false,
      "usable": false
     }
    },
-   "lifecycle_notes": []
+   "lifecycle_notes": [
+    "existing assets nhgri-gwas, nhgri-1000-genomes: downloaded_verified"
+   ]
   },
   {
    "id": "opentargets",
@@ -2930,8 +2956,8 @@
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
-    "acquired": "partial",
-    "validated": false,
+    "acquired": true,
+    "validated": true,
     "mapped": false,
     "usable": false
    },
@@ -2947,8 +2973,8 @@
     "association_finemapping_coloc": {
      "catalogued": true,
      "accessible": true,
-     "acquired": "partial",
-     "validated": false,
+     "acquired": true,
+     "validated": true,
      "mapped": false,
      "usable": false
     },
@@ -2963,16 +2989,16 @@
     "pathways_interactions_epistasis": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
-     "validated": false,
+     "acquired": true,
+     "validated": true,
      "mapped": false,
      "usable": false
     },
     "clinical_interpretation": {
      "catalogued": true,
      "accessible": true,
-     "acquired": "partial",
-     "validated": false,
+     "acquired": true,
+     "validated": true,
      "mapped": false,
      "usable": false
     },
@@ -2995,8 +3021,8 @@
     "regulation_expression_splicing": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
-     "validated": false,
+     "acquired": true,
+     "validated": true,
      "mapped": false,
      "usable": false
     },

@@ -2,7 +2,8 @@
  "id": "gnomad_variants",
  "name": "gnomAD v4.1 (exomes and genomes) allele frequencies",
  "categories": [
-  "population_frequency"
+  "population_frequency",
+  "annotation_integration"
  ],
  "maintainer": "gnomAD consortium (Broad Institute)",
  "url": "https://gnomad.broadinstitute.org",
@@ -16,7 +17,7 @@
   "release_date": "2026-09-23 (4.1.2 constraint)",
   "verified": "live"
  },
- "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group.",
+ "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group, group-maximum and filtering allele frequencies, and in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) plus GA4GH VRS allele IDs. The header of the exome file defines 413 INFO fields and that of the genome file 240.",
  "variant_classes": [
   "snv",
   "indel"
@@ -36,10 +37,10 @@
  ],
  "mapping_methods": "Coordinates on GRCh38 (v4, v3) or GRCh37 (v2.1.1 with liftover files).",
  "quantitative": {
-  "summary": "Allele counts, numbers and frequencies; filtering annotations.",
-  "units": "counts/frequency",
-  "uncertainty": "AC/AN; no CI provided in sites VCF",
-  "direction": "n/a"
+  "summary": "Allele counts (AC), numbers (AN), frequencies (AF), homozygote counts, group-maximum (grpmax) and filtering allele frequencies (faf95/faf99) per site and per ancestry group; predictor scores per allele.",
+  "units": "counts / frequency in [0, 1]; CADD phred; the other predictors on their own [0, 1] or signed scales",
+  "uncertainty": "AC/AN; filtering allele frequencies give a conservative lower bound; no confidence interval on AF",
+  "direction": "n/a (predictor scores point towards deleteriousness as defined by each tool)"
  },
  "licence": {
   "name": "Primary exome/genome data released under CC0; some annotations carry separate terms (SpliceAI is CC BY-NC 4.0)",
@@ -49,9 +50,11 @@
  },
  "update_frequency": "Major releases every few years; point releases (4.1.1, 4.1.2) in between.",
  "coverage_limitations": [
-  "Per-chromosome VCFs are very large (e.g. exome chr1 17.56 GiB, genome chr1 41.25 GiB)",
+  "An allele missing from a slice was not observed in the callset or was removed by QC; it is not a measured frequency of zero, and coverage tracks are not fetched",
   "Case-control/cohort composition affects representativeness",
-  "Not a random sample of any population"
+  "Not a random sample of any population",
+  "Per-chromosome VCFs are very large (e.g. exome chr1 17.56 GiB, genome chr1 41.25 GiB)",
+  "The regional slices kept here cover only the positions of MaveDB-mapped SNVs (about 146k positions in about 1.5k regions); other regions must be sliced the same way when needed"
  ],
  "known_omissions": [
   "Individual-level genotypes not available",
@@ -61,19 +64,23 @@
   "nhgri-1000-genomes"
  ],
  "reuse_decision": {
-  "action": "defer",
-  "rationale": "Chromosome-scale files are hundreds of GiB. Do not mirror; use the Ensembl VEP gnomAD/frequency plugins, dbNSFP frequency fields or on-demand tabix/API queries, and acquire regional slices when a target analysis needs them."
+  "action": "retrieve_source",
+  "rationale": "Whole-chromosome VCFs (11-67 GiB each) are not mirrored. The files are bgzip + tabix on a public bucket, so regions are read by HTTP range requests: slices for the genomic positions that our assets name (MaveDB-mapped SNVs) are fetched and kept; the same primitive serves later lookups for variants of interest. Absence of a record in a slice means not observed or filtered out, not a frequency of zero."
  },
  "status": {
   "accessible": "yes",
-  "notes": "Downloads page rendered; S3 listing reachable."
+  "notes": "Remote tabix over the proxy works (index opens in about 1 s; a region read takes about 0.5 s). Slices for the MaveDB positions are written by acquisition/fetch_gnomad_regional.py."
  },
  "evidence": [
   "gnomad/downloads_page",
   "gnomad/policies",
   "gnomad/s3_release_listing",
-  "gnomad/s3_v4_1_listing"
+  "gnomad/s3_v4_1_listing",
+  "gnomad/vcf_header_info_v4_1"
  ],
  "unverified_fields": [],
- "acquisition_targets": []
+ "acquisition_targets": [
+  "gnomad_v4_1_exomes_regional",
+  "gnomad_v4_1_genomes_regional"
+ ]
 }

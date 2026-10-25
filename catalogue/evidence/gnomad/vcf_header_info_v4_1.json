@@ -1,0 +1,288 @@
+{
+ "fetched_utc": "2026-10-25T11:01:43Z",
+ "tool": "pysam 0.24.1 (htslib 1.24)",
+ "callsets": {
+  "exomes": {
+   "file_read": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr21.vcf.bgz",
+   "size": "2250319809",
+   "etag": "\"faf24d0b0329dc3beb3fe4739eaf4a4d-135\"",
+   "last_modified": "Wed, 17 Apr 2024 18:22:34 GMT",
+   "info_fields": 413,
+   "ancestry_groups": [
+    "afr",
+    "amr",
+    "asj",
+    "eas",
+    "fin",
+    "mid",
+    "nfe",
+    "remaining",
+    "sas"
+   ],
+   "filters": {
+    "AC0": "Allele count is zero after filtering out low-confidence genotypes (GQ < 20; DP < 10; and AB < 0.2 for het calls)",
+    "AS_VQSR": "Failed VQSR filtering thresholds of -1.4521 for SNPs and 0.073 for indels",
+    "InbreedingCoeff": "Inbreeding coefficient < -0.3",
+    "PASS": "Passed all variant filters"
+   },
+   "kept_fields": {
+    "AC": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Alternate allele count"
+    },
+    "AN": {
+     "number": "1",
+     "type": "Integer",
+     "description": "Total number of alleles"
+    },
+    "AF": {
+     "number": "A",
+     "type": "Float",
+     "description": "Alternate allele frequency"
+    },
+    "nhomalt": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Count of homozygous individuals"
+    },
+    "grpmax": {
+     "number": "A",
+     "type": "String",
+     "description": "Genetic ancestry group with the maximum allele frequency"
+    },
+    "AC_grpmax": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Allele count in the genetic ancestry group with the maximum allele frequency"
+    },
+    "AN_grpmax": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Total number of alleles in the genetic ancestry group with the maximum allele frequency"
+    },
+    "AF_grpmax": {
+     "number": "A",
+     "type": "Float",
+     "description": "Maximum allele frequency across genetic ancestry groups"
+    },
+    "fafmax_faf95_max": {
+     "number": "A",
+     "type": "Float",
+     "description": "Maximum filtering allele frequency (using Poisson 95% CI) across genetic ancestry groups"
+    },
+    "fafmax_faf95_max_gen_anc": {
+     "number": "A",
+     "type": "String",
+     "description": "Genetic ancestry group with maximum filtering allele frequency (using Poisson 95% CI)"
+    },
+    "cadd_phred": {
+     "number": "1",
+     "type": "Float",
+     "description": "Cadd Phred-like scores ('scaled C-scores') ranging from 1 to 99, based on the rank of each variant relative to all possible 8.6 billion substitutions in the human reference genome. Larger values are more deleterious."
+    },
+    "revel_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "The maximum REVEL score at a site's MANE Select or canonical transcript. It's an ensemble score for predicting the pathogenicity of missense variants (based on 13 other variant predictors). Scores ranges from 0 to 1. Variants with higher scores are predicted to be more likely to be deleterious."
+    },
+    "spliceai_ds_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "Illumina's SpliceAI max delta score; interpreted as the probability of the variant being splice-altering."
+    },
+    "pangolin_largest_ds": {
+     "number": "1",
+     "type": "Float",
+     "description": "Pangolin's largest delta score across 2 splicing consequences, which reflects the probability of the variant being splice-altering"
+    },
+    "phylop": {
+     "number": "1",
+     "type": "Float",
+     "description": "Base-wise conservation score across the 241 placental mammals in the Zoonomia project. Score ranges from -20 to 9.28, and reflects acceleration (faster evolution than expected under neutral drift, assigned negative scores) as well as conservation (slower than expected evolution, assigned positive scores)."
+    },
+    "sift_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "Score reflecting the scaled probability of the amino acid substitution being tolerated, ranging from 0 to 1. Scores below 0.05 are predicted to impact protein function. We prioritize max scores for MANE Select transcripts where possible and otherwise report a score for the canonical transcript."
+    },
+    "polyphen_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "Score that predicts the possible impact of an amino acid substitution on the structure and function of a human protein, ranging from 0.0 (tolerated) to 1.0 (deleterious).  We prioritize max scores for MANE Select transcripts where possible and otherwise report a score for the canonical transcript."
+    },
+    "variant_type": {
+     "number": "1",
+     "type": "String",
+     "description": "Variant type (snv, indel, multi-snv, multi-indel, or mixed)"
+    },
+    "allele_type": {
+     "number": "1",
+     "type": "String",
+     "description": "Allele type (snv, insertion, deletion, or mixed)"
+    },
+    "lcr": {
+     "number": "0",
+     "type": "Flag",
+     "description": "Variant falls within a low complexity region"
+    },
+    "segdup": {
+     "number": "0",
+     "type": "Flag",
+     "description": "Variant falls within a segmental duplication region"
+    },
+    "fail_interval_qc": {
+     "number": "0",
+     "type": "Flag",
+     "description": "Less than 85 percent of samples meet 20X coverage if variant is in autosomal or PAR regions or 10X coverage for non-PAR regions of chromosomes X and Y."
+    },
+    "VRS_Allele_IDs": {
+     "number": "R",
+     "type": "String",
+     "description": "The computed identifiers for the GA4GH VRS Alleles corresponding to the values in the REF and ALT fields"
+    }
+   },
+   "kept_fields_missing": []
+  },
+  "genomes": {
+   "file_read": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/genomes/gnomad.genomes.v4.1.sites.chr21.vcf.bgz",
+   "size": "7758981978",
+   "etag": "\"a910b615826bcbcef3e3cfebbce9e906-463\"",
+   "last_modified": "Wed, 17 Apr 2024 18:22:35 GMT",
+   "info_fields": 240,
+   "ancestry_groups": [
+    "afr",
+    "ami",
+    "amr",
+    "asj",
+    "eas",
+    "fin",
+    "mid",
+    "nfe",
+    "remaining",
+    "sas"
+   ],
+   "filters": {
+    "AC0": "Allele count is zero after filtering out low-confidence genotypes (GQ < 20; DP < 10; and AB < 0.2 for het calls)",
+    "AS_VQSR": "Failed VQSR filtering thresholds of -2.502 for SNPs and -0.7156 for indels",
+    "InbreedingCoeff": "Inbreeding coefficient < -0.3",
+    "PASS": "Passed all variant filters"
+   },
+   "kept_fields": {
+    "AC": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Alternate allele count"
+    },
+    "AN": {
+     "number": "1",
+     "type": "Integer",
+     "description": "Total number of alleles"
+    },
+    "AF": {
+     "number": "A",
+     "type": "Float",
+     "description": "Alternate allele frequency"
+    },
+    "nhomalt": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Count of homozygous individuals"
+    },
+    "grpmax": {
+     "number": "A",
+     "type": "String",
+     "description": "Genetic ancestry group with the maximum allele frequency"
+    },
+    "AC_grpmax": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Allele count in the genetic ancestry group with the maximum allele frequency"
+    },
+    "AN_grpmax": {
+     "number": "A",
+     "type": "Integer",
+     "description": "Total number of alleles in the genetic ancestry group with the maximum allele frequency"
+    },
+    "AF_grpmax": {
+     "number": "A",
+     "type": "Float",
+     "description": "Maximum allele frequency across genetic ancestry groups"
+    },
+    "fafmax_faf95_max": {
+     "number": "A",
+     "type": "Float",
+     "description": "Maximum filtering allele frequency (using Poisson 95% CI) across genetic ancestry groups"
+    },
+    "fafmax_faf95_max_gen_anc": {
+     "number": "A",
+     "type": "String",
+     "description": "Genetic ancestry group with maximum filtering allele frequency (using Poisson 95% CI)"
+    },
+    "cadd_phred": {
+     "number": "1",
+     "type": "Float",
+     "description": "Cadd Phred-like scores ('scaled C-scores') ranging from 1 to 99, based on the rank of each variant relative to all possible 8.6 billion substitutions in the human reference genome. Larger values are more deleterious."
+    },
+    "revel_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "The maximum REVEL score at a site's MANE Select or canonical transcript. It's an ensemble score for predicting the pathogenicity of missense variants (based on 13 other variant predictors). Scores ranges from 0 to 1. Variants with higher scores are predicted to be more likely to be deleterious."
+    },
+    "spliceai_ds_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "Illumina's SpliceAI max delta score; interpreted as the probability of the variant being splice-altering."
+    },
+    "pangolin_largest_ds": {
+     "number": "1",
+     "type": "Float",
+     "description": "Pangolin's largest delta score across 2 splicing consequences, which reflects the probability of the variant being splice-altering"
+    },
+    "phylop": {
+     "number": "1",
+     "type": "Float",
+     "description": "Base-wise conservation score across the 241 placental mammals in the Zoonomia project. Score ranges from -20 to 9.28, and reflects acceleration (faster evolution than expected under neutral drift, assigned negative scores) as well as conservation (slower than expected evolution, assigned positive scores)."
+    },
+    "sift_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "Score reflecting the scaled probability of the amino acid substitution being tolerated, ranging from 0 to 1. Scores below 0.05 are predicted to impact protein function. We prioritize max scores for MANE Select transcripts where possible and otherwise report a score for the canonical transcript."
+    },
+    "polyphen_max": {
+     "number": "1",
+     "type": "Float",
+     "description": "Score that predicts the possible impact of an amino acid substitution on the structure and function of a human protein, ranging from 0.0 (tolerated) to 1.0 (deleterious).  We prioritize max scores for MANE Select transcripts where possible and otherwise report a score for the canonical transcript."
+    },
+    "variant_type": {
+     "number": "1",
+     "type": "String",
+     "description": "Variant type (snv, indel, multi-snv, multi-indel, or mixed)"
+    },
+    "allele_type": {
+     "number": "1",
+     "type": "String",
+     "description": "Allele type (snv, insertion, deletion, or mixed)"
+    },
+    "lcr": {
+     "number": "0",
+     "type": "Flag",
+     "description": "Variant falls within a low complexity region"
+    },
+    "segdup": {
+     "number": "0",
+     "type": "Flag",
+     "description": "Variant falls within a segmental duplication region"
+    },
+    "VRS_Allele_IDs": {
+     "number": "R",
+     "type": "String",
+     "description": "The computed identifiers for the GA4GH VRS Alleles corresponding to the values in the REF and ALT fields"
+    }
+   },
+   "kept_fields_missing": [
+    "fail_interval_qc"
+   ]
+  }
+ }
+}

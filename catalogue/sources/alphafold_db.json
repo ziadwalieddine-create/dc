@@ -53,12 +53,12 @@
  ],
  "overlap_with_existing": [],
  "reuse_decision": {
-  "action": "defer",
-  "rationale": "5.18 GB human proteome bundle is not needed yet. Fetch structures per protein for MaveDB targets when structure-based work starts; ProtVar/mutfunc (Ensembl) may already hold variant-level structural effects."
+  "action": "retrieve_source",
+  "rationale": "Per-protein retrieval for the UniProt proteins our MaveDB score sets are about (models, per-residue pLDDT and prediction metadata through the API); the 5.18 GB human proteome bundle is not needed for that set."
  },
  "status": {
   "accessible": "yes",
-  "notes": "API returned model metadata."
+  "notes": "API returns model metadata; per-protein files for the MaveDB proteins are fetched by acquisition/fetch_per_protein.py."
  },
  "evidence": [
   "alphafold_db/api_p04637",
@@ -67,5 +67,7 @@
   "alphafold_db/downloads"
  ],
  "unverified_fields": [],
- "acquisition_targets": []
+ "acquisition_targets": [
+  "alphafold_db_mavedb_proteins"
+ ]
 }

@@ -1,0 +1,50 @@
+
+ License — InterPro Documentation 
+ InterPro
+ About InterPro 
+ About InterPro 
+ Citing InterPro 
+ InterPro Entries : essential information 
+ The InterPro website 
+ InterPro website banner 
+ InterPro homepage 
+ How to search the InterPro website? 
+ Protein sequence viewer 
+ Representative Domain and Family selection 
+ Browsing entries in the InterPro website 
+ How to download InterPro data? 
+ Release notes 
+ Settings page 
+ Frequently asked questions 
+ Frequently Asked Questions (FAQs) 
+ InterPro resources 
+ InterProScan 
+ InterPro consortium member databases 
+ About Pfam 
+ About PRINTS 
+ About SFLD 
+ About AntiFam 
+ InterPro team 
+ Funding 
+ Privacy 
+ License 
+ Literature references 
+ Protein families card game 
+ InterPro 
+ Docs » 
+ License 
+ View page source 
+ License ¶ 
+ All of the InterPro, Pfam, PRINTS and SFLD downloadable data provided on the InterPro website is freely available
+under CC0 1.0 Universal ( CC0 1.0 ) Public
+Domain Dedication. 
+ The InterProScan software is distributed under the open source Apache License .
+The included scanning tools and signature collections may be under different license terms.
+You do not need a special license for commercial use but please cite the resource and relevant
+individual member databases and keep the Copyright statement with your installation. 
+ How to cite us 
+ Next 
+ Previous 
+ © Copyright 2024, InterPro Team
+ Built with Sphinx using a theme provided by Read the Docs . 
+ 

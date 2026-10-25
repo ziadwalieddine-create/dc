@@ -83,6 +83,8 @@ def run(ctx):
     test('OT constraint (target.constraint, LoF o/e) vs gnomAD v4.1.2 MANE-select constraint', ['target'], t_constraint)
 
     # ---- variants, credible sets, studies, locus-to-gene --------------------------------------------------------------
+    ot_af = {}      # variantId -> {population: frequency} for the variants that match MaveDB-mapped SNVs
+
     def t_variant():
         tot = matched = with_af = 0
         methods, pops = collections.Counter(), collections.Counter()
@@ -91,6 +93,8 @@ def run(ctx):
             mask = pc.is_in(t.column('variantId'), value_set=snv_ids)
             matched += count(mask)
             sub = t.filter(mask)
+            for vid, afs in zip(sub.column('variantId').to_pylist(), sub.column('alleleFrequencies').to_pylist()):
+                ot_af[vid] = {x['populationName']: x['alleleFrequency'] for x in (afs or [])}
             with_af += sum(1 for x in sub.column('alleleFrequencies').to_pylist() if x)
             eff = pc.list_flatten(t.column('variantEffect').combine_chunks())
             if len(eff):
@@ -104,6 +108,25 @@ def run(ctx):
                                  variant_effect_methods=dict(methods.most_common(12)), frequency_populations=dict(pops.most_common(12)),
                                  note='the index holds variants that occur in OT credible sets or evidence, so most MaveDB candidate alleles are expected to be absent')
     test('OT exact SNV join: MaveDB-mapped variants -> variant index (chrom_pos_ref_alt)', ['variant'], t_variant)
+
+    def t_variant_af():
+        gn = ctx.get('gnomad_slices') or {}
+        out = {}
+        for kind, tbl in gn.items():
+            per_pop = {}
+            for pop in ('nfe', 'afr', 'amr', 'eas', 'sas', 'fin', 'asj', 'mid', 'remaining'):
+                pairs = []
+                for vid, afs in ot_af.items():
+                    c, p_, r_, a_ = vid.split('_')
+                    row = tbl.get((c, int(p_), r_, a_))
+                    if row and row.get('AF_' + pop) and afs.get(pop + '_adj') is not None:
+                        pairs.append((afs[pop + '_adj'], float(row['AF_' + pop])))
+                per_pop[pop] = dict(compared=len(pairs), equal_within_1e_3_relative=sum(1 for a_, b_ in pairs if abs(a_ - b_) <= 1e-3 * max(a_, b_, 1e-12)))
+            out[kind] = per_pop
+        return None, dict(ot_variants_with_frequencies=len(ot_af), by_gnomad_callset=out,
+                          interpretation='equality with one callset identifies the gnomAD dataset Open Targets took its adjusted population frequencies from')
+    if ctx.get('gnomad_slices'):
+        test('OT variant-index adjusted allele frequencies vs gnomAD v4.1 regional slices', ['variant'], t_variant_af)
 
     cs_ids, cs_study = [], []
 

@@ -10,9 +10,9 @@
   "https://www.ebi.ac.uk/interpro/api/"
  ],
  "version": {
-  "value": "API live; 54,922 InterPro entries; release number not retrieved",
+  "value": "InterPro 110.0 (interpro-version response header of the API, 2026-10-25)",
   "release_date": "2026-10-25 (query date)",
-  "verified": "unverified"
+  "verified": "live"
  },
  "scope": "Protein families, domains and sites integrating member databases (Pfam, SMART, PROSITE, CDD, PANTHER, CATH-Gene3D and others listed by the API).",
  "variant_classes": [
@@ -37,10 +37,10 @@
   "direction": "n/a"
  },
  "licence": {
-  "name": "Licence page text not retrieved (commonly CC0)",
-  "redistribution": "Unverified",
+  "name": "CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable data; InterProScan under the Apache License (InterPro documentation licence page)",
+  "redistribution": "Free, including commercial use; cite the resource and the member databases. Signature collections of included scanning tools may carry other terms.",
   "access": "open",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "Every 8 weeks.",
  "coverage_limitations": [
@@ -49,21 +49,22 @@
  "known_omissions": [],
  "overlap_with_existing": [],
  "reuse_decision": {
-  "action": "defer",
-  "rationale": "Query by protein on demand; UniProt cross-references already carry domain information. Bulk match files are large."
+  "action": "retrieve_source",
+  "rationale": "Per-protein retrieval of InterPro and member-database matches (with residue locations) for the UniProt proteins our MaveDB score sets are about; the bulk match files are not needed for that set."
  },
  "status": {
   "accessible": "yes",
-  "notes": "API root and entry count returned JSON."
+  "notes": "API returns JSON; per-protein matches for the MaveDB proteins are fetched by acquisition/fetch_per_protein.py."
  },
- "unverified_fields": [
-  "licence",
-  "release number"
- ],
+ "unverified_fields": [],
  "evidence": [
-  "interpro/api_root",
   "interpro/api_entry_count",
+  "interpro/api_entry_q93086",
+  "interpro/api_root",
+  "interpro/documentation_license",
   "interpro/licence"
  ],
- "acquisition_targets": []
+ "acquisition_targets": [
+  "interpro_mavedb_proteins"
+ ]
 }

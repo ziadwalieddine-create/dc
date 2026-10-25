@@ -1,0 +1,2 @@
+chrom	url	size	etag	last_modified	regions	records_at_positions	alleles
+17	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr17.vcf.bgz	12017042594	"e43b58bf15b4112b5aa1ccc9d0be8725-717"	Wed, 17 Apr 2024 18:22:34 GMT	80	4305	4305

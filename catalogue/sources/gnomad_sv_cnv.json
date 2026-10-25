@@ -63,7 +63,8 @@
   "notes": "S3 listings give exact sizes."
  },
  "acquisition_targets": [
-  "gnomad_exome_cnv_v4_1"
+  "gnomad_exome_cnv_v4_1",
+  "gnomad_sv_v4_1_sites_vcf"
  ],
  "evidence": [
   "gnomad/s3_v4_1_genome_sv",

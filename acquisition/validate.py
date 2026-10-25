@@ -9,6 +9,7 @@ import argparse
 import collections
 import csv
 import gzip
+import hashlib
 import io
 import json
 import os
@@ -72,7 +73,9 @@ def v_manifest(tid, r):
     m = MANIFEST.get(tid)
     r.check('manifest record is ok', m and m.get('ok'))
     if m and os.path.exists(path(tid)):
-        if m.get('kind') == 'http_dir':
+        if m.get('kind') == 'per_entity':
+            r.check('manifest table present', os.path.exists(os.path.join(ROOT, m['files_table'])))
+        elif m.get('kind') == 'http_dir':
             have = sum(os.path.getsize(os.path.join(path(tid), f)) for f in os.listdir(path(tid)) if f.endswith('.parquet'))
             r.check('total size of part files equals manifest', have == m['bytes'], f'{have} vs {m["bytes"]}')
         else:
@@ -101,6 +104,44 @@ def v_gnomad_cnv(tid, r):
                 svt[m.group(1) if m else '?'] += 1
     r.check('SVTYPE present', '?' not in svt or len(svt) > 1, dict(svt))
     r.stats.update(records=n, svtype=dict(svt), contigs=sorted(chroms)[:30])
+
+
+def v_gnomad_sv(tid, r):
+    """gnomAD v4.1 genome SV sites VCF (GRCh38): every record carries SVTYPE and an allele frequency, types come from the documented set."""
+    known = {'DEL', 'DUP', 'INS', 'INV', 'CPX', 'CTX', 'BND', 'CNV', 'MCNV'}
+    n = with_svtype = with_af = with_end = 0
+    svt, chroms, no_af = collections.Counter(), collections.Counter(), collections.Counter()
+    meta, header = {}, None
+    with opener(path(tid)) as f:
+        for line in f:
+            if line.startswith('##'):
+                m = re.match(r'##(\w+)=(.*)', line.strip())
+                if m and m.group(1) in ('fileformat', 'reference'):
+                    meta[m.group(1)] = m.group(2)
+                continue
+            if line.startswith('#CHROM'):
+                header = line.strip().split('\t')
+                continue
+            p = line.split('\t', 8)
+            n += 1
+            chroms[p[0]] += 1
+            info = p[7]
+            m = re.search(r'(?:^|;)SVTYPE=(\w+)', info)
+            if m:
+                with_svtype += 1
+                svt[m.group(1)] += 1
+            if re.search(r'(?:^|;)AF=', info):
+                with_af += 1
+            elif m:
+                no_af[m.group(1)] += 1
+            with_end += bool(re.search(r'(?:^|;)END=', info))
+    r.check('VCF header present', meta.get('fileformat', '').startswith('VCF') and header is not None, meta)
+    r.check('records >= 400,000 (gnomAD-SV v2.1 alone had 433,371)', n >= 400_000, n)
+    r.check('every record has SVTYPE', with_svtype == n, f'{with_svtype}/{n}')
+    r.check('SVTYPE values come from the documented set', set(svt) <= known, dict(svt))
+    r.check('every record has an AF except multi-allelic copy-number (SVTYPE=CNV) sites, which carry per-copy-number counts instead', set(no_af) <= {'CNV'} and with_af + sum(no_af.values()) == n, f'{with_af}/{n} with AF; without: {dict(no_af)}')
+    r.check('contigs include chr1-22, chrX', {'chr' + str(i) for i in range(1, 23)} | {'chrX'} <= set(chroms), sorted(chroms)[:30])
+    r.stats.update(records=n, svtype=dict(svt), records_without_AF=dict(no_af), contigs=len(chroms), records_with_END=with_end, reference=meta.get('reference'))
 
 
 def v_tsv(tid, r, required, min_rows, delim='\t', comment='#', skip_prefix_lines=0):
@@ -214,6 +255,154 @@ def v_parquet_dir(tid, r):
             r.check(f'{col}: every non-null value within [{arg[0]}, {arg[1]}]', ok == nn, f'{ok}/{nn} of {tot}')
         else:
             r.check(f'{col}: non-null share >= {arg[0]}', tot > 0 and nn / tot >= arg[0], f'{nn}/{tot}')
+
+
+PRED_RANGE = {'cadd_phred': (0, 100), 'revel_max': (0, 1), 'spliceai_ds_max': (0, 1), 'pangolin_largest_ds': (-1, 1), 'phylop': (-20, 10), 'sift_max': (0, 1), 'polyphen_max': (0, 1)}
+
+
+def v_regional_slice(tid, r):
+    """gnomAD slice written by fetch_gnomad_regional.py: header layout, every row is a single-nucleotide record inside the declared
+    regions, frequencies are internally consistent (AF = AC / AN, AC <= AN) and the file agrees with its manifest."""
+    m = MANIFEST[tid]
+    kind = 'exomes' if 'exomes' in tid else 'genomes'
+    bed = os.path.join(DATA, 'gnomad_regional', 'mavedb_snv_regions.bed')
+    r.check('region file hash equals the manifest', hashlib.sha256(open(bed, 'rb').read()).hexdigest() == m['regions_sha256'])
+    regions = collections.defaultdict(list)
+    for line in open(bed):
+        c, a, b = line.split('\t')
+        regions[c[3:]].append((int(a) + 1, int(b)))
+    chroms_ok = {str(i) for i in range(1, 23)} | {'X', 'Y'}
+    n = bad_region = bad_alleles = bad_af = bad_ac = unsorted = dup = 0
+    last, seen_filter = None, collections.Counter()
+    pred_n, pred_bad = collections.Counter(), collections.Counter()
+    with opener(path(tid)) as f:
+        rd = csv.reader(f, delimiter='\t')
+        hdr = next(rd)
+        ix = {c: i for i, c in enumerate(hdr)}
+        for row in rd:
+            n += 1
+            chrom, pos, ref, alt = row[ix['chrom']], int(row[ix['pos']]), row[ix['ref']], row[ix['alt']]
+            if chrom not in chroms_ok or not any(a <= pos <= b for a, b in regions.get(chrom, ())):
+                bad_region += 1
+            if len(ref) != 1 or len(alt) != 1 or ref == alt or ref not in 'ACGT' or alt not in 'ACGT':
+                bad_alleles += 1
+            key = (chroms_ok_order(chrom), pos, alt)
+            if last is not None:
+                if key < last:
+                    unsorted += 1
+                elif key == last:
+                    dup += 1
+            last = key
+            seen_filter[row[ix['filter']]] += 1
+            for col, (lo, hi) in PRED_RANGE.items():
+                v = row[ix[col]]
+                if v != '':
+                    pred_n[col] += 1
+                    if not lo <= float(v) <= hi:
+                        pred_bad[col] += 1
+            ac, an, af = row[ix['AC']], row[ix['AN']], row[ix['AF']]
+            if ac and an:
+                if int(ac) > int(an):
+                    bad_ac += 1
+                if af and int(an) > 0 and abs(int(ac) / int(an) - float(af)) > 1e-4 * float(af) + 1e-9:
+                    bad_af += 1
+    want = ['chrom', 'pos', 'ref', 'alt', 'filter', 'AC', 'AN', 'AF', 'nhomalt', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax']
+    r.check('header starts with the documented core columns and ends with the predictor and flag columns', hdr[:len(want)] == want and hdr[-1] == 'VRS_Allele_IDs' and 'cadd_phred' in hdr, hdr[:12])
+    r.check('rows > 10,000', n > 10_000, n)
+    r.check('rows equal the manifest', n == m['rows'], f'{n} vs {m["rows"]}')
+    r.check('every row lies on chr1-22/X/Y inside a requested region', bad_region == 0, bad_region)
+    r.check('every row is a single-nucleotide substitution with distinct A/C/G/T alleles', bad_alleles == 0, bad_alleles)
+    r.check('rows are sorted and unique by chromosome, position, alt', unsorted == 0 and dup == 0, f'unsorted {unsorted}, duplicate {dup}')
+    r.check('AC <= AN on every row', bad_ac == 0, bad_ac)
+    r.check('AF equals AC / AN (relative 1e-4) on every row', bad_af == 0, bad_af)
+    tab = [l.rstrip('\n').split('\t') for l in open(os.path.join(ROOT, m['files_table']))][1:]
+    r.check('predictor scores lie within their documented ranges', not pred_bad, dict(pred_bad))
+    r.check('CADD phred is present on at least 90% of rows', pred_n['cadd_phred'] / max(1, n) >= 0.9, f"{pred_n['cadd_phred']}/{n}")
+    r.check('per-chromosome table sums to the row count', sum(int(x[7]) for x in tab) == n, sum(int(x[7]) for x in tab))
+    r.stats.update(rows=n, filters=dict(seen_filter.most_common(8)), columns=len(hdr), regions=m['n_regions'], source_files=len(tab), rows_with_predictor=dict(pred_n))
+
+
+def chroms_ok_order(chrom):
+    return (int(chrom) if chrom.isdigit() else {'X': 23, 'Y': 24}.get(chrom, 99))
+
+
+def v_per_entity(tid, r):
+    """Per-protein API responses fetched by fetch_per_protein.py: files match the recorded table, content parses and agrees with
+    UniProt on protein length, residue positions are inside the protein, and coverage is what the human proteome implies."""
+    m = MANIFEST[tid]
+    table = [l.rstrip('\n').split('\t') for l in open(os.path.join(ROOT, m['files_table']))]
+    by = collections.defaultdict(dict)
+    for acc, part, status, nbytes, sha, http, ts in table[1:]:
+        by[acc][part] = (status, int(nbytes), sha, int(http))
+    accs = sorted(by)
+    base = os.path.join(DATA, TARGETS[tid]['dest'])
+    r.check('no accession ended in an error', m.get('n_errors') == 0, m.get('errors'))
+    ulen = {}
+    with opener(os.path.join(DATA, 'uniprot', 'uniprot_human_reviewed.tsv')) as f:
+        for row in csv.DictReader(f, delimiter='\t'):
+            ulen[row['Entry']] = int(row['Length'])
+    reviewed = [a for a in accs if a in ulen]
+
+    def file_of(acc, part):
+        if tid.startswith('alphafold'):
+            return os.path.join(base, {'prediction': 'prediction', 'model': 'model', 'confidence': 'confidence'}[part], acc + {'prediction': '.json', 'model': '.cif', 'confidence': '.json'}[part])
+        return os.path.join(base, acc + '.json')
+    stored = [(a, p) for a in accs for p, v in by[a].items() if v[0] == 'stored']
+    import hashlib
+    bad = [f'{a}/{p}' for a, p in stored if not os.path.exists(file_of(a, p)) or hashlib.sha256(open(file_of(a, p), 'rb').read()).hexdigest() != by[a][p][2]]
+    r.check('every stored file exists and matches its recorded SHA-256', not bad, bad[:5])
+    if tid.startswith('alphafold'):
+        have = [a for a in accs if by[a].get('prediction', ('none',))[0] == 'stored']
+        canon = [a for a in have if by[a].get('model', ('',))[0] == 'stored']
+        iso_only = [a for a in have if by[a].get('model', ('',))[0] == 'isoform_only']
+        conf_bad, cif_bad, len_cmp, len_ok, plddt, iso_bad = [], [], 0, 0, [], []
+        for a in canon:
+            pred = json.load(open(file_of(a, 'prediction')))
+            e = next(x for x in pred if x.get('entryId') == f'AF-{a}-F1')
+            n = e['sequenceEnd'] - e['sequenceStart'] + 1
+            cs = json.load(open(file_of(a, 'confidence')))['confidenceScore']
+            if len(cs) != n or not all(0 <= x <= 100 for x in cs):
+                conf_bad.append(a)
+            plddt.append(sum(cs) / max(1, len(cs)))
+            if not open(file_of(a, 'model'), errors='replace').read(400).startswith(f'data_AF-{a}-F1'):
+                cif_bad.append(a)
+            if a in ulen:
+                len_cmp += 1
+                len_ok += ulen[a] == n
+        for a in iso_only:
+            pred = json.load(open(file_of(a, 'prediction')))
+            if any(x.get('entryId') == f'AF-{a}-F1' for x in pred) or os.path.exists(file_of(a, 'model')):
+                iso_bad.append(a)
+        r.check('at least 90% of accessions have a canonical AlphaFold model (reviewed human proteins are in the proteome)', len(canon) / max(1, len(accs)) >= 0.9, f'{len(canon)}/{len(accs)}')
+        r.check('accessions recorded isoform_only have no AF-<acc>-F1 entry and no stored model', not iso_bad, iso_bad[:5])
+        r.check('per-residue confidence has one value in [0, 100] per modelled residue', not conf_bad, conf_bad[:5])
+        r.check('every stored model file is the mmCIF of the canonical entry AF-<acc>-F1', not cif_bad, cif_bad[:5])
+        r.check('canonical model length equals UniProt Length for reviewed entries', len_cmp > 0 and len_ok == len_cmp, f'{len_ok}/{len_cmp}')
+        r.stats.update(accessions=len(accs), with_prediction_metadata=len(have), without_prediction=len(accs) - len(have), canonical_models=len(canon), isoform_only=sorted(iso_only),
+                       mean_of_mean_plddt=round(sum(plddt) / max(1, len(plddt)), 2), length_agreement_with_uniprot=[len_ok, len_cmp])
+    else:
+        have = [a for a in accs if by[a].get('matches', ('none',))[0] == 'stored']
+        versions, cnt_bad, loc_bad, len_cmp, len_ok, nres = set(), 0, 0, 0, 0, 0
+        for a in have:
+            d = json.load(open(file_of(a, 'matches')))
+            versions.add(d['interpro_version'])
+            cnt_bad += d['count'] != len(d['results'])
+            nres += len(d['results'])
+            for res in d['results']:
+                for pr in res['proteins']:
+                    n = pr['protein_length']
+                    if a in ulen:
+                        len_cmp += 1
+                        len_ok += ulen[a] == n
+                    for loc in pr['entry_protein_locations']:
+                        for fr in loc['fragments']:
+                            loc_bad += not (1 <= fr['start'] <= fr['end'] <= n)
+        r.check('one InterPro release across all files', len(versions) == 1, versions)
+        r.check('count equals the number of results in every file', cnt_bad == 0, cnt_bad)
+        r.check('every match fragment lies inside the protein (1 <= start <= end <= length)', loc_bad == 0, loc_bad)
+        r.check('InterPro protein_length equals UniProt Length for reviewed entries', len_cmp > 0 and len_ok == len_cmp, f'{len_ok}/{len_cmp}')
+        r.check('at least 80% of accessions have InterPro matches', len(have) / max(1, len(accs)) >= 0.8, f'{len(have)}/{len(accs)}')
+        r.stats.update(accessions=len(accs), with_matches=len(have), without_matches=len(accs) - len(have), match_records=nres, interpro_version=sorted(versions), length_agreement_with_uniprot=[len_ok, len_cmp])
 
 
 def v_alphamissense_variants(tid, r):
@@ -373,12 +562,18 @@ def run(tid):
         return r
     v_manifest(tid, r)
     try:
-        if t.get('kind') == 'http_dir':
+        if t.get('kind') == 'regional_slice':
+            v_regional_slice(tid, r)
+        elif t.get('kind') == 'per_entity':
+            v_per_entity(tid, r)
+        elif t.get('kind') == 'http_dir':
             v_parquet_dir(tid, r)
         elif tid == 'clinvar_vcf_grch38':
             v_clinvar_vcf(tid, r)
         elif tid == 'gnomad_exome_cnv_v4_1':
             v_gnomad_cnv(tid, r)
+        elif tid == 'gnomad_sv_v4_1_sites_vcf':
+            v_gnomad_sv(tid, r)
         elif tid == 'clingen_gene_curation_list':
             v_clingen_gene(tid, r)
         elif tid == 'clingen_region_curation_list':

@@ -1,6 +1,6 @@
 # Source-by-source reuse, acquisition and integration plan
 
-*Generated 2026-10-25 10:38 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 11:02 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Decision hierarchy: reuse existing verified material → adopt existing curated datasets → extend existing integrations → retrieve uncovered source data → build original methods only where justified.
 
@@ -8,18 +8,18 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 
 ### `ensembl_genomes`: Ensembl genome registry, assemblies and gene annotation (human)
 - **Why:** Registry already collected and verified; fetch FASTA/GTF only when an analysis needs them, preferring GENCODE/MANE files already staged for acquisition.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet · existing asset ensembl-human-genomes: downloaded_verified
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet · existing assets ensembl-human-genomes: downloaded_verified
 - **Access:** open (Ensembl imposes no restrictions on access to or use of the data (disclaimer page))
 
 ### `mavedb`: MaveDB (Multiplexed Assays of Variant Effect database)
 - **Why:** Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump are being compared against it before any change.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D01 · existing asset mavedb-human: downloaded_verified
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D01 · existing assets mavedb-human: downloaded_verified
 - **Access:** open (Per record: CC0 (1,340), CC BY 4.0 (45), CC BY-SA 4.0 (11), CC BY-NC-SA 4.0 (6) among our 1,402 human sets; Zenodo bulk )
 - **Targets:** `mavedb_zenodo_dump_v4`, `ensembl_vep_mavedb_variants`, `ensembl_vep_mavedb_variants_tbi`
 
 ### `nhgri_education`: NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)
 - **Why:** Already collected, verified and preserved under scrape/. No further acquisition.
-- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet · existing assets nhgri-gwas, nhgri-1000-genomes: downloaded_verified
 - **Access:** open (US government work, NHGRI site content (reuse terms not reviewed))
 - **Unverified:** licence
 
@@ -63,9 +63,9 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 
 ### `opentargets`: Open Targets Platform
 - **Why:** Already integrates GWAS credible sets, colocalisation, DepMap, CRISPR screens, IMPC, ClinGen, ClinVar (EVA) and pharmacogenomics. Use it as the primary route for those dimensions instead of scraping each source; keep the originals only where Open Targets omits information.
-- **Status (all files):** catalogued✓ accessible✓ acquired~ validated· mapped· · usable for: nothing yet
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet
 - **Access:** open (CC0 1.0 for Platform data (docs page); a separate data-source licensing list exists on the same page)
-- **Targets:** `opentargets_26_09_biosample`, `opentargets_26_09_credible_set`, `opentargets_26_09_disease`, `opentargets_26_09_disease_hpo`, `opentargets_26_09_disease_phenotype`, `opentargets_26_09_enhancer_to_gene` (not downloaded), `opentargets_26_09_evidence_crispr`, `opentargets_26_09_evidence_crispr_screen`, `opentargets_26_09_evidence_gene2phenotype`, `opentargets_26_09_evidence_gene_burden`, `opentargets_26_09_evidence_genomics_england`, `opentargets_26_09_evidence_impc`, `opentargets_26_09_evidence_orphanet`, `opentargets_26_09_evidence_uniprot_literature` (not downloaded), `opentargets_26_09_evidence_uniprot_variants`, `opentargets_26_09_go`, `opentargets_26_09_homology`, `opentargets_26_09_interaction` (not downloaded), `opentargets_26_09_interaction_evidence` (not downloaded), `opentargets_26_09_l2g_prediction` (not downloaded), `opentargets_26_09_mouse_phenotype`, `opentargets_26_09_pharmacogenomics`, `opentargets_26_09_so`, `opentargets_26_09_study`, `opentargets_26_09_target`, `opentargets_26_09_target_essentiality`, `opentargets_26_09_variant` (not downloaded)
+- **Targets:** `opentargets_26_09_biosample`, `opentargets_26_09_credible_set`, `opentargets_26_09_disease`, `opentargets_26_09_disease_hpo`, `opentargets_26_09_disease_phenotype`, `opentargets_26_09_enhancer_to_gene`, `opentargets_26_09_evidence_crispr`, `opentargets_26_09_evidence_crispr_screen`, `opentargets_26_09_evidence_gene2phenotype`, `opentargets_26_09_evidence_gene_burden`, `opentargets_26_09_evidence_genomics_england`, `opentargets_26_09_evidence_impc`, `opentargets_26_09_evidence_orphanet`, `opentargets_26_09_evidence_uniprot_literature`, `opentargets_26_09_evidence_uniprot_variants`, `opentargets_26_09_go`, `opentargets_26_09_homology`, `opentargets_26_09_interaction`, `opentargets_26_09_interaction_evidence`, `opentargets_26_09_l2g_prediction`, `opentargets_26_09_mouse_phenotype`, `opentargets_26_09_pharmacogenomics`, `opentargets_26_09_so`, `opentargets_26_09_study`, `opentargets_26_09_target`, `opentargets_26_09_target_essentiality`, `opentargets_26_09_variant`
 - **Deferred (15.43 GiB):** colocalisation: Largest dataset (200 Parquet parts). Fetch when colocalisation of GWAS and molecular-QTL signals is needed for specific loci; it has no coordinate index, so it is read by full scan.
 - **Deferred (1.58 GiB):** baseline_expression: Tissue and cell-type expression; GTEx median TPM is already acquired directly.
 - **Deferred (9.69 GiB):** association_* (6 datasets: by datasource/datatype/overall, direct and indirect): Derived target-disease association scores; recomputable from the evidence datasets and not variant-level.
@@ -83,7 +83,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (IGSR provides open data; terms of use are in the IGSR data disclaimer (not parsed))
 - **Targets:** `igsr_1000g_samples`
 
-## Retrieve the source data (15)
+## Retrieve the source data (18)
+
+### `alphafold_db`: AlphaFold Protein Structure Database
+- **Why:** Per-protein retrieval for the UniProt proteins our MaveDB score sets are about (models, per-residue pLDDT and prediction metadata through the API); the 5.18 GB human proteome bundle is not needed for that set.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated· mapped· · usable for: nothing yet · validation failures: alphafold_db_mavedb_proteins
+- **Access:** open (CC BY 4.0, academic and commercial use (FAQ))
+- **Targets:** `alphafold_db_mavedb_proteins`
 
 ### `alphamissense`: AlphaMissense
 - **Why:** Also embedded in dbNSFP, which needs registration; the open file lets us test predictor integration now. Both the gene-level table and the 643 MB variant table (71M canonical-transcript missense SNVs) are fetched, checksum-verified and structurally validated. Licence CC BY-NC-SA 4.0 (non-commercial, share-alike), so the data stay in the git-ignored data/ area.
@@ -93,10 +99,9 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 
 ### `biogrid_orcs`: BioGRID ORCS (Open Repository of CRISPR Screens)
 - **Why:** Open Targets lists evidence_crispr/evidence_crispr_screen, but its source mix is not verified to equal ORCS; fetch the human bundle for gene-level screen detail.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: nothing yet
-- **Access:** open_with_terms (Licensing wiki page does not exist; terms not confirmed)
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D04
+- **Access:** open (MIT License (stated on the BioGRID download repository page for BioGRID-ORCS; data provided without warranty))
 - **Targets:** `biogrid_orcs_human`
-- **Unverified:** licence
 
 ### `clingen`: ClinGen (dosage sensitivity, gene-disease validity, region curation)
 - **Why:** Small, openly licensed and directly addresses dosage sensitivity and CNV interpretation; Open Targets carries only evidence_clingen gene-disease links.
@@ -119,23 +124,22 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 
 ### `dgv`: DGV (Database of Genomic Variants)
 - **Why:** Complements gnomAD-SV with older, study-level control CNVs and structural variants. The 364 MB GRCh38 release (2025-12-01) is fetched, size-verified (the site publishes no checksum) and structurally validated; used under the TCAG disclaimer with acknowledgement (cite MacDonald et al. 2013) and not redistributed.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D08
 - **Access:** open_with_terms (TCAG Notice and Disclaimer of Database Use (data provided 'AS IS'; appropriate acknowledgement required; cite MacDonald )
 - **Targets:** `dgv_grch38_variants_2025_12_01`
 
 ### `encode`: ENCODE and SCREEN candidate cis-regulatory elements
 - **Why:** SCREEN already integrates ENCODE and partner data into a registry; use the class BED files (about 129 MB for non-overlapping classes) instead of parsing thousands of experiments.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: nothing yet
-- **Access:** open (Not confirmed: the ENCODE citing/data-use page returned HTTP 403 to automated access)
+- **Access:** open (No licence name found. SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moor)
 - **Targets:** `screen_ccre_pls`, `screen_ccre_pels`, `screen_ccre_dels`, `screen_ccre_ca_ctcf`, `screen_ccre_ca_h3k4me3`, `screen_ccre_ca_tf`, `screen_ccre_ca`, `screen_ccre_tf`
 - **Unverified:** licence
 
 ### `gencode_mane`: GENCODE and MANE transcript sets
 - **Why:** MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD; the GENCODE genome FASTA (806 to 856 MB) is deferred.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: nothing yet
-- **Access:** open (Open (GENCODE/Ensembl and NCBI public data); exact GENCODE terms not parsed)
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D14
+- **Access:** open (GENCODE: 'all the GENCODE project data is open access' (GENCODE data-access page), under the EMBL-EBI Terms of Use (free)
 - **Targets:** `mane_summary_v1_5`, `mane_gtf_v1_5`
-- **Unverified:** licence
 
 ### `gnomad_constraint`: gnomAD constraint metrics (LoF/missense) and pext
 - **Why:** Primary source of record and moderate size; the Ensembl LOEUF file is a derivative of the same resource so is not downloaded separately.
@@ -147,13 +151,25 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Why:** CNV VCF is small and fetched now; the 1.74 GB SV sites VCF is deferred until SV analysis begins.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D08
 - **Access:** open (CC0 for primary data (policies page))
-- **Targets:** `gnomad_exome_cnv_v4_1`
+- **Targets:** `gnomad_exome_cnv_v4_1`, `gnomad_sv_v4_1_sites_vcf`
+
+### `gnomad_variants`: gnomAD v4.1 (exomes and genomes) allele frequencies
+- **Why:** Whole-chromosome VCFs (11-67 GiB each) are not mirrored. The files are bgzip + tabix on a public bucket, so regions are read by HTTP range requests: slices for the genomic positions that our assets name (MaveDB-mapped SNVs) are fetched and kept; the same primitive serves later lookups for variants of interest. Absence of a record in a slice means not observed or filtered out, not a frequency of zero.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open (Primary exome/genome data released under CC0; some annotations carry separate terms (SpliceAI is CC BY-NC 4.0))
+- **Targets:** `gnomad_v4_1_exomes_regional` (not downloaded), `gnomad_v4_1_genomes_regional` (not downloaded)
 
 ### `gtex`: GTEx (Genotype-Tissue Expression)
 - **Why:** Median expression table is small and fetched now. Large eQTL tables are available but Open Targets and eQTL Catalogue provide fine-mapped, harmonised versions; pull only what is needed.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D03
 - **Access:** open (Open-access files free to download; raw sequence and full donor metadata are protected (dbGaP/AnVIL))
 - **Targets:** `gtex_v11_gene_median_tpm`, `gtex_datasets_api`
+
+### `interpro`: InterPro
+- **Why:** Per-protein retrieval of InterPro and member-database matches (with residue locations) for the UniProt proteins our MaveDB score sets are about; the bulk match files are not needed for that set.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated· mapped· · usable for: nothing yet
+- **Access:** open (CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable data; InterProScan under the Apache License (InterPro)
+- **Targets:** `interpro_mavedb_proteins`
 
 ### `pharmgkb`: ClinPGx / PharmGKB
 - **Why:** Small archives; Open Targets only carries a pharmacogenomics subset.
@@ -179,29 +195,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (CC BY 4.0 for copyrightable parts)
 - **Targets:** `uniprot_human_reviewed`
 
-## Deferred (5)
-
-### `alphafold_db`: AlphaFold Protein Structure Database
-- **Why:** 5.18 GB human proteome bundle is not needed yet. Fetch structures per protein for MaveDB targets when structure-based work starts; ProtVar/mutfunc (Ensembl) may already hold variant-level structural effects.
-- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
-- **Access:** open (CC BY 4.0, academic and commercial use (FAQ))
+## Deferred (2)
 
 ### `dbvar`: dbVar (NCBI database of genomic structural variation)
 - **Why:** Catalogued only: ClinGen, gnomAD-SV and DGV cover the near-term needs; inspect dbVar contents and currency before any download.
 - **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
 - **Access:** open (NCBI public domain policy applies (not confirmed for dbVar specifically))
 - **Unverified:** licence, currency, contents
-
-### `gnomad_variants`: gnomAD v4.1 (exomes and genomes) allele frequencies
-- **Why:** Chromosome-scale files are hundreds of GiB. Do not mirror; use the Ensembl VEP gnomAD/frequency plugins, dbNSFP frequency fields or on-demand tabix/API queries, and acquire regional slices when a target analysis needs them.
-- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
-- **Access:** open (Primary exome/genome data released under CC0; some annotations carry separate terms (SpliceAI is CC BY-NC 4.0))
-
-### `interpro`: InterPro
-- **Why:** Query by protein on demand; UniProt cross-references already carry domain information. Bulk match files are large.
-- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
-- **Access:** open (Licence page text not retrieved (commonly CC0))
-- **Unverified:** licence, release number
 
 ### `pharmvar`: PharmVar (Pharmacogene Variation Consortium)
 - **Why:** Licence and bulk download route unverified. Use CPIC/ClinPGx tables meanwhile; revisit after reading the terms.

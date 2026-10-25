@@ -1,4 +1,59 @@
 {
+ "alphafold_db_mavedb_proteins": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "manifest table present",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "no accession ended in an error",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every stored file exists and matches its recorded SHA-256",
+    "ok": true
+   },
+   {
+    "detail": "536/549",
+    "name": "at least 90% of accessions have an AlphaFold prediction (reviewed human proteins are in the proteome)",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "per-residue confidence has one value in [0, 100] per modelled residue",
+    "ok": true
+   },
+   {
+    "detail": "['O60281', 'Q01484', 'Q12955', 'Q86UP3', 'Q8IZT6']",
+    "name": "every model file is the mmCIF of the requested entry",
+    "ok": false
+   },
+   {
+    "detail": "520/527",
+    "name": "model length equals UniProt Length for reviewed entries",
+    "ok": false
+   }
+  ],
+  "passed": false,
+  "stats": {
+   "accessions": 549,
+   "length_agreement_with_uniprot": [
+    520,
+    527
+   ],
+   "mean_of_mean_plddt": 70.09,
+   "with_prediction": 536,
+   "without_prediction": 13
+  }
+ },
  "alphamissense_gene_hg38": {
   "checks": [
    {
@@ -955,6 +1010,70 @@
    }
   }
  },
+ "gnomad_sv_v4_1_sites_vcf": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "{'fileformat': 'VCFv4.2'}",
+    "name": "VCF header present",
+    "ok": true
+   },
+   {
+    "detail": "2154486",
+    "name": "records >= 400,000 (gnomAD-SV v2.1 alone had 433,371)",
+    "ok": true
+   },
+   {
+    "detail": "2154486/2154486",
+    "name": "every record has SVTYPE",
+    "ok": true
+   },
+   {
+    "detail": "{'DUP': 269326, 'BND': 356035, 'CNV': 721, 'DEL': 1206278, 'INS': 304645, 'CPX': 15189, 'INV': 2193, 'CTX': 99}",
+    "name": "SVTYPE values come from the documented set",
+    "ok": true
+   },
+   {
+    "detail": "2153765/2154486 with AF; without: {'CNV': 721}",
+    "name": "every record has an AF except multi-allelic copy-number (SVTYPE=CNV) sites, which carry per-copy-number counts instead",
+    "ok": true
+   },
+   {
+    "detail": "['chr1', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr2', 'chr20', 'chr21', 'chr22', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chrX', 'chrY']",
+    "name": "contigs include chr1-22, chrX",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "contigs": 24,
+   "records": 2154486,
+   "records_with_END": 2154486,
+   "records_without_AF": {
+    "CNV": 721
+   },
+   "reference": null,
+   "svtype": {
+    "BND": 356035,
+    "CNV": 721,
+    "CPX": 15189,
+    "CTX": 99,
+    "DEL": 1206278,
+    "DUP": 269326,
+    "INS": 304645,
+    "INV": 2193
+   }
+  }
+ },
  "gtex_datasets_api": {
   "checks": [
    {
@@ -1288,6 +1407,105 @@
    "rows": 35477
   }
  },
+ "opentargets_26_09_credible_set": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "2990567440 vs 2990567440",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "200 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "200",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "credible_set",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "4761925",
+    "name": "rows >= 1,000,000",
+    "ok": true
+   },
+   {
+    "detail": "4761529/4761925 of 4761925",
+    "name": "variantId: share of non-null values matching '^[0-9XYM]+_\\\\d+_[ACGT]+_[ACGT]+$' >= 0.99",
+    "ok": true
+   },
+   {
+    "detail": "4761925/4761925 of 4761925",
+    "name": "chromosome: share of non-null values matching '^([1-9]|1[0-9]|2[0-2]|X|Y|MT)$' >= 0.999",
+    "ok": true
+   },
+   {
+    "detail": "4761925/4761925 of 4761925",
+    "name": "position: every non-null value within [1, 300000000]",
+    "ok": true
+   },
+   {
+    "detail": "4761925/4761925",
+    "name": "studyLocusId: non-null share >= 1.0",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "studyLocusId",
+    "studyId",
+    "variantId",
+    "chromosome",
+    "position",
+    "region",
+    "beta",
+    "zScore",
+    "pValueMantissa",
+    "pValueExponent",
+    "effectAlleleFrequencyFromSource",
+    "standardError",
+    "subStudyDescription",
+    "qualityControls",
+    "finemappingMethod",
+    "credibleSetIndex",
+    "credibleSetlog10BF",
+    "purityMeanR2",
+    "purityMinR2",
+    "locusStart",
+    "locusEnd",
+    "sampleSize",
+    "ldSet",
+    "locus",
+    "confidence",
+    "studyType",
+    "isTransQtl"
+   ],
+   "columns": 27,
+   "files": 200,
+   "rows": 4761925
+  }
+ },
  "opentargets_26_09_disease": {
   "checks": [
    {
@@ -1494,6 +1712,94 @@
    "columns": 3,
    "files": 1,
    "rows": 163973
+  }
+ },
+ "opentargets_26_09_enhancer_to_gene": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "1770117834 vs 1770117834",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "30 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "30",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "enhancer_to_gene",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "48808491",
+    "name": "rows >= 10,000,000",
+    "ok": true
+   },
+   {
+    "detail": "48808491/48808491 of 48808491",
+    "name": "geneId: share of non-null values matching '^ENSG\\\\d{11}$' >= 1.0",
+    "ok": true
+   },
+   {
+    "detail": "48808491/48808491 of 48808491",
+    "name": "chromosome: share of non-null values matching '^([1-9]|1[0-9]|2[0-2]|X|Y|MT)$' >= 0.999",
+    "ok": true
+   },
+   {
+    "detail": "48808491/48808491 of 48808491",
+    "name": "start: every non-null value within [0, 300000000]",
+    "ok": true
+   },
+   {
+    "detail": "48808491/48808491 of 48808491",
+    "name": "score: every non-null value within [0, 1]",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "biosampleId",
+    "geneId",
+    "chromosome",
+    "start",
+    "end",
+    "score",
+    "distanceToTss",
+    "resourceScore",
+    "datasourceId",
+    "intervalType",
+    "pmid",
+    "biosampleName",
+    "biosampleFromSourceId",
+    "studyId",
+    "intervalId",
+    "qualityControls"
+   ],
+   "columns": 16,
+   "files": 30,
+   "rows": 48808491
   }
  },
  "opentargets_26_09_evidence_crispr": {
@@ -2091,6 +2397,84 @@
    "rows": 6771
   }
  },
+ "opentargets_26_09_evidence_uniprot_literature": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "524486 vs 524486",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "1 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "1",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "evidence_uniprot_literature",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "6394",
+    "name": "rows >= 1,000",
+    "ok": true
+   },
+   {
+    "detail": "6394/6394 of 6394",
+    "name": "targetId: share of non-null values matching '^ENSG\\\\d{11}$' >= 1.0",
+    "ok": true
+   },
+   {
+    "detail": "6394/6394 of 6394",
+    "name": "score: every non-null value within [0, 1]",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "id",
+    "targetFromSourceId",
+    "diseaseFromSourceMappedId",
+    "confidence",
+    "datasourceId",
+    "datatypeId",
+    "diseaseFromSource",
+    "diseaseFromSourceId",
+    "literature",
+    "targetModulation",
+    "qualityControls",
+    "diseaseId",
+    "targetId",
+    "publicationDate",
+    "evidenceDate",
+    "score"
+   ],
+   "columns": 16,
+   "files": 1,
+   "rows": 6394
+  }
+ },
  "opentargets_26_09_evidence_uniprot_variants": {
   "checks": [
    {
@@ -2310,6 +2694,236 @@
    "columns": 10,
    "files": 2,
    "rows": 3817240
+  }
+ },
+ "opentargets_26_09_interaction": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "251918150 vs 251918150",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "2 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "2",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "interaction",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "14612199",
+    "name": "rows >= 5,000,000",
+    "ok": true
+   },
+   {
+    "detail": "14611007/14612199 of 14612199",
+    "name": "targetA: share of non-null values matching '^ENSG\\\\d{11}$' >= 0.99",
+    "ok": true
+   },
+   {
+    "detail": "14332683/14333680 of 14612199",
+    "name": "targetB: share of non-null values matching '^ENSG\\\\d{11}$' >= 0.99",
+    "ok": true
+   },
+   {
+    "detail": "14516324/14516324 of 14612199",
+    "name": "scoring: every non-null value within [0, 1]",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "sourceDatabase",
+    "targetA",
+    "intA",
+    "intABiologicalRole",
+    "targetB",
+    "intB",
+    "intBBiologicalRole",
+    "speciesA",
+    "speciesB",
+    "count",
+    "scoring",
+    "interactionId"
+   ],
+   "columns": 12,
+   "files": 2,
+   "rows": 14612199
+  }
+ },
+ "opentargets_26_09_interaction_evidence": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "344089677 vs 344089677",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "6 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "6",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "interaction_evidence",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "27396304",
+    "name": "rows >= 10,000,000",
+    "ok": true
+   },
+   {
+    "detail": "27135900/27135900 of 27396304",
+    "name": "interactionScore: every non-null value within [0, 1]",
+    "ok": true
+   },
+   {
+    "detail": "24948510/24948510 of 27396304",
+    "name": "evidenceScore: every non-null value within [0, 1]",
+    "ok": true
+   },
+   {
+    "detail": "27396304/27396304",
+    "name": "interactionId: non-null share >= 1.0",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "interactionResources",
+    "interactionScore",
+    "interactionDetectionMethodShortName",
+    "interactionDetectionMethodMiIdentifier",
+    "evidenceScore",
+    "interactionIdentifier",
+    "pubmedId",
+    "interactionId",
+    "expansionMethodMiIdentifier",
+    "expansionMethodShortName",
+    "hostOrganismScientificName",
+    "hostOrganismTaxId",
+    "hostOrganismTissue",
+    "interactionTypeMiIdentifier",
+    "interactionTypeShortName",
+    "participantDetectionMethodA",
+    "participantDetectionMethodB"
+   ],
+   "columns": 17,
+   "files": 6,
+   "rows": 27396304
+  }
+ },
+ "opentargets_26_09_l2g_prediction": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "509628512 vs 509628512",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "200 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "200",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "l2g_prediction",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "3293342",
+    "name": "rows >= 500,000",
+    "ok": true
+   },
+   {
+    "detail": "3293342/3293342 of 3293342",
+    "name": "geneId: share of non-null values matching '^ENSG\\\\d{11}$' >= 1.0",
+    "ok": true
+   },
+   {
+    "detail": "3293342/3293342 of 3293342",
+    "name": "score: every non-null value within [0, 1]",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "studyLocusId",
+    "geneId",
+    "score",
+    "features",
+    "shapBaseValue"
+   ],
+   "columns": 5,
+   "files": 200,
+   "rows": 3293342
   }
  },
  "opentargets_26_09_mouse_phenotype": {
@@ -2752,6 +3366,91 @@
    "columns": 3,
    "files": 4,
    "rows": 18464
+  }
+ },
+ "opentargets_26_09_variant": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "1967290736 vs 1967290736",
+    "name": "total size of part files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "25 files",
+    "name": "part files on disk equal the manifest file table (names and sizes)",
+    "ok": true
+   },
+   {
+    "detail": "25",
+    "name": "every part has a readable Parquet footer",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "all parts share one schema",
+    "ok": true
+   },
+   {
+    "detail": "variant",
+    "name": "a content specification exists for this dataset",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "7886762",
+    "name": "rows >= 3,000,000",
+    "ok": true
+   },
+   {
+    "detail": "7881975/7886762 of 7886762",
+    "name": "variantId: share of non-null values matching '^[0-9XYM]+_\\\\d+_[ACGT]+_[ACGT]+$' >= 0.99",
+    "ok": true
+   },
+   {
+    "detail": "7886762/7886762 of 7886762",
+    "name": "chromosome: share of non-null values matching '^([1-9]|1[0-9]|2[0-2]|X|Y|MT)$' >= 0.999",
+    "ok": true
+   },
+   {
+    "detail": "7886762/7886762 of 7886762",
+    "name": "position: every non-null value within [1, 300000000]",
+    "ok": true
+   },
+   {
+    "detail": "7886761/7886761 of 7886762",
+    "name": "mostSevereConsequenceId: share of non-null values matching '^SO_\\\\d{7}$' >= 0.99",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "column_names": [
+    "variantId",
+    "chromosome",
+    "position",
+    "referenceAllele",
+    "alternateAllele",
+    "variantEffect",
+    "mostSevereConsequenceId",
+    "transcriptConsequences",
+    "rsIds",
+    "hgvsId",
+    "alleleFrequencies",
+    "dbXrefs",
+    "variantDescription"
+   ],
+   "columns": 13,
+   "files": 25,
+   "rows": 7886762
   }
  },
  "reactome_ensembl2reactome": {
