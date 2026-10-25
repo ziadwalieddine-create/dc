@@ -1,0 +1,30 @@
+​Genome-Wide Association Studies (GWAS)
+
+ updated: October 24, 2026
+
+ Definition
+
+ A genome-wide association study (abbreviated GWAS) is a research approach used to identify genomic variants that are statistically associated with a risk for a disease or a particular trait. The method involves surveying the genomes of many people, looking for genomic variants that occur more frequently in those with a specific disease or trait compared to those without the disease or trait. Once such genomic variants are identified, they are typically used to search for nearby variants that contribute directly to the disease or trait.
+
+ Narration
+
+ Genome-Wide Association Study, GWAS. The goal of genome-wide association studies, or GWAS as we call them, is to screen the entire genome of large numbers of individuals to look for associations between millions of genetic variants within those individuals and their disease outcomes or sometimes for associations between the variants and non-disease trait such as height. The first GWAS was published in 2005 and after that, the study approach just took off exponentially. Over time, GWAS have grown significantly both in terms of sample size going from initial sample sizes of several thousand individuals to current sample sizes of tens and hundreds of thousands of individuals and in terms of the number of disease [inaudible] studied as well as the associated variants that have been discovered. Results from GWAS have been curated in the NHGRI-EBI GWAS catalog. The methods and results of GWAS have informed other applications in applied epidemiologic research such as gene environment studies, Mendelian randomization studies, and polygenic risk score approaches. As I noted, GWAS focus on statistical associations. They inform us of correlation not causation. A major challenge posed by GWAS is the exploration of the functional consequences of identified variants which will provide insights into the biology of disease.
+
+ Carolyn M. Hutter, Ph.D.
+ Acting Director
+
+ Division of Genome Sciences
+
+ Search
+
+ Back to Glossary 
+
+ Related
+
+ Risk
+
+ Genomic Variation
+
+ Genome
+
+ Polygenic Risk Score (PRS)

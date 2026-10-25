@@ -1,0 +1,44 @@
+{
+  "source": "https://www.genome.gov/genetics-glossary/Genome-Wide-Association-Studies",
+  "title": "Genome-Wide Association Studies (GWAS)",
+  "publisher": "NHGRI Talking Glossary of Genomic and Genetic Terms",
+  "updated": "2026-10-24",
+  "definition": "A genome-wide association study (abbreviated GWAS) is a research approach used to identify genomic variants that are statistically associated with a risk for a disease or a particular trait. The method involves surveying the genomes of many people, looking for genomic variants that occur more frequently in those with a specific disease or trait compared to those without the disease or trait. Once such genomic variants are identified, they are typically used to search for nearby variants that contribute directly to the disease or trait.",
+  "narration": "Genome-Wide Association Study, GWAS. The goal of genome-wide association studies, or GWAS as we call them, is to screen the entire genome of large numbers of individuals to look for associations between millions of genetic variants within those individuals and their disease outcomes or sometimes for associations between the variants and non-disease trait such as height. The first GWAS was published in 2005 and after that, the study approach just took off exponentially. Over time, GWAS have grown significantly both in terms of sample size going from initial sample sizes of several thousand individuals to current sample sizes of tens and hundreds of thousands of individuals and in terms of the number of disease [inaudible] studied as well as the associated variants that have been discovered. Results from GWAS have been curated in the NHGRI-EBI GWAS catalog. The methods and results of GWAS have informed other applications in applied epidemiologic research such as gene environment studies, Mendelian randomization studies, and polygenic risk score approaches. As I noted, GWAS focus on statistical associations. They inform us of correlation not causation. A major challenge posed by GWAS is the exploration of the functional consequences of identified variants which will provide insights into the biology of disease.",
+  "narrator": {
+    "name": "Carolyn M. Hutter, Ph.D.",
+    "role": "Acting Director, Division of Genome Sciences"
+  },
+  "related": [
+    {
+      "term": "Risk",
+      "url": "https://www.genome.gov/genetics-glossary/Risk",
+      "file": "related_Risk.html"
+    },
+    {
+      "term": "Genomic Variation",
+      "url": "https://www.genome.gov/genetics-glossary/Genomic-Variation",
+      "file": "related_Genomic-Variation.html"
+    },
+    {
+      "term": "Genome",
+      "url": "https://www.genome.gov/genetics-glossary/Genome",
+      "file": "related_Genome.html"
+    },
+    {
+      "term": "Polygenic Risk Score (PRS)",
+      "url": "https://www.genome.gov/genetics-glossary/Polygenic-Risk-Score-PRS",
+      "file": "related_Polygenic-Risk-Score-PRS.html"
+    }
+  ],
+  "assets": [
+    "GWAS_Interaction_definition_Hutter_Carolyn.mp3",
+    "GWAS_Interaction_transcription_Hutter_Carolyn.mp3",
+    "Generic-Bases_dyn.jpg",
+    "Generic-DNA-bases_dyn.jpg",
+    "Generic-PRS_dyn.jpg",
+    "Genome_dyn.jpg",
+    "Hutter.png",
+    "bases_hero.jpg"
+  ]
+}
