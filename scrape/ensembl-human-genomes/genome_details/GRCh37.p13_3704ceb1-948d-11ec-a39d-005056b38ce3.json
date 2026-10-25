@@ -1,0 +1,173 @@
+{
+ "details": {
+  "genome_id": "3704ceb1-948d-11ec-a39d-005056b38ce3",
+  "genome_tag": "GCA_000001405.14",
+  "common_name": "Human",
+  "scientific_name": "Homo sapiens",
+  "species_taxonomy_id": "9606",
+  "type": null,
+  "is_reference": false,
+  "is_suppressed": false,
+  "suppression_details": null,
+  "assembly": {
+   "accession_id": "GCA_000001405.14",
+   "name": "GRCh37.p13",
+   "url": "https://identifiers.org/insdc.gca/GCA_000001405.14"
+  },
+  "release": {
+   "name": "2026-07",
+   "type": "integrated"
+  },
+  "taxonomy_id": "9606",
+  "assembly_provider": {
+   "name": "GENCODE",
+   "url": null
+  },
+  "assembly_level": "chromosome",
+  "assembly_date": "2009-02",
+  "annotation_provider": {
+   "name": "Ensembl",
+   "url": "https://beta.ensembl.org/help/articles/vertebrate-genome-annotation"
+  },
+  "annotation_method": "Ensembl Genebuild",
+  "annotation_version": "19",
+  "annotation_date": "2013-09",
+  "number_of_genomes_in_group": 563
+ },
+ "stats": {
+  "genome_stats": {
+   "assembly_stats": {
+    "contig_n50": 38440852,
+    "total_genome_length": 3234834689,
+    "total_coding_sequence_length": 33914472,
+    "total_gap_length": 243146473,
+    "spanned_gaps": 242,
+    "chromosomes": 25,
+    "toplevel_sequences": 297,
+    "component_sequences": 27948,
+    "gc_percentage": 37.78
+   },
+   "coding_stats": {
+    "coding_genes": 20787,
+    "average_genomic_span": 63989.1,
+    "average_sequence_length": null,
+    "average_cds_length": 1141.09,
+    "shortest_gene_length": 8,
+    "longest_gene_length": 2304638,
+    "total_transcripts": 146152,
+    "coding_transcripts": 95346,
+    "transcripts_per_gene": 7.03,
+    "coding_transcripts_per_gene": 4.59,
+    "total_exons": 1072753,
+    "total_coding_exons": 724218,
+    "average_exon_length": 231.84,
+    "average_coding_exon_length": 150.21,
+    "average_exons_per_transcript": null,
+    "average_coding_exons_per_coding_transcript": null,
+    "total_introns": 926601,
+    "average_intron_length": 6220.21
+   },
+   "variation_stats": {
+    "short_variants": 1075899079,
+    "structural_variants": null,
+    "short_variants_with_phenotype_assertions": null,
+    "short_variants_with_publications": null,
+    "short_variants_frequency_studies": null,
+    "structural_variants_with_phenotype_assertions": null
+   },
+   "non_coding_stats": {
+    "non_coding_genes": 22948,
+    "small_non_coding_genes": 7050,
+    "long_non_coding_genes": 13860,
+    "misc_non_coding_genes": 2038,
+    "average_genomic_span": 15206.48,
+    "average_sequence_length": 712.2,
+    "shortest_gene_length": 35,
+    "longest_gene_length": 1536213,
+    "total_transcripts": 32971,
+    "transcripts_per_gene": 1.44,
+    "total_exons": 82828,
+    "average_exon_length": 289.17,
+    "average_exons_per_transcript": 2.51,
+    "total_introns": 49857,
+    "average_intron_length": 12156.05
+   },
+   "pseudogene_stats": {
+    "pseudogenes": 14170,
+    "average_genomic_span": 3525.3,
+    "average_sequence_length": 809.46,
+    "shortest_gene_length": 23,
+    "longest_gene_length": 586570,
+    "total_transcripts": 17378,
+    "transcripts_per_gene": 1.23,
+    "total_exons": 40183,
+    "average_exon_length": 362.52,
+    "average_exons_per_transcript": 2.31,
+    "total_introns": 22805,
+    "average_intron_length": 3049.46
+   },
+   "homology_stats": {
+    "coverage": 88.9,
+    "reference_species_name": "Pan troglodytes"
+   },
+   "regulation_stats": {
+    "enhancers": 244866,
+    "promoters": 35641,
+    "ctcf_count": 90036,
+    "tfbs_count": null,
+    "open_chromatin_count": 7469
+   }
+  }
+ },
+ "ftplinks": [
+  {
+   "dataset": "assembly",
+   "url": "https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/14/ensembl/2013_09/genome"
+  },
+  {
+   "dataset": "genebuild",
+   "url": "https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/14/ensembl/2013_09/geneset"
+  },
+  {
+   "dataset": "homologies",
+   "url": "https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/14/ensembl/2013_09/homology/2024_09_18"
+  },
+  {
+   "dataset": "short_variants",
+   "url": "https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/14/ensembl/2013_09/variation/2024_10_28"
+  }
+ ],
+ "example_objects": [
+  {
+   "type": "gene",
+   "id": "ENSG00000139618"
+  },
+  {
+   "type": "location",
+   "id": "17:64155265-64255266"
+  },
+  {
+   "type": "variant",
+   "id": "1:230845794:rs699"
+  }
+ ],
+ "explain": {
+  "genome_id": "3704ceb1-948d-11ec-a39d-005056b38ce3",
+  "genome_tag": "GCA_000001405.14",
+  "common_name": "Human",
+  "scientific_name": "Homo sapiens",
+  "species_taxonomy_id": "9606",
+  "type": null,
+  "is_reference": false,
+  "is_suppressed": false,
+  "suppression_details": null,
+  "assembly": {
+   "accession_id": "GCA_000001405.14",
+   "name": "GRCh37.p13"
+  },
+  "release": {
+   "name": "2026-07",
+   "type": "integrated"
+  }
+ }
+}
