@@ -10,6 +10,8 @@ Source: https://www.genome.gov/genetics-glossary/Genome-Wide-Association-Studies
 - `gwas.json`: also holds each linked entry's definition, narration, narrator, related terms and asset names under `related`
 - `assets/`: definition and narration MP3s, narrator portraits, hero and thumbnail images for all five entries (flat, shared across entries)
 
+`assets/DNA_dyn.png` is JPEG data served under a `.png` name by the site; it is kept as served.
+
 Linked entries are scraped one level deep only; terms they in turn link to (e.g. SNPs, Gene Pool, Genetics) are not included.
 
 Site navigation, footer and subscription form are boilerplate and are retained only in the raw HTML.
