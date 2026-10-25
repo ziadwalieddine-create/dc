@@ -1,0 +1,350 @@
+The 1000 Genomes
+Project Tutorial
+ICHG 2011
+Montreal, Quebec, Canada
+October 13, 2011
+                             Intro
+
+
+• InternaPonal project to construct a foundaPonal data set for
+  human genePcs
+   – Discover virtually all common human variaPons by
+     invesPgaPng many genomes at the base pair level
+   – ConsorPum with mulPple centers, plaOorms, funders
+• Aims
+   • Discover populaPon level human genePc variaPons of all
+      types (95% of variaPon > 1% frequency)
+   • Deﬁne haplotype structure in the human genome
+   • Develop sequence analysis methods, tools, and other
+      reagents that can be transferred to other sequencing
+      projects
+                             Agenda
+Time Topic                   Presenter      Presenter aﬃliaLon
+7:30 DescripPon of 1000      Gabor Marth,   Boston College,
+     Genomes data            D.Sc.          Boston, MA
+7:55   How to access the     Paul Flicek,   EMBL European
+       data                  D.Sc.          BioinformaPcs Inst.,
+                                            Hinxton, Cambridge, UK
+8:20   Lessons in variant    Hyun Min       Univ. of Michigan,
+       calling and           Kang,          Ann Arbor, MI
+       genotyping            Ph.D.
+8:40   Structural variants   Ryan Mills,    Brigham and Women’s
+                             Ph.D.          Hospital, Boston, MA
+9:00   ImputaPon in GWAS Bryan Howie,       Univ. of Chicago,
+       studies           Ph.D.              Chicago, IL
+9:20   Q&A                   ‐              ‐
+The 1000 Genomes Project Datasets
+Gabor T. Marth
+Boston College Biology
+Department
+
+1000 Genomes Project Tutorial
+Montreal, Quebec, Canada
+October 13, 2011
+3 pilot coverage strategies
+Pilot results published
+        Finalized project design
+• Based on the result of the pilot project, we
+  decided to collect data on 2,500 samples from 5
+  con:nental groupings
+  – Whole‐genome low coverage data (>4x)
+  – Full exome data at deep coverage (>50x)
+  – A number of deep coverage genomes to be
+    sequenced, with details to be decided
+  – Hi‐density genotyping at subsets of sites
+• Moved from the Pilot into Phase 1 of the project
+Phase I (1,150)                              Phase II (1,721)                                                      Phase III (2,500)
+               CDX 17S                                                                                                      GIH vs. Sindhi (target – 100T)
+                                            CDX (100S); DNA: 17 DNA from Bld, 83 from LCL
+
+                                                                                                 18 (5‐10 trios)            Tamil (target – 100T)
+   CLM (70T); DNA from LCL                       KHV (82/100) – 15 trios; DNA Bld
+
+                                                                                                                            Sri Lankan (target – 100T)
+  CHS (100T); DNA from LCL                        45            99 (29T)             23 (7T)
+                                                                                         51 (11 trios; 39S)
+                                                       ACB (28/79T) – 14 trios; DNA Bld                                     Bengalee (target – 100T)
+ PUR (70T); DNA from Blood
+                                                        13 26 20 9 26 39 27 26 22
+                                      PEL (70T); DNA from Blood                                                Nigeria (target – 100T); DNA from LCL
+  FIN (100S); DNA from LCL
+
+                                                                                                             Sierra Leone (target – 100T); DNA from LCL
+                                                           3                                 1
+  GBR (96/100S); DNA from LCL
+
+                                                                                                                        MAB (target – 100T); DNA from LCL
+                                                                                         16 (8T)
+                         IBS (84/100T); DNA from LCL
+                                                                                                                    AJM (target – 80T); DNA from Bld
+                                                    PJL (target – 100T); DNA from Blood
+
+
+                                                  15                  6                  6
+                                                                                                               195
+                               GWD         GWD                              GWD     GWD (target – 100T); DNA from LCL
+
+
+                                15          15                               9           12          15 15                270
+
+April   JuneAug 2009Oct Dec Feb April     June      Aug         Oct        Dec     Feb       April           June        Aug       Oct     Dec       Feb     April
+2009    2009        2009 2009 2010 2010   2010      2010       2010        2010   2011       2011            2011        2011     2011     2011     2012     2012
+                         Phase I data
+• Samples from 14 popula:ons: ASW, CEU, CHB,
+  CHS, CLM, FIN, GBR, IBS, JPT, LWK, MXL, PRU,
+  TSI, YRI
+Dataset                  Low coverage whole    Deep coverage whole
+                         genome                exome
+# samples                1,094                 1,128
+Sequencing technologies Illumina, SOLiD, 454   Illumina, SOLiD
+Primary alignments       BWA, BFAST            MOSAIK, BFAST
+(BAMs)
+Second alignments        MOSAIK                BWA, MOSAIK
+(BAMs)
+Read coverage            4‐8X per sample       ≥70% of targets with ≥20X
+                                               coverage in every sample
+ Raw data & read alignment delivery
+
+              Reads: FASTQ
+
+
+
+
+                  Alignments: BAM
+
+
+
+
+np://np.1000genomes.ebi.ac.uk
+      Phase 1 analysis goal: an integrated
+          view of human varia7ons
+   • Reconstruct haplotypes including all variant types, using
+     all datasets
+                                             Dele:ons
+
+
+
+
+       Indels
+
+
+
+
+Goncalo Abecasis                         SNPs (from LC, EX, OMNI)
+    Pipelines for data processing and
+              variant calling
+• Tens of analysis groups have contributed
+• Individual pipelines and component tools vary
+• Typical main steps:
+   – Read mapping
+   – Duplicate ﬁltering
+   – Base quality value recalibra:on
+   – INDEL realignment
+   – Variant calling (sites)
+   – Sample genotype calling (some:me part of variant calling)
+   – Variant ﬁltering / call set reﬁnement
+   – Variant repor:ng
+SNPs
+                                     SNP calls
+Dataset        Contribu7ng    Consensus #SNPs   # Novel   Novel   %ONMI poly     %OMNI mono
+               datasets       method            SNPs      Ts/Tv   (sensi7vity)   (FDR)
+Low coverage   BC, BCM, BI,   VQSR      37.9M   29.65M    2.16    98.4           1.80
+               NCBI, UM
+Exome/         BC, BCM, BI,   SVM       598K    468K      2.74    98.01          1.97
+Illumina       Cornell, UM
+Exome/SOLiD    BC, BCM, UM    SVM       356K    243K      2.91    90.67          1.29
+Deep coverage exome data is more
+sensi:ve to low‐frequency variants
+  number of sites
+
+
+
+                         # sites in exomes
+
+                         # sites also in low coverage
+
+
+
+
+                                                          Erik Garrison
+
+       Allele count in 766 exomes (chr. 20, exons only)
+   Newly discovered SNPs are mostly at low
+frequency and enriched for func:onal variants
+               Func:onal category                Non‐synonymous: Condel score
+                                                                         Damaging
+
+
+                                                                         Benign
+
+
+
+
+Presenta:on on using the data for GWAS by Brian Howie   Enza Colonna, Yuan Chen, Yali Xue
+INDELs
+                  INDEL calls
+
+
+Dataset          Contribu7ng datasets   Consensus method     #INDELs
+Low coverage     BC, BI, DI, OX, SI     VQSR                 5.5M
+Exome/Illumina   BC, BCM, BI            N.A.                 6.5 – 10.2K
+Exome/SOLiD      BCM                    N.A.                 4.2 – 5.0K
+
+
+
+
+                                                           Guillermo Angel
+INDEL length
+
+
+
+
+               Guillermo Angel
+          Finding structural variants
+                                        • Discovery with a number of
+                                          diﬀerent methods
+                                        • Several types (e.g. dele:ons,
+                                          tandem duplica:ons, mobile
+                                          element inser:ons) now
+                                          detectable with high accuracy
+                                        • We are pulling in new types
+                                          for the Phase I data
+                                          (inversions, de novo
+                                          inser:ons, transloca:ons)
+
+Presenta:on on structural varia:ons by Ryan Mills
+     SNP valida:ons (low coverage data)
+                                                                 Conﬁrma7on    Failure
+                       Total   Polymorphic Monomorphic No Call
+                                                                    Rate        Rate
+
+All Sites               300       282           12       6          0.959       0.020
+
+Called in
+Valida7on               287       276           5        6          0.982       0.021
+Samples
+
+   Singletons           70        65            3        2          0.956       0.029
+
+
+   MAF<0.01*            134       131           2        1          0.985       0.007
+
+
+   0.01<MAF<0.05        33        33            0        0          1.000       0.000
+
+
+   MAF>0.05             50        47            0        3          1.000       0.060
+
+*Excludes singletons                                         Danny Challis, Eric Banks
+        Genotypes are accurate
+• Average low coverage depth is ~5x
+• We obtain genotypes by sharing data between
+  samples (using imputa:on‐related methods)
+
+Genotype HomRef         Het     HomAlt     Overall
+
+Error rate   0.16%     0.76%     0.39%     0.37%
+• Genotypes are expected to be even more
+  accurate aner integra:on of mul:ple variant
+  sources
+Accessible frac:on of genome
+                                         •   In the Pilot data, we found that
+                                             >80% of the human genome
+                                             reference was accessible for
+                                             SNP variant calling
+
+                                         •   We are currently re‐evalua:ng
+  >10%                                       this frac:on for the Phase 1
+non‐unique                                   data (which used longer reads)
+                    depth
+ mapping
+                   too high
+                                 No      •   We are developing methods to
+             M&D              coverage
+                                             es:mate the frac:on for other
+                                             variants (especially INDELs)
+
+
+
+
+                                                    Goncalo Abecasis
+          Variant call delivery
+
+                                Format: VCF
+
+
+
+
+np://np.1000genomes.ebi.ac.uk
+            Datasets & variant types
+                               GCGTGCTGAG
+                                                       SNP
+                               GCGTGATGAG
+
+                               GCGTGCCTGAG INDEL
+                               GCGTG--TGAG
+
+
+
+                                                            SV
+SNP array
+data
+
+
+                   Presenta:on on integra:on by Hyun Min Kang
+                          Data delivery
+
+
+
+
+Presenta:on on data access by Paul Flicek
+The 1000GP is a driver for method and
+         tool development
+• New data formats (SAM/BAM, VCF) developed
+  by the 1000GP are now adopted by the en:re
+  genomics community
+• Tools (read mappers e.g. BWA, MOSAIK, etc;
+  variant callers including those for SVs)
+• Data processing protocols (BQ recalibra:on,
+  duplicate read removal, etc.)
+• Imputa:on and haplotype phasing methods
+  Tools for analyzing & manipula:ng
+              1000G data
+                 Alignments: SAM/BAM
+
+
+• samtools: hwp://samtools.sourceforge.net/
+• BamTools: hwp://sourceforge.net/projects/bamtools/
+• GATK: hwp://www.broadins:tute.org/gsa/wiki/index.php/
+The_Genome_Analysis_Toolkit
+
+
+
+                                                         Variants: VCF
+• VCFTools: hwp://vcnools.sourceforge.net/
+• VcfCTools: hwps://github.com/AlistairNWard/vcfCTools
+ Project :meframe (approximate)
+• Phase 1
+   – Raw data, alignments available
+   – Integrated variant set available
+   – Phase 1 analysis paper by end of 2011
+• Phase 2
+   – Raw data mid‐December 2011
+   – Read mapping, variant calling early 2012
+• Phase 3
+   – Samples end March 2012
+   – Data Summer 2012
+   – Call sets end of 2012, Final paper 2013?
+• End of the project
+                                                Richard Durbin
+ Frac:on of variant sites present in
+ an individual that are NOT already
+       represented in dbSNP
+Date                 Frac7on not in dbSNP
+February, 2000       98%
+February, 2001       80%
+April, 2008          10%
+February, 2011       2%
+October 2011 (now)   <1%
+                                Ryan Poplin, David Altshuler
+

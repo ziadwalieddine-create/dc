@@ -1,0 +1,352 @@
+    The 1000 Genomes Project
+         Lessons From
+Variant Calling and Genotyping
+
+         October 13th, 2011
+           Hyun Min Kang
+  University of Michigan, Ann Arbor
+OVERVIEW OF PHASE 1 CALL SET
+1000 Genomes integrated genotypes
+
+ Low‐pass                       Low‐pass
+  Low‐pass                       Low‐pass
+   Low‐pass
+ Genomes                        Genomes
+                                  Low‐pass
+  Genomes
+    Low‐pass                     Genomes
+                                   Low‐pass
+       Deep
+   Genomes                        Genomes
+                                     Low‐pass
+    Genomes                        Genomes
+      Exomes                         Genomes
+
+
+
+     SNPs              INDELs                   SVs
+     38M                4.0M                    15k
+
+
+
+
+               Integrated Genotypes ~42M
+  Methods for integrated genotypes
+     Components              SNPs              INDELs             SVs
+
+                          BC, BCM, BI         BC, BI, DI     BI, EBI, EMBL
+              Call Sets
+Low‐Pass                  NCBI, SI, UM         OX, SI          UW, Yale
+Genomes
+             Consensus       VQSR               VQSR         GenomeSTRiP
+
+                          BC, BCM, BI
+              Call Sets                         N/A               N/A
+ Deep                     UM, WCMC
+Exomes
+             Consensus       SVM                N/A               N/A
+
+      Likelihood            BBMM                GATK         GenomeSTRiP
+
+      Site Models         Variants are linearly ordered as point mutaOons
+
+      Haplotyper          MaCH/Thunder with BEAGLE’s iniOal haplotypes
+                    From PILOT to PHASE1
+                                           PHASE1
+                                           • 36.8M SNPs
+                                           • Ts/Tv 2.17
+                                           • Includes
+                                               98.9% HapMap3
+
+
+
+
+PILOT
+• 14.8M SNPs
+• Ts/Tv 2.01
+• Includes
+    97.8% HapMap3
+
+
+
+                                       Autosomal chromosomes only
+                    From PILOT to PHASE1
+
+
+
+                                      PHASE1‐only
+                                      • 23.8M SNPs
+               PILOT ∧ PHASE1         • Ts/Tv 2.16
+               • 13.1M SNPs           • Includes
+               • Ts/Tv 2.18               1.2% of HapMap3
+               • Includes
+                   97.7% of HapMap3
+PILOT‐only
+• 1.7M SNPs
+• Ts/Tv 1.11
+• Includes
+    0.15% HapMap3
+                    From PILOT to PHASE1
+                                                       100k monomorphic
+                                                             SNPs in
+                                                        2.5M OMNI Array
+                                                       (>1,000 individuals)
+                                      PHASE1‐only
+                                      • 23.8M SNPs
+               PILOT     PHASE1       • Ts/Tv 2.16
+               • 13.1M SNPs           • Includes
+               • Ts/Tv 2.18               1.2% of HapMap3
+               • Includes
+                   97.7% of HapMap3
+PILOT‐only
+• 1.7M SNPs
+• Ts/Tv 1.11
+• Includes
+    0.15% HapMap3
+   From PILOT to PHASE1 : Improved SNP calls
+                                                             100k monomorphic
+                                                                   SNPs in
+                                                              2.5M OMNI Array
+                                                             (>1,000 individuals)
+                                        PHASE1‐only
+                                        • 23.8M SNPs
+               PILOT       PHASE1       • Ts/Tv 2.16
+               • 13.1M SNPs             • Includes
+               • Ts/Tv 2.18                 1.2% of HapMap3
+               • Includes                 0.3% of OMNI‐MONO
+                   97.7% of HapMap3
+PILOT‐only
+                    1.2% of OMNI‐MONO
+• 1.7M SNPs
+• Ts/Tv 1.11
+• Includes
+    0.15% HapMap3
+  59.6% of OMNI‐MONO
+                                                         OMNI‐MONO informa7on
+                                        was not used in making phase1 variant calls
+IMPROVEMENT IN METHODS
+SINCE PILOT
+            1000 Genomes’ engines
+    for improved variant calls and genotypes
+• INDEL realignment
+• Per Base Alignment Quality (BAQ) adjustment
+• Robust consensus SNP selecSon strategy
+   – Variant Quality Score RecalibraSon (VQSR)
+   – Support Vector Machine (SVM)
+• improved Genotype Likelihood CalculaSon
+   – BAM‐speciﬁc Binomial Mixture Model (BBMM)
+   – Leveraging oﬀ‐target exome reads
+ INDEL Realignment : How it works…
+• Given a list of potenSal indels …
+• Check if reads consistent with SNP or indel
+• Adjust alignment as needed
+• Greatly reduces false‐posiSve SNP calls
+
+
+
+  Ref:   AAGCGTCGG
+                                         AAGCGTCG
+                                                        Read pile consistent
+         AAGCGT
+                                         AAGCGT         with the reference
+         AAGCGTC          With one
+         AAGCGTCG       read, hard to
+                                         AAGCGTC        sequence
+                                         AAGCGTCG
+         AAGCGC             choose
+         AAGCGCG
+                                         AAGCG-C        Read pile consistent
+                           between       AAGCG-CG
+         AAGCG-CGG       alternaSves     AAGCG-CGG
+                                                        with a 1bp deleSon
+
+    Neighboring SNPs?                   Short Indel?   Eric Banks and Mark DePristo
+     Per Base Alignment Qualiees
+
+
+
+                           Short Read
+
+       GATAGCTAGCTAGCTG ATGA G C C G
+5’‐AGCTGATAGCTAGCTAGCTGATGAGCCCGATC‐3’
+
+                    Reference Genome
+
+
+                                   Heng Li
+     Per Base Alignment Qualiees
+
+Should we insert a gap?
+
+                             Short Read
+
+       GATAGCTAGCTAGCTGATGAGCC G‐
+5’‐AGCTGATAGCTAGCTAGCTGATGAGCCCGATC‐3’
+
+                      Reference Genome
+
+
+                                     Heng Li
+     Per Base Alignment Qualiees
+
+Compensate for Alignment Uncertainty
+With Lower Base Quality
+                            Short Read
+
+       GATAGCTAGCTAGCTGATGAGCCG
+5’‐AGCTGATAGCTAGCTAGCTGATGAGCCCGATC‐3’
+
+                     Reference Genome
+
+
+                                    Heng Li
+      Per Base Alignment Qualiees
+
+Compensate for Alignment Uncertainty
+With Lower Base Quality
+                                 Short Read
+
+       GATAGCTAGCTAGCTGATGAGCCG
+5’‐AGCTGATAGCTAGCTAGCTGATGAGCCCGATC‐3’
+
+                       Reference Genome
+Improves quality near new
+indels and sequencing arSfacts           Heng Li
+Producing high‐quality consensus call sets
+ Center      Total #   dbSNP%   Novel   Omni poly     Omni MONO
+            variants    (129)   Ts/Tv   sensievity   false discovery
+
+ Broad      36.6M       22.7    2.17      96.5%          5.45%
+
+ Sanger     34.8M       22.9    2.18      96.1%          4.94%
+
+ UMich      34.5M       24.4    2.16      98.0%          2.77%
+
+ Baylor     34.1M       21.8    2.13      93.8%          1.43%
+
+   BC       33.3M       23.9    2.10      94.9%          9.72%
+
+  NCBI      30.7M       25.7    2.33      94.6%         10.47%
+
+  VQSR
+            37.9M       21.7    2.16      98.4%          1.80%
+Consensus
+
+  2 of 6    39.1M       22.2    2.15      98.6%         11.23%
+
+                                                        Ryan Poplin
+    Consensus SNP site seleceon under
+     muledimensional feature space
+
+
+          Feature 3
+
+
+
+
+                                                        • Filter PASS
+                        Feature 1                       • Filter FAIL
+Goo Jun – Joint variant calling and … ‐ Plakorm 192, Friday 5:30 (Room 517A)
+                    Improved likelihood esemaeon
+                  produces more accurate genotypes
+             Likelihood     # SNPs           HET           NONREF
+                                                                           OVERALL
+               Model       Evaluated       (OMNI)          ‐EITHER
+                  MAQ           51,002         1.86%            2.03%           0.65%
+                  BBMM          51,002         1.49%            1.86%           0.60%
+                                                                Evalua7on in April 2011
+                                                       KEY IDEA in BBMM:
+HET‐discordance
+
+
+
+
+                                                       Re‐esemate the genotype
+ (MAQ model)
+
+
+
+
+                                                       likelihood by clustering the
+                                                       variants based on the read
+                                                       distribueon
+
+
+
+
+                                                       HET‐discordance
+                                                          (BBMM)
+                          Fuli Yu, James Lu – An integra7ve variant analysis… ‐ Poster 842W
+ Oﬀ‐target exome reads improves genotype quality
+                          #chr20     #OMNI       HET     NREF‐     OVER‐
+        Sites
+                         Variants   Overlaps   (OMNI)    EITHER     ALL
+
+ Low‐coverage SNPs
+    (May 2011)
+                         824,876      52,329     1.10%     1.41%     0.46%
+
+Integrated (Nov 2011)
+‐ LC+EX/ INDELs/ SVs ‐
+                         907,452      52,329     0.79%     1.07%     0.35%
+
+
+                                                   Integrated on‐target
+                                                   coding genotypes
+                                                   are also more accurate
+                                                   than low‐coverage‐only or
+                                                   exome‐only plaNorms
+    Genotype Qualiees in SVs and INDELs
+                                Call      Evaluaeon    # Sites     HET      NONREF
+SV genotypes       Sites                                                              OVERALL
+                                Rate         Data     Evaluated   (eval)    ‐EITHER
+
+   BEFORE                                  Conrad
+                  13,973       95.2% 2                  1962      0.61%     1.60%      0.20%
+ Integraeon                               (80% RO)
+
+    AFTER                                  Conrad
+                  13,973       100%                     1962      0.62%     0.93%      0.11%
+ integraeon                               (80% RO)
+
+                                           Conrad
+  IMPUTED         13,973       100%                     1962      4.17%     5.75%      0.74%
+                                          (80% RO)
+                                                                               Bob Handsaker
+
+  INDEL        Evaluaeon          #Sites                                     NREF‐     OVER‐
+                                          HOMREF          HET     HOMALT
+genotypes         Data          Evaluated                                    EITHER     ALL
+
+ 1000G             CGI                 1,029    0.65%     2.68%     1.24%     2.65%     1.35%
+
+                 Array
+ 1000G                                 1,029    2.21%     7.16%     3.77%     7.56%     3.97%
+               (Mills et al)
+MORE IN‐DEPTH VIEW OF
+PHASE 1 INTEGRATED GENOTYPES
+Sensievity at low‐frequency SNPs
+
+
+
+
+ 0.1%          0.5%                1.0%
+>96% SNPs are detected compared to deep genomes
+Genotype discordance by frequency
+   Genotype Discordance
+Impact of sequencing depth on genotype accuracy
+            (interim integrated panel, chr20)
+                   Highlights
+• The quality of phase 1 call set is much more
+  improved compared to pilot call set
+• 1000G engines for phase1 variant calls produced
+  high‐sensiSvity, high‐speciﬁcity variant calls
+• >99% of genotypes are concordant with array‐based
+  genotypes
+• Likelihood‐based integrated improves oﬀ‐target &
+  on‐target genotyping qualiSes
+Acknowledgements
+
+         The 1000 Genomes Project
+         1000 Genomes Analysis Group
+

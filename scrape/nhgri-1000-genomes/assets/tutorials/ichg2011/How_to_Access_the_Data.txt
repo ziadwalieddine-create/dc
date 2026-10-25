@@ -1,0 +1,384 @@
+Accessing the 1000 Genomes
+            Data
+
+            Paul Flicek
+  European BioinformaMcs InsMtute
+             Data access
+• General informaMon
+• File access
+• 1000 Genomes Browser
+• Tools
+• Where to ﬁnd help
+www.1000genomes.org
+www.1000genomes.org
+                                                                                         1000 Genomes Project Resources
+                                                                                          L. Clarke, H. Zheng-Bradley, R. Smith, E Kuleshea, I Toneva, B. Vaughan, P. Flicek and
+                                                                                          1000 Genomes Consortium
+                                                                                          European Bioinformatics Institute, Wellcome Trust Genome Campus, Cambridge, CB10 1SA, UK
+
+
+
+                          Introduction                                                                         Visualization                                                                         Accessibility
+The main goal of the 1000 genomes project is to establish a comprehensive and          http://browser.1000genomes.org                                                  http://browser.1000genomes.org/tools.html
+detailed catalogue of human genome variations; which in turn will empower              The 1000 Genomes project utilizes the Ensembl Browser to display our            The project provides several tools to help users access and interpret the data provided.
+association studies to identify disease-causing genes. The project now has data        variant calls. We provide rapid access to project variant calls through the     Variant Effect Predictor
+and variant genotypes for more than 1000 individuals in 14 populations. The ftp        browser before they become available via dbSNP and DGVa.                        The predictor takes a list of variant positions and alleles, and predicts the
+site contains more than 120Tbytes of data in 200,000 files.                                                                                                            effects of each of these on any overlapping features (transcripts, regulatory
+                                                                                       Tracks of 1000 genomes variants by population can be viewed in the location     features) annotated in Ensembl. An example output is shown below:
+                                                                                       page:
+ DATA TYPE FILE FORMAT                                       SIZE
+    sequence                  FASTQ             43 Tbases raw sequence
+    alignment                  BAM              56 Tbytes of BAM files
+     variants                  VCF              38.9M SNPs
+                                                ~4.7M short indels                                                                                                     Data Slicer
+                                                                                                                                                                       Many of the 1000 Genomes files are large and cumbersome to handle. The
+                                                                                                                                                                       Data Slicer allows users to get data for specific regions of the genome and to
+
+                       Discoverability                                                                                                                                 avoid having to download many gigabytes of data they don’t needl samples/
+                                                                                                                                                                       populations you choose. Below is the Data Slicer input interface:
+Sequence, alignment and variant data is made available as quickly as possible
+through the project ftp site. (ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/ |
+ftp://ftp-trace.ncbi.nih.gov/1000genomes/). With more than 200,000 files though
+discovering new data can be difficult.
+                                                                                        A list of variants can be obtained for any given transcript. In addition to
+The ftp site has a index updated nightly. This index is searchable from our website.    basic information about a variant, PolyPhen and SIFT annotation are
+http://www.1000genome.org/ftpsearch                                                     displayed to indicate the clinic significance of the variant.
+
+                                                                 The search allows                                                                                     Variation Pattern Finder
+                                                                 users to specify which                                                                                • The Variation Pattern Finder (VPF) allows one to look for patterns of
+                                                                 ftp site to get paths                                                                                   shared variation between individuals in the a VCF file.
+                                                                 to, to get md5                                                                                        • Within a vcf file different samples have different combination of variation
+                                                                 checksums and also                                                                                      genotypes. The VPF looks for distinct variation combinations within a user
+                                                                 filter out high volume
+                                                                                                                                                                         specifed region, shared by different individuals.
+                                                                 results like bam and Allele frequency for individual variants in different populations is displayed
+                                                                 fastq files            on the ‘Population Genetics’ page.                                             • The VPF only on variations that functional consequences for protein
+                                                                                                                                                                         coding genes such as non-synonymous coding SNPs and splice site
+                                                                                                                                                                         changes.
+
+
+
+
+ We also have various routes for users to discover new data.                           Users can Attach remote files as custom tracks. In example below, the
+                                                                                       HG00120 track is 1000 Genomes bam file added to the browser.
+ • Website http://www.1000genomes.org/announcements
+ • Twitter @1000genomes
+ • RSS http://www.1000genomes.org/announcements/rss.xml                                                                                                                 Acknowledgements
+ • Email 1000announce@1000genomes.org                                                                                                                                  We would like to thank the Ensembl variation team for all their help,
+                                                                                                                                                                       particularly Will McLaren and Graham Ritchie.
+                                                                                                                                                                       Funding: The Wellcome Trust
+
+                                                                                                               EMBL- EBI                                                                      T +44 (0) 1223 494 444
+        Laura Clarke                                                                                           Wellcome Trust Genome Campus                                                   F +44 (0) 1223 494 468
+        EBI                                                                                                    Hinxton                                                                        http://www.ebi.ac.uk
+        laura@ebi.ac.uk                                                                                        Cambridge
+                                                                                                               CB10 1SD
+                                                                                                               UK
+             Data access
+• General informaMon
+• File access
+• 1000 Genomes Browser
+• Tools
+• Where to ﬁnd help
+      >p://>p.1000genomes.ebi.ac.uk
+>p://>p‐trace.ncbi.nih.gov/1000genomes/>p
+
+
+
+
+                      Site documentaMon
+
+
+
+                      Sequences & alignments by sample ID
+
+
+
+
+                      Data sets to accompany the pilot data publicaMon.
+
+
+
+                      Current and archive data set releases
+
+
+                      Pre‐release data sets and project working materials
+BIOINFORMATICS APPLICATIONS NOTE
+                                                                                                                   Vol. 25 no. 16 2009, pages 2078–2079
+                                                                                                                        doi:10.1093/bioinformatics/btp352
+
+
+Sequence analysis
+
+                                     Data formats and key tools
+The Sequence Alignment/Map format and SAMtools
+Heng Li1,† , Bob Handsaker2,† , Alec Wysoker2 , Tim Fennell2 , Jue Ruan3 , Nils Homer4 ,
+Gabor Marth5 , Goncalo Abecasis6 , Richard Durbin1,∗ and 1000 Genome Project Data
+Processing Subgroup7
+1 Wellcome Trust Sanger Institute, Wellcome Trust Genome Campus, Cambridge, CB10 1SA, UK, 2 Broad Institute of
+MIT and Harvard, Cambridge, MA 02141, USA, 3 Beijing Institute of Genomics, Chinese Academy of Science, Beijing
+100029, China, 4 Department of Computer Science, University of California Los Angeles, Los Angeles, CA 90095,
+5 Department of Biology, Boston College, Chestnut Hill, MA 02467, 6 Center for Statistical Genetics, Department of
+Biostatistics, University of Michigan, Ann Arbor, MI 48109, USA and 7 http://1000genomes.org
+Received on April 28, 2009; revised on May 28, 2009; accepted on May 30, 2009
+Advance Access publication June 8, 2009
+                                                                                                                                                               BAM alignment ﬁles
+Associate Editor: Alfonso Valencia
+
+
+                                                                                  2 METHODS
+
+
+
+
+                                                                                                                                                                            Downloaded from bioinformatics.oxfordjournals.org at Genome Research Ltd on October 13, 2011
+ABSTRACT
+Summary: The Sequence Alignment/Map (SAM) format is a generic
+                                                                                  2.1 The SAM format
+alignment format for storing read alignments against reference
+                                                         2.1.1 Overview of the SAM format The SAM format consists of one
+sequences, supporting short and long reads (up to 128 Mbp)
+                                                         header section and one alignment section. The lines in the header section
+produced by different sequencing platforms. It is ﬂexible in style,
+                                                         start with character ‘@’, and lines in the alignment section do not. All lines
+compact in size, efﬁcient in random access and is the format in which
+                                                         are TAB delimited. An example is shown in Figure 1b.
+alignments from the 1000 Genomes Project are released. SAMtools
+                                                            In SAM, each alignment line has 11 mandatory ﬁelds and a variable
+implements various utilities for post-processing alignments in the
+                                                         number of optional ﬁelds. The mandatory ﬁelds are brieﬂy described in
+SAM format, such as indexing, variant caller and alignment viewer,
+                                                         Table 1. They must be present but their value can be a ‘*’ or a zero (depending
+
+                                                       BIOINFORMATICS APPLICATIONS NOTE
+and thus provides universal tools for processing read alignments.
+                                                         on the ﬁeld) if the corresponding information is unavailable. The optional                                       Vol. 27 no. 15 2011, pages 2156–2158
+Availability: http://samtools.sourceforge.net            ﬁelds are presented as key-value pairs in the format of TAG:TYPE:VALUE.                                               doi:10.1093/bioinformatics/btr330
+Contact: rd@sanger.ac.uk                                 They store extra information from the platform or aligner. For example, the
+                                                         ‘RG’ tag keeps the ‘read group’ information for each read. In combination
+                                        Sequence analysiswith the ‘@RG’ header lines, this tag allows each read to be labeled with                                    Advance Access publication June 7, 2011
+
+
+                                                                                                                                                                                                                                                                                                                                              VCF variant ﬁles
+1 INTRODUCTION                                           metadata about its origin, sequencing center and library. The SAM format
+                                                       The variant call format and VCFtools
+With the advent of novel sequencing technologies such as
+                                                         speciﬁcation gives a detailed description of each ﬁeld and the predeﬁned
+                                                         TAGs.
+Illumina/Solexa, AB/SOLiD and Roche/454 (Mardis,            2008), a 1,† , Adam Auton2,† , Goncalo Abecasis3 , Cornelis A. Albers1 , Eric Banks4 ,
+                                                  Petr Danecek
+variety of new alignment tools (Langmead et al., 2009; Li et al.,
+                                                  Mark     A.   DePristo        4 , Extended
+                                                                            2.1.2     RobertCIGAR   E. Handsaker
+                                                                                                            The standard CIGAR  4 , Gerton
+                                                                                                                                        descriptionLunter        2 , Gabor T. Marth5 ,
+                                                                                                                                                       of pairwise
+2008) have been designed to realize efﬁcient read mapping against                 6 , Gilean
+                                                                            alignment    deﬁnes three operations: 2,7                                       1,∗ and 1000 Genomes Project
+                                                                                                                     ‘M’ for match/mismatch, ‘I’ for insertion
+                                                  Stephen
+large reference sequences, including the human genome.           T. Sherry
+                                                          These tools                                McVean               ,  Richard           Durbin
+                                                                            compared with the reference and ‘D’ for deletion. The extended CIGAR
+generate alignments in different formats, however,Analysis       Group‡proposed in SAM added four more operations: ‘N’ for skipped bases on
+                                                        complicating
+                                                                                                                                                 BIOINFORMATICS APPLICATIONS NOTE
+                                                                                                                                                                                                                                                      Vol. 27 no. 5 2011, pages 718–719
+                                                                                                                                                                                                                                                      doi:10.1093/bioinformatics/btq671
+downstream processing. A common alignment format        that supports
+                                                  1 Wellcome                the reference, ‘S’ for soft clipping, ‘H’ for hard clipping and ‘P’ for padding.
+                                                                 Trust Sanger        Institute, Wellcome Trust Genome Campus, Cambridge CB10 1SA, 2 Wellcome Trust Centre
+all sequence types and aligners creates a well-deﬁned interface             These support splicing, clipping, multi-part and padded alignments.    3 CenterFigure 1
+                                                  for Human Genetics,shows     University
+                                                                                     examples  ofof Oxford,
+                                                                                                    CIGAR       Oxford
+                                                                                                             strings for   OX3 7BN,
+                                                                                                                         different   types  UK,
+                                                                                                                                           of  alignments.       for Statistical Genetics, Department of
+between alignment and downstream analyses, including variant
+detection, genotyping and assembly.
+                                                  Biostatistics, University of Michigan, Ann Arbor, MI 48109, 4 Program                             Sequence
+                                                                                                                                                          in Medical analysis
+                                                                                                                                                                          and Population Genetics, Broad                                     Advance Access publication January 5, 2011
+                                                  Institute  of MITtoand 2.1.3
+                                                                            Harvard,       Cambridge,         MA     02141,      5 Department of Biology, Boston College, MA 02467, 6 National
+   The Sequence Alignment/Map (SAM) format            is designed                    Binary   Alignment/Map       format    To improve     the performance, we
+                                                  Institutes
+achieve this goal. It supports single- and paired-end         of Health
+                                                           reads   and     National
+                                                                            designed a Center
+                                                                                          companion  forformat
+                                                                                                          Biotechnology          Information,
+                                                                                                                Binary Alignment/Map             Tabix: fast retrieval of sequence features from generic
+                                                                                                                                            (BAM),MD  which 20894,                    7
+                                                                                                                                                              is the USA and Department of Statistics,
+                                                  University
+combining reads of different types, including color space readsoffrom
+                                                                   Oxford,binary
+                                                                              Oxford      OX1 3TG,
+                                                                                      representation       UK and keeps exactly the same information as
+                                                                                                      of SAM
+AB/SOLiD. It is designed to scale to alignment sets  of 1011Editor:
+                                                  Associate                 SAM.
+                                                                    John Quackenbush
+                                                              or more               BAM    is compressed    by  the BGZF    library, a generic   TAB-delimited ﬁles
+                                                                                                                                                library developed
+                                                                            by us to achieve fast random access in a zlib-compatible compressed ﬁle.
+base pairs, which is typical for the deep resequencing of one human
+individual.
+                                                                            An example alignment of 112 Gbp of Illumina GA data requires            Heng116 GBLi  of
+                                                  ABSTRACT                  disk space (1.0 byte per input base), including sequences,Although              generic
+                                                                                                                                                base qualities  and feature format (GFF) has recently been extended
+   In this article, we present an overview of the SAM format and                                                                                    Program       toin Medical     Population Genetics, The Broad Institute of Harvard and MIT, Cambridge, MA 02142, USA
+
+
+
+
+                                                                                                                                                                                                                                                                           Downloaded from bioinformatics.oxfordjournals.org at Genome Rese
+                                                                            all the  meta  information    generated
+                                                  Summary: The variant call format (VCF) is a generic format for      by MAQ.     Most   of  this space  is used
+                                                                                                                                            to standardize storage         of variant information in genome variant
+brieﬂy introduce the companion SAMtools software package. A                 storedata
+                                                                                   the base                                                 format Associate      Editor:etDmitrij Frishman
+                                                  storing DNA polymorphism              suchqualities.
+                                                                                               as SNPs, insertions, deletions                        (GVF) (Reese           al., 2010),  this is not tailored for storing
+detailed format speciﬁcation and the complete documentation of                                                                              information across many samples. We have designed the VCF
+                 All indexed for fast retrieval
+                                                  and structural variants, together with rich annotations. VCF is usually
+SAMtools are available at the SAMtools web site.                            2.1.4 Sorting and indexing A SAM/BAM ﬁle can beformat            unsorted,tobutbesorting
+                                                                                                                                                               scalable so as to encompass millions of sites with
+                                                         stored in a compressed manner and can be indexed for fast data
+                                                                                     by coordinate  is used  to streamline                           ABSTRACT                                                                                                              2 METHODS
+∗ To whom correspondence should be addressed.            retrieval of variants from      a range of     positions   on the data processing and
+                                                                                                                            reference            to avoid
+                                                                                                                                             genotype      loading
+                                                                                                                                                        data  and annotations from thousands of samples. We have
+                                                                                                                                              ﬁle canSummary:
+                                                                                     extra alignments into memory. A position-sorted BAMadopted        be          Tabix is the ﬁrst generic tool that indexes position sorted
+                                                                                                                                                          indexed.encoding,
+                                                                                                                                                       a textual              with complementary indexing, to allow                                                        Tabix indexing is a generalization of BAM indexing for generic TAB-
+† The authors wish it to be known that, in their opinion,genome.    The format was developed for the 1000 Genomes Project,
+                                                          the ﬁrst two authors       We combine the UCSC binning scheme (Kent et al., 2002)ﬁles        andinsimple
+                                                                                                                                                              TAB-delimited formats such as GFF, BED, PSL, SAM and                                                         delimited ﬁles. It inherits all the advantages of BAM indexing, including
+should be regarded as Joint First Authors.               and has also been adopted by other projects such as UK10K,                          easy generation of the ﬁles while maintaining fast data access.
+                                                                                     linear indexing to achieve fast random retrieval of alignments overlapping
+                                                                                                                                                     SQL export, a and quickly retrieves features overlapping speciﬁed                                                     data compression and efﬁcient random access in terms of few seek function
+                                                         dbSNP and the NHLBI Exome Project. VCFtools is a software suite                     In this article, we present an overview of the VCF and brieﬂy                                                                 calls per query.
+                                                                                                                                                     regions. Tabix features include few seek function calls per query, data
+                                                         that implements various utilities for processing VCF ﬁles, including                introduce the companion VCFtools software package. A detailed
+                                                                                                                                                     compression with gzip compatibility and direct FTP/HTTP access.
+                                                         validation, merging, comparing and also provides a general Perl API.                format speciﬁcation and the complete documentation of VCFtools
+© 2009 The Author(s)                                                                                                                                 Tabix is implemented as a free command-line tool as well as a library                                                 2.1 Sorting and BGZF compression
+                                                         Availability:
+This is an Open Access article distributed under the terms              http://vcftools.sourceforge.net
+                                                            of the Creative                                                                  are available at the VCFtools web site.
+                                                                            Commons Attribution Non-Commercial License (http://creativecommons.org/licenses/
+                                                                                                                                                     in C, Java, Perl and Python. It is particularly useful for manually
+by-nc/2.0/uk/) which permits unrestricted non-commercial Contact:    rd@sanger.ac.uk
+                                                            use, distribution, and reproduction in any medium, provided the original work is properly cited.                                                                                                               Before being indexed, the data ﬁle needs to be sorted ﬁrst by sequence name
+                                                                                                                                                     examining local genomic features on the command line and enables                                                      and then by leftmost coordinate, which can be done with the standard Unix
+                                                                                                                                             2 METHODS
+                                                                                                                                                     genome viewers to support huge data ﬁles and remote custom tracks
+                                                         Received on October 28, 2010; revised on May 4, 2011; accepted                                                                                                                                                    sort. The sorted ﬁle should then be compressed with the bgzip program
+1000 Genomes is in the Amazon cloud
+
+
+1KG pilot content (BAM) is available at
+s3://1000genomes.s3.amazonaws.com
+
+You can see the XML at
+hOp://1000genomes.s3.amazonaws.com
+             Data access
+• General informaMon
+• File access
+• 1000 Genomes Browser
+• Tools
+• Where to ﬁnd help
+hOp://browser.1000genomes.org
+• Gene variaMon zoom
+• PopulaMon
+• SIFT
+• PolyPhen
+            File upload to view with 1000
+                    Genomes data
+
+
+
+
+  • Supports popular ﬁle types:
+      – BAM, BED, bedGraph, BigWig, GBrowse, Generic,
+        GFF, GTF, PSL, VCF*, WIG
+
+
+* VCF must be indexed
+                                Uploaded VCF
+Example:
+
+Comparison of August calls and
+/technical/working/20110502_vqsr_phase1_wgs_snps/ALL.wgs.phase1.projectConsensus.snps.sites.vcf.gz
+       1000 Genomes Browser
+• For further informaMon on the capabiliMes of
+  the browser and its use, aOend the Ensembl
+  “New Users” Workshop on Saturday at 12:30
+hOp://pilotbrowser.1000genomes.org
+             Data access
+• General informaMon
+• File access
+• 1000 Genomes Browser
+• Tools
+• Where to ﬁnd help
+hOp://browser.1000genomes.org
+Tools page
+  Ensembl Variant Eﬀector Predictor
+               (VEP)
+• Takes list of variaMon and annotates with
+  respect to Ensembl features
+• Returns whether the SNP has been seen in the
+  1000 Genomes and if it has an rs number (if
+  one has been assigned)
+• Returns SIFT, PolyPhen and Condel scores
+• Extensive ﬁltering opMons by MAF and
+  populaMons
+• Web and command line versions
+Data slicer for subsets of the data
+hOp://trace.ncbi.nlm.nih.gov/Traces/1kg_slicer/
+
+
+
+
+                                           Sliced BAM
+                                              to ﬁles
+      VariaMon PaOern Finder
+• hOp://browser.1000genomes.org/
+  Homo_sapiens/UserData/VariaMonsMapVCF
+• VCF input
+• Discovers paOerns of Shared Inheritance
+• Variants with funcMonal consequences
+  considered
+• Web output with csv and excel downloads
+Access to backend Ensembl databases
+• Public MySQL database at
+  – mysql‐db.1000genomes.org port 4272
+
+
+• Full programmaMc access with Ensembl API
+  – More informaMon on the use of the Ensembl API
+    at the Ensembl “Advanced Users” Workshop
+    tomorrow
+             Data access
+• General informaMon
+• File access
+• 1000 Genomes Browser
+• Tools
+• Where to ﬁnd help
+            Credits & Contact
+• Eugene Kulesha, Iliana Toneva, Bren Vaughan
+• Will McLaren, Graham Ritchie, Fiona Cunningham
+• Laura Clarke, Holly Zheng-Bradley, Rick Smith
+
+• Steve Sherry, Chunlin Xiao
+
+
+
+For more information contact info@1000genomes.org
+

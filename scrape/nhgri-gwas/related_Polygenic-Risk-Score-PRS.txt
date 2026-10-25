@@ -1,0 +1,30 @@
+Polygenic Risk Score (PRS)
+
+ updated: October 24, 2026
+
+ Definition
+
+ A polygenic risk score (abbreviated PRS) uses genomic information alone to assess a person’s chances of having or developing a particular medical condition. A person’s PRS is a statistical calculation based on the presence or absence of multiple genomic variants, without taking environmental or other factors into account.
+
+ Narration
+
+ Polygenic risk score. We know the differences in how the spelling of a person's DNA or genomic variants interact with many other factors such as their health habits, the drugs they're taking, and the diseases they may develop. So polygenic risk scores, or PRS, are only one factor in predicting disease. Still, just because of the play of chance, there are some people who happen to have a large number of harmful variants that can put them at the top 1% or even the top 1/1,000 or 1/10,000 of risk. Such individuals may do better if they are tested more frequently for early signs of disease as with mammograms, for example, or if they adopt lifestyle changes early on to help prevent the disease entirely. As scientists learn more about using PRS, we may see such scores coming into wider use.
+
+ Teri Manolio, M.D., Ph.D.
+ Director
+
+ Division of Genomic Medicine
+
+ Search
+
+ Back to Glossary 
+
+ Related
+
+ Deoxyribonucleic Acid (DNA)
+
+ Risk
+
+ Genomic Medicine
+
+ Precision Medicine

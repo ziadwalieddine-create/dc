@@ -1,0 +1,3 @@
+# downloaded MaveDB score/count tables (regenerate with download_scores.py)
+scores/
+__pycache__/

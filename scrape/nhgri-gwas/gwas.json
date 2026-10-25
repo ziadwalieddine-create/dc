@@ -1,0 +1,158 @@
+{
+  "source": "https://www.genome.gov/genetics-glossary/Genome-Wide-Association-Studies",
+  "title": "Genome-Wide Association Studies (GWAS)",
+  "publisher": "NHGRI Talking Glossary of Genomic and Genetic Terms",
+  "updated": "2026-10-24",
+  "definition": "A genome-wide association study (abbreviated GWAS) is a research approach used to identify genomic variants that are statistically associated with a risk for a disease or a particular trait. The method involves surveying the genomes of many people, looking for genomic variants that occur more frequently in those with a specific disease or trait compared to those without the disease or trait. Once such genomic variants are identified, they are typically used to search for nearby variants that contribute directly to the disease or trait.",
+  "narration": "Genome-Wide Association Study, GWAS. The goal of genome-wide association studies, or GWAS as we call them, is to screen the entire genome of large numbers of individuals to look for associations between millions of genetic variants within those individuals and their disease outcomes or sometimes for associations between the variants and non-disease trait such as height. The first GWAS was published in 2005 and after that, the study approach just took off exponentially. Over time, GWAS have grown significantly both in terms of sample size going from initial sample sizes of several thousand individuals to current sample sizes of tens and hundreds of thousands of individuals and in terms of the number of disease [inaudible] studied as well as the associated variants that have been discovered. Results from GWAS have been curated in the NHGRI-EBI GWAS catalog. The methods and results of GWAS have informed other applications in applied epidemiologic research such as gene environment studies, Mendelian randomization studies, and polygenic risk score approaches. As I noted, GWAS focus on statistical associations. They inform us of correlation not causation. A major challenge posed by GWAS is the exploration of the functional consequences of identified variants which will provide insights into the biology of disease.",
+  "narrator": {
+    "name": "Carolyn M. Hutter, Ph.D.",
+    "role": "Acting Director, Division of Genome Sciences"
+  },
+  "related": [
+    {
+      "term": "Risk",
+      "url": "https://www.genome.gov/genetics-glossary/Risk",
+      "file": "related_Risk.html",
+      "definition": "Risk, as related to genetics, refers to the probability that an individual will be affected by a particular heritable or genetic disorder. Both a person’s genome and environmental exposures can influence risk. An individual’s risk may be higher because they inherit a genetic variant (or allele) in one gene or a combination of many variants in different genes that increases susceptibility to or overtly causes a disorder. Other individuals may be at higher risk because they have been exposed to one or more environmental factors that promote the development of a certain disorder.",
+      "narration": "Risk. In genetics, risk information can be very helpful for making medical decisions. If I know that I am at higher risk for some future health problem, maybe I can change my diet or avoid certain activities or environmental exposures so that I can reduce my chances of having that problem. But risk can also be a very difficult idea for us to wrap our heads around. People like yes or no answers, and sometimes risk information is just not that clear-cut. It can often be very helpful for people to talk with genetics professionals to get a better understanding of what a statistical genetic risk means for them personally.",
+      "narrator": {
+        "name": "Sara Chandros Hull, Ph.D.",
+        "role": "Co-Deputy Director"
+      },
+      "related_terms": [
+        "Polygenic Risk Score (PRS)",
+        "Gene Environment Interaction",
+        "Inherited",
+        "Susceptibility"
+      ],
+      "assets": [
+        "Risk_definition_Hull_Sara.mp3",
+        "Risk_transcription_Hull_Sara.mp3",
+        "Chromosome spread_dyn.jpg",
+        "DNA_dyn.png",
+        "Generic-DNA-bases_hero.png",
+        "Generic-PRS_dyn.jpg",
+        "Hull_Sara2.jpg",
+        "Inherited_dyn.jpg"
+      ],
+      "text_file": "related_Risk.txt"
+    },
+    {
+      "term": "Genomic Variation",
+      "url": "https://www.genome.gov/genetics-glossary/Genomic-Variation",
+      "file": "related_Genomic-Variation.html",
+      "definition": "Genomic variation refers to DNA sequence differences among individuals or populations. Some variants influence biological function (such as a mutation that causes a genetic disease), while others have no biological effects.",
+      "narration": "Genomic Variation. By understanding genomic variation in families, in populations, we can know how our genetic makeup varies between us individuals. It may help us to understand why even within families people have different blood groups and eye colors. Genomic variation may also be the reason why some populations or persons within a certain population may have higher risk of certain diseases compared to others.",
+      "narrator": {
+        "name": "Charles Rotimi, Ph.D.",
+        "role": "Scientific Director"
+      },
+      "related_terms": [
+        "Single Nucleotide Polymorphisms (SNPs)",
+        "Gene Pool",
+        "Genetic Drift",
+        "Genome"
+      ],
+      "assets": [
+        "Genomic_Variation_definition_Rotimi_REVISED.mp3",
+        "Genomic_Variation_transcription_Rotimi_REVISED.mp3",
+        "Rotimi_Charles_bio.jpg",
+        "Chromosome spread_dyn.jpg",
+        "Generic-Bases_hero.jpg",
+        "bases_dyn.jpg",
+        "Genome_dyn.jpg",
+        "SNP_dyn.jpg"
+      ],
+      "text_file": "related_Genomic-Variation.txt"
+    },
+    {
+      "term": "Genome",
+      "url": "https://www.genome.gov/genetics-glossary/Genome",
+      "file": "related_Genome.html",
+      "definition": "The genome is the entire set of DNA instructions found in a cell. In humans, the genome consists of 23 pairs of chromosomes located in the cell’s nucleus, as well as a small chromosome in the cell’s mitochondria. A genome contains all the information needed for an individual to develop and function.",
+      "narration": "DNA is the information molecule for all living organisms. All of the DNA of an organism is called its genome. Some genomes are incredibly small, such as those found in viruses and bacteria, whereas other genomes can be almost unexplainably large, such as found in some plants. It is still quite puzzling why there does not appear to be a consistent correlation between biological complexity and genome size. For example, the human genome contains about 3 billion nucleotides. While 3 billion is a big number, the rare Japanese flower called Paris japonica has a genome size of roughly 150 billion nucleotides, making it 50 times the size of the human genome. To date, humans are the only life form that has successfully sequenced its own genome, yet there are many life forms on earth that have genomes substantially larger from the human genome. Go figure!",
+      "narrator": {
+        "name": "Eric Green, M.D., Ph.D.",
+        "role": "Special Volunteer"
+      },
+      "related_terms": [
+        "Genetics",
+        "Deoxyribonucleic Acid (DNA)",
+        "Mitochondrial DNA",
+        "Human Genome Project"
+      ],
+      "assets": [
+        "Genome_definition_Green_Eric.mp3",
+        "Genome_transcription_Green_Eric_0.mp3",
+        "DNA_dyn.png",
+        "bases_dyn.jpg",
+        "Genome_hero.png",
+        "green_eric.jpg",
+        "Genome.jpg",
+        "Mitochondrial-DNA_dyn.jpg"
+      ],
+      "text_file": "related_Genome.txt"
+    },
+    {
+      "term": "Polygenic Risk Score (PRS)",
+      "url": "https://www.genome.gov/genetics-glossary/Polygenic-Risk-Score-PRS",
+      "file": "related_Polygenic-Risk-Score-PRS.html",
+      "definition": "A polygenic risk score (abbreviated PRS) uses genomic information alone to assess a person’s chances of having or developing a particular medical condition. A person’s PRS is a statistical calculation based on the presence or absence of multiple genomic variants, without taking environmental or other factors into account.",
+      "narration": "Polygenic risk score. We know the differences in how the spelling of a person's DNA or genomic variants interact with many other factors such as their health habits, the drugs they're taking, and the diseases they may develop. So polygenic risk scores, or PRS, are only one factor in predicting disease. Still, just because of the play of chance, there are some people who happen to have a large number of harmful variants that can put them at the top 1% or even the top 1/1,000 or 1/10,000 of risk. Such individuals may do better if they are tested more frequently for early signs of disease as with mammograms, for example, or if they adopt lifestyle changes early on to help prevent the disease entirely. As scientists learn more about using PRS, we may see such scores coming into wider use.",
+      "narrator": {
+        "name": "Teri Manolio, M.D., Ph.D.",
+        "role": "Director"
+      },
+      "related_terms": [
+        "Deoxyribonucleic Acid (DNA)",
+        "Risk",
+        "Genomic Medicine",
+        "Precision Medicine"
+      ],
+      "assets": [
+        "Polygenic_Risk_Score_definition_Manolio_Teri.mp3",
+        "Polygenic_Risk_Score_transcription_Manolio_Teri.mp3",
+        "manolio_teri.jpg",
+        "DNA_dyn.png",
+        "Generic-Bases_dyn.jpg",
+        "Generic-DNA-bases_dyn.jpg",
+        "Generic-PRS_hero.png"
+      ],
+      "text_file": "related_Polygenic-Risk-Score-PRS.txt"
+    }
+  ],
+  "assets": [
+    "Chromosome spread_dyn.jpg",
+    "DNA_dyn.png",
+    "GWAS_Interaction_definition_Hutter_Carolyn.mp3",
+    "GWAS_Interaction_transcription_Hutter_Carolyn.mp3",
+    "Generic-Bases_dyn.jpg",
+    "Generic-Bases_hero.jpg",
+    "Generic-DNA-bases_dyn.jpg",
+    "Generic-DNA-bases_hero.png",
+    "Generic-PRS_dyn.jpg",
+    "Generic-PRS_hero.png",
+    "Genome.jpg",
+    "Genome_definition_Green_Eric.mp3",
+    "Genome_dyn.jpg",
+    "Genome_hero.png",
+    "Genome_transcription_Green_Eric_0.mp3",
+    "Genomic_Variation_definition_Rotimi_REVISED.mp3",
+    "Genomic_Variation_transcription_Rotimi_REVISED.mp3",
+    "Hull_Sara2.jpg",
+    "Hutter.png",
+    "Inherited_dyn.jpg",
+    "Mitochondrial-DNA_dyn.jpg",
+    "Polygenic_Risk_Score_definition_Manolio_Teri.mp3",
+    "Polygenic_Risk_Score_transcription_Manolio_Teri.mp3",
+    "Risk_definition_Hull_Sara.mp3",
+    "Risk_transcription_Hull_Sara.mp3",
+    "Rotimi_Charles_bio.jpg",
+    "SNP_dyn.jpg",
+    "bases_dyn.jpg",
+    "bases_hero.jpg",
+    "green_eric.jpg",
+    "manolio_teri.jpg"
+  ]
+}

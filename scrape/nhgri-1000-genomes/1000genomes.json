@@ -1,0 +1,216 @@
+{
+  "source": "https://www.genome.gov/27528684/1000-genomes-project",
+  "title": "1000 Genomes Project",
+  "publisher": "NHGRI (genome.gov)",
+  "status": "Archived page: \"provided for historical reference purposes only\", content and links no longer maintained",
+  "last_updated": "2017-10-04",
+  "fetched": "2026-10-25",
+  "program_rationale": "The 1000 Genomes Project is a collaboration among research groups in the US, UK, and China and Germany to produce an extensive catalog of human genetic variation that will support future medical research studies. It will extend the data from the International HapMap Project, which created a resource that has been used to find more than 100 regions of the genome that are associated with common human diseases such as coronary artery disease and diabetes. The goal of the 1000 Genomes Project is to provide a resource of almost all variants, including SNPs and structural variants, and their haplotype contexts. This resource will allow genome-wide association studies to focus on almost all variants that exist in regions found to be associated with disease. The genomes of over 1000 unidentified individuals from around the world will be sequenced using next generation sequencing technologies. The results of the study will be publicly accessible to researchers worldwide.",
+  "active_sequencing_projects": {
+    "heading": "Pilot Projects",
+    "text": "Three pilot studies are in progress that will guide study design and methods to accomplish the scientific goals of the full-scale project. One pilot will provide deep sequencing in two mother-father-adult child trios, to understand how sequencing coverage relates to data quality, and to provide a \"gold-standard\" for the sequence. Another pilot will provide light sequencing of 180 samples, to examine how well data can be combined across samples. The third pilot study will evaluate detailed cataloging of protein-coding regions of the genome by sequencing 1000 gene regions in 1000 samples."
+  },
+  "program_contacts": [
+    {
+      "name": "Lisa Brooks, Ph.D.",
+      "role": "Program Director",
+      "email": "lisa.brooks@mail.nih.gov",
+      "profile_url": "https://www.genome.gov/staff/Lisa-Brooks-PhD",
+      "profile_scraped": false,
+      "profile_note": "HTTP 403 \"Access denied\" from genome.gov; not retrieved"
+    },
+    {
+      "name": "Adam Felsenfeld, Ph.D.",
+      "role": "Program Director",
+      "email": "felsenfa@mail.nih.gov",
+      "profile_url": "https://www.genome.gov/staff/Adam-Felsenfeld-PhD",
+      "profile_scraped": true,
+      "profile_files": [
+        "linked_adam-felsenfeld-phd.html",
+        "linked_adam-felsenfeld-phd.txt"
+      ]
+    }
+  ],
+  "tutorials": {
+    "ashg_2010": {
+      "title": "American Society of Human Genetics (ASHG) 2010: 1000 Genomes Project Tutorial Videos",
+      "url": "https://www.genome.gov/27542240/ashg-2010-1000-genomes-project-tutorial-videos",
+      "page_last_updated": "2013-02-02",
+      "talks": [
+        {
+          "topic": "Introduction",
+          "speaker": "Gil McVean, Ph.D.",
+          "affiliation": [
+            "Professor of Statistical Genetics",
+            "Oxford University, UK"
+          ],
+          "video": "http://www.youtube.com/watch?v=r3MyWWdWNSI",
+          "slides_file": "assets/tutorials/ashg2010/Introduction-GilMcVean.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/1000GenomesProjectTutorials/Introduction-GilMcVean.pdf",
+          "text_file": "assets/tutorials/ashg2010/Introduction-GilMcVean.txt"
+        },
+        {
+          "topic": "Description of the 1000 Genomes Data",
+          "speaker": "Gabor Marth, D.Sc.",
+          "affiliation": [
+            "Associate Professor of Biology",
+            "Boston College, Boston, MA, USA"
+          ],
+          "video": "http://www.youtube.com/watch?v=hKb2uh19kmI",
+          "slides_file": "assets/tutorials/ashg2010/DataDescription-GaborMarth.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/1000GenomesProjectTutorials/DataDescription-GaborMarth.pdf",
+          "text_file": "assets/tutorials/ashg2010/DataDescription-GaborMarth.txt"
+        },
+        {
+          "topic": "How to Access the Data",
+          "speaker": "Steve Sherry, Ph.D.",
+          "affiliation": [
+            "Reference Collections Section Chief",
+            "National Center for Biotechnology Information",
+            "National Library of Medicine",
+            "National Institutes of Health. Bethesda, MD, USA"
+          ],
+          "video": "http://www.youtube.com/watch?v=l-65pQoSxsk",
+          "slides_file": "assets/tutorials/ashg2010/DataAccess-SteveSherry.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/1000GenomesProjectTutorials/DataAccess-SteveSherry.pdf",
+          "text_file": "assets/tutorials/ashg2010/DataAccess-SteveSherry.txt"
+        },
+        {
+          "topic": "How to Use the Browser",
+          "speaker": "Paul Flicek, D. Sc.",
+          "affiliation": [
+            "European Molecular Biology Laboratory",
+            "Leader, Vertebrate Genomics Team",
+            "European Bioinformatics Institute (EMBL-EBI), UK"
+          ],
+          "video": "http://www.youtube.com/watch?v=QqGKg23AiPo",
+          "slides_file": "assets/tutorials/ashg2010/BrowserUse-PaulFlicek.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/1000GenomesProjectTutorials/BrowserUse-PaulFlicek.pdf",
+          "text_file": "assets/tutorials/ashg2010/BrowserUse-PaulFlicek.txt"
+        },
+        {
+          "topic": "Stuctural Variants",
+          "speaker": "Jan Korbel, Ph.D.",
+          "affiliation": [
+            "Group Leader, Genome Biology Research Unit",
+            "Joint Appointment with EMBL-EBI",
+            "European Molecular Biology Laboratory, Germany"
+          ],
+          "video": "http://www.youtube.com/watch?v=GN8SDddBtSs",
+          "slides_file": "assets/tutorials/ashg2010/StructuralVariants-JanKorbel.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/1000GenomesProjectTutorials/StructuralVariants-JanKorbel.pdf",
+          "text_file": "assets/tutorials/ashg2010/StructuralVariants-JanKorbel.txt"
+        },
+        {
+          "topic": "How to Use the Data in Disease Studies",
+          "speaker": "Jeffrey Barrett, Ph.D.",
+          "affiliation": [
+            "Group Leader, Statistical and Computational Genetics",
+            "Wellcome Trust Sanger Institute",
+            "Hinxton, UK"
+          ],
+          "video": "http://www.youtube.com/watch?v=EvwjMsYWft8",
+          "slides_file": "assets/tutorials/ashg2010/DataInDisease-JeffBarrett.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/1000GenomesProjectTutorials/DataInDisease-JeffBarrett.pdf",
+          "text_file": "assets/tutorials/ashg2010/DataInDisease-JeffBarrett.txt"
+        }
+      ],
+      "playlist": "http://www.youtube.com/playlist?list=PLF61543E11FF78240"
+    },
+    "ichg_2011": {
+      "title": "International Congress of Human Genetics (ICHG) 2011: 1000 Genomes Project Tutorial Videos",
+      "url": "https://www.genome.gov/27545968/ichg-2011-1000-genomes-project-tutorial",
+      "page_last_updated": "2012-05-14",
+      "talks": [
+        {
+          "topic": "The 1000 Genomes Project Datasets",
+          "speaker": "Gabor T. Marth, D.Sc.",
+          "affiliation": [
+            "Associate Professor",
+            "Boston College"
+          ],
+          "video": null,
+          "slides_file": "assets/tutorials/ichg2011/Genomes_Data_Set.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/ICHG-1000GenomesTutorial/Genomes_Data_Set.pdf",
+          "text_file": "assets/tutorials/ichg2011/Genomes_Data_Set.txt"
+        },
+        {
+          "topic": "Accessing the 1000 Genomes Data",
+          "speaker": "Paul Flicek, D.Sc.",
+          "affiliation": [
+            "European Bioinformatics Institute"
+          ],
+          "video": null,
+          "slides_file": "assets/tutorials/ichg2011/How_to_Access_the_Data.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/ICHG-1000GenomesTutorial/How_to_Access_the_Data.pdf",
+          "text_file": "assets/tutorials/ichg2011/How_to_Access_the_Data.txt"
+        },
+        {
+          "topic": "Lessons in variant calling and genotyping",
+          "speaker": "Hyun Min Kang, Ph.D.",
+          "affiliation": [
+            "Assistant Professor, School of Public Health",
+            "University of Michigan, Ann Arbor"
+          ],
+          "video": null,
+          "slides_file": "assets/tutorials/ichg2011/Lessons_in_Variant_Calling.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/ICHG-1000GenomesTutorial/Lessons_in_Variant_Calling.pdf",
+          "text_file": "assets/tutorials/ichg2011/Lessons_in_Variant_Calling.txt"
+        },
+        {
+          "topic": "Structural Variants",
+          "speaker": "Ryan Mills, Ph.D.",
+          "affiliation": [
+            "Brigham and Women's Hospital",
+            "Harvard Medical School, Boston"
+          ],
+          "video": null,
+          "slides_file": "assets/tutorials/ichg2011/Structural_Variation.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/ICHG-1000GenomesTutorial/Structural_Variation.pdf",
+          "note": "Page links to .../ICGH-1000GenomesTutorial/... which returns 404; the ICHG spelling of the directory works.",
+          "text_file": "assets/tutorials/ichg2011/Structural_Variation.txt"
+        },
+        {
+          "topic": "Imputation in GWAS Studies",
+          "speaker": "Bryan Howie, Ph.D.",
+          "affiliation": [
+            "Department of Human Genetics",
+            "University of Chicago"
+          ],
+          "video": null,
+          "slides_file": "assets/tutorials/ichg2011/Imputation_in_GWAS_Studies.pdf",
+          "slides_url": "https://www.genome.gov/sites/default/files/genome-old/pages/Research/DER/ICHG-1000GenomesTutorial/Imputation_in_GWAS_Studies.pdf",
+          "text_file": "assets/tutorials/ichg2011/Imputation_in_GWAS_Studies.txt"
+        }
+      ],
+      "note": "The page's \"Watch\" links are commented out in the HTML (and reuse ASHG video IDs that do not match these speakers), so no videos are recorded for ICHG."
+    }
+  },
+  "external_links": [
+    {
+      "label": "Video about the 1000 Genomes Project (hero image link)",
+      "url": "http://www.youtube.com/watch?v=ob581Nsvynw"
+    },
+    {
+      "label": "International HapMap Project",
+      "url": "http://hapmap.ncbi.nlm.nih.gov/"
+    },
+    {
+      "label": "1000 Genomes Consortium",
+      "url": "http://www.1000genomes.org"
+    }
+  ],
+  "files": {
+    "raw_html": "page.html",
+    "text": "content.txt",
+    "hero_image": "assets/hh_1000gen.jpg"
+  },
+  "hidden_commented_out_content": {
+    "upcoming_meeting": {
+      "title": "1000 Genomes Community Analysis Meeting, July 12-13, 2012",
+      "text": "The 1000 Genomes Project Community Analysis Meeting is meant to highlight discoveries from the project and other large-scale sequencing efforts in humans, discuss data generation, analysis tools and methods, and debate directions for future research. The meeting will cover both the application of the 1000 Genomes resource and sequencing in general to learn about human disease and human population history. Investigators directly involved in the 1000 Genomes Project, in genetic studies of human diseases and populations, and in the development of related technologies, statistical methods and tools, are all invited. Register by May 15th at the meeting website: 1000 Genomes Community Analysis Meeting - July 12 - 13, 2012",
+      "url": "http://1000gconference.sph.umich.edu",
+      "note": "Inside an HTML comment in the page source, so it is not displayed on the live page; kept for completeness. The meeting date is long past."
+    }
+  }
+}
