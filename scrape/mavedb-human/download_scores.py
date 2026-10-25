@@ -39,6 +39,16 @@ print('jobs', len(jobs), 'already done', len(done), 'todo', len(todo), flush=Tru
 os.makedirs(OUT, exist_ok=True)
 
 
+CHUNK = 50000
+CHUNK_ABOVE = 100000
+
+
+def get_bytes(suffix):
+    req = urllib.request.Request(API + suffix, headers={'Accept': 'text/csv'})
+    with urllib.request.urlopen(req, timeout=300) as resp:
+        return resp.read()
+
+
 def fetch(job, tries=6):
     urn, kind, expected = job
     name = f"{urn.replace(':', '_')}.{kind}.csv.gz"
@@ -49,13 +59,20 @@ def fetch(job, tries=6):
         if attempt:
             time.sleep(5 * 2 ** attempt)
         try:
-            req = urllib.request.Request(API + f'{urn}/{kind}', headers={'Accept': 'text/csv'})
-            with urllib.request.urlopen(req, timeout=300) as resp, gzip.GzipFile(path + '.part', 'wb', mtime=0) as gz:
-                while True:
-                    chunk = resp.read(1 << 20)
-                    if not chunk:
-                        break
-                    gz.write(chunk)
+            with gzip.GzipFile(path + '.part', 'wb', mtime=0) as gz:
+                if expected > CHUNK_ABOVE:
+                    # whole-table requests for very large sets hit gateway timeouts; page with start/limit
+                    start = 0
+                    while True:
+                        data = get_bytes(f'{urn}/{kind}?start={start}&limit={CHUNK}')
+                        if start:  # drop the repeated header on later pages
+                            data = data.split(b'\n', 1)[1] if b'\n' in data else b''
+                        gz.write(data)
+                        start += CHUNK
+                        if start >= expected:
+                            break
+                else:
+                    gz.write(get_bytes(f'{urn}/{kind}'))
             with gzip.open(path + '.part', 'rt', newline='') as fh:
                 rd = csv.reader(fh)
                 header = next(rd)
