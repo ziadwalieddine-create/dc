@@ -1098,5 +1098,150 @@
    "population_frequency"
   ],
   "scope_note": "Only the genomic positions of MaveDB-mapped SNVs (about 146k positions in about 1.5k regions); not a genome-wide frequency table"
+ },
+ {
+  "id": "ensembl_grch38_reference_regional",
+  "source": "ensembl_genomes",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz",
+  "dest": "reference_sequence/ensembl_grch38_toplevel_at_mavedb_regions.tsv.gz",
+  "tier": "A",
+  "kind": "regional_slice",
+  "licence": "Ensembl data: freely available under the EMBL-EBI Terms of Use (attribution expected); verified live",
+  "note": "GRCh38 reference sequence (Ensembl release 116, toplevel FASTA, read by range requests from the server copy) for the merged regions around MaveDB-mapped SNV positions. Used to check that REF alleles in every GRCh38 coordinate file match the reference, and compared with the mirrored copy of the same file (ensembl_grch38_dna_toplevel). Written by acquisition/fetch_reference_regional.py.",
+  "supports": [
+   "reference_annotation"
+  ],
+  "scope_note": "Only the regions around MaveDB-mapped SNV positions (about 0.18 Mb in 1,546 regions on 54 sequences); the whole sequence is the separate target ensembl_grch38_dna_toplevel",
+  "written_by": "fetch_reference_regional.py"
+ },
+ {
+  "id": "ensembl_grch38_dna_toplevel",
+  "source": "ensembl_genomes",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz",
+  "dest": "reference_sequence/Homo_sapiens.GRCh38.dna.toplevel.fa.gz",
+  "tier": "B",
+  "kind": "fasta.gz",
+  "licence": "Ensembl data: freely available under the EMBL-EBI Terms of Use (attribution expected); verified live",
+  "note": "GRCh38 reference sequence of Ensembl release 116, toplevel set (chromosomes, unlocalized and unplaced scaffolds, patches and haplotypes; 706 sequences), unmasked, bgzip-compressed (808 MB). The same file the regional reads in ensembl_grch38_reference_regional come from.",
+  "expected_size": 847661306,
+  "expected_bsd_sum": [
+   19509,
+   827795
+  ],
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "ensembl_grch38_dna_toplevel_fai",
+  "source": "ensembl_genomes",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz.fai",
+  "dest": "reference_sequence/Homo_sapiens.GRCh38.dna.toplevel.fa.gz.fai",
+  "tier": "B",
+  "kind": "tsv",
+  "licence": "Ensembl data: freely available under the EMBL-EBI Terms of Use (attribution expected); verified live",
+  "note": "samtools faidx index of the toplevel FASTA (name, length, byte offset, line bases, line width).",
+  "expected_size": 26844,
+  "expected_bsd_sum": [
+   40443,
+   27
+  ],
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "ensembl_grch38_dna_toplevel_gzi",
+  "source": "ensembl_genomes",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz.gzi",
+  "dest": "reference_sequence/Homo_sapiens.GRCh38.dna.toplevel.fa.gz.gzi",
+  "tier": "B",
+  "kind": "gzi",
+  "licence": "Ensembl data: freely available under the EMBL-EBI Terms of Use (attribution expected); verified live",
+  "note": "bgzip block index of the toplevel FASTA (uncompressed/compressed offsets of every block), needed for random access.",
+  "expected_size": 820344,
+  "expected_bsd_sum": [
+   51931,
+   802
+  ],
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "ensembl_grch38_gtf_116",
+  "source": "ensembl_genomes",
+  "url": "https://ftp.ensembl.org/pub/release-116/gtf/homo_sapiens/Homo_sapiens.GRCh38.116.gtf.gz",
+  "dest": "ensembl_annotation/Homo_sapiens.GRCh38.116.gtf.gz",
+  "tier": "B",
+  "kind": "gtf.gz",
+  "licence": "Ensembl data: freely available under the EMBL-EBI Terms of Use (attribution expected); verified live",
+  "note": "Ensembl release 116 gene annotation for GRCh38 (genes, transcripts, exons, CDS, start/stop codons, UTRs). The Ensembl README states that for human the GTF files are equivalent to the GENCODE gene set. Same release and sequence names as the FASTA above.",
+  "expected_size": 141121632,
+  "expected_bsd_sum": [
+   49151,
+   137815
+  ],
+  "supports": [
+   "reference_annotation"
+  ],
+  "scope_note": "Annotation on the primary toplevel sequences; the larger chr_patch_hapl_scaff file that also annotates patches and haplotypes, the ab initio predictions and the GENCODE-hosted copy are not fetched"
+ },
+ {
+  "id": "sifts_pdb_chain_uniprot",
+  "source": "pdbe_sifts",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/pdb_chain_uniprot.tsv.gz",
+  "dest": "sifts/pdb_chain_uniprot.tsv.gz",
+  "tier": "A",
+  "kind": "tsv.gz",
+  "licence": "EMBL-EBI Terms of Use (freely available; no additional restriction beyond the data owners'); PDB archive data are CC0 1.0 (wwPDB); verified live; no SIFTS-specific statement found",
+  "note": "SIFTS mapping of every PDB chain segment to UniProt residue ranges (RES = SEQRES numbering, PDB = author numbering, SP = UniProt numbering). The file header names the PDB and UniProt releases. Replaced weekly by PDBe, so no size is pinned.",
+  "supports": [
+   "protein_structure_function"
+  ]
+ },
+ {
+  "id": "sifts_uniprot_segments_observed",
+  "source": "pdbe_sifts",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/uniprot_segments_observed.tsv.gz",
+  "dest": "sifts/uniprot_segments_observed.tsv.gz",
+  "tier": "A",
+  "kind": "tsv.gz",
+  "licence": "EMBL-EBI Terms of Use (freely available; no additional restriction beyond the data owners'); PDB archive data are CC0 1.0 (wwPDB); verified live; no SIFTS-specific statement found",
+  "note": "SIFTS segments of PDB chains whose residues are observed in the structure (not disordered or missing), with the same column layout. Replaced weekly by PDBe, so no size is pinned.",
+  "supports": [
+   "protein_structure_function"
+  ]
+ },
+ {
+  "id": "gnomad_v4_1_lof_curation_incomplete_penetrance",
+  "source": "gnomad_constraint",
+  "url": "https://storage.googleapis.com/gcp-public-data--gnomad/release/4.1/lof_curation/incomplete_penetrance_curation_results.csv",
+  "dest": "gnomad/lof_curation/incomplete_penetrance_curation_results.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "CC0 for primary data (gnomAD policies page, verified live)",
+  "note": "gnomAD v4.1 manual curation of predicted loss-of-function variants in genes with incomplete penetrance: a verdict per variant and 22 curation flags.",
+  "expected_size": 132850,
+  "expected_md5_base64": "heM8m84swQQXi4wMvjWgGw==",
+  "supports": [
+   "natural_knockouts_dosage"
+  ],
+  "scope_note": "The only object under the v4.1 lof_curation prefix (the v2.1.1 prefix and the AWS mirror list nothing): 734 variants in a small set of genes, not a genome-wide LoF curation"
+ },
+ {
+  "id": "pharmvar_6_2_29",
+  "source": "pharmvar",
+  "url": "https://www.pharmvar.org/get-download-file?name=ALL&refSeq=ALL&fileType=zip&version=6.2.29",
+  "dest": "pharmvar/pharmvar-6.2.29.zip",
+  "tier": "B",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 for the database content, for research use and not for sale as a commercial item (PharmVar Terms and Conditions of 2023-03-24, verified live)",
+  "note": "PharmVar 6.2.29 complete database: haplotype (star-allele) definitions of 15 pharmacogenes as TSV, one VCF per allele against RefSeqGene, GRCh37 and GRCh38, and haplotype FASTA. The URL is the one the Download Complete Database button calls, pinned to the version.",
+  "expected_size": 193085083,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ],
+  "scope_note": "15 genes (CYP1A2, CYP2A13, CYP2A6, CYP2B6, CYP2C19, CYP2C8, CYP2C9, CYP2D6, CYP3A4, CYP3A5, CYP4F2, DPYD, NAT2, NUDT15, SLCO1B1); other pharmacogenes are not in this download"
  }
 ]

@@ -1,0 +1,11 @@
+ 
+ Index of /pub/release-116/gtf/homo_sapiens 
+ Index of /pub/release-116/gtf/homo_sapiens 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 19:20 224   
+ Homo_sapiens.GRCh38.116.abinitio.gtf.gz 2026-03-26 16:23 3.2M   
+ Homo_sapiens.GRCh38.116.chr.gtf.gz 2026-03-26 15:57 135M   
+ Homo_sapiens.GRCh38.116.chr_patch_hapl_scaff.gtf.gz 2026-03-26 16:14 139M   
+ Homo_sapiens.GRCh38.116.gtf.gz 2026-03-26 15:58 135M   
+ README 2026-03-26 16:16 10K   

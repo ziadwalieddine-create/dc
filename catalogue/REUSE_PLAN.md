@@ -1,15 +1,10 @@
 # Source-by-source reuse, acquisition and integration plan
 
-*Generated 2026-10-25 12:30 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Decision hierarchy: reuse existing verified material → adopt existing curated datasets → extend existing integrations → retrieve uncovered source data → build original methods only where justified.
 
-## Reuse what is already verified (3)
-
-### `ensembl_genomes`: Ensembl genome registry, assemblies and gene annotation (human)
-- **Why:** Registry already collected and verified; fetch FASTA/GTF only when an analysis needs them, preferring GENCODE/MANE files already staged for acquisition.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D14 · existing assets ensembl-human-genomes: downloaded_verified
-- **Access:** open (Ensembl imposes no restrictions on access to or use of the data (disclaimer page))
+## Reuse what is already verified (2)
 
 ### `mavedb`: MaveDB (Multiplexed Assays of Variant Effect database)
 - **Why:** Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump are being compared against it before any change.
@@ -80,7 +75,7 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (IGSR provides open data; terms of use are in the IGSR data disclaimer (not parsed))
 - **Targets:** `igsr_1000g_samples`
 
-## Retrieve the source data (18)
+## Retrieve the source data (21)
 
 ### `alphafold_db`: AlphaFold Protein Structure Database
 - **Why:** Per-protein retrieval for the UniProt proteins our MaveDB score sets are about (models, per-residue pLDDT and prediction metadata through the API); the 5.18 GB human proteome bundle is not needed for that set.
@@ -131,8 +126,14 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (ENCODE Data Use Policy: 'all data produced will be available for unrestricted use immediately upon release to public dat)
 - **Targets:** `screen_ccre_pls`, `screen_ccre_pels`, `screen_ccre_dels`, `screen_ccre_ca_ctcf`, `screen_ccre_ca_h3k4me3`, `screen_ccre_ca_tf`, `screen_ccre_ca`, `screen_ccre_tf`
 
+### `ensembl_genomes`: Ensembl genome registry, assemblies and gene annotation (human)
+- **Why:** The GRCh38 toplevel FASTA (808 MB) and the release-116 GTF (141 MB) are the reference every coordinate file in the library is checked against, publish checksums, and have no curated alternative inside the library. They are fetched and verified against the Ensembl CHECKSUMS. For human the Ensembl README states that the GTF equals the GENCODE gene set, so GENCODE's own copy is not fetched. The genome registry (existing asset) is kept as is. The remote range reads of the same FASTA stay as an independent route and are tested against the local copy.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D14 · existing assets ensembl-human-genomes: downloaded_verified
+- **Access:** open (Ensembl imposes no restrictions on access to or use of the data (disclaimer page))
+- **Targets:** `ensembl_grch38_dna_toplevel`, `ensembl_grch38_dna_toplevel_fai`, `ensembl_grch38_dna_toplevel_gzi`, `ensembl_grch38_gtf_116`, `ensembl_grch38_reference_regional`
+
 ### `gencode_mane`: GENCODE and MANE transcript sets
-- **Why:** MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD; the GENCODE genome FASTA (806 to 856 MB) is deferred.
+- **Why:** MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD. GENCODE's own annotation and FASTA are not fetched: for human the Ensembl README states that the Ensembl GTF equals the GENCODE gene set, and the release-116 GTF and FASTA are held through the ensembl_genomes source (its genebuild was last updated 2025-11 and may differ from GENCODE v50, dated 2026-06-09).
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D14
 - **Access:** open (GENCODE: 'all the GENCODE project data is open access' (GENCODE data-access page), under the EMBL-EBI Terms of Use (free)
 - **Targets:** `mane_summary_v1_5`, `mane_gtf_v1_5`
@@ -141,7 +142,7 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Why:** Primary source of record and moderate size; the Ensembl LOEUF file is a derivative of the same resource so is not downloaded separately.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D05
 - **Access:** open (CC0 for primary data (policies page))
-- **Targets:** `gnomad_constraint_v4_1_2`
+- **Targets:** `gnomad_constraint_v4_1_2`, `gnomad_v4_1_lof_curation_incomplete_penetrance`
 
 ### `gnomad_sv_cnv`: gnomAD structural variants and copy-number variants
 - **Why:** Both VCFs are fetched and validated: the exome CNV VCF (8.9 MB) and the genome SV sites VCF (1.74 GB; size from the S3 listing, MD5 from the downloads page). They complement the older control-cohort DGV catalogue and the ClinGen dosage regions.
@@ -167,11 +168,24 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable data; InterProScan under the Apache License (InterPro)
 - **Targets:** `interpro_mavedb_proteins`
 
+### `pdbe_sifts`: PDBe SIFTS: PDB chain to UniProt residue mappings
+- **Why:** Experimental-structure coverage per UniProt residue is the complement to the AlphaFold DB predicted models and was an explicit gap in the library (PDB not catalogued). The two summary files are small (6.3 MB and 11.0 MB). Structure coordinate files are not mirrored.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D02
+- **Access:** open (EMBL-EBI Terms of Use: freely available, no additional restriction on contributed data beyond the data owner's terms (te)
+- **Targets:** `sifts_pdb_chain_uniprot`, `sifts_uniprot_segments_observed`
+- **Unverified:** SIFTS-specific licence statement
+
 ### `pharmgkb`: ClinPGx / PharmGKB
 - **Why:** Small archives; Open Targets only carries a pharmacogenomics subset.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D07
 - **Access:** open_with_terms (CC BY-SA 4.0 (data usage policy))
 - **Targets:** `clinpgx_variantAnnotations`, `clinpgx_relationships`, `clinpgx_summaryAnnotations`, `clinpgx_guidelineAnnotations`, `clinpgx_drugLabels`
+
+### `pharmvar`: PharmVar (Pharmacogene Variation Consortium)
+- **Why:** The licence was readable after all (the earlier guessed URLs returned the application shell; the terms are linked from the footer of the rendered page), it permits research use with attribution and share-alike, and the complete database is one 193 MB archive that the site's own button serves. It closes the star-allele sequence gap that CPIC and ClinPGx tables leave.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D07
+- **Access:** open_with_terms (CC BY-SA 4.0 for the PharmVar database content, with the user agreeing to use the data for research purposes and not to )
+- **Targets:** `pharmvar_6_2_29`
 
 ### `reactome`: Reactome
 - **Why:** Small mapping files; Open Targets also carries a reactome dataset.
@@ -191,19 +205,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (CC BY 4.0 for copyrightable parts)
 - **Targets:** `uniprot_human_reviewed`, `uniprot_humsavar`
 
-## Deferred (2)
+## Deferred (1)
 
 ### `dbvar`: dbVar (NCBI database of genomic structural variation)
 - **Why:** Catalogued only: ClinGen, gnomAD-SV and DGV cover the near-term needs; inspect dbVar contents and currency before any download.
 - **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
 - **Access:** open (NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original su)
 - **Unverified:** currency, contents
-
-### `pharmvar`: PharmVar (Pharmacogene Variation Consortium)
-- **Why:** Licence and bulk download route unverified. Use CPIC/ClinPGx tables meanwhile; revisit after reading the terms.
-- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
-- **Access:** unverified (Terms and Conditions page not retrievable (HTTP 404 on the URLs tried))
-- **Unverified:** licence, release date
 
 ## Not acquired by design (3)
 

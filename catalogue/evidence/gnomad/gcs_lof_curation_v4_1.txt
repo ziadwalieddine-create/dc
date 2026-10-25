@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "name": "release/4.1/lof_curation/incomplete_penetrance_curation_results.csv",
+      "size": "132850",
+      "md5Hash": "heM8m84swQQXi4wMvjWgGw==",
+      "updated": "2025-09-27T00:01:03.433Z"
+    }
+  ]
+}

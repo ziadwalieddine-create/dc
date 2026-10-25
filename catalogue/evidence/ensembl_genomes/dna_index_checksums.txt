@@ -1,0 +1,3 @@
+19509 827795 Homo_sapiens.GRCh38.dna.toplevel.fa.gz
+40443 27 Homo_sapiens.GRCh38.dna.toplevel.fa.gz.fai
+51931 802 Homo_sapiens.GRCh38.dna.toplevel.fa.gz.gzi

@@ -254,7 +254,7 @@ def process(t, manifest, force=False):
         return process_dir(t, manifest, force)
     if t.get('kind') in ('per_entity', 'regional_slice'):
         prev = manifest.get(t['id'])
-        script = 'fetch_per_protein.py' if t['kind'] == 'per_entity' else 'fetch_gnomad_regional.py'
+        script = t.get('written_by') or ('fetch_per_protein.py' if t['kind'] == 'per_entity' else 'fetch_gnomad_regional.py')
         return (prev or dict(id=t['id'], source=t['source'], ok=False, kind=t['kind'])), f"{t['kind']} target: written by {script}"
     dest = os.path.join(DATA, t['dest'])
     prev = manifest.get(t['id'])

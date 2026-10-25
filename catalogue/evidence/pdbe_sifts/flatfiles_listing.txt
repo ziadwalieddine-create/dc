@@ -1,0 +1,21 @@
+ 
+ Index of /pub/databases/msd/sifts/flatfiles/tsv 
+ Index of /pub/databases/msd/sifts/flatfiles/tsv 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ pdb_chain_cath_uniprot.tsv.gz 2026-10-18 12:02 2.3M   
+ pdb_chain_ensembl.tsv.gz 2026-10-18 12:06 40M   
+ pdb_chain_enzyme.tsv.gz 2026-10-18 12:04 2.1M   
+ pdb_chain_go.tsv.gz 2026-10-18 12:01 78M   
+ pdb_chain_hmmer.tsv.gz 2026-10-18 12:07 4.6M   
+ pdb_chain_interpro.tsv.gz 2026-10-18 12:02 14M   
+ pdb_chain_pfam.tsv.gz 2026-10-18 12:02 4.4M   
+ pdb_chain_scop2_uniprot.tsv.gz 2026-10-18 12:07 496K   
+ pdb_chain_scop2b_sf_uniprot.tsv.gz 2026-10-18 12:07 6.0M   
+ pdb_chain_scop_uniprot.tsv.gz 2026-10-18 12:02 862K   
+ pdb_chain_taxonomy.tsv.gz 2026-10-18 12:04 4.5M   
+ pdb_chain_uniprot.tsv.gz 2026-10-18 11:58 6.0M   
+ pdb_pfam_mapping.tsv.gz 2026-10-18 11:57 10M   
+ pdb_pubmed.tsv.gz 2026-10-18 11:58 1.0M   
+ uniprot_pdb.tsv.gz 2026-10-18 12:02 1.5M   
+ uniprot_segments_observed.tsv.gz 2026-10-18 12:17 11M   

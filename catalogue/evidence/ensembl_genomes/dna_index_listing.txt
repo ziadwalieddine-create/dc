@@ -1,0 +1,9 @@
+ 
+ Index of /pub/release-116/fasta/homo_sapiens/dna_index 
+ Index of /pub/release-116/fasta/homo_sapiens/dna_index 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ CHECKSUMS 2026-08-07 21:16 157   
+ Homo_sapiens.GRCh38.dna.toplevel.fa.gz 2026-03-23 13:53 808M   
+ Homo_sapiens.GRCh38.dna.toplevel.fa.gz.fai 2026-03-23 13:53 26K   
+ Homo_sapiens.GRCh38.dna.toplevel.fa.gz.gzi 2026-03-23 13:53 801K   

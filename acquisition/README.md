@@ -12,10 +12,12 @@ Reproducible download of external resources into `data/external/` (git-ignored; 
 | `extract_dump.py` | Deterministic extraction of the parts of the MaveDB bulk dump that the tests read (see below) |
 | `fetch_per_protein.py` | AlphaFold DB (canonical model, per-residue confidence; isoform-only proteins are recorded, not stored) and InterPro matches for the UniProt proteins named by the MaveDB score sets. Per-file SHA-256 table in `manifest_files/` |
 | `fetch_gnomad_regional.py`, `mavedb_snvs.py` | gnomAD v4.1 exome and genome records at the genomic positions of MaveDB-mapped SNVs, read by remote tabix (no whole-file download); every region is read until two reads agree. `mavedb_snvs.py` derives the SNV alleles and merged regions |
+| `fetch_reference_regional.py` | GRCh38 reference sequence for the same merged regions (1,546 regions on 54 sequences), read by HTTP range requests from the Ensembl release-116 toplevel FASTA; every region is read until two reads agree. The saved `.fai` is kept in `index_cache/` for validation |
+| `compat_reference.py` | Ties the mirrored FASTA and the Ensembl release-116 GTF to the other coordinate-bearing files: remote reads equal the local file, REF alleles of every ClinVar record and every AlphaMissense position, start and stop codons, MANE, Open Targets locations, the amino-acid change implied by sequence and annotation against AlphaMissense, and the gnomAD LoF curation. Test code, not an annotation engine |
 | `intervals.py`, `test_helpers.py` | The exact interval-stabbing query behind every overlap count, and unit tests for it and for the other small helpers (`python3 -m unittest acquisition.test_helpers` from the repository root; no data needed) |
 | `dump_equivalence_sample.json` | Fixed list of our score sets whose tables are also extracted from the dump, to check dump and API agree |
 | `mavedb_superseded/` | Additive set of 52 superseded MaveDB score sets that the public search hides (see `AUDIT_LOG.md`) |
-| `requirements.txt` | `pyarrow`, needed only for the Open Targets Parquet datasets |
+| `requirements.txt` | `pyarrow` (Open Targets Parquet datasets) and `pysam` (remote slices of gnomAD and of the reference FASTA, and the local FASTA in `compat_reference.py`) |
 
 ```
 python3 acquisition/acquire.py --list
@@ -24,10 +26,12 @@ python3 acquisition/acquire.py --ids alphamissense_hg38 dgv_grch38_variants_2025
 python3 acquisition/extract_dump.py                            # after mavedb_zenodo_dump_v4 is downloaded
 .venv/bin/python acquisition/fetch_per_protein.py              # AlphaFold DB and InterPro per protein (about 30 minutes, polite request rate)
 .venv/bin/python acquisition/fetch_gnomad_regional.py          # gnomAD slices at MaveDB-mapped positions (about 20 minutes)
-python3 -m unittest acquisition.test_helpers
+python3 acquisition/acquire.py --ids ensembl_grch38_dna_toplevel ensembl_grch38_dna_toplevel_fai ensembl_grch38_dna_toplevel_gzi ensembl_grch38_gtf_116   # reference FASTA (808 MB) with indexes, and the 141 MB GTF; BSD checksums from the Ensembl CHECKSUMS files
+.venv/bin/python acquisition/fetch_reference_regional.py       # reference sequence at the MaveDB-mapped regions by remote reads (about 5 minutes)
+python3 -m unittest acquisition.test_helpers                   # 17 tests, no data needed
 python3 -m venv .venv && .venv/bin/pip install -r acquisition/requirements.txt
 .venv/bin/python acquisition/validate.py                       # every downloaded target
-.venv/bin/python acquisition/compat_tests.py                   # about 25 minutes; --skip orcs ot shortens it
+.venv/bin/python acquisition/compat_tests.py                   # about 30 minutes; --skip orcs ot ref shortens it
 python3 catalogue/build_catalogue.py                           # regenerate the inventory, matrices and plan
 ```
 

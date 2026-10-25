@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25T12:18:31Z",
+ "generated_utc": "2026-10-25T13:57:11Z",
  "sources": {
   "ensembl_genomes": {
    "mapped": true,
@@ -22,7 +22,115 @@
       "GRCh38": 70
      },
      "unresolved_assembly_names": [],
-     "note": "name-level check between two existing assets; it does not test sequence identity, which needs the genome FASTA (not acquired)"
+     "note": "name-level check between two existing assets; sequence identity is tested against the mirrored FASTA in compat_reference.py"
+    },
+    {
+     "name": "REF alleles of every GRCh38 coordinate file held equal the GRCh38 reference sequence",
+     "passed": true,
+     "targets": [
+      "ensembl_grch38_reference_regional"
+     ],
+     "by_source": {
+      "Ensembl MaveDB file alleles": {
+       "checked": 307997,
+       "ref_equals_reference": 307997,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      },
+      "MaveDB-mapper genomic HGVS alleles (dump)": {
+       "checked": 100762,
+       "ref_equals_reference": 100762,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      },
+      "ClinVar records matched to MaveDB alleles": {
+       "checked": 38597,
+       "ref_equals_reference": 38597,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      },
+      "AlphaMissense records matched to MaveDB alleles": {
+       "checked": 293696,
+       "ref_equals_reference": 293696,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      },
+      "gnomAD exomes slice records": {
+       "checked": 76495,
+       "ref_equals_reference": 76495,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      },
+      "gnomAD genomes slice records": {
+       "checked": 22162,
+       "ref_equals_reference": 22162,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      },
+      "gnomAD joint slice records": {
+       "checked": 82528,
+       "ref_equals_reference": 82528,
+       "share": 1.0,
+       "position_not_in_requested_regions": 0,
+       "mismatch_examples": []
+      }
+     },
+     "note": "the reference slice covers the merged regions around MaveDB-mapped SNV positions on every sequence of the Ensembl toplevel FASTA (chromosomes, patches and haplotypes). A mismatch would mean a different assembly, strand or coordinate base. compat_reference.py repeats the check for every ClinVar record and every AlphaMissense position against the mirrored FASTA."
+    },
+    {
+     "name": "Remote range reads of the reference equal the mirrored FASTA",
+     "passed": true,
+     "targets": [
+      "ensembl_grch38_dna_toplevel",
+      "ensembl_grch38_reference_regional"
+     ],
+     "regions": 1546,
+     "equal": 1546,
+     "note": "two independent routes to the same release-116 file: HTTP range reads through htslib on the server copy, and the checksum-verified local copy"
+    },
+    {
+     "name": "Start codons of the Ensembl annotation read ATG in the reference sequence",
+     "passed": true,
+     "targets": [
+      "ensembl_grch38_gtf_116",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "transcripts": 357640,
+     "as_expected": 357504,
+     "share": 0.99962,
+     "other_codons": {
+      "ATG": 357504,
+      "CTG": 119,
+      "TTG": 13,
+      "ATA": 3,
+      "ATT": 1
+     },
+     "note": "a coordinate, strand or assembly mismatch between annotation and sequence would make these shares collapse"
+    },
+    {
+     "name": "Stop codons of the Ensembl annotation read TAA/TAG/TGA in the reference sequence",
+     "passed": true,
+     "targets": [
+      "ensembl_grch38_gtf_116",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "transcripts": 351390,
+     "as_expected": 351388,
+     "share": 0.99999,
+     "other_codons": {
+      "TGA": 185935,
+      "TAA": 92776,
+      "TAG": 72677,
+      "AGA": 1,
+      "AGG": 1
+     },
+     "note": "a coordinate, strand or assembly mismatch between annotation and sequence would make these shares collapse"
     }
    ]
   },
@@ -49,6 +157,23 @@
      "mavedb_symbols": 91,
      "found": 91,
      "unmatched_examples": []
+    },
+    {
+     "name": "MANE v1.5 transcripts resolve in the Ensembl release-116 annotation",
+     "passed": true,
+     "targets": [
+      "mane_summary_v1_5",
+      "ensembl_grch38_gtf_116"
+     ],
+     "mane_transcripts": 19437,
+     "present_by_stable_id": 19373,
+     "same_version": 19373,
+     "mane_select": 19299,
+     "mane_select_tagged_in_gtf": 19299,
+     "same_genomic_span": 19373,
+     "not_found": 64,
+     "not_found_on_patch_or_alternate_sequences": 64,
+     "note": "the MANE transcripts not found lie on fix-patch and alternate-locus sequences, which the default Ensembl GTF does not annotate; for the others the version, the span and the MANE_Select tag are compared"
     }
    ]
   },
@@ -67,6 +192,52 @@
      "found": 543,
      "coverage": 1.0,
      "unmatched_examples": []
+    },
+    {
+     "name": "gnomAD v4.1 LoF curation: REF alleles equal the reference and genes resolve in the Ensembl annotation",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_lof_curation_incomplete_penetrance",
+      "ensembl_grch38_dna_toplevel",
+      "ensembl_grch38_gtf_116"
+     ],
+     "curated_variants": 734,
+     "ref_equals_reference": 734,
+     "genes_found_in_annotation": 734,
+     "variant_inside_gene_span": 734,
+     "gene_symbol_equals_annotation_name": 734,
+     "clinvar_class_by_curation_verdict": {
+      "Not LoF": {
+       "other classification": 46,
+       "not in ClinVar": 365,
+       "pathogenic or likely pathogenic": 26,
+       "benign or likely benign": 29
+      },
+      "Uncertain": {
+       "not in ClinVar": 61,
+       "pathogenic or likely pathogenic": 9,
+       "other classification": 6,
+       "benign or likely benign": 1
+      },
+      "LoF": {
+       "not in ClinVar": 51,
+       "other classification": 8,
+       "pathogenic or likely pathogenic": 12
+      },
+      "Likely not LoF": {
+       "other classification": 9,
+       "not in ClinVar": 35,
+       "pathogenic or likely pathogenic": 6,
+       "benign or likely benign": 3
+      },
+      "Likely LoF": {
+       "not in ClinVar": 43,
+       "pathogenic or likely pathogenic": 18,
+       "benign or likely benign": 2,
+       "other classification": 4
+      }
+     },
+     "note": "the curation covers 69 genes with incomplete penetrance; ClinVar classes are shown only as a relationship between two independent curations"
     }
    ]
   },
@@ -528,6 +699,127 @@
       ]
      ],
      "note": "AlphaMissense covers canonical-transcript missense SNVs only; unmatched MaveDB alleles are synonymous, nonsense, non-canonical-isoform or non-coding. Agreement compares the Ensembl-file HGVS p. change (RefSeq protein numbering) with AlphaMissense protein_variant (canonical numbering)."
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: AlphaMissense records matched to MaveDB alleles",
+     "passed": true,
+     "targets": [
+      "alphamissense_hg38",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 293696,
+     "ref_equals_reference": 293696,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
+    },
+    {
+     "name": "REF allele at every AlphaMissense position equals the GRCh38 reference sequence",
+     "passed": true,
+     "targets": [
+      "alphamissense_hg38",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "positions": 27061520,
+     "equal": 27061520,
+     "share": 1.0,
+     "not_tested_contig_not_in_fasta": 0,
+     "mismatch_examples": [],
+     "note": "one check per distinct position (up to three ALT rows share a position and its REF); chrM is compared with the Ensembl MT sequence"
+    },
+    {
+     "name": "Amino-acid change implied by reference sequence and annotation equals AlphaMissense protein_variant",
+     "passed": true,
+     "targets": [
+      "alphamissense_hg38",
+      "ensembl_grch38_gtf_116",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "rows_sampled": 67653,
+     "transcript_not_in_annotation": 2230,
+     "transcript_version_differs": 23474,
+     "tested": 41858,
+     "reference_base_agrees": 41854,
+     "change_agrees": 41844,
+     "no_complete_cds": 68,
+     "position_outside_cds": 4,
+     "mitochondrial_code_not_tested": 23,
+     "share_agreeing": 0.99967,
+     "disagreement_examples": [
+      [
+       "ENST00000530656.5",
+       "chr11",
+       "45181797",
+       "C",
+       "G",
+       "Q45E",
+       "Q11E"
+      ],
+      [
+       "ENST00000530656.5",
+       "chr11",
+       "45204735",
+       "A",
+       "C",
+       "K205Q",
+       "K171Q"
+      ],
+      [
+       "ENST00000530656.5",
+       "chr11",
+       "45224450",
+       "A",
+       "C",
+       "S360R",
+       "S326R"
+      ],
+      [
+       "ENST00000403903.7",
+       "chr19",
+       "10308227",
+       "T",
+       "C",
+       "Q152R",
+       "Q68R"
+      ],
+      [
+       "ENST00000393708.3",
+       "chr19",
+       "10310532",
+       "A",
+       "T",
+       "I172N",
+       "I169N"
+      ],
+      [
+       "ENST00000393708.3",
+       "chr19",
+       "10315995",
+       "A",
+       "C",
+       "M4R",
+       "M1R"
+      ],
+      [
+       "ENST00000330198.8",
+       "chr3",
+       "197976669",
+       "C",
+       "A",
+       "A168E",
+       "A160E"
+      ],
+      [
+       "ENST00000330198.8",
+       "chr3",
+       "197990615",
+       "A",
+       "C",
+       "D329A",
+       "D321A"
+      ]
+     ],
+     "note": "fixed sample (every 400th AlphaMissense position); only rows whose transcript has the same version in release 116 are tested; the codon helper applies the standard genetic code to the spliced CDS"
     }
    ]
   },
@@ -623,6 +915,19 @@
      "sets_in_both": 0,
      "identical_coordinate_alleles": 9370,
      "disagreement_examples": []
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: Ensembl MaveDB file alleles",
+     "passed": true,
+     "targets": [
+      "ensembl_vep_mavedb_variants",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 307997,
+     "ref_equals_reference": 307997,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
     }
    ]
   },
@@ -641,6 +946,19 @@
      "with_genomic_hgvs": 316959,
      "with_gnomad_af": 5942,
      "with_clingen_allele_id": 841383
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: MaveDB-mapper genomic HGVS alleles (dump)",
+     "passed": true,
+     "targets": [
+      "mavedb_zenodo_dump_v4",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 100762,
+     "ref_equals_reference": 100762,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
     },
     {
      "name": "Dump v4 scores identical to API-built tables on a sample of our sets",
@@ -663,6 +981,17 @@
       "other": 1,
       "published after dump date": 134
      }
+    },
+    {
+     "name": "MaveDB target genes (Ensembl IDs) resolve in the Ensembl release-116 annotation",
+     "passed": true,
+     "targets": [
+      "mavedb_zenodo_dump_v4",
+      "ensembl_grch38_gtf_116"
+     ],
+     "mavedb_genes": 543,
+     "found": 543,
+     "share": 1.0
     }
    ]
   },
@@ -702,6 +1031,41 @@
      "found": 543,
      "coverage": 0.998,
      "clinvar_records_in_mavedb_genes": 408990
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: ClinVar records matched to MaveDB alleles",
+     "passed": true,
+     "targets": [
+      "clinvar_vcf_grch38",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 38597,
+     "ref_equals_reference": 38597,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
+    },
+    {
+     "name": "REF allele of every ClinVar record equals the GRCh38 reference sequence",
+     "passed": true,
+     "targets": [
+      "clinvar_vcf_grch38",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "records": 4599275,
+     "equal": 4599275,
+     "share": 1.0,
+     "snv": {
+      "checked": 4270638,
+      "equal": 4270638
+     },
+     "other": {
+      "checked": 328637,
+      "equal": 328637
+     },
+     "not_tested_contig_named_differently_in_fasta": 51,
+     "mismatch_examples": [],
+     "note": "all records are tested, indels and MNVs included; the untested records lie on RefSeq NT_/NW_ contigs, which the Ensembl FASTA names differently"
     }
    ]
   },
@@ -726,14 +1090,14 @@
      "positions_tested": 145710,
      "positions_in_at_least_one_class": 63025,
      "per_class": {
-      "dELS": 33365,
-      "pELS": 15416,
-      "CA": 2152,
-      "TF": 2148,
-      "CA-TF": 665,
       "PLS": 5936,
+      "pELS": 15416,
+      "dELS": 33365,
       "CA-CTCF": 2108,
-      "CA-H3K4me3": 1235
+      "CA": 2152,
+      "CA-TF": 665,
+      "CA-H3K4me3": 1235,
+      "TF": 2148
      },
      "note": "class files overlap only where noted by SCREEN; counts per class are not additive across overlapping classes"
     }
@@ -915,6 +1279,240 @@
       "digest_found_in_gnomad_VRS_Allele_IDs": 0
      },
      "interpretation": "an identifier-level join (GA4GH VRS) agrees with the coordinate-level join only if both sides compute the same allele identifier; the share found measures that"
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: gnomAD exomes slice records",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_exomes_regional",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 76495,
+     "ref_equals_reference": 76495,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: gnomAD genomes slice records",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_genomes_regional",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 22162,
+     "ref_equals_reference": 22162,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
+    },
+    {
+     "name": "REF concordance with the GRCh38 reference: gnomAD joint slice records",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_joint_regional",
+      "ensembl_grch38_reference_regional"
+     ],
+     "checked": 82528,
+     "ref_equals_reference": 82528,
+     "share": 1.0,
+     "position_not_in_requested_regions": 0,
+     "mismatch_examples": []
+    }
+   ]
+  },
+  "pdbe_sifts": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "SIFTS mapped segments lie inside the UniProt sequence length (reviewed human entries)",
+     "passed": true,
+     "targets": [
+      "sifts_pdb_chain_uniprot",
+      "uniprot_human_reviewed"
+     ],
+     "reviewed_human_proteins_with_a_structure": 9026,
+     "segments_tested": 252863,
+     "inside_sequence": 252863,
+     "share": 1.0,
+     "note": "SIFTS maps to UniProt release 2026.03; a segment outside the length would mean a sequence version difference or a mapping error"
+    },
+    {
+     "name": "MaveDB UniProt -> SIFTS experimental structures and observed residues",
+     "passed": true,
+     "targets": [
+      "sifts_pdb_chain_uniprot",
+      "sifts_uniprot_segments_observed",
+      "uniprot_human_reviewed"
+     ],
+     "mavedb_proteins_reviewed": 537,
+     "with_at_least_one_pdb_entry": 404,
+     "share": 0.752,
+     "median_pdb_entries_per_protein_with_structure": 7,
+     "median_observed_fraction_of_sequence": 0.286,
+     "proteins_with_at_least_half_the_sequence_observed": 188,
+     "note": "observed = residues present in the experimental structure; AlphaFold DB models cover every residue of the 529 proteins that have a canonical model"
+    },
+    {
+     "name": "Residues of MaveDB-mapped missense alleles (AlphaMissense protein_variant) that lie in an observed PDB segment",
+     "passed": null,
+     "targets": [
+      "sifts_uniprot_segments_observed",
+      "alphamissense_hg38",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "missense_alleles_tested": 243626,
+     "at_an_observed_residue": 190094,
+     "share": 0.7803,
+     "note": "a join through UniProt numbering (AlphaMissense canonical numbering and SIFTS UniProt columns); alleles whose protein has no structure count as not observed"
+    }
+   ]
+  },
+  "pharmvar": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "PharmVar GRCh38 defining substitutions x MaveDB-mapped SNV alleles, and PharmVar genes x MaveDB genes",
+     "passed": null,
+     "targets": [
+      "pharmvar_6_2_29",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "pharmvar_genes": 15,
+     "genes_also_in_mavedb": [
+      "CYP2C19",
+      "CYP2C9",
+      "NUDT15"
+     ],
+     "defining_substitution_alleles": 1756,
+     "mavedb_snv_alleles": 399389,
+     "shared_alleles": 157,
+     "examples": [
+      [
+       [
+        "10",
+        94762712,
+        "C",
+        "T"
+       ],
+       [
+        "CYP2C19*34",
+        "CYP2C19*34.001",
+        "CYP2C19*40"
+       ]
+      ],
+      [
+       [
+        "10",
+        94762715,
+        "T",
+        "C"
+       ],
+       [
+        "CYP2C19*34",
+        "CYP2C19*34.001",
+        "CYP2C19*40"
+       ]
+      ],
+      [
+       [
+        "10",
+        94762760,
+        "A",
+        "C"
+       ],
+       [
+        "CYP2C19*15",
+        "CYP2C19*15.001",
+        "CYP2C19*15.002"
+       ]
+      ],
+      [
+       [
+        "10",
+        94762788,
+        "A",
+        "T"
+       ],
+       [
+        "CYP2C19*29",
+        "CYP2C19*29.001"
+       ]
+      ],
+      [
+       [
+        "10",
+        94762804,
+        "C",
+        "T"
+       ],
+       [
+        "CYP2C19*1.002",
+        "CYP2C19*1.006",
+        "CYP2C19*1.008"
+       ]
+      ],
+      [
+       [
+        "10",
+        94762856,
+        "A",
+        "G"
+       ],
+       [
+        "CYP2C19*19",
+        "CYP2C19*19.001"
+       ]
+      ]
+     ],
+     "note": "a relationship finding with no pass criterion. A shared allele is a MaveDB-mapped single-nucleotide change that also defines a star allele; the REF alleles of the PharmVar substitutions are tested against the reference in compat_reference.py."
+    },
+    {
+     "name": "PharmVar GRCh38 haplotype definitions: REF alleles equal the reference sequence and variants lie in their gene",
+     "passed": true,
+     "targets": [
+      "pharmvar_6_2_29",
+      "ensembl_grch38_dna_toplevel",
+      "ensembl_grch38_gtf_116"
+     ],
+     "table_rows": 9824,
+     "substitutions_and_deletions_checked": 9553,
+     "ref_equals_reference": 9553,
+     "insertions": 271,
+     "insertions_with_adjacent_flank_coordinates": 271,
+     "vcf_files": 2430,
+     "vcf_files_with_all_ref_equal": 2430,
+     "vcf_records": 8755,
+     "rows_inside_gene_span": 9117,
+     "rows_within_10kb_of_gene": 9824,
+     "genes_not_found_in_annotation": 0,
+     "mismatch_examples": [],
+     "note": "the table uses PharmVar-style coordinates (insertions sit between two flanking bases); the VCFs use VCF conventions; both are on GRCh38 chromosomes (NC_0000NN.11 and chrN)"
+    },
+    {
+     "name": "PharmVar genes and RefSeqGene accessions agree with the CPIC gene table and the Ensembl annotation",
+     "passed": true,
+     "targets": [
+      "pharmvar_6_2_29",
+      "cpic_genes",
+      "ensembl_grch38_gtf_116"
+     ],
+     "pharmvar_genes": 15,
+     "also_in_cpic": 12,
+     "same_refseqgene_accession": 11,
+     "same_ensembl_gene_id": 12,
+     "different_refseqgene": [
+      [
+       "CYP3A4",
+       "NG_008421",
+       "NG_000004"
+      ]
+     ],
+     "not_in_cpic": [
+      "CYP1A2",
+      "CYP2A13",
+      "CYP2A6"
+     ]
     }
    ]
   },
@@ -981,6 +1579,18 @@
   "opentargets": {
    "mapped": true,
    "tests": [
+    {
+     "name": "Open Targets target locations agree with the Ensembl release-116 annotation",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_target",
+      "ensembl_grch38_gtf_116"
+     ],
+     "targets_with_location": 78733,
+     "found_by_gene_id": 78733,
+     "same_chromosome_start_end_strand": 78733,
+     "share_of_found": 1.0
+    },
     {
      "name": "OT gene join: MaveDB ENSG -> target annotation",
      "passed": true,

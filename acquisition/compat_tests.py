@@ -5,9 +5,10 @@ with explicit coverage numbers and failure reasons, go to acquisition/compat_rep
 'mapped' only if at least one join test passed its stated threshold. This is a minimal ingestion/compatibility
 check, not the analysis engine.
 
-  python3 compat_tests.py [--skip orcs ot]     # ot = the Open Targets Parquet tests (compat_opentargets.py, needs pyarrow)
+  python3 compat_tests.py [--skip orcs ot ref] # ot = the Open Targets Parquet tests (compat_opentargets.py, needs pyarrow); ref = the reference sequence and annotation tests (compat_reference.py, needs pysam)
 """
 import argparse
+import bisect
 import collections
 import csv
 import glob
@@ -126,7 +127,7 @@ src('ensembl_genomes', 'Registry reference assembly (GRCh38) matches the assembl
     bool(ref) and ref[0]['assembly']['name'].startswith('GRCh38') and not unresolved,
     registry_records=len(reg['matches']), reference_assembly=[(m['assembly']['name'], m['assembly']['accession_id'], m['annotation_provider'], m['has_variation'], m['has_regulation']) for m in ref],
     mavedb_assemblies=dict(mave_asm), unresolved_assembly_names=unresolved,
-    note='name-level check between two existing assets; it does not test sequence identity, which needs the genome FASTA (not acquired)')
+    note='name-level check between two existing assets; sequence identity is tested against the mirrored FASTA in compat_reference.py')
 
 # MANE: ENSG <-> symbol <-> Entrez  (bridge used by other joins)
 mane = {}
@@ -638,6 +639,134 @@ if GN and os.path.exists(bed_fp):
             dump_variants_with_vrs_digest=len(dump_vrs), **{k_: v_ for k_, v_ in vres.items()},
             interpretation='an identifier-level join (GA4GH VRS) agrees with the coordinate-level join only if both sides compute the same allele identifier; the share found measures that')
 
+# PDBe SIFTS: experimental-structure coverage of the MaveDB proteins and of the residues of MaveDB-mapped missense alleles
+if all(MAN.get(x, {}).get('ok') for x in ('sifts_pdb_chain_uniprot', 'sifts_uniprot_segments_observed')):
+    log('reading SIFTS ...')
+
+    def read_sifts(name, accs):
+        out = collections.defaultdict(list)       # accession -> [(first, last, PDB entry, chain)] in UniProt numbering
+        with gzip.open(os.path.join(D, 'sifts', name), 'rt', newline='') as f:
+            f.readline()
+            f.readline()
+            for line in f:
+                c = line.rstrip('\r\n').split('\t')           # pdb_chain_uniprot.tsv.gz has CRLF line endings
+                if c[2] in accs:
+                    out[c[2]].append((int(c[7]), int(c[8]), c[0], c[1]))
+        return out
+
+    def merged(v):
+        out = []
+        for b, e, *_ in sorted(x for x in v if x[0] <= x[1]):
+            if out and b <= out[-1][1] + 1:
+                out[-1][1] = max(out[-1][1], e)
+            else:
+                out.append([b, e])
+        return out
+    seg, obs = read_sifts('pdb_chain_uniprot.tsv.gz', set(uni)), read_sifts('uniprot_segments_observed.tsv.gz', set(uni))
+    inside = total = 0
+    for acc, v in seg.items():
+        length = int(uni[acc]['Length'])
+        for b, e, _p, _c in v:
+            if b <= e:
+                total += 1
+                inside += 1 <= b and e <= length
+    src('pdbe_sifts', 'SIFTS mapped segments lie inside the UniProt sequence length (reviewed human entries)', total > 100000 and inside / total >= 0.99, targets=['sifts_pdb_chain_uniprot', 'uniprot_human_reviewed'],
+        reviewed_human_proteins_with_a_structure=len(seg), segments_tested=total, inside_sequence=inside, share=round(inside / max(1, total), 5),
+        note='SIFTS maps to UniProt release 2026.03; a segment outside the length would mean a sequence version difference or a mapping error')
+    mer = {a: merged(v) for a, v in obs.items()}
+    cov = {a: (sum(e - b + 1 for b, e in mer.get(a, [])) / int(uni[a]['Length']), len({p for _, _, p, _ in seg.get(a, [])})) for a in M_uni & set(uni)}
+    n_with = sum(1 for a in cov if cov[a][1] > 0)
+    fr = sorted(v[0] for v in cov.values())
+    ne = sorted(v[1] for v in cov.values() if v[1] > 0)
+    src('pdbe_sifts', 'MaveDB UniProt -> SIFTS experimental structures and observed residues', len(cov) > 400 and n_with / max(1, len(cov)) > 0.5, targets=['sifts_pdb_chain_uniprot', 'sifts_uniprot_segments_observed', 'uniprot_human_reviewed'],
+        mavedb_proteins_reviewed=len(cov), with_at_least_one_pdb_entry=n_with, share=round(n_with / max(1, len(cov)), 3), median_pdb_entries_per_protein_with_structure=ne[len(ne) // 2] if ne else None,
+        median_observed_fraction_of_sequence=round(fr[len(fr) // 2], 3) if fr else None, proteins_with_at_least_half_the_sequence_observed=sum(1 for v in cov.values() if v[0] >= 0.5),
+        note='observed = residues present in the experimental structure; AlphaFold DB models cover every residue of the 529 proteins that have a canonical model')
+    starts = {a: [b for b, _ in m] for a, m in mer.items()}
+    tested = at_obs = 0
+    for k_, d_ in am_hits.items():
+        for pv, (_score, _cls, acc) in d_.items():
+            if acc in mer:
+                pos_ = int(re.sub(r'\D', '', pv))
+                tested += 1
+                i_ = bisect.bisect_right(starts[acc], pos_) - 1
+                at_obs += i_ >= 0 and mer[acc][i_][0] <= pos_ <= mer[acc][i_][1]
+    src('pdbe_sifts', 'Residues of MaveDB-mapped missense alleles (AlphaMissense protein_variant) that lie in an observed PDB segment', None, targets=['sifts_uniprot_segments_observed', 'alphamissense_hg38', 'ensembl_vep_mavedb_variants'],
+        missense_alleles_tested=tested, at_an_observed_residue=at_obs, share=round(at_obs / max(1, tested), 4),
+        note='a join through UniProt numbering (AlphaMissense canonical numbering and SIFTS UniProt columns); alleles whose protein has no structure count as not observed')
+
+# PharmVar: gene overlap with the MaveDB set, and haplotype-defining substitutions among the MaveDB-mapped SNV alleles
+if MAN.get('pharmvar_6_2_29', {}).get('ok'):
+    from mavedb_snvs import NC2CHR
+    pv_alleles = {}                  # (chrom, pos, ref, alt) -> haplotype names that the substitution defines (GRCh38)
+    pv_genes = set()
+    with zipfile.ZipFile(os.path.join(D, 'pharmvar', 'pharmvar-6.2.29.zip')) as zf:
+        for n_ in zf.namelist():
+            p_ = n_.split('/')
+            if n_.endswith('.haplotypes.tsv') and p_[2] == 'GRCh38':
+                pv_genes.add(p_[1])
+                for l_ in zf.read(n_).decode().split('\n')[2:]:
+                    c_ = l_.split('\t')
+                    if len(c_) == 9 and c_[8] == 'substitution':
+                        pv_alleles.setdefault((NC2CHR[c_[3][:9]], int(c_[4]), c_[6], c_[7]), set()).add(c_[0])
+    pv_hit = sorted(k_ for k_ in pv_alleles if k_ in uniq)
+    src('pharmvar', 'PharmVar GRCh38 defining substitutions x MaveDB-mapped SNV alleles, and PharmVar genes x MaveDB genes', None, targets=['pharmvar_6_2_29', 'ensembl_vep_mavedb_variants'],
+        pharmvar_genes=len(pv_genes), genes_also_in_mavedb=sorted(pv_genes & M_sym_all), defining_substitution_alleles=len(pv_alleles), mavedb_snv_alleles=len(uniq), shared_alleles=len(pv_hit),
+        examples=[(k_, sorted(pv_alleles[k_])[:3]) for k_ in pv_hit[:6]],
+        note='a relationship finding with no pass criterion. A shared allele is a MaveDB-mapped single-nucleotide change that also defines a star allele; the REF alleles of the PharmVar substitutions are tested against the reference in compat_reference.py.')
+
+# Reference-allele concordance against the GRCh38 reference sequence (Ensembl release 116, regions read by fetch_reference_regional.py)
+ref_fp = os.path.join(D, 'reference_sequence', 'ensembl_grch38_toplevel_at_mavedb_regions.tsv.gz')
+rec_ref = MAN.get('ensembl_grch38_reference_regional', {})
+if os.path.exists(ref_fp) and rec_ref.get('ok'):
+    ref_regions = collections.defaultdict(list)
+    with gzip.open(ref_fp, 'rt', newline='') as f:
+        for r_ in csv.DictReader(f, delimiter='\t'):
+            ref_regions[r_['chrom']].append((int(r_['start']), int(r_['end']), r_['sequence']))
+    ref_starts = {c: [x[0] for x in v] for c, v in ref_regions.items()}
+
+    def ref_base(chrom, pos):
+        v = ref_regions.get(chrom)
+        if not v:
+            return None
+        i = bisect.bisect_right(ref_starts[chrom], pos) - 1
+        if i >= 0 and v[i][0] <= pos <= v[i][1]:
+            return v[i][2][pos - v[i][0]]
+        return None
+
+    def concordance(keys):
+        checked = match = no_ref = 0
+        bad = []
+        for (c, p_, r_, a_) in keys:
+            b_ = ref_base(c, p_)
+            if b_ is None:
+                no_ref += 1
+                continue
+            checked += 1
+            if b_ == r_:
+                match += 1
+            elif len(bad) < 5:
+                bad.append((c, p_, r_, a_, b_))
+        return dict(checked=checked, ref_equals_reference=match, share=round(match / max(1, checked), 5), position_not_in_requested_regions=no_ref, mismatch_examples=bad)
+    clinvar_hits = [k for k in uniq if k in cv]
+    sets_to_check = {'Ensembl MaveDB file alleles': ens_alleles, 'MaveDB-mapper genomic HGVS alleles (dump)': set(dump_snv.values()), 'ClinVar records matched to MaveDB alleles': set(clinvar_hits),
+                     'AlphaMissense records matched to MaveDB alleles': set(am_hits)}
+    for kind, tbl in GN.items():
+        sets_to_check[f'gnomAD {kind} slice records'] = set(tbl)
+    res_ref = {name: concordance(keys) for name, keys in sets_to_check.items()}
+    ok_all = all(v['checked'] > 1000 and v['share'] >= 0.999 for v in res_ref.values())
+    src('ensembl_genomes', 'REF alleles of every GRCh38 coordinate file held equal the GRCh38 reference sequence', ok_all, targets=['ensembl_grch38_reference_regional'],
+        by_source=res_ref, note='the reference slice covers the merged regions around MaveDB-mapped SNV positions on every sequence of the Ensembl toplevel FASTA (chromosomes, patches and haplotypes). A mismatch would mean a different assembly, strand or coordinate base. compat_reference.py repeats the check for every ClinVar record and every AlphaMissense position against the mirrored FASTA.')
+    for name, key_sid, tg in (('Ensembl MaveDB file alleles', 'ensembl_vep', ['ensembl_vep_mavedb_variants']), ('MaveDB-mapper genomic HGVS alleles (dump)', 'mavedb', ['mavedb_zenodo_dump_v4']),
+                              ('ClinVar records matched to MaveDB alleles', 'clinvar', ['clinvar_vcf_grch38']), ('AlphaMissense records matched to MaveDB alleles', 'alphamissense', ['alphamissense_hg38'])):
+        v = res_ref[name]
+        src(key_sid, f'REF concordance with the GRCh38 reference: {name}', v['checked'] > 1000 and v['share'] >= 0.999, targets=tg + ['ensembl_grch38_reference_regional'],
+            **{k_: v_ for k_, v_ in v.items()})
+    for kind in GN:
+        v = res_ref[f'gnomAD {kind} slice records']
+        src('gnomad_variants', f'REF concordance with the GRCh38 reference: gnomAD {kind} slice records', v['checked'] > 1000 and v['share'] >= 0.999,
+            targets=[f'gnomad_v4_1_{kind}_regional', 'ensembl_grch38_reference_regional'], **{k_: v_ for k_, v_ in v.items()})
+
 # Equivalence of dump tables vs API-built tables (sample extracted from the dump)
 eq = []
 sets_dirs = glob.glob(os.path.join(D, 'mavedb/dump_v4_sets/*/csv'))
@@ -706,6 +835,13 @@ def write_report():
 
 
 write_report()   # checkpoint before the Parquet tests, which need pyarrow
+
+# Mirrored reference sequence and gene annotation against the other coordinate files (separate module; needs pysam)
+if 'ref' not in a.skip:
+    sys.path.insert(0, HERE)
+    import compat_reference
+    compat_reference.run(dict(src=src, log=log, D=D, MAN=MAN, M_ensg_all=M_ensg_all))
+    write_report()
 
 # Open Targets Parquet datasets (separate module; needs pyarrow)
 if 'ot' not in a.skip:

@@ -20,6 +20,12 @@ D = os.path.join(ROOT, 'data', 'external')
 csv.field_size_limit(1 << 28)
 NC2CHR = {f'NC_{n:06d}': (str(n) if n <= 22 else {23: 'X', 24: 'Y'}[n]) for n in range(1, 25)}
 HGVS_G = re.compile(r'^(NC_\d{6})\.\d+:g\.(\d+)([ACGT])>([ACGT])$')
+STANDARD = [str(i) for i in range(1, 23)] + ['X', 'Y', 'MT']
+
+
+def contig_rank(c):
+    """Sort key for sequence names: the 25 standard sequences in karyotype order, then every other contig (patches, alternative scaffolds) by name."""
+    return (STANDARD.index(c), c) if c in STANDARD else (len(STANDARD), c)
 
 
 def our_score_sets():

@@ -146,8 +146,9 @@ def lifecycle(s, dim, targets, manifest, validation, compat, existing):
     if ex and (dim is None or dim in ex[1]):
         status = [next((a['status'] for a in existing.get('assets', []) if a['id'] == aid), None) for aid in ex[0]]
         if all(x == 'downloaded_verified' for x in status):
-            st['acquired'] = True
-            st['validated'] = True
+            if not tl:                      # existing assets alone carry the dimension; when download targets also support it they must be ok as well
+                st['acquired'] = True
+                st['validated'] = True
             # the existing asset is the join base for ex[2]; otherwise any passed test of this source (they name no download target) maps it
             base = ex[2] or any(t.get('passed') is True for t in tests)
             notes.append('existing assets ' + ', '.join(ex[0]) + ': downloaded_verified')

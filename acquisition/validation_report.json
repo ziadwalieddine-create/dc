@@ -816,6 +816,321 @@
    }
   }
  },
+ "ensembl_grch38_dna_toplevel": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "companion .fai and .gzi are acquired and verified",
+    "ok": true
+   },
+   {
+    "detail": "[19509, 827795]",
+    "name": "BSD checksum and size equal the values published in the Ensembl CHECKSUMS file",
+    "ok": true
+   },
+   {
+    "detail": "706 records vs 706 in the .fai",
+    "name": "the sequence has the records, names, lengths, byte offsets and line geometry of the .fai",
+    "ok": true
+   },
+   {
+    "detail": "short lines inside a record 0, lines without newline 0",
+    "name": "every line has the index width except the last of its record, and every line ends with a newline",
+    "ok": true
+   },
+   {
+    "detail": "{}",
+    "name": "only upper-case A, C, G, T, N occur (unmasked)",
+    "ok": true
+   },
+   {
+    "detail": "{'1': 248956422, 'MT': 16569}",
+    "name": "chr1 and MT have the GRCh38 lengths (248,956,422 and 16,569)",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 3291585349,
+   "n_bases": 161334594,
+   "records": 706,
+   "standard_bases": 3088286401,
+   "uncompressed_bytes": 3346495805
+  }
+ },
+ "ensembl_grch38_dna_toplevel_fai": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "706",
+    "name": "one row per sequence with unique names and the 25 standard sequences",
+    "ok": true
+   },
+   {
+    "detail": "{60}",
+    "name": "line geometry is consistent (bytes per line = bases per line + 1)",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "offsets are increasing",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "identical to the .fai that the regional reads used",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "sequences": 706,
+   "standard_bases": 3088286401,
+   "total_bases": 3291585349
+  }
+ },
+ "ensembl_grch38_dna_toplevel_gzi": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "820344 bytes, 51271 blocks",
+    "name": "size equals 8 + 16 x block count",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "offsets are strictly increasing",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every compressed offset starts a BGZF block",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "block sizes chain exactly to the next compressed offset",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "uncompressed block sizes chain exactly to the next uncompressed offset",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "blocks": 51272,
+   "last_uncompressed_offset": 3346446367
+  }
+ },
+ "ensembl_grch38_gtf_116": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['#!genome-build GRCh38.p14', '#!genome-version GRCh38', '#!genome-date 2013-12', '#!genome-build-accession GCA_000001405.29', '#!genebuild-last-updated 2025-11']",
+    "name": "header names GRCh38",
+    "ok": true
+   },
+   {
+    "detail": "{'columns': 0, 'feature_type': 0, 'strand': 0}",
+    "name": "every line has nine columns, a known feature type and a strand",
+    "ok": true
+   },
+   {
+    "detail": "{'sequence_not_in_fai': 0, 'span': 0}",
+    "name": "every sequence name is in the FASTA index and every feature lies inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "{'gene_id_form': 0, 'transcript_id_form': 0}",
+    "name": "gene and transcript identifiers have the Ensembl form",
+    "ok": true
+   },
+   {
+    "detail": "{'transcript_outside_gene': 0, 'feature_outside_transcript': 0}",
+    "name": "transcripts lie inside their genes and features inside their transcripts (same sequence and strand)",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every CDS line has a phase of 0, 1 or 2",
+    "ok": true
+   },
+   {
+    "detail": "{'phase_checked': 357759, 'phase_bad': 0, 'divisibility_tested': 253244, 'incomplete_mrna': 31, 'divisibility_off_frame': 7, 'mitochondrial': 6}",
+    "name": "CDS phase follows from the cumulative CDS length in transcription order (transcripts with a complete 5 prime end)",
+    "ok": true
+   },
+   {
+    "detail": "{'tested': 253244, 'off_frame': 7, 'ids': ['ENST00000434431', 'ENST00000413740', 'ENST00000379471', 'ENST00000556531', 'ENST00000902572', 'ENST00000957050', 'ENST00000399177']}",
+    "name": "nuclear protein_coding sequences without an incompleteness tag have a length divisible by 3 (at most 0.01% exceptions)",
+    "ok": true
+   },
+   {
+    "detail": "{'genes': 78941, 'transcripts': 646577, 'MANE_Select': 19299}",
+    "name": "genes, transcripts and MANE Select transcripts are present in plausible numbers",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "divisibility_off_frame": 7,
+   "divisibility_tested": 253244,
+   "feature_counts": {
+    "CDS": 3210887,
+    "Selenocysteine": 155,
+    "exon": 5087789,
+    "five_prime_utr": 625728,
+    "gene": 78941,
+    "start_codon": 358265,
+    "stop_codon": 353698,
+    "three_prime_utr": 886754,
+    "transcript": 646577
+   },
+   "gene_biotypes": {
+    "lncRNA": 35020,
+    "miRNA": 1878,
+    "misc_RNA": 2216,
+    "processed_pseudogene": 9486,
+    "protein_coding": 20131,
+    "snRNA": 1910,
+    "transcribed_unprocessed_pseudogene": 1584,
+    "unprocessed_pseudogene": 1951
+   },
+   "header": [
+    "#!genome-build GRCh38.p14",
+    "#!genome-version GRCh38",
+    "#!genome-date 2013-12",
+    "#!genome-build-accession GCA_000001405.29",
+    "#!genebuild-last-updated 2025-11"
+   ],
+   "incomplete_mrna": 31,
+   "mitochondrial": 6,
+   "off_frame_without_incompleteness_tag": [
+    "ENST00000434431",
+    "ENST00000413740",
+    "ENST00000379471",
+    "ENST00000556531",
+    "ENST00000902572",
+    "ENST00000957050",
+    "ENST00000399177"
+   ],
+   "other_biotypes_with_length_not_divisible_by_3": {
+    "non_stop_decay": 43,
+    "nonsense_mediated_decay": 9,
+    "protein_coding_LoF": 31
+   },
+   "phase_bad": 0,
+   "phase_checked": 357759,
+   "tags": {
+    "Ensembl_canonical": 78941,
+    "MANE_Plus_Clinical": 74,
+    "MANE_Select": 19299,
+    "gencode_basic": 347669,
+    "gencode_primary": 101718
+   }
+  }
+ },
+ "ensembl_grch38_reference_regional": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['chrom', 'start', 'end', 'sequence']",
+    "name": "header is chrom, start, end, sequence",
+    "ok": true
+   },
+   {
+    "detail": "1546 rows, 178724 bases vs 1546, 178724",
+    "name": "rows and bases equal the manifest",
+    "ok": true
+   },
+   {
+    "detail": "1546 regions",
+    "name": "the regions hash to the manifest value (the file is the set of regions that was requested and read)",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every sequence has the length of its region (1-based inclusive)",
+    "ok": true
+   },
+   {
+    "detail": "{}",
+    "name": "sequences contain only A, C, G, T, N",
+    "ok": true
+   },
+   {
+    "detail": "unsorted 0, overlapping 0",
+    "name": "regions are sorted and disjoint",
+    "ok": true
+   },
+   {
+    "detail": "{'sha256_matches': True, '1': 248956422, 'MT': 16569, 'sequences': 706}",
+    "name": "the saved .fai equals the manifest hash and lists the 25 standard sequences with the GRCh38 lengths of chr1 and MT",
+    "ok": true
+   },
+   {
+    "detail": "on unknown sequence 0, beyond the end 0",
+    "name": "every region is on a sequence of the .fai and ends inside it",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 178724,
+   "fai_sequences": 706,
+   "rows": 1546,
+   "sequences_read": 54,
+   "skipped_contigs": {}
+  }
+ },
  "ensembl_vep_mavedb_variants": {
   "checks": [
    {
@@ -839,7 +1154,7 @@
     "ok": true
    },
    {
-    "detail": "['urn:mavedb:00001104-a-1', 'urn:mavedb:00000360-a-1', 'urn:mavedb:00000367-a-1']",
+    "detail": "['urn:mavedb:00000895-a-1', 'urn:mavedb:00000658-l-1', 'urn:mavedb:00000005-a-1']",
     "name": "urn column holds MaveDB score-set URNs",
     "ok": true
    }
@@ -1365,6 +1680,67 @@
    "rows_checked_for_pooling": 82528,
    "rows_with_predictor": {},
    "source_files": 24
+  }
+ },
+ "gnomad_v4_1_lof_curation_incomplete_penetrance": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Variant ID', 'Gene', 'Verdict', 'Flag Mapping Error']",
+    "name": "columns begin Variant ID, Gene, Verdict and 22 TRUE/FALSE flags follow",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "the MD5 equals the value published for the object",
+    "ok": true
+   },
+   {
+    "detail": "734",
+    "name": "variant identifiers are chrom-pos-ref-alt (GRCh38) and unique",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "genes are ENSG:SYMBOL",
+    "ok": true
+   },
+   {
+    "detail": "Counter({'Not LoF': 466, 'Uncertain': 77, 'LoF': 71, 'Likely LoF': 67, 'Likely not LoF': 53})",
+    "name": "verdicts are the five documented classes",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "flags are TRUE or FALSE",
+    "ok": true
+   },
+   {
+    "detail": "734",
+    "name": "more than 500 curated variants",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genes": 69,
+   "rows": 734,
+   "verdicts": {
+    "Likely LoF": 67,
+    "Likely not LoF": 53,
+    "LoF": 71,
+    "Not LoF": 466,
+    "Uncertain": 77
+   }
   }
  },
  "gtex_datasets_api": {
@@ -3809,6 +4185,91 @@
    "rows": 7886762
   }
  },
+ "pharmvar_6_2_29": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "every member passes its CRC",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "one top-level folder, named after the version",
+    "ok": true
+   },
+   {
+    "detail": "['CYP1A2', 'CYP2A13', 'CYP2A6', 'CYP2B6', 'CYP2C19', 'CYP2C8', 'CYP2C9', 'CYP2D6', 'CYP3A4', 'CYP3A5', 'CYP4F2', 'DPYD', 'NAT2', 'NUDT15', 'SLCO1B1']",
+    "name": "every gene has a RefSeqGene, a GRCh37 and a GRCh38 table and a haplotype FASTA",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every table has the version line and the nine documented columns",
+    "ok": true
+   },
+   {
+    "detail": "{'columns': 0, 'type': 0, 'coordinates': 0, 'alleles': 0}",
+    "name": "every table row has nine fields, a documented type, ordered numeric coordinates and A/C/G/T/N/- alleles",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "VCF files per gene and reference equal the table haplotypes that have variants",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "FASTA records equal the haplotypes of the RefSeqGene table and name this version",
+    "ok": true
+   },
+   {
+    "detail": "{'malformed': 0, 'without_variants': 0}",
+    "name": "every VCF has a v4 header, the eight columns and well-formed records, and at least one variant",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genes": 15,
+   "haplotypes_refseqgene": {
+    "CYP1A2": 125,
+    "CYP2A13": 31,
+    "CYP2A6": 128,
+    "CYP2B6": 158,
+    "CYP2C19": 148,
+    "CYP2C8": 65,
+    "CYP2C9": 216,
+    "CYP2D6": 568,
+    "CYP3A4": 114,
+    "CYP3A5": 47,
+    "CYP4F2": 66,
+    "DPYD": 459,
+    "NAT2": 156,
+    "NUDT15": 55,
+    "SLCO1B1": 122
+   },
+   "members": 7926,
+   "row_types": {
+    "": 84,
+    "deletion": 1447,
+    "insertion": 864,
+    "substitution": 36245
+   },
+   "table_rows": 38640,
+   "vcf_files": 7865,
+   "vcf_records": 35172
+  }
+ },
  "reactome_ensembl2reactome": {
   "checks": [
    {
@@ -4166,6 +4627,114 @@
   "stats": {
    "contigs": 24,
    "rows": 105286
+  }
+ },
+ "sifts_pdb_chain_uniprot": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "# 2026/10/18 - 11:58 | PDB: 42.26 | UniProt: 2026.03",
+    "name": "first line is a dated comment naming the PDB and UniProt releases",
+    "ok": true
+   },
+   {
+    "detail": "['PDB', 'CHAIN', 'SP_PRIMARY', 'RES_BEG', 'RES_END', 'PDB_BEG', 'PDB_END', 'SP_BEG', 'SP_END']",
+    "name": "column header is the nine documented columns",
+    "ok": true
+   },
+   {
+    "detail": "{'columns': 0, 'pdb_id': 0, 'accession': 0, 'integers': 0}",
+    "name": "every row has nine fields, a PDB identifier and a UniProt accession of the documented form",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "RES ranges are ordered and positive (SEQRES numbering)",
+    "ok": true
+   },
+   {
+    "detail": "{'reversed_rows': 78, 'rows': 1047374, 'examples': [['1cu1', 'A', 'P26663', '1', '645', '705', '631', '1678', '1657'], ['1cu1', 'B', 'P26663', '1', '645', '1705', '1631', '1678', '1657'], ['1g6l', 'A', 'P04585', '105', '203', '1001', '1099', '593', '587'], ['3ggh', 'A', 'P14191', '12', '275', '11', ",
+    "name": "UniProt ranges are ordered except for at most 0.01% of rows (reversed segments of engineered constructs)",
+    "ok": true
+   },
+   {
+    "detail": "{'pdb_entries': 246198, 'uniprot_accessions': 76796}",
+    "name": "the file covers at least 200,000 PDB entries and 60,000 UniProt accessions",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "pdb_entries": 246198,
+   "release_line": "# 2026/10/18 - 11:58 | PDB: 42.26 | UniProt: 2026.03",
+   "reversed_uniprot_ranges": 78,
+   "rows": 1047374,
+   "rows_with_crlf_line_ending": 1047374,
+   "rows_with_unequal_seqres_and_uniprot_length": 23251,
+   "uniprot_accessions": 76796
+  }
+ },
+ "sifts_uniprot_segments_observed": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "# 2026/10/18 - 11:57",
+    "name": "first line is a dated comment",
+    "ok": true
+   },
+   {
+    "detail": "['PDB', 'CHAIN', 'SP_PRIMARY', 'RES_BEG', 'RES_END', 'PDB_BEG', 'PDB_END', 'SP_BEG', 'SP_END']",
+    "name": "column header is the nine documented columns",
+    "ok": true
+   },
+   {
+    "detail": "{'columns': 0, 'pdb_id': 0, 'accession': 0, 'integers': 0}",
+    "name": "every row has nine fields, a PDB identifier and a UniProt accession of the documented form",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "RES ranges are ordered and positive (SEQRES numbering)",
+    "ok": true
+   },
+   {
+    "detail": "{'reversed_rows': 0, 'rows': 1580438, 'examples': []}",
+    "name": "UniProt ranges are ordered except for at most 0.01% of rows (reversed segments of engineered constructs)",
+    "ok": true
+   },
+   {
+    "detail": "{'pdb_entries': 246183, 'uniprot_accessions': 76754}",
+    "name": "the file covers at least 200,000 PDB entries and 60,000 UniProt accessions",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "pdb_entries": 246183,
+   "release_line": "# 2026/10/18 - 11:57",
+   "reversed_uniprot_ranges": 0,
+   "rows": 1580438,
+   "rows_with_crlf_line_ending": 0,
+   "rows_with_unequal_seqres_and_uniprot_length": 9912,
+   "uniprot_accessions": 76754
   }
  },
  "strchive_hg38_general": {

@@ -14,6 +14,7 @@ import unittest
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+import compat_reference  # noqa: E402
 import intervals  # noqa: E402
 import mavedb_snvs  # noqa: E402
 
@@ -63,6 +64,58 @@ class RegionMerging(unittest.TestCase):
             self.assertTrue(any(c == '7' and s <= p <= e for c, s, e in regs))
         starts = [s for _, s, _ in regs]
         self.assertEqual(starts, sorted(starts))
+
+
+class ContigOrder(unittest.TestCase):
+    def test_standard_sequences_in_karyotype_order_then_other_contigs_by_name(self):
+        names = ['HSCHR6_MHC_COX_CTG1', 'MT', 'X', '10', '2', 'HG1007_PATCH', '1', 'Y', '22']
+        self.assertEqual(sorted(names, key=mavedb_snvs.contig_rank), ['1', '2', '10', '22', 'X', 'Y', 'MT', 'HG1007_PATCH', 'HSCHR6_MHC_COX_CTG1'])
+
+    def test_standard_list_has_25_sequences(self):
+        self.assertEqual(len(mavedb_snvs.STANDARD), 25)
+        self.assertEqual(len(set(mavedb_snvs.STANDARD)), 25)
+
+
+class CodonHelpers(unittest.TestCase):
+    """The genetic-code table and the genomic-to-codon helper behind the AlphaMissense consistency test, on synthetic genes."""
+    class FakeFasta:
+        def __init__(self, seqs):
+            self.seqs = seqs
+
+        def fetch(self, chrom, start, end):
+            return self.seqs[chrom][start:end]
+
+    def test_standard_genetic_code(self):
+        c = compat_reference.CODON
+        self.assertEqual(len(c), 64)
+        self.assertEqual(sorted(k for k, v in c.items() if v == '*'), ['TAA', 'TAG', 'TGA'])
+        self.assertEqual((c['ATG'], c['TGG'], c['GGG'], c['AAA'], c['CGG'], c['GAA']), ('M', 'W', 'G', 'K', 'R', 'E'))
+
+    def test_reverse_complement(self):
+        self.assertEqual(compat_reference.rc('ATGN'), 'NCAT')
+
+    def test_plus_strand_gene_with_two_coding_exons(self):
+        g = list('N' * 50)
+        g[10:16] = 'ATGAAA'
+        g[30:36] = 'TGGTAA'                                     # spliced CDS ATG AAA TGG TAA = M K W stop
+        fa = self.FakeFasta({'c': ''.join(g)})
+        pieces = [(11, 16), (31, 36)]
+        f = lambda pos, ref, alt: compat_reference.implied_change(fa, 'c', '+', pieces, pos, ref, alt, {}, 'tx')
+        self.assertEqual(f(14, 'A', 'G'), (2, 'K', 'E', True))        # AAA -> GAA
+        self.assertEqual(f(31, 'T', 'C'), (3, 'W', 'R', True))        # first base of the exon-2 codon: TGG -> CGG
+        self.assertEqual(f(14, 'C', 'G'), (2, 'K', 'E', False))       # a wrong REF base is reported, not hidden
+        self.assertIsNone(f(20, 'N', 'A'))                            # intron
+
+    def test_minus_strand_gene_is_read_from_the_high_coordinates(self):
+        g = list('N' * 50)
+        g[30:36] = 'TTTCAT'                                    # reverse complement of ATGAAA, first exon in transcription order
+        g[10:16] = 'TTACCA'                                    # reverse complement of TGGTAA
+        fa = self.FakeFasta({'c': ''.join(g)})
+        pieces = [(11, 16), (31, 36)]
+        f = lambda pos, ref, alt: compat_reference.implied_change(fa, 'c', '-', pieces, pos, ref, alt, {}, 'tx')
+        self.assertEqual(f(33, 'T', 'C'), (2, 'K', 'E', True))        # + strand T>C is A>G on the transcript: AAA -> GAA
+        self.assertEqual(f(16, 'A', 'G'), (3, 'W', 'R', True))        # the highest base of exon 2 is the first base of codon 3 (TGG): A>G on + is T>C on the transcript, CGG
+        self.assertIsNone(f(25, 'N', 'A'))
 
 
 class GenomicHgvs(unittest.TestCase):

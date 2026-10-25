@@ -1,6 +1,6 @@
 # Attribution and licence notes for the data we hold
 
-*Generated 2026-10-25 12:30 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 One row per source whose files are in `data/external/` or whose tables are redistributed on the data branch. Licence and attribution wording is copied from the source records, which quote the pages they were read from; where a source asks for a particular citation, the source URL leads to it. A private repository would not remove any of these conditions.
 
@@ -27,7 +27,9 @@ One row per source whose files are in `data/external/` or whose tables are redis
 | `mavedb` | Per record: CC0 (1,340), CC BY 4.0 (45), CC BY-SA 4.0 (11), CC BY-NC-SA 4.0 (6) among our 1,402 human sets; Zenodo bulk dump contains CC0 records only | Follow each record licence; private repository status does not override it | <https://api.mavedb.org/api/v1/licenses/active> |
 | `nhgri_education` | NHGRI website content is in the public domain unless otherwise indicated (NHGRI Copyright Policy); material with a credit line is third-party copyrighted and carries its owner's terms | Free to use and distribute; NHGRI requests the acknowledgement 'Courtesy: National Human Genome Research Institute' with a link back to genome.gov | <https://www.genome.gov/about-nhgri/Policies-Guidance/Copyright> |
 | `opentargets` | CC0 1.0 for Platform data (docs page); a separate data-source licensing list exists on the same page | CC0 for the Platform; upstream source terms should be checked from the data-source list | <https://platform-docs.opentargets.org/licence> |
+| `pdbe_sifts` | EMBL-EBI Terms of Use: freely available, no additional restriction on contributed data beyond the data owner's terms (terms page, verified live). PDB archive data files are CC0 1.0 (wwPDB usage policy | Free with attribution; the SIFTS page asks users to cite Dana, Gutmanas et al., Nucleic Acids Research 47, D482 (2019). | <https://www.ebi.ac.uk/about/terms-of-use>, <https://www.wwpdb.org/about/usage-policies> |
 | `pharmgkb` | CC BY-SA 4.0 (data usage policy) | Share-alike and attribution required for redistribution | <https://www.clinpgx.org> |
+| `pharmvar` | CC BY-SA 4.0 for the PharmVar database content, with the user agreeing to use the data for research purposes and not to offer any part of it for sale as a commercial item; access is under the site's T | Share-alike with attribution: adaptations must be shared under CC BY-SA 4.0 and no part of the data may be offered for sale as a commercial item. Contributed content is CC BY 4.0. The data here stay in git-ignored data/external/. | <https://www.pharmvar.org/terms-and-conditions> |
 | `reactome` | Data licensed CC0; illustrations CC BY 4.0 (license page) | Open | <https://reactome.org/license> |
 | `strchive` | CC BY 4.0 (site footer); research use only | Attribution | <https://strchive.org> |
 | `uniprot` | CC BY 4.0 for copyrightable parts | Attribution | <https://www.uniprot.org/help/license> |

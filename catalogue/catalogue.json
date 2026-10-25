@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25 12:30 UTC",
+ "generated_utc": "2026-10-25 14:12 UTC",
  "sources": [
   {
    "id": "1000genomes",
@@ -1394,11 +1394,11 @@
     "https://www.ensembl.org/api/metadata"
    ],
    "version": {
-    "value": "Ensembl release 116 (REST); integrated release 2026-07 in the genome selector",
+    "value": "Ensembl release 116 (REST); integrated release 2026-07 in the genome selector; FASTA and GTF files of release 116 (GTF genebuild last updated 2025-11)",
     "release_date": "2026-07",
     "verified": "live"
    },
-   "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies.",
+   "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies. The GRCh38 reference sequence (toplevel FASTA) and the release-116 gene annotation (GTF) are mirrored.",
    "variant_classes": [
     "gene_level",
     "region_level"
@@ -1411,7 +1411,8 @@
    ],
    "formats": [
     "JSON (REST/metadata API)",
-    "FASTA, GTF/GFF3 on FTP (not downloaded)"
+    "FASTA (bgzip with .fai and .gzi) and GTF, downloaded for GRCh38 release 116",
+    "GFF3 on FTP (not downloaded)"
    ],
    "identifiers": [
     "ENSG/ENST/ENSP",
@@ -1433,7 +1434,10 @@
    },
    "update_frequency": "Integrated releases several times a year (2026-07 live).",
    "coverage_limitations": [
-    "Only the genome registry and details for three assemblies are downloaded; no sequence or annotation files yet"
+    "GRCh38 only: the GRCh37, T2T-CHM13 and haplotype assemblies have registry records but no sequence or annotation files here",
+    "The FASTA is the unmasked toplevel set (706 sequences, including patches and haplotypes); no soft-masked or primary-assembly-only file is held",
+    "The GTF is the default release-116 file; the larger chr_patch_hapl_scaff file (patch and haplotype annotation) and the ab initio predictions are not held",
+    "Release 116 postdates the MANE v1.5 and AlphaMissense transcript sets: transcript versions can differ, so joins on transcript IDs must compare versions"
    ],
    "known_omissions": [
     "Variation and regulation data exist for few of the 560 sample assemblies (96 with variation, 2 with regulation)"
@@ -1442,21 +1446,33 @@
     "ensembl-human-genomes"
    ],
    "reuse_decision": {
-    "action": "reuse_existing",
-    "rationale": "Registry already collected and verified; fetch FASTA/GTF only when an analysis needs them, preferring GENCODE/MANE files already staged for acquisition."
+    "action": "retrieve_source",
+    "rationale": "The GRCh38 toplevel FASTA (808 MB) and the release-116 GTF (141 MB) are the reference every coordinate file in the library is checked against, publish checksums, and have no curated alternative inside the library. They are fetched and verified against the Ensembl CHECKSUMS. For human the Ensembl README states that the GTF equals the GENCODE gene set, so GENCODE's own copy is not fetched. The genome registry (existing asset) is kept as is. The remote range reads of the same FASTA stay as an independent route and are tested against the local copy."
    },
    "status": {
     "accessible": "yes",
-    "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time."
+    "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time. The FASTA and GTF downloads equal the BSD checksums and sizes published in the Ensembl CHECKSUMS files; the indexed FASTA is also readable over HTTPS by region (index opens in about 5 s, a region read takes about 1 s)."
    },
    "evidence": [
-    "ensembl_vep/rest_software",
-    "ensembl_vep/rest_data",
+    "ensembl_genomes/dna_index_checksums",
+    "ensembl_genomes/dna_index_listing",
+    "ensembl_genomes/dna_readme",
+    "ensembl_genomes/gtf_checksums",
+    "ensembl_genomes/gtf_listing",
+    "ensembl_genomes/gtf_readme",
     "ensembl_vep/data_use",
-    "ensembl_vep/ftp_current_listing"
+    "ensembl_vep/ftp_current_listing",
+    "ensembl_vep/rest_data",
+    "ensembl_vep/rest_software"
    ],
    "unverified_fields": [],
-   "acquisition_targets": [],
+   "acquisition_targets": [
+    "ensembl_grch38_dna_toplevel",
+    "ensembl_grch38_dna_toplevel_fai",
+    "ensembl_grch38_dna_toplevel_gzi",
+    "ensembl_grch38_gtf_116",
+    "ensembl_grch38_reference_regional"
+   ],
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
@@ -1857,7 +1873,8 @@
    },
    "update_frequency": "GENCODE ~twice yearly; MANE ~annually.",
    "coverage_limitations": [
-    "MANE covers one transcript per protein-coding gene"
+    "MANE covers one transcript per protein-coding gene",
+    "GENCODE's own annotation files are not held; the Ensembl release-116 GTF is held instead"
    ],
    "known_omissions": [],
    "overlap_with_existing": [
@@ -1865,7 +1882,7 @@
    ],
    "reuse_decision": {
     "action": "retrieve_source",
-    "rationale": "MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD; the GENCODE genome FASTA (806 to 856 MB) is deferred."
+    "rationale": "MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD. GENCODE's own annotation and FASTA are not fetched: for human the Ensembl README states that the Ensembl GTF equals the GENCODE gene set, and the release-116 GTF and FASTA are held through the ensembl_genomes source (its genebuild was last updated 2025-11 and may differ from GENCODE v50, dated 2026-06-09)."
    },
    "status": {
     "accessible": "yes",
@@ -1951,7 +1968,8 @@
    "update_frequency": "Per gnomAD release; 4.1.2 updated constraint only.",
    "coverage_limitations": [
     "Constraint is a population-genetic inference, not a direct knockout phenotype",
-    "Short genes have wide confidence intervals"
+    "Short genes have wide confidence intervals",
+    "The LoF curation held is one small file (734 variants in genes with incomplete penetrance); the v2.1.1 curation sets are not in the public buckets"
    ],
    "known_omissions": [
     "Ensembl also ships a LOEUF plugin file (338 MB); this is the primary source"
@@ -1966,12 +1984,16 @@
     "notes": "S3 object size verified by HEAD."
    },
    "acquisition_targets": [
-    "gnomad_constraint_v4_1_2"
+    "gnomad_constraint_v4_1_2",
+    "gnomad_v4_1_lof_curation_incomplete_penetrance"
    ],
    "evidence": [
     "gnomad/downloads_page",
+    "gnomad/gcs_lof_curation_v2_1_1",
+    "gnomad/gcs_lof_curation_v4_1",
     "gnomad/policies",
-    "gnomad/s3_v4_1_listing"
+    "gnomad/s3_v4_1_listing",
+    "gnomad/s3_v4_1_lof_curation"
    ],
    "unverified_fields": [],
    "lifecycle_all_targets": {
@@ -3034,6 +3056,104 @@
    "lifecycle_notes": []
   },
   {
+   "id": "pdbe_sifts",
+   "name": "PDBe SIFTS: PDB chain to UniProt residue mappings",
+   "categories": [
+    "protein_structure_function"
+   ],
+   "maintainer": "PDBe (EMBL-EBI) with UniProt",
+   "url": "https://www.ebi.ac.uk/pdbe/docs/sifts/",
+   "provenance": [
+    "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/"
+   ],
+   "version": {
+    "value": "SIFTS flat files of 2026-10-18 (PDB release 42.26, UniProt 2026.03 per the file header); overwritten at each weekly PDB release",
+    "release_date": "2026-10-18",
+    "verified": "live"
+   },
+   "scope": "Residue-level mapping between experimentally determined PDB chains and UniProtKB sequences: mapped segments of each chain, and the segments whose residues are observed in the structure.",
+   "variant_classes": [
+    "protein_level"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "formats": [
+    "TSV (gzip)",
+    "per-entry XML (not downloaded)"
+   ],
+   "identifiers": [
+    "PDB ID and chain",
+    "UniProt accession"
+   ],
+   "mapping_methods": "SIFTS pipeline: sequence alignment of each PDB chain to UniProtKB, giving contiguous segments in SEQRES, PDB-author and UniProt numbering.",
+   "quantitative": {
+    "summary": "Residue ranges of mapped and of observed segments.",
+    "units": "residue positions",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "EMBL-EBI Terms of Use: freely available, no additional restriction on contributed data beyond the data owner's terms (terms page, verified live). PDB archive data files are CC0 1.0 (wwPDB usage policy, verified live). No SIFTS-specific licence statement was found.",
+    "redistribution": "Free with attribution; the SIFTS page asks users to cite Dana, Gutmanas et al., Nucleic Acids Research 47, D482 (2019).",
+    "access": "open",
+    "verified": "live"
+   },
+   "update_frequency": "Weekly, with the PDB release.",
+   "coverage_limitations": [
+    "Only experimentally determined structures; predicted models are in AlphaFold DB",
+    "A mapped segment says which UniProt residues a chain covers, not whether the construct carries engineered changes, nor the quality of the structure",
+    "Residue numbering differs between the SEQRES, PDB-author and UniProt systems; the UniProt columns are the ones used here"
+   ],
+   "known_omissions": [
+    "The other SIFTS flat files in the same directory (Pfam, InterPro, GO, CATH, SCOP, Ensembl, taxonomy, enzyme, PubMed) and the per-entry XML files are not fetched; InterPro and GO are held through InterPro and Open Targets",
+    "Coordinate files of the structures are not fetched"
+   ],
+   "overlap_with_existing": [],
+   "reuse_decision": {
+    "action": "retrieve_source",
+    "rationale": "Experimental-structure coverage per UniProt residue is the complement to the AlphaFold DB predicted models and was an explicit gap in the library (PDB not catalogued). The two summary files are small (6.3 MB and 11.0 MB). Structure coordinate files are not mirrored."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Flat files listed with dates in the FTP index; the files are replaced each week, so the manifest records the size and SHA-256 of the copy fetched on 2026-10-25. pdb_chain_uniprot.tsv.gz uses CRLF line endings (a parser that splits on LF alone keeps a trailing carriage return in the last column); uniprot_segments_observed.tsv.gz uses LF."
+   },
+   "unverified_fields": [
+    "SIFTS-specific licence statement"
+   ],
+   "evidence": [
+    "pdbe_sifts/ebi_terms_of_use",
+    "pdbe_sifts/flatfiles_listing",
+    "pdbe_sifts/pdb_chain_uniprot_head",
+    "pdbe_sifts/sifts_overview",
+    "pdbe_sifts/uniprot_segments_observed_head",
+    "pdbe_sifts/wwpdb_usage_policy"
+   ],
+   "acquisition_targets": [
+    "sifts_pdb_chain_uniprot",
+    "sifts_uniprot_segments_observed"
+   ],
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "protein_structure_function": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "pharmgkb",
    "name": "ClinPGx / PharmGKB",
    "categories": [
@@ -3150,11 +3270,11 @@
     "https://www.pharmvar.org/download"
    ],
    "version": {
-    "value": "Site version 6.2.29 (footer: \"Last Updated Sep 22 2026\")",
+    "value": "PharmVar 6.2.29 (site footer \"Last Updated Sep 22 2026\"; VCF fileDate 2026-09-22), the latest version listed on 2026-10-25",
     "release_date": "2026-09-22",
     "verified": "live"
    },
-   "scope": "Haplotype (star allele) definitions per pharmacogene with sequence-level variants in VCF, FASTA and TSV downloads; API services are offered for third parties.",
+   "scope": "Haplotype (star allele) definitions of 15 pharmacogenes (CYP1A2, CYP2A13, CYP2A6, CYP2B6, CYP2C19, CYP2C8, CYP2C9, CYP2D6, CYP3A4, CYP3A5, CYP4F2, DPYD, NAT2, NUDT15, SLCO1B1) in the complete-database download: a table of defining variants per haplotype and a VCF per haplotype on RefSeqGene, GRCh37 and GRCh38 coordinates, plus haplotype FASTA. API services are offered for third parties.",
    "variant_classes": [
     "snv",
     "indel",
@@ -3184,10 +3304,10 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "Terms and Conditions page not retrievable (HTTP 404 on the URLs tried)",
-    "redistribution": "Unknown; read the terms manually before use",
-    "access": "unverified",
-    "verified": "unverified"
+    "name": "CC BY-SA 4.0 for the PharmVar database content, with the user agreeing to use the data for research purposes and not to offer any part of it for sale as a commercial item; access is under the site's Terms and Conditions (last modified 2023-03-24, which also contain an arbitration clause). Verified live at /terms-and-conditions.",
+    "redistribution": "Share-alike with attribution: adaptations must be shared under CC BY-SA 4.0 and no part of the data may be offered for sale as a commercial item. Contributed content is CC BY 4.0. The data here stay in git-ignored data/external/.",
+    "access": "open_with_terms",
+    "verified": "live"
    },
    "update_frequency": "Irregular (site footer date).",
    "coverage_limitations": [
@@ -3195,43 +3315,43 @@
     "Downloads are not available for transcript reference sequences"
    ],
    "known_omissions": [
-    "Terms of use unread"
+    "Other pharmacogenes in PharmVar that are not part of the complete-database download (for example genes still under review)",
+    "CPIC/ClinPGx allele function and phenotype assignments are separate sources (cpic, pharmgkb)"
    ],
    "overlap_with_existing": [],
    "reuse_decision": {
-    "action": "defer",
-    "rationale": "Licence and bulk download route unverified. Use CPIC/ClinPGx tables meanwhile; revisit after reading the terms."
+    "action": "retrieve_source",
+    "rationale": "The licence was readable after all (the earlier guessed URLs returned the application shell; the terms are linked from the footer of the rendered page), it permits research use with attribution and share-alike, and the complete database is one 193 MB archive that the site's own button serves. It closes the star-allele sequence gap that CPIC and ClinPGx tables leave."
    },
    "status": {
-    "accessible": "partial",
-    "notes": "Home and download pages readable; terms page not found."
+    "accessible": "yes",
+    "notes": "Terms at /terms-and-conditions (footer link). The Download Complete Database button calls get-download-file?name=ALL&refSeq=ALL&fileType=zip&version=current; the same URL with version=6.2.29 returns a byte-identical archive (SHA-256 compared) and is the pinned target."
    },
-   "unverified_fields": [
-    "licence",
-    "release date"
-   ],
+   "unverified_fields": [],
    "evidence": [
-    "pharmvar/home",
     "pharmvar/downloads",
-    "pharmvar/terms"
+    "pharmvar/home",
+    "pharmvar/terms_and_conditions"
    ],
-   "acquisition_targets": [],
+   "acquisition_targets": [
+    "pharmvar_6_2_29"
+   ],
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
-    "acquired": false,
-    "validated": false,
-    "mapped": false,
-    "usable": false
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "functional_haplotypes_pgx": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
-     "validated": false,
-     "mapped": false,
-     "usable": false
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
     }
    },
    "lifecycle_notes": []

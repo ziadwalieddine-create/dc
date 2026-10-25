@@ -1,0 +1,81 @@
+
+ wwPDB: Usage Policies 
+ Toggle navigation 
+ Validation 
+ Validation Reports 
+ Validation Servers 
+ OneDep Validation API 
+ Deposition 
+ Deposit Structure 
+ System Information 
+ Tutorial 
+ FAQ 
+ All Deposition Resources 
+ Dictionaries 
+ PDBx/mmCIF 
+ Chemical Component Dictionary 
+ Biologically Interesting Molecule Reference Dictionary (BIRD) 
+ Documentation 
+ Extended PDB ID 
+ File Format 
+ Deposition & Biocuration Policies 
+ Remediation 
+ Instructions to Journals 
+ Task Forces 
+ Validation Task Forces 
+ X-Ray Validation 
+ NMR Validation 
+ EM Validation 
+ Small Angle Scattering (SAS) 
+ PDBx/mmCIF Working Group 
+ Hybrid/Integrative Methods 
+ Ligand Validation Workshop 
+ ModelCIF Working Group 
+ Downloads 
+ PDB Beta Archive 
+ PDB Archive 
+ PDB Versioned Archive 
+ PDB NextGen Archive 
+ Statistics 
+ Deposition Statistics 
+ Download Statistics 
+ About 
+ Contact Us 
+ Cite Us 
+ Publications 
+ Advisory Committee 
+ Agreement 
+ Outreach 
+ FAQ 
+ Privacy 
+ Usage Policies 
+ PDB50 
+ About 
+ Contact Us 
+ Cite Us 
+ Publications 
+ Advisory Committee 
+ Agreement 
+ Outreach 
+ FAQ 
+ Privacy 
+ Usage Policies 
+ PDB50 
+ Usage Policy 
+ Data files contained in the PDB archive are available under the CC0 1.0 Universal (CC0 1.0) Public Domain Dedication . 
+ Users of PDB data are encouraged to attribute the original authors of the PDB structure data where possible. 
+ wwPDB makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law. 
+ News & Announcements 
+ Community Bulletin Board 
+ Download Archive 
+ RCSB PDB | PDBe | PDBj 
+ Instructions 
+ Archive Snapshots 
+ RCSB PDB (https) | PDBj 
+ -->
+ Cite wwPDB: 
+ Nature Structural Biology 10 , 980 (2003) 
+ doi: 10.1038/nsb1203-980 
+ More publications 
+ wwPDB Members: 
+ © wwPDB 

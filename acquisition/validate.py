@@ -14,10 +14,14 @@ import io
 import json
 import os
 import re
+import struct
+import sys
 import tarfile
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import mavedb_snvs  # noqa: E402
 ROOT = os.path.abspath(os.path.join(HERE, '..'))
 DATA = os.path.join(ROOT, 'data', 'external')
 TARGETS = {t['id']: t for t in json.load(open(os.path.join(HERE, 'targets.json')))}
@@ -388,6 +392,399 @@ def v_humsavar(tid, r):
     r.stats.update(release=release, rows=n, distinct_ftids=len(ftids), categories=dict(cats), stated=stated)
 
 
+def v_reference_slice(tid, r):
+    """Reference sequence regions written by fetch_reference_regional.py: every row has the requested length and only A/C/G/T/N,
+    rows are sorted and disjoint, the regions hash to the manifest, and every region lies inside a sequence listed in the saved .fai."""
+    m = MANIFEST[tid]
+    n = bases = bad_len = bad_chars = unsorted = overlap = beyond = unknown = 0
+    last = None
+    regions = []
+    odd = collections.Counter()
+    fai, fai_sha = {}, None
+    fai_copy = os.path.join(DATA, 'reference_sequence', 'index_cache', os.path.basename(m['url']) + '.fai')
+    if os.path.exists(fai_copy):
+        raw = open(fai_copy, 'rb').read()
+        fai_sha = hashlib.sha256(raw).hexdigest()
+        for line in raw.decode().splitlines():
+            p = line.split('\t')
+            fai[p[0]] = int(p[1])
+    with opener(path(tid)) as f:
+        rd = csv.reader(f, delimiter='\t')
+        hdr = next(rd)
+        for c, s_, e_, seq in rd:
+            n += 1
+            s_, e_ = int(s_), int(e_)
+            bases += len(seq)
+            bad_len += len(seq) != e_ - s_ + 1 or s_ < 1
+            odd.update(set(seq) - set('ACGTN'))
+            key = (mavedb_snvs.contig_rank(c), s_)
+            if last is not None:
+                unsorted += key < last[:2]
+                overlap += (key[0] == last[0] and s_ <= last[2])
+            last = (key[0], s_, e_)
+            unknown += c not in fai
+            beyond += (c in fai and e_ > fai[c])
+            regions.append(f'{c}\t{s_}\t{e_}')
+    bad_chars = sum(odd.values())
+    r.check('header is chrom, start, end, sequence', hdr == ['chrom', 'start', 'end', 'sequence'], hdr)
+    r.check('rows and bases equal the manifest', n == m['rows'] and bases == m['bases'], f'{n} rows, {bases} bases vs {m["rows"]}, {m["bases"]}')
+    r.check('the regions hash to the manifest value (the file is the set of regions that was requested and read)', hashlib.sha256('\n'.join(regions).encode()).hexdigest() == m.get('regions_sha256'), f'{n} regions')
+    r.check('every sequence has the length of its region (1-based inclusive)', bad_len == 0, bad_len)
+    r.check('sequences contain only A, C, G, T, N', bad_chars == 0, dict(odd))
+    r.check('regions are sorted and disjoint', unsorted == 0 and overlap == 0, f'unsorted {unsorted}, overlapping {overlap}')
+    r.check('the saved .fai equals the manifest hash and lists the 25 standard sequences with the GRCh38 lengths of chr1 and MT',
+            fai_sha is not None and fai_sha == m.get('fai_sha256') and set(mavedb_snvs.STANDARD) <= set(fai) and fai.get('1') == 248956422 and fai.get('MT') == 16569,
+            {'sha256_matches': fai_sha == m.get('fai_sha256'), '1': fai.get('1'), 'MT': fai.get('MT'), 'sequences': len(fai)})
+    r.check('every region is on a sequence of the .fai and ends inside it', n > 0 and unknown == 0 and beyond == 0, f'on unknown sequence {unknown}, beyond the end {beyond}')
+    r.stats.update(rows=n, bases=bases, sequences_read=m.get('sequences_read'), skipped_contigs=m.get('skipped_contigs'), fai_sequences=len(fai))
+
+
+FASTA_ID = 'ensembl_grch38_dna_toplevel'
+
+
+def read_fai(p):
+    """samtools faidx index: name, length, byte offset of the first base, bases per line, bytes per line."""
+    out = []
+    for line in open(p):
+        name, length, offset, bases, width = line.rstrip('\n').split('\t')[:5]
+        out.append((name, int(length), int(offset), int(bases), int(width)))
+    return out
+
+
+def v_fai(tid, r):
+    """The .fai published with the FASTA: unique sequence names, consistent line geometry, and byte-identical to the copy that
+    fetch_reference_regional.py used for its remote reads (so the remote reads and this file describe the same index)."""
+    fai = read_fai(path(tid))
+    names = [x[0] for x in fai]
+    r.check('one row per sequence with unique names and the 25 standard sequences', len(set(names)) == len(names) and set(mavedb_snvs.STANDARD) <= set(names), len(fai))
+    r.check('line geometry is consistent (bytes per line = bases per line + 1)', all(x[4] == x[3] + 1 and x[3] > 0 for x in fai), {x[3] for x in fai})
+    r.check('offsets are increasing', all(a[2] < b[2] for a, b in zip(fai, fai[1:])))
+    r.check('identical to the .fai that the regional reads used', hashlib.sha256(open(path(tid), 'rb').read()).hexdigest() == MANIFEST.get('ensembl_grch38_reference_regional', {}).get('fai_sha256'))
+    r.stats.update(sequences=len(fai), total_bases=sum(x[1] for x in fai), standard_bases=sum(x[1] for x in fai if x[0] in mavedb_snvs.STANDARD))
+
+
+def v_gzi(tid, r):
+    """bgzip block index: an 8-byte block count, then one (compressed offset, uncompressed offset) pair per block after the first.
+    Every pair must describe the real block chain of the FASTA: each compressed offset is a BGZF block start, block sizes add up
+    to the next offset, and the uncompressed sizes (ISIZE) add up to the next uncompressed offset."""
+    raw = open(path(tid), 'rb').read()
+    n = struct.unpack('<Q', raw[:8])[0]
+    r.check('size equals 8 + 16 x block count', len(raw) == 8 + 16 * n, f'{len(raw)} bytes, {n} blocks')
+    pairs = struct.unpack(f'<{2 * n}Q', raw[8:8 + 16 * n])
+    comp, unc = [0] + list(pairs[0::2]), [0] + list(pairs[1::2])
+    r.check('offsets are strictly increasing', all(a < b for a, b in zip(comp, comp[1:])) and all(a < b for a, b in zip(unc, unc[1:])))
+    bad_magic = bad_chain = bad_isize = 0
+    with open(path(FASTA_ID), 'rb') as f:
+        for i, c in enumerate(comp):
+            f.seek(c)
+            h = f.read(18)
+            if not (h[:4] == b'\x1f\x8b\x08\x04' and h[12:14] == b'BC'):
+                bad_magic += 1
+                continue
+            bsize = struct.unpack('<H', h[16:18])[0] + 1
+            f.seek(c + bsize - 4)
+            isize = struct.unpack('<I', f.read(4))[0]
+            if i + 1 < len(comp):
+                bad_chain += comp[i + 1] != c + bsize
+                bad_isize += unc[i + 1] != unc[i] + isize
+    r.check('every compressed offset starts a BGZF block', bad_magic == 0, bad_magic)
+    r.check('block sizes chain exactly to the next compressed offset', bad_chain == 0, bad_chain)
+    r.check('uncompressed block sizes chain exactly to the next uncompressed offset', bad_isize == 0, bad_isize)
+    r.stats.update(blocks=n + 1, last_uncompressed_offset=unc[-1])
+
+
+def v_fasta_toplevel(tid, r):
+    """Scan the whole bgzip FASTA and compare it with the published .fai: record order, names, lengths, byte offsets and line
+    geometry must all agree; only upper-case A/C/G/T/N may occur (the file is unmasked); the two lengths that define the assembly
+    (chr1 and MT) must match the GRCh38 values."""
+    fai = read_fai(path(tid + '_fai'))
+    r.check('companion .fai and .gzi are acquired and verified', all(MANIFEST.get(tid + x, {}).get('ok') and MANIFEST[tid + x].get('bsd_sum_verified_against_source') for x in ('_fai', '_gzi')))
+    m = MANIFEST[tid]
+    r.check('BSD checksum and size equal the values published in the Ensembl CHECKSUMS file', m.get('bsd_sum_verified_against_source') is True and m.get('size_verified_against_source') is True, m.get('bsd_sum'))
+    records, odd, n_bases = [], collections.Counter(), collections.Counter()
+    bad_line = bad_eol = 0
+    cur = None
+    pos = 0
+    with gzip.open(path(tid), 'rb') as f:
+        for line in f:
+            n = len(line)
+            if line[0] == 62:                                   # '>'
+                if cur:
+                    records.append(tuple(cur[:5]))
+                cur = [line[1:].split(None, 1)[0].decode(), 0, pos + n, None, None, False]      # name, length, offset, bases per line, bytes per line, saw a short line
+            else:
+                bad_eol += line[-1] != 10
+                w = n - 1
+                if cur[3] is None:
+                    cur[3], cur[4] = w, n
+                if cur[5] or w > cur[3]:                           # a short line must be the last line of its record
+                    bad_line += 1
+                if w < cur[3]:
+                    cur[5] = True
+                cur[1] += w
+                left = line.translate(None, b'ACGTN\n')
+                if left:
+                    odd.update(left.decode('ascii', 'replace'))
+                n_bases['N'] += line.count(b'N')
+            pos += n
+    records.append(tuple(cur[:5]))
+    n_bases['all'] = sum(x[1] for x in records)
+    r.check('the sequence has the records, names, lengths, byte offsets and line geometry of the .fai', records == fai, f'{len(records)} records vs {len(fai)} in the .fai')
+    r.check('every line has the index width except the last of its record, and every line ends with a newline', bad_line == 0 and bad_eol == 0, f'short lines inside a record {bad_line}, lines without newline {bad_eol}')
+    r.check('only upper-case A, C, G, T, N occur (unmasked)', not odd, dict(odd))
+    lens = {x[0]: x[1] for x in records}
+    r.check('chr1 and MT have the GRCh38 lengths (248,956,422 and 16,569)', lens.get('1') == 248956422 and lens.get('MT') == 16569, {k: lens.get(k) for k in ('1', 'MT')})
+    r.stats.update(records=len(records), bases=n_bases['all'], n_bases=n_bases['N'], standard_bases=sum(lens[k] for k in mavedb_snvs.STANDARD if k in lens), uncompressed_bytes=pos)
+
+
+GTF_FEATURES = {'gene', 'transcript', 'exon', 'CDS', 'five_prime_utr', 'three_prime_utr', 'start_codon', 'stop_codon', 'Selenocysteine'}
+GTF_GID, GTF_TID, GTF_TAG, GTF_BIO, GTF_TBIO = (re.compile(x) for x in (r'gene_id "([^"]+)"', r'transcript_id "([^"]+)"', r'tag "([^"]+)"', r'gene_biotype "([^"]+)"', r'transcript_biotype "([^"]+)"'))
+
+
+def v_ensembl_gtf(tid, r):
+    """Ensembl release-116 gene annotation: the header names GRCh38; every line has nine columns, a known feature type and a strand;
+    every sequence name is in the FASTA's .fai and every feature lies inside its sequence; transcripts lie inside their genes, and
+    exons, CDS, UTRs and codons inside their transcripts on the same sequence and strand; identifiers have the Ensembl form; and
+    the CDS phase column follows from the cumulative CDS length in transcription order."""
+    fai = {x[0]: x[1] for x in read_fai(path(FASTA_ID + '_fai'))}
+    header, counts, tags_seen = [], collections.Counter(), collections.Counter()
+    bad = collections.Counter()
+    genes, tx = {}, {}
+    cur = dict(id=None, cds=[], tags=set(), strand=None, bio=None, chrom=None)
+    phase = collections.Counter()
+    off_frame = collections.Counter()
+    unexplained = []
+
+    def close():
+        if not cur['cds']:
+            return
+        segs = sorted(cur['cds'], reverse=cur['strand'] == '-')
+        cum = 0
+        ok = True
+        for s_, e_, fr in segs:
+            ok &= fr == (3 - cum % 3) % 3
+            cum += e_ - s_ + 1
+        if 'cds_start_NF' not in cur['tags']:
+            phase['phase_checked'] += 1
+            phase['phase_bad'] += not ok
+        if 'cds_start_NF' in cur['tags'] or 'cds_end_NF' in cur['tags']:
+            return
+        if cur['bio'] != 'protein_coding':
+            off_frame[cur['bio']] += cum % 3 != 0                  # for example protein_coding_LoF: a coding gene whose reference allele carries a loss-of-function change
+        elif cur['tags'] & {'mRNA_start_NF', 'mRNA_end_NF'}:
+            phase['incomplete_mrna'] += cum % 3 != 0                # the transcript end was not found, so the CDS can stop mid-codon
+        elif cur['chrom'] == 'MT':
+            phase['mitochondrial'] += cum % 3 != 0                  # mitochondrial stop codons are completed by polyadenylation
+        else:
+            phase['divisibility_tested'] += 1
+            if cum % 3:
+                phase['divisibility_off_frame'] += 1
+                unexplained.append(cur['id'])
+
+    with opener(path(tid)) as f:
+        for line in f:
+            if line.startswith('#'):
+                header.append(line.strip())
+                continue
+            c = line.rstrip('\n').split('\t')
+            if len(c) != 9:
+                bad['columns'] += 1
+                continue
+            seq, src, feat, s_, e_, _, strand, fr, attr = c
+            s_, e_ = int(s_), int(e_)
+            counts[feat] += 1
+            bad['feature_type'] += feat not in GTF_FEATURES
+            bad['strand'] += strand not in ('+', '-')
+            if seq not in fai:
+                bad['sequence_not_in_fai'] += 1
+            else:
+                bad['span'] += not (1 <= s_ <= e_ <= fai[seq])
+            gid = GTF_GID.search(attr)
+            gid = gid.group(1) if gid else None
+            bad['gene_id_form'] += not (gid and re.fullmatch(r'ENSGR?\d{11}', gid))
+            if feat == 'gene':
+                genes[gid] = (seq, s_, e_, strand)
+                counts['gene:' + (GTF_BIO.search(attr).group(1) if GTF_BIO.search(attr) else 'none')] += 1
+                continue
+            tr = GTF_TID.search(attr)
+            tr = tr.group(1) if tr else None
+            bad['transcript_id_form'] += not (tr and re.fullmatch(r'ENSTR?\d{11}', tr))
+            if feat == 'transcript':
+                close()
+                tags = set(GTF_TAG.findall(attr))
+                tags_seen.update(tags)
+                cur.update(id=tr, cds=[], tags=tags, strand=strand, chrom=seq, bio=GTF_TBIO.search(attr).group(1) if GTF_TBIO.search(attr) else None)
+                tx[tr] = (seq, s_, e_, strand)
+                g = genes.get(gid)
+                bad['transcript_outside_gene'] += not (g and g[0] == seq and g[3] == strand and g[1] <= s_ and e_ <= g[2])
+                continue
+            t = tx.get(tr)
+            bad['feature_outside_transcript'] += not (t and t[0] == seq and t[3] == strand and t[1] <= s_ and e_ <= t[2])
+            if feat == 'CDS':
+                bad['cds_frame_missing'] += fr not in ('0', '1', '2')
+                if tr == cur['id'] and fr in ('0', '1', '2'):
+                    cur['cds'].append((s_, e_, int(fr)))
+    close()
+    gb = {k.split(':', 1)[1]: v for k, v in counts.items() if k.startswith('gene:')}
+    r.check('header names GRCh38', any(h.startswith('#!genome-version GRCh38') for h in header), header)
+    r.check('every line has nine columns, a known feature type and a strand', not (bad['columns'] or bad['feature_type'] or bad['strand']), {k: bad[k] for k in ('columns', 'feature_type', 'strand')})
+    r.check('every sequence name is in the FASTA index and every feature lies inside its sequence', not (bad['sequence_not_in_fai'] or bad['span']), {k: bad[k] for k in ('sequence_not_in_fai', 'span')})
+    r.check('gene and transcript identifiers have the Ensembl form', not (bad['gene_id_form'] or bad['transcript_id_form']), {k: bad[k] for k in ('gene_id_form', 'transcript_id_form')})
+    r.check('transcripts lie inside their genes and features inside their transcripts (same sequence and strand)', not (bad['transcript_outside_gene'] or bad['feature_outside_transcript']), {k: bad[k] for k in ('transcript_outside_gene', 'feature_outside_transcript')})
+    r.check('every CDS line has a phase of 0, 1 or 2', bad['cds_frame_missing'] == 0, bad['cds_frame_missing'])
+    r.check('CDS phase follows from the cumulative CDS length in transcription order (transcripts with a complete 5 prime end)', phase['phase_checked'] > 50000 and phase['phase_bad'] == 0, dict(phase))
+    r.check('nuclear protein_coding sequences without an incompleteness tag have a length divisible by 3 (at most 0.01% exceptions)', phase['divisibility_tested'] > 50000 and phase['divisibility_off_frame'] <= 0.0001 * phase['divisibility_tested'],
+            dict(tested=phase['divisibility_tested'], off_frame=phase['divisibility_off_frame'], ids=unexplained[:10]))
+    r.check('genes, transcripts and MANE Select transcripts are present in plausible numbers', 50000 < counts['gene'] < 100000 and counts['transcript'] > 200000 and 17000 < tags_seen['MANE_Select'] < 21000, dict(genes=counts['gene'], transcripts=counts['transcript'], MANE_Select=tags_seen['MANE_Select']))
+    r.stats.update(header=header, feature_counts={k: v for k, v in counts.items() if ':' not in k}, gene_biotypes=dict(collections.Counter(gb).most_common(8)), tags={k: tags_seen[k] for k in ('MANE_Select', 'MANE_Plus_Clinical', 'Ensembl_canonical', 'gencode_basic', 'gencode_primary') if k in tags_seen}, other_biotypes_with_length_not_divisible_by_3={k: v for k, v in off_frame.items() if v}, off_frame_without_incompleteness_tag=unexplained, **dict(phase))
+
+
+SIFTS_COLS = ['PDB', 'CHAIN', 'SP_PRIMARY', 'RES_BEG', 'RES_END', 'PDB_BEG', 'PDB_END', 'SP_BEG', 'SP_END']
+UNIPROT_ACC = re.compile(r'^(?:[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9](?:[A-Z][A-Z0-9]{2}[0-9]){1,2})$')
+PDB_ID = re.compile(r'^[0-9][a-z0-9]{3}$')
+
+
+def v_sifts(tid, r):
+    """SIFTS flat files (PDB chain segments mapped to UniProt): a dated comment line, the nine documented columns, PDB and UniProt
+    identifiers of the documented forms, integer residue ranges, and the sanity floors of the PDB itself. Segments of engineered
+    constructs can run backwards in UniProt numbering or differ in length between SEQRES and UniProt (internal deletions); those
+    are counted, not rejected, and only a negligible number of reversed UniProt ranges is tolerated."""
+    n = bad_cols = bad_pdb = bad_acc = bad_int = bad_res = bad_sp = len_diff = crlf = 0
+    pdbs, accs = set(), set()
+    reversed_examples = []
+    with opener(path(tid)) as f:
+        first = f.readline().strip()
+        hdr = f.readline().rstrip('\r\n').split('\t')
+        for line in f:
+            n += 1
+            crlf += line.endswith('\r\n')                       # pdb_chain_uniprot.tsv.gz uses CRLF line endings, uniprot_segments_observed.tsv.gz uses LF
+            c = line.rstrip('\r\n').split('\t')
+            if len(c) != 9:
+                bad_cols += 1
+                continue
+            pdb, _ch, acc, rb, re_, _pb, _pe, sb, se = c
+            bad_pdb += not PDB_ID.match(pdb)
+            bad_acc += not UNIPROT_ACC.match(acc)
+            try:
+                rb, re_, sb, se = int(rb), int(re_), int(sb), int(se)
+            except ValueError:
+                bad_int += 1
+                continue
+            pdbs.add(pdb)
+            accs.add(acc)
+            bad_res += rb > re_ or min(rb, sb) < 1
+            if sb > se:
+                bad_sp += 1
+                if len(reversed_examples) < 5:
+                    reversed_examples.append(c)
+            len_diff += (re_ - rb) != (se - sb)
+    r.check('first line is a dated comment' + (' naming the PDB and UniProt releases' if tid == 'sifts_pdb_chain_uniprot' else ''),
+            re.match(r'^# \d{4}/\d{2}/\d{2} - \d{2}:\d{2}', first) is not None and (tid != 'sifts_pdb_chain_uniprot' or re.search(r'PDB: [\d.]+ \| UniProt: [\d.]+', first) is not None), first)
+    r.check('column header is the nine documented columns', hdr == SIFTS_COLS, hdr)
+    r.check('every row has nine fields, a PDB identifier and a UniProt accession of the documented form', bad_cols == 0 and bad_pdb == 0 and bad_acc == 0 and bad_int == 0, dict(columns=bad_cols, pdb_id=bad_pdb, accession=bad_acc, integers=bad_int))
+    r.check('RES ranges are ordered and positive (SEQRES numbering)', bad_res == 0, bad_res)
+    r.check('UniProt ranges are ordered except for at most 0.01% of rows (reversed segments of engineered constructs)', bad_sp <= 0.0001 * n, dict(reversed_rows=bad_sp, rows=n, examples=reversed_examples))
+    r.check('the file covers at least 200,000 PDB entries and 60,000 UniProt accessions', len(pdbs) > 200000 and len(accs) > 60000, dict(pdb_entries=len(pdbs), uniprot_accessions=len(accs)))
+    r.stats.update(release_line=first, rows=n, pdb_entries=len(pdbs), uniprot_accessions=len(accs), reversed_uniprot_ranges=bad_sp, rows_with_unequal_seqres_and_uniprot_length=len_diff, rows_with_crlf_line_ending=crlf)
+
+
+LOF_VERDICTS = {'LoF', 'Likely LoF', 'Uncertain', 'Likely not LoF', 'Not LoF'}
+
+
+def v_lof_curation(tid, r):
+    """gnomAD v4.1 LoF curation (incomplete penetrance): GRCh38 variant identifiers, Ensembl gene identifiers with symbols, one of
+    the five documented verdicts, and TRUE/FALSE curation flags; the MD5 published for the object equals ours (checked at download)."""
+    with open(path(tid), newline='', encoding='utf-8') as f:
+        rows = list(csv.DictReader(f))
+    cols = list(rows[0])
+    flags = [c for c in cols if c.startswith('Flag ') or c.startswith('LoF in ')]
+    r.check('columns begin Variant ID, Gene, Verdict and 22 TRUE/FALSE flags follow', cols[:3] == ['Variant ID', 'Gene', 'Verdict'] and len(flags) == len(cols) - 3 == 22, cols[:4])
+    r.check('the MD5 equals the value published for the object', MANIFEST[tid].get('md5_verified_against_source') is True)
+    r.check('variant identifiers are chrom-pos-ref-alt (GRCh38) and unique', all(re.match(r'^(?:[1-9]|1[0-9]|2[0-2]|X|Y)-\d+-[ACGT]+-[ACGT]+$', x['Variant ID']) for x in rows) and len({x['Variant ID'] for x in rows}) == len(rows), len(rows))
+    r.check('genes are ENSG:SYMBOL', all(re.match(r'^ENSG\d{11}:\S+$', x['Gene']) for x in rows))
+    r.check('verdicts are the five documented classes', {x['Verdict'] for x in rows} <= LOF_VERDICTS, collections.Counter(x['Verdict'] for x in rows))
+    r.check('flags are TRUE or FALSE', all(x[c] in ('TRUE', 'FALSE') for x in rows for c in flags))
+    r.check('more than 500 curated variants', len(rows) > 500, len(rows))
+    r.stats.update(rows=len(rows), genes=len({x['Gene'] for x in rows}), verdicts=dict(collections.Counter(x['Verdict'] for x in rows)))
+
+
+PV_COLS = ['Haplotype Name', 'Gene', 'rsID', 'ReferenceSequence', 'Variant Start', 'Variant Stop', 'Reference Allele', 'Variant Allele', 'Type']
+
+
+def v_pharmvar(tid, r):
+    """PharmVar complete-database archive: every member passes its CRC; one folder per gene with RefSeqGene, GRCh37 and GRCh38
+    haplotype tables, one VCF per haplotype that has variants, and a haplotype FASTA; table, VCF and FASTA forms; and the exact
+    relation between the three (VCF files = table haplotypes without variants, per gene and reference; FASTA records = haplotypes)."""
+    z = zipfile.ZipFile(path(tid))
+    r.check('every member passes its CRC', z.testzip() is None)
+    names = z.namelist()
+    ver = os.path.basename(path(tid))[:-len('.zip')]
+    r.check('one top-level folder, named after the version', {n.split('/')[0] for n in names} == {ver})
+    tsv, vcf, fasta = {}, collections.Counter(), {}
+    for n in names:
+        p = n.split('/')
+        if n.endswith('.haplotypes.tsv') and len(p) == 4:
+            tsv[(p[1], p[2])] = n
+        elif n.endswith('.vcf') and len(p) == 4:
+            vcf[(p[1], p[2])] += 1
+        elif n.endswith('.haplotypes.fasta') and len(p) == 3:
+            fasta[p[1]] = n
+    genes = sorted({g for g, _ in tsv})
+    r.check('every gene has a RefSeqGene, a GRCh37 and a GRCh38 table and a haplotype FASTA', len(genes) >= 15 and all(all((g, ref) in tsv for ref in ('RefSeqGene', 'GRCh37', 'GRCh38')) and g in fasta for g in genes), genes)
+    bad_head = bad_cols = bad_type = bad_coord = bad_allele = 0
+    haps, reference_haps = {}, {}
+    n_rows = 0
+    types = collections.Counter()
+    for key, n in tsv.items():
+        lines = z.read(n).decode().split('\n')
+        bad_head += not (lines[0] == '#version=' + ver and lines[1].split('\t') == PV_COLS)
+        hs, rs = set(), set()
+        for l in lines[2:]:
+            if not l.strip():
+                continue
+            c = l.split('\t')
+            if len(c) != 9:
+                bad_cols += 1
+                continue
+            n_rows += 1
+            hs.add(c[0])
+            types[c[8]] += 1
+            if c[3] == 'REFERENCE':
+                rs.add(c[0])
+                continue
+            bad_type += c[8] not in ('substitution', 'deletion', 'insertion')
+            bad_coord += not (c[4].isdigit() and c[5].isdigit() and int(c[4]) <= int(c[5]))
+            bad_allele += bool(set(c[6] + c[7]) - set('ACGTN-'))
+        haps[key], reference_haps[key] = hs, rs
+    r.check('every table has the version line and the nine documented columns', bad_head == 0, bad_head)
+    r.check('every table row has nine fields, a documented type, ordered numeric coordinates and A/C/G/T/N/- alleles', bad_cols == 0 and bad_type == 0 and bad_coord == 0 and bad_allele == 0,
+            dict(columns=bad_cols, type=bad_type, coordinates=bad_coord, alleles=bad_allele))
+    off = [(k, len(haps[k]) - len(reference_haps[k]), vcf[k]) for k in tsv if len(haps[k]) - len(reference_haps[k]) != vcf[k]]
+    r.check('VCF files per gene and reference equal the table haplotypes that have variants', not off, off[:5])
+    off_fa = []
+    for g in genes:
+        recs = [l for l in z.read(fasta[g]).decode().split('\n') if l.startswith('>')]
+        if len(recs) != len(haps[(g, 'RefSeqGene')]) or not all(('PharmVar Version:' + ver.split('-', 1)[1]) in l for l in recs):
+            off_fa.append((g, len(recs), len(haps[(g, 'RefSeqGene')])))
+    r.check('FASTA records equal the haplotypes of the RefSeqGene table and name this version', not off_fa, off_fa[:5])
+    bad_vcf = no_var = 0
+    n_var = 0
+    for n in names:
+        if n.endswith('.vcf'):
+            lines = z.read(n).decode().split('\n')
+            data = [l for l in lines if l and not l.startswith('#')]
+            hdr = [l for l in lines if l.startswith('#CHROM')]
+            ok = lines[0].startswith('##fileformat=VCFv4.') and len(hdr) == 1 and hdr[0].split('\t') == ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO']
+            for l in data:
+                c = l.split('\t')
+                ok &= len(c) == 8 and c[1].isdigit() and set(c[3]) <= set('ACGTN') and set(c[4]) <= set('ACGTN,')
+            bad_vcf += not ok
+            no_var += not data
+            n_var += len(data)
+    r.check('every VCF has a v4 header, the eight columns and well-formed records, and at least one variant', bad_vcf == 0 and no_var == 0, dict(malformed=bad_vcf, without_variants=no_var))
+    r.stats.update(genes=len(genes), haplotypes_refseqgene={g: len(haps[(g, 'RefSeqGene')]) for g in genes}, table_rows=n_rows, row_types=dict(types), vcf_files=sum(vcf.values()), vcf_records=n_var, members=len(names))
+
+
 def v_per_entity(tid, r):
     """Per-protein API responses fetched by fetch_per_protein.py: files match the recorded table, content parses and agrees with
     UniProt on protein length, residue positions are inside the protein, and coverage is what the human proteome implies."""
@@ -624,7 +1021,9 @@ def run(tid):
         return r
     v_manifest(tid, r)
     try:
-        if t.get('kind') == 'regional_slice':
+        if tid == 'ensembl_grch38_reference_regional':
+            v_reference_slice(tid, r)
+        elif t.get('kind') == 'regional_slice':
             v_regional_slice(tid, r)
         elif t.get('kind') == 'per_entity':
             v_per_entity(tid, r)
@@ -779,6 +1178,20 @@ def run(tid):
             r.stats.update(members_by_type=dict(kinds))
         elif tid == 'dgv_grch38_variants_2025_12_01':
             v_dgv(tid, r)
+        elif tid == FASTA_ID:
+            v_fasta_toplevel(tid, r)
+        elif tid == FASTA_ID + '_fai':
+            v_fai(tid, r)
+        elif tid == FASTA_ID + '_gzi':
+            v_gzi(tid, r)
+        elif tid == 'ensembl_grch38_gtf_116':
+            v_ensembl_gtf(tid, r)
+        elif tid == 'pharmvar_6_2_29':
+            v_pharmvar(tid, r)
+        elif tid.startswith('sifts_'):
+            v_sifts(tid, r)
+        elif tid == 'gnomad_v4_1_lof_curation_incomplete_penetrance':
+            v_lof_curation(tid, r)
         elif tid.endswith('_tbi'):
             r.check('gzip/bgzf-framed index (tbi is BGZF)', open(path(tid), 'rb').read(2) == b'\x1f\x8b')
         elif tid.endswith('readme') or tid.endswith('readme_vcf'):

@@ -12,11 +12,11 @@
   "https://www.ensembl.org/api/metadata"
  ],
  "version": {
-  "value": "Ensembl release 116 (REST); integrated release 2026-07 in the genome selector",
+  "value": "Ensembl release 116 (REST); integrated release 2026-07 in the genome selector; FASTA and GTF files of release 116 (GTF genebuild last updated 2025-11)",
   "release_date": "2026-07",
   "verified": "live"
  },
- "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies.",
+ "scope": "Reference assemblies and annotation. 563 human genome records in the selector: GRCh38.p14 (reference, GENCODE annotation), GRCh37.p13, T2T-CHM13v2.0 and 560 haplotype assemblies. The GRCh38 reference sequence (toplevel FASTA) and the release-116 gene annotation (GTF) are mirrored.",
  "variant_classes": [
   "gene_level",
   "region_level"
@@ -29,7 +29,8 @@
  ],
  "formats": [
   "JSON (REST/metadata API)",
-  "FASTA, GTF/GFF3 on FTP (not downloaded)"
+  "FASTA (bgzip with .fai and .gzi) and GTF, downloaded for GRCh38 release 116",
+  "GFF3 on FTP (not downloaded)"
  ],
  "identifiers": [
   "ENSG/ENST/ENSP",
@@ -51,7 +52,10 @@
  },
  "update_frequency": "Integrated releases several times a year (2026-07 live).",
  "coverage_limitations": [
-  "Only the genome registry and details for three assemblies are downloaded; no sequence or annotation files yet"
+  "GRCh38 only: the GRCh37, T2T-CHM13 and haplotype assemblies have registry records but no sequence or annotation files here",
+  "The FASTA is the unmasked toplevel set (706 sequences, including patches and haplotypes); no soft-masked or primary-assembly-only file is held",
+  "The GTF is the default release-116 file; the larger chr_patch_hapl_scaff file (patch and haplotype annotation) and the ab initio predictions are not held",
+  "Release 116 postdates the MANE v1.5 and AlphaMissense transcript sets: transcript versions can differ, so joins on transcript IDs must compare versions"
  ],
  "known_omissions": [
   "Variation and regulation data exist for few of the 560 sample assemblies (96 with variation, 2 with regulation)"
@@ -60,19 +64,31 @@
   "ensembl-human-genomes"
  ],
  "reuse_decision": {
-  "action": "reuse_existing",
-  "rationale": "Registry already collected and verified; fetch FASTA/GTF only when an analysis needs them, preferring GENCODE/MANE files already staged for acquisition."
+  "action": "retrieve_source",
+  "rationale": "The GRCh38 toplevel FASTA (808 MB) and the release-116 GTF (141 MB) are the reference every coordinate file in the library is checked against, publish checksums, and have no curated alternative inside the library. They are fetched and verified against the Ensembl CHECKSUMS. For human the Ensembl README states that the GTF equals the GENCODE gene set, so GENCODE's own copy is not fetched. The genome registry (existing asset) is kept as is. The remote range reads of the same FASTA stay as an independent route and are tested against the local copy."
  },
  "status": {
   "accessible": "yes",
-  "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time."
+  "notes": "REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time. The FASTA and GTF downloads equal the BSD checksums and sizes published in the Ensembl CHECKSUMS files; the indexed FASTA is also readable over HTTPS by region (index opens in about 5 s, a region read takes about 1 s)."
  },
  "evidence": [
-  "ensembl_vep/rest_software",
-  "ensembl_vep/rest_data",
+  "ensembl_genomes/dna_index_checksums",
+  "ensembl_genomes/dna_index_listing",
+  "ensembl_genomes/dna_readme",
+  "ensembl_genomes/gtf_checksums",
+  "ensembl_genomes/gtf_listing",
+  "ensembl_genomes/gtf_readme",
   "ensembl_vep/data_use",
-  "ensembl_vep/ftp_current_listing"
+  "ensembl_vep/ftp_current_listing",
+  "ensembl_vep/rest_data",
+  "ensembl_vep/rest_software"
  ],
  "unverified_fields": [],
- "acquisition_targets": []
+ "acquisition_targets": [
+  "ensembl_grch38_dna_toplevel",
+  "ensembl_grch38_dna_toplevel_fai",
+  "ensembl_grch38_dna_toplevel_gzi",
+  "ensembl_grch38_gtf_116",
+  "ensembl_grch38_reference_regional"
+ ]
 }

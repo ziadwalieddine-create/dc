@@ -1,0 +1,59 @@
+
+ SIFTS < PDBe < EMBL-EBI 
+ -->
+ -->
+ -->
+ -->
+ Skip to main content 
+ Skip to local navigation 
+ Skip to EBI global navigation menu 
+ Skip to expanded EBI global navigation menu (includes all sub-sections) 
+ Services 
+ Research 
+ Training 
+ Industry 
+ About us 
+ SIFTS 
+ SIFTS home 
+ Quick access 
+ Overview 
+ Methods 
+ Statistics 
+ XML schema 
+ Acknowledgments 
+ Feedback 
+ Share 
+ Structure integration with function, taxonomy and sequence 
+ Structure Integration with Function, Taxonomy and Sequence (SIFTS) is a project in the 
+ PDBe-KB resource for residue-level mapping between 
+ UniProt and 
+ PDB 
+ entries. 
+ SIFTS also provides annotation from the 
+ IntEnz , 
+ GO , 
+ InterPro , 
+ Pfam , 
+ CATH , 
+ SCOP , 
+ PubMed , 
+ Ensembl and 
+ Homologene resources. 
+ The information is updated and released every week concurrently with the release of new PDB entries and is widely used by resources such as 
+ RCSB PDB , 
+ PDBj , 
+ PDBsum , 
+ Pfam , 
+ SCOP and 
+ InterPro . 
+ If you use SIFTS, please cite:
+ Dana, Gutmanas et al., Nucleic Acids Research 47, D482 (2019) 
+ Velankar et al., Nucleic Acids Research 41, D483 (2013) 
+ EMBL-EBI 
+ Services 
+ Research 
+ Training 
+ Industry 
+ About us 
+ EMBL-EBI, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK     +44 (0)1223 49 44 44 
+ Copyright © EMBL-EBI 2012 | EBI is an Outstation of the European Molecular Biology Laboratory | Privacy | Cookies | Terms of use 

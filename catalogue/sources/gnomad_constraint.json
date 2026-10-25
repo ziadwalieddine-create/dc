@@ -45,7 +45,8 @@
  "update_frequency": "Per gnomAD release; 4.1.2 updated constraint only.",
  "coverage_limitations": [
   "Constraint is a population-genetic inference, not a direct knockout phenotype",
-  "Short genes have wide confidence intervals"
+  "Short genes have wide confidence intervals",
+  "The LoF curation held is one small file (734 variants in genes with incomplete penetrance); the v2.1.1 curation sets are not in the public buckets"
  ],
  "known_omissions": [
   "Ensembl also ships a LOEUF plugin file (338 MB); this is the primary source"
@@ -60,12 +61,16 @@
   "notes": "S3 object size verified by HEAD."
  },
  "acquisition_targets": [
-  "gnomad_constraint_v4_1_2"
+  "gnomad_constraint_v4_1_2",
+  "gnomad_v4_1_lof_curation_incomplete_penetrance"
  ],
  "evidence": [
   "gnomad/downloads_page",
+  "gnomad/gcs_lof_curation_v2_1_1",
+  "gnomad/gcs_lof_curation_v4_1",
   "gnomad/policies",
-  "gnomad/s3_v4_1_listing"
+  "gnomad/s3_v4_1_listing",
+  "gnomad/s3_v4_1_lof_curation"
  ],
  "unverified_fields": []
 }

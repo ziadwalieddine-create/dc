@@ -48,7 +48,8 @@
  },
  "update_frequency": "GENCODE ~twice yearly; MANE ~annually.",
  "coverage_limitations": [
-  "MANE covers one transcript per protein-coding gene"
+  "MANE covers one transcript per protein-coding gene",
+  "GENCODE's own annotation files are not held; the Ensembl release-116 GTF is held instead"
  ],
  "known_omissions": [],
  "overlap_with_existing": [
@@ -56,7 +57,7 @@
  ],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD; the GENCODE genome FASTA (806 to 856 MB) is deferred."
+  "rationale": "MANE files are small and fix the transcript choice needed to interpret HGVS across ClinVar, MaveDB and gnomAD. GENCODE's own annotation and FASTA are not fetched: for human the Ensembl README states that the Ensembl GTF equals the GENCODE gene set, and the release-116 GTF and FASTA are held through the ensembl_genomes source (its genebuild was last updated 2025-11 and may differ from GENCODE v50, dated 2026-06-09)."
  },
  "status": {
   "accessible": "yes",

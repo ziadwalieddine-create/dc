@@ -1,0 +1,4 @@
+url	size	etag	last_modified	sha256_of_copy_kept
+https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz	847661306	"328648fa-64db15c6cf03f"	Mon, 23 Mar 2026 13:53:35 GMT	
+https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz.fai	26844	"68dc-64db15c14d3d6"	Mon, 23 Mar 2026 13:53:29 GMT	f3434563a0fd92a4a65cfeabaf78291e05c2ac6eaccb5e1ade45ea5131dc80de
+https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz.gzi	820344	"c8478-64db15c6df253"	Mon, 23 Mar 2026 13:53:35 GMT	

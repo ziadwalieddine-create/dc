@@ -1,0 +1,79 @@
+{
+ "id": "pdbe_sifts",
+ "name": "PDBe SIFTS: PDB chain to UniProt residue mappings",
+ "categories": [
+  "protein_structure_function"
+ ],
+ "maintainer": "PDBe (EMBL-EBI) with UniProt",
+ "url": "https://www.ebi.ac.uk/pdbe/docs/sifts/",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/"
+ ],
+ "version": {
+  "value": "SIFTS flat files of 2026-10-18 (PDB release 42.26, UniProt 2026.03 per the file header); overwritten at each weekly PDB release",
+  "release_date": "2026-10-18",
+  "verified": "live"
+ },
+ "scope": "Residue-level mapping between experimentally determined PDB chains and UniProtKB sequences: mapped segments of each chain, and the segments whose residues are observed in the structure.",
+ "variant_classes": [
+  "protein_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "TSV (gzip)",
+  "per-entry XML (not downloaded)"
+ ],
+ "identifiers": [
+  "PDB ID and chain",
+  "UniProt accession"
+ ],
+ "mapping_methods": "SIFTS pipeline: sequence alignment of each PDB chain to UniProtKB, giving contiguous segments in SEQRES, PDB-author and UniProt numbering.",
+ "quantitative": {
+  "summary": "Residue ranges of mapped and of observed segments.",
+  "units": "residue positions",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "EMBL-EBI Terms of Use: freely available, no additional restriction on contributed data beyond the data owner's terms (terms page, verified live). PDB archive data files are CC0 1.0 (wwPDB usage policy, verified live). No SIFTS-specific licence statement was found.",
+  "redistribution": "Free with attribution; the SIFTS page asks users to cite Dana, Gutmanas et al., Nucleic Acids Research 47, D482 (2019).",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Weekly, with the PDB release.",
+ "coverage_limitations": [
+  "Only experimentally determined structures; predicted models are in AlphaFold DB",
+  "A mapped segment says which UniProt residues a chain covers, not whether the construct carries engineered changes, nor the quality of the structure",
+  "Residue numbering differs between the SEQRES, PDB-author and UniProt systems; the UniProt columns are the ones used here"
+ ],
+ "known_omissions": [
+  "The other SIFTS flat files in the same directory (Pfam, InterPro, GO, CATH, SCOP, Ensembl, taxonomy, enzyme, PubMed) and the per-entry XML files are not fetched; InterPro and GO are held through InterPro and Open Targets",
+  "Coordinate files of the structures are not fetched"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Experimental-structure coverage per UniProt residue is the complement to the AlphaFold DB predicted models and was an explicit gap in the library (PDB not catalogued). The two summary files are small (6.3 MB and 11.0 MB). Structure coordinate files are not mirrored."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Flat files listed with dates in the FTP index; the files are replaced each week, so the manifest records the size and SHA-256 of the copy fetched on 2026-10-25. pdb_chain_uniprot.tsv.gz uses CRLF line endings (a parser that splits on LF alone keeps a trailing carriage return in the last column); uniprot_segments_observed.tsv.gz uses LF."
+ },
+ "unverified_fields": [
+  "SIFTS-specific licence statement"
+ ],
+ "evidence": [
+  "pdbe_sifts/ebi_terms_of_use",
+  "pdbe_sifts/flatfiles_listing",
+  "pdbe_sifts/pdb_chain_uniprot_head",
+  "pdbe_sifts/sifts_overview",
+  "pdbe_sifts/uniprot_segments_observed_head",
+  "pdbe_sifts/wwpdb_usage_policy"
+ ],
+ "acquisition_targets": [
+  "sifts_pdb_chain_uniprot",
+  "sifts_uniprot_segments_observed"
+ ]
+}

@@ -933,5 +933,109 @@
   "name": "docs_variant",
   "url": "https://platform-docs.opentargets.org/variant",
   "note": "Platform documentation for the variant dataset (assembly, VEP, frequency sources)"
+ },
+ {
+  "source": "ensembl_genomes",
+  "name": "dna_index_listing",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/",
+  "note": "bgzip FASTA with .fai and .gzi, readable by range requests"
+ },
+ {
+  "source": "ensembl_genomes",
+  "name": "dna_readme",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna/README",
+  "note": "explains toplevel versus primary_assembly sequence files"
+ },
+ {
+  "source": "ensembl_genomes",
+  "name": "dna_index_checksums",
+  "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna_index/CHECKSUMS"
+ },
+ {
+  "source": "ensembl_genomes",
+  "name": "gtf_listing",
+  "url": "https://ftp.ensembl.org/pub/release-116/gtf/homo_sapiens/",
+  "note": "gene annotation GTF files of Ensembl release 116 for human"
+ },
+ {
+  "source": "ensembl_genomes",
+  "name": "gtf_checksums",
+  "url": "https://ftp.ensembl.org/pub/release-116/gtf/homo_sapiens/CHECKSUMS",
+  "note": "BSD sum checksums published with the GTF files"
+ },
+ {
+  "source": "ensembl_genomes",
+  "name": "gtf_readme",
+  "url": "https://ftp.ensembl.org/pub/release-116/gtf/homo_sapiens/README",
+  "note": "describes the GTF columns and attributes"
+ },
+ {
+  "source": "pdbe_sifts",
+  "name": "flatfiles_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/",
+  "note": "SIFTS summary mapping files and their dates"
+ },
+ {
+  "source": "pdbe_sifts",
+  "name": "sifts_overview",
+  "url": "https://www.ebi.ac.uk/pdbe/docs/sifts/",
+  "note": "what SIFTS is; weekly releases with the PDB"
+ },
+ {
+  "source": "pdbe_sifts",
+  "name": "pdb_chain_uniprot_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/pdb_chain_uniprot.tsv.gz",
+  "range": [
+   0,
+   4000
+  ],
+  "note": "header line with the PDB and UniProt releases, and the column names"
+ },
+ {
+  "source": "pdbe_sifts",
+  "name": "uniprot_segments_observed_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/uniprot_segments_observed.tsv.gz",
+  "range": [
+   0,
+   4000
+  ],
+  "note": "column names of the observed-segment file"
+ },
+ {
+  "source": "pdbe_sifts",
+  "name": "wwpdb_usage_policy",
+  "url": "https://www.wwpdb.org/about/usage-policies",
+  "note": "CC0 statement for the PDB archive data files"
+ },
+ {
+  "source": "pdbe_sifts",
+  "name": "ebi_terms_of_use",
+  "url": "https://www.ebi.ac.uk/about/terms-of-use",
+  "note": "EMBL-EBI terms that apply to the SIFTS files"
+ },
+ {
+  "source": "gnomad",
+  "name": "gcs_lof_curation_v4_1",
+  "url": "https://storage.googleapis.com/storage/v1/b/gcp-public-data--gnomad/o?prefix=release/4.1/lof_curation/&fields=items(name,size,updated,md5Hash)",
+  "note": "the only object under the v4.1 lof_curation prefix, with its published MD5"
+ },
+ {
+  "source": "gnomad",
+  "name": "gcs_lof_curation_v2_1_1",
+  "url": "https://storage.googleapis.com/storage/v1/b/gcp-public-data--gnomad/o?prefix=release/2.1.1/lof_curation/&fields=items(name,size,updated,md5Hash)",
+  "note": "empty listing: no v2.1.1 LoF curation objects in the public bucket"
+ },
+ {
+  "source": "gnomad",
+  "name": "s3_v4_1_lof_curation",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/?list-type=2&prefix=release/4.1/lof_curation/",
+  "note": "the AWS mirror lists no objects under the same prefix"
+ },
+ {
+  "source": "pharmvar",
+  "name": "terms_and_conditions",
+  "url": "https://www.pharmvar.org/terms-and-conditions",
+  "render": true,
+  "note": "the footer link of the rendered home page; the earlier guessed URLs returned the empty application shell"
  }
 ]

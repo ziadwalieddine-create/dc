@@ -1,10 +1,10 @@
 # Master inventory of reusable genomic resources
 
-*Generated 2026-10-25 12:30 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 `✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension.
 
-34 sources catalogued. A source appears under its primary evidence dimension. Columns *acq/val/map* here cover all of the source's downloaded files; "Usable for" lists the dimensions for which the source is actually usable. See `COVERAGE_MATRIX.md` for the per-dimension view.
+35 sources catalogued. A source appears under its primary evidence dimension. Columns *acq/val/map* here cover all of the source's downloaded files; "Usable for" lists the dimensions for which the source is actually usable. See `COVERAGE_MATRIX.md` for the per-dimension view.
 
 ## D01 Direct experimental variant-effect measurements
 
@@ -18,6 +18,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|
 | **AlphaFold Protein Structure Database** (`alphafold_db`) | Model version 6 (P04637 model created 2025-08-01); human pro · 2025-08 | open · CC BY 4.0, academic and commercial use (FAQ) | protein_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02 | retrieve_source |
 | **InterPro** (`interpro`) | InterPro 110.0 (interpro-version response header of the API, · 2026-10-25 (query date) | open · CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable dat | protein_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02 | retrieve_source |
+| **PDBe SIFTS: PDB chain to UniProt residue mappings** (`pdbe_sifts`) | SIFTS flat files of 2026-10-18 (PDB release 42.26, UniProt 2 · 2026-10-18 | open · EMBL-EBI Terms of Use: freely available, no additional restriction on  | protein_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02 | retrieve_source |
 | **UniProtKB (Swiss-Prot and TrEMBL)** (`uniprot`) | Release 2026_03 (150,006,383 entries; Swiss-Prot 575,748) · 2026-09-02 | open · CC BY 4.0 for copyrightable parts | protein_level, gene_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02, D11 | retrieve_source |
 
 ## D03 Transcription, splicing, regulatory elements, tissue-specific expression
@@ -55,7 +56,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|
 | **CPIC (Clinical Pharmacogenetics Implementation Consortium)** (`cpic`) | Public API (gene, guideline endpoints) queried 2026-10-25 · 2026-10-25 | open_with_terms · The CPIC licence URL resolves to the ClinPGx data-use text (CC BY-SA 4 | gene_level, snv · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D07 | retrieve_source |
 | **ClinPGx / PharmGKB** (`pharmgkb`) | Archives dated 2026-10-05 · 2026-10-05 | open_with_terms · CC BY-SA 4.0 (data usage policy) | snv, indel, gene_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D07 | retrieve_source |
-| **PharmVar (Pharmacogene Variation Consortium)** (`pharmvar`) | Site version 6.2.29 (footer: "Last Updated Sep 22 2026") · 2026-09-22 | unverified · Terms and Conditions page not retrievable (HTTP 404 on the URLs tried) (unverified) | snv, indel, gene_level · GRCh37, GRCh38, none/not_applicable | ✓ | ✓ | · | · | · | — | defer |
+| **PharmVar (Pharmacogene Variation Consortium)** (`pharmvar`) | PharmVar 6.2.29 (site footer "Last Updated Sep 22 2026"; VCF · 2026-09-22 | open_with_terms · CC BY-SA 4.0 for the PharmVar database content, with the user agreeing | snv, indel, gene_level · GRCh37, GRCh38, none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D07 | retrieve_source |
 
 ## D08 Structural variation and copy-number variation
 
@@ -104,7 +105,7 @@
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **Ensembl genome registry, assemblies and gene annotation (human)** (`ensembl_genomes`) | Ensembl release 116 (REST); integrated release 2026-07 in th · 2026-07 | open · Ensembl imposes no restrictions on access to or use of the data (discl | gene_level, region_level · GRCh37, GRCh38, T2T-CHM13, other | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | reuse_existing |
+| **Ensembl genome registry, assemblies and gene annotation (human)** (`ensembl_genomes`) | Ensembl release 116 (REST); integrated release 2026-07 in th · 2026-07 | open · Ensembl imposes no restrictions on access to or use of the data (discl | gene_level, region_level · GRCh37, GRCh38, T2T-CHM13, other | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | retrieve_source |
 | **GENCODE and MANE transcript sets** (`gencode_mane`) | GENCODE v50 (files dated 2026-06-09); MANE v1.5 (2025-12-04) · 2026-06-09 | open · GENCODE: 'all the GENCODE project data is open access' (GENCODE data-a | gene_level, region_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | retrieve_source |
 
 ## D15 Resource catalogues and classifications

@@ -1,6 +1,6 @@
 # Coverage matrix: evidence dimensions by lifecycle stage
 
-*Generated 2026-10-25 12:30 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 14:12 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 `✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension.
 
@@ -9,12 +9,12 @@ Counts are numbers of sources reaching the stage **for that dimension**. A dimen
 | Dimension | Priority | Sources | cat | acc | acq | val | map | use |
 |---|---|---|---|---|---|---|---|---|
 | D01 Direct experimental variant-effect measurements | highest | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
-| D02 Protein structure, stability, activity and interactions | high | 6 | 6 | 6 | 3 | 3 | 3 | 3 |
+| D02 Protein structure, stability, activity and interactions | high | 7 | 7 | 7 | 4 | 4 | 4 | 4 |
 | D03 Transcription, splicing, regulatory elements, tissue-specific expression | high | 5 | 5 | 5 | 3 | 3 | 3 | 3 |
 | D04 Knockout, knockdown, CRISPRi/a, overexpression, knock-in and rescue experiments | high | 4 | 4 | 3 | 2 | 2 | 2 | 2 |
 | D05 Human natural knockouts, constraint and dosage sensitivity | highest | 5 | 5 | 5 | 3 | 3 | 3 | 3 |
 | D06 Genetic association, fine-mapping, LD and colocalisation | high | 4 | 4 | 4 | 2 | 2 | 2 | 2 |
-| D07 Functional haplotypes and pharmacogenomics | medium | 4 | 4 | 4 | 3 | 3 | 3 | 3 |
+| D07 Functional haplotypes and pharmacogenomics | medium | 4 | 4 | 4 | 4 | 4 | 4 | 4 |
 | D08 Structural variation and copy-number variation | high | 6 | 6 | 5 | 3 | 3 | 2 | 2 |
 | D09 Repeat expansions and short tandem repeats (STR/VNTR) | medium | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | D10 Pathways, molecular interactions, epistasis and compensation | medium | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
@@ -45,6 +45,7 @@ Protein sequence/function annotation, domains, structural models and stability p
 | `dbnsfp` | ✓ | ✓ | · | · | · | · | none targeted | Site and licence pages readable; bulk download gated by registration.  |
 | `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
 | `interpro` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | API returns JSON; per-protein matches for the MaveDB proteins are fetched by acquisition/fetch_per_p  |
+| `pdbe_sifts` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | Flat files listed with dates in the FTP index; the files are replaced each week, so the manifest rec  |
 | `uniprot` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | REST total reviewed human = 20,431.  |
 
 ### D03 Transcription, splicing, regulatory elements, tissue-specific expression
@@ -78,7 +79,7 @@ Loss-of-function tolerance, observed/expected metrics and curated haploinsuffici
 |---|---|---|---|---|---|---|---|---|
 | `clingen` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 3/3 downloaded | FTP and CSV export reachable.  |
 | `ensembl_vep` | ✓ | ✓ | · | · | · | · | none targeted | FTP listings reachable; MaveDB CHECKSUMS file lists BSD sum 22727 / 547461 KiB.  |
-| `gnomad_constraint` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | S3 object size verified by HEAD.  |
+| `gnomad_constraint` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | S3 object size verified by HEAD.  |
 | `impc` | ✓ | ✓ | · | · | · | · | none targeted | Release page and FTP listing readable.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
 
@@ -102,7 +103,7 @@ Star-allele/haplotype definitions, gene-drug annotations and guidelines.
 | `cpic` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | API returns JSON.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
 | `pharmgkb` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 downloaded | HEAD sizes and last-modified verified.  |
-| `pharmvar` | ✓ | ✓ | · | · | · | · | none targeted | Home and download pages readable; terms page not found.  |
+| `pharmvar` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | Terms at /terms-and-conditions (footer link). The Download Complete Database button calls get-downlo  |
 
 ### D08 Structural variation and copy-number variation
 
@@ -175,7 +176,7 @@ Assemblies, transcript sets and identifier mapping required to place every evide
 
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
-| `ensembl_genomes` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | none targeted | REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time. existing assets ensembl-human-genomes: downloaded_verified |
+| `ensembl_genomes` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 downloaded | REST and FTP reachable. The web docs for VEP plugins returned HTTP 504 at probe time. The FASTA and  existing assets ensembl-human-genomes: downloaded_verified |
 | `gencode_mane` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | Directory listings verified.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
 

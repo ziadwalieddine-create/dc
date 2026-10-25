@@ -1,0 +1,5 @@
+20333 3243 Homo_sapiens.GRCh38.116.abinitio.gtf.gz
+31909 137737 Homo_sapiens.GRCh38.116.chr.gtf.gz
+35479 142363 Homo_sapiens.GRCh38.116.chr_patch_hapl_scaff.gtf.gz
+49151 137815 Homo_sapiens.GRCh38.116.gtf.gz
+56461 11 README
