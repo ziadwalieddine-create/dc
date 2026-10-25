@@ -391,7 +391,7 @@
   "dest": "biogrid_orcs/BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz",
   "tier": "A",
   "kind": "tar.gz",
-  "licence": "Licence not verified (BioGRID licensing wiki page missing); check README inside release",
+  "licence": "MIT License (BioGRID download repository page, verified live); cite the contributing authors and Stark et al. 2006",
   "note": "BioGRID ORCS 2.0.18 human CRISPR screens. Corrected URL: the earlier /BioGRID-ORCS/ path returns an HTML landing page (rejected by the new signature check); the download page prints each size before the filename, so the human archive is 717.79 MiB (752.7 MB), not 54.73 MiB as first misread.",
   "supports": [
    "perturbation_evidence"
@@ -410,7 +410,8 @@
   "expected_md5_base64": "Up47Uc7AeScsVxr/3m8Ddg==",
   "supports": [
    "annotation_integration"
-  ]
+  ],
+  "scope_note": "Gene (transcript) level means only; variant-level table is a separate target"
  },
  {
   "id": "alphamissense_hg38",
@@ -442,7 +443,8 @@
   ],
   "supports": [
    "direct_experimental_variant_effects"
-  ]
+  ],
+  "scope_note": "Only the MaveDB plugin file of Ensembl release 116; other VEP plugin data are not fetched"
  },
  {
   "id": "ensembl_vep_mavedb_variants_tbi",
@@ -507,7 +509,7 @@
   "dest": "dgv/GRCh38_hg38_variants_2025-12-01.txt",
   "tier": "B",
   "kind": "tsv",
-  "licence": "DGV usage disclaimer (not parsed; licence unverified)",
+  "licence": "TCAG Notice and Disclaimer (AS IS; acknowledgement required, cite MacDonald et al. 2013; no redistribution licence stated), verified live",
   "note": "DGV curated CNV/SV catalogue, GRCh38, release 2025-12-01 (364 MB uncompressed).",
   "expected_size": 364191405,
   "supports": [
@@ -521,7 +523,7 @@
   "dest": "encode/GRCh38-cCREs.PLS.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class PLS, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -534,7 +536,7 @@
   "dest": "encode/GRCh38-cCREs.pELS.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class pELS, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -547,7 +549,7 @@
   "dest": "encode/GRCh38-cCREs.dELS.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class dELS, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -560,7 +562,7 @@
   "dest": "encode/GRCh38-cCREs.CA-CTCF.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class CA-CTCF, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -573,7 +575,7 @@
   "dest": "encode/GRCh38-cCREs.CA-H3K4me3.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class CA-H3K4me3, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -586,7 +588,7 @@
   "dest": "encode/GRCh38-cCREs.CA-TF.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class CA-TF, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -599,7 +601,7 @@
   "dest": "encode/GRCh38-cCREs.CA.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class CA, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -612,7 +614,7 @@
   "dest": "encode/GRCh38-cCREs.TF.bed",
   "tier": "A",
   "kind": "bed",
-  "licence": "ENCODE/SCREEN terms not confirmed (ENCODE citing page returned 403); cite Moore et al. 2026 as the downloads page asks",
+  "licence": "ENCODE Data Use Policy: unrestricted use after release (verified live); cite Moore et al. 2026 as the SCREEN downloads page asks",
   "note": "SCREEN Registry V4 human cCREs, class TF, GRCh38.",
   "supports": [
    "regulation_expression_splicing"
@@ -629,7 +631,8 @@
   "note": "Open Targets Platform 26.09 dataset \"target\" (Parquet). Target (gene) annotation: Ensembl gene IDs, symbols, biotype, genomic location, constraint, GO, pathways, tractability.",
   "supports": [
    "reference_annotation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_go",
@@ -642,7 +645,8 @@
   "note": "Open Targets Platform 26.09 dataset \"go\" (Parquet). Gene Ontology terms used by the target annotation.",
   "supports": [
    "reference_annotation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_so",
@@ -655,7 +659,8 @@
   "note": "Open Targets Platform 26.09 dataset \"so\" (Parquet). Sequence Ontology terms (variant consequence vocabulary).",
   "supports": [
    "reference_annotation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_homology",
@@ -668,7 +673,8 @@
   "note": "Open Targets Platform 26.09 dataset \"homology\" (Parquet). Orthology and paralogy between human and model-organism genes.",
   "supports": [
    "reference_annotation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_biosample",
@@ -681,7 +687,8 @@
   "note": "Open Targets Platform 26.09 dataset \"biosample\" (Parquet). Cell and tissue ontology records used by expression and QTL evidence.",
   "supports": [
    "reference_annotation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_disease",
@@ -694,7 +701,8 @@
   "note": "Open Targets Platform 26.09 dataset \"disease\" (Parquet). Disease ontology (EFO/MONDO/Orphanet harmonised), the identifier hub for the evidence datasets.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_disease_hpo",
@@ -707,7 +715,8 @@
   "note": "Open Targets Platform 26.09 dataset \"disease_hpo\" (Parquet). Human Phenotype Ontology terms.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_disease_phenotype",
@@ -720,7 +729,8 @@
   "note": "Open Targets Platform 26.09 dataset \"disease_phenotype\" (Parquet). Disease to HPO phenotype annotations.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_mouse_phenotype",
@@ -733,7 +743,8 @@
   "note": "Open Targets Platform 26.09 dataset \"mouse_phenotype\" (Parquet). IMPC mouse knockout phenotypes mapped to human targets.",
   "supports": [
    "perturbation_evidence"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_genomics_england",
@@ -746,7 +757,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_genomics_england\" (Parquet). Genomics England PanelApp gene-disease evidence.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_gene2phenotype",
@@ -759,7 +771,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_gene2phenotype\" (Parquet). Gene2Phenotype (DDG2P and related) gene-disease evidence.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_orphanet",
@@ -772,7 +785,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_orphanet\" (Parquet). Orphanet rare-disease gene-disease evidence.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_uniprot_variants",
@@ -785,7 +799,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_uniprot_variants\" (Parquet). UniProt curated variant-disease evidence.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_pharmacogenomics",
@@ -798,7 +813,8 @@
   "note": "Open Targets Platform 26.09 dataset \"pharmacogenomics\" (Parquet). Variant and haplotype drug-response evidence (ClinPGx/PharmGKB-derived).",
   "supports": [
    "functional_haplotypes_pgx"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_gene_burden",
@@ -811,7 +827,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_gene_burden\" (Parquet). Rare-variant gene-burden associations (exome-sequencing cohorts).",
   "supports": [
    "natural_knockouts_dosage"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_target_essentiality",
@@ -824,7 +841,8 @@
   "note": "Open Targets Platform 26.09 dataset \"target_essentiality\" (Parquet). Gene essentiality calls and effect scores from DepMap CRISPR screens.",
   "supports": [
    "perturbation_evidence"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_crispr",
@@ -837,7 +855,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_crispr\" (Parquet). CRISPR screen target-disease evidence (curated).",
   "supports": [
    "perturbation_evidence"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_crispr_screen",
@@ -850,7 +869,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_crispr_screen\" (Parquet). CRISPR screen target-disease evidence (BioGRID ORCS derived).",
   "supports": [
    "perturbation_evidence"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_impc",
@@ -863,7 +883,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_impc\" (Parquet). IMPC mouse knockout phenotype evidence per target-disease pair.",
   "supports": [
    "perturbation_evidence"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_study",
@@ -876,7 +897,8 @@
   "note": "Open Targets Platform 26.09 dataset \"study\" (Parquet). GWAS and QTL study metadata (identifiers, traits, cohorts, sample sizes).",
   "supports": [
    "association_finemapping_coloc"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_credible_set",
@@ -889,7 +911,8 @@
   "note": "Open Targets Platform 26.09 dataset \"credible_set\" (Parquet). Fine-mapped credible sets from GWAS and molecular QTL studies (GRCh38 variants, posterior probabilities, LD).",
   "supports": [
    "association_finemapping_coloc"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_l2g_prediction",
@@ -902,7 +925,8 @@
   "note": "Open Targets Platform 26.09 dataset \"l2g_prediction\" (Parquet). Locus-to-gene predictions for credible sets.",
   "supports": [
    "association_finemapping_coloc"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_variant",
@@ -915,7 +939,8 @@
   "note": "Open Targets Platform 26.09 dataset \"variant\" (Parquet). Variant index for variants that occur in credible sets and evidence: GRCh38 identifiers, consequences, frequencies, predicted effects.",
   "supports": [
    "association_finemapping_coloc"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_enhancer_to_gene",
@@ -928,7 +953,8 @@
   "note": "Open Targets Platform 26.09 dataset \"enhancer_to_gene\" (Parquet). Enhancer-to-gene links from chromatin-conformation and activity-by-contact style predictions (genomic intervals).",
   "supports": [
    "regulation_expression_splicing"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_interaction",
@@ -941,7 +967,8 @@
   "note": "Open Targets Platform 26.09 dataset \"interaction\" (Parquet). Aggregated molecular interactions between targets (IntAct, SIGNOR, Reactome, STRING).",
   "supports": [
    "pathways_interactions_epistasis"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_interaction_evidence",
@@ -954,7 +981,8 @@
   "note": "Open Targets Platform 26.09 dataset \"interaction_evidence\" (Parquet). Per-source evidence records behind the aggregated interactions.",
   "supports": [
    "pathways_interactions_epistasis"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "opentargets_26_09_evidence_uniprot_literature",
@@ -967,7 +995,8 @@
   "note": "Open Targets Platform 26.09 dataset \"evidence_uniprot_literature\" (Parquet). UniProt literature-curated gene-disease evidence.",
   "supports": [
    "clinical_interpretation"
-  ]
+  ],
+  "scope_note": "One of 27 Open Targets 26.09 datasets acquired (34 of 61 deferred); see catalogue/sources/opentargets.json"
  },
  {
   "id": "gnomad_sv_v4_1_sites_vcf",
@@ -995,7 +1024,8 @@
   "note": "AlphaFold DB prediction metadata, canonical model (mmCIF) and per-residue confidence (pLDDT) for every UniProt protein named by the MaveDB human score sets. Fetched by acquisition/fetch_per_protein.py.",
   "supports": [
    "protein_structure_function"
-  ]
+  ],
+  "scope_note": "Only the 549 UniProt accessions named by the MaveDB human score sets"
  },
  {
   "id": "interpro_mavedb_proteins",
@@ -1008,7 +1038,8 @@
   "note": "InterPro and member-database matches with residue locations for every UniProt protein named by the MaveDB human score sets. Fetched by acquisition/fetch_per_protein.py.",
   "supports": [
    "protein_structure_function"
-  ]
+  ],
+  "scope_note": "Only the 549 UniProt accessions named by the MaveDB human score sets"
  },
  {
   "id": "gnomad_v4_1_exomes_regional",
@@ -1022,7 +1053,8 @@
   "supports": [
    "population_frequency",
    "annotation_integration"
-  ]
+  ],
+  "scope_note": "Only the genomic positions of MaveDB-mapped SNVs (about 146k positions in about 1.5k regions); not a genome-wide frequency table"
  },
  {
   "id": "gnomad_v4_1_genomes_regional",
@@ -1036,6 +1068,35 @@
   "supports": [
    "population_frequency",
    "annotation_integration"
+  ],
+  "scope_note": "Only the genomic positions of MaveDB-mapped SNVs (about 146k positions in about 1.5k regions); not a genome-wide frequency table"
+ },
+ {
+  "id": "uniprot_humsavar",
+  "source": "uniprot",
+  "url": "https://ftp.uniprot.org/pub/databases/uniprot/knowledgebase/variants/humsavar.txt",
+  "dest": "uniprot/humsavar.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "CC BY 4.0 (UniProt), attribution required",
+  "note": "UniProtKB/Swiss-Prot human missense variants with ACMG/AMP-style category (LP/P, LB/B, US), dbSNP ID and OMIM disease; release 2026_03 of 02-Sep-2026 (85,015 variants stated in the file header). For research use only per the file header.",
+  "expected_size": 8710628,
+  "supports": [
+   "clinical_interpretation"
   ]
+ },
+ {
+  "id": "gnomad_v4_1_joint_regional",
+  "source": "gnomad",
+  "url": "https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr{N}.vcf.bgz",
+  "dest": "gnomad_regional/gnomad_v4_1_joint_at_mavedb_positions.tsv.gz",
+  "tier": "A",
+  "kind": "regional_slice",
+  "licence": "CC0 (gnomAD primary data, verified live)",
+  "note": "gnomAD v4.1 joint (exomes + genomes pooled) sites, GRCh38: single-nucleotide records at the genomic positions of MaveDB-mapped SNVs, read by remote tabix. Joint and per-callset counts, per-ancestry joint counts and frequencies, group-maximum, per-callset filters. This is the frequency Open Targets and the MaveDB dump quote. Written by acquisition/fetch_gnomad_regional.py.",
+  "supports": [
+   "population_frequency"
+  ],
+  "scope_note": "Only the genomic positions of MaveDB-mapped SNVs (about 146k positions in about 1.5k regions); not a genome-wide frequency table"
  }
 ]

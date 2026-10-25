@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25 11:02 UTC",
+ "generated_utc": "2026-10-25 12:30 UTC",
  "sources": [
   {
    "id": "1000genomes",
@@ -184,23 +184,21 @@
     "catalogued": true,
     "accessible": true,
     "acquired": true,
-    "validated": false,
-    "mapped": false,
-    "usable": false
+    "validated": true,
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "protein_structure_function": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
-     "validated": false,
-     "mapped": false,
-     "usable": false
+     "validated": true,
+     "mapped": true,
+     "usable": true
     }
    },
-   "lifecycle_notes": [
-    "validation failures: alphafold_db_mavedb_proteins"
-   ]
+   "lifecycle_notes": []
   },
   {
    "id": "alphamissense",
@@ -946,10 +944,10 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "NCBI public domain policy applies (not confirmed for dbVar specifically)",
-    "redistribution": "Unverified",
+    "name": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights; acknowledgement of NLM is requested (NCBI Policies and Disclaimers page). dbVar-specific terms were not separately retrieved.",
+    "redistribution": "No NCBI restriction; third-party submitter rights may apply",
     "access": "open",
-    "verified": "unverified"
+    "verified": "live"
    },
    "update_frequency": "The FTP data directory shows 2021 as its last modification; currency not established.",
    "coverage_limitations": [
@@ -968,13 +966,13 @@
     "notes": "Only directory listings read."
    },
    "unverified_fields": [
-    "licence",
     "currency",
     "contents"
    ],
    "evidence": [
+    "dbvar/ftp_data_listing",
     "dbvar/ftp_listing",
-    "dbvar/ftp_data_listing"
+    "gencode/ncbi_policies"
    ],
    "acquisition_targets": [],
    "lifecycle_all_targets": {
@@ -1321,10 +1319,10 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "No licence name found. SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moore et al. (2026, Nature); ENCODE's own data-use page returned HTTP 403 to automated access and is unread.",
-    "redistribution": "Not confirmed; treat as use-with-citation and do not redistribute until the ENCODE data-use terms are read.",
+    "name": "ENCODE Data Use Policy: 'all data produced will be available for unrestricted use immediately upon release to public databases'; citation guidelines are on the Citing ENCODE page (HTTP 403 to automated access, unread). SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moore et al. (2026, Nature).",
+    "redistribution": "Unrestricted use after release per the ENCODE policy; cite as requested. The cCRE files are not redistributed here (git-ignored).",
     "access": "open",
-    "verified": "unverified"
+    "verified": "live"
    },
    "update_frequency": "Registry versions every few years; portal continuous.",
    "coverage_limitations": [
@@ -1353,13 +1351,12 @@
     "screen_ccre_ca",
     "screen_ccre_tf"
    ],
-   "unverified_fields": [
-    "licence"
-   ],
+   "unverified_fields": [],
    "evidence": [
     "encode/api_experiment_human",
     "encode/cite_page_render",
     "encode/citing",
+    "encode/data_use_policy",
     "encode/screen_about",
     "encode/screen_downloads"
    ],
@@ -1369,7 +1366,7 @@
     "acquired": true,
     "validated": true,
     "mapped": true,
-    "usable": false
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "regulation_expression_splicing": {
@@ -1378,7 +1375,7 @@
      "acquired": true,
      "validated": true,
      "mapped": true,
-     "usable": false
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -1465,8 +1462,8 @@
     "accessible": true,
     "acquired": true,
     "validated": true,
-    "mapped": false,
-    "usable": false
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "reference_annotation": {
@@ -1474,8 +1471,8 @@
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     }
    },
    "lifecycle_notes": [
@@ -1665,10 +1662,10 @@
     "direction": "alt allele effect sign"
    },
    "licence": {
-    "name": "Not confirmed: a License page is linked from the site but its text was not retrieved",
-    "redistribution": "Treat as open with citation until read",
+    "name": "Data under Creative Commons Attribution 4.0 International; code under Apache 2.0 (eQTL Catalogue License page)",
+    "redistribution": "Attribution required; cite Kerimov et al. 2021 (Nat Genet 53:1290) and Kerimov et al. 2023 (PLoS Genet 19:e1010932)",
     "access": "open",
-    "verified": "unverified"
+    "verified": "live"
    },
    "update_frequency": "Irregular releases.",
    "coverage_limitations": [
@@ -1687,14 +1684,13 @@
     "accessible": "partial",
     "notes": "FTP listing verified; API retired."
    },
-   "unverified_fields": [
-    "licence"
-   ],
+   "unverified_fields": [],
    "evidence": [
-    "eqtl_catalogue/home",
+    "eqtl_catalogue/api_v3_datasets",
     "eqtl_catalogue/data_access",
     "eqtl_catalogue/ftp_listing",
-    "eqtl_catalogue/api_v3_datasets"
+    "eqtl_catalogue/home",
+    "eqtl_catalogue/license_page"
    ],
    "acquisition_targets": [],
    "lifecycle_all_targets": {
@@ -2015,7 +2011,7 @@
     "release_date": "2024-04-25 (CNV VCF)",
     "verified": "live"
    },
-   "scope": "Genome SV callset (VCF 1.74 GB sites file) and exome CNV callset (8.9 MB VCF; non-neuro and non-neuro-controls subsets).",
+   "scope": "Genome SV callset (sites VCF, 1.74 GB, 2,154,486 records: 1,206,278 DEL, 356,035 BND, 304,645 INS, 269,326 DUP, 15,189 CPX, 2,193 INV, 721 multi-allelic CNV, 99 CTX; all with SVTYPE and END) and exome CNV callset (8.9 MB VCF; non-neuro and non-neuro-controls subsets). Both are GRCh38.",
    "variant_classes": [
     "sv",
     "cnv"
@@ -2034,9 +2030,9 @@
    ],
    "mapping_methods": "Interval-based on GRCh38.",
    "quantitative": {
-    "summary": "Allele counts/frequencies per ancestry, SV type and size.",
-    "units": "counts/frequency",
-    "uncertainty": "n/a",
+    "summary": "Allele counts and frequencies per ancestry group and SV type; multi-allelic CNV sites (SVTYPE=CNV, 721 records) carry copy-number counts and frequencies (CN_COUNT, CN_FREQ, CN_NUMBER) instead of a single AF.",
+    "units": "counts / frequency in [0, 1]; SVLEN in bp",
+    "uncertainty": "none given beyond counts",
     "direction": "n/a"
    },
    "licence": {
@@ -2047,8 +2043,9 @@
    },
    "update_frequency": "Per major release.",
    "coverage_limitations": [
-    "Short-read SV sensitivity is limited for repeats and complex events",
-    "CNV callset is exome-based so non-coding CNVs are missed"
+    "CNV callset is exome-based so non-coding CNVs are missed",
+    "For interval overlap only DEL, DUP, INV, CPX, CNV and MCNV records with END > POS are treated as intervals; INS, BND and CTX are points or breakends",
+    "Short-read SV sensitivity is limited for repeats and complex events"
    ],
    "known_omissions": [
     "Long-read SV catalogue (release/lr) was listed but not inspected"
@@ -2056,11 +2053,11 @@
    "overlap_with_existing": [],
    "reuse_decision": {
     "action": "retrieve_source",
-    "rationale": "CNV VCF is small and fetched now; the 1.74 GB SV sites VCF is deferred until SV analysis begins."
+    "rationale": "Both VCFs are fetched and validated: the exome CNV VCF (8.9 MB) and the genome SV sites VCF (1.74 GB; size from the S3 listing, MD5 from the downloads page). They complement the older control-cohort DGV catalogue and the ClinGen dosage regions."
    },
    "status": {
     "accessible": "yes",
-    "notes": "S3 listings give exact sizes."
+    "notes": "S3 listings give exact sizes; both files downloaded, checksum-verified and validated."
    },
    "acquisition_targets": [
     "gnomad_exome_cnv_v4_1",
@@ -2112,7 +2109,7 @@
     "release_date": "2026-09-23 (4.1.2 constraint)",
     "verified": "live"
    },
-   "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group, group-maximum and filtering allele frequencies, and in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) plus GA4GH VRS allele IDs. The header of the exome file defines 413 INFO fields and that of the genome file 240.",
+   "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group, group-maximum and filtering allele frequencies, and in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) plus GA4GH VRS allele IDs. The header of the exome file defines 413 INFO fields and that of the genome file 240. The joint callset (exomes and genomes pooled, 664 INFO fields) carries joint, exome and genome counts side by side and the filters BOTH_FILTERED, EXOMES_FILTERED, GENOMES_FILTERED and PASS; it holds no predictor scores.",
    "variant_classes": [
     "snv",
     "indel"
@@ -2176,32 +2173,33 @@
    "unverified_fields": [],
    "acquisition_targets": [
     "gnomad_v4_1_exomes_regional",
-    "gnomad_v4_1_genomes_regional"
+    "gnomad_v4_1_genomes_regional",
+    "gnomad_v4_1_joint_regional"
    ],
    "lifecycle_all_targets": {
     "catalogued": true,
     "accessible": true,
-    "acquired": false,
-    "validated": false,
-    "mapped": false,
-    "usable": false
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "population_frequency": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
-     "validated": false,
-     "mapped": false,
-     "usable": false
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
     },
     "annotation_integration": {
      "catalogued": true,
      "accessible": true,
-     "acquired": false,
-     "validated": false,
-     "mapped": false,
-     "usable": false
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -2579,18 +2577,18 @@
     "catalogued": true,
     "accessible": true,
     "acquired": true,
-    "validated": false,
-    "mapped": false,
-    "usable": false
+    "validated": true,
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "protein_structure_function": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
-     "validated": false,
-     "mapped": false,
-     "usable": false
+     "validated": true,
+     "mapped": true,
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -2747,10 +2745,10 @@
     "direction": "n/a"
    },
    "licence": {
-    "name": "US government work, NHGRI site content (reuse terms not reviewed)",
-    "redistribution": "Unreviewed",
+    "name": "NHGRI website content is in the public domain unless otherwise indicated (NHGRI Copyright Policy); material with a credit line is third-party copyrighted and carries its owner's terms",
+    "redistribution": "Free to use and distribute; NHGRI requests the acknowledgement 'Courtesy: National Human Genome Research Institute' with a link back to genome.gov",
     "access": "open",
-    "verified": "unverified"
+    "verified": "live"
    },
    "update_frequency": "Static for the archived page; glossary updated periodically.",
    "coverage_limitations": [
@@ -2769,10 +2767,9 @@
     "accessible": "yes",
     "notes": "Preserved unchanged; see inventory/EXISTING_ASSETS.md."
    },
-   "unverified_fields": [
-    "licence"
-   ],
+   "unverified_fields": [],
    "evidence": [
+    "nhgri/copyright_policy",
     "nhgri/glossary_gwas",
     "nhgri/project_1000g"
    ],
@@ -2825,7 +2822,7 @@
     "release_date": "2026-09",
     "verified": "live"
    },
-   "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome.",
+   "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome. The variant dataset states that all variation is mapped to GRCh38 with 1-based gnomAD-style identifiers (chrom_pos_ref_alt) and population allele frequencies from gnomAD 4.1.",
    "variant_classes": [
     "snv",
     "indel",
@@ -2875,17 +2872,16 @@
    },
    "status": {
     "accessible": "yes",
-    "notes": "FTP, GraphQL and docs reachable. A focused subset of 26 Parquet datasets (about 8.5 GiB) is acquired; the large colocalisation (15.8 GiB), baseline_expression, literature and association-score datasets are deferred."
+    "notes": "FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and validated; the large colocalisation (15.4 GiB), baseline_expression, literature and association-score datasets are deferred, 34 of the 61 datasets in all."
    },
-   "unverified_fields": [
-    "assemblies"
-   ],
+   "unverified_fields": [],
    "evidence": [
     "opentargets/api_meta",
     "opentargets/docs_licence",
-    "opentargets/ftp_platform_listing",
+    "opentargets/docs_variant",
+    "opentargets/downloads_page",
     "opentargets/ftp_26_09_output",
-    "opentargets/downloads_page"
+    "opentargets/ftp_platform_listing"
    ],
    "acquisition_targets": [
     "opentargets_26_09_biosample",
@@ -2958,8 +2954,8 @@
     "accessible": true,
     "acquired": true,
     "validated": true,
-    "mapped": false,
-    "usable": false
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "annotation_integration": {
@@ -2975,64 +2971,64 @@
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "perturbation_evidence": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "pathways_interactions_epistasis": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "clinical_interpretation": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "natural_knockouts_dosage": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "functional_haplotypes_pgx": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "regulation_expression_splicing": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     },
     "reference_annotation": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
      "validated": true,
-     "mapped": false,
-     "usable": false
+     "mapped": true,
+     "usable": true
     }
    },
    "lifecycle_notes": []
@@ -3434,7 +3430,8 @@
    "id": "uniprot",
    "name": "UniProtKB (Swiss-Prot and TrEMBL)",
    "categories": [
-    "protein_structure_function"
+    "protein_structure_function",
+    "clinical_interpretation"
    ],
    "maintainer": "UniProt Consortium",
    "url": "https://www.uniprot.org",
@@ -3447,7 +3444,7 @@
     "release_date": "2026-09-02",
     "verified": "live"
    },
-   "scope": "Protein sequences with curated function, domains, variants, PTMs and cross-references. 20,431 reviewed (Swiss-Prot) human entries.",
+   "scope": "Protein sequences with curated function, domains, variants, PTMs and cross-references. 20,431 reviewed (Swiss-Prot) human entries. The humsavar variant index (release 2026_03, 02-Sep-2026) lists 85,015 rows for 83,859 distinct Swiss-Prot human missense variants (rows 33,333 LP/P, 39,964 LB/B, 11,718 US; a variant with several diseases has one row per disease) with ACMG/AMP-style categories curated from the literature.",
    "variant_classes": [
     "protein_level",
     "gene_level"
@@ -3482,25 +3479,28 @@
    "update_frequency": "Every 8 weeks or so.",
    "coverage_limitations": [
     "Curated annotation lags primary literature",
-    "Variant sections are not systematic experimental measurements"
+    "Variant sections are not systematic experimental measurements",
+    "humsavar categories are literature-curated, for research use only (stated in the file) and may change; protein-level only (UniProt canonical numbering), no genomic coordinates"
    ],
    "known_omissions": [],
    "overlap_with_existing": [],
    "reuse_decision": {
     "action": "retrieve_source",
-    "rationale": "Primary source; fetch the reviewed human table with identifier cross-references (needed to join protein-level MaveDB targets to genes and structures)."
+    "rationale": "Primary source; fetch the reviewed human table with identifier cross-references (needed to join protein-level MaveDB targets to genes and structures) and the humsavar missense variant index (a protein-level clinical annotation that joins to MaveDB variants through UniProt accession and amino-acid change)."
    },
    "status": {
     "accessible": "yes",
     "notes": "REST total reviewed human = 20,431."
    },
    "acquisition_targets": [
-    "uniprot_human_reviewed"
+    "uniprot_human_reviewed",
+    "uniprot_humsavar"
    ],
    "evidence": [
+    "uniprot/humsavar_head",
+    "uniprot/licence",
     "uniprot/relnotes",
-    "uniprot/rest_human_reviewed",
-    "uniprot/licence"
+    "uniprot/rest_human_reviewed"
    ],
    "unverified_fields": [],
    "lifecycle_all_targets": {
@@ -3513,6 +3513,14 @@
    },
    "lifecycle_by_dimension": {
     "protein_structure_function": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    },
+    "clinical_interpretation": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,

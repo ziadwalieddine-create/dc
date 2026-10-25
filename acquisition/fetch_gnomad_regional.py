@@ -15,7 +15,7 @@ carries in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) and a 
 are split and each allele takes its own value for fields defined per allele. Predictor scores keep the licences of their
 authors; gnomAD itself is CC0.
 
-  .venv/bin/python acquisition/fetch_gnomad_regional.py [--workers 6] [--chroms 17 X]      (requires pysam; see requirements.txt)
+  .venv/bin/python acquisition/fetch_gnomad_regional.py [--workers 6] [--chroms 17 X] [--kinds joint]      (requires pysam; see requirements.txt)
 """
 import argparse
 import collections
@@ -36,11 +36,24 @@ import acquire  # noqa: E402
 import mavedb_snvs  # noqa: E402
 
 OUT = os.path.join(ROOT, 'data', 'external', 'gnomad_regional')
+CACHE = os.path.join(OUT, 'tbi_cache')
 BASE = 'https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/{kind}/gnomad.{kind}.v4.1.sites.chr{chrom}.vcf.bgz'
 CHROMS = [str(i) for i in range(1, 23)] + ['X', 'Y']
 PER_SITE = ['grpmax', 'fafmax_faf95_max', 'fafmax_faf95_max_gen_anc', 'cadd_phred', 'revel_max', 'spliceai_ds_max', 'pangolin_largest_ds', 'phylop', 'sift_max', 'polyphen_max',
             'variant_type', 'allele_type', 'lcr', 'segdup', 'fail_interval_qc', 'VRS_Allele_IDs']
 CORE = ['AC', 'AN', 'AF', 'nhomalt', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax']
+# The joint callset (exomes + genomes pooled) has its own field names, carries the frequencies Open Targets and MaveDB quote, and holds no predictor scores.
+JOINT_CORE = ['AC_joint', 'AN_joint', 'AF_joint', 'nhomalt_joint', 'AC_grpmax_joint', 'AN_grpmax_joint', 'AF_grpmax_joint',
+              'AC_exomes', 'AN_exomes', 'AF_exomes', 'AC_genomes', 'AN_genomes', 'AF_genomes']
+JOINT_PER_SITE = ['grpmax_joint', 'fafmax_faf95_max_joint', 'fafmax_faf95_max_gen_anc_joint', 'exomes_filters', 'genomes_filters', 'not_called_in_exomes', 'not_called_in_genomes']
+KINDS = ('exomes', 'genomes', 'joint')
+
+
+def layout(kind, groups):
+    """(core + per-group fields, per-site fields) kept for a callset."""
+    if kind == 'joint':
+        return JOINT_CORE + [f'{m}_joint_{g}' for g in groups for m in ('AC', 'AN', 'AF')], JOINT_PER_SITE
+    return CORE + [f'{m}_{g}' for g in groups for m in ('AC', 'AN', 'AF')], PER_SITE
 
 
 def now():
@@ -68,10 +81,11 @@ def pick(value, idx, n_alt):
     return value
 
 
-def groups_of(tbx):
+def groups_of(tbx, kind):
     ids = set()
+    pat = r'##INFO=<ID=AC_joint_([a-z]+),' if kind == 'joint' else r'##INFO=<ID=AC_([a-z]+),'
     for line in tbx.header:
-        m = re.match(r'##INFO=<ID=AC_([a-z]+),', line)
+        m = re.match(pat, line)
         if m:
             ids.add(m.group(1))
     return sorted(ids - {'grpmax', 'raw'})
@@ -108,11 +122,13 @@ def read_region(state, chrom, start, end, tries=5):
 def slice_chrom(args):
     kind, chrom, regs, wanted = args
     import pysam
+    os.makedirs(CACHE, exist_ok=True)
+    os.chdir(CACHE)             # htslib saves each remote .tbi index in the working directory; keep them out of the repository
     url = BASE.format(kind=kind, chrom=chrom)
     hdr = head(url)
     state = dict(url=url, tbx=pysam.TabixFile(url))
-    groups = groups_of(state['tbx'])
-    fields = CORE + [f'{m}_{g}' for g in groups for m in ('AC', 'AN', 'AF')]
+    groups = groups_of(state['tbx'], kind)
+    fields, per_site = layout(kind, groups)
     rows, seen, retries = [], 0, 0
     for (c, s, e) in regs:
         lines, r_ = read_region(state, c, s, e)
@@ -129,16 +145,17 @@ def slice_chrom(args):
             info = info_dict(p[7])
             seen += 1
             for i, a in alts_idx:
-                rows.append([chrom, pos, p[3], a, p[6]] + [pick(info.get(f), i, len(alts)) for f in fields] + [pick(info.get(f), i, len(alts)) for f in PER_SITE])
+                rows.append([chrom, pos, p[3], a, p[6]] + [pick(info.get(f), i, len(alts)) for f in fields] + [pick(info.get(f), i, len(alts)) for f in per_site])
     meta = dict(kind=kind, chrom=chrom, url=url, size=hdr.get('content-length'), etag=hdr.get('etag'), last_modified=hdr.get('last-modified'), regions=len(regs), source_records_at_positions=seen,
                 rows=len(rows), read_retries=retries)
-    return meta, ['chrom', 'pos', 'ref', 'alt', 'filter'] + fields + PER_SITE, rows
+    return meta, ['chrom', 'pos', 'ref', 'alt', 'filter'] + fields + per_site, rows
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--workers', type=int, default=6)
     ap.add_argument('--chroms', nargs='*')
+    ap.add_argument('--kinds', nargs='*', choices=KINDS, help='callsets to slice (default: all three)')
     a = ap.parse_args()
     import pysam
     os.makedirs(OUT, exist_ok=True)
@@ -154,7 +171,7 @@ def main():
             f.write(f'chr{c}\t{s - 1}\t{e}\n')
     region_sha = hashlib.sha256(open(bed, 'rb').read()).hexdigest()
     print(f'{len(keys)} SNV alleles, {sum(len(v) for v in by.values())} positions, {len(regs)} regions ({len(in_gnomad)} on gnomAD chromosomes)', flush=True)
-    for kind in ('exomes', 'genomes'):
+    for kind in (a.kinds or KINDS):
         tid = f'gnomad_v4_1_{kind}_regional'
         per_chr = collections.defaultdict(list)
         for r in in_gnomad:

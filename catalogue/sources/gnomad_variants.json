@@ -17,7 +17,7 @@
   "release_date": "2026-09-23 (4.1.2 constraint)",
   "verified": "live"
  },
- "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group, group-maximum and filtering allele frequencies, and in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) plus GA4GH VRS allele IDs. The header of the exome file defines 413 INFO fields and that of the genome file 240.",
+ "scope": "730,947 exomes and 76,215 genomes mapped to GRCh38 (v4); site-level allele counts per ancestry group, group-maximum and filtering allele frequencies, and in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) plus GA4GH VRS allele IDs. The header of the exome file defines 413 INFO fields and that of the genome file 240. The joint callset (exomes and genomes pooled, 664 INFO fields) carries joint, exome and genome counts side by side and the filters BOTH_FILTERED, EXOMES_FILTERED, GENOMES_FILTERED and PASS; it holds no predictor scores.",
  "variant_classes": [
   "snv",
   "indel"
@@ -81,6 +81,7 @@
  "unverified_fields": [],
  "acquisition_targets": [
   "gnomad_v4_1_exomes_regional",
-  "gnomad_v4_1_genomes_regional"
+  "gnomad_v4_1_genomes_regional",
+  "gnomad_v4_1_joint_regional"
  ]
 }

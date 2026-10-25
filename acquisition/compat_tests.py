@@ -8,7 +8,6 @@ check, not the analysis engine.
   python3 compat_tests.py [--skip orcs ot]     # ot = the Open Targets Parquet tests (compat_opentargets.py, needs pyarrow)
 """
 import argparse
-import bisect
 import collections
 import csv
 import glob
@@ -37,21 +36,8 @@ def opn(p):
     return gzip.open(p, 'rt', encoding='utf-8', errors='replace', newline='') if open(p, 'rb').read(2) == b'\x1f\x8b' else open(p, encoding='utf-8', errors='replace', newline='')
 
 
-def build_index(iv):
-    """Exact stabbing-query index for half-open intervals [s, e): sorted starts plus prefix-maximum of ends."""
-    iv = sorted(iv)
-    starts = [s for s, e in iv]
-    pm, m = [], -1
-    for s_, e_ in iv:
-        m = max(m, e_)
-        pm.append(m)
-    return starts, pm
-
-
-def covered(idx, pos0):
-    starts, pm = idx
-    i = bisect.bisect_right(starts, pos0) - 1
-    return i >= 0 and pm[i] > pos0
+sys.path.insert(0, HERE)
+from intervals import build_index, covered  # noqa: E402  (exact stabbing queries; unit-tested in test_helpers.py)
 
 
 # Which acquisition targets each test actually exercised (so a join is only credited to the dimensions those files support)
@@ -363,6 +349,7 @@ vep_terms = collections.Counter()
 sets_with_g = set()
 dump_snv = {}
 dump_af = {}      # (chrom,pos,ref,alt) -> gnomAD allele frequency as annotated by MaveDB's own pipeline
+dump_vrs = {}     # (chrom,pos,ref,alt) -> GA4GH VRS digest of the post-mapped variant
 nc2chr = {f'NC_{n:06d}': (str(n) if n <= 22 else {23: 'X', 24: 'Y'}[n]) for n in range(1, 25)}
 rx = re.compile(r'^(NC_\d{6})\.\d+:g\.(\d+)([ACGT])>([ACGT])$')
 for fp in glob.glob(os.path.join(ann_dir, 'urn-mavedb-*.annotations.csv')):
@@ -384,6 +371,8 @@ for fp in glob.glob(os.path.join(ann_dir, 'urn-mavedb-*.annotations.csv')):
                     dump_snv[row['accession']] = (nc2chr[m.group(1)], int(m.group(2)), m.group(3), m.group(4))
                     if row['gnomad.gnomad_af'] != 'NA':
                         dump_af[(nc2chr[m.group(1)], int(m.group(2)), m.group(3), m.group(4))] = float(row['gnomad.gnomad_af'])
+                    if row['mavedb.post_mapped_vrs_digest'] != 'NA':
+                        dump_vrs[(nc2chr[m.group(1)], int(m.group(2)), m.group(3), m.group(4))] = row['mavedb.post_mapped_vrs_digest']
             if row['vep.vep_functional_consequence'] != 'NA':
                 ann_vep += 1
                 vep_terms[row['vep.vep_functional_consequence']] += 1
@@ -534,16 +523,43 @@ with gzip.open(os.path.join(D, 'alphamissense/AlphaMissense_hg38.tsv.gz'), 'rt',
             p = line.rstrip('\n').split('\t')
             k = (p[0][3:], int(p[1]), p[2], p[3])
             if k in uniq:
-                am_hits[k][p[7]] = (float(p[8]), p[9])
+                am_hits[k][p[7]] = (float(p[8]), p[9], p[5])
 comparable = [k for k in am_hits if k in ens_pro]
 concordant = [k for k in comparable if ens_pro[k] & set(am_hits[k])]
 conc_set = set(concordant)
-am_cls = collections.Counter(c for k in am_hits for (_, c) in am_hits[k].values())
+am_cls = collections.Counter(c for k in am_hits for (_, c, _u) in am_hits[k].values())
 src('alphamissense', 'Exact SNV coordinate join: MaveDB-mapped variants -> AlphaMissense (GRCh38) with protein-change agreement', len(am_hits) > 1000 and len(concordant) / max(1, len(comparable)) > 0.8,
     alphamissense_rows=am_rows, mavedb_unique_snvs=len(uniq), matched=len(am_hits), match_rate=round(len(am_hits) / max(1, len(uniq)), 4), comparable_with_ensembl_protein_change=len(comparable),
     protein_change_agrees=len(concordant), agreement_rate=round(len(concordant) / max(1, len(comparable)), 4), class_of_matches=dict(am_cls),
     disagreement_examples=[(k, sorted(ens_pro[k]), sorted(am_hits[k])) for k in comparable if k not in conc_set][:5],
     note='AlphaMissense covers canonical-transcript missense SNVs only; unmatched MaveDB alleles are synonymous, nonsense, non-canonical-isoform or non-coding. Agreement compares the Ensembl-file HGVS p. change (RefSeq protein numbering) with AlphaMissense protein_variant (canonical numbering).')
+
+# UniProt humsavar (protein-level curated classification): joined to MaveDB-mapped alleles through AlphaMissense's (UniProt accession, protein change)
+hs = {}
+rx_hs = re.compile(r'^(\S+)\s+(\S+)\s+(VAR_\d{6})\s+p\.([A-Z][a-z]{2})(\d+)([A-Z][a-z]{2})\s+(LP/P|LB/B|US)\s+(\S+)\s+(.*)$')
+in_tab = False
+with open(os.path.join(D, 'uniprot/humsavar.txt'), encoding='utf-8', errors='replace') as f:
+    for line in f:
+        if line.startswith('_________'):
+            in_tab = True
+            continue
+        g = rx_hs.match(line.rstrip('\n')) if in_tab else None
+        if g and g.group(4) in AA3 and g.group(6) in AA3:
+            hs[(g.group(2), AA3[g.group(4)] + g.group(5) + AA3[g.group(6)])] = g.group(7)
+joined = {}
+for k, d in am_hits.items():
+    for pv, (score, cls, acc) in d.items():
+        c_ = hs.get((acc, pv))
+        if c_:
+            joined[k] = (c_, acc, pv, cls)
+cv_map = {'Pathogenic': 'LP/P', 'Likely_pathogenic': 'LP/P', 'Benign': 'LB/B', 'Likely_benign': 'LB/B'}
+both_cv = [(v[0], cv_map[cv[k]]) for k, v in joined.items() if k in cv and cv[k] in cv_map and v[0] in ('LP/P', 'LB/B')]
+am_by_cat = {c_: dict(collections.Counter(v[3] for v in joined.values() if v[0] == c_)) for c_ in ('LP/P', 'LB/B', 'US')}
+src('uniprot', 'Humsavar curated variants joined to MaveDB-mapped alleles via AlphaMissense (UniProt accession + protein change)', len(joined) > 100,
+    targets=['uniprot_humsavar', 'alphamissense_hg38', 'ensembl_vep_mavedb_variants'], humsavar_variants=len(hs), mavedb_alleles_with_a_humsavar_entry=len(joined),
+    by_category=dict(collections.Counter(v[0] for v in joined.values())), alleles_also_in_clinvar_with_a_clear_call=len(both_cv),
+    humsavar_agrees_with_clinvar=sum(1 for a_, b_ in both_cv if a_ == b_), alphamissense_class_by_humsavar_category=am_by_cat,
+    note='the join runs through AlphaMissense (canonical UniProt numbering), so only missense alleles AlphaMissense covers can match')
 
 # DGV interval overlap
 log('reading DGV ...')
@@ -569,11 +585,17 @@ src('dgv', 'Interval overlap: MaveDB-mapped SNV positions x DGV GRCh38 variants'
 
 # gnomAD v4.1 regional slices (remote tabix at the MaveDB-mapped positions)
 GN = {}
-for kind in ('exomes', 'genomes'):
+MAN = {json.loads(l)['id']: json.loads(l) for l in open(os.path.join(HERE, 'manifest.jsonl')) if l.strip()}
+for kind in ('exomes', 'genomes', 'joint'):
     fp = os.path.join(D, 'gnomad_regional', f'gnomad_v4_1_{kind}_at_mavedb_positions.tsv.gz')
-    if os.path.exists(fp):
+    rec_ = MAN.get(f'gnomad_v4_1_{kind}_regional', {})
+    if os.path.exists(fp) and rec_.get('ok'):          # a partial slice (e.g. a --chroms test run) is never used
         with gzip.open(fp, 'rt', newline='') as f:
-            GN[kind] = {(r['chrom'], int(r['pos']), r['ref'], r['alt']): r for r in csv.DictReader(f, delimiter='\t')}
+            rows_ = list(csv.DictReader(f, delimiter='\t'))
+        if len(rows_) == rec_.get('rows'):
+            GN[kind] = {(r['chrom'], int(r['pos']), r['ref'], r['alt']): r for r in rows_}
+        else:
+            src('gnomad_variants', f'gnomAD {kind} slice has {len(rows_)} rows but the manifest says {rec_.get("rows")}; slice not used', False)
 bed_fp = os.path.join(D, 'gnomad_regional', 'mavedb_snv_regions.bed')
 if GN and os.path.exists(bed_fp):
     reg_pos = collections.defaultdict(list)
@@ -587,23 +609,34 @@ if GN and os.path.exists(bed_fp):
     src('gnomad_variants', 'Regional slices were requested for every MaveDB-mapped SNV position on chr1-22/X/Y', not uncovered, positions_on_gnomad_chromosomes=len(need), positions_outside_requested_regions=len(uncovered),
         note='checks that fetch_gnomad_regional.py and this script derive the same position set from the same assets')
     for kind, tbl in GN.items():
+        ac_col = 'AC_joint' if kind == 'joint' else 'AC'
         hit = [k for k in uniq if k in tbl]
         rows_ = [tbl[k] for k in hit]
-        ac_pos = sum(1 for r_ in rows_ if r_['AC'] not in ('', '0'))
+        ac_pos = sum(1 for r_ in rows_ if r_[ac_col] not in ('', '0'))
+        extra = {} if kind == 'joint' else dict(with_cadd=sum(1 for r_ in rows_ if r_['cadd_phred']), with_revel=sum(1 for r_ in rows_ if r_['revel_max']), with_spliceai=sum(1 for r_ in rows_ if r_['spliceai_ds_max']))
         src('gnomad_variants', f'Exact SNV allele join: MaveDB-mapped alleles -> gnomAD v4.1 {kind} regional slice', len(hit) > 1000,
             targets=[f'gnomad_v4_1_{kind}_regional', 'ensembl_vep_mavedb_variants'], mavedb_unique_snvs=len(uniq), slice_alleles=len(tbl), matched=len(hit), match_rate=round(len(hit) / max(1, len(uniq)), 4),
-            matched_with_AC_gt_0=ac_pos, matched_pass_filter=sum(1 for r_ in rows_ if r_['filter'] == 'PASS'), with_cadd=sum(1 for r_ in rows_ if r_['cadd_phred']),
-            with_revel=sum(1 for r_ in rows_ if r_['revel_max']), with_spliceai=sum(1 for r_ in rows_ if r_['spliceai_ds_max']),
+            matched_with_AC_gt_0=ac_pos, matched_pass_filter=sum(1 for r_ in rows_ if r_['filter'] == 'PASS'), **extra,
             note='an allele absent from the slice was not observed in this callset or was removed, which is not the same as a frequency of zero')
-    both_af = [(k, float(r_['AF'])) for k, r_ in GN.get('exomes', {}).items() if k in dump_af and r_['AF']]
     if dump_af:
-        res = {}
+        def rel(tbl, af_col):
+            ratios = sorted(dump_af[k] / float(tbl[k][af_col]) for k in dump_af if k in tbl and tbl[k][af_col] and float(tbl[k][af_col]) > 0 and dump_af[k] > 0)
+            n_ = len(ratios)
+            return dict(compared=n_, equal_within_1e_3_relative=sum(1 for x in ratios if abs(x - 1) <= 1e-3), median_ratio=round(ratios[n_ // 2], 4) if n_ else None,
+                        p10=round(ratios[n_ // 10], 4) if n_ else None, p90=round(ratios[9 * n_ // 10], 4) if n_ else None)
+        res = {kind: rel(tbl, 'AF_joint' if kind == 'joint' else 'AF') for kind, tbl in GN.items()}
+        src('gnomad_variants', "Relationship of MaveDB-annotated gnomAD AF (dump) to the regional slices' AF", None, targets=[f'gnomad_v4_1_{k_}_regional' for k_ in GN] + ['mavedb_zenodo_dump_v4'],
+            dump_variants_with_af=len(dump_af), ratio_dump_over_slice_by_callset=res,
+            interpretation='a ratio of 1 for the joint callset and not for exomes or genomes alone means MaveDB annotated from the joint (exomes + genomes pooled) frequencies')
+    if dump_vrs:
+        vres = {}
         for kind, tbl in GN.items():
-            cmp_ = [(dump_af[k], float(tbl[k]['AF'])) for k in dump_af if k in tbl and tbl[k]['AF']]
-            res[kind] = dict(compared=len(cmp_), equal_within_1e_3_relative=sum(1 for a_, b_ in cmp_ if abs(a_ - b_) <= 1e-3 * max(a_, b_, 1e-12)))
-        src('gnomad_variants', "Relationship of MaveDB-annotated gnomAD AF (dump) to the regional slices' AF", None, targets=['gnomad_v4_1_exomes_regional', 'gnomad_v4_1_genomes_regional', 'mavedb_zenodo_dump_v4'],
-            dump_variants_with_af=len(dump_af), **{k_: v_ for k_, v_ in res.items()},
-            interpretation='shows which gnomAD callset (exomes or genomes) MaveDB annotated from, and whether it is the same release')
+            cmp_ = [(k, dg) for k, dg in dump_vrs.items() if k in tbl and tbl[k].get('VRS_Allele_IDs')]
+            if cmp_:
+                vres[kind] = dict(compared=len(cmp_), digest_found_in_gnomad_VRS_Allele_IDs=sum(1 for k, dg in cmp_ if any(i.split('.', 1)[-1] == dg for i in tbl[k]['VRS_Allele_IDs'].split(','))))
+        src('gnomad_variants', "Relationship of MaveDB's post-mapped VRS digest to gnomAD's VRS_Allele_IDs for the same genomic SNV", None, targets=['gnomad_v4_1_exomes_regional', 'gnomad_v4_1_genomes_regional', 'mavedb_zenodo_dump_v4'],
+            dump_variants_with_vrs_digest=len(dump_vrs), **{k_: v_ for k_, v_ in vres.items()},
+            interpretation='an identifier-level join (GA4GH VRS) agrees with the coordinate-level join only if both sides compute the same allele identifier; the share found measures that')
 
 # Equivalence of dump tables vs API-built tables (sample extracted from the dump)
 eq = []

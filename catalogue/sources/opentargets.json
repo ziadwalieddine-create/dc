@@ -24,7 +24,7 @@
   "release_date": "2026-09",
   "verified": "live"
  },
- "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome.",
+ "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome. The variant dataset states that all variation is mapped to GRCh38 with 1-based gnomAD-style identifiers (chrom_pos_ref_alt) and population allele frequencies from gnomAD 4.1.",
  "variant_classes": [
   "snv",
   "indel",
@@ -74,17 +74,16 @@
  },
  "status": {
   "accessible": "yes",
-  "notes": "FTP, GraphQL and docs reachable. A focused subset of 26 Parquet datasets (about 8.5 GiB) is acquired; the large colocalisation (15.8 GiB), baseline_expression, literature and association-score datasets are deferred."
+  "notes": "FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and validated; the large colocalisation (15.4 GiB), baseline_expression, literature and association-score datasets are deferred, 34 of the 61 datasets in all."
  },
- "unverified_fields": [
-  "assemblies"
- ],
+ "unverified_fields": [],
  "evidence": [
   "opentargets/api_meta",
   "opentargets/docs_licence",
-  "opentargets/ftp_platform_listing",
+  "opentargets/docs_variant",
+  "opentargets/downloads_page",
   "opentargets/ftp_26_09_output",
-  "opentargets/downloads_page"
+  "opentargets/ftp_platform_listing"
  ],
  "acquisition_targets": [
   "opentargets_26_09_biosample",

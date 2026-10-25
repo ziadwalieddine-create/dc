@@ -1,2 +1,25 @@
-chrom	url	size	etag	last_modified	regions	records_at_positions	alleles
-17	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr17.vcf.bgz	12017042594	"e43b58bf15b4112b5aa1ccc9d0be8725-717"	Wed, 17 Apr 2024 18:22:34 GMT	80	4305	4305
+chrom	url	size	etag	last_modified	regions	records_at_positions	alleles	read_retries
+1	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr1.vcf.bgz	18789775480	"069ebec60caaf30a8727c565fbf78403-1120"	Wed, 17 Apr 2024 18:22:34 GMT	185	10966	10966	0
+2	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr2.vcf.bgz	14282176877	"c6e205f21f5bff27e15763482f26e1d7-852"	Wed, 17 Apr 2024 18:22:34 GMT	80	3489	3489	0
+3	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr3.vcf.bgz	11586472818	"07bd883b7d9dbf82d56561198941a606-691"	Wed, 17 Apr 2024 18:22:35 GMT	82	3609	3609	0
+4	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr4.vcf.bgz	7712255367	"9104276ba6dea1489b9cb53b264f8860-460"	Wed, 17 Apr 2024 18:22:35 GMT	37	1985	1985	0
+5	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr5.vcf.bgz	8494344938	"28c8e990a3b7260fc8e8043a0391a8ff-507"	Wed, 17 Apr 2024 18:22:34 GMT	72	3969	3969	0
+6	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr6.vcf.bgz	9132083331	"d241da85cf4481b2849ce37646705a86-545"	Wed, 17 Apr 2024 18:22:36 GMT	67	3180	3180	0
+7	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr7.vcf.bgz	9675275184	"9cbf66f615ce2b5127b5e99b9b4b01c4-577"	Wed, 17 Apr 2024 18:22:34 GMT	69	3843	3843	0
+8	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr8.vcf.bgz	7275385426	"cb66a3f296da99c7e9748d340c3d5715-434"	Wed, 17 Apr 2024 18:22:34 GMT	42	2584	2584	0
+9	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr9.vcf.bgz	8041521990	"34286c187a79e4b0a00c9bf51aea941a-480"	Wed, 17 Apr 2024 18:22:34 GMT	60	3404	3404	0
+10	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr10.vcf.bgz	7858233309	"43c7f15ace465329ca5381cc88c50e52-469"	Wed, 17 Apr 2024 18:22:33 GMT	63	4451	4451	0
+11	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr11.vcf.bgz	11641720279	"0a113663c9cbdbd905560fc5fa464538-694"	Wed, 17 Apr 2024 18:22:34 GMT	77	3767	3767	0
+12	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr12.vcf.bgz	10632124827	"e69c789df1dc060bf9eefea35c940f7f-634"	Wed, 17 Apr 2024 18:22:34 GMT	64	2270	2270	0
+13	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr13.vcf.bgz	3540233028	"96cd16cff8c588c4fda08e866d7c61c6-212"	Wed, 17 Apr 2024 18:22:34 GMT	42	2471	2471	0
+14	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr14.vcf.bgz	6669068987	"a76dffaf80b5f78378703f4660bd9d73-398"	Wed, 17 Apr 2024 18:22:35 GMT	26	1126	1126	0
+15	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr15.vcf.bgz	7374290946	"a6aded566738c6cd307500a61e047410-440"	Wed, 17 Apr 2024 18:22:34 GMT	29	1229	1229	0
+16	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr16.vcf.bgz	9774275728	"de8411e76178cea57a302528e51dea04-583"	Wed, 17 Apr 2024 18:22:35 GMT	56	4339	4339	0
+17	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr17.vcf.bgz	12017042594	"e43b58bf15b4112b5aa1ccc9d0be8725-717"	Wed, 17 Apr 2024 18:22:34 GMT	80	4305	4305	0
+18	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr18.vcf.bgz	3390375115	"ed52eed03d1b128dab1ecfec02c415d1-203"	Wed, 17 Apr 2024 18:22:34 GMT	25	663	663	0
+19	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr19.vcf.bgz	12620525657	"4ef547aa7cdd55078d6dc1e14c3271d0-753"	Wed, 17 Apr 2024 18:22:34 GMT	49	3015	3015	0
+20	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr20.vcf.bgz	4760834034	"92342db6abd08dcf3567730b3a89e16d-284"	Wed, 17 Apr 2024 18:22:35 GMT	65	2860	2860	0
+21	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr21.vcf.bgz	2250319809	"faf24d0b0329dc3beb3fe4739eaf4a4d-135"	Wed, 17 Apr 2024 18:22:34 GMT	34	1760	1760	0
+22	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chr22.vcf.bgz	5060347554	"7b87ccc7b95aded2561b722e06fc977f-302"	Wed, 17 Apr 2024 18:22:34 GMT	42	3293	3293	0
+X	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chrX.vcf.bgz	5746768174	"e5f303b38ce3435f08686c78552d65c5-343"	Wed, 17 Apr 2024 18:22:34 GMT	95	3900	3900	0
+Y	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/exomes/gnomad.exomes.v4.1.sites.chrY.vcf.bgz	113561604	"f5e5f968a954ac48647aaf4659f1722b-7"	Wed, 17 Apr 2024 18:22:34 GMT	3	17	17	0

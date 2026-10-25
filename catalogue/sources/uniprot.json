@@ -2,7 +2,8 @@
  "id": "uniprot",
  "name": "UniProtKB (Swiss-Prot and TrEMBL)",
  "categories": [
-  "protein_structure_function"
+  "protein_structure_function",
+  "clinical_interpretation"
  ],
  "maintainer": "UniProt Consortium",
  "url": "https://www.uniprot.org",
@@ -15,7 +16,7 @@
   "release_date": "2026-09-02",
   "verified": "live"
  },
- "scope": "Protein sequences with curated function, domains, variants, PTMs and cross-references. 20,431 reviewed (Swiss-Prot) human entries.",
+ "scope": "Protein sequences with curated function, domains, variants, PTMs and cross-references. 20,431 reviewed (Swiss-Prot) human entries. The humsavar variant index (release 2026_03, 02-Sep-2026) lists 85,015 rows for 83,859 distinct Swiss-Prot human missense variants (rows 33,333 LP/P, 39,964 LB/B, 11,718 US; a variant with several diseases has one row per disease) with ACMG/AMP-style categories curated from the literature.",
  "variant_classes": [
   "protein_level",
   "gene_level"
@@ -50,25 +51,28 @@
  "update_frequency": "Every 8 weeks or so.",
  "coverage_limitations": [
   "Curated annotation lags primary literature",
-  "Variant sections are not systematic experimental measurements"
+  "Variant sections are not systematic experimental measurements",
+  "humsavar categories are literature-curated, for research use only (stated in the file) and may change; protein-level only (UniProt canonical numbering), no genomic coordinates"
  ],
  "known_omissions": [],
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "Primary source; fetch the reviewed human table with identifier cross-references (needed to join protein-level MaveDB targets to genes and structures)."
+  "rationale": "Primary source; fetch the reviewed human table with identifier cross-references (needed to join protein-level MaveDB targets to genes and structures) and the humsavar missense variant index (a protein-level clinical annotation that joins to MaveDB variants through UniProt accession and amino-acid change)."
  },
  "status": {
   "accessible": "yes",
   "notes": "REST total reviewed human = 20,431."
  },
  "acquisition_targets": [
-  "uniprot_human_reviewed"
+  "uniprot_human_reviewed",
+  "uniprot_humsavar"
  ],
  "evidence": [
+  "uniprot/humsavar_head",
+  "uniprot/licence",
   "uniprot/relnotes",
-  "uniprot/rest_human_reviewed",
-  "uniprot/licence"
+  "uniprot/rest_human_reviewed"
  ],
  "unverified_fields": []
 }

@@ -41,10 +41,10 @@
   "direction": "alt allele effect sign"
  },
  "licence": {
-  "name": "Not confirmed: a License page is linked from the site but its text was not retrieved",
-  "redistribution": "Treat as open with citation until read",
+  "name": "Data under Creative Commons Attribution 4.0 International; code under Apache 2.0 (eQTL Catalogue License page)",
+  "redistribution": "Attribution required; cite Kerimov et al. 2021 (Nat Genet 53:1290) and Kerimov et al. 2023 (PLoS Genet 19:e1010932)",
   "access": "open",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "Irregular releases.",
  "coverage_limitations": [
@@ -63,14 +63,13 @@
   "accessible": "partial",
   "notes": "FTP listing verified; API retired."
  },
- "unverified_fields": [
-  "licence"
- ],
+ "unverified_fields": [],
  "evidence": [
-  "eqtl_catalogue/home",
+  "eqtl_catalogue/api_v3_datasets",
   "eqtl_catalogue/data_access",
   "eqtl_catalogue/ftp_listing",
-  "eqtl_catalogue/api_v3_datasets"
+  "eqtl_catalogue/home",
+  "eqtl_catalogue/license_page"
  ],
  "acquisition_targets": []
 }

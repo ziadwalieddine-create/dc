@@ -1,6 +1,31 @@
 {
- "generated_utc": "2026-10-25T10:34:38Z",
+ "generated_utc": "2026-10-25T12:18:31Z",
  "sources": {
+  "ensembl_genomes": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "Registry reference assembly (GRCh38) matches the assembly MaveDB names and the GRCh38 coordinate files use",
+     "passed": true,
+     "targets": [],
+     "registry_records": 563,
+     "reference_assembly": [
+      [
+       "GRCh38.p14",
+       "GCA_000001405.29",
+       "GENCODE",
+       true,
+       true
+      ]
+     ],
+     "mavedb_assemblies": {
+      "GRCh38": 70
+     },
+     "unresolved_assembly_names": [],
+     "note": "name-level check between two existing assets; it does not test sequence identity, which needs the genome FASTA (not acquired)"
+    }
+   ]
+  },
   "gencode_mane": {
    "mapped": true,
    "tests": [
@@ -121,6 +146,118 @@
       "uniprot_human_reviewed"
      ],
      "with_alphafold_xref": 527
+    },
+    {
+     "name": "Humsavar curated variants joined to MaveDB-mapped alleles via AlphaMissense (UniProt accession + protein change)",
+     "passed": true,
+     "targets": [
+      "uniprot_humsavar",
+      "alphamissense_hg38",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "humsavar_variants": 83858,
+     "mavedb_alleles_with_a_humsavar_entry": 3390,
+     "by_category": {
+      "US": 1567,
+      "LP/P": 1492,
+      "LB/B": 331
+     },
+     "alleles_also_in_clinvar_with_a_clear_call": 1023,
+     "humsavar_agrees_with_clinvar": 1006,
+     "alphamissense_class_by_humsavar_category": {
+      "LP/P": {
+       "likely_pathogenic": 1212,
+       "likely_benign": 186,
+       "ambiguous": 94
+      },
+      "LB/B": {
+       "likely_benign": 220,
+       "likely_pathogenic": 75,
+       "ambiguous": 36
+      },
+      "US": {
+       "likely_benign": 579,
+       "likely_pathogenic": 858,
+       "ambiguous": 130
+      }
+     },
+     "note": "the join runs through AlphaMissense (canonical UniProt numbering), so only missense alleles AlphaMissense covers can match"
+    }
+   ]
+  },
+  "alphafold_db": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "MaveDB UniProt -> AlphaFold DB canonical model (gene symbol agrees with UniProt)",
+     "passed": true,
+     "targets": [
+      "alphafold_db_mavedb_proteins"
+     ],
+     "mavedb_uniprot": 549,
+     "with_canonical_model": 529,
+     "isoform_models_only": [
+      "O60281",
+      "Q01484",
+      "Q12955",
+      "Q86UP3",
+      "Q8IZT6",
+      "Q9P2D1",
+      "Q9Y6V0"
+     ],
+     "coverage": 0.964,
+     "gene_symbol_agrees": [
+      520,
+      520
+     ],
+     "mean_global_plddt": 70.25,
+     "without_model_examples": [
+      "A0A2R8Y422",
+      "A0A804HKX1",
+      "O60281",
+      "O95071",
+      "O95714",
+      "P20929",
+      "P49792",
+      "P51587"
+     ]
+    }
+   ]
+  },
+  "interpro": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "MaveDB UniProt -> InterPro matches with residue locations",
+     "passed": true,
+     "targets": [
+      "interpro_mavedb_proteins"
+     ],
+     "mavedb_uniprot": 549,
+     "with_matches": 547,
+     "coverage": 0.996,
+     "interpro_entry_types": {
+      "conserved_site": 173,
+      "domain": 1886,
+      "homologous_superfamily": 1104,
+      "family": 583,
+      "repeat": 55,
+      "active_site": 47,
+      "binding_site": 59,
+      "ptm": 4
+     },
+     "matches_by_database": {
+      "interpro": 3911,
+      "pfam": 1433,
+      "cathgene3d": 1239,
+      "profile": 1024,
+      "ssf": 1021,
+      "cdd": 1001,
+      "smart": 947,
+      "panther": 547,
+      "prosite": 429,
+      "prints": 306
+     }
     }
    ]
   },
@@ -183,8 +320,8 @@
       "ensembl_vep_mavedb_variants"
      ],
      "intervals": 1539,
-     "positions_tested": 136894,
-     "positions_overlapping": 50493
+     "positions_tested": 145710,
+     "positions_overlapping": 52484
     },
     {
      "name": "Interval overlap: MaveDB-mapped SNV positions x ClinGen triplosensitivity gene intervals",
@@ -194,8 +331,8 @@
       "ensembl_vep_mavedb_variants"
      ],
      "intervals": 1330,
-     "positions_tested": 136894,
-     "positions_overlapping": 48001
+     "positions_tested": 145710,
+     "positions_overlapping": 49982
     }
    ]
   },
@@ -294,10 +431,10 @@
       "mane_summary_v1_5"
      ],
      "transcripts": 19233,
-     "mapped_to_mane_genes": 13919,
-     "found": 370,
+     "mapped_to_mane_genes": 13948,
+     "found": 376,
      "mavedb_ensg": 543,
-     "coverage": 0.681
+     "coverage": 0.692
     },
     {
      "name": "Exact SNV coordinate join: MaveDB-mapped variants -> AlphaMissense (GRCh38) with protein-change agreement",
@@ -307,16 +444,16 @@
       "ensembl_vep_mavedb_variants"
      ],
      "alphamissense_rows": 71697556,
-     "mavedb_unique_snvs": 341851,
-     "matched": 254753,
-     "match_rate": 0.7452,
-     "comparable_with_ensembl_protein_change": 213771,
-     "protein_change_agrees": 200912,
-     "agreement_rate": 0.9398,
+     "mavedb_unique_snvs": 399389,
+     "matched": 293696,
+     "match_rate": 0.7354,
+     "comparable_with_ensembl_protein_change": 252714,
+     "protein_change_agrees": 237668,
+     "agreement_rate": 0.9405,
      "class_of_matches": {
-      "likely_pathogenic": 137166,
-      "ambiguous": 26209,
-      "likely_benign": 91378
+      "likely_pathogenic": 161417,
+      "ambiguous": 30181,
+      "likely_benign": 102098
      },
      "disagreement_examples": [
       [
@@ -434,7 +571,8 @@
      "covered": 990,
      "of": 1402,
      "coverage": 0.706,
-     "snv_rows_from_our_sets": 377648,
+     "snv_variants_with_alleles": 377648,
+     "snv_alleles_from_our_sets": 307997,
      "contigs_sample": [
       "1",
       "10",
@@ -477,12 +615,13 @@
      ],
      "variants_compared_by_accession": 0,
      "agree": 0,
-     "ensembl_snv_alleles": 377648,
+     "ensembl_snv_alleles": 307997,
+     "ensembl_variants_with_snv_alleles": 377648,
      "dump_snv_alleles": 146200,
      "ensembl_sets_with_snv_alleles": 653,
      "dump_sets_with_genomic_hgvs": 185,
      "sets_in_both": 0,
-     "identical_coordinate_alleles": 6903,
+     "identical_coordinate_alleles": 9370,
      "disagreement_examples": []
     }
    ]
@@ -537,19 +676,19 @@
       "clinvar_vcf_grch38",
       "ensembl_vep_mavedb_variants"
      ],
-     "mavedb_unique_snvs": 341851,
+     "mavedb_unique_snvs": 399389,
      "clinvar_records": 4599326,
-     "matched": 34454,
-     "match_rate": 0.1008,
+     "matched": 38597,
+     "match_rate": 0.0966,
      "clinvar_significance_of_matches": {
-      "Uncertain_significance": 16509,
-      "Likely_benign": 4692,
-      "Conflicting_classifications_of_pathogenicity": 3681,
-      "Pathogenic": 3101,
-      "NA": 3032,
-      "Benign": 1721,
-      "Likely_pathogenic": 1573,
-      "not_provided": 78
+      "Uncertain_significance": 18275,
+      "Likely_benign": 5654,
+      "Conflicting_classifications_of_pathogenicity": 3915,
+      "Pathogenic": 3468,
+      "NA": 3262,
+      "Benign": 2105,
+      "Likely_pathogenic": 1762,
+      "not_provided": 83
      },
      "note": "ClinVar contigs have no chr prefix, as do the Ensembl-file contigs (same naming)"
     },
@@ -584,17 +723,17 @@
       "ensembl_vep_mavedb_variants"
      ],
      "ccre_intervals": 2348854,
-     "positions_tested": 136894,
-     "positions_in_at_least_one_class": 59194,
+     "positions_tested": 145710,
+     "positions_in_at_least_one_class": 63025,
      "per_class": {
-      "dELS": 31191,
-      "PLS": 5792,
-      "pELS": 14546,
-      "CA": 2075,
-      "CA-CTCF": 2053,
-      "CA-H3K4me3": 1089,
-      "TF": 1823,
-      "CA-TF": 625
+      "dELS": 33365,
+      "pELS": 15416,
+      "CA": 2152,
+      "TF": 2148,
+      "CA-TF": 665,
+      "PLS": 5936,
+      "CA-CTCF": 2108,
+      "CA-H3K4me3": 1235
      },
      "note": "class files overlap only where noted by SCREEN; counts per class are not additive across overlapping classes"
     }
@@ -611,9 +750,32 @@
       "ensembl_vep_mavedb_variants"
      ],
      "cnv_intervals": 68699,
-     "positions_tested": 136894,
-     "positions_overlapping_a_cnv": 116674,
+     "positions_tested": 145710,
+     "positions_overlapping_a_cnv": 123127,
      "note": "exact interval stabbing query (VCF POS/END converted to half-open)"
+    },
+    {
+     "name": "Interval overlap: MaveDB-mapped SNV positions x gnomAD genome SV intervals",
+     "passed": true,
+     "targets": [
+      "gnomad_sv_v4_1_sites_vcf",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "sv_records": 2154486,
+     "interval_records": 1492899,
+     "svtype": {
+      "DUP": 269326,
+      "BND": 356035,
+      "CNV": 721,
+      "DEL": 1206278,
+      "INS": 304645,
+      "CPX": 15189,
+      "INV": 2193,
+      "CTX": 99
+     },
+     "positions_tested": 145710,
+     "positions_overlapping_an_sv": 137307,
+     "note": "only DEL/DUP/INV/CPX/CNV/MCNV records with END > POS form intervals; INS, BND and CTX are points or breakends and are excluded"
     }
    ]
   },
@@ -628,13 +790,131 @@
       "ensembl_vep_mavedb_variants"
      ],
      "dgv_intervals": 1982568,
-     "positions_tested": 136894,
-     "positions_overlapping_a_dgv_variant": 121372,
+     "positions_tested": 145710,
+     "positions_overlapping_a_dgv_variant": 128077,
      "per_varianttype": {
-      "CNV": 116297,
-      "OTHER": 81481
+      "CNV": 122936,
+      "OTHER": 86861
      },
      "note": "DGV is a catalogue of structural variation in control samples (variants >50 bp); an overlap is a coordinate relationship, not evidence of benignity"
+    }
+   ]
+  },
+  "gnomad_variants": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "Regional slices were requested for every MaveDB-mapped SNV position on chr1-22/X/Y",
+     "passed": true,
+     "targets": [],
+     "positions_on_gnomad_chromosomes": 137606,
+     "positions_outside_requested_regions": 0,
+     "note": "checks that fetch_gnomad_regional.py and this script derive the same position set from the same assets"
+    },
+    {
+     "name": "Exact SNV allele join: MaveDB-mapped alleles -> gnomAD v4.1 exomes regional slice",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_exomes_regional",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "mavedb_unique_snvs": 399389,
+     "slice_alleles": 76495,
+     "matched": 66524,
+     "match_rate": 0.1666,
+     "matched_with_AC_gt_0": 53230,
+     "matched_pass_filter": 51107,
+     "with_cadd": 66524,
+     "with_revel": 47907,
+     "with_spliceai": 64789,
+     "note": "an allele absent from the slice was not observed in this callset or was removed, which is not the same as a frequency of zero"
+    },
+    {
+     "name": "Exact SNV allele join: MaveDB-mapped alleles -> gnomAD v4.1 genomes regional slice",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_genomes_regional",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "mavedb_unique_snvs": 399389,
+     "slice_alleles": 22162,
+     "matched": 18954,
+     "match_rate": 0.0475,
+     "matched_with_AC_gt_0": 18326,
+     "matched_pass_filter": 17924,
+     "with_cadd": 18954,
+     "with_revel": 12389,
+     "with_spliceai": 17825,
+     "note": "an allele absent from the slice was not observed in this callset or was removed, which is not the same as a frequency of zero"
+    },
+    {
+     "name": "Exact SNV allele join: MaveDB-mapped alleles -> gnomAD v4.1 joint regional slice",
+     "passed": true,
+     "targets": [
+      "gnomad_v4_1_joint_regional",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "mavedb_unique_snvs": 399389,
+     "slice_alleles": 82528,
+     "matched": 71993,
+     "match_rate": 0.1803,
+     "matched_with_AC_gt_0": 58978,
+     "matched_pass_filter": 55856,
+     "note": "an allele absent from the slice was not observed in this callset or was removed, which is not the same as a frequency of zero"
+    },
+    {
+     "name": "Relationship of MaveDB-annotated gnomAD AF (dump) to the regional slices' AF",
+     "passed": null,
+     "targets": [
+      "gnomad_v4_1_exomes_regional",
+      "gnomad_v4_1_genomes_regional",
+      "gnomad_v4_1_joint_regional",
+      "mavedb_zenodo_dump_v4"
+     ],
+     "dump_variants_with_af": 4776,
+     "ratio_dump_over_slice_by_callset": {
+      "exomes": {
+       "compared": 2106,
+       "equal_within_1e_3_relative": 12,
+       "median_ratio": 1.1321,
+       "p10": 0.9451,
+       "p90": 1.8116
+      },
+      "genomes": {
+       "compared": 4572,
+       "equal_within_1e_3_relative": 1573,
+       "median_ratio": 0.9536,
+       "p10": 0.0944,
+       "p90": 1.0757
+      },
+      "joint": {
+       "compared": 4625,
+       "equal_within_1e_3_relative": 4625,
+       "median_ratio": 1.0,
+       "p10": 1.0,
+       "p90": 1.0
+      }
+     },
+     "interpretation": "a ratio of 1 for the joint callset and not for exomes or genomes alone means MaveDB annotated from the joint (exomes + genomes pooled) frequencies"
+    },
+    {
+     "name": "Relationship of MaveDB's post-mapped VRS digest to gnomAD's VRS_Allele_IDs for the same genomic SNV",
+     "passed": null,
+     "targets": [
+      "gnomad_v4_1_exomes_regional",
+      "gnomad_v4_1_genomes_regional",
+      "mavedb_zenodo_dump_v4"
+     ],
+     "dump_variants_with_vrs_digest": 100762,
+     "exomes": {
+      "compared": 17202,
+      "digest_found_in_gnomad_VRS_Allele_IDs": 0
+     },
+     "genomes": {
+      "compared": 6465,
+      "digest_found_in_gnomad_VRS_Allele_IDs": 0
+     },
+     "interpretation": "an identifier-level join (GA4GH VRS) agrees with the coordinate-level join only if both sides compute the same allele identifier; the share found measures that"
     }
    ]
   },
@@ -697,6 +977,458 @@
      ]
     }
    ]
+  },
+  "opentargets": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "OT gene join: MaveDB ENSG -> target annotation",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_target"
+     ],
+     "target_genes": 78733,
+     "mavedb_ensg": 543,
+     "found": 543,
+     "coverage": 1.0,
+     "symbol_equal_to_MANE_symbol": 543,
+     "compared": 543,
+     "unmatched_examples": []
+    },
+    {
+     "name": "OT constraint (target.constraint, LoF o/e) vs gnomAD v4.1.2 MANE-select constraint",
+     "passed": null,
+     "targets": [
+      "opentargets_26_09_target"
+     ],
+     "genes_in_both": 17421,
+     "lof_oe_equal_within_1e3": 17421,
+     "share_equal": 1.0,
+     "median_abs_difference": 0.0,
+     "interpretation": "Open Targets repackages gnomAD constraint; the share of equal LoF o/e values shows whether its release matches the v4.1.2 file we hold."
+    },
+    {
+     "name": "OT exact SNV join: MaveDB-mapped variants -> variant index (chrom_pos_ref_alt)",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_variant"
+     ],
+     "variants_in_index": 7886762,
+     "mavedb_unique_snvs": 399389,
+     "matched": 32335,
+     "match_rate": 0.081,
+     "matched_with_allele_frequencies": 13439,
+     "variant_effect_methods": {
+      "VEP": 7886762,
+      "GERP": 7435440,
+      "SIFT": 1076797,
+      "FoldX": 650376,
+      "AlphaMissense": 620272,
+      "LOFTEE": 291220
+     },
+     "frequency_populations": {
+      "sas_adj": 7052471,
+      "remaining_adj": 7052471,
+      "nfe_adj": 7052471,
+      "mid_adj": 7052471,
+      "fin_adj": 7052471,
+      "eas_adj": 7052471,
+      "asj_adj": 7052471,
+      "amr_adj": 7052471,
+      "ami_adj": 7052471,
+      "afr_adj": 7052471
+     },
+     "note": "the index holds variants that occur in OT credible sets or evidence, so most MaveDB candidate alleles are expected to be absent"
+    },
+    {
+     "name": "OT variant-index adjusted allele frequencies vs gnomAD v4.1 regional slices",
+     "passed": null,
+     "targets": [
+      "opentargets_26_09_variant"
+     ],
+     "ot_variants_with_frequencies": 32335,
+     "by_gnomad_callset": {
+      "exomes": {
+       "nfe": {
+        "compared": 12725,
+        "equal_within_1e_3_relative": 4008
+       },
+       "afr": {
+        "compared": 12720,
+        "equal_within_1e_3_relative": 9906
+       },
+       "amr": {
+        "compared": 12714,
+        "equal_within_1e_3_relative": 10121
+       },
+       "eas": {
+        "compared": 12712,
+        "equal_within_1e_3_relative": 10889
+       },
+       "sas": {
+        "compared": 12713,
+        "equal_within_1e_3_relative": 9796
+       },
+       "fin": {
+        "compared": 12708,
+        "equal_within_1e_3_relative": 11877
+       },
+       "asj": {
+        "compared": 12709,
+        "equal_within_1e_3_relative": 12151
+       },
+       "mid": {
+        "compared": 12706,
+        "equal_within_1e_3_relative": 11753
+       },
+       "remaining": {
+        "compared": 12721,
+        "equal_within_1e_3_relative": 9258
+       }
+      },
+      "genomes": {
+       "nfe": {
+        "compared": 5617,
+        "equal_within_1e_3_relative": 1428
+       },
+       "afr": {
+        "compared": 5618,
+        "equal_within_1e_3_relative": 2997
+       },
+       "amr": {
+        "compared": 5615,
+        "equal_within_1e_3_relative": 3599
+       },
+       "eas": {
+        "compared": 5615,
+        "equal_within_1e_3_relative": 4335
+       },
+       "sas": {
+        "compared": 5619,
+        "equal_within_1e_3_relative": 3835
+       },
+       "fin": {
+        "compared": 5611,
+        "equal_within_1e_3_relative": 4940
+       },
+       "asj": {
+        "compared": 5614,
+        "equal_within_1e_3_relative": 5141
+       },
+       "mid": {
+        "compared": 5610,
+        "equal_within_1e_3_relative": 4858
+       },
+       "remaining": {
+        "compared": 5612,
+        "equal_within_1e_3_relative": 3053
+       }
+      },
+      "joint": {
+       "nfe": {
+        "compared": 13439,
+        "equal_within_1e_3_relative": 13439
+       },
+       "afr": {
+        "compared": 13437,
+        "equal_within_1e_3_relative": 13437
+       },
+       "amr": {
+        "compared": 13435,
+        "equal_within_1e_3_relative": 13435
+       },
+       "eas": {
+        "compared": 13430,
+        "equal_within_1e_3_relative": 13430
+       },
+       "sas": {
+        "compared": 13432,
+        "equal_within_1e_3_relative": 13432
+       },
+       "fin": {
+        "compared": 13426,
+        "equal_within_1e_3_relative": 13426
+       },
+       "asj": {
+        "compared": 13430,
+        "equal_within_1e_3_relative": 13430
+       },
+       "mid": {
+        "compared": 13426,
+        "equal_within_1e_3_relative": 13426
+       },
+       "remaining": {
+        "compared": 13437,
+        "equal_within_1e_3_relative": 13437
+       }
+      }
+     },
+     "interpretation": "equality with the joint callset (and not with exomes or genomes alone) shows that Open Targets quotes the pooled gnomAD v4.1 frequencies"
+    },
+    {
+     "name": "OT credible sets: lead and member variants matching MaveDB-mapped SNVs",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_credible_set"
+     ],
+     "credible_sets": 4761925,
+     "by_study_type": {
+      "eqtl": 1718748,
+      "gwas": 1519507,
+      "sqtl": 844764,
+      "tuqtl": 521558,
+      "sceqtl": 123630,
+      "pqtl": 33718
+     },
+     "lead_variants_matching_mavedb_snvs": 3212,
+     "member_variant_hits": 10408,
+     "credible_sets_containing_a_mavedb_snv": 7312
+    },
+    {
+     "name": "OT study table: molecular-QTL studies for MaveDB genes and credible-set studyId resolution",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_study",
+      "opentargets_26_09_credible_set"
+     ],
+     "studies": 3004247,
+     "by_study_type": {
+      "eqtl": 1476085,
+      "sqtl": 767929,
+      "tuqtl": 476698,
+      "gwas": 165517,
+      "sceqtl": 114263,
+      "pqtl": 3755
+     },
+     "mavedb_genes_with_molecular_qtl_studies": 525,
+     "credible_set_study_ids": 2840866,
+     "resolved_in_study_table": 2840866,
+     "resolution_rate": 1.0
+    },
+    {
+     "name": "OT locus-to-gene: MaveDB genes and credible-set locus resolution",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_l2g_prediction",
+      "opentargets_26_09_credible_set"
+     ],
+     "l2g_rows": 3293342,
+     "rows_for_mavedb_genes": 124011,
+     "rows_for_mavedb_genes_score_ge_0_5": 47771,
+     "mavedb_genes_with_strong_l2g": 484,
+     "rows_whose_locus_is_in_credible_set": 3293342,
+     "locus_resolution_rate": 1.0
+    },
+    {
+     "name": "OT enhancer-to-gene: intervals linked to MaveDB genes x MaveDB-mapped SNV positions",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_enhancer_to_gene"
+     ],
+     "intervals": 48808491,
+     "intervals_linked_to_mavedb_genes": 1605184,
+     "by_interval_type": {
+      "promoter": 762896,
+      "genic": 465369,
+      "intergenic": 376919
+     },
+     "positions_tested": 145710,
+     "positions_inside_a_linked_interval": 41238,
+     "note": "intervals read as half-open [start, end); positions are MaveDB-mapped SNVs, overwhelmingly coding"
+    },
+    {
+     "name": "OT interaction: MaveDB genes as interaction partners (scores within [0, 1])",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_interaction"
+     ],
+     "interactions": 14612199,
+     "rows_with_a_mavedb_gene": 1368000,
+     "mavedb_genes_with_interactions": 543,
+     "coverage": 1.0,
+     "by_source_database": {
+      "string": 1201752,
+      "intact": 148008,
+      "reactome": 9287,
+      "signor": 8953
+     },
+     "scores_outside_0_1": 0
+    },
+    {
+     "name": "OT interaction_evidence: interactionId resolves in the interaction table",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_interaction_evidence",
+      "opentargets_26_09_interaction"
+     ],
+     "evidence_rows": 27396304,
+     "interaction_ids_in_interaction_table": 27396304,
+     "resolution_rate": 1.0
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> target_essentiality",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_target_essentiality"
+     ],
+     "rows": 18464,
+     "mavedb_genes_with_records": 539,
+     "coverage": 0.993,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_impc",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_impc"
+     ],
+     "rows": 6911070,
+     "mavedb_genes_with_records": 415,
+     "coverage": 0.764,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> mouse_phenotype",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_mouse_phenotype"
+     ],
+     "rows": 203583,
+     "mavedb_genes_with_records": 453,
+     "coverage": 0.834,
+     "join_column": "targetFromSourceId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_crispr",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_crispr"
+     ],
+     "rows": 517,
+     "mavedb_genes_with_records": 40,
+     "coverage": 0.074,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_crispr_screen",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_crispr_screen"
+     ],
+     "rows": 21640,
+     "mavedb_genes_with_records": 289,
+     "coverage": 0.532,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_gene_burden",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_gene_burden"
+     ],
+     "rows": 55016,
+     "mavedb_genes_with_records": 100,
+     "coverage": 0.184,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_genomics_england",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_genomics_england"
+     ],
+     "rows": 42315,
+     "mavedb_genes_with_records": 308,
+     "coverage": 0.567,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_gene2phenotype",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_gene2phenotype"
+     ],
+     "rows": 4865,
+     "mavedb_genes_with_records": 227,
+     "coverage": 0.418,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_orphanet",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_orphanet"
+     ],
+     "rows": 6771,
+     "mavedb_genes_with_records": 283,
+     "coverage": 0.521,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_uniprot_variants",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_uniprot_variants"
+     ],
+     "rows": 34698,
+     "mavedb_genes_with_records": 247,
+     "coverage": 0.455,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> evidence_uniprot_literature",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_evidence_uniprot_literature"
+     ],
+     "rows": 6394,
+     "mavedb_genes_with_records": 293,
+     "coverage": 0.54,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> homology",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_homology"
+     ],
+     "rows": 3817240,
+     "mavedb_genes_with_records": 543,
+     "coverage": 1.0,
+     "join_column": "targetId"
+    },
+    {
+     "name": "OT evidence diseaseId resolves in the disease ontology",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_disease",
+      "opentargets_26_09_evidence_gene_burden",
+      "opentargets_26_09_evidence_genomics_england",
+      "opentargets_26_09_evidence_gene2phenotype",
+      "opentargets_26_09_evidence_orphanet",
+      "opentargets_26_09_evidence_uniprot_variants",
+      "opentargets_26_09_evidence_uniprot_literature",
+      "opentargets_26_09_evidence_impc",
+      "opentargets_26_09_evidence_crispr",
+      "opentargets_26_09_evidence_crispr_screen"
+     ],
+     "evidence_rows_checked": 7083286,
+     "disease_ids_resolving_in_ontology": 7083286,
+     "resolution_rate": 1.0,
+     "ontology_terms": 45896
+    },
+    {
+     "name": "OT gene join: MaveDB ENSG -> pharmacogenomics",
+     "passed": true,
+     "targets": [
+      "opentargets_26_09_pharmacogenomics"
+     ],
+     "rows": 33479,
+     "mavedb_genes_with_records": 49,
+     "coverage": 0.09,
+     "join_column": "targetFromSourceId"
+    }
+   ]
   }
  },
  "details": {
@@ -716,7 +1448,8 @@
    "columns": 264,
    "our_human_sets_covered": 990,
    "our_human_sets_total": 1402,
-   "snv_variants_from_our_sets": 377648
+   "snv_variants_from_our_sets": 377648,
+   "snv_alleles_from_our_sets": 307997
   },
   "dump_annotations": {
    "score_sets": 1119,
@@ -750,12 +1483,13 @@
   "mapping_products_relationship": {
    "variants_compared_by_accession": 0,
    "agree": 0,
-   "ensembl_snv_alleles": 377648,
+   "ensembl_snv_alleles": 307997,
+   "ensembl_variants_with_snv_alleles": 377648,
    "dump_snv_alleles": 146200,
    "ensembl_sets_with_snv_alleles": 653,
    "dump_sets_with_genomic_hgvs": 185,
    "sets_in_both": 0,
-   "identical_coordinate_alleles": 6903,
+   "identical_coordinate_alleles": 9370,
    "interpretation": "Ensembl expands each protein-level variant into every codon-compatible genomic allele (one to many); the MaveDB mapper assigns genomic HGVS only to nucleotide-level assay variants. The products cover largely different sets and are complementary, not interchangeable."
   },
   "dump_vs_api_equivalence": {

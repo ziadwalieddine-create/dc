@@ -115,16 +115,17 @@ def run(ctx):
         for kind, tbl in gn.items():
             per_pop = {}
             for pop in ('nfe', 'afr', 'amr', 'eas', 'sas', 'fin', 'asj', 'mid', 'remaining'):
+                col = f'AF_joint_{pop}' if kind == 'joint' else f'AF_{pop}'
                 pairs = []
                 for vid, afs in ot_af.items():
                     c, p_, r_, a_ = vid.split('_')
                     row = tbl.get((c, int(p_), r_, a_))
-                    if row and row.get('AF_' + pop) and afs.get(pop + '_adj') is not None:
-                        pairs.append((afs[pop + '_adj'], float(row['AF_' + pop])))
+                    if row and row.get(col) and afs.get(pop + '_adj') is not None:
+                        pairs.append((afs[pop + '_adj'], float(row[col])))
                 per_pop[pop] = dict(compared=len(pairs), equal_within_1e_3_relative=sum(1 for a_, b_ in pairs if abs(a_ - b_) <= 1e-3 * max(a_, b_, 1e-12)))
             out[kind] = per_pop
         return None, dict(ot_variants_with_frequencies=len(ot_af), by_gnomad_callset=out,
-                          interpretation='equality with one callset identifies the gnomAD dataset Open Targets took its adjusted population frequencies from')
+                          interpretation='equality with the joint callset (and not with exomes or genomes alone) shows that Open Targets quotes the pooled gnomAD v4.1 frequencies')
     if ctx.get('gnomad_slices'):
         test('OT variant-index adjusted allele frequencies vs gnomAD v4.1 regional slices', ['variant'], t_variant_af)
 
@@ -170,7 +171,9 @@ def run(ctx):
         n = hit = strong = 0
         genes_hit = set()
         loci_in_cs = 0
-        cs_all = pa.concat_arrays(cs_ids) if cs_ids else pa.array([], pa.string())
+        cs_set = set()          # one Python set is built once; rebuilding an Arrow hash of 4.8M ids for each of 200 parts took minutes
+        for arr in cs_ids:
+            cs_set.update(arr.to_pylist())
         for t in scan('l2g_prediction', ['studyLocusId', 'geneId', 'score']):
             n += t.num_rows
             m = pc.is_in(t.column('geneId'), value_set=genes)
@@ -179,8 +182,8 @@ def run(ctx):
             s = pc.greater_equal(sub.column('score'), 0.5)
             strong += count(s)
             genes_hit |= set(pc.filter(sub.column('geneId'), s).to_pylist())
-            if len(cs_all):
-                loci_in_cs += count(pc.is_in(t.column('studyLocusId'), value_set=cs_all))
+            if cs_set:
+                loci_in_cs += sum(1 for v in t.column('studyLocusId').to_pylist() if v in cs_set)
         return (n > 100_000 and loci_in_cs / max(1, n) >= 0.99), dict(l2g_rows=n, rows_for_mavedb_genes=hit, rows_for_mavedb_genes_score_ge_0_5=strong, mavedb_genes_with_strong_l2g=len(genes_hit),
                                                                        rows_whose_locus_is_in_credible_set=loci_in_cs, locus_resolution_rate=round(loci_in_cs / max(1, n), 5))
     test('OT locus-to-gene: MaveDB genes and credible-set locus resolution', ['l2g_prediction', 'credible_set'], t_l2g)
@@ -265,12 +268,5 @@ def run(ctx):
     test('OT evidence diseaseId resolves in the disease ontology', ['disease', 'evidence_gene_burden', 'evidence_genomics_england', 'evidence_gene2phenotype', 'evidence_orphanet', 'evidence_uniprot_variants',
                                                                   'evidence_uniprot_literature', 'evidence_impc', 'evidence_crispr', 'evidence_crispr_screen'], t_disease_ref)
 
-    def t_pgx():
-        n = hit = 0
-        rs_pgx = set()
-        for t in scan('pharmacogenomics', ['variantRsId', 'targetFromSourceId']):
-            n += t.num_rows
-            rs_pgx |= set(pc.filter(t.column('targetFromSourceId'), pc.is_in(t.column('targetFromSourceId'), value_set=genes)).to_pylist())
-        return None, dict(rows=n, mavedb_genes_with_pgx_records=len(rs_pgx), note='join column targetFromSourceId; overlap is informative, not a pass criterion')
     if parts('pharmacogenomics'):
-        test('OT gene join: MaveDB ENSG -> pharmacogenomics', ['pharmacogenomics'], t_pgx)
+        test('OT gene join: MaveDB ENSG -> pharmacogenomics', ['pharmacogenomics'], gene_join('pharmacogenomics', 'targetFromSourceId'))

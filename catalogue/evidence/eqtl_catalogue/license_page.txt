@@ -1,0 +1,60 @@
+Skip to main content
+Skip to local navigation
+Skip to EBI global navigation menu
+Skip to expanded EBI global navigation menu (includes all sub-sections)
+ 
+About us
+Training
+Research
+Services
+EMBL-EBI
+Expression and splicing QTLs recomputed from public datasets
+Project
+Methods
+Data access
+Studies
+License
+Team
+Release notes
+Federated analysis
+License
+
+All eQTL Catalogue code is distributed under Apache 2.0 license and all its data is distributed under Creative Commons Attribution 4.0 International License.
+
+Citation
+
+Nurlan Kerimov*, James D. Hayhurst*, Kateryna Peikova, Jonathan R. Manning, Peter Walter, Liis Kolberg, Marija Samoviča, Manoj Pandian Sakthivel, Ivan Kuzmin, Stephen J. Trevanion, Tony Burdett, Simon Jupp, Helen Parkinson, Irene Papatheodorou, Andrew D. Yates, Daniel R. Zerbino*, Kaur Alasoo* “A compendium of uniformly processed human gene expression and splicing quantitative trait loci.” Nat Genet 53, 1290–1299 (2021).
+
+Nurlan Kerimov, Ralf Tambets, James D. Hayhurst, Ida Rahu, Peep Kolberg, Uku Raudvere, Ivan Kuzmin, Anshika Chowdhary, Andreas Vija, Hans J. Teras, Masahiro Kanai, Jacob Ulirsch, Mina Ryten, John Hardy, Sebastian Guelfi, Daniah Trabzuni, Sarah Kim-Hellmuth, William Rayner, Hilary Finucane, Hedi Peterson, Abayomi Mosaku, Helen Parkinson, Kaur Alasoo. “eQTL Catalogue 2023: New datasets, X chromosome QTLs, and improved detection and visualisation of transcript-level QTLs.” PLoS Genetics 19, no. 9 (2023): e1010932.
+
+EMBL-EBI Intranet for staff
+Services
+Data resources and tools
+Data submission
+Help & Support
+Licensing
+Research
+Publications
+Research groups
+Postdocs & PhDs
+Training
+Live training
+On-demand training
+Support for trainers
+Contact organisers
+Industry
+Members Area
+Contact Industry team
+About
+Contact us
+Events
+Jobs
+News
+People & groups
+
+EMBL-EBI, Wellcome Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK. +44 (0)1223 49 44 44
+
+Copyright © EMBL 2026 | EMBL-EBI is part of the European Molecular Biology Laboratory | Terms of use
+
+This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our Privacy Notice and Terms of Use.
+I agree, dismiss this banner

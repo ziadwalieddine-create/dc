@@ -41,10 +41,10 @@
   "direction": "n/a"
  },
  "licence": {
-  "name": "No licence name found. SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moore et al. (2026, Nature); ENCODE's own data-use page returned HTTP 403 to automated access and is unread.",
-  "redistribution": "Not confirmed; treat as use-with-citation and do not redistribute until the ENCODE data-use terms are read.",
+  "name": "ENCODE Data Use Policy: 'all data produced will be available for unrestricted use immediately upon release to public databases'; citation guidelines are on the Citing ENCODE page (HTTP 403 to automated access, unread). SCREEN states that all SCREEN data is publicly available for download and asks users to cite Moore et al. (2026, Nature).",
+  "redistribution": "Unrestricted use after release per the ENCODE policy; cite as requested. The cCRE files are not redistributed here (git-ignored).",
   "access": "open",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "Registry versions every few years; portal continuous.",
  "coverage_limitations": [
@@ -73,13 +73,12 @@
   "screen_ccre_ca",
   "screen_ccre_tf"
  ],
- "unverified_fields": [
-  "licence"
- ],
+ "unverified_fields": [],
  "evidence": [
   "encode/api_experiment_human",
   "encode/cite_page_render",
   "encode/citing",
+  "encode/data_use_policy",
   "encode/screen_about",
   "encode/screen_downloads"
  ]

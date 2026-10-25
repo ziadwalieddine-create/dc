@@ -892,5 +892,46 @@
   "name": "api_entry_q93086",
   "url": "https://www.ebi.ac.uk/interpro/api/entry/all/protein/uniprot/Q93086/",
   "note": "example per-protein response; the interpro-version header is recorded by fetch_per_protein.py"
+ },
+ {
+  "source": "uniprot",
+  "name": "humsavar_head",
+  "url": "https://ftp.uniprot.org/pub/databases/uniprot/knowledgebase/variants/humsavar.txt",
+  "range": [
+   0,
+   3500
+  ],
+  "note": "header of humsavar.txt: release, statistics and column definitions"
+ },
+ {
+  "source": "encode",
+  "name": "ucsc_terms",
+  "url": "https://genome.ucsc.edu/ENCODE/terms.html",
+  "note": "UCSC copy of the ENCODE data release terms"
+ },
+ {
+  "source": "encode",
+  "name": "data_use_policy",
+  "url": "https://www.encodeproject.org/about/data-use-policy/",
+  "note": "ENCODE data use policy page"
+ },
+ {
+  "source": "nhgri",
+  "name": "copyright_policy",
+  "url": "https://www.genome.gov/about-nhgri/Policies-Guidance/Copyright",
+  "note": "NHGRI copyright and reuse policy linked from the site footer"
+ },
+ {
+  "source": "eqtl_catalogue",
+  "name": "license_page",
+  "url": "https://www.ebi.ac.uk/eqtl/License/",
+  "render": true,
+  "note": "License page linked from the eQTL Catalogue site"
+ },
+ {
+  "source": "opentargets",
+  "name": "docs_variant",
+  "url": "https://platform-docs.opentargets.org/variant",
+  "note": "Platform documentation for the variant dataset (assembly, VEP, frequency sources)"
  }
 ]

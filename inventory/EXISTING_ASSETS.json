@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-10-25T09:58:08Z",
-  "commit": "ddafb14dab6dbabe1ba46a8bf5246922f408a8d5",
+  "generated_utc": "2026-10-25T12:32:14Z",
+  "commit": "fe906adf490b702f8618a512cfe5f15180e6777d",
   "repository_visibility_at_audit": {
     "private": false,
     "visibility": "public"
@@ -8,13 +8,13 @@
   "branches": [
     {
       "branch": "origin/ccr-b13fd75a-ra9gfy",
-      "tip": "7aef816",
-      "files": 98
+      "tip": "fe906ad",
+      "files": 368
     },
     {
       "branch": "origin/data/mavedb-scores",
-      "tip": "7cfbd17",
-      "files": 1981
+      "tip": "1b58196",
+      "files": 2061
     },
     {
       "branch": "origin/land/dc-extended-pack",
@@ -85,7 +85,7 @@
       "source": "https://www.mavedb.org/search (API https://api.mavedb.org/api/v1)",
       "kind": "1,402 published human-target score sets: metadata + 1,980 score/count tables (tables on branch data/mavedb-scores)",
       "files_tracked_on_main": 12,
-      "bytes_tracked_on_main": 37676824,
+      "bytes_tracked_on_main": 37677183,
       "readme": true,
       "checks": {
         "verify_scores_exit": 0,

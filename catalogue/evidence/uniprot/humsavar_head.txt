@@ -1,0 +1,63 @@
+--------------------------------------------------------------------------------
+        UniProt - Swiss-Prot Protein Knowledgebase
+        SIB Swiss Institute of Bioinformatics; Geneva, Switzerland
+        European Bioinformatics Institute (EBI); Hinxton, United Kingdom
+        Protein Information Resource (PIR); Washington DC, USA
+--------------------------------------------------------------------------------
+
+Description: Index of human variants curated from literature reports
+Name:        humsavar.txt
+Release:     2026_03 of 02-Sep-2026
+
+--------------------------------------------------------------------------------
+This file lists all missense variants annotated in UniProtKB/Swiss-Prot human
+entries. It provides a variant classification which is intended for research
+purposes only, not for clinical and diagnostic use.
+
+ - The column 'Variant category' shows the classification of the variant using
+   the American College of Medical Genetics and Genomics/Association for
+   Molecular Pathology (ACMG/AMP) terminology (Richards et al. PubMed:25741868)
+   into the following categories:
+
+   LP/P = likely pathogenic or pathogenic
+   LB/B = likely benign or benign
+   US   = uncertain significance
+
+   These categories are assigned based on the variant annotation in the
+   corresponding UniProtKB/Swiss-Prot entries that is curated from literature
+   reports. The classification may change over time and must not be considered
+   as a definitive statement about the pathogenic role of a variant.
+
+ - The column 'Disease name' shows the name of the disease or the disease sample
+   in which variants have been found. Names are only provided for diseases
+   catalogued in OMIM and for cancer samples.
+
+Statistics for single amino acid variants:
+
+             LP/P:  33333
+             LB/B:  39964
+             US:    11718
+             Total: 85015
+
+Main        Swiss-Prot             AA             Variant
+gene name   AC         FTId        change         category dbSNP          Disease name
+_________   __________ ___________ ______________ ________ ______________ _____________________
+A1BG        P04217     VAR_018369  p.His52Arg     LB/B     rs893184       -
+A1BG        P04217     VAR_018370  p.His395Arg    LB/B     rs2241788      -
+A1CF        Q9NQ94     VAR_052201  p.Val555Met    LB/B     rs9073         -
+A1CF        Q9NQ94     VAR_059821  p.Ala558Ser    LB/B     rs11817448     -
+A2M         P01023     VAR_000012  p.Arg704His    LB/B     rs1800434      -
+A2M         P01023     VAR_000013  p.Cys972Tyr    LB/B     rs1800433      -
+A2M         P01023     VAR_000014  p.Ile1000Val   LB/B     rs669          -
+A2M         P01023     VAR_026820  p.Asn639Asp    LB/B     rs226405       -
+A2M         P01023     VAR_026821  p.Leu815Gln    LB/B     rs3180392      -
+A2ML1       A8K2U0     VAR_055463  p.Gly207Arg    LB/B     rs11047499     -
+A2ML1       A8K2U0     VAR_055464  p.Cys970Tyr    LB/B     rs1558526      -
+A2ML1       A8K2U0     VAR_055465  p.Thr1131Met   LB/B     rs7959680      -
+A2ML1       A8K2U0     VAR_055466  p.Thr1412Ala   LB/B     rs7315591      -
+A2ML1       A8K2U0     VAR_059083  p.Asp850Glu    LB/B     rs1860926      -
+A2ML1       A8K2U0     VAR_059084  p.His1229Arg   LB/B     rs10219561     -
+A2ML1       A8K2U0     VAR_071854  p.Arg1122Trp   LB/B     rs1860967      -
+A2ML1       A8K2U0     VAR_071855  p.Met1257Val   LB/B     rs7308811      -
+A2ML1       A8K2U0     VAR_071856  p.Thr1312Met   LB/B     rs201083574    -
+A2ML1       A8K2U0     VAR

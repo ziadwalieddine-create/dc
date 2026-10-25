@@ -157,7 +157,7 @@ def run(target_id, source, fn, accs, workers, subdir):
     stored = [r for r in rows if r[2] == 'stored']
     none = sorted({r[0] for r in rows if r[2] == 'none'})
     rec = dict(id=target_id, source=source, url=None, dest=subdir, tier='A', kind='per_entity', ok=not errors and bool(stored),
-               fetched_utc=now(), n_accessions=len(accs), n_files=len(stored), bytes=sum(r[3] for r in stored), accessions_without_resource=len(none), errors=errors[:10], n_errors=len(errors),
+               fetched_utc=now(), n_accessions=len(accs), n_files=len(stored), bytes=sum(r[3] for r in stored), accessions_without_resource=len(none), isoform_only=sorted({r[0] for r in rows if r[2] == 'isoform_only'}), errors=errors[:10], n_errors=len(errors),
                files_table=os.path.relpath(table, ROOT), sha256=hashlib.sha256('\n'.join('\t'.join(str(x) for x in r[:5]) for r in stored).encode()).hexdigest(), md5=None, source_md5=None,
                md5_verified_against_source=False, size_verified_against_source=False,
                note='per-protein API responses; the services publish no checksums, sha256 values are ours; 404/204 = nothing for that protein')
@@ -173,6 +173,6 @@ if __name__ == '__main__':
     print(len(accs), 'UniProt accessions', flush=True)
     for tid, source, fn, w, sub in (('alphafold_db_mavedb_proteins', 'alphafold_db', one_alphafold, 4, 'alphafold_db/'), ('interpro_mavedb_proteins', 'interpro', one_interpro, 2, 'interpro/')):
         rec = run(tid, source, fn, accs, w, sub)
-        print(tid, 'ok' if rec['ok'] else 'ERRORS', {k: rec[k] for k in ('n_accessions', 'n_files', 'bytes', 'accessions_without_resource', 'n_errors')}, flush=True)
+        print(tid, 'ok' if rec['ok'] else 'ERRORS', {k: rec[k] for k in ('n_accessions', 'n_files', 'bytes', 'accessions_without_resource', 'n_errors')}, 'isoform_only:', len(rec['isoform_only']), flush=True)
         if rec['errors']:
             print('  first errors:', rec['errors'][:3], flush=True)

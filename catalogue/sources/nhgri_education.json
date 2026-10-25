@@ -38,10 +38,10 @@
   "direction": "n/a"
  },
  "licence": {
-  "name": "US government work, NHGRI site content (reuse terms not reviewed)",
-  "redistribution": "Unreviewed",
+  "name": "NHGRI website content is in the public domain unless otherwise indicated (NHGRI Copyright Policy); material with a credit line is third-party copyrighted and carries its owner's terms",
+  "redistribution": "Free to use and distribute; NHGRI requests the acknowledgement 'Courtesy: National Human Genome Research Institute' with a link back to genome.gov",
   "access": "open",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "Static for the archived page; glossary updated periodically.",
  "coverage_limitations": [
@@ -60,10 +60,9 @@
   "accessible": "yes",
   "notes": "Preserved unchanged; see inventory/EXISTING_ASSETS.md."
  },
- "unverified_fields": [
-  "licence"
- ],
+ "unverified_fields": [],
  "evidence": [
+  "nhgri/copyright_policy",
   "nhgri/glossary_gwas",
   "nhgri/project_1000g"
  ],

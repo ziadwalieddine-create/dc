@@ -22,8 +22,13 @@
     "ok": true
    },
    {
-    "detail": "536/549",
-    "name": "at least 90% of accessions have an AlphaFold prediction (reviewed human proteins are in the proteome)",
+    "detail": "529/549",
+    "name": "at least 90% of accessions have a canonical AlphaFold model (reviewed human proteins are in the proteome)",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "accessions recorded isoform_only have no AF-<acc>-F1 entry and no stored model",
     "ok": true
    },
    {
@@ -32,25 +37,35 @@
     "ok": true
    },
    {
-    "detail": "['O60281', 'Q01484', 'Q12955', 'Q86UP3', 'Q8IZT6']",
-    "name": "every model file is the mmCIF of the requested entry",
-    "ok": false
+    "detail": "[]",
+    "name": "every stored model file is the mmCIF of the canonical entry AF-<acc>-F1",
+    "ok": true
    },
    {
-    "detail": "520/527",
-    "name": "model length equals UniProt Length for reviewed entries",
-    "ok": false
+    "detail": "520/520",
+    "name": "canonical model length equals UniProt Length for reviewed entries",
+    "ok": true
    }
   ],
-  "passed": false,
+  "passed": true,
   "stats": {
    "accessions": 549,
+   "canonical_models": 529,
+   "isoform_only": [
+    "O60281",
+    "Q01484",
+    "Q12955",
+    "Q86UP3",
+    "Q8IZT6",
+    "Q9P2D1",
+    "Q9Y6V0"
+   ],
    "length_agreement_with_uniprot": [
     520,
-    527
+    520
    ],
-   "mean_of_mean_plddt": 70.09,
-   "with_prediction": 536,
+   "mean_of_mean_plddt": 70.25,
+   "with_prediction_metadata": 536,
    "without_prediction": 13
   }
  },
@@ -824,7 +839,7 @@
     "ok": true
    },
    {
-    "detail": "['urn:mavedb:00001168-a-1', 'urn:mavedb:00001037-a-1', 'urn:mavedb:00000057-c-1']",
+    "detail": "['urn:mavedb:00001104-a-1', 'urn:mavedb:00000360-a-1', 'urn:mavedb:00000367-a-1']",
     "name": "urn column holds MaveDB score-set URNs",
     "ok": true
    }
@@ -1074,6 +1089,284 @@
    }
   }
  },
+ "gnomad_v4_1_exomes_regional": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "region file hash equals the manifest",
+    "ok": true
+   },
+   {
+    "detail": "['chrom', 'pos', 'ref', 'alt', 'filter', 'AC', 'AN', 'AF', 'nhomalt', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax']",
+    "name": "header starts with the documented core columns and ends with the predictor and flag columns",
+    "ok": true
+   },
+   {
+    "detail": "76495",
+    "name": "rows > 10,000",
+    "ok": true
+   },
+   {
+    "detail": "76495 vs 76495",
+    "name": "rows equal the manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row lies on chr1-22/X/Y inside a requested region",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row is a single-nucleotide substitution with distinct A/C/G/T alleles",
+    "ok": true
+   },
+   {
+    "detail": "unsorted 0, duplicate 0",
+    "name": "rows are sorted and unique by chromosome, position, alt",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "AC <= AN on every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "AF equals AC / AN (relative 1e-4) on every row",
+    "ok": true
+   },
+   {
+    "detail": "{}",
+    "name": "predictor scores lie within their documented ranges",
+    "ok": true
+   },
+   {
+    "detail": "76495/76495",
+    "name": "CADD phred is present on at least 90% of rows",
+    "ok": true
+   },
+   {
+    "detail": "76495",
+    "name": "per-chromosome table sums to the row count",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 55,
+   "filters": {
+    "AC0": 11874,
+    "AC0;AS_VQSR": 2564,
+    "AS_VQSR": 2334,
+    "PASS": 59723
+   },
+   "regions": 1444,
+   "rows": 76495,
+   "rows_checked_for_pooling": 0,
+   "rows_with_predictor": {
+    "cadd_phred": 76495,
+    "pangolin_largest_ds": 75533,
+    "phylop": 76446,
+    "polyphen_max": 53071,
+    "revel_max": 49244,
+    "sift_max": 53059,
+    "spliceai_ds_max": 74747
+   },
+   "source_files": 24
+  }
+ },
+ "gnomad_v4_1_genomes_regional": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "region file hash equals the manifest",
+    "ok": true
+   },
+   {
+    "detail": "['chrom', 'pos', 'ref', 'alt', 'filter', 'AC', 'AN', 'AF', 'nhomalt', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax']",
+    "name": "header starts with the documented core columns and ends with the predictor and flag columns",
+    "ok": true
+   },
+   {
+    "detail": "22162",
+    "name": "rows > 10,000",
+    "ok": true
+   },
+   {
+    "detail": "22162 vs 22162",
+    "name": "rows equal the manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row lies on chr1-22/X/Y inside a requested region",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row is a single-nucleotide substitution with distinct A/C/G/T alleles",
+    "ok": true
+   },
+   {
+    "detail": "unsorted 0, duplicate 0",
+    "name": "rows are sorted and unique by chromosome, position, alt",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "AC <= AN on every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "AF equals AC / AN (relative 1e-4) on every row",
+    "ok": true
+   },
+   {
+    "detail": "{}",
+    "name": "predictor scores lie within their documented ranges",
+    "ok": true
+   },
+   {
+    "detail": "22162/22162",
+    "name": "CADD phred is present on at least 90% of rows",
+    "ok": true
+   },
+   {
+    "detail": "22162",
+    "name": "per-chromosome table sums to the row count",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 58,
+   "filters": {
+    "AC0": 286,
+    "AC0;AS_VQSR": 405,
+    "AS_VQSR": 449,
+    "PASS": 21022
+   },
+   "regions": 1444,
+   "rows": 22162,
+   "rows_checked_for_pooling": 0,
+   "rows_with_predictor": {
+    "cadd_phred": 22162,
+    "pangolin_largest_ds": 21266,
+    "phylop": 22143,
+    "polyphen_max": 11718,
+    "revel_max": 12727,
+    "sift_max": 11709,
+    "spliceai_ds_max": 21031
+   },
+   "source_files": 24
+  }
+ },
+ "gnomad_v4_1_joint_regional": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "region file hash equals the manifest",
+    "ok": true
+   },
+   {
+    "detail": "['chrom', 'pos', 'ref', 'alt', 'filter', 'AC_joint', 'AN_joint', 'AF_joint', 'nhomalt_joint', 'AC_grpmax_joint', 'AN_grpmax_joint', 'AF_grpmax_joint', 'AC_exomes', 'AN_exomes', 'AF_exomes', 'AC_genomes', 'AN_genomes', 'AF_genomes']",
+    "name": "header starts with the documented joint columns and ends with the per-callset filter columns",
+    "ok": true
+   },
+   {
+    "detail": "82528",
+    "name": "rows > 10,000",
+    "ok": true
+   },
+   {
+    "detail": "82528 vs 82528",
+    "name": "rows equal the manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row lies on chr1-22/X/Y inside a requested region",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row is a single-nucleotide substitution with distinct A/C/G/T alleles",
+    "ok": true
+   },
+   {
+    "detail": "unsorted 0, duplicate 0",
+    "name": "rows are sorted and unique by chromosome, position, alt",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "AC <= AN on every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "AF equals AC / AN (relative 1e-4) on every row",
+    "ok": true
+   },
+   {
+    "detail": "0 of 82528",
+    "name": "AC_joint and AN_joint equal the sums of the exome and genome counts present on the row",
+    "ok": true
+   },
+   {
+    "detail": "82528",
+    "name": "per-chromosome table sums to the row count",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 55,
+   "filters": {
+    "BOTH_FILTERED": 336,
+    "EXOMES_FILTERED": 16436,
+    "GENOMES_FILTERED": 804,
+    "PASS": 64952
+   },
+   "regions": 1444,
+   "rows": 82528,
+   "rows_checked_for_pooling": 82528,
+   "rows_with_predictor": {},
+   "source_files": 24
+  }
+ },
  "gtex_datasets_api": {
   "checks": [
    {
@@ -1219,6 +1512,69 @@
     "EUR": 633,
     "SAS": 601
    }
+  }
+ },
+ "interpro_mavedb_proteins": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "manifest table present",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "no accession ended in an error",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every stored file exists and matches its recorded SHA-256",
+    "ok": true
+   },
+   {
+    "detail": "{'110.0'}",
+    "name": "one InterPro release across all files",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "count equals the number of results in every file",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every match fragment lies inside the protein (1 <= start <= end <= length)",
+    "ok": true
+   },
+   {
+    "detail": "11775/11775",
+    "name": "InterPro protein_length equals UniProt Length for reviewed entries",
+    "ok": true
+   },
+   {
+    "detail": "547/549",
+    "name": "at least 80% of accessions have InterPro matches",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "accessions": 549,
+   "interpro_version": [
+    "110.0"
+   ],
+   "length_agreement_with_uniprot": [
+    11775,
+    11775
+   ],
+   "match_records": 11977,
+   "with_matches": 547,
+   "without_matches": 2
   }
  },
  "mane_gtf_v1_5": {
@@ -1549,8 +1905,8 @@
     "ok": true
    },
    {
-    "detail": "45795/45896 of 45896",
-    "name": "id: share of non-null values matching '^[A-Za-z]+_\\\\d+$' >= 0.99",
+    "detail": "45896/45896 of 45896",
+    "name": "id: share of non-null values matching '^[A-Za-z][A-Za-z0-9]*_[A-Za-z0-9]+$' >= 1.0",
     "ok": true
    },
    {
@@ -1693,12 +2049,12 @@
    },
    {
     "detail": "163973/163973 of 163973",
-    "name": "disease: share of non-null values matching '^[A-Za-z]+_\\\\d+$' >= 1.0",
+    "name": "disease: share of non-null values matching '^[A-Za-z][A-Za-z0-9]*_[A-Za-z0-9]+$' >= 1.0",
     "ok": true
    },
    {
     "detail": "163973/163973 of 163973",
-    "name": "phenotype: share of non-null values matching '^[A-Za-z]+_\\\\d+$' >= 1.0",
+    "name": "phenotype: share of non-null values matching '^[A-Za-z][A-Za-z0-9]*_[A-Za-z0-9]+$' >= 1.0",
     "ok": true
    }
   ],
@@ -3942,6 +4298,62 @@
     "AlphaFoldDB",
     "Function [CC]"
    ]
+  }
+ },
+ "uniprot_humsavar": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "2026_03 of 02-Sep-2026",
+    "name": "release line present",
+    "ok": true
+   },
+   {
+    "detail": "0 unparsed of 85015",
+    "name": "every data row parses (gene, accession, VAR id, p. change, category, dbSNP, disease)",
+    "ok": true
+   },
+   {
+    "detail": "85015 vs 85015",
+    "name": "row count equals the Total stated in the file header",
+    "ok": true
+   },
+   {
+    "detail": "{'LB/B': 39964, 'LP/P': 33333, 'US': 11718} vs {'LP/P': 33333, 'LB/B': 39964, 'US': 11718, 'Total': 85015}",
+    "name": "per-category counts equal the header statistics",
+    "ok": true
+   },
+   {
+    "detail": "0 repeated pairs; footer True",
+    "name": "(FTId, disease) pairs are unique and the licence footer is present",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "categories": {
+    "LB/B": 39964,
+    "LP/P": 33333,
+    "US": 11718
+   },
+   "distinct_ftids": 83859,
+   "release": "2026_03 of 02-Sep-2026",
+   "rows": 85015,
+   "stated": {
+    "LB/B": 39964,
+    "LP/P": 33333,
+    "Total": 85015,
+    "US": 11718
+   }
   }
  }
 }

@@ -40,10 +40,10 @@
   "direction": "n/a"
  },
  "licence": {
-  "name": "NCBI public domain policy applies (not confirmed for dbVar specifically)",
-  "redistribution": "Unverified",
+  "name": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights; acknowledgement of NLM is requested (NCBI Policies and Disclaimers page). dbVar-specific terms were not separately retrieved.",
+  "redistribution": "No NCBI restriction; third-party submitter rights may apply",
   "access": "open",
-  "verified": "unverified"
+  "verified": "live"
  },
  "update_frequency": "The FTP data directory shows 2021 as its last modification; currency not established.",
  "coverage_limitations": [
@@ -62,13 +62,13 @@
   "notes": "Only directory listings read."
  },
  "unverified_fields": [
-  "licence",
   "currency",
   "contents"
  ],
  "evidence": [
+  "dbvar/ftp_data_listing",
   "dbvar/ftp_listing",
-  "dbvar/ftp_data_listing"
+  "gencode/ncbi_policies"
  ],
  "acquisition_targets": []
 }

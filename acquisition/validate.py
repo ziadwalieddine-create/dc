@@ -262,9 +262,11 @@ PRED_RANGE = {'cadd_phred': (0, 100), 'revel_max': (0, 1), 'spliceai_ds_max': (0
 
 def v_regional_slice(tid, r):
     """gnomAD slice written by fetch_gnomad_regional.py: header layout, every row is a single-nucleotide record inside the declared
-    regions, frequencies are internally consistent (AF = AC / AN, AC <= AN) and the file agrees with its manifest."""
+    regions, frequencies are internally consistent (AF = AC / AN, AC <= AN) and the file agrees with its manifest. The joint callset
+    must also add up: AC_joint = AC_exomes + AC_genomes and AN_joint = AN_exomes + AN_genomes wherever both callsets have the site."""
     m = MANIFEST[tid]
-    kind = 'exomes' if 'exomes' in tid else 'genomes'
+    kind = 'joint' if '_joint_' in tid else ('exomes' if 'exomes' in tid else 'genomes')
+    sfx = '_joint' if kind == 'joint' else ''
     bed = os.path.join(DATA, 'gnomad_regional', 'mavedb_snv_regions.bed')
     r.check('region file hash equals the manifest', hashlib.sha256(open(bed, 'rb').read()).hexdigest() == m['regions_sha256'])
     regions = collections.defaultdict(list)
@@ -273,6 +275,7 @@ def v_regional_slice(tid, r):
         regions[c[3:]].append((int(a) + 1, int(b)))
     chroms_ok = {str(i) for i in range(1, 23)} | {'X', 'Y'}
     n = bad_region = bad_alleles = bad_af = bad_ac = unsorted = dup = 0
+    bad_pool = pooled = 0
     last, seen_filter = None, collections.Counter()
     pred_n, pred_bad = collections.Counter(), collections.Counter()
     with opener(path(tid)) as f:
@@ -294,20 +297,32 @@ def v_regional_slice(tid, r):
                     dup += 1
             last = key
             seen_filter[row[ix['filter']]] += 1
-            for col, (lo, hi) in PRED_RANGE.items():
-                v = row[ix[col]]
-                if v != '':
-                    pred_n[col] += 1
-                    if not lo <= float(v) <= hi:
-                        pred_bad[col] += 1
-            ac, an, af = row[ix['AC']], row[ix['AN']], row[ix['AF']]
+            if kind != 'joint':
+                for col, (lo, hi) in PRED_RANGE.items():
+                    v = row[ix[col]]
+                    if v != '':
+                        pred_n[col] += 1
+                        if not lo <= float(v) <= hi:
+                            pred_bad[col] += 1
+            ac, an, af = row[ix['AC' + sfx]], row[ix['AN' + sfx]], row[ix['AF' + sfx]]
             if ac and an:
                 if int(ac) > int(an):
                     bad_ac += 1
                 if af and int(an) > 0 and abs(int(ac) / int(an) - float(af)) > 1e-4 * float(af) + 1e-9:
                     bad_af += 1
-    want = ['chrom', 'pos', 'ref', 'alt', 'filter', 'AC', 'AN', 'AF', 'nhomalt', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax']
-    r.check('header starts with the documented core columns and ends with the predictor and flag columns', hdr[:len(want)] == want and hdr[-1] == 'VRS_Allele_IDs' and 'cadd_phred' in hdr, hdr[:12])
+            if kind == 'joint':
+                parts = [(row[ix['AC_' + k]], row[ix['AN_' + k]]) for k in ('exomes', 'genomes')]
+                have = [(int(a_), int(b_)) for a_, b_ in parts if a_ != '' and b_ != '']
+                if have and ac and an:
+                    pooled += 1
+                    if int(ac) != sum(a_ for a_, _ in have) or int(an) != sum(b_ for _, b_ in have):
+                        bad_pool += 1
+    if kind == 'joint':
+        want = ['chrom', 'pos', 'ref', 'alt', 'filter', 'AC_joint', 'AN_joint', 'AF_joint', 'nhomalt_joint', 'AC_grpmax_joint', 'AN_grpmax_joint', 'AF_grpmax_joint', 'AC_exomes', 'AN_exomes', 'AF_exomes', 'AC_genomes', 'AN_genomes', 'AF_genomes']
+        r.check('header starts with the documented joint columns and ends with the per-callset filter columns', hdr[:len(want)] == want and hdr[-1] == 'not_called_in_genomes', hdr[:18])
+    else:
+        want = ['chrom', 'pos', 'ref', 'alt', 'filter', 'AC', 'AN', 'AF', 'nhomalt', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax']
+        r.check('header starts with the documented core columns and ends with the predictor and flag columns', hdr[:len(want)] == want and hdr[-1] == 'VRS_Allele_IDs' and 'cadd_phred' in hdr, hdr[:12])
     r.check('rows > 10,000', n > 10_000, n)
     r.check('rows equal the manifest', n == m['rows'], f'{n} vs {m["rows"]}')
     r.check('every row lies on chr1-22/X/Y inside a requested region', bad_region == 0, bad_region)
@@ -315,15 +330,62 @@ def v_regional_slice(tid, r):
     r.check('rows are sorted and unique by chromosome, position, alt', unsorted == 0 and dup == 0, f'unsorted {unsorted}, duplicate {dup}')
     r.check('AC <= AN on every row', bad_ac == 0, bad_ac)
     r.check('AF equals AC / AN (relative 1e-4) on every row', bad_af == 0, bad_af)
+    if kind == 'joint':
+        r.check('AC_joint and AN_joint equal the sums of the exome and genome counts present on the row', pooled > 0 and bad_pool == 0, f'{bad_pool} of {pooled}')
+    else:
+        r.check('predictor scores lie within their documented ranges', not pred_bad, dict(pred_bad))
+        r.check('CADD phred is present on at least 90% of rows', pred_n['cadd_phred'] / max(1, n) >= 0.9, f"{pred_n['cadd_phred']}/{n}")
     tab = [l.rstrip('\n').split('\t') for l in open(os.path.join(ROOT, m['files_table']))][1:]
-    r.check('predictor scores lie within their documented ranges', not pred_bad, dict(pred_bad))
-    r.check('CADD phred is present on at least 90% of rows', pred_n['cadd_phred'] / max(1, n) >= 0.9, f"{pred_n['cadd_phred']}/{n}")
     r.check('per-chromosome table sums to the row count', sum(int(x[7]) for x in tab) == n, sum(int(x[7]) for x in tab))
-    r.stats.update(rows=n, filters=dict(seen_filter.most_common(8)), columns=len(hdr), regions=m['n_regions'], source_files=len(tab), rows_with_predictor=dict(pred_n))
+    r.stats.update(rows=n, filters=dict(seen_filter.most_common(8)), columns=len(hdr), regions=m['n_regions'], source_files=len(tab), rows_with_predictor=dict(pred_n), rows_checked_for_pooling=pooled)
 
 
 def chroms_ok_order(chrom):
     return (int(chrom) if chrom.isdigit() else {'X': 23, 'Y': 24}.get(chrom, 99))
+
+
+HUMSAVAR_ROW = re.compile(r'^(\S+)\s+([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9](?:[A-Z][A-Z0-9]{2}[0-9]){1,2})\s+(VAR_\d{6})\s+p\.([A-Z][a-z]{2})(\d+)([A-Z][a-z]{2})\s+(LP/P|LB/B|US)\s+(\S+)\s+(.*)$')
+
+
+def v_humsavar(tid, r):
+    """UniProt humsavar.txt: the header states the release and per-category counts; every data row must parse and the counts must agree with the header."""
+    stated, cats, n, bad, dup = {}, collections.Counter(), 0, 0, 0
+    release, footer = None, False
+    seen, ftids = set(), set()
+    in_table = False
+    with opener(path(tid)) as f:
+        for line in f:
+            m = re.match(r'\s*(LP/P|LB/B|US|Total):\s+(\d+)', line)
+            if m and not in_table:
+                stated[m.group(1)] = int(m.group(2))
+            m = re.match(r'Release:\s+(\S+ of \S+)', line)
+            if m:
+                release = m.group(1)
+            if line.startswith('_________'):
+                in_table = True
+                continue
+            if not in_table or not line.strip():
+                continue
+            if line.startswith('---'):
+                in_table = False          # footer: licence statement
+                footer = True
+                continue
+            g = HUMSAVAR_ROW.match(line.rstrip('\n'))
+            if not g:
+                bad += 1
+                continue
+            n += 1
+            cats[g.group(7)] += 1
+            key = (g.group(3), g.group(9))     # a variant with several diseases has one row per disease
+            dup += key in seen
+            seen.add(key)
+            ftids.add(g.group(3))
+    r.check('release line present', release is not None, release)
+    r.check('every data row parses (gene, accession, VAR id, p. change, category, dbSNP, disease)', bad == 0 and n > 0, f'{bad} unparsed of {n + bad}')
+    r.check('row count equals the Total stated in the file header', n == stated.get('Total'), f'{n} vs {stated.get("Total")}')
+    r.check('per-category counts equal the header statistics', all(cats[k] == stated.get(k) for k in ('LP/P', 'LB/B', 'US')), f'{dict(cats)} vs {stated}')
+    r.check('(FTId, disease) pairs are unique and the licence footer is present', dup == 0 and footer, f'{dup} repeated pairs; footer {footer}')
+    r.stats.update(release=release, rows=n, distinct_ftids=len(ftids), categories=dict(cats), stated=stated)
 
 
 def v_per_entity(tid, r):
@@ -656,6 +718,8 @@ def run(tid):
             r.check('3,202 samples', len(body) == 3202, len(body))
             r.check('columns', 'Population' in hdr and 'Superpopulation' in hdr, hdr)
             r.stats.update(samples=len(body), superpopulations=dict(collections.Counter(x[6] for x in body)))
+        elif tid == 'uniprot_humsavar':
+            v_humsavar(tid, r)
         elif tid == 'uniprot_human_reviewed':
             hdr, lines = v_tsv(tid, r, ['Entry', 'Gene Names (primary)'] if False else ['Entry'], 20_000, comment=None)
             r.check('rows ~ 20,431 live count (+-5%)', abs(len(lines) - 1 - 20431) / 20431 < 0.05, len(lines) - 1)

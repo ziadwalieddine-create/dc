@@ -17,8 +17,8 @@ The collections above are the foundation; the work below extends them without al
 
 | Path | What it holds |
 |---|---|
-| `catalogue/` | Evidence-backed catalogue of external human-genomics resources: one record per source, generated `MASTER_INVENTORY.md`, `COVERAGE_MATRIX.md`, `GAP_MATRIX.md`, `REUSE_PLAN.md` |
-| `acquisition/` | Reproducible downloader with source-checksum verification, validators, compatibility (join) tests, and an additive set of 52 superseded MaveDB score sets |
+| `catalogue/` | Evidence-backed catalogue of external human-genomics resources: one record per source, generated `MASTER_INVENTORY.md`, `COVERAGE_MATRIX.md`, `GAP_MATRIX.md`, `REUSE_PLAN.md`, `ACQUIRED_FILES.md`, `ATTRIBUTION.md` |
+| `acquisition/` | Reproducible downloader with source-checksum verification, per-protein and remote-tabix (gnomAD) retrieval, validators, compatibility (join) tests with unit tests for the helpers, and an additive set of 52 superseded MaveDB score sets |
 | `inventory/` | Audit of the existing assets, a checksum guard for `scrape/`, and a repository policy check (`check_repo_policy.py`: file sizes, personal-genome file types, credential patterns, live visibility) |
 | `AUDIT_LOG.md` | What was added, changed, corrected and left unresolved |
 

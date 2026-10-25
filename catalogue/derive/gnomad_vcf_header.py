@@ -16,9 +16,12 @@ import urllib.request
 import pysam
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, '..', 'evidence', 'gnomad', 'vcf_header_info_v4_1.json')
+OUT = os.path.abspath(os.path.join(HERE, '..', 'evidence', 'gnomad', 'vcf_header_info_v4_1.json'))
+CACHE = os.path.abspath(os.path.join(HERE, '..', '..', 'data', 'external', 'gnomad_regional', 'tbi_cache'))
 KEEP = ['AC', 'AN', 'AF', 'nhomalt', 'grpmax', 'AC_grpmax', 'AN_grpmax', 'AF_grpmax', 'fafmax_faf95_max', 'fafmax_faf95_max_gen_anc', 'cadd_phred', 'revel_max', 'spliceai_ds_max',
         'pangolin_largest_ds', 'phylop', 'sift_max', 'polyphen_max', 'variant_type', 'allele_type', 'lcr', 'segdup', 'fail_interval_qc', 'VRS_Allele_IDs']
+os.makedirs(CACHE, exist_ok=True)
+os.chdir(CACHE)   # htslib saves each remote .tbi index in the working directory
 out = dict(fetched_utc=datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), tool=f'pysam {pysam.__version__} (htslib {pysam.__samtools_version__})', callsets={})
 for kind in ('exomes', 'genomes'):
     url = f'https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/{kind}/gnomad.{kind}.v4.1.sites.chr21.vcf.bgz'

@@ -162,19 +162,19 @@
   ],
   [
    "acquired",
-   "Files downloaded and verified against size/checksums the source publishes"
+   "Every file that supports the dimension is downloaded and verified against the size/checksum the source publishes (where it publishes none: Content-Length plus our own SHA-256, and the manifest says so); 'partial' when only some are"
   ],
   [
    "validated",
-   "A representative sample was parsed and checked against the source's own description"
+   "The acquired files parsed and passed checks against the source's own description (headers, documented counts, ranges, identifier formats)"
   ],
   [
    "mapped",
-   "Identifiers/coordinates were joined to existing dc assets in a demonstrated test"
+   "A demonstrated join to the existing dc assets passed, and it exercised a file that supports the dimension"
   ],
   [
    "usable",
-   "Computed: acquired, validated and mapped, with a licence verified live that permits research use. Not a claim that the analysis pipeline exists"
+   "Computed: acquired, validated and mapped for that dimension, with a licence verified live that permits research use. Not a claim that an analysis pipeline exists"
   ]
  ]
 }

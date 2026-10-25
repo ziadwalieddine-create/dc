@@ -195,7 +195,7 @@ def to_markdown(a):
          f"Generated {a['generated_utc']} at commit `{a['commit'][:8]}` by `inventory/audit_existing.py` (regenerate rather than edit).", '',
          f"Repository visibility at audit time: `{json.dumps(a['repository_visibility_at_audit'])}`. While the repository is public, only openly redistributable data and metadata may be committed.", '',
          '## Branches', '', '| Branch | Tip | Files | Role |', '|---|---|---|---|']
-    role = {'origin/main': 'default branch; holds scrape/ (metadata, scripts, manifests) and the new catalogue',
+    role = {'origin/main': 'default branch; holds scrape/ (metadata, scripts, manifests). The catalogue, acquisition and inventory work lives on the working branch until it is merged',
             'origin/data/mavedb-scores': 'orphan data branch: the 1,980 MaveDB score/count tables + licence notice (not to be merged)',
             'origin/land/dc-extended-pack': 'legacy branch from the original dating-project repository; unrelated, left untouched'}
     for b in a['branches']:

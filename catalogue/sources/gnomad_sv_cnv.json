@@ -15,7 +15,7 @@
   "release_date": "2024-04-25 (CNV VCF)",
   "verified": "live"
  },
- "scope": "Genome SV callset (VCF 1.74 GB sites file) and exome CNV callset (8.9 MB VCF; non-neuro and non-neuro-controls subsets).",
+ "scope": "Genome SV callset (sites VCF, 1.74 GB, 2,154,486 records: 1,206,278 DEL, 356,035 BND, 304,645 INS, 269,326 DUP, 15,189 CPX, 2,193 INV, 721 multi-allelic CNV, 99 CTX; all with SVTYPE and END) and exome CNV callset (8.9 MB VCF; non-neuro and non-neuro-controls subsets). Both are GRCh38.",
  "variant_classes": [
   "sv",
   "cnv"
@@ -34,9 +34,9 @@
  ],
  "mapping_methods": "Interval-based on GRCh38.",
  "quantitative": {
-  "summary": "Allele counts/frequencies per ancestry, SV type and size.",
-  "units": "counts/frequency",
-  "uncertainty": "n/a",
+  "summary": "Allele counts and frequencies per ancestry group and SV type; multi-allelic CNV sites (SVTYPE=CNV, 721 records) carry copy-number counts and frequencies (CN_COUNT, CN_FREQ, CN_NUMBER) instead of a single AF.",
+  "units": "counts / frequency in [0, 1]; SVLEN in bp",
+  "uncertainty": "none given beyond counts",
   "direction": "n/a"
  },
  "licence": {
@@ -47,8 +47,9 @@
  },
  "update_frequency": "Per major release.",
  "coverage_limitations": [
-  "Short-read SV sensitivity is limited for repeats and complex events",
-  "CNV callset is exome-based so non-coding CNVs are missed"
+  "CNV callset is exome-based so non-coding CNVs are missed",
+  "For interval overlap only DEL, DUP, INV, CPX, CNV and MCNV records with END > POS are treated as intervals; INS, BND and CTX are points or breakends",
+  "Short-read SV sensitivity is limited for repeats and complex events"
  ],
  "known_omissions": [
   "Long-read SV catalogue (release/lr) was listed but not inspected"
@@ -56,11 +57,11 @@
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "CNV VCF is small and fetched now; the 1.74 GB SV sites VCF is deferred until SV analysis begins."
+  "rationale": "Both VCFs are fetched and validated: the exome CNV VCF (8.9 MB) and the genome SV sites VCF (1.74 GB; size from the S3 listing, MD5 from the downloads page). They complement the older control-cohort DGV catalogue and the ClinGen dosage regions."
  },
  "status": {
   "accessible": "yes",
-  "notes": "S3 listings give exact sizes."
+  "notes": "S3 listings give exact sizes; both files downloaded, checksum-verified and validated."
  },
  "acquisition_targets": [
   "gnomad_exome_cnv_v4_1",

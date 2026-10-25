@@ -260,6 +260,15 @@ def build(check_only=False):
     for s in sorted(sources, key=lambda x: x['id']):
         if s['licence']['access'] in ('registration_required', 'restricted_agreement', 'blocked_for_automation', 'unverified') or s['status']['accessible'] in ('no', 'partial'):
             L.append(f"| `{s['id']}` | {s['status']['notes'][:160]} | {gaps.get('needs', {}).get(s['id'], s['reuse_decision']['rationale'][:140])} |")
+    held = [s for s in sorted(sources, key=lambda x: x['id']) if s['licence']['verified'] != 'live' and any(manifest.get(t, {}).get('ok') for t in s['acquisition_targets'])]
+    L += ['', '## Held locally with a licence that is not verified', '',
+          'These sources have files in `data/external/` (git-ignored) but no licence text was retrieved. Use them for local analysis with citation; do not redistribute until the terms are read.', '',
+          '| Source | What the pages say | Files held |', '|---|---|---|']
+    for s in held:
+        got = [t for t in s['acquisition_targets'] if manifest.get(t, {}).get('ok')]
+        L.append(f"| `{s['id']}` | {s['licence']['name'][:230]} | {len(got)} of {len(s['acquisition_targets'])} targets |")
+    if not held:
+        L.append('| none | | |')
     ns = gaps.get('not_yet_assessed', [])
     if ns:
         L += ['', '## Not yet assessed', '', 'Candidates for later evaluation (no verified facts recorded yet):', ''] + [f'- {x}' for x in ns]
@@ -289,6 +298,45 @@ def build(check_only=False):
                 L.append('- **Unverified:** ' + ', '.join(s['unverified_fields']))
             L.append('')
     open(os.path.join(HERE, 'REUSE_PLAN.md'), 'w').write('\n'.join(L))
+    # ---- ACQUIRED FILES REGISTER --------------------------------------------------------------------------
+    owner = {t: s['id'] for s in sources for t in s['acquisition_targets']}
+    L = ['# Acquired files register', '', gen, '',
+         'Every download target with a verified manifest record, as it stands in `data/external/` (git-ignored). *Source date* is the HTTP Last-Modified of the file where the server gave one, otherwise the time we fetched it. '
+         '*SHA-256* is ours; the source publishes a checksum only where `acquisition/manifest.jsonl` says so. Row counts come from the validation report.', '',
+         '| Target | Source record | Path under `data/external/` | Size | SHA-256 | Source date | Validated | Rows / records | Supports | Licence | Scope note |', '|---|---|---|---|---|---|---|---|---|---|---|']
+    def human(n):
+        return f'{n / 1e9:.2f} GB' if n >= 1e9 else (f'{n / 1e6:.1f} MB' if n >= 1e6 else f'{n / 1e3:.1f} KB')
+    for tid in sorted(targets):
+        m = manifest.get(tid)
+        if not m or not m.get('ok'):
+            continue
+        t = targets[tid]
+        v = validation.get(tid, {})
+        st = v.get('stats', {})
+        rows = next((st[k] for k in ('rows', 'records', 'n_accessions', 'accessions') if isinstance(st.get(k), int)), '')
+        when = (m.get('last_modified') or m.get('fetched_utc') or '')[:31]
+        sha = (m.get('sha256') or '')[:12]
+        L.append(f"| `{tid}` | `{owner.get(tid, '?')}` | `{t['dest']}` | {human(m.get('bytes', 0))} | `{sha}` | {when} | {'✓' if v.get('passed') else ('✗' if v else '·')} | {rows:,}".replace(',', ',') if isinstance(rows, int) else
+                 f"| `{tid}` | `{owner.get(tid, '?')}` | `{t['dest']}` | {human(m.get('bytes', 0))} | `{sha}` | {when} | {'✓' if v.get('passed') else ('✗' if v else '·')} | ")
+        rec_s = next((x for x in sources if x['id'] == owner.get(tid)), None)
+        lic_txt = (rec_s['licence']['name'][:90] + ('' if rec_s['licence']['verified'] == 'live' else ' (unverified)')) if rec_s else str(t.get('licence', ''))[:90]
+        L[-1] += f" | {', '.join(t.get('supports', [])) or 'auxiliary'} | {lic_txt} | {t.get('scope_note', '')} |"
+    open(os.path.join(HERE, 'ACQUIRED_FILES.md'), 'w').write('\n'.join(L) + '\n')
+    # ---- ATTRIBUTION ---------------------------------------------------------------------------------------
+    L = ['# Attribution and licence notes for the data we hold', '', gen, '',
+         'One row per source whose files are in `data/external/` or whose tables are redistributed on the data branch. Licence and attribution wording is copied from the source records, which quote the pages they were read from; '
+         'where a source asks for a particular citation, the source URL leads to it. A private repository would not remove any of these conditions.', '',
+         '| Source | Licence | Attribution / redistribution note | Where the terms are stated |', '|---|---|---|---|']
+    for s in sorted(sources, key=lambda x: x['id']):
+        held = any(manifest.get(t, {}).get('ok') for t in s['acquisition_targets']) or s['id'] in EXISTING_SOURCES
+        if not held:
+            continue
+        words = ('licen', 'polic', 'terms', 'disclaim', 'copyright', 'faq', 'download_dir', 'data_use', 'data_access', 'zenodo_record')
+        urls = [ev[e]['url'] for e in s['evidence'] if e in ev and ev[e].get('http_status') == 200 and any(w in e.lower() for w in words)]
+        where = ', '.join(f'<{u}>' for u in dict.fromkeys(urls))[:300] or f"<{s['url']}>"
+        lic = s['licence']
+        L.append(f"| `{s['id']}` | {lic['name'][:200]}{'' if lic['verified'] == 'live' else ' (unverified)'} | {lic['redistribution'][:260]} | {where} |")
+    open(os.path.join(HERE, 'ATTRIBUTION.md'), 'w').write('\n'.join(L) + '\n')
     summary = {k: sum(1 for s in sources if life[(s['id'], None)][0][k] is True) for k in STAGES}
     print('sources reaching each stage (all files):', summary)
     print('sources usable for at least one dimension:', sum(1 for s in sources if usable_dims[s['id']]))

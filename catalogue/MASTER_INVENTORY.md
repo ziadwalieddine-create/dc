@@ -1,6 +1,6 @@
 # Master inventory of reusable genomic resources
 
-*Generated 2026-10-25 11:02 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-25 12:30 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 `✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension.
 
@@ -16,15 +16,15 @@
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **AlphaFold Protein Structure Database** (`alphafold_db`) | Model version 6 (P04637 model created 2025-08-01); human pro · 2025-08 | open · CC BY 4.0, academic and commercial use (FAQ) | protein_level · none/not_applicable | ✓ | ✓ | ✓ | · | · | — | retrieve_source |
-| **InterPro** (`interpro`) | InterPro 110.0 (interpro-version response header of the API, · 2026-10-25 (query date) | open · CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable dat | protein_level · none/not_applicable | ✓ | ✓ | ✓ | · | · | — | retrieve_source |
-| **UniProtKB (Swiss-Prot and TrEMBL)** (`uniprot`) | Release 2026_03 (150,006,383 entries; Swiss-Prot 575,748) · 2026-09-02 | open · CC BY 4.0 for copyrightable parts | protein_level, gene_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02 | retrieve_source |
+| **AlphaFold Protein Structure Database** (`alphafold_db`) | Model version 6 (P04637 model created 2025-08-01); human pro · 2025-08 | open · CC BY 4.0, academic and commercial use (FAQ) | protein_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02 | retrieve_source |
+| **InterPro** (`interpro`) | InterPro 110.0 (interpro-version response header of the API, · 2026-10-25 (query date) | open · CC0 1.0 Universal for InterPro, Pfam, PRINTS and SFLD downloadable dat | protein_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02 | retrieve_source |
+| **UniProtKB (Swiss-Prot and TrEMBL)** (`uniprot`) | Release 2026_03 (150,006,383 entries; Swiss-Prot 575,748) · 2026-09-02 | open · CC BY 4.0 for copyrightable parts | protein_level, gene_level · none/not_applicable | ✓ | ✓ | ✓ | ✓ | ✓ | D02, D11 | retrieve_source |
 
 ## D03 Transcription, splicing, regulatory elements, tissue-specific expression
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **ENCODE and SCREEN candidate cis-regulatory elements** (`encode`) | Registry V4 cCREs (Nature 2026 citation); ENCODE portal quer · 2026 | open · No licence name found. SCREEN states that all SCREEN data is publicly  (unverified) | region_level · GRCh38, GRCh37 | ✓ | ✓ | ✓ | ✓ | ✓ | — | retrieve_source |
+| **ENCODE and SCREEN candidate cis-regulatory elements** (`encode`) | Registry V4 cCREs (Nature 2026 citation); ENCODE portal quer · 2026 | open · ENCODE Data Use Policy: 'all data produced will be available for unres | region_level · GRCh38, GRCh37 | ✓ | ✓ | ✓ | ✓ | ✓ | D03 | retrieve_source |
 | **GTEx (Genotype-Tissue Expression)** (`gtex`) | v11 (946 subjects, 54 tissues, 50 eQTL tissues, GRCh38, GENC · 2025-08-22 (v11 RNA-seq files) | open · Open-access files free to download; raw sequence and full donor metada | snv, indel, gene_level · GRCh38, GRCh37 | ✓ | ✓ | ✓ | ✓ | ✓ | D03 | retrieve_source |
 
 ## D04 Knockout, knockdown, CRISPRi/a, overexpression, knock-in and rescue experiments
@@ -46,7 +46,7 @@
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **eQTL Catalogue** (`eqtl_catalogue`) | Release 7 and pre-release r8_beta (FTP directory dated 2026- · 2026-01-28 | open · Not confirmed: a License page is linked from the site but its text was (unverified) | snv, indel · GRCh38 | ✓ | ✓ | · | · | · | — | adopt_curated |
+| **eQTL Catalogue** (`eqtl_catalogue`) | Release 7 and pre-release r8_beta (FTP directory dated 2026- · 2026-01-28 | open · Data under Creative Commons Attribution 4.0 International; code under  | snv, indel · GRCh38 | ✓ | ✓ | · | · | · | — | adopt_curated |
 | **NHGRI-EBI GWAS Catalog** (`gwas_catalog`) | Release files dated 2026-10-22 · 2026-10-22 | open · EMBL-EBI general terms of use; summary statistics CC0 unless otherwise | snv, indel · GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D06 | adopt_curated |
 
 ## D07 Functional haplotypes and pharmacogenomics
@@ -61,7 +61,7 @@
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **dbVar (NCBI database of genomic structural variation)** (`dbvar`) | FTP root lists ISCA/, archive/, clingen/, data/, sandbox/; d · 2021-01-21 | open · NCBI public domain policy applies (not confirmed for dbVar specificall (unverified) | sv, cnv · GRCh37, GRCh38 | ✓ | ✓ | · | · | · | — | defer |
+| **dbVar (NCBI database of genomic structural variation)** (`dbvar`) | FTP root lists ISCA/, archive/, clingen/, data/, sandbox/; d · 2021-01-21 | open · NCBI data usage policy: NCBI places no restrictions on the use or dist | sv, cnv · GRCh37, GRCh38 | ✓ | ✓ | · | · | · | — | defer |
 | **DECIPHER** (`decipher`) | Not retrieved (unverified) · unknown | restricted_agreement · Automated access to the downloads page returned {"error":"Access Denie (unverified) | cnv, snv, indel · GRCh37, GRCh38 | ✓ | · | · | · | · | — | do_not_acquire |
 | **DGV (Database of Genomic Variants)** (`dgv`) | Latest release 2025-12-01 (GRCh38 variants file 364,191,405  · 2025-12-01 | open_with_terms · TCAG Notice and Disclaimer of Database Use (data provided 'AS IS'; app | cnv, sv · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D08 | retrieve_source |
 | **gnomAD structural variants and copy-number variants** (`gnomad_sv_cnv`) | SVs v4.1.0, CNVs v4.1.0 (site header); also SVs v2.1 · 2024-04-25 (CNV VCF) | open · CC0 for primary data (policies page) | sv, cnv · GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D08 | retrieve_source |
@@ -89,7 +89,7 @@
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
 | **1000 Genomes Project / IGSR (International Genome Sample Resource)** (`1000genomes`) | FTP data_collections include 1000G_2504_high_coverage (3,202 · 2020-05-25 (sample index file) | open · IGSR provides open data; terms of use are in the IGSR data disclaimer  | snv, indel, sv · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | · | — | extend_integration |
-| **gnomAD v4.1 (exomes and genomes) allele frequencies** (`gnomad_variants`) | v4.1 (4.1.2 for constraint); site shows v4.1.2, v3.1.2, v2.1 · 2026-09-23 (4.1.2 constraint) | open · Primary exome/genome data released under CC0; some annotations carry s | snv, indel · GRCh38, GRCh37 | ✓ | ✓ | · | · | · | — | retrieve_source |
+| **gnomAD v4.1 (exomes and genomes) allele frequencies** (`gnomad_variants`) | v4.1 (4.1.2 for constraint); site shows v4.1.2, v3.1.2, v2.1 · 2026-09-23 (4.1.2 constraint) | open · Primary exome/genome data released under CC0; some annotations carry s | snv, indel · GRCh38, GRCh37 | ✓ | ✓ | ✓ | ✓ | ✓ | D12, D13 | retrieve_source |
 
 ## D13 Integrated variant annotation and predictors
 
@@ -98,13 +98,13 @@
 | **AlphaMissense** (`alphamissense`) | Static release; GCS objects dated 2023-08-03 · 2023-08-03 | open_with_terms · CC BY-NC-SA 4.0 (Zenodo record) | snv, protein_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D13 | retrieve_source |
 | **dbNSFP** (`dbnsfp`) | August 2026 release (GENCODE 50 / Ensembl 116); column docs  · 2026-08 | registration_required · Academic branch CC BY-NC-ND 4.0 (about 50 GB); commercial branch under | snv · GRCh38, GRCh37 | ✓ | ✓ | · | · | · | — | adopt_curated |
 | **Ensembl VEP and release-116 plugin data** (`ensembl_vep`) | Ensembl release 116 (REST); plugin data directories dated 20 · 2026-08-07 (CHECKSUMS) | open_with_terms · Ensembl: no restrictions on data (verified); plugin resources carry up | snv, indel, sv · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D01 | adopt_curated |
-| **Open Targets Platform** (`opentargets`) | Data 26.09 (API 26.9.0) · 2026-09 | open · CC0 1.0 for Platform data (docs page); a separate data-source licensin | snv, indel, gene_level · GRCh38 | ✓ | ✓ | ✓ | ✓ | · | — | adopt_curated |
+| **Open Targets Platform** (`opentargets`) | Data 26.09 (API 26.9.0) · 2026-09 | open · CC0 1.0 for Platform data (docs page); a separate data-source licensin | snv, indel, gene_level · GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D06, D04, D10, D11, D05, D07, D03, D14 | adopt_curated |
 
 ## D14 Reference genomes, transcripts and gene models
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **Ensembl genome registry, assemblies and gene annotation (human)** (`ensembl_genomes`) | Ensembl release 116 (REST); integrated release 2026-07 in th · 2026-07 | open · Ensembl imposes no restrictions on access to or use of the data (discl | gene_level, region_level · GRCh37, GRCh38, T2T-CHM13, other | ✓ | ✓ | ✓ | ✓ | · | — | reuse_existing |
+| **Ensembl genome registry, assemblies and gene annotation (human)** (`ensembl_genomes`) | Ensembl release 116 (REST); integrated release 2026-07 in th · 2026-07 | open · Ensembl imposes no restrictions on access to or use of the data (discl | gene_level, region_level · GRCh37, GRCh38, T2T-CHM13, other | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | reuse_existing |
 | **GENCODE and MANE transcript sets** (`gencode_mane`) | GENCODE v50 (files dated 2026-06-09); MANE v1.5 (2025-12-04) · 2026-06-09 | open · GENCODE: 'all the GENCODE project data is open access' (GENCODE data-a | gene_level, region_level · GRCh37, GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D14 | retrieve_source |
 
 ## D15 Resource catalogues and classifications
@@ -118,7 +118,7 @@
 
 | Source | Version / date | Access · licence | Variants · assemblies | cat | acc | acq | val | map | Usable for | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)** (`nhgri_education`) | Glossary entries updated 2026-10-24; 1000 Genomes page archi · 2026-10-24 | open · US government work, NHGRI site content (reuse terms not reviewed) (unverified) | n/a · none/not_applicable | ✓ | ✓ | ✓ | ✓ | · | — | reuse_existing |
+| **NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)** (`nhgri_education`) | Glossary entries updated 2026-10-24; 1000 Genomes page archi · 2026-10-24 | open · NHGRI website content is in the public domain unless otherwise indicat | n/a · none/not_applicable | ✓ | ✓ | ✓ | ✓ | · | — | reuse_existing |
 
 ## Existing dc assets (preserved, unchanged)
 

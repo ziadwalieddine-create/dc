@@ -1,0 +1,25 @@
+chrom	url	size	etag	last_modified	regions	records_at_positions	alleles	read_retries
+1	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr1.vcf.bgz	72058349094	"4ab967ee0e4152b970532ff6c3a2d780-2056"	Wed, 01 May 2024 13:30:37 GMT	185	11804	11804	0
+2	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr2.vcf.bgz	69405591711	"d9fc9403c7b8ac9558251864969332d8-2053"	Wed, 01 May 2024 13:30:38 GMT	80	4184	4184	0
+3	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr3.vcf.bgz	56136246089	"90cb0a1f1766cbce39dc3ac0d9d5d3ba-2033"	Wed, 01 May 2024 13:30:38 GMT	82	3830	3830	0
+4	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr4.vcf.bgz	51577294862	"06d61bd5d7306250642b72ba84a4c2b7-2027"	Wed, 01 May 2024 13:30:38 GMT	37	2092	2092	0
+5	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr5.vcf.bgz	49432241926	"b28f0a8684a87efe3d7ea435a3d48238-2024"	Wed, 01 May 2024 13:30:38 GMT	72	4228	4228	0
+6	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr6.vcf.bgz	47855591380	"ce940b8df50a3c2516921768a991fece-2021"	Wed, 01 May 2024 13:30:38 GMT	67	3581	3581	0
+7	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr7.vcf.bgz	47527173425	"65ba8b4ba80acaee95b4c724e75402f9-2021"	Wed, 01 May 2024 13:31:15 GMT	69	4105	4105	0
+8	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr8.vcf.bgz	42153161222	"31db5eaa4ddc2ff0986da4c44a562e5a-2013"	Wed, 01 May 2024 13:31:16 GMT	42	2917	2917	0
+9	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr9.vcf.bgz	37782491126	"6f7b3d33b67af3e6f7d3229be1ea4a1d-2007"	Wed, 01 May 2024 13:31:15 GMT	60	3614	3614	0
+10	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr10.vcf.bgz	39173194295	"336c10e50afc67deaf7f97d0e4963e1b-2009"	Wed, 01 May 2024 13:30:38 GMT	63	5030	5030	0
+11	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr11.vcf.bgz	42727676736	"b84eb5dea4f4f03e28325de81cba9549-2014"	Wed, 01 May 2024 13:30:38 GMT	77	4039	4039	0
+12	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr12.vcf.bgz	41368811104	"d2488d57462702ba506d151f33899409-2012"	Wed, 01 May 2024 13:30:37 GMT	64	2429	2429	0
+13	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr13.vcf.bgz	25601580940	"8268f9e8c3f4e25aa36116a839c50a7b-1526"	Wed, 01 May 2024 13:30:38 GMT	42	2668	2668	0
+14	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr14.vcf.bgz	27726969796	"c0bb43e04fde01a696c6820dd2c36ef7-1653"	Wed, 01 May 2024 13:30:38 GMT	26	1196	1196	0
+15	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr15.vcf.bgz	27468228520	"d4f8c8e197e3ce3c36f7227a9dc48584-1638"	Wed, 01 May 2024 13:30:38 GMT	29	1299	1299	0
+16	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr16.vcf.bgz	31636107756	"032bef58e52b049717f623ac9b25f8f1-1886"	Wed, 01 May 2024 13:30:38 GMT	56	4611	4611	0
+17	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr17.vcf.bgz	31824621474	"27be1e4c637d7598885e32e23ea5ed9a-1897"	Wed, 01 May 2024 13:30:38 GMT	80	4595	4595	0
+18	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr18.vcf.bgz	20491921802	"e65352d68d5199ae5af5e406403f2413-1222"	Wed, 01 May 2024 13:30:38 GMT	25	709	709	0
+19	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr19.vcf.bgz	29062851139	"398d27d5292743794fc1f5c13116d0b6-1733"	Wed, 01 May 2024 13:30:38 GMT	49	3166	3166	0
+20	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr20.vcf.bgz	19445547170	"6e61f306d5cc5b064a510206e8d8dbca-1160"	Wed, 01 May 2024 13:30:38 GMT	65	2986	2986	0
+21	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr21.vcf.bgz	11848216707	"0c17e3881f3c916a3324dd1371cd6fee-707"	Wed, 01 May 2024 13:30:37 GMT	34	1830	1830	0
+22	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chr22.vcf.bgz	15647905506	"aff358dde4f9c1c34a0faa1dc0834a4b-933"	Wed, 01 May 2024 13:30:39 GMT	42	3436	3436	0
+X	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chrX.vcf.bgz	38108890197	"a6a4fcebfc39e385265b2bfe2c729cef-2007"	Wed, 01 May 2024 13:31:15 GMT	95	4160	4160	0
+Y	https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.1/vcf/joint/gnomad.joint.v4.1.sites.chrY.vcf.bgz	815223821	"245190148cd9f1bc0702f7ef10385a15-49"	Wed, 01 May 2024 13:31:15 GMT	3	19	19	0

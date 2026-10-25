@@ -10,6 +10,9 @@ Reproducible download of external resources into `data/external/` (git-ignored; 
 | `validate.py` | Per-file checks against each source's own description (headers, record counts, documented thresholds, counts shown on the source website; Parquet footers, schemas, identifier formats and value ranges). Output: `validation_report.json` |
 | `compat_tests.py`, `compat_opentargets.py` | Identifier and genomic-coordinate joins between the acquired resources and the existing MaveDB human set. Each test names the targets it exercised, so a join is credited only to the files it used. Output: `compat_report.json` |
 | `extract_dump.py` | Deterministic extraction of the parts of the MaveDB bulk dump that the tests read (see below) |
+| `fetch_per_protein.py` | AlphaFold DB (canonical model, per-residue confidence; isoform-only proteins are recorded, not stored) and InterPro matches for the UniProt proteins named by the MaveDB score sets. Per-file SHA-256 table in `manifest_files/` |
+| `fetch_gnomad_regional.py`, `mavedb_snvs.py` | gnomAD v4.1 exome and genome records at the genomic positions of MaveDB-mapped SNVs, read by remote tabix (no whole-file download); every region is read until two reads agree. `mavedb_snvs.py` derives the SNV alleles and merged regions |
+| `intervals.py`, `test_helpers.py` | The exact interval-stabbing query behind every overlap count, and unit tests for it and for the other small helpers (`python3 -m unittest acquisition.test_helpers` from the repository root; no data needed) |
 | `dump_equivalence_sample.json` | Fixed list of our score sets whose tables are also extracted from the dump, to check dump and API agree |
 | `mavedb_superseded/` | Additive set of 52 superseded MaveDB score sets that the public search hides (see `AUDIT_LOG.md`) |
 | `requirements.txt` | `pyarrow`, needed only for the Open Targets Parquet datasets |
@@ -19,6 +22,9 @@ python3 acquisition/acquire.py --list
 python3 acquisition/acquire.py --tier A                       # all tier-A targets
 python3 acquisition/acquire.py --ids alphamissense_hg38 dgv_grch38_variants_2025_12_01      # tier-B files by id
 python3 acquisition/extract_dump.py                            # after mavedb_zenodo_dump_v4 is downloaded
+.venv/bin/python acquisition/fetch_per_protein.py              # AlphaFold DB and InterPro per protein (about 30 minutes, polite request rate)
+.venv/bin/python acquisition/fetch_gnomad_regional.py          # gnomAD slices at MaveDB-mapped positions (about 20 minutes)
+python3 -m unittest acquisition.test_helpers
 python3 -m venv .venv && .venv/bin/pip install -r acquisition/requirements.txt
 .venv/bin/python acquisition/validate.py                       # every downloaded target
 .venv/bin/python acquisition/compat_tests.py                   # about 25 minutes; --skip orcs ot shortens it
