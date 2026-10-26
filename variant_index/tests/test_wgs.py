@@ -282,7 +282,7 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertEqual(axes['clinical_validity_actionability']['max_review_stars'], 3)
         self.assertEqual(r['n_evidence'], len(r['evidence_ids']))
         self.assertTrue(r['gene_ids'] and all(g.startswith('ENSG') or ':' in g for g in r['gene_ids']))
-        self.assertIn('not a score or a tier', m['note'])
+        self.assertIn('nothing here is a score or a tier', m['note'])
 
     def test_run_is_deterministic(self):
         out2 = os.path.join(self.work, 'res2')
