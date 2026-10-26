@@ -9,7 +9,8 @@ Dataset lifecycle (one row per acquisition target), each stage computed from fil
   acquired    the manifest says ok AND the file or directory is present in data/external/ with the recorded size
   verified    the validator's checks passed (acquisition/validation_report.json)
   mapped      at least one passing compatibility test exercised it (acquisition/compat_report.json)
-  integrated  a documented, tested query layer returns its records by variant, gene, protein or region; none is built in this phase
+  integrated  the built index (data/index/index_manifest.json) holds a release of the target, so its records are queryable as evidence or entities with provenance;
+              without a built index in the checkout no target is reported integrated
 
 Documentation claims are numbers and statements in the READMEs, the latest AUDIT_LOG entry and the curated gap texts. Each claim names the
 document, a regular expression that must match the text, and a function that recomputes the value from the files. A claim whose text is no
@@ -134,6 +135,23 @@ def unit_tests():
         m = re.search(r'Ran (\d+) tests?', err + out)
         UNIT.update(rc=rc, n=int(m.group(1)) if m else 0, ok=rc == 0 and 'OK' in (err + out))
     return UNIT
+
+
+VIDX = {}
+
+
+def vindex_tests():
+    """Run the variant_index test suite when this interpreter has its dependencies (pysam, pyarrow); otherwise raise Skip."""
+    if not VIDX:
+        try:
+            import pyarrow  # noqa: F401
+            import pysam  # noqa: F401
+        except ImportError as e:
+            raise Skip(f'variant_index tests need {e.name}')
+        rc, out, err = sh(sys.executable, '-W', 'error::ResourceWarning', '-m', 'unittest', 'discover', cwd=os.path.join(ROOT, 'variant_index', 'tests'))
+        m = re.search(r'Ran (\d+) tests?', err + out)
+        VIDX.update(rc=rc, n=int(m.group(1)) if m else 0, ok=rc == 0 and 'OK' in (err + out))
+    return VIDX
 
 
 def latest_audit_entry():
@@ -304,7 +322,16 @@ def manifests():
     return res
 
 
+def index_targets():
+    """Target ids that have a release in the built index, or None when no index is present in this checkout."""
+    p = os.path.join(ROOT, 'data', 'index', 'index_manifest.json')
+    if not os.path.exists(p):
+        return None
+    return {r.split('/', 1)[1].rsplit('@', 1)[0] for r in json.load(open(p)).get('releases', []) if '/' in r}
+
+
 def dataset_lifecycle():
+    in_index = index_targets()
     comp_targets = collections.defaultdict(list)
     for sid, d in compat().get('sources', {}).items():
         for t in d['tests']:
@@ -329,7 +356,7 @@ def dataset_lifecycle():
             why = 'manifest record not ok'
         v = validation().get(tid)
         res.append(dict(id=tid, source=t['source'], tier=t.get('tier'), kind=t.get('kind'), supports=t.get('supports', []), listed=True, acquired=bool(acquired), acquired_detail=why if not acquired else '',
-                        verified=bool(v and v['passed']), mapped=bool(comp_targets.get(tid)), integrated=False, bytes=m.get('bytes')))
+                        verified=bool(v and v['passed']), mapped=bool(comp_targets.get(tid)), integrated=bool(in_index and tid in in_index), bytes=m.get('bytes')))
     return res
 
 
@@ -344,6 +371,11 @@ def run_checks(fast):
     u = unit_tests()
     res.append(dict(check='unit tests (acquisition.test_helpers)', ok=u['ok'], detail=f"{u['n']} tests"))
     rc, out, err = sh(sys.executable, os.path.join(ROOT, 'catalogue/build_catalogue.py'), '--check')
+    try:
+        v = vindex_tests()
+        res.append(dict(check='unit tests (variant_index)', ok=v['ok'], detail=f"{v['n']} tests"))
+    except Skip as e:
+        res.append(dict(check='unit tests (variant_index)', ok=True, detail=f'skipped: {e}'))
     res.append(dict(check='catalogue records validate against the vocabulary, evidence files and acquisition targets', ok=rc == 0, detail=(out or err).splitlines()[0][:200] if (out or err) else ''))
     rc, out, err = sh(sys.executable, os.path.join(ROOT, 'inventory/check_repo_policy.py'))
     vis = next((x for x in out.splitlines() if x.startswith('visibility:')), 'visibility: unknown')
@@ -369,7 +401,7 @@ def markdown(a):
     s = a['dataset_summary']
     L += ['', '## Datasets (acquisition targets)', '',
           f"{s['listed']} listed · {s['acquired']} acquired (manifest ok and the file present with the recorded size) · {s['verified']} verified (validator passed) · {s['mapped']} mapped (a passing join or consistency test used it) · {s['integrated']} integrated "
-          '(a documented, tested query layer returning records by variant, gene, protein or region; none is built in this phase).', '',
+          '(the built index holds a release of the target; `data/index` is git-ignored, so a checkout without it reports none).', '',
           '| Target | Source record | Tier | Listed | Acquired | Verified | Mapped | Integrated | Size |', '|---|---|---|---|---|---|---|---|---|']
     for d in a['datasets']:
         mk = lambda v: '✓' if v else '·'

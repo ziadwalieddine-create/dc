@@ -98,6 +98,18 @@ class TestProvenance(unittest.TestCase):
         self.assertEqual({d['resolver'] for d in by_target.values()}, {'iter', 'iter_raw', 'splitlines', 'gwas', 'parquet'})
         self.assertEqual(r['no_resolver'], [])
 
+    def test_parquet_rows_are_resolved_part_by_part_and_out_of_range_rows_stay_unresolved(self):
+        root = tempfile.mkdtemp()
+        try:
+            os.makedirs(os.path.join(root, 'scv'))
+            for k in range(3):
+                pq.write_table(pa.table({'scv_id': [f'SCV{k}{i}' for i in range(4)], 'n': list(range(4))}), os.path.join(root, 'scv', f'part-000{k}.parquet'))
+            got = provenance.resolve_parquet_rows(root, ['scv/part-0000.parquet#1', 'scv/part-0002.parquet#3', 'scv/part-0001.parquet#0', 'scv/part-0001.parquet#9', 'scv/part-0007.parquet#0', 'bad'])
+            self.assertEqual(sorted(got), ['scv/part-0000.parquet#1', 'scv/part-0001.parquet#0', 'scv/part-0002.parquet#3'])
+            self.assertEqual(got['scv/part-0002.parquet#3'], provenance.vcv_canon({'scv_id': 'SCV23', 'n': 3}))
+        finally:
+            shutil.rmtree(root, ignore_errors=True)
+
     def test_sampling_is_deterministic_and_bounded(self):
         small = provenance.verify_index(self.w['idx'], sample=3, paths=self.w['paths'], manifest_path=self.w['manifest'], targets_path=self.w['targets'], data_root=self.w['work'])
         again = provenance.verify_index(self.w['idx'], sample=3, paths=self.w['paths'], manifest_path=self.w['manifest'], targets_path=self.w['targets'], data_root=self.w['work'])

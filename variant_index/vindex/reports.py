@@ -12,6 +12,8 @@ A target can be acquired and verified yet not integrated; that is a gap, and it 
 import glob
 import json
 import os
+import shutil
+import tempfile
 from collections import Counter
 
 import pyarrow as pa
@@ -127,9 +129,12 @@ def validate(index_dir, reference=None, sample_keys=50000):
     res['evidence_rows_checked'] = n
     for k, v in sorted(bad.items()):
         check(k, v)
+    spill = tempfile.mkdtemp(prefix='vindex_duckdb_')                  # DuckDB spills to its working directory by default; keep that out of the repository
     try:
         import duckdb
         con = duckdb.connect()
+        con.execute(f"PRAGMA temp_directory='{spill}'")
+        con.execute("SET memory_limit='8GB'")
         ev = os.path.join(index_dir, 'evidence', '**', '*.parquet')
         dup = con.execute(f"select count(*) - count(distinct evidence_id) from read_parquet('{ev}', union_by_name=true)").fetchone()[0]
         check('evidence_id_not_unique', int(dup))
@@ -143,6 +148,8 @@ def validate(index_dir, reference=None, sample_keys=50000):
                 check(f'mapped_{level}_subject_not_an_entity', int(miss))
     except ImportError:
         res['checks']['duckdb_checks'] = dict(violations=0, detail='skipped: duckdb is not installed (evidence_id uniqueness and subject existence were not checked)')
+    finally:
+        shutil.rmtree(spill, ignore_errors=True)
     vdir = os.path.join(index_dir, 'evidence', 'variant')
     if os.path.isdir(vdir):
         misfiled = 0

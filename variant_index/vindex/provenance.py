@@ -83,19 +83,23 @@ def resolve_lines(kind, path, locators):
 
 
 def resolve_parquet_rows(root, locators):
-    cache, out = {}, {}
+    """{locator: canonical JSON of the stream-derived row}. A part is read, the wanted rows are taken and converted, and the part is released before the next one is
+    opened: the VCV tables hold millions of rows per table and the converted rows of every part must never be held at once."""
+    wanted = {}
     for l in locators:
         m = LOCATOR_ROW.match(l)
-        if not m:
-            continue
-        p = os.path.join(root, m.group('table'), m.group('part'))
+        if m:
+            wanted.setdefault((m.group('table'), m.group('part')), {})[int(m.group('i'))] = l
+    out = {}
+    for (table, part), by_row in sorted(wanted.items()):
+        p = os.path.join(root, table, part)
         if not os.path.exists(p):
             continue
-        if p not in cache:
-            cache[p] = pq.read_table(p).to_pylist()
-        rows = cache[p]
-        i = int(m.group('i'))
-        out[l] = vcv_canon(rows[i]) if i < len(rows) else None
+        t = pq.read_table(p)
+        keep = sorted(i for i in by_row if i < t.num_rows)
+        for i, row in zip(keep, t.take(keep).to_pylist()):
+            out[by_row[i]] = vcv_canon(row)
+        del t
     return out
 
 
