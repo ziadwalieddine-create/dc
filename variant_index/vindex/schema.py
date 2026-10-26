@@ -199,6 +199,12 @@ def schema_markdown():
     L += [f'| `{k}` | {v} |' for k, v in EFFECT_ASSERTIONS.items()]
     L += ['', '## mapping_status', '', '| Value | Meaning |', '|---|---|'] + [f'| `{k}` | {v} |' for k, v in MAPPING_STATUS.items()]
     L += ['', '## Match status (matcher output)', '', '| Value | Meaning |', '|---|---|'] + [f'| `{k}` | {v} |' for k, v in MATCH_STATUS.items()]
+    L += ['', '## Physical layout', '',
+          'One Parquet file per source in each entity table (`<table>/<source>.parquet`); `source_release.parquet`, `index_manifest.json` (build facts) and `table_digests.json` (SHA-256 of every file) at the top. '
+          'Evidence is partitioned by level and contig: `evidence/<level>/<partition>/<source_id>.parquet`, and `entity_variant/<partition>.parquet` follows the same rule. The partition of a contig is the '
+          f'contig itself for {", ".join(PRIMARY_CONTIGS)} and `{OTHER_PARTITION}` for every other contig (alternate loci, unlocalised and unplaced scaffolds, decoys) and for rows that carry no placement. '
+          'A row keeps its own `chrom`, so a reader that wants one alternate locus filters on `subject_id` or `chrom` inside the `NA` partition. A mapped variant row is always filed under the partition '
+          'of its key\'s contig (the builder refuses anything else and the validator checks it).']
     L += ['', '## Tables']
     for name, sch in TABLES.items():
         L += ['', f'### `{name}`', '', '| Column | Type |', '|---|---|'] + [f'| `{f.name}` | {f.type} |' for f in sch]

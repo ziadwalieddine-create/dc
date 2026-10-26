@@ -33,5 +33,18 @@ class TestRequirementsMap(unittest.TestCase):
             self.assertIn(f"| {r['id']} |", text)
 
 
+class TestGeneratedDocuments(unittest.TestCase):
+    def test_schema_md_is_the_rendering_of_the_schema_module(self):
+        import os
+        from vindex import schema
+        with open(os.path.join(ROOT, 'SCHEMA.md')) as f:
+            self.assertEqual(f.read(), schema.schema_markdown())
+
+    def test_requirements_md_is_the_rendering_of_requirements_json(self):
+        import os
+        with open(os.path.join(ROOT, 'REQUIREMENTS.md')) as f:
+            self.assertEqual(f.read(), cr.render(cr.load()))
+
+
 if __name__ == '__main__':
     unittest.main()
