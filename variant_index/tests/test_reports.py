@@ -159,6 +159,27 @@ class TestReports(unittest.TestCase):
         self.assertEqual(c['tables']['evidence']['delta'], 5)
         self.assertEqual(reports.change_log(self.idx, self.idx)['tables'], {})
 
+    def test_the_markdown_build_report_names_every_section_and_is_free_of_sample_data(self):
+        import make_reports
+        tp, mp, vp = (os.path.join(self.work, n) for n in ('t2.json', 'm2.jsonl', 'v2.json'))
+        rels = sorted({r['target_id'] for r in pq.read_table(os.path.join(self.idx, 'source_release.parquet')).to_pylist()})
+        with open(tp, 'w') as f:
+            json.dump([dict(id=i, source='clinvar', dest='x') for i in rels + ['not_downloaded']], f)
+        with open(mp, 'w') as f:
+            f.write('\n'.join(json.dumps(dict(id=i, ok=True)) for i in rels) + '\n')
+        with open(vp, 'w') as f:
+            json.dump({i: dict(passed=True) for i in rels}, f)
+        life = reports.lifecycle(self.idx, tp, mp, vp, catalogue_dir=os.path.join(self.work, 'none'))
+        cov = reports.coverage(self.idx)
+        gaps = reports.gap_report(self.idx, life, cov)
+        with open(os.path.join(self.idx, 'index_manifest.json')) as f:
+            manifest = json.load(f)
+        text = make_reports.md(cov, reports.validate(self.idx, syn_reference()), life, gaps, None, manifest)
+        for section in ('## Table sizes', '## Evidence rows', '## Validation', '## Target lifecycle', 'Listed but not acquired', '`not_downloaded`', '## Records kept but not mapped, by source', '## Modules and gaps'):
+            self.assertIn(section, text)
+        self.assertIn('passed', text)
+        self.assertIn('| `' + rels[0] + '` |', text)
+
     def test_the_module_registry_names_what_is_not_implemented(self):
         status = {m['name']: m['status'] for m in reports.MODULES}
         self.assertEqual(status['personal 30x GRCh38 SNP/indel, CNV and SV calls'], 'unavailable_input')

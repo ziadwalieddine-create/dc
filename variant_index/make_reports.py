@@ -39,6 +39,18 @@ def md(cov, val, life, gaps, change, manifest):
     s = life['summary']
     L += ['## Target lifecycle', '', f"{s['total']} targets: listed {s['listed']}, acquired {s['acquired']}, verified {s['verified']}, mapped {s['mapped']}, integrated {s['integrated']}.", '']
     L += ['Acquired but not integrated:', ''] + [f'- `{t}`' for t in life['acquired_not_integrated']] + ['']
+    L += ['Listed but not acquired (data not in this environment):', ''] + [f'- `{t}`' for t in gaps['targets_not_acquired']] + ['']
+    L += ['Acquired but not verified by an acquisition validator:', ''] + ([f'- `{t}`' for t in gaps['targets_not_verified']] or ['- none']) + ['']
+    L += ['| Target | Source | Acquired | Verified | Integrated | Evidence rows | Mapped rows |', '|---|---|:-:|:-:|:-:|---:|---:|']
+    mk = lambda v: 'x' if v else '.'
+    L += [f"| `{r['target_id']}` | {r['source']} | {mk(r['acquired'])} | {mk(r['verified'])} | {mk(r['integrated'])} | {r['evidence_rows']:,} | {r['mapped_evidence_rows']:,} |" for r in life['targets']] + ['']
+    nm = gaps.get('rows_kept_but_not_mapped') or {}
+    if nm:
+        L += ['## Records kept but not mapped, by source', '', 'Each of these rows is in the index with its reason; none was dropped.', '', '| Source | Rows | Largest reasons (status: reason = rows) |', '|---|---:|---|']
+        for src, d in nm.items():
+            top = sorted(((st, r, n) for st, v in d['by_status'].items() for r, n in v.items()), key=lambda x: -x[2])[:4]
+            L.append(f"| {src} | {d['total']:,} | " + '; '.join(f'{st}: {r} = {n:,}' for st, r, n in top) + ' |')
+        L.append('')
     L += ['## Modules and gaps', '', '| Module | Status | Note |', '|---|---|---|'] + [f"| {m['name']} | {m['status']} | {m.get('note', '')} |" for m in gaps['modules']] + ['']
     if change:
         L += ['## Change since the previous build', '', '```json', json.dumps(change, indent=1, sort_keys=True), '```', '']
