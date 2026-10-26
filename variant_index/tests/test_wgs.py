@@ -9,7 +9,7 @@ import unittest
 import pysam
 import pyarrow.parquet as pq
 
-from helpers import syn_reference, vcf_text, FIXTURES
+from helpers import syn_reference, vcf_text, FIXTURES, SYN_CONTIGS
 from vindex import views, wgs
 from vindex.build import runner
 from vindex.build.clinvar_vcf import ClinVarVcfAdapter
@@ -81,6 +81,8 @@ def sample_vcf(tmp, extra=()):
             ('1', 700, b('1', 700), '<NON_REF>', 'PASS', 50, ['0/0:60:30:30,0'], 'END=720'), ('1', 750, b('1', 750), alt('1', 750), 'PASS', 50, ['./.:.:.:.']),
             ('1', 1000, b('1', 1000), '<DEL>', 'PASS', 50, gt('0/1'), 'SVTYPE=DEL;END=1099;SVLEN=-100'), ('1', 1500, b('1', 1500), '<DUP>', 'PASS', 50, gt('0/1'), 'SVTYPE=DUP;END=1799;SVLEN=300'),
             ('2', 100, b('2', 100), alt('2', 100), 'PASS', 50, gt('0/1')), ('X', 50, b('X', 50), alt('X', 50), 'PASS', 50, ['1:60:30:0,30'])] + list(extra)
+    order = {c: i for i, (c, _) in enumerate(SYN_CONTIGS)}
+    recs.sort(key=lambda r: (order[r[0]], r[1]))                       # tabix needs coordinate order; extras may fall on any contig
     p = os.path.join(tmp, 'sample.vcf')
     with open(p, 'w') as f:
         f.write(vcf_text(recs))
