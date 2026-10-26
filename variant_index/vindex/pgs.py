@@ -13,6 +13,7 @@ Scores are research outputs. They are not risk predictions.
 """
 import gzip
 import re
+import sys
 from dataclasses import dataclass, field
 
 from .match_small import status_of
@@ -23,7 +24,7 @@ PALINDROMIC = {frozenset('AT'), frozenset('CG')}
 AUTOSOMES = {str(i) for i in range(1, 23)}
 
 
-@dataclass
+@dataclass(slots=True)
 class Weight:
     chrom: str
     pos: int
@@ -97,10 +98,11 @@ def read_scoring_file(path):
                 kind = 'recessive'
             elif 'haplotype' in cols and r.get('haplotype'):
                 kind = 'haplotype'
+            ea, oa, kind = sys.intern(ea), sys.intern(oa) if oa else oa, sys.intern(kind)            # millions of weights: share the few distinct strings
             if not chrom or not pos or not str(pos).isdigit():
-                weights.append(Weight(chrom or '', 0, ea, oa, w, i, r.get('rsID', ''), kind))
+                weights.append(Weight(sys.intern(chrom or ''), 0, ea, oa, w, i, r.get('rsID', ''), kind))
                 continue
-            weights.append(Weight(chrom, int(pos), ea, oa, w, i, r.get('hm_rsID') or r.get('rsID', ''), kind))
+            weights.append(Weight(sys.intern(chrom), int(pos), ea, oa, w, i, r.get('hm_rsID') or r.get('rsID', ''), kind))
     return ScoringFile(meta, weights, problems)
 
 

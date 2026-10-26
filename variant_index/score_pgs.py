@@ -39,6 +39,7 @@ def main(argv=None):
     ap.add_argument('--reference-distributions')
     ap.add_argument('--callable-bed')
     ap.add_argument('--per-weight', action='store_true')
+    ap.add_argument('--weights-budget', type=int, default=4_000_000, help='most scoring-file weights held in memory at once; more scores are scored in further passes over the callset')
     ap.add_argument('--min-gq', type=int, default=20)
     ap.add_argument('--min-dp', type=int, default=10)
     ap.add_argument('--fasta', default=FASTA)
@@ -53,7 +54,7 @@ def main(argv=None):
         raise SystemExit('no scores selected: give --pgs or a --trait that matches acquired scores')
     dist = json.load(open(a.reference_distributions)) if a.reference_distributions else None
     man = pgs_run.score_models(a.vcf, Reference(a.fasta, a.assembly_report), a.scoring_dir, models, ids, a.out, sample=a.sample, qc=QCPolicy(min_gq=a.min_gq, min_dp=a.min_dp),
-                               sample_ancestry=a.sample_ancestry, reference_distributions=dist, callable_bed=a.callable_bed, per_weight=a.per_weight)
+                               sample_ancestry=a.sample_ancestry, reference_distributions=dist, callable_bed=a.callable_bed, per_weight=a.per_weight, weights_budget=a.weights_budget)
     print(json.dumps(man, indent=1))
     return 0
 

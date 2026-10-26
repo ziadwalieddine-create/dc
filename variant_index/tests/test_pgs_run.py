@@ -71,6 +71,15 @@ class TestChromosomeWiseScoring(unittest.TestCase):
         self.assertEqual(json.loads(r['missing_reasons_json']), {'absent_from_callset': 1, 'non_autosomal_excluded': 1, 'no_position': 1})
         self.assertEqual(m['models'], 4)
 
+    def test_scoring_in_small_groups_gives_exactly_the_result_of_one_group(self):
+        self.run_models(per_weight=True)
+        whole = {n: pq.read_table(os.path.join(self.out, n)) for n in ('pgs_scores.parquet', 'pgs_weights/PGS000001.parquet')}
+        self.assertEqual(pgs_run.weight_groups({'a': {'scoring_file_variants': 5}, 'b': {'scoring_file_variants': 5}, 'c': {'scoring_file_variants': 100}}, ['a', 'b', 'c'], 6), [['a'], ['b'], ['c']])
+        self.assertEqual(pgs_run.weight_groups({'a': {'scoring_file_variants': 5}, 'b': {'scoring_file_variants': 5}}, ['a', 'b'], 100), [['a', 'b']])
+        self.run_models(per_weight=True, weights_budget=1)                                          # every score is its own group, so the callset is read once per score
+        for name, t in whole.items():
+            self.assertEqual(pq.read_table(os.path.join(self.out, name)), t, name)
+
     def test_gates_travel_with_the_score_and_nothing_is_calibrated_by_default(self):
         self.run_models()
         got = {r['pgs_id']: r for r in pq.read_table(os.path.join(self.out, 'pgs_scores.parquet')).to_pylist()}
