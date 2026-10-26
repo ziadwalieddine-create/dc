@@ -2,6 +2,7 @@
 import json
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -274,6 +275,20 @@ class TestWholeGenomeRun(unittest.TestCase):
         wgs.run_sample(self.vcf, self.idx_dir, out2, syn_reference(), repo_root=os.path.join(self.work, 'not_the_repo'))
         for name in wgs.SCHEMAS:
             self.assertEqual(pq.read_table(os.path.join(self.out, f'{name}.parquet')), pq.read_table(os.path.join(out2, f'{name}.parquet')), name)
+
+    def test_results_do_not_depend_on_the_hash_seed(self):
+        """Separate processes with different PYTHONHASHSEED values: an output that depended on set order would differ."""
+        cli = os.path.join(os.path.dirname(__file__), '..', 'match_wgs.py')
+        outs = []
+        for seed in ('1', '2'):
+            out = os.path.join(self.work, f'seed{seed}')
+            r = subprocess.run([sys.executable, cli, '--vcf', self.vcf, '--index', self.idx_dir, '--out', out, '--fasta', os.path.join(FIXTURES, 'syn38.fa'),
+                                '--assembly-report', os.path.join(SOURCES, 'assembly_report.txt'), '--no-hash', '--allow-assembly-mismatch'],
+                               env=dict(os.environ, PYTHONHASHSEED=seed), capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr[-1500:])
+            outs.append(out)
+        for name in wgs.SCHEMAS:
+            self.assertEqual(pq.read_table(os.path.join(outs[0], f'{name}.parquet')), pq.read_table(os.path.join(outs[1], f'{name}.parquet')), name)
 
     def test_personal_results_cannot_be_written_into_the_tracked_tree(self):
         repo = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))

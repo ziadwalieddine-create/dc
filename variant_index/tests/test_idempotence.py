@@ -1,6 +1,8 @@
 import glob
 import os
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -28,6 +30,18 @@ class TestIdempotence(unittest.TestCase):
         self.assertGreater(r['files'], 10)
         self.assertEqual((r['only_in_first'], r['only_in_second'], r['digest_differs']), ([], [], []))
         self.assertTrue(r['releases_equal'] and r['problems_equal'] and r['adapter_code_equal'] and r['rows_equal'])
+
+    def test_builds_in_separate_processes_with_different_hash_seeds_are_identical(self):
+        dirs = []
+        for seed in ('1', '2'):
+            d = os.path.join(self.work, f'seed{seed}')
+            r = subprocess.run([sys.executable, '-c', 'import sys, test_wgs; test_wgs.build_index(sys.argv[1])', d], cwd=os.path.dirname(__file__), env=dict(os.environ, PYTHONHASHSEED=seed),
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr[-1500:])
+            dirs.append(d)
+        r = ci.compare(*dirs, rehash=True)
+        self.assertEqual((r['only_in_first'], r['only_in_second'], r['digest_differs']), ([], [], []))
+        self.assertTrue(r['rows_equal'] and r['releases_equal'])
 
     def test_a_changed_row_and_a_missing_file_are_reported_when_the_files_are_rehashed(self):
         d = os.path.join(self.work, 'c')
