@@ -45,7 +45,7 @@ class TestClinVarSlice(unittest.TestCase):
     def test_row_accounting_preserves_every_record(self):
         # regression: rows without a chromosome used to sit in a '_' folder that Arrow dataset discovery silently skips
         st = self.man['adapters'][0]['stats']
-        self.assertEqual(st['records'], 13)
+        self.assertEqual(st['records'], 15)
         e = self.evidence()
         self.assertEqual(e.num_rows, sum(v for k, v in st.items() if k.startswith('evidence:')))
         status = {r['values']: r['counts'] for r in pc.value_counts(e['mapping_status']).to_pylist()}
@@ -53,6 +53,39 @@ class TestClinVarSlice(unittest.TestCase):
         self.assertEqual(status.get('rejected'), 1)            # REF mismatch
         self.assertEqual(reasons, {'ref_mismatch': 1, 'no_alt_allele': 1, 'contig_unmapped': 1, 'ref_n': 1})
         self.assertEqual(status.get('unmapped'), 3)
+        self.assertEqual(status.get('mapped'), e.num_rows - 4)
+
+    def test_records_without_any_classification_are_kept_as_present_in_clinvar(self):
+        rows = [r for r in self.evidence().to_pylist() if r['claim_type'] == 'clinvar_record_without_classification']
+        self.assertEqual(sorted(r['accession'].split('|')[0] for r in rows), ['VariationID:1014', 'VariationID:1015'])
+        self.assertTrue(all(r['effect_assertion'] == 'not_applicable' and r['evidence_kind'] == 'aggregated_integration' and r['mapping_status'] == 'mapped' for r in rows))
+        self.assertEqual(self.man['adapters'][0]['stats']['records_without_classification'], 2)
+        keys = {v['variant_key'] for v in self.idx.table('entity_variant').to_pylist()}
+        self.assertTrue({r['subject_id'] for r in rows} <= keys)                      # such a variant is an entity, not absent from the index
+
+    def test_dbsnp_ids_are_exported_per_record_never_carried_over_from_another_record(self):
+        class Probe:
+            source_id = 'probe'
+            requires = ('clinvar',)
+
+            def prepare(self, ctx):
+                ctx.want('dbsnp', ['rs111', 'rs222', 'rs333', 'rs999'])
+
+            def run(self, ctx, limit=None):
+                self.found = {k: list(v) for k, v in ctx.found.items() if k[0] == 'dbsnp'}
+                return {}
+
+        probe = Probe()
+        out = tempfile.mkdtemp()
+        try:
+            runner.build(out, [MiniClinVarAdapter(GeneMap(self.ref, ot_dir='/nonexistent', mane_path='/nonexistent')), probe], self.ref)
+        finally:
+            shutil.rmtree(out, ignore_errors=True)
+        b = lambda p: self.ref.fetch('1', p, p)
+        a = lambda p: next(x for x in 'ACGT' if x != b(p) and x != {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}[b(p)])
+        self.assertEqual(probe.found, {('dbsnp', 'rs111'): [f'1:402:{b(402)}:{a(402)}'], ('dbsnp', 'rs222'): [f'1:490:{b(490)}:{a(490)}'], ('dbsnp', 'rs333'): [f'1:490:{b(490)}:{a(490)}']})
+        xr = [r for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'dbsnp']
+        self.assertEqual(sorted(r['identifier'] for r in xr), ['rs111', 'rs222', 'rs333'])
 
     def test_normalisation_deduplicates_identity_and_keeps_both_records(self):
         rows = [r for r in self.evidence().to_pylist() if r['subject_id'] == '1:101:CA:C' and r['claim_type'] == 'germline_classification']

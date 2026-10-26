@@ -136,6 +136,12 @@ class ClinVarVcfAdapter:
                                        condition_ids=cond_ids(dis), condition_text=dn.replace('_', ' '), lineage_group=lineage,
                                        lineage_note='aggregate of ClinVar submissions (SCV); submitters may share cohorts', extra_json=json.dumps(extra, sort_keys=True), **{**common, **({'origin': origin_override} if origin_override else {})})
                     ctx.emit_evidence(row)
+                if not any(info.get(t) for t in ('CLNSIG', 'ONC', 'SCI')):
+                    # a ClinVar record with no classification of any kind still exists in ClinVar: keep that fact (it is not the same as being absent from ClinVar)
+                    ctx.emit_evidence(evidence_row(release, 'clinvar', acc, locator, raw, 'variant', subject, 'clinical_validity_actionability', 'aggregated_integration', 'clinvar_record_without_classification',
+                                                   'no_classification_in_vcf', 'not_applicable', mapping, reason, lineage_group=lineage, lineage_note='ClinVar record that carries no classification',
+                                                   extra_json=json.dumps(extra, sort_keys=True), **common))
+                    st.inc('records_without_classification')
                 for tag, cohort in (('AF_ESP', 'GO-ESP'), ('AF_EXAC', 'ExAC'), ('AF_TGP', '1000G')):
                     if tag in info:
                         try:
@@ -148,9 +154,10 @@ class ClinVarVcfAdapter:
                         ctx.emit_evidence(row)
                 if subject:
                     ctx.offer('clinvar_variation', vid, subject)
-                    if 'RS' in info:
-                        for rs in info['RS'].split('|'):
+                    for rs in (info.get('RS') or '').split('|'):
+                        if rs:
                             ctx.emit('xref', dict(namespace='dbsnp', identifier='rs' + rs, entity_level='variant', entity_id=subject, release_id=release, relation='clinvar_RS'), name='clinvar')
+                            ctx.offer('dbsnp', 'rs' + rs, subject)
                     ctx.emit('xref', dict(namespace='clinvar_variation', identifier=vid, entity_level='variant', entity_id=subject, release_id=release, relation='vcf_id'), name='clinvar')
                     for vi in (info.get('CLNVI') or '').split('|'):
                         if vi.startswith('ClinGen:'):

@@ -142,7 +142,7 @@ class TestPgxAdapters(unittest.TestCase):
         self.assertIsNone(by['cpic:TESTG:*2']['chrom'])
         self.assertTrue(all(r['axis'] == 'effect_magnitude_direction' and r['mapping_status'] == 'mapped' for r in ev))
         self.assertNotIn('cpic:TESTH:*5', by)                  # no function stated: no row invented
-        self.assertEqual(self.stats['cpic']['allele_function_rows'], 8)
+        self.assertEqual(self.stats['cpic']['allele_function_rows'], 10)
         self.assertEqual(self.stats['cpic']['allele_rows_without_function'], 5)      # TESTH *5 and *6, NOCHR *1 and *2, MTG *1
 
     def test_recommendations_stay_at_gene_level_and_unmapped_genes_are_kept(self):
@@ -173,10 +173,10 @@ class TestPgxAdapters(unittest.TestCase):
         self.assertEqual(self.scopes('pharmvar:TESTG:*7'), [('unresolved:reference_sequence_unmapped', None)])
         self.assertEqual(self.stats['pharmvar']['haplotypes'], 9)           # the GRCh37 file is not read
 
-    def test_star_allele_names_link_the_two_systems(self):
-        x = [r for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'star_allele_name' and r['identifier'] == 'TESTG*2']
+    def test_pgx_allele_names_link_the_two_systems(self):
+        x = [r for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'pgx_allele_name' and r['identifier'] == 'TESTG*2']
         self.assertEqual(sorted(r['entity_id'] for r in x), ['cpic:TESTG:*2', 'pharmvar:TESTG:*2'])
-        self.assertFalse([r for r in self.idx.table('xref').to_pylist() if r['identifier'] == 'TESTG*2.001' and r['namespace'] == 'star_allele_name'])
+        self.assertFalse([r for r in self.idx.table('xref').to_pylist() if r['identifier'] == 'TESTG*2.001' and r['namespace'] == 'pgx_allele_name'])
 
     def test_entity_variants_cover_resolved_definitions_only(self):
         keys = set(self.idx.table('entity_variant')['variant_key'].to_pylist())

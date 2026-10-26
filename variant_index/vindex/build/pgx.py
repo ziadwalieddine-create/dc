@@ -17,6 +17,7 @@ import zipfile
 
 from ..normalise import normalise
 from .common import DATA, evidence_row
+from .hgvs import change_to_key, split_changes
 
 CPIC = os.path.join(DATA, 'cpic')
 PV_ZIP = os.path.join(DATA, 'pharmvar', 'pharmvar-6.2.29.zip')
@@ -27,26 +28,26 @@ FUNC_EFFECT = {'normal function': 'no_effect', 'normal': 'no_effect', 'increased
                'likely pathogenic': 'effect', 'pathogenic': 'effect'}
 FUNC_DIRECTION = {'increased function': 'gain_of_function', 'possible increased function': 'gain_of_function', 'decreased function': 'loss_of_function',
                   'possible decreased function': 'loss_of_function', 'no function': 'loss_of_function'}
-_LOC = re.compile(r'^([gm])\.(\d+)(?:_(\d+))?(.*)$')
 _IUPAC = re.compile(r'^[ACGTRYMKSWBDHVN]+$')
-
-
-def _norm(ref, chrom, pos, r, a):
-    n = normalise(ref, chrom, pos, r, a)
-    return ('variant', [n.key], None) if n.ok else ('unresolved', [], n.status)
 
 
 _IUPAC_BASES = {'R': 'AG', 'Y': 'CT', 'M': 'AC', 'K': 'GT', 'S': 'CG', 'W': 'AT', 'B': 'CGT', 'D': 'AGT', 'H': 'ACT', 'V': 'ACG', 'N': 'ACGT', 'A': 'A', 'C': 'C', 'G': 'G', 'T': 'T'}
 
 
-def _iupac(ref, chrom, changes_parsed, allele):
+def _iupac(ref, chrom, parsed, allele):
     """An IUPAC code in a CPIC allele string marks a position where the allele tolerates more than one base. When the code is the reference base plus
     the listed alternative base(s) the position does not constrain the allele ('tolerated'); any other code is left unresolved."""
     ref_bases, alts = set(), set()
-    for start, end, rest in changes_parsed:
+    for start, end, rest in parsed:
         sub = re.match(r'^([ACGT])>([ACGT])$', rest)
         if not sub or start != end:
             return 'unresolved', [], 'iupac_code_on_non_substitution'
+        try:
+            span = ref.fetch(chrom, start, end)
+        except ValueError:
+            return 'unresolved', [], 'outside_contig'
+        if span != sub.group(1):
+            return 'unresolved', [], f'reference_base_differs:{span}'
         ref_bases.add(sub.group(1))
         alts.add((start, sub.group(1), sub.group(2)))
     if len(ref_bases) != 1:
@@ -61,11 +62,29 @@ def _iupac(ref, chrom, changes_parsed, allele):
     keys = []
     for start, r, a in sorted(alts):
         if a in allowed:
-            st, ks, why = _norm(ref, chrom, start, r, a)
+            st, ks, why = change_to_key(ref, chrom, start, start, f'{r}>{a}')
             if st != 'variant':
                 return st, ks, why
             keys += ks
     return 'tolerated', keys, None
+
+
+def _allele_strings(rest, span):
+    """(allele string of the variant, allele string of the reference sequence) for one change, in CPIC's allele-table conventions."""
+    sub = re.match(r'^[ACGT]>([ACGT])$', rest)
+    if sub:
+        return sub.group(1), span
+    if re.match(r'^del([ACGT]*|\d+)$', rest):
+        return 'del' + span, span
+    if re.match(r'^dup([ACGT]*|\d+)$', rest):
+        return span * 2, span
+    ins = re.match(r'^ins([ACGT]+)$', rest)
+    if ins:
+        return 'ins' + ins.group(1), 'del'
+    di = re.match(r'^del[ACGT]*ins([ACGT]+)$', rest)
+    if di:
+        return 'ins' + di.group(1), 'del' + span
+    return None, None
 
 
 def cpic_variants(ref, chrom, loc, allele):
@@ -76,77 +95,26 @@ def cpic_variants(ref, chrom, loc, allele):
     with the reason. `chrom` is the contig name in `ref`."""
     allele = (allele or '').strip()
     loc = (loc or '').strip()
-    changes = [c.strip() for c in loc.split(';') if c.strip()]
-    if not changes:
+    if not [c for c in loc.split(';') if c.strip()]:
         return 'unresolved', [], 'empty_location'
     if '[' in loc or '(' in loc or '(' in allele or ';' in allele or ' or ' in allele:
         return 'unresolved', [], 'repeat_length_notation'
-    parsed = []
-    for c in changes:
-        m = _LOC.match(c)
-        if not m:
-            return 'unresolved', [], 'unparsed_notation'
-        parsed.append((int(m.group(2)), int(m.group(3) or m.group(2)), m.group(4)))
+    parsed = split_changes(loc)
+    if parsed is None:
+        return 'unresolved', [], 'unparsed_notation'
     if _IUPAC.match(allele) and re.search(r'[RYMKSWBDHVN]', allele):
-        for start, end, _rest in parsed:
-            try:
-                ref.fetch(chrom, start, end)
-            except ValueError:
-                return 'unresolved', [], 'outside_contig'
-        for start, end, rest in parsed:
-            sub = re.match(r'^([ACGT])>', rest)
-            if sub and ref.fetch(chrom, start, end) != sub.group(1):
-                return 'unresolved', [], f'reference_base_differs:{ref.fetch(chrom, start, end)}'
         return _iupac(ref, chrom, parsed, allele)
     is_reference = False
     for start, end, rest in parsed:
-        try:
-            span = ref.fetch(chrom, start, end)
-        except ValueError:
-            return 'unresolved', [], 'outside_contig'
-        sub = re.match(r'^([ACGT])>([ACGT])$', rest)
-        if sub:
-            if span != sub.group(1):
-                return 'unresolved', [], f'reference_base_differs:{span}'
-            if allele == sub.group(2):
-                return _norm(ref, chrom, start, sub.group(1), sub.group(2))
-            is_reference = is_reference or allele == sub.group(1)
-            continue
-        dl = re.match(r'^del([ACGT]*)$', rest)
-        if dl:
-            if dl.group(1) and dl.group(1) != span:
-                return 'unresolved', [], 'deleted_sequence_differs_from_reference'
-            if allele == 'del' + span:
-                if start == 1:
-                    return 'unresolved', [], 'deletion_at_contig_start'
-                anchor = ref.fetch(chrom, start - 1, start - 1)
-                return _norm(ref, chrom, start - 1, anchor + span, anchor)
-            is_reference = is_reference or allele == span
-            continue
-        dp = re.match(r'^dup([ACGT]*)$', rest)
-        if dp:
-            if dp.group(1) and dp.group(1) != span:
-                return 'unresolved', [], 'duplicated_sequence_differs_from_reference'
-            if allele == span * 2:
-                return _norm(ref, chrom, end, span[-1], span[-1] + span)
-            is_reference = is_reference or allele == span
-            continue
-        ins = re.match(r'^ins([ACGT]+)$', rest)
-        if ins:
-            if end != start + 1:
-                return 'unresolved', [], 'insertion_flanks_not_adjacent'
-            if allele == 'ins' + ins.group(1):
-                b = ref.fetch(chrom, start, start)
-                return _norm(ref, chrom, start, b, b + ins.group(1))
-            is_reference = is_reference or allele == 'del'
-            continue
-        di = re.match(r'^delins([ACGT]+)$', rest)
-        if di:
-            if allele == 'ins' + di.group(1):
-                return _norm(ref, chrom, start, span, di.group(1))
-            is_reference = is_reference or allele == 'del' + span
-            continue
-        return 'unresolved', [], 'unsupported_notation'
+        status, keys, why = change_to_key(ref, chrom, start, end, rest)
+        if status != 'variant':
+            return 'unresolved', [], why or 'unsupported_notation'
+        variant_string, reference_string = _allele_strings(rest, ref.fetch(chrom, start, end))
+        if variant_string is None:
+            return 'unresolved', [], 'unsupported_notation'
+        if allele == variant_string:
+            return 'variant', keys, None
+        is_reference = is_reference or allele == reference_string
     if is_reference:
         return 'reference', [], None
     return 'unresolved', [], 'allele_string_matches_neither_reference_nor_a_change'
@@ -222,8 +190,11 @@ class CpicAdapter:
             st.inc('definition_rows_tolerated', sum(1 for k in keys if k[2] == 'tolerated'))
             if d.get('pharmvarid'):
                 ctx.emit('xref', dict(namespace='pharmvar_id', identifier=str(d['pharmvarid']), entity_level='haplotype', entity_id=hid, release_id=rel_def, relation='cpic_definition_pharmvarid'), name='cpic')
-            if name.startswith('*'):
-                ctx.emit('xref', dict(namespace='star_allele_name', identifier=f'{gene}{name}', entity_level='haplotype', entity_id=hid, release_id=rel_def, relation='cpic_name'), name='cpic')
+            ident = f'{gene}{name}' if name.startswith('*') else f'{gene} {name}'
+            ctx.emit('xref', dict(namespace='pgx_allele_name', identifier=ident, entity_level='haplotype', entity_id=hid, release_id=rel_def, relation='cpic_name'), name='cpic')
+            ctx.offer('pgx_allele_name', ident, hid)
+            if d['matchesreferencesequence']:
+                ctx.offer('pgx_reference_allele', hid, hid)
             for f in funcs:
                 fs = f['functionalstatus'] or f['clinicalfunctionalstatus']
                 if not fs:
@@ -275,6 +246,7 @@ class PharmVarAdapter:
         ctx.adapter = self
         st = ctx.st()
         rel = ctx.register_release('pharmvar', 'pharmvar_6_2_29', '6.2.29')
+        rs_seen = set()
         with zipfile.ZipFile(self.path) as z:
             for n in sorted(x for x in z.namelist() if x.endswith('.tsv') and '/GRCh38/' in x):
                 lines = [l for l in z.read(n).decode('utf-8').split('\n') if l and not l.startswith('#')]
@@ -298,14 +270,19 @@ class PharmVarAdapter:
                         h = f"{r['ReferenceSequence']}:{r['Variant Start']}-{r['Variant Stop']}:{r['Reference Allele']}>{r['Variant Allele']}:{r['rsID']}"
                         if key:
                             ctx.emit('haplotype_definition', dict(haplotype_id=hid, variant_key=key, hgvs=h, release_id=rel, definition_scope='defining'), name='pharmvar')
-                            if r['rsID']:
+                            if r['rsID'] and (r['rsID'], key) not in rs_seen:
+                                rs_seen.add((r['rsID'], key))
                                 ctx.emit('xref', dict(namespace='dbsnp', identifier=r['rsID'], entity_level='variant', entity_id=key, release_id=rel, relation='pharmvar_rsID'), name='pharmvar')
                         else:
                             ctx.emit('haplotype_definition', dict(haplotype_id=hid, variant_key=None, hgvs=h, release_id=rel, definition_scope=f'unresolved:{why}'), name='pharmvar')
                             st.inc(f'definition_rows_unresolved:{why}')
                         st.inc('definition_rows')
-                    if short.startswith('*') and '.' not in short:
-                        ctx.emit('xref', dict(namespace='star_allele_name', identifier=f'{gene}{short}', entity_level='haplotype', entity_id=hid, release_id=rel, relation='pharmvar_name'), name='pharmvar')
+                    if '.' not in short:
+                        ident = f'{gene}{short}' if short.startswith('*') else f'{gene} {short}'
+                        ctx.emit('xref', dict(namespace='pgx_allele_name', identifier=ident, entity_level='haplotype', entity_id=hid, release_id=rel, relation='pharmvar_name'), name='pharmvar')
+                        ctx.offer('pgx_allele_name', ident, hid)
+                    if is_ref:
+                        ctx.offer('pgx_reference_allele', hid, hid)
         return st.c
 
     def variant(self, ctx, r):

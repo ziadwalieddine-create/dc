@@ -22,6 +22,7 @@ DATA = os.path.join(REPO, 'data', 'external')
 OUT_DEFAULT = os.path.join(REPO, 'data', 'index')
 
 CHROMS = [str(i) for i in range(1, 23)] + ['X', 'Y', 'MT']
+ALL = object()      # BuildContext.want(namespace) with no identifiers: every offered identifier is kept
 
 
 def sha256_text(s):
@@ -99,13 +100,17 @@ class BuildContext:
         self.interest = {}      # namespace -> identifiers some adapter wants resolved to entities
         self.found = {}         # (namespace, identifier) -> entity id, filled by the adapter that owns the namespace
 
-    def want(self, namespace, identifiers):
-        self.interest.setdefault(namespace, set()).update(str(i) for i in identifiers)
+    def want(self, namespace, identifiers=None):
+        """Ask the adapters that run before this one to remember the entity ids they map identifiers of `namespace` to. identifiers=None asks for all of them."""
+        if identifiers is None:
+            self.interest[namespace] = ALL
+        elif self.interest.get(namespace) is not ALL:
+            self.interest.setdefault(namespace, set()).update(str(i) for i in identifiers)
 
     def offer(self, namespace, identifier, entity_id):
         """Called by an adapter for every identifier it maps to an entity; kept only when another adapter asked for it."""
         w = self.interest.get(namespace)
-        if w and identifier in w:
+        if w is ALL or (w and identifier in w):
             self.found.setdefault((namespace, identifier), []).append(entity_id)
 
     def st(self, name=None):

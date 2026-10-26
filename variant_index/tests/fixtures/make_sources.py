@@ -52,6 +52,8 @@ def mini_clinvar_vcf(path):
     rec('1', 470, 1012, b('1', 470), alt('1', 470), AF_ESP='0.00039', AF_EXAC='0.00038', AF_TGP='0.0014', ALLELEID=2012, CLNDISDB='MedGen:CN169374', CLNDN='not_specified',
         CLNREVSTAT='criteria_provided,_single_submitter', CLNSIG='Likely_benign', CLNSIGSCV='SCV000000015', CLNVC='single_nucleotide_variant', ORIGIN='1')
     rec('1', 480, 1013, b('1', 480), 'N' + alt('1', 480), ALLELEID=2013, CLNDISDB='MedGen:C0000010', CLNDN='N_allele', CLNREVSTAT='criteria_provided,_single_submitter', CLNSIG='Pathogenic', CLNSIGSCV='SCV000000016', CLNVC='Insertion', ORIGIN='1')
+    rec('1', 490, 1014, b('1', 490), alt('1', 490), ALLELEID=2014, CLNVC='single_nucleotide_variant', GENEINFO='GENEA:1001', RS='222|333', ORIGIN='1')        # no classification of any kind
+    rec('1', 495, 1015, b('1', 495), alt('1', 495), ALLELEID=2015, CLNVC='single_nucleotide_variant', ORIGIN='1')                                         # no classification, no RS
     with open(path, 'w') as f:
         f.write('\n'.join(hdr + L) + '\n')
 
@@ -244,6 +246,11 @@ def mini_cpic(out):
     allele_def('TESTH', '*4', rows=[], func='Unknown function')
     allele_def('TESTH', '*5', rows=[(lh402, b402), (lbad, IUPAC2[excl])], func=None)
     allele_def('TESTH', '*6', rows=[(loc('1', 'g.406{0}>{1}'.format('C' if b('1', 406) != 'C' else 'G', 'T')), 'T')], func=None)      # reference base conflicts with the FASTA
+    # TESTK: named (non-star) alleles, one of them with a comma in its name, as in the G6PD names
+    b408, a408 = b('1', 408), alt('1', 408)
+    lk = loc('1', f'g.408{b408}>{a408}')
+    allele_def('TESTK', 'Ref (reference)', ref=True, rows=[(lk, b408)], func='Normal function')
+    allele_def('TESTK', 'Odd, name', rows=[(lk, a408)], func='Decreased function')
     # genes without a chromosome or on the mitochondrial contig
     lno = loc('1', f'g.100{b("1", 100)}>{alt("1", 100)}')
     allele_def('NOCHR', '*1', ref=True, rows=[(lno, b('1', 100))])
@@ -256,7 +263,7 @@ def mini_cpic(out):
         with open(g(name), 'w') as f:
             json.dump(rows, f)
     with open(os.path.join(out, 'cpic_genes.json'), 'w') as f:
-        json.dump([dict(symbol='TESTG', chr='chr1'), dict(symbol='TESTH', chr='chr1'), dict(symbol='NOCHR', chr=None), dict(symbol='MTG', chr='chrM')], f)
+        json.dump([dict(symbol='TESTG', chr='chr1'), dict(symbol='TESTH', chr='chr1'), dict(symbol='TESTK', chr='chr1'), dict(symbol='NOCHR', chr=None), dict(symbol='MTG', chr='chrM')], f)
     with open(os.path.join(out, 'cpic_guidelines.json'), 'w') as f:
         json.dump([dict(id=1, name='TESTG, TESTH and testdrug', genes=['TESTG', 'TESTH'], url='', clinpgxid='PA1', notesonusage=None, version=1)], f)
     rec = lambda i, drug, cls, ph, extra=None: dict(id=i, guidelineid=1, drugid=drug, implications={k: 'impl' for k in ph}, drugrecommendation='do x', classification=cls, phenotypes=ph, activityscore={},
@@ -293,6 +300,109 @@ def mini_pharmvar(path):
         z.writestr('pharmvar-test/TESTG/GRCh37/TESTG.NC_SYN001.1.haplotypes.tsv', '#version=pharmvar-test\n' + hdr + '\n' + sub('TESTG*2', 705, 'rs705') + '\n')
 
 
+def _tsv(header, rows):
+    return '\t'.join(header) + '\n' + '\n'.join('\t'.join(str(r.get(h, '')) for h in header) for r in rows) + '\n'
+
+
+SUMMARY_HDR = ['Summary Annotation ID', 'Variant/Haplotypes', 'Gene', 'Level of Evidence', 'Level Override', 'Level Modifiers', 'Score', 'Phenotype Category', 'PMID Count', 'Evidence Count',
+               'Drug(s)', 'Phenotype(s)', 'Latest History Date (YYYY-MM-DD)', 'URL', 'Specialty Population']
+VAR_DRUG_HDR = ['Variant Annotation ID', 'Variant/Haplotypes', 'Gene', 'Drug(s)', 'PMID', 'Phenotype Category', 'Significance', 'Notes', 'Sentence', 'Alleles', 'Specialty Population', 'Metabolizer types',
+                'isPlural', 'Is/Is Not associated', 'Direction of effect', 'PD/PK terms', 'Multiple drugs And/or', 'Population types', 'Population Phenotypes or diseases',
+                'Multiple phenotypes or diseases And/or', 'Comparison Allele(s) or Genotype(s)', 'Comparison Metabolizer types']
+VAR_PHENO_HDR = ['Variant Annotation ID', 'Variant/Haplotypes', 'Gene', 'Drug(s)', 'PMID', 'Phenotype Category', 'Significance', 'Notes', 'Sentence', 'Alleles', 'Specialty Population', 'Metabolizer types',
+                 'isPlural', 'Is/Is Not associated', 'Direction of effect', 'Side effect/efficacy/other', 'Phenotype', 'Multiple phenotypes And/or', 'When treated with/exposed to/when assayed with',
+                 'Multiple drugs And/or', 'Population types', 'Population Phenotypes or diseases', 'Multiple phenotypes or diseases And/or', 'Comparison Allele(s) or Genotype(s)', 'Comparison Metabolizer types']
+VAR_FA_HDR = ['Variant Annotation ID', 'Variant/Haplotypes', 'Gene', 'Drug(s)', 'PMID', 'Phenotype Category', 'Significance', 'Notes', 'Sentence', 'Alleles', 'Specialty Population', 'Assay type',
+              'Metabolizer types', 'isPlural', 'Is/Is Not associated', 'Direction of effect', 'Functional terms', 'Gene/gene product', 'When treated with/exposed to/when assayed with',
+              'Multiple drugs And/or', 'Cell type', 'Comparison Allele(s) or Genotype(s)', 'Comparison Metabolizer types']
+STUDY_HDR = ['Study Parameters ID', 'Variant Annotation ID', 'Study Type', 'Study Cases', 'Study Controls', 'Characteristics', 'Characteristics Type', 'Frequency In Cases', 'Allele Of Frequency In Cases',
+             'Frequency In Controls', 'Allele Of Frequency In Controls', 'P Value', 'Ratio Stat Type', 'Ratio Stat', 'Confidence Interval Start', 'Confidence Interval Stop', 'Biogeographical Groups']
+LABEL_HDR = ['PharmGKB ID', 'Name', 'Source', 'Biomarker Flag', 'Testing Level', 'Has Prescribing Info', 'Has Dosing Info', 'Has Alternate Drug', 'Has Other Prescribing Guidance', 'Cancer Genome',
+             'Prescribing', 'Chemicals', 'Genes', 'Variants/Haplotypes', 'Latest History Date (YYYY-MM-DD)']
+
+
+def mini_clinpgx(out):
+    """Mini ClinPGx archives in the real layout (variants, summary + legacy clinical annotations, variant annotations with study parameters, clinical variants,
+    guideline annotations, drug labels) on the synthetic reference. Returns the keys the tests refer to."""
+    import zipfile
+    os.makedirs(out, exist_ok=True)
+    ns = 'NC_SYN001.1'
+    b705, a705 = b('1', 705), alt('1', 705)
+    b710 = b('1', 710)
+    syn = lambda *items: ', '.join(items)
+    variants = [
+        dict(**{'Variant ID': 'PA1', 'Variant Name': 'rs705', 'Gene IDs': 'PAG1', 'Gene Symbols': 'TESTG', 'Location': f'{ns}:705',
+                'Synonyms': syn('705', f'{ns}:g.705{b705}>{a705}', f'{ns}:g.705=', 'PA1', 'rs705', 'rs9705')}),
+        {'Variant ID': 'PA2', 'Variant Name': 'rs710', 'Gene IDs': 'PAG1', 'Gene Symbols': 'TESTG', 'Location': f'{ns}:710',
+         'Synonyms': syn(f'{ns}:g.710{b710}>C', f'{ns}:g.710{b710}>T', f'{ns}:g.710=', 'rs710')},
+        {'Variant ID': 'PA3', 'Variant Name': 'rs900001', 'Gene Symbols': '', 'Location': '', 'Synonyms': 'rs900001'},
+        {'Variant ID': 'PA4', 'Variant Name': 'rs900002', 'Gene Symbols': '', 'Location': f'{ns}:402', 'Synonyms': syn(f'{ns}:g.402=', 'rs900002')},
+        {'Variant ID': 'PA5', 'Variant Name': 'rs900003', 'Gene Symbols': '', 'Location': 'NC_999999.1:5', 'Synonyms': syn('NC_999999.1:g.5A>C', 'rs900003')},
+        {'Variant ID': 'PA6', 'Variant Name': 'rs900004', 'Gene Symbols': 'TESTG', 'Location': f'{ns}:706', 'Synonyms': syn(f'{ns}:g.706_707del', 'rs900004')},
+        {'Variant ID': 'PA7', 'Variant Name': 'rs900005', 'Gene Symbols': '', 'Location': f'{ns}:200', 'Synonyms': syn(f'{ns}:g.200_203TCAG[5]', 'rs900005')},
+    ]
+    vh = ['Variant ID', 'Variant Name', 'Gene IDs', 'Gene Symbols', 'Location', 'Variant Annotation count', 'Clinical Annotation count', 'Level 1/2 Clinical Annotation count',
+          'Guideline Annotation count', 'Label Annotation count', 'Synonyms']
+
+    def zip_(name, created, files):
+        with zipfile.ZipFile(os.path.join(out, name + '.zip'), 'w') as z:
+            z.writestr(f'CREATED_{created}.txt', f'Created on {created}\n')
+            for fn, content in files.items():
+                z.writestr(fn, content)
+
+    zip_('variants', '2026-10-05', {'variants.tsv': _tsv(vh, variants)})
+    S = lambda i, v, g, lvl, score, **kw: dict({'Summary Annotation ID': i, 'Variant/Haplotypes': v, 'Gene': g, 'Level of Evidence': lvl, 'Score': score, 'Phenotype Category': 'Efficacy',
+                                                'PMID Count': 1, 'Evidence Count': 1, 'Drug(s)': 'testdrug', 'Phenotype(s)': 'Test disease', 'Latest History Date (YYYY-MM-DD)': '2026-01-01',
+                                                'URL': f'https://www.clinpgx.org/summaryAnnotation/{i}'}, **kw)
+    summary = [S(1001, 'rs705', 'TESTG', '1A', 12.5), S(1002, 'rs710', 'TESTG', '2B', 3), S(1003, 'rs710', 'TESTG', '3', 1.5), S(1004, 'rs900001', 'TESTG', '3', 1), S(1005, 'rs900002', 'TESTG', '3', 1),
+               S(1006, 'TESTG*1, TESTG*2', 'TESTG', '1B', 6), S(1007, 'TESTG poor metabolizer', 'TESTG', '3', 1), S(1008, 'TESTK Ref (reference), TESTK Odd, name', 'TESTK', '2A', 4),
+               S(1009, 'TESTG*9', 'TESTG', '3', 1), S(1010, 'rs705, rs710', 'TESTG;TESTH', '3', 2), S(1011, 'rs705', 'TESTG', '4', 0.5), S(1012, 'c.123A>G', 'TESTG', '3', 1),
+               S(1013, 'rs900003', 'TESTG', '3', 1), S(1014, 'rs900004', 'TESTG', '3', 1), S(1015, 'rs900005', 'TESTG', '3', 1), S(1016, 'TESTG HTTLPR long form (L allele)', 'TESTG', '3', 1),
+               S(1017, 'rs710', 'TESTG', '3', 1), S(1018, 'HLA-B*13:01', 'HLA-B', '3', 1)]
+    ah = ['Summary Annotation ID', 'Genotype/Allele', 'Annotation Text', 'Allele Function']
+    alleles = [dict(zip(ah, (1001, 'GG', 'Patients with GG may respond.', ''))), dict(zip(ah, (1001, 'AG', 'Patients with AG may respond less.', ''))), dict(zip(ah, (1001, 'AA', 'AA text', ''))),
+               dict(zip(ah, (1002, 'CC', 'cc text', ''))), dict(zip(ah, (1002, 'AC', 'ac text', ''))), dict(zip(ah, (1003, 'T', 't text', ''))), dict(zip(ah, (1006, '*1/*2', 'text', 'Normal function'))),
+               dict(zip(ah, (1010, 'AA', 'two sites', ''))), dict(zip(ah, (1017, 'CC', 'cc', ''))), dict(zip(ah, (1017, 'TT', 'tt', '')))]
+    eh = ['Summary Annotation ID', 'Evidence ID', 'Evidence Type', 'Evidence URL', 'PMID', 'Summary', 'Score']
+    evid = [dict(zip(eh, (1001, 2001, 'Variant Drug Annotation', 'https://x/2001', 111, 'summary text', 5.0)))]
+    zip_('summaryAnnotations', '2026-10-05', {'summary_annotations.tsv': _tsv(SUMMARY_HDR, summary), 'summary_ann_alleles.tsv': _tsv(ah, alleles), 'summary_ann_evidence.tsv': _tsv(eh, evid),
+                                               'summary_ann_history.tsv': 'Summary Annotation ID\tDate (YYYY-MM-DD)\tType\tComment\n'})
+    legacy = [r for r in summary if r['Summary Annotation ID'] != 1011] + [S(1099, 'rs705', 'TESTG', '3', 1)]
+    legacy = [dict(r, **{'Level of Evidence': '2A'}) if r['Summary Annotation ID'] == 1002 else r for r in legacy]
+    lh = ['Clinical Annotation ID'] + SUMMARY_HDR[1:]
+    legacy = [{**{('Clinical Annotation ID' if k == 'Summary Annotation ID' else k): v for k, v in r.items()}} for r in legacy]
+    zip_('clinicalAnnotations', '2025-07-05', {'clinical_annotations.tsv': _tsv(lh, legacy)})
+    cvh = ['variant', 'gene', 'type', 'level of evidence', 'chemicals', 'phenotypes']
+    zip_('clinicalVariants', '2026-10-05', {'clinicalVariants.tsv': _tsv(cvh, [dict(zip(cvh, ('rs705', 'TESTG', 'Efficacy', '1A', 'testdrug', 'x'))), dict(zip(cvh, ('rs999999', 'TESTG', 'Toxicity', '2A', 'd', 'y')))])})
+
+    D = lambda i, v, g, pmid, sig, **kw: dict({'Variant Annotation ID': i, 'Variant/Haplotypes': v, 'Gene': g, 'Drug(s)': 'testdrug', 'PMID': pmid, 'Phenotype Category': 'Efficacy', 'Significance': sig,
+                                               'Is/Is Not associated': 'Associated with' if sig != 'no' else 'Not associated with', 'Sentence': f'sentence {i}'}, **kw)
+    drug = [D(2001, 'rs705', 'TESTG', 111, 'yes', **{'Alleles': 'AA', 'Comparison Allele(s) or Genotype(s)': 'GG', 'Direction of effect': 'increased'}),
+            D(2002, 'rs705', 'TESTG', 111, 'no', **{'Alleles': 'AA', 'Comparison Allele(s) or Genotype(s)': 'GG'}),
+            D(2003, 'TESTG*1, TESTG*2', 'TESTG', 222, 'not stated', **{'Alleles': '*2/*2', 'Comparison Allele(s) or Genotype(s)': '*1/*1'}),
+            D(2004, 'rs710', 'TESTG', 444, 'yes', **{'Alleles': 'GG'}), D(2005, 'TESTG*1', 'TESTG', 555, 'yes', **{'Alleles': '*1/*1'})]
+    pheno = [dict(D(2101, 'rs705', 'TESTG', 333, 'yes', **{'Alleles': 'AA'}), Phenotype='Side Effect:Test reaction')]
+    fa = [dict(D(2201, 'TESTG*2', 'TESTG', 666, 'yes', **{'Alleles': '*2'}), **{'Assay type': 'in human liver microsomes', 'Cell type': 'hepatocyte', 'Functional terms': 'activity of'})]
+    P = lambda i, va, **kw: dict({'Study Parameters ID': i, 'Variant Annotation ID': va, 'Study Type': 'case/control'}, **kw)
+    params = [P(3001, 2001, **{'Study Cases': 100, 'Study Controls': 200, 'P Value': '= 0.012', 'Ratio Stat Type': 'OR', 'Ratio Stat': 2.5, 'Confidence Interval Start': 1.1,
+                               'Confidence Interval Stop': 5.7, 'Biogeographical Groups': 'European'}),
+              P(3002, 2001, **{'Study Cases': 50, 'Study Controls': 60, 'P Value': '< 0.001', 'Ratio Stat Type': 'HR', 'Ratio Stat': 1.8, 'Biogeographical Groups': 'East Asian'}),
+              P(3003, 2002, **{'Study Cases': 30, 'Study Controls': 40, 'P Value': '= 0.4', 'Ratio Stat Type': 'Unknown', 'Ratio Stat': '', 'Biogeographical Groups': 'Unknown'}),
+              P(3004, 2101, **{'Study Cases': 10, 'Study Controls': 12, 'P Value': '= 1E-5', 'Ratio Stat Type': 'OR', 'Ratio Stat': 0.4, 'Biogeographical Groups': 'African American/Afro-Caribbean'})]
+    zip_('variantAnnotations', '2026-10-05', {'var_drug_ann.tsv': _tsv(VAR_DRUG_HDR, drug), 'var_pheno_ann.tsv': _tsv(VAR_PHENO_HDR, pheno), 'var_fa_ann.tsv': _tsv(VAR_FA_HDR, fa),
+                                               'study_parameters.tsv': _tsv(STUDY_HDR, params)})
+    g1 = {'citations': [], 'guideline': {'objCls': 'GuidelineAnnotation', 'id': 'PA1000', 'name': 'Annotation of CPIC Guideline for testdrug and TESTG', 'source': 'CPIC', 'recommendation': True,
+                                          'dosingInformation': True, 'hasTestingInfo': True, 'alternateDrugAvailable': False, 'otherPrescribingGuidance': False, 'cancerGenome': False, 'pediatric': False,
+                                          'relatedGenes': [{'symbol': 'TESTG'}], 'relatedChemicals': [{'name': 'testdrug'}],
+                                          'relatedAlleles': [{'objCls': 'Variant', 'symbol': 'rs705'}, {'objCls': 'Haplotype', 'symbol': 'TESTG*2'}], 'version': 3}}
+    g2 = {'citations': [], 'guideline': {'objCls': 'GuidelineAnnotation', 'id': 'PA1001', 'name': 'Annotation of DPWG Guideline for other and TESTH', 'source': 'DPWG', 'recommendation': False,
+                                          'relatedGenes': [{'symbol': 'TESTH'}, {'symbol': 'UNKNOWNX'}], 'relatedChemicals': [{'name': 'other'}], 'relatedAlleles': [], 'version': 1}}
+    zip_('guidelineAnnotations.json', '2026-10-05', {'PA1000.json': json.dumps(g1), 'PA1001.json': json.dumps(g2)})
+    zip_('drugLabels', '2026-10-05', {'drugLabels.tsv': _tsv(LABEL_HDR, [dict(zip(LABEL_HDR, ('PA2000', 'Annotation of FDA Label for testdrug and TESTG', 'FDA', 'Yes', 'Actionable PGx', 'Prescribing Info', '', '', '', '',
+                                                                                             'Prescribing', 'testdrug', 'TESTG; TESTH', '', '2026-01-01')))])})
+    return dict(k705=f'1:705:{b705}:{a705}', k710c=f'1:710:{b710}:C', k710t=f'1:710:{b710}:T', kdel='1:705:GCC:G')
+
+
 def write_all(out):
     """Write every mini source file into `out` (a temporary directory: synthetic VCF-like files are never committed)."""
     os.makedirs(out, exist_ok=True)
@@ -303,6 +413,7 @@ def write_all(out):
     write_all.cpic = mini_cpic(os.path.join(out, 'cpic'))
     mini_assembly_report(os.path.join(out, 'assembly_report.txt'))
     mini_pharmvar(os.path.join(out, 'pharmvar-test.zip'))
+    write_all.clinpgx = mini_clinpgx(os.path.join(out, 'pharmgkb'))
     return out
 
 
