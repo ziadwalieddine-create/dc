@@ -110,7 +110,7 @@ class ClinVarVcvAdapter:
         version = pq.read_table(first[0], columns=['release_date'])['release_date'][0].as_py() if first else None
         self.rel = ctx.register_release('clinvar', self.targets[0], version or 'undated')
         self.scan_locations(ctx, st)
-        self.read_variations(ctx, st)
+        self.read_variations(ctx, st, limit)
         self.read_scvs(ctx, st, limit)
         return st.c
 
@@ -161,7 +161,7 @@ class ClinVarVcvAdapter:
                 del self.legacy[vid]
 
     # ---- variation table: events, composite records, unmapped aggregates ------------------------------------------------------------
-    def read_variations(self, ctx, st):
+    def read_variations(self, ctx, st, limit=None):
         for f in self.parts('variation'):
             fname = os.path.basename(f)
             t = pq.read_table(f)
@@ -179,7 +179,10 @@ class ClinVarVcvAdapter:
                     self.event(ctx, st, a, loc, raw, found.get(('clinvar_variation', vid)))
                 elif a['record_type'] == 'included' and not any(a.get(f'{fam}_description') for fam, _c, _o in FAMILIES):
                     st.inc('included_records_without_classification_unkeyed')
+                elif limit and st.c.get('unmapped_aggregates', 0) >= limit:           # a trial: events and composites are always read, the 4 million unkeyed aggregates are capped
+                    st.inc('unmapped_aggregates_skipped_by_limit')
                 else:
+                    st.inc('unmapped_aggregates')
                     self.unmapped_aggregate(ctx, st, a, loc, raw)
 
     def aggregates(self, ctx, st, a, loc, raw, level, subject, mapping, reason, **kw):
