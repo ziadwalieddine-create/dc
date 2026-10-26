@@ -68,7 +68,11 @@
   "clinpgx_relationships",
   "clinpgx_summaryAnnotations",
   "clinpgx_guidelineAnnotations",
-  "clinpgx_drugLabels"
+  "clinpgx_drugLabels",
+  "clinpgx_clinicalAnnotations",
+  "clinpgx_clinicalVariants",
+  "clinpgx_variants",
+  "clinpgx_genes"
  ],
  "evidence": [
   "pharmgkb/downloads",

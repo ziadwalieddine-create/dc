@@ -1,6 +1,6 @@
 # Mechanism matrix: variant types by mechanism axis
 
-*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 15:25 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Which mechanisms the catalogued evidence can inform for each type of called variant, on what basis, and what is usable now. The axes and their competing explanations are defined in `catalogue/vocab.json`; a hypothesis is never recorded as a finding, and a gene-level result is never recorded as an allele-specific one.
 
@@ -8,7 +8,7 @@ Cell = number of **usable** sources by basis: **D** direct measurement, **C** cu
 
 | Mechanism axis | snv | indel | cnv | sv | str | complex_locus | mtdna | gene / region / protein level |
 |---|---|---|---|---|---|---|---|---|
-| Clinical or trait outcome (mechanism-agnostic) (`outcome_association`) | A2 C2 P1 (+4) | A2 C2 P1 (+3) | C1 (+2) | C1 (+1) | C1 | · | · | C2 (+1) |
+| Clinical or trait outcome (mechanism-agnostic) (`outcome_association`) | A2 C2 P1 (+5) | A2 C2 P1 (+4) | C1 (+2) | C1 (+1) | C1 | · | · | C2 (+1) |
 | Protein function, stability and interactions (`protein_function`) | A1 D2 P1 (+4) | A1 D2 (+2) | n/a | n/a | n/a | n/a | n/a | C2 D2 F1 X5 (+2) |
 | Truncation, frameshift and nonsense-mediated decay (`truncation_nmd`) | · (+1) | · (+1) | n/a | n/a | n/a | n/a | n/a | F1 X3 |
 | Splicing (`splicing`) | A2 P1 (+3) | A2 (+2) | n/a | n/a | n/a | n/a | n/a | X3 |
@@ -72,6 +72,7 @@ Assertions or associations that link variants or genes to a disease, trait or mo
 |---|---|---|---|---|---|
 | `gwas_catalog` | association | snv, indel | association_finemapping_coloc | ✓ |  |
 | `opentargets` | association | snv, indel | association_finemapping_coloc | ✓ | credible sets, studies and colocalisation |
+| `pgs_catalog` | association | snv, indel | association_finemapping_coloc | no (mapped) |  |
 | `decipher` | case | cnv, snv, indel | clinical_interpretation | no (acquired) | phenotype-linked case data; not assessed beyond the resource description |
 | `alliance_genome` | curated | gene_level | perturbation_evidence | no (acquired) | curated disease-model annotations |
 | `clingen` | curated | gene_level | clinical_interpretation | ✓ | gene-disease validity |

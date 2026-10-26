@@ -67,7 +67,7 @@
  ],
  "reuse_decision": {
   "action": "reuse_existing",
-  "rationale": "Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump are being compared against it before any change."
+  "rationale": "Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump were compared against them (acquisition/compat_tests.py) without any change to the existing assets; score tables of the sets that carry a post-mapped genomic HGVS are extracted from the dump byte for byte."
  },
  "status": {
   "accessible": "yes",
@@ -76,7 +76,8 @@
  "acquisition_targets": [
   "mavedb_zenodo_dump_v4",
   "ensembl_vep_mavedb_variants",
-  "ensembl_vep_mavedb_variants_tbi"
+  "ensembl_vep_mavedb_variants_tbi",
+  "mavedb_scores_genomic_mapped"
  ],
  "evidence": [
   "mavedb/api_version",

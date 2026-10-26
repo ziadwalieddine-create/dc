@@ -17,7 +17,7 @@
   "release_date": "2026-10-25",
   "verified": "live"
  },
- "scope": "Haploinsufficiency and triplosensitivity scores for genes and genomic regions, recurrent CNV regions (V2.1), and curated gene-disease validity.",
+ "scope": "Haploinsufficiency and triplosensitivity scores for genes and genomic regions, recurrent CNV regions (V2.1), curated gene-disease validity, clinical actionability reports and assertions (adult and paediatric contexts) and the Evidence Repository export of variant pathogenicity classifications by Variant Curation Expert Panels.",
  "variant_classes": [
   "gene_level",
   "region_level",
@@ -56,7 +56,7 @@
   "Only genes and regions that have been through curation"
  ],
  "known_omissions": [
-  "Variant-level classifications are in ClinVar / ClinGen Allele Registry, not in these files"
+  "Variant classifications other than those of the expert panels in the Evidence Repository export are in ClinVar and the ClinGen Allele Registry, not in these files"
  ],
  "overlap_with_existing": [],
  "reuse_decision": {
@@ -73,7 +73,14 @@
   "clingen_haploinsufficiency_gene",
   "clingen_triplosensitivity_gene",
   "clingen_recurrent_cnv_v2_1",
-  "clingen_gene_validity"
+  "clingen_gene_validity",
+  "clingen_actionability_adult_summary_flat",
+  "clingen_actionability_adult_assertions",
+  "clingen_actionability_adult_scoring",
+  "clingen_actionability_pediatric_summary_flat",
+  "clingen_actionability_pediatric_assertions",
+  "clingen_actionability_pediatric_scoring",
+  "clingen_erepo_variant_classifications"
  ],
  "evidence": [
   "clingen/ftp_readme",

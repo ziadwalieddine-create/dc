@@ -54,14 +54,17 @@
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "adopt_curated",
-  "rationale": "Open Targets integrates GWAS Catalog studies into credible sets; the flat associations table is small and fetched for direct lookups. The flat studies.tsv was fetched first and discarded: it has no study accession column; the associations file carries STUDY ACCESSION."
+  "rationale": "Open Targets integrates GWAS Catalog studies into credible sets; the flat associations table is small and fetched for direct lookups. The flat studies.tsv was fetched first and discarded: it has no study accession column; the associations file carries STUDY ACCESSION. The studies and ancestry downloads of the same release, which do carry the accession, are retrieved for study and sample metadata, together with the trait to EFO mappings."
  },
  "status": {
   "accessible": "yes",
   "notes": "FTP listing verified; web REST API root URL guessed incorrectly (404) and not needed."
  },
  "acquisition_targets": [
-  "gwas_catalog_associations"
+  "gwas_catalog_associations",
+  "gwas_catalog_studies",
+  "gwas_catalog_ancestries",
+  "gwas_catalog_efo_trait_mappings"
  ],
  "unverified_fields": [
   "assembly"

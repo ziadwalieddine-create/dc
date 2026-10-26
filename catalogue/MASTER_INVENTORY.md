@@ -1,10 +1,10 @@
 # Master inventory of reusable genomic resources
 
-*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 15:25 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 `✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension. `integrated` (a documented, tested query layer that returns records by variant, gene, protein or region) is defined in `vocab.json` and credited to no source, because no such layer exists yet.
 
-53 sources catalogued. A source appears under its primary evidence dimension. Columns *acq/val/map* here cover all of the source's downloaded files; "Usable for" lists the dimensions for which the source is actually usable. See `COVERAGE_MATRIX.md` for the per-dimension view.
+54 sources catalogued. A source appears under its primary evidence dimension. Columns *acq/val/map* here cover all of the source's downloaded files; "Usable for" lists the dimensions for which the source is actually usable. See `COVERAGE_MATRIX.md` for the per-dimension view.
 
 ## D01 Direct experimental variant-effect measurements
 
@@ -55,6 +55,7 @@
 | **gnomAD v2.1.1 linkage disequilibrium matrices** (`gnomad_ld`) | gnomAD v2.1.1 LD matrices (S3 prefix release/2.1.1/ld/, 39 e · unknown | open · gnomAD data are released under CC0 1.0 (as listed for gnomAD in the Op (unverified) | snv · GRCh37 | ✓ | ✓ | · | · | · | — | defer |
 | **NHGRI-EBI GWAS Catalog** (`gwas_catalog`) | Release files dated 2026-10-22 · 2026-10-22 | open · EMBL-EBI general terms of use; summary statistics CC0 unless otherwise | snv, indel · GRCh38 | ✓ | ✓ | ✓ | ✓ | ✓ | D06 | adopt_curated |
 | **LDlink (NCI): linkage disequilibrium tools for 1000 Genomes populations** (`ldlink`) | LDlink 7.4.0 (as named on the home page) · unknown | registration_required · Not retrieved: usage conditions of the API (token, rate limits) were n (unverified) | snv, indel · GRCh37, GRCh38 | ✓ | ✓ | · | · | · | — | do_not_acquire |
+| **Polygenic Score (PGS) Catalog** (`pgs_catalog`) | Bulk metadata files dated 2026-10-23 · 2026-10-23 | open_with_terms · EMBL-EBI terms of use by default; a scoring file's own licence field g | snv, indel · GRCh38 | ✓ | ✓ | ✓ | ✓ | · | — | retrieve_source |
 
 ## D07 Functional haplotypes and pharmacogenomics
 

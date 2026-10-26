@@ -1,6 +1,6 @@
 # Evidence profiles
 
-*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 15:25 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Every source record carries an `evidence_profile` that keeps apart what the resource is (a measurement, a perturbation, a population observation, an association, a curated classification, a prediction, a reference annotation), the resolution at which its records refer to alleles, the mechanisms it informs and on what basis, how strong the evidence is, how far a mechanistic reading can be trusted, what phenotype it implies and what absence means. These fields are independent: a curated classification can be strong and carry no mechanism; a strong association says nothing about the causal variant; a gene-level knockout or constraint metric is never allele-specific evidence; the absence of a study is never recorded as the absence of an effect. Hypotheses and competing explanations are listed per mechanism axis in `MECHANISM_MATRIX.md`.
 
@@ -13,14 +13,14 @@ Rules enforced by `build_catalogue.py --check`: a gene- or region-level resource
 | `direct_experimental` | A measurement of the effect of specific alleles in an assay (for example deep mutational scanning, MPRA, saturation genome editing) | `ensembl_vep`, `mavedb`, `mpravardb`, `proteingym` |
 | `perturbation_experimental` | A gene- or region-level perturbation in cells or model organisms (knockout, knockdown, CRISPRi/a, overexpression); not allele-specific unless stated | `alliance_genome`, `biogrid_interactions`, `biogrid_orcs`, `depmap`, `impc`, `opentargets` |
 | `population_observation` | Allele or genotype observations in cohorts (frequency, homozygosity, constraint derived from them); indirect evidence about function | `1000genomes`, `dbnsfp`, `dbvar`, `dgv`, `ensembl_vep`, `gnomad_constraint`, `gnomad_ld`, `gnomad_sv_cnv`, `gnomad_variants`, `hgsvc3`, `ldlink`, `trexplorer` |
-| `statistical_association` | A statistical association between variants and a trait or molecular phenotype (GWAS, QTL, fine-mapping, colocalisation); association is not mechanism | `eqtl_catalogue`, `gtex`, `gwas_catalog`, `opentargets` |
+| `statistical_association` | A statistical association between variants and a trait or molecular phenotype (GWAS, QTL, fine-mapping, colocalisation); association is not mechanism | `eqtl_catalogue`, `gtex`, `gwas_catalog`, `opentargets`, `pgs_catalog` |
 | `curated_expert_classification` | A classification or assertion made by curators or expert panels from other evidence (clinical significance, gene-disease validity, dosage sensitivity, star-allele function) | `alliance_genome`, `biogrid_interactions`, `clingen`, `clinvar`, `cpic`, `dbvar`, `intact`, `ipd_imgt_hla`, `ipd_kir`, `mitomap`, `opentargets`, `pharmcat`, `pharmgkb`, `pharmvar`, `reactome`, `strchive`, `string_db`, `uniprot` |
 | `computational_prediction` | A model or algorithm output; a hypothesis about effect, never a measurement | `alphamissense`, `cadd`, `dbnsfp`, `ensembl_vep`, `gnomad_sv_cnv`, `gnomad_variants`, `opentargets`, `string_db` |
 | `reference_annotation` | Reference sequence, gene models, transcript sets, region annotations and identifier maps | `ensembl_genomes`, `gencode_mane`, `giab_stratifications`, `interpro`, `ipd_imgt_hla`, `ipd_kir`, `pdbe_sifts`, `refseq`, `trexplorer`, `uniprot` |
 | `experimental_structure` | Atomic structures or residue coverage determined experimentally | `pdbe_sifts` |
 | `predicted_structure` | Structure models predicted computationally | `alphafold_db` |
 | `aggregated_integration` | A resource that aggregates and harmonises records from other sources; evidence kinds of the parts persist | `alliance_genome`, `dbnsfp`, `dbvar`, `encode`, `ensembl_vep`, `hpa`, `interpro`, `mpravardb`, `opentargets`, `pharmgkb`, `proteingym`, `trexplorer` |
-| `catalogue_metadata` | Descriptions of resources (catalogues of databases and tools), not biological evidence | `biotools`, `fairsharing` |
+| `catalogue_metadata` | Descriptions of resources (catalogues of databases and tools), not biological evidence | `biotools`, `fairsharing`, `pgs_catalog` |
 | `documentation` | Educational or background material with no variant-level data | `nhgri_education` |
 | `experimental_annotation` | Assays of the biochemical activity of the genome (chromatin, binding, expression) that annotate regions or genes without measuring the effect of a particular allele | `encode`, `gtex`, `hpa` |
 | `case_observation` | Observations of variants in affected individuals or families (case series, cohorts ascertained on phenotype, segregation); ascertained on phenotype, so frequency in cases is not a test of association | `decipher` |
@@ -31,7 +31,7 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 
 | Resolution | Meaning | Sources |
 |---|---|---|
-| `allele_specific` | Records refer to specific alleles (chromosome, position, reference, alternate or an exact protein change) | `1000genomes`, `alphamissense`, `cadd`, `clinvar`, `dbnsfp`, `ensembl_vep`, `eqtl_catalogue`, `gnomad_ld`, `gnomad_variants`, `gtex`, `gwas_catalog`, `ldlink`, `mavedb`, `mitomap`, `mpravardb`, `pharmgkb`, `proteingym` |
+| `allele_specific` | Records refer to specific alleles (chromosome, position, reference, alternate or an exact protein change) | `1000genomes`, `alphamissense`, `cadd`, `clinvar`, `dbnsfp`, `ensembl_vep`, `eqtl_catalogue`, `gnomad_ld`, `gnomad_variants`, `gtex`, `gwas_catalog`, `ldlink`, `mavedb`, `mitomap`, `mpravardb`, `pgs_catalog`, `pharmgkb`, `proteingym` |
 | `haplotype_level` | Records refer to haplotypes, star alleles or named alleles composed of several variants | `cpic`, `ipd_imgt_hla`, `ipd_kir`, `pharmcat`, `pharmvar` |
 | `variant_class_level` | Records refer to classes of change (for example any loss-of-function change in a gene) | — |
 | `gene_level` | Records refer to genes or proteins as a whole (constraint, knockout phenotypes, essentiality); they do not describe any particular allele | `alliance_genome`, `biogrid_interactions`, `biogrid_orcs`, `clingen`, `depmap`, `gnomad_constraint`, `hpa`, `impc`, `intact`, `opentargets`, `reactome`, `string_db` |
@@ -629,6 +629,20 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | None: residue mappings carry no phenotype information. |
 | Absence means | A residue not covered by any PDB chain, or not observed in the covering chains, has no experimental coordinates; this is not evidence of disorder. |
 
+### `pgs_catalog` · Polygenic Score (PGS) Catalog
+
+| | |
+|---|---|
+| Evidence kinds | statistical_association, catalogue_metadata |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `outcome_association` · association · snv, indel · association_finemapping_coloc |
+| Biological context | Each score is a weighted sum of effect-allele dosages from a published model, developed for a stated trait in stated development samples and evaluated in other samples; ancestry and cohort come with the score. |
+| Evidence strength | Reported performance of the score as a whole in its evaluation samples. A single weight is an association estimate for one allele in a model and carries no individual evidence strength. |
+| Mechanistic confidence | None. Weights are statistical effect estimates in a prediction model; they identify neither causal variants nor mechanisms. |
+| Phenotype implication | Predisposition to a trait in the ancestry the score was developed and evaluated in. A raw score is meaningful only against a reference distribution of the same score and ancestry. |
+| Absence means | A variant that is not a weight of a score was not selected or estimated by that model. Absence from a score is not evidence of no effect, and a missing genotype is not a zero dosage. |
+| Overlaps (declared here) | independent_related · `gwas_catalog` (scores are developed from genome-wide association results, which may or may not be among the GWAS Catalog studies; compare, do not pool) |
+
 ### `pharmcat` · PharmCAT (Pharmacogenomics Clinical Annotation Tool)
 
 | | |
@@ -817,6 +831,7 @@ Policy: identical records are combined once; independent experiments are never m
 | `interpro` | independent_related | `uniprot` | UniProt entries cross-reference InterPro; domain boundaries from curated features and from signatures can differ, so compare |
 | `ipd_imgt_hla` | independent_related | `ipd_kir` | sister database for the KIR genes under the same terms |
 | `mpravardb` | independent_related | `mavedb` | MaveDB holds MPRA score sets; the same experiment can appear in both and should be counted once |
+| `pgs_catalog` | independent_related | `gwas_catalog` | scores are developed from genome-wide association results, which may or may not be among the GWAS Catalog studies; compare, do not pool |
 | `proteingym` | independent_related | `mavedb` | some assays are the same experiments as MaveDB score sets; match by publication and target before combining, and count each experiment once |
 | `refseq` | independent_related | `ensembl_genomes` | independent annotation of the same assembly; compare transcript sets and boundaries, never merge counts |
 | `refseq` | independent_related | `gencode_mane` | MANE Select pairs one RefSeq with one Ensembl transcript per gene; the RefSeq half of MANE should reappear in this annotation, and the two gene sets are otherwise independent annotations of the same genome |

@@ -1,6 +1,6 @@
 # Gap matrix
 
-*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 15:25 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 For each dimension: the best stage reached by any source, what is actually usable, what is missing and the next action. The first three columns are computed; the gap and next-action text is curated in `catalogue/gaps.json`.
 

@@ -14,7 +14,7 @@
   "release_date": "2026-10-19",
   "verified": "live"
  },
- "scope": "Submitted interpretations of variants and their relationship to conditions, with review status and submitter evidence.",
+ "scope": "Submitted interpretations of variants and their relationship to conditions, with review status and submitter evidence. Retrieved as the GRCh38 VCF, the variant and submission summary tables, and the full weekly VCV release (every submission, structural and copy-number alleles with their extents, and haplotype / genotype records), which is converted to Parquet tables while streaming.",
  "variant_classes": [
   "snv",
   "indel",
@@ -61,16 +61,19 @@
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "Source of record for clinical classifications; Open Targets only carries a subset (EVA evidence), so the VCF is retrieved directly."
+  "rationale": "Source of record for clinical classifications; Open Targets only carries a subset (EVA evidence), so the VCF, the summary tables and the VCV release are retrieved directly. The VCV release adds what the VCF drops: individual submissions, structural-variant extents and composite records."
  },
  "status": {
   "accessible": "yes",
-  "notes": "VCF 200,670,148 bytes with published MD5."
+  "notes": "VCF 200,670,148 bytes with published MD5; the VCV XML stream is checked against the MD5 NCBI publishes."
  },
  "acquisition_targets": [
   "clinvar_vcf_grch38",
   "clinvar_readme",
-  "clinvar_readme_vcf"
+  "clinvar_readme_vcf",
+  "clinvar_variant_summary",
+  "clinvar_submission_summary",
+  "clinvar_vcv_xml_weekly_2026_1018"
  ],
  "evidence": [
   "clinvar/readme",

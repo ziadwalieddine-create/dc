@@ -1,16 +1,16 @@
 # Source-by-source reuse, acquisition and integration plan
 
-*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 15:25 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Decision hierarchy: reuse existing verified material → adopt existing curated datasets → extend existing integrations → retrieve uncovered source data → build original methods only where justified.
 
 ## Reuse what is already verified (2)
 
 ### `mavedb`: MaveDB (Multiplexed Assays of Variant Effect database)
-- **Why:** Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump are being compared against it before any change.
+- **Why:** Metadata and 1,980 score/count tables are already downloaded and verified (scrape/mavedb-human, data/mavedb-scores). The Ensembl coordinate-mapped file and the Zenodo v4 dump were compared against them (acquisition/compat_tests.py) without any change to the existing assets; score tables of the sets that carry a post-mapped genomic HGVS are extracted from the dump byte for byte.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D01 · existing assets mavedb-human: downloaded_verified
 - **Access:** open (Per record: CC0 (1,340), CC BY 4.0 (45), CC BY-SA 4.0 (11), CC BY-NC-SA 4.0 (6) among our 1,402 human sets; Zenodo bulk )
-- **Targets:** `mavedb_zenodo_dump_v4`, `ensembl_vep_mavedb_variants`, `ensembl_vep_mavedb_variants_tbi`
+- **Targets:** `mavedb_zenodo_dump_v4`, `ensembl_vep_mavedb_variants`, `ensembl_vep_mavedb_variants_tbi`, `mavedb_scores_genomic_mapped`
 
 ### `nhgri_education`: NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)
 - **Why:** Already collected, verified and preserved under scrape/. No further acquisition.
@@ -43,10 +43,10 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (Data under Creative Commons Attribution 4.0 International; code under Apache 2.0 (eQTL Catalogue License page))
 
 ### `gwas_catalog`: NHGRI-EBI GWAS Catalog
-- **Why:** Open Targets integrates GWAS Catalog studies into credible sets; the flat associations table is small and fetched for direct lookups. The flat studies.tsv was fetched first and discarded: it has no study accession column; the associations file carries STUDY ACCESSION.
+- **Why:** Open Targets integrates GWAS Catalog studies into credible sets; the flat associations table is small and fetched for direct lookups. The flat studies.tsv was fetched first and discarded: it has no study accession column; the associations file carries STUDY ACCESSION. The studies and ancestry downloads of the same release, which do carry the accession, are retrieved for study and sample metadata, together with the trait to EFO mappings.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D06
 - **Access:** open (EMBL-EBI general terms of use; summary statistics CC0 unless otherwise stated)
-- **Targets:** `gwas_catalog_associations`
+- **Targets:** `gwas_catalog_associations`, `gwas_catalog_studies`, `gwas_catalog_ancestries`, `gwas_catalog_efo_trait_mappings`
 - **Unverified:** assembly
 
 ### `impc`: IMPC (International Mouse Phenotyping Consortium)
@@ -83,7 +83,7 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (IGSR provides open data; terms of use are in the IGSR data disclaimer (not parsed))
 - **Targets:** `igsr_1000g_samples`
 
-## Retrieve the source data (26)
+## Retrieve the source data (27)
 
 ### `alphafold_db`: AlphaFold Protein Structure Database
 - **Why:** Per-protein retrieval for the UniProt proteins our MaveDB score sets are about (models, per-residue pLDDT and prediction metadata through the API); the 5.18 GB human proteome bundle is not needed for that set.
@@ -115,13 +115,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Why:** Small, openly licensed and directly addresses dosage sensitivity and CNV interpretation; Open Targets carries only evidence_clingen gene-disease links.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D05, D11
 - **Access:** open (ClinGen terms: curated content released openly, free to capture and use)
-- **Targets:** `clingen_gene_curation_list`, `clingen_region_curation_list`, `clingen_haploinsufficiency_gene`, `clingen_triplosensitivity_gene`, `clingen_recurrent_cnv_v2_1`, `clingen_gene_validity`
+- **Targets:** `clingen_gene_curation_list`, `clingen_region_curation_list`, `clingen_haploinsufficiency_gene`, `clingen_triplosensitivity_gene`, `clingen_recurrent_cnv_v2_1`, `clingen_gene_validity`, `clingen_actionability_adult_summary_flat`, `clingen_actionability_adult_assertions`, `clingen_actionability_adult_scoring`, `clingen_actionability_pediatric_summary_flat`, `clingen_actionability_pediatric_assertions`, `clingen_actionability_pediatric_scoring`, `clingen_erepo_variant_classifications`
 
 ### `clinvar`: ClinVar
-- **Why:** Source of record for clinical classifications; Open Targets only carries a subset (EVA evidence), so the VCF is retrieved directly.
+- **Why:** Source of record for clinical classifications; Open Targets only carries a subset (EVA evidence), so the VCF, the summary tables and the VCV release are retrieved directly. The VCV release adds what the VCF drops: individual submissions, structural-variant extents and composite records.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D11
 - **Access:** open (NCBI public domain policy; submitters may claim rights in some content (NCBI policies page))
-- **Targets:** `clinvar_vcf_grch38`, `clinvar_readme`, `clinvar_readme_vcf`
+- **Targets:** `clinvar_vcf_grch38`, `clinvar_readme`, `clinvar_readme_vcf`, `clinvar_variant_summary`, `clinvar_submission_summary`, `clinvar_vcv_xml_weekly_2026_1018`
 
 ### `cpic`: CPIC (Clinical Pharmacogenetics Implementation Consortium)
 - **Why:** Small API tables that give allele definitions, allele function with evidence strength and population frequency, phenotype translation and recommendations in one open, versioned source; combined with PharmVar nomenclature and ClinPGx annotations rather than rebuilt.
@@ -213,11 +213,17 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Targets:** `sifts_pdb_chain_uniprot`, `sifts_uniprot_segments_observed`
 - **Unverified:** SIFTS-specific licence statement
 
+### `pgs_catalog`: Polygenic Score (PGS) Catalog
+- **Why:** The bulk metadata (scores, publications, traits, samples, cohorts, performance) is small and is the registry of models; the harmonised GRCh38 scoring files are retrieved for a documented selection and applied to a sample by a separate scoring step. Scores are not merged into the variant evidence index: a polygenic score is a model, not an assertion about a variant.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet
+- **Access:** open_with_terms (EMBL-EBI terms of use by default; a scoring file's own licence field governs that score and can be more restrictive (for)
+- **Targets:** `pgs_scores_list`, `pgs_metadata_scores`, `pgs_metadata_publications`, `pgs_metadata_efo_traits`, `pgs_metadata_performance_metrics`, `pgs_metadata_evaluation_sample_sets`, `pgs_metadata_score_development_samples`, `pgs_metadata_cohorts`, `pgs_scoring_files_grch38`
+
 ### `pharmgkb`: ClinPGx / PharmGKB
 - **Why:** Small archives; Open Targets only carries a pharmacogenomics subset.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D07
 - **Access:** open_with_terms (CC BY-SA 4.0 (data usage policy))
-- **Targets:** `clinpgx_variantAnnotations`, `clinpgx_relationships`, `clinpgx_summaryAnnotations`, `clinpgx_guidelineAnnotations`, `clinpgx_drugLabels`
+- **Targets:** `clinpgx_variantAnnotations`, `clinpgx_relationships`, `clinpgx_summaryAnnotations`, `clinpgx_guidelineAnnotations`, `clinpgx_drugLabels`, `clinpgx_clinicalAnnotations`, `clinpgx_clinicalVariants`, `clinpgx_variants`, `clinpgx_genes`
 
 ### `pharmvar`: PharmVar (Pharmacogene Variation Consortium)
 - **Why:** The licence was readable after all (the earlier guessed URLs returned the application shell; the terms are linked from the footer of the rendered page), it permits research use with attribution and share-alike, and the complete database is one 193 MB archive that the site's own button serves. It closes the star-allele sequence gap that CPIC and ClinPGx tables leave.

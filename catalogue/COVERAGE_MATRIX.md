@@ -1,6 +1,6 @@
 # Coverage matrix: evidence dimensions by lifecycle stage
 
-*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 15:25 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 `✓` done · `~` partial · `·` not done. Stages: **cat**alogued, **acc**essible from this environment, **acq**uired and checksum-verified, **val**idated against the source description, **map**ped to dc assets in a demonstrated join, **use**able (acquired + validated + mapped + licence verified). Stages beyond *acc* are evaluated per dimension, using only the downloaded files that support that dimension. `integrated` (a documented, tested query layer that returns records by variant, gene, protein or region) is defined in `vocab.json` and credited to no source, because no such layer exists yet.
 
@@ -13,7 +13,7 @@ Counts are numbers of sources reaching the stage **for that dimension**. A dimen
 | D03 Transcription, splicing, regulatory elements, tissue-specific expression | high | 7 | 7 | 7 | 4 | 4 | 4 | 4 |
 | D04 Knockout, knockdown, CRISPRi/a, overexpression, knock-in and rescue experiments | high | 5 | 5 | 4 | 3 | 3 | 3 | 3 |
 | D05 Human natural knockouts, constraint and dosage sensitivity | highest | 5 | 5 | 5 | 4 | 4 | 4 | 4 |
-| D06 Genetic association, fine-mapping, LD and colocalisation | high | 6 | 6 | 6 | 2 | 2 | 2 | 2 |
+| D06 Genetic association, fine-mapping, LD and colocalisation | high | 7 | 7 | 7 | 3 | 3 | 2 | 2 |
 | D07 Functional haplotypes and pharmacogenomics | medium | 5 | 5 | 5 | 4 | 4 | 4 | 4 |
 | D08 Structural variation and copy-number variation | high | 7 | 7 | 6 | 4 | 4 | 3 | 3 |
 | D09 Repeat expansions and short tandem repeats (STR/VNTR) | medium | 2 | 2 | 2 | 1 | 1 | 1 | 1 |
@@ -33,7 +33,7 @@ Multiplexed/deep mutational scanning, MPRA and other assays that measure the eff
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
 | `ensembl_vep` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 2/2 downloaded | FTP listings and the plugin documentation page are reachable (the page returned HTTP 504 in an earli  |
-| `mavedb` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 3/3 downloaded | API open; Zenodo reachable with an identifying user agent (generic curl user agent was refused earli existing assets mavedb-human: downloaded_verified |
+| `mavedb` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 4/4 downloaded | API open; Zenodo reachable with an identifying user agent (generic curl user agent was refused earli existing assets mavedb-human: downloaded_verified |
 | `mpravardb` | ✓ | ✓ | · | · | · | · | none targeted | Home page read; the data are behind an interactive application.  |
 | `proteingym` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 4/4 downloaded | Plain HTTPS downloads; the server publishes no checksum, so sizes are pinned and zip integrity is te  |
 
@@ -99,9 +99,10 @@ GWAS associations, credible sets, molecular QTLs, colocalisation and locus-to-ge
 | `eqtl_catalogue` | ✓ | ✓ | · | · | · | · | none targeted | FTP directory listing and licence page readable; the old REST API is gone (its replacement is docume  |
 | `gnomad_ld` | ✓ | ✓ | · | · | · | · | none targeted | S3 prefix listing read.  |
 | `gtex` | ✓ | ✓ | · | · | · | · | none targeted | API v2 dataset list and bucket listing verified.  |
-| `gwas_catalog` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP listing verified; web REST API root URL guessed incorrectly (404) and not needed.  |
+| `gwas_catalog` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 4/4 downloaded | FTP listing verified; web REST API root URL guessed incorrectly (404) and not needed.  |
 | `ldlink` | ✓ | ✓ | · | · | · | · | none targeted | Home page read; API access needs a token.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 4/4 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
+| `pgs_catalog` | ✓ | ✓ | ✓ | ✓ | · | · | 9/9 downloaded | FTP listing, bulk metadata files and the harmonised file for the first score were read; the web page  |
 
 ### D07 Functional haplotypes and pharmacogenomics
 
@@ -112,7 +113,7 @@ Star-allele/haplotype definitions, gene-drug annotations and guidelines.
 | `cpic` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 10/10 downloaded | API returns JSON; a plain GET returns every row. The CPIC licence page needs JavaScript and its cont  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
 | `pharmcat` | ✓ | ✓ | · | · | · | · | none targeted | Documentation home page read.  |
-| `pharmgkb` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 downloaded | HEAD sizes and last-modified verified.  |
+| `pharmgkb` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 9/9 downloaded | HEAD sizes and last-modified verified.  |
 | `pharmvar` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | Terms at /terms-and-conditions (footer link). The Download Complete Database button calls get-downlo  |
 
 ### D08 Structural variation and copy-number variation
@@ -156,8 +157,8 @@ Clinically classified variants, gene-disease validity and phenotype links.
 
 | Source | cat | acc | acq | val | map | use | Files supporting this dimension | Notes |
 |---|---|---|---|---|---|---|---|---|
-| `clingen` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 1/1 downloaded | FTP and CSV export reachable.  |
-| `clinvar` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 3/3 downloaded | VCF 200,670,148 bytes with published MD5.  |
+| `clingen` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 8/8 downloaded | FTP and CSV export reachable.  |
+| `clinvar` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 6/6 downloaded | VCF 200,670,148 bytes with published MD5; the VCV XML stream is checked against the MD5 NCBI publish  |
 | `decipher` | ✓ | · | · | · | · | · | none targeted | Access Denied.  |
 | `mitomap` | ✓ | · | · | · | · | · | none targeted | HTTP 403 to the automated probe; recorded and not circumvented.  |
 | `opentargets` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 8/8 downloaded | FTP, GraphQL and docs reachable. A focused subset of 27 Parquet datasets (8.5 GiB) is acquired and v  |
