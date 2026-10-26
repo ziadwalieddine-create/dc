@@ -248,6 +248,42 @@ def render_report(results_dir, top=25):
     return text
 
 
+CATALOGUE_VIEW = pa.schema([('key', pa.string()), ('chrom', pa.string()), ('pos', pa.int32()), ('ref', pa.string()), ('alt', pa.string()), ('rules', pa.list_(pa.string())),
+                            ('n_evidence', pa.int32()), ('axes_json', pa.string()), ('evidence_ids', pa.list_(pa.string())), ('gene_ids', pa.list_(pa.string()))])
+
+
+def write_catalogue_views(index, out_dir, rules=HIGH_VALUE_RULES):
+    """The high-value variants of the catalogue itself, with no sample involved: every mapped variant that satisfies at least one rule, with the per-axis summary of all its
+    variant-level evidence. One Parquet file per partition under <out_dir>/high_value_variants/, plus high_value_manifest.json (rule wording, counts). A variant may satisfy
+    several rules and is listed once; the rules select, they do not rank, and the file is ordered by position."""
+    from .normalise import parse_key
+    from . import summary as _summary
+    os.makedirs(os.path.join(out_dir, 'high_value_variants'), exist_ok=True)
+    counts, total = Counter(), 0
+    for part in index.variant_partitions():
+        hv = high_value_keys(index, part, rules)
+        if not hv:
+            continue
+        keys = sorted(hv, key=lambda k: (parse_key(k)[0], parse_key(k)[1], k))
+        ev = index.evidence_for_variants(keys)
+        genes = index.variant_genes(keys)
+        rows = []
+        for k in keys:
+            c, pos, ref, alt = parse_key(k)
+            rs = ev.get(k, [])
+            rows.append(dict(key=k, chrom=c, pos=pos, ref=ref, alt=alt, rules=hv[k]['rules'], n_evidence=len(rs), axes_json=json.dumps(_summary.summarise(rs), sort_keys=True),
+                             evidence_ids=sorted(r['evidence_id'] for r in rs), gene_ids=sorted({g['gene_id'] for g in genes.get(k, ())})))
+            for r in hv[k]['rules']:
+                counts[r] += 1
+        pq.write_table(pa.Table.from_pylist(rows, schema=CATALOGUE_VIEW), os.path.join(out_dir, 'high_value_variants', f'{part}.parquet'), compression='zstd')
+        total += len(rows)
+    manifest = dict(variants=total, per_rule=dict(sorted(counts.items())), rules={r.name: r.description for r in rules},
+                    note='A variant satisfying several rules is listed once. Gene-level and region-level evidence is not attached to these variants; nothing here is a score or a tier.')
+    with open(os.path.join(out_dir, 'high_value_manifest.json'), 'w') as f:
+        json.dump(manifest, f, indent=1, sort_keys=True)
+    return manifest
+
+
 def write_views(results_dir, index, statuses=('EXACT_MATCH',)):
     """Write views/<name>.parquet for every view, views/trait_view.json, views/pathway_view.json and views/views_manifest.json under the results directory.
     Views only select and order rows of small_calls; every call stays in small_calls.parquet whether or not any view lists it."""

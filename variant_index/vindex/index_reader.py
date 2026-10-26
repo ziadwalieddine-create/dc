@@ -168,6 +168,17 @@ class Index:
                 self._defs.setdefault(r['haplotype_id'], []).append(r)
         return {h: self._defs[h] for h in ids if h in self._defs}
 
+    def variant_partitions(self):
+        """Partitions that hold mapped variant-level evidence: contigs of the primary assembly and/or 'NA' (see schema.partition_of)."""
+        if self.root is not None and 'evidence' not in self._t:
+            d = os.path.join(self.root, 'evidence', 'variant')
+            return sorted(os.listdir(d)) if os.path.isdir(d) else []
+        t = self.table('evidence')
+        if not t.num_rows:
+            return []
+        t = t.filter((pc.field('level') == 'variant') & (pc.field('mapping_status') == 'mapped'))
+        return sorted({schema.partition_of(c) for c in pc.unique(t['chrom']).to_pylist() if c})
+
     def variant_genes(self, keys):
         ks = list(set(keys))
         out = {}

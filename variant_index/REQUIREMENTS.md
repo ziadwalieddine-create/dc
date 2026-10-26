@@ -88,7 +88,7 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 **E5.** The level column and per-level subject ids; gene-level evidence reaches a sample only through gene_context, labelled gene_level_context_only, and never as variant evidence.
 
-**E6.** Seven axes (clinical validity / actionability, empirical functional support, mechanistic confidence, effect magnitude / direction, association / replication, fine-mapping probability, applicability context). views.py selects with explicit rules and prints its ordering; no score is computed.
+**E6.** Seven axes (clinical validity / actionability, empirical functional support, mechanistic confidence, effect magnitude / direction, association / replication, fine-mapping probability, applicability context). views.py selects with explicit rules and prints its ordering; no score is computed. The same rules also list the high-value variants of the catalogue itself, with no sample involved (make_views.py --catalogue).
 
 **E7.** Dedicated evidence columns (effect_allele, other_allele, beta, odds_ratio, score_unit, se, ci_low, ci_high, p_value, pip, eaf, sample_size, n_cases, ancestry, inheritance, penetrance, origin, review_status, review_stars, n_submitters); source fields without a column go to extra_json.
 

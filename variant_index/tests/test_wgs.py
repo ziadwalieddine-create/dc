@@ -270,6 +270,20 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertIn('NO_CALL', rep)
         self.assertIn('lineage', rep)
 
+    def test_the_catalogue_view_lists_the_high_value_variants_without_a_sample(self):
+        out = os.path.join(self.work, 'catview')
+        m = views.write_catalogue_views(Index.open(self.idx_dir), out)
+        self.assertEqual(m['variants'], 5)                                                          # 402 (3 stars) and the four reviewed alleles of the fixture
+        self.assertEqual(m['per_rule'], {'clinvar_pathogenic_reviewed': 5})
+        t = pq.read_table(os.path.join(out, 'high_value_variants', '1.parquet')).to_pylist()
+        self.assertEqual([r['pos'] for r in t], sorted(r['pos'] for r in t))
+        r = next(x for x in t if x['key'] == self.k('1', 402))
+        axes = json.loads(r['axes_json'])
+        self.assertEqual(axes['clinical_validity_actionability']['max_review_stars'], 3)
+        self.assertEqual(r['n_evidence'], len(r['evidence_ids']))
+        self.assertTrue(r['gene_ids'] and all(g.startswith('ENSG') or ':' in g for g in r['gene_ids']))
+        self.assertIn('not a score or a tier', m['note'])
+
     def test_run_is_deterministic(self):
         out2 = os.path.join(self.work, 'res2')
         wgs.run_sample(self.vcf, self.idx_dir, out2, syn_reference(), repo_root=os.path.join(self.work, 'not_the_repo'))

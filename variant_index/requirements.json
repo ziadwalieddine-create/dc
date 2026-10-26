@@ -281,7 +281,7 @@
       "id": "E6",
       "section": "EVIDENCE",
       "clause": "Parallel evidence axes; no single composite score or automatic A-E hierarchy; priority lists are views over the complete catalogue.",
-      "how": "Seven axes (clinical validity / actionability, empirical functional support, mechanistic confidence, effect magnitude / direction, association / replication, fine-mapping probability, applicability context). views.py selects with explicit rules and prints its ordering; no score is computed.",
+      "how": "Seven axes (clinical validity / actionability, empirical functional support, mechanistic confidence, effect magnitude / direction, association / replication, fine-mapping probability, applicability context). views.py selects with explicit rules and prints its ordering; no score is computed. The same rules also list the high-value variants of the catalogue itself, with no sample involved (make_views.py --catalogue).",
       "code": [
         "variant_index/vindex/views.py",
         "variant_index/make_views.py"
