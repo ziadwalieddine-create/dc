@@ -15,7 +15,7 @@ MISSING = ('a repeat-length genotype at this locus from a dedicated caller (Expa
 class RepeatResult:
     locus_id: str
     gene: str
-    status: str                   # GENOTYPED | UNRESOLVED
+    status: str                   # GENOTYPED | UNRESOLVED (indexed locus) | NO_INDEX_RECORD (a repeat genotype at a locus the index does not know)
     classes: tuple = ()
     counts: tuple = ()
     thresholds: dict = field(default_factory=dict)
@@ -23,6 +23,16 @@ class RepeatResult:
     missing: str = ''
     inheritance: str = ''
     disease: str = ''
+    chrom: str = ''
+    start: int = None
+    end: int = None
+    motif: str = ''
+    caller: str = ''
+
+
+def has_ci(call):
+    """True when the caller stated a confidence interval for at least one allele (a placeholder '.' is not one)."""
+    return any(c and c[0] is not None and c[1] is not None for c in call.ci or ())
 
 
 def classify_allele(count, ci, normal_max, path_min):
@@ -50,15 +60,33 @@ def match_repeats(callset, loci):
             r = next((x for x in callset.repeats if x.chrom == L['chrom'] and x.start <= L['end'] and x.end >= L['start']), None)
         th = dict(normal_max=L.get('normal_max'), pathologic_min=L.get('pathologic_min'))
         if r is None:
-            out.append(RepeatResult(L['locus_id'], L.get('gene', ''), 'UNRESOLVED', thresholds=th, missing=MISSING, inheritance=L.get('inheritance', ''), disease=L.get('disease', '')))
+            out.append(RepeatResult(L['locus_id'], L.get('gene', ''), 'UNRESOLVED', thresholds=th, missing=MISSING, inheritance=L.get('inheritance', ''), disease=L.get('disease', ''),
+                                    chrom=L['chrom'], start=L['start'], end=L['end']))
             continue
         flags = ()
         if not r.qc_pass:
             flags += ('repeat_call_fails_filter',)
-        if not r.ci:
+        if not has_ci(r):
             flags += ('no_confidence_interval',)
         cls = tuple(classify_allele(c, r.ci[i] if i < len(r.ci) else None, th['normal_max'], th['pathologic_min']) for i, c in enumerate(r.counts))
-        out.append(RepeatResult(L['locus_id'], L.get('gene', ''), 'GENOTYPED', cls, r.counts, th, flags, inheritance=L.get('inheritance', ''), disease=L.get('disease', '')))
+        out.append(RepeatResult(L['locus_id'], L.get('gene', ''), 'GENOTYPED', cls, r.counts, th, flags, inheritance=L.get('inheritance', ''), disease=L.get('disease', ''),
+                                chrom=r.chrom, start=r.start, end=r.end, motif=r.motif, caller=r.source))
+    return out
+
+
+def unindexed_repeats(callset, loci):
+    """Repeat genotypes of the callset that match no indexed locus (by id or by overlap). They are kept, with the caller's counts and flags and no classification:
+    the index holds no threshold for them, and a repeat call is never dropped for lacking one."""
+    ids = {L['locus_id'] for L in loci}
+    by_chrom = {}
+    for L in loci:
+        by_chrom.setdefault(L['chrom'], []).append(L)
+    out = []
+    for r in callset.repeats:
+        if r.locus_id in ids or any(L['start'] <= r.end and L['end'] >= r.start for L in by_chrom.get(r.chrom, ())):
+            continue
+        flags = (() if r.qc_pass else ('repeat_call_fails_filter',)) + (() if has_ci(r) else ('no_confidence_interval',))
+        out.append(RepeatResult(r.locus_id, '', 'NO_INDEX_RECORD', (), r.counts, {}, flags, chrom=r.chrom, start=r.start, end=r.end, motif=r.motif, caller=r.source))
     return out
 
 

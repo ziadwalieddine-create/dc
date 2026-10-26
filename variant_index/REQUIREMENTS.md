@@ -126,7 +126,7 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 **M7.** match_sv requires compatible type, reciprocal overlap, breakpoint agreement within the stated uncertainty and, where the index states a copy number, the same dosage; near-misses are returned with the reason they were refused.
 
-**M8.** match_hap resolves a diplotype only when every defining position has a confident genotype (phase or an unambiguous diplotype) and otherwise says which positions are missing; match_repeat classifies only repeat sizes reported by a repeat genotyper. *Gap:* Repeat lengths are not estimated from short reads; without ExpansionHunter / TRGT output the repeat loci are reported as unresolved.
+**M8.** match_hap resolves a diplotype only when every defining position has a confident genotype (phase or an unambiguous diplotype) and otherwise says which positions are missing; match_repeat classifies only repeat sizes reported by a repeat genotyper, and keeps every repeat genotype of the file (NO_INDEX_RECORD when the index has no locus or threshold for it). *Gap:* Repeat lengths are not estimated from short reads; without ExpansionHunter / TRGT output the repeat loci are reported as unresolved.
 
 **M9.** Statuses EXACT_MATCH, FILTERED_CALL, NO_INDEX_RECORD for calls; VERIFIED_REFERENCE, NO_CALL, ABSENT_FROM_CALLSET, OTHER_ALLELE_AT_SITE, DELETED_BY_UPSTREAM, UNRESOLVED for indexed loci, each with its basis.
 

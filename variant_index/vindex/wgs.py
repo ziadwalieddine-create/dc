@@ -11,7 +11,7 @@ chromosome. Everything the sample's file says is accounted for in the output tab
                       onto the variants inside it
   sv_calls            every structural / copy-number call with equivalent events, refused near-misses (type, breakpoints, dosage) and context
   haplotype_calls     star-allele / haplotype calls per gene with the evidence they need and the alleles that could not be evaluated
-  repeat_calls        repeat-expansion loci: genotyped only when a repeat genotyper reported them
+  repeat_calls        repeat-expansion loci: genotyped only when a repeat genotyper reported them; repeat genotypes at loci the index does not know are kept as NO_INDEX_RECORD
   unresolved_loci     high-value indexed variants the sample cannot answer for (absent from a variant-only file, no-call, filtered, inside a structural call...),
                       each with the exact evidence that would settle it
   rejected_calls      alleles the reader refused (REF mismatch, unmapped contig...) with the reason
@@ -33,7 +33,7 @@ from . import SCHEMA_VERSION, schema, views
 from .callability import CallableRegionCallability
 from .index_reader import Index
 from .match_hap import NON_STAR_SYSTEMS, call_gene
-from .match_repeat import loci_from_index, match_repeats
+from .match_repeat import loci_from_index, match_repeats, unindexed_repeats
 from .match_small import MatchContext, iter_interpretations, status_of, zygosity
 from .match_sv import match_svs
 from .vcfio import OTHER_CONTIGS, CallSet, QCPolicy, read_vcf
@@ -54,7 +54,7 @@ SCHEMAS = {
     'haplotype_calls': pa.schema([('gene', S), ('system', S), ('status', S), ('diplotypes_json', S), ('basis', S), ('missing_json', S), ('flags', LS), ('unevaluable_json', S),
                                   ('position_states_json', S)]),
     'repeat_calls': pa.schema([('locus_id', S), ('gene', S), ('status', S), ('classes', LS), ('counts', pa.list_(I32)), ('thresholds_json', S), ('flags', LS), ('missing', S),
-                               ('inheritance', S), ('disease', S)]),
+                               ('inheritance', S), ('disease', S), ('chrom', S), ('start', I32), ('end', I32), ('motif', S), ('caller', S)]),
     'unresolved_loci': pa.schema([('key', S), ('chrom', S), ('pos', I32), ('status', S), ('reasons', LS), ('missing_evidence', S), ('rules', LS), ('evidence_ids', LS), ('basis', S),
                                   ('detail_json', S)]),
     'rejected_calls': pa.schema([('chrom', S), ('pos', I32), ('ref', S), ('alt', S), ('reason', S), ('detail', S), ('rec_index', I32)]),
@@ -250,10 +250,12 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
         # star-allele / haplotype calls for the genes on this chromosome
         for gene in placed.get(chrom, ()):
             counts['haplotypes'][_hap_row(W, call_gene(ctx, index, gene, external=external_haplotypes))] += 1
-        # repeat loci on this chromosome
-        for r in match_repeats(cs, [L for L in loci if L['chrom'] == chrom]):
-            W['repeat_calls'].add(dict(locus_id=r.locus_id, gene=r.gene, status=r.status, classes=list(r.classes), counts=[c for c in r.counts if c is not None] or None, thresholds_json=jdump(r.thresholds),
-                                       flags=list(r.flags), missing=r.missing or None, inheritance=r.inheritance or None, disease=r.disease or None))
+        # repeat loci on this chromosome: every indexed locus, and every repeat genotype in the file whether or not the index knows its locus
+        here = [L for L in loci if L['chrom'] == chrom]
+        for r in match_repeats(cs, here) + unindexed_repeats(cs, here):
+            W['repeat_calls'].add(dict(locus_id=r.locus_id, gene=r.gene or None, status=r.status, classes=list(r.classes), counts=[c for c in r.counts if c is not None] or None, thresholds_json=jdump(r.thresholds),
+                                       flags=list(r.flags), missing=r.missing or None, inheritance=r.inheritance or None, disease=r.disease or None, chrom=r.chrom or None, start=r.start, end=r.end,
+                                       motif=r.motif or None, caller=r.caller or None))
             counts['repeats'][r.status] += 1
         # index-centric: what does the sample say about the high-value indexed alleles on this chromosome?
         for key, hv in sorted(views.high_value_keys(index, schema.OTHER_PARTITION if chrom == OTHER_PASS else chrom, rules).items(), key=lambda kv: (kv[0].split(':')[0], int(kv[0].split(':')[1]))):

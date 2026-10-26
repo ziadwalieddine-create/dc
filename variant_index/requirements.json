@@ -107,7 +107,7 @@
      "how": "match_sv requires compatible type, reciprocal overlap, breakpoint agreement within the stated uncertainty and, where the index states a copy number, the same dosage; near-misses are returned with the reason they were refused.",
      "code": ["variant_index/vindex/match_sv.py"], "tests": ["test_match_sv", "test_wgs"], "status": "verified"},
     {"id": "M8", "section": "MATCH", "clause": "Require suitable evidence for haplotypes, star alleles and repeat lengths.",
-     "how": "match_hap resolves a diplotype only when every defining position has a confident genotype (phase or an unambiguous diplotype) and otherwise says which positions are missing; match_repeat classifies only repeat sizes reported by a repeat genotyper.",
+     "how": "match_hap resolves a diplotype only when every defining position has a confident genotype (phase or an unambiguous diplotype) and otherwise says which positions are missing; match_repeat classifies only repeat sizes reported by a repeat genotyper, and keeps every repeat genotype of the file (NO_INDEX_RECORD when the index has no locus or threshold for it).",
      "code": ["variant_index/vindex/match_hap.py", "variant_index/vindex/match_repeat.py"], "tests": ["test_match_hap", "test_match_repeat", "test_wgs"], "status": "partial",
      "gap": "Repeat lengths are not estimated from short reads; without ExpansionHunter / TRGT output the repeat loci are reported as unresolved."},
     {"id": "M9", "section": "MATCH", "clause": "Distinguish exact matches, verified reference calls, filtered/no-calls, absent-from-callset and unresolved loci.",

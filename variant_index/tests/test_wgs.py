@@ -203,6 +203,20 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertEqual(sorted(r['locus_id'] for r in rep), ['TEST1_GENEA', 'TEST2_GENEB', 'TEST3_MULTI', 'TEST5_NOJSON'])
         self.assertTrue(all(r['status'] == 'UNRESOLVED' and 'repeat-length genotype' in r['missing'] for r in rep))
 
+    def test_repeat_genotypes_at_loci_the_index_does_not_know_are_kept(self):
+        rec = ('2', 700, 'N', '<STR10>,<STR12>', 'PASS', 0, ['1/2:10/12:10-10/11-13'], 'END=720;RU=CAG;VARID=UNLISTED1', '.', 'GT:REPCN:REPCI')
+        p = os.path.join(self.work, 'rep.vcf')
+        with open(p, 'w') as f:
+            f.write(vcf_text([rec]))
+        pysam.tabix_index(p, preset='vcf', force=True)
+        out = os.path.join(self.work, 'res_rep')
+        man = wgs.run_sample(p + '.gz', self.idx_dir, out, syn_reference(), repo_root=os.path.join(self.work, 'not_the_repo'))
+        rep = {r['locus_id']: r for r in pq.read_table(os.path.join(out, 'repeat_calls.parquet')).to_pylist()}
+        self.assertEqual({k for k, r in rep.items() if r['status'] == 'UNRESOLVED'}, {'TEST1_GENEA', 'TEST2_GENEB', 'TEST3_MULTI', 'TEST5_NOJSON'})
+        u = rep['UNLISTED1']
+        self.assertEqual((u['status'], u['counts'], u['classes'], u['chrom'], u['start'], u['end'], u['motif'], u['caller']), ('NO_INDEX_RECORD', [10, 12], [], '2', 700, 720, 'CAG', 'expansionhunter'))
+        self.assertEqual(man['counts']['repeat_status'], {'UNRESOLVED': 4, 'NO_INDEX_RECORD': 1})
+
     def test_manifest_records_input_index_and_code(self):
         m = self.man
         self.assertEqual(m['input']['sha256'], wgs.sha256_file(self.vcf))
