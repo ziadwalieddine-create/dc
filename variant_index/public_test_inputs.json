@@ -1,0 +1,31 @@
+{
+ "files": {
+  "HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz": {
+   "bytes": 156252944,
+   "retrieved_utc": "2026-10-26T14:27:16Z",
+   "sha256": "adb4d4a50048aa13353a06b84fcfcbca09a5d17525efaa4cea44f8822e81175c"
+  },
+  "HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz.tbi": {
+   "bytes": 1657747,
+   "retrieved_utc": "2026-10-26T14:27:16Z",
+   "sha256": "23162712553413b10f88916c28bd1238deb703a7237be2910440773beea71894"
+  },
+  "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed": {
+   "bytes": 11494021,
+   "retrieved_utc": "2026-10-26T14:27:17Z",
+   "sha256": "fba9a57c36ec88e5d14ea3e259c8866c7935f4998d3ec0fa2d6c3962da5b5575"
+  }
+ },
+ "id": "giab_hg002_grch38_v4.2.1",
+ "note": "Fetch the public Genome in a Bottle HG002 GRCh38 benchmark call set, a real, openly released callset used to test matching at whole-genome scale.",
+ "source": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/",
+ "validation": {
+  "assembly_ok": true,
+  "build_guess": "GRCh38",
+  "indexed": true,
+  "records": 4048342,
+  "samples": [
+   "HG002"
+  ]
+ }
+}

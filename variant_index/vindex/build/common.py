@@ -120,10 +120,12 @@ class BuildContext:
                 self.targets = {t['id']: t for t in json.load(f)}
         self.adapter = None
         self.interest = {}      # namespace -> identifiers some adapter wants resolved to entities
+        self.owners = {}        # namespace -> adapters that asked for it (the offered entity ids are dropped once every one of them has run)
         self.found = {}         # (namespace, identifier) -> entity id, filled by the adapter that owns the namespace
 
     def want(self, namespace, identifiers=None):
         """Ask the adapters that run before this one to remember the entity ids they map identifiers of `namespace` to. identifiers=None asks for all of them."""
+        self.owners.setdefault(namespace, []).append(self.adapter)
         if identifiers is None:
             self.interest[namespace] = ALL
         elif self.interest.get(namespace) is not ALL:
@@ -134,6 +136,14 @@ class BuildContext:
         w = self.interest.get(namespace)
         if w is ALL or (w and identifier in w):
             self.found.setdefault((namespace, identifier), []).append(entity_id)
+
+    def release_finished(self, finished):
+        """Forget the identifier -> entity pairs of every namespace whose requesting adapters have all run: millions of ClinVar variation ids are only needed until the
+        adapters that join on them are done."""
+        for ns in [n for n, owners in self.owners.items() if n in self.interest and all(any(o is f for f in finished) for o in owners)]:
+            for k in [k for k in self.found if k[0] == ns]:
+                del self.found[k]
+            del self.interest[ns]
 
     def st(self, name=None):
         name = name or (type(self.adapter).__name__ if self.adapter else '_')

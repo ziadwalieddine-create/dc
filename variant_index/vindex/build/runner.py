@@ -98,12 +98,16 @@ def build(out, adapters, reference, limit=None, clean=True):
             raise ValueError(f'{type(a).__name__} needs the output of {missing} first; list those adapters before it (a wrong order would silently leave its records unmapped)')
         done.add(a.source_id)
         if hasattr(a, 'prepare'):
+            ctx.adapter = a
             a.prepare(ctx)
-    done = set()
+    ctx.adapter = None
+    done, finished = set(), []
     for a in adapters:
         done.add(a.source_id)
         stats = a.run(ctx, limit=limit) if limit else a.run(ctx)
         ran.append(dict(adapter=type(a).__name__, source_id=a.source_id, code_sha256_16=code_digest(a), stats=dict(sorted(ctx.st(type(a).__name__).c.items()))))
+        finished.append(a)
+        ctx.release_finished(finished)
     ctx.adapter = None
     ctx.close()
     ctx.problems.extend(check_sources(out))
