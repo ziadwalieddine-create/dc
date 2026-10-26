@@ -23,12 +23,13 @@ from vindex.refgenome import Reference                            # noqa: E402
 FASTA = os.path.join(DATA, 'reference_sequence', 'Homo_sapiens.GRCh38.dna.toplevel.fa.gz')
 REPORT = os.path.join(DATA, 'refseq', 'GCF_000001405.40_GRCh38.p14_assembly_report.txt')
 
-ORDER = ['genes', 'clinvar', 'clingen_erepo', 'clingen_gene_region', 'gwas', 'cpic', 'pharmvar', 'clinpgx', 'mavedb', 'opentargets_genetics', 'opentargets_gene', 'gnomad_sv', 'gnomad_cnv', 'dgv', 'hgsvc3']
+ORDER = ['genes', 'clinvar', 'clinvar_vcv', 'clingen_erepo', 'clingen_gene_region', 'gwas', 'cpic', 'pharmvar', 'clinpgx', 'mavedb', 'opentargets_genetics', 'opentargets_gene', 'gnomad_constraint', 'gnomad_lof_curation', 'gnomad_frequency', 'gnomad_sv', 'gnomad_cnv', 'dgv', 'hgsvc3']
 
 
 def make_adapters(names, ref):
     from vindex.build.genes import GeneMap, GeneAdapter
     from vindex.build.clinvar_vcf import ClinVarVcfAdapter
+    from vindex.build.clinvar_vcv import ClinVarVcvAdapter
     from vindex.build.clingen import ClinGenErepoAdapter, ClinGenGeneRegionAdapter
     from vindex.build.gwas import GwasCatalogAdapter
     from vindex.build.alleles import OtVariantIndex
@@ -38,10 +39,12 @@ def make_adapters(names, ref):
     from vindex.build.opentargets_genetics import OpenTargetsGeneticsAdapter
     from vindex.build.opentargets_gene import OpenTargetsGeneAdapter
     from vindex.build.events import GnomadSvAdapter, GnomadCnvAdapter, DgvAdapter, Hgsvc3Adapter
+    from vindex.build.gnomad import GnomadConstraintAdapter, GnomadLofCurationAdapter, GnomadFrequencyAdapter
     genes = GeneMap(ref)
     factories = {
         'genes': lambda: GeneAdapter(genes),
         'clinvar': lambda: ClinVarVcfAdapter(genes),
+        'clinvar_vcv': lambda: ClinVarVcvAdapter(genes),
         'clingen_erepo': lambda: ClinGenErepoAdapter(),
         'clingen_gene_region': lambda: ClinGenGeneRegionAdapter(genes),
         'gwas': lambda: GwasCatalogAdapter(genes, OtVariantIndex(os.path.join(DATA, 'opentargets', '26.09', 'variant'))),
@@ -51,6 +54,9 @@ def make_adapters(names, ref):
         'mavedb': lambda: MaveDbAdapter(genes),
         'opentargets_genetics': lambda: OpenTargetsGeneticsAdapter(genes),
         'opentargets_gene': lambda: OpenTargetsGeneAdapter(genes),
+        'gnomad_constraint': lambda: GnomadConstraintAdapter(genes),
+        'gnomad_lof_curation': lambda: GnomadLofCurationAdapter(genes),
+        'gnomad_frequency': lambda: GnomadFrequencyAdapter(),
         'gnomad_sv': lambda: GnomadSvAdapter(),
         'gnomad_cnv': lambda: GnomadCnvAdapter(),
         'dgv': lambda: DgvAdapter(),

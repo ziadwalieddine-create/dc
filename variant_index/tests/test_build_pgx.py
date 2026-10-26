@@ -103,7 +103,7 @@ class TestPgxAdapters(unittest.TestCase):
         cls.defs = {}
         for d in cls.idx.table('haplotype_definition').to_pylist():
             cls.defs.setdefault(d['haplotype_id'], []).append(d)
-        cls.stats = {a['source_id']: a['stats'] for a in cls.man['adapters']}
+        cls.stats = {a['adapter']: a['stats'] for a in cls.man['adapters']}
 
     def scopes(self, hid):
         return sorted((d['definition_scope'], d['variant_key']) for d in self.defs.get(hid, ()))
@@ -125,7 +125,7 @@ class TestPgxAdapters(unittest.TestCase):
         self.assertEqual(reasons['*5'], ['unresolved:iupac_code_excludes_reference'])
         self.assertEqual(reasons['*6'], ['unresolved:reference_base_differs'])
         self.assertTrue(all(k is None for n in reasons for s, k in self.scopes(f'cpic:TESTH:{n}')))
-        self.assertEqual(self.stats['cpic']['alleles_without_location_rows'], 1)
+        self.assertEqual(self.stats['CpicAdapter']['alleles_without_location_rows'], 1)
 
     def test_gene_without_chromosome_and_mitochondrial_gene(self):
         self.assertEqual(self.scopes('cpic:NOCHR:*2'), [('unresolved:gene_chromosome_unknown', None)])
@@ -142,8 +142,8 @@ class TestPgxAdapters(unittest.TestCase):
         self.assertIsNone(by['cpic:TESTG:*2']['chrom'])
         self.assertTrue(all(r['axis'] == 'effect_magnitude_direction' and r['mapping_status'] == 'mapped' for r in ev))
         self.assertNotIn('cpic:TESTH:*5', by)                  # no function stated: no row invented
-        self.assertEqual(self.stats['cpic']['allele_function_rows'], 10)
-        self.assertEqual(self.stats['cpic']['allele_rows_without_function'], 5)      # TESTH *5 and *6, NOCHR *1 and *2, MTG *1
+        self.assertEqual(self.stats['CpicAdapter']['allele_function_rows'], 10)
+        self.assertEqual(self.stats['CpicAdapter']['allele_rows_without_function'], 5)      # TESTH *5 and *6, NOCHR *1 and *2, MTG *1
 
     def test_recommendations_stay_at_gene_level_and_unmapped_genes_are_kept(self):
         rec = [r for r in self.idx.table('evidence').to_pylist() if r['claim_type'] == 'cpic_drug_recommendation']
@@ -171,7 +171,7 @@ class TestPgxAdapters(unittest.TestCase):
         self.assertEqual(self.scopes('pharmvar:TESTG:*5'), [('defining', '1:712:G:GTT')])
         self.assertEqual(self.scopes('pharmvar:TESTG:*6'), [('unresolved:deleted_sequence_differs_from_reference', None)])
         self.assertEqual(self.scopes('pharmvar:TESTG:*7'), [('unresolved:reference_sequence_unmapped', None)])
-        self.assertEqual(self.stats['pharmvar']['haplotypes'], 9)           # the GRCh37 file is not read
+        self.assertEqual(self.stats['PharmVarAdapter']['haplotypes'], 9)           # the GRCh37 file is not read
 
     def test_pgx_allele_names_link_the_two_systems(self):
         x = [r for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'pgx_allele_name' and r['identifier'] == 'TESTG*2']

@@ -10,35 +10,10 @@ Nothing is dropped: classes such as risk_factor, drug_response, Affects and conf
 import gzip
 import json
 import os
-import re
 
 from ..normalise import normalise
 from .common import DATA, evidence_row
-
-STARS = {'practice_guideline': 4, 'reviewed_by_expert_panel': 3, 'criteria_provided,_multiple_submitters,_no_conflicts': 2,
-         'criteria_provided,_single_submitter': 1, 'criteria_provided,_conflicting_classifications': 1, 'no_assertion_criteria_provided': 0,
-         'no_classification_provided': 0, 'no_classification_for_the_single_variant': 0, 'no_assertion_provided': 0}
-EFFECT = {'pathogenic': 'effect', 'likely_pathogenic': 'effect', 'pathogenic/likely_pathogenic': 'effect', 'pathogenic|likely_pathogenic': 'effect',
-          'benign': 'no_effect', 'likely_benign': 'no_effect', 'benign/likely_benign': 'no_effect', 'uncertain_significance': 'uncertain',
-          'risk_factor': 'effect', 'association': 'effect', 'protective': 'effect', 'drug_response': 'effect', 'affects': 'effect',
-          'likely_risk_allele': 'effect', 'established_risk_allele': 'effect', 'uncertain_risk_allele': 'uncertain', 'confers_sensitivity': 'effect',
-          'oncogenic': 'effect', 'likely_oncogenic': 'effect', 'benign_oncogenicity': 'no_effect', 'likely_benign_oncogenicity': 'no_effect',
-          'uncertain_significance_oncogenicity': 'uncertain', 'tier_i_-_strong': 'effect', 'tier_i_-_potential': 'effect', 'tier_ii_-_strong': 'effect', 'tier_ii_-_potential': 'effect',
-          'tier_iii_-_unknown': 'uncertain', 'tier_iv_-_benign': 'no_effect', 'tier_iv_-_likely_benign': 'no_effect',
-          'not_provided': 'uncertain', 'other': 'uncertain', 'no_classification_for_the_single_variant': 'not_applicable', 'conflicting_classifications_of_pathogenicity': 'conflicting',
-          'conflicting_classifications_of_oncogenicity': 'conflicting', 'conflicting_classification_of_pathogenicity': 'conflicting', 'conflicting_interpretations_of_pathogenicity': 'conflicting'}
-
-
-def effect_of(sig):
-    parts = [p for p in re.split(r'[|,]', sig.lower()) if p]
-    vals = {EFFECT.get(re.sub(r'\(.*', '', p).strip(), None) for p in parts}
-    if None in vals:
-        return 'uncertain'
-    if len(vals) == 1:
-        return vals.pop()
-    if 'conflicting' in vals:
-        return 'conflicting'
-    return 'effect' if vals <= {'effect', 'uncertain'} and 'effect' in vals else 'conflicting' if {'effect', 'no_effect'} <= vals else 'uncertain'
+from .classes import effect_of, stars, unknown_tokens, STARS   # noqa: F401  (effect_of/STARS stay importable from here)
 
 
 def parse_info(s):
@@ -126,13 +101,15 @@ class ClinVarVcfAdapter:
                     sig = info.get(tag)
                     if not sig:
                         continue
+                    for t in unknown_tokens(sig):
+                        st.inc(f'unrecognised_classification:{t}')
                     pre = {'CLNSIG': 'CLN', 'ONC': 'ONC', 'SCI': 'SCI'}[tag]
                     rev = info.get(pre + 'REVSTAT', '')
                     scv = (info.get(pre + 'SCV') or info.get('CLNSIGSCV') or '') if tag != 'CLNSIG' else info.get('CLNSIGSCV', '')
                     dn = info.get(pre + 'DN' if tag != 'CLNSIG' else 'CLNDN', '')
                     dis = info.get(pre + 'DISDB' if tag != 'CLNSIG' else 'CLNDISDB', '')
                     row = evidence_row(release, 'clinvar', acc, locator, raw, 'variant', subject, 'clinical_validity_actionability', 'curated_expert_classification',
-                                       ctype, sig, effect_of(sig), mapping, reason, review_status=rev, review_stars=STARS.get(rev), n_submitters=len([x for x in scv.split('|') if x]) or None,
+                                       ctype, sig, effect_of(sig), mapping, reason, review_status=rev, review_stars=stars(rev), n_submitters=len([x for x in scv.split('|') if x]) or None,
                                        condition_ids=cond_ids(dis), condition_text=dn.replace('_', ' '), lineage_group=lineage,
                                        lineage_note='aggregate of ClinVar submissions (SCV); submitters may share cohorts', extra_json=json.dumps(extra, sort_keys=True), **{**common, **({'origin': origin_override} if origin_override else {})})
                     ctx.emit_evidence(row)
@@ -154,6 +131,8 @@ class ClinVarVcfAdapter:
                         ctx.emit_evidence(row)
                 if subject:
                     ctx.offer('clinvar_variation', vid, subject)
+                    if info.get('ALLELEID'):
+                        ctx.offer('clinvar_allele', info['ALLELEID'], subject)
                     for rs in (info.get('RS') or '').split('|'):
                         if rs:
                             ctx.emit('xref', dict(namespace='dbsnp', identifier='rs' + rs, entity_level='variant', entity_id=subject, release_id=release, relation='clinvar_RS'), name='clinvar')
@@ -163,5 +142,7 @@ class ClinVarVcfAdapter:
                         if vi.startswith('ClinGen:'):
                             ctx.offer('clingen_allele_registry', vi.split(':', 1)[1], subject)
                             ctx.emit('xref', dict(namespace='clingen_allele_registry', identifier=vi.split(':', 1)[1], entity_level='variant', entity_id=subject, release_id=release, relation='CLNVI'), name='clinvar')
+                else:
+                    ctx.offer('clinvar_variation_unmapped', vid, reason)        # this adapter kept the record as an unmapped/rejected row; later adapters must not repeat it
         st.inc('lines', ln if 'ln' in dir() else 0)
         return st.c

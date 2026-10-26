@@ -30,7 +30,7 @@ class TestEvents(unittest.TestCase):
         cls.man = runner.build(cls.out, adapters(), cls.ref)
         cls.idx = Index.open(cls.out)
         cls.ev = {r['event_id']: r for r in cls.idx.table('entity_event').to_pylist()}
-        cls.stats = {a['source_id']: a['stats'] for a in cls.man['adapters']}
+        cls.stats = {a['adapter']: a['stats'] for a in cls.man['adapters']}
 
     def test_info_parsing(self):
         self.assertEqual(info_dict('A=1;FLAG;B=x=y'), {'A': '1', 'FLAG': True, 'B': 'x=y'})
@@ -55,7 +55,7 @@ class TestEvents(unittest.TestCase):
 
     def test_unplaced_contigs_are_counted_not_dropped_silently(self):
         self.assertNotIn('gnomad_sv:gnomAD-SV_v3_INS_chrUn_eee', self.ev)
-        self.assertEqual(self.stats['gnomad_sv']['events_on_unplaced_or_unknown_contigs'], 1)
+        self.assertEqual(self.stats['GnomadSvAdapter']['events_on_unplaced_or_unknown_contigs'], 1)
         ins = self.ev['gnomad_sv:gnomAD-SV_v3_INS_chr2_fff']
         self.assertEqual((ins['chrom'], ins['start'], ins['end'], ins['svlen'], ins['precise']), ('2', 300, 300, 300, True))
 
@@ -72,7 +72,7 @@ class TestEvents(unittest.TestCase):
         self.assertEqual(json.loads(self.ev['dgv:nsv2']['extra_json'])['carrier_fraction'], 0.02)
         x = json.loads(self.ev['dgv:nsv1']['extra_json'])
         self.assertEqual((x['observed_losses'], x['study'], x['pubmed']), (5, 'Study_A', '111'))
-        s = self.stats['dgv']
+        s = self.stats['DgvAdapter']
         self.assertEqual((s['records_not_merged_variants'], s['records_with_unmapped_subtype'], s['events_with_unusable_interval']), (1, 1, 1))
 
     def test_hgsvc3_allele_frequency_over_called_haplotypes(self):

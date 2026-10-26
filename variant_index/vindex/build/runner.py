@@ -63,6 +63,29 @@ def table_inventory(out):
     return inv
 
 
+def catalogue_sources():
+    """Source ids the catalogue knows: records in catalogue/sources and the 'source' of every acquisition target."""
+    ids = {os.path.splitext(os.path.basename(p))[0] for p in glob.glob(os.path.join(REPO, 'catalogue', 'sources', '*.json'))}
+    tp = os.path.join(REPO, 'acquisition', 'targets.json')
+    if os.path.exists(tp):
+        with open(tp) as f:
+            ids |= {t['source'] for t in json.load(f)}
+    return ids
+
+
+def check_sources(out):
+    """Every evidence, study, event and assay row must name a catalogue source; a typo would otherwise split one source into two in every summary."""
+    used = {}
+    for p in glob.glob(os.path.join(out, 'evidence', '*', '*', '*.parquet')):
+        used.setdefault(os.path.splitext(os.path.basename(p))[0], 'evidence')
+    for t in ('entity_study', 'entity_event', 'entity_assay'):
+        for p in glob.glob(os.path.join(out, t, '*.parquet')):
+            for sid in pc.unique(pq.read_table(p, columns=['source_id'])['source_id']).to_pylist():
+                used.setdefault(sid, t)
+    known = catalogue_sources()
+    return [f'source id {sid!r} (first seen in {where}) is not a catalogue source' for sid, where in sorted(used.items()) if sid not in known]
+
+
 def build(out, adapters, reference, limit=None, clean=True):
     if clean and os.path.isdir(out):
         shutil.rmtree(out)
@@ -80,9 +103,10 @@ def build(out, adapters, reference, limit=None, clean=True):
     for a in adapters:
         done.add(a.source_id)
         stats = a.run(ctx, limit=limit) if limit else a.run(ctx)
-        ran.append(dict(adapter=type(a).__name__, source_id=a.source_id, code_sha256_16=code_digest(a), stats=dict(sorted(ctx.st(a.source_id).c.items()))))
+        ran.append(dict(adapter=type(a).__name__, source_id=a.source_id, code_sha256_16=code_digest(a), stats=dict(sorted(ctx.st(type(a).__name__).c.items()))))
     ctx.adapter = None
     ctx.close()
+    ctx.problems.extend(check_sources(out))
     pq.write_table(schema.rows_to_table('source_release', list(ctx.releases.values())), os.path.join(out, 'source_release.parquet'), compression='zstd')
     n_var = build_entity_variant(out)
     inv = table_inventory(out)

@@ -150,7 +150,7 @@ def parse_p(s):
 
 
 class ClinPgxAdapter:
-    source_id = 'clinpgx'
+    source_id = 'pharmgkb'
     targets = ['clinpgx_summaryAnnotations', 'clinpgx_clinicalAnnotations', 'clinpgx_variantAnnotations', 'clinpgx_variants', 'clinpgx_clinicalVariants',
                'clinpgx_guidelineAnnotations', 'clinpgx_drugLabels']
     requires = ('cpic',)
@@ -300,7 +300,7 @@ class ClinPgxAdapter:
             extra['candidate_keys'] = list(s.candidates)
         if s.also:
             extra['also_defined_as'] = list(s.also)
-        row = evidence_row(rel, 'clinpgx', acc, locator, raw, level, subject, axis, kind, claim_type, claim_value, effect, status, reason, discriminator=s.item,
+        row = evidence_row(rel, 'pharmgkb', acc, locator, raw, level, subject, axis, kind, claim_type, claim_value, effect, status, reason, discriminator=s.item,
                            extra_json=json.dumps(extra, sort_keys=True, ensure_ascii=False, default=str), **k, **kw)
         ctx.emit_evidence(row)
         return row
@@ -319,20 +319,20 @@ class ClinPgxAdapter:
         return st.c
 
     def emit_site_links(self, ctx):
-        rel = ctx.register_release('clinpgx', 'clinpgx_variants', zip_version(self.zp('variants')))
+        rel = ctx.register_release('pharmgkb', 'clinpgx_variants', zip_version(self.zp('variants')))
         for name, site in sorted(self.sites.items()):
             for key in site['keys']:
-                ctx.emit('xref', dict(namespace='dbsnp', identifier=name, entity_level='variant', entity_id=key, release_id=rel, relation='clinpgx_variant_name'), name='clinpgx')
-                ctx.emit('xref', dict(namespace='clinpgx_variant', identifier=site['variant_id'], entity_level='variant', entity_id=key, release_id=rel, relation='clinpgx_variant_id'), name='clinpgx')
+                ctx.emit('xref', dict(namespace='dbsnp', identifier=name, entity_level='variant', entity_id=key, release_id=rel, relation='clinpgx_variant_name'), name='pharmgkb')
+                ctx.emit('xref', dict(namespace='clinpgx_variant', identifier=site['variant_id'], entity_level='variant', entity_id=key, release_id=rel, relation='clinpgx_variant_id'), name='pharmgkb')
                 ctx.offer('dbsnp', name, key)
                 for g in site['genes']:
                     gid, _how = self.genes.resolve(symbol=g.strip())
                     if gid:
-                        ctx.emit('variant_gene', dict(variant_key=key, gene_id=gid, relation='clinpgx_listed_gene', consequence=None, release_id=rel), name='clinpgx')
+                        ctx.emit('variant_gene', dict(variant_key=key, gene_id=gid, relation='clinpgx_listed_gene', consequence=None, release_id=rel), name='pharmgkb')
 
     def summary_annotations(self, ctx, st):
         path = self.zp('summaryAnnotations')
-        rel = ctx.register_release('clinpgx', 'clinpgx_summaryAnnotations', zip_version(path))
+        rel = ctx.register_release('pharmgkb', 'clinpgx_summaryAnnotations', zip_version(path))
         alleles, evid = {}, {}
         for _ln, r, _raw in tsv_rows(zip_text(path, 'summary_ann_alleles.tsv')):
             alleles.setdefault(r['Summary Annotation ID'], []).append({k: r[k] for k in r if k != 'Summary Annotation ID'})
@@ -367,7 +367,7 @@ class ClinPgxAdapter:
 
     def variant_annotations(self, ctx, st):
         path = self.zp('variantAnnotations')
-        rel = ctx.register_release('clinpgx', 'clinpgx_variantAnnotations', zip_version(path))
+        rel = ctx.register_release('pharmgkb', 'clinpgx_variantAnnotations', zip_version(path))
         params = {}
         for ln, r, raw in tsv_rows(zip_text(path, 'study_parameters.tsv')):
             params.setdefault(r['Variant Annotation ID'], []).append((ln, r, raw))
@@ -390,9 +390,9 @@ class ClinPgxAdapter:
         pheno = r.get('Phenotype') or r.get('Functional terms') or r.get('Side effect/efficacy/other') or ''
         n_cases = sum(int(num(p[1]['Study Cases'])) for p in params if num(p[1]['Study Cases']) is not None) if len(params) == 1 else None
         n_controls = sum(int(num(p[1]['Study Controls'])) for p in params if num(p[1]['Study Controls']) is not None) if len(params) == 1 else None
-        ctx.emit('entity_study', dict(study_id=f'clinpgx_va:{vid}', source_id='clinpgx', lineage_group=f'pmid:{pmid}', study_type=(study_types[0] if study_types else ('functional_assay' if functional else None)),
+        ctx.emit('entity_study', dict(study_id=f'clinpgx_va:{vid}', source_id='pharmgkb', lineage_group=f'pmid:{pmid}', study_type=(study_types[0] if study_types else ('functional_assay' if functional else None)),
                                       pubmed=pmid, trait_ids=None, trait_text='; '.join(x for x in (drugs, pheno) if x) or None, n_total=(n_cases or 0) + (n_controls or 0) or None, n_cases=n_cases,
-                                      ancestry=ancestry, cohorts=None, biosample=r.get('Cell type') or None, has_sumstats=False, release_id=rel), name='clinpgx')
+                                      ancestry=ancestry, cohorts=None, biosample=r.get('Cell type') or None, has_sumstats=False, release_id=rel), name='pharmgkb')
         group = {'alleles': r.get('Alleles'), 'comparison': r.get('Comparison Allele(s) or Genotype(s)'), 'metabolizer_types': r.get('Metabolizer types'),
                  'comparison_metabolizer_types': r.get('Comparison Metabolizer types'), 'direction_of_effect': r.get('Direction of effect'), 'notes': (r.get('Notes') or '')[:1000],
                  'phenotype_category': r.get('Phenotype Category'), 'population_types': r.get('Population types'), 'specialty_population': r.get('Specialty Population'),
@@ -441,7 +441,7 @@ class ClinPgxAdapter:
 
     def guidelines(self, ctx, st):
         path = self.zp('guidelineAnnotations.json')
-        rel = ctx.register_release('clinpgx', 'clinpgx_guidelineAnnotations', zip_version(path))
+        rel = ctx.register_release('pharmgkb', 'clinpgx_guidelineAnnotations', zip_version(path))
         with zipfile.ZipFile(path) as z:
             for name in sorted(n for n in z.namelist() if n.endswith('.json')):
                 raw = z.read(name).decode('utf-8', errors='replace')
@@ -475,7 +475,7 @@ class ClinPgxAdapter:
 
     def labels(self, ctx, st):
         path = self.zp('drugLabels')
-        rel = ctx.register_release('clinpgx', 'clinpgx_drugLabels', zip_version(path))
+        rel = ctx.register_release('pharmgkb', 'clinpgx_drugLabels', zip_version(path))
         for ln, r, raw in tsv_rows(zip_text(path, 'drugLabels.tsv')):
             st.inc('drug_labels')
             genes = [g.strip() for g in r['Genes'].split(';') if g.strip()]

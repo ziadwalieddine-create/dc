@@ -43,7 +43,7 @@ class TestOpenTargets(unittest.TestCase):
         cls.out = tempfile.mkdtemp()
         cls.man = runner.build(cls.out, adapters(), cls.ref)
         cls.idx = Index.open(cls.out)
-        cls.ev = [r for r in cls.idx.table('evidence').to_pylist() if r['source_id'] == 'opentargets_genetics']
+        cls.ev = [r for r in cls.idx.table('evidence').to_pylist() if r['source_id'] == 'opentargets']
         cls.st = cls.man['adapters'][0]['stats']
 
     def rows(self, **kw):
@@ -102,7 +102,7 @@ class TestOpenTargets(unittest.TestCase):
         self.assertEqual(self.st['l2g_rows_at_threshold'], 2)                                           # 0.3 is below the 0.5 threshold
 
     def test_study_entities_for_studies_with_integrated_rows(self):
-        stu = {r['study_id']: r for r in self.idx.table('entity_study').to_pylist() if r['source_id'] == 'opentargets_genetics'}
+        stu = {r['study_id']: r for r in self.idx.table('entity_study').to_pylist() if r['source_id'] == 'opentargets'}
         self.assertEqual(sorted(stu), ['FINNGEN_R12_TEST', 'GCST000001', 'GTEX_EQTL_X'])
         self.assertEqual((stu['GCST000001']['pubmed'], stu['GCST000001']['n_total'], stu['GCST000001']['ancestry']), ('111', 1000, 'European:1000'))
         self.assertEqual(stu['GTEX_EQTL_X']['biosample'], 'lymphoblastoid cell line')

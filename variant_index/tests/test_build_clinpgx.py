@@ -83,7 +83,7 @@ class TestClinPgx(unittest.TestCase):
         cls.out = tempfile.mkdtemp()
         cls.man = runner.build(cls.out, make_adapters(), cls.ref)
         cls.idx = Index.open(cls.out)
-        cls.ev = [r for r in cls.idx.table('evidence').to_pylist() if r['source_id'] == 'clinpgx']
+        cls.ev = [r for r in cls.idx.table('evidence').to_pylist() if r['source_id'] == 'pharmgkb']
         cls.stats = {a['adapter']: a['stats'] for a in cls.man['adapters']}['ClinPgxAdapter']
 
     def rows(self, acc, **kw):
@@ -201,7 +201,7 @@ class TestClinPgx(unittest.TestCase):
                          ('empirical_functional_support', 'direct_experimental', 'pharmacogenomic_functional_assay', 'in human liver microsomes', 'hepatocyte', 'cpic:TESTG:*2'))
 
     def test_studies_are_entities_with_the_paper_lineage(self):
-        st = {r['study_id']: r for r in self.idx.table('entity_study').to_pylist() if r['source_id'] == 'clinpgx'}
+        st = {r['study_id']: r for r in self.idx.table('entity_study').to_pylist() if r['source_id'] == 'pharmgkb'}
         self.assertEqual(sorted(st), ['clinpgx_va:2001', 'clinpgx_va:2002', 'clinpgx_va:2003', 'clinpgx_va:2004', 'clinpgx_va:2005', 'clinpgx_va:2101', 'clinpgx_va:2201'])
         self.assertEqual((st['clinpgx_va:2001']['pubmed'], st['clinpgx_va:2001']['lineage_group'], st['clinpgx_va:2001']['study_type']), ('111', 'pmid:111', 'case/control'))
         self.assertEqual(st['clinpgx_va:2101']['n_total'], 22)
@@ -225,8 +225,8 @@ class TestClinPgx(unittest.TestCase):
     # ---- cross-checks and release versions ------------------------------------------------------------------------------------------
     def test_release_versions_come_from_the_archives(self):
         rels = set(self.man['releases'])
-        self.assertIn('clinpgx/clinpgx_summaryAnnotations@2026-10-05', rels)
-        self.assertIn('clinpgx/clinpgx_variantAnnotations@2026-10-05', rels)
+        self.assertIn('pharmgkb/clinpgx_summaryAnnotations@2026-10-05', rels)
+        self.assertIn('pharmgkb/clinpgx_variantAnnotations@2026-10-05', rels)
 
     def test_legacy_release_is_compared_not_integrated(self):
         s = self.stats
@@ -237,7 +237,7 @@ class TestClinPgx(unittest.TestCase):
         self.assertTrue(any('only the newer export is integrated' in p for p in self.man['problems']))
 
     def test_sites_link_dbsnp_names_to_keys_and_genes(self):
-        x = [r for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'dbsnp' and r['entity_id'] == KEYS['k705'] and r['release_id'].startswith('clinpgx/')]
+        x = [r for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'dbsnp' and r['entity_id'] == KEYS['k705'] and r['release_id'].startswith('pharmgkb/')]
         self.assertEqual([(r['identifier'], r['relation']) for r in x], [('rs705', 'clinpgx_variant_name')])
         every = [(r['identifier'], r['release_id'], r['relation']) for r in self.idx.table('xref').to_pylist() if r['namespace'] == 'dbsnp' and r['entity_id'] == KEYS['k705']]
         self.assertEqual(len(every), len(set(every)))            # one row per source statement, never one per definition row

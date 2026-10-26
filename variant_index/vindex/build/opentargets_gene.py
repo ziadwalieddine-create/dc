@@ -48,7 +48,7 @@ def p_ok(v):
 
 
 class OpenTargetsGeneAdapter:
-    source_id = 'opentargets_gene_evidence'
+    source_id = 'opentargets'
     targets = ['opentargets_26_09_target_essentiality', 'opentargets_26_09_evidence_impc', 'opentargets_26_09_evidence_crispr', 'opentargets_26_09_evidence_crispr_screen',
                'opentargets_26_09_evidence_gene_burden']
 
@@ -70,7 +70,7 @@ class OpenTargetsGeneAdapter:
     def emit(self, ctx, rel, st, acc, locator, raw, gene, axis, kind, claim_type, claim_value, effect, **kw):
         gid, status, reason = self.subject(gene)
         extra = kw.pop('extra', {}) or {}
-        ctx.emit_evidence(evidence_row(rel, 'opentargets_gene_evidence', acc, locator, raw, 'gene', gid, axis, kind, claim_type, claim_value, effect, status, reason, discriminator=kw.pop('discriminator', ''),
+        ctx.emit_evidence(evidence_row(rel, 'opentargets', acc, locator, raw, 'gene', gid, axis, kind, claim_type, claim_value, effect, status, reason, discriminator=kw.pop('discriminator', ''),
                                        gene_ids=[gene] if gene else None, unmapped_key=None if gid else gene, extra_json=json.dumps(extra, sort_keys=True, default=str), **kw))
         st.inc(f'{claim_type}:{status}')
 
@@ -85,7 +85,7 @@ class OpenTargetsGeneAdapter:
 
     # ---- DepMap -----------------------------------------------------------------------------------------------------------------
     def essentiality(self, ctx, st):
-        rel = ctx.register_release('opentargets_gene_evidence', 'opentargets_26_09_target_essentiality', '26.09')
+        rel = ctx.register_release('opentargets', 'opentargets_26_09_target_essentiality', '26.09')
         for f in self.files('target_essentiality'):
             t = pq.read_table(f)
             for i, r in enumerate(t.to_pylist()):
@@ -112,23 +112,26 @@ class OpenTargetsGeneAdapter:
 
     # ---- IMPC / MGI -------------------------------------------------------------------------------------------------------------
     def impc(self, ctx, st):
-        rel = ctx.register_release('opentargets_gene_evidence', 'opentargets_26_09_evidence_impc', '26.09')
-        t = self.table('evidence_impc', ['targetId', 'biologicalModelAllelicComposition', 'biologicalModelGeneticBackground', 'biologicalModelId', 'diseaseId', 'diseaseFromSource', 'resourceScore',
-                                         'diseaseModelAssociatedModelPhenotypes', 'literature', 'directionOnTrait'])
-        if t is None:
+        rel = ctx.register_release('opentargets', 'opentargets_26_09_evidence_impc', '26.09')
+        cols = ['targetId', 'biologicalModelAllelicComposition', 'biologicalModelGeneticBackground', 'biologicalModelId', 'diseaseId', 'diseaseFromSource', 'resourceScore',
+                'diseaseModelAssociatedModelPhenotypes', 'literature', 'directionOnTrait']
+        files = self.files('evidence_impc')
+        if not files:
             return
         models = {}
-        for r in t.to_pylist():
-            k = (r['targetId'], r['biologicalModelAllelicComposition'], r['biologicalModelGeneticBackground'])
-            m = models.setdefault(k, dict(model_ids=set(), diseases={}, phenos=Counter(), lit=set(), rows=0))
-            m['rows'] += 1
-            if r['biologicalModelId']:
-                m['model_ids'].add(r['biologicalModelId'])
-            if r['diseaseId']:
-                m['diseases'][r['diseaseId']] = max(m['diseases'].get(r['diseaseId'], 0), r['resourceScore'] or 0)
-            for p in r['diseaseModelAssociatedModelPhenotypes'] or ():
-                m['phenos'][(p['id'], p['label'])] += 1
-            m['lit'].update(r['literature'] or ())
+        for f in files:                                  # 6.9M rows with 107M phenotype entries: stream in batches, keep only the per-model aggregates (28k models)
+            for batch in pq.ParquetFile(f).iter_batches(batch_size=20_000, columns=cols):
+                for r in batch.to_pylist():
+                    k = (r['targetId'], r['biologicalModelAllelicComposition'], r['biologicalModelGeneticBackground'])
+                    m = models.setdefault(k, dict(model_ids=set(), diseases={}, phenos=Counter(), lit=set(), rows=0))
+                    m['rows'] += 1
+                    if r['biologicalModelId']:
+                        m['model_ids'].add(r['biologicalModelId'])
+                    if r['diseaseId']:
+                        m['diseases'][r['diseaseId']] = max(m['diseases'].get(r['diseaseId'], 0), r['resourceScore'] or 0)
+                    for p in r['diseaseModelAssociatedModelPhenotypes'] or ():
+                        m['phenos'][(p['id'], p['label'])] += 1
+                    m['lit'].update(r['literature'] or ())
         for (gene, comp, bg), m in sorted(models.items(), key=lambda kv: tuple(str(x) for x in kv[0])):
             z = zygosity(comp)
             top = [f'{lab}' for (_i, lab), _n in m['phenos'].most_common(5)]
@@ -143,8 +146,8 @@ class OpenTargetsGeneAdapter:
 
     # ---- CRISPR screens ---------------------------------------------------------------------------------------------------------
     def crispr(self, ctx, st):
-        rel_c = ctx.register_release('opentargets_gene_evidence', 'opentargets_26_09_evidence_crispr', '26.09')
-        rel_s = ctx.register_release('opentargets_gene_evidence', 'opentargets_26_09_evidence_crispr_screen', '26.09')
+        rel_c = ctx.register_release('opentargets', 'opentargets_26_09_evidence_crispr', '26.09')
+        rel_s = ctx.register_release('opentargets', 'opentargets_26_09_evidence_crispr_screen', '26.09')
         for f in self.files('evidence_crispr'):
             for i, r in enumerate(pq.read_table(f).to_pylist()):
                 lines = [c.get('name') for c in r.get('diseaseCellLines') or ()]
@@ -164,7 +167,7 @@ class OpenTargetsGeneAdapter:
 
     # ---- gene burden ------------------------------------------------------------------------------------------------------------
     def burden(self, ctx, st):
-        rel = ctx.register_release('opentargets_gene_evidence', 'opentargets_26_09_evidence_gene_burden', '26.09')
+        rel = ctx.register_release('opentargets', 'opentargets_26_09_evidence_gene_burden', '26.09')
         for f in self.files('evidence_gene_burden'):
             for i, r in enumerate(pq.read_table(f).to_pylist()):
                 pv = None

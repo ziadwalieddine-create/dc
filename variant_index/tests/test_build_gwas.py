@@ -73,11 +73,18 @@ class TestGwas(unittest.TestCase):
 
     def test_every_record_is_kept_once_as_an_association_row(self):
         st = self.man['adapters'][0]['stats']
-        self.assertEqual(st['records'], 16)
-        self.assertEqual(len(self.assoc()), 16)
+        self.assertEqual(st['records'], 17)
+        self.assertEqual(len(self.assoc()), 17)
         reasons = {r['mapping_reason'] for r in self.assoc() if r['mapping_status'] != 'mapped'}
         self.assertEqual(reasons, {'strand_unresolved_palindromic', 'interaction_between_variants', 'multi_variant_record', 'non_rsid_identifier_or_hla_or_amino_acid', 'author_position_assembly_unverified',
-                                   'indel_notation_in_author_identifier', 'multi_base_risk_allele', 'no_position_in_catalog', 'no_alternate_allele_known'})
+                                   'indel_notation_in_author_identifier', 'multi_base_risk_allele', 'no_position_in_catalog', 'no_alternate_allele_known', 'position_beyond_contig_length'})
+
+    def test_an_impossible_position_is_kept_as_unmapped_not_coerced(self):
+        r = self.assoc(unmapped_key='chr1:99999999999')
+        self.assertEqual(len(r), 1)
+        self.assertEqual((r[0]['mapping_status'], r[0]['mapping_reason'], r[0]['subject_id'], r[0]['chrom'], r[0]['pos']), ('unmapped', 'position_beyond_contig_length', None, None, None))
+        self.assertEqual(self.man['adapters'][0]['stats']['positions_beyond_contig_length'], 1)
+        self.assertTrue(any(x['claim_type'] == 'gwas_effect_size' and x['unmapped_key'] == 'chr1:99999999999' for x in self.ev))        # its effect size row is kept as well
 
     def test_plus_minus_and_reference_effect_alleles(self):
         c = CASES

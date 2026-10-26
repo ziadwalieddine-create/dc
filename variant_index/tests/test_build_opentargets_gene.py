@@ -42,7 +42,7 @@ class TestGeneEvidence(unittest.TestCase):
         cls.out = tempfile.mkdtemp()
         cls.man = runner.build(cls.out, adapters(), cls.ref)
         cls.idx = Index.open(cls.out)
-        cls.ev = [r for r in cls.idx.table('evidence').to_pylist() if r['source_id'] == 'opentargets_gene_evidence']
+        cls.ev = [r for r in cls.idx.table('evidence').to_pylist() if r['source_id'] == 'opentargets']
 
     def rows(self, **kw):
         out = self.ev

@@ -175,6 +175,7 @@ def mini_gwas(out):
     r15 = C(p15)
     cases['no_alt_known'] = dict(pos=p15, ref=r15)
     rows.append(gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p15), 'STRONGEST SNP-RISK ALLELE': f'rs111-{next(x for x in "ACGT" if x != r15)}', 'SNPS': 'rs111'}))
+    rows.append(gwas_row(**{'STRONGEST SNP-RISK ALLELE': 'chr1:99999999999-C', 'SNPS': 'chr1:99999999999', 'OR or BETA': '1.4', '95% CI (TEXT)': '[1.2-1.6]'}))      # impossible position (a real catalogue typo)
     with zipfile.ZipFile(os.path.join(out, 'gwas-catalog-associations_ontology-annotated-full.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
         z.writestr('gwas-catalog-download-associations-alt-full.tsv', '\t'.join(GWAS_COLS) + '\n' + '\n'.join(rows) + '\n')
     sh = ['DATE ADDED TO CATALOG', 'PUBMED ID', 'FIRST AUTHOR', 'DATE', 'JOURNAL', 'LINK', 'STUDY', 'DISEASE/TRAIT', 'INITIAL SAMPLE SIZE', 'REPLICATION SAMPLE SIZE', 'PLATFORM [SNPS PASSING QC]',
@@ -588,6 +589,160 @@ def mini_events(out):
         f.write('##fileformat=VCFv4.2\n' + hv + '\n' + '\t'.join(['chr1', '600', 'chr1-600-INV-200', 'N', '<INV>', '.', '.', 'ID=chr1-600-INV-200;SVTYPE=INV;SVLEN=200', 'GT', '1|1', '0|0', '0|1']) + '\n')
 
 
+def mini_gnomad(out):
+    """Mini gnomAD files: constraint metrics, LoF curation, joint and exomes regional slices (real column names, a subset of the columns)."""
+    import gzip
+    os.makedirs(os.path.join(out, 'lof_curation'), exist_ok=True)
+    os.makedirs(os.path.join(out, 'regional'), exist_ok=True)
+    ch = ['gene', 'gene_id', 'transcript', 'canonical', 'mane_select', 'transcript_version', 'cds_length', 'num_coding_exons', 'gene_quality_metrics.exome_prop_bp_AN90', 'gene_quality_metrics.exome_mean_AS_MQ',
+          'gene_quality_metrics.exome_prop_segdup', 'gene_quality_metrics.exome_prop_LCR', 'gene_flags', 'constraint_flags', 'syn.z_score', 'mis.obs', 'mis.exp', 'mis.oe', 'mis.z_score', 'mis.oe_ci.lower',
+          'mis.oe_ci.upper', 'lof.obs', 'lof.exp', 'lof.oe', 'lof.z_score', 'lof.oe_ci.lower', 'lof.oe_ci.upper', 'lof.oe_ci.upper_rank', 'lof.oe_ci.upper_bin_decile', 'lof.pLI', 'lof.pNull', 'lof.pRec']
+
+    def crow(gene, gid, tr, canon, mane, **kw):
+        d = dict.fromkeys(ch, 'NA')
+        d.update({'gene': gene, 'gene_id': gid, 'transcript': tr, 'canonical': canon, 'mane_select': mane, 'transcript_version': tr + '.1', 'cds_length': '1500', 'num_coding_exons': '8', 'gene_flags': '[]', 'constraint_flags': '[]'})
+        d.update(kw)
+        return '\t'.join(str(d[c]) for c in ch)
+    rows = [crow('GENE1', 'ENSG_G1', 'ENST1', 'true', 'true', **{'lof.obs': 2, 'lof.exp': 20.5, 'lof.oe': 0.098, 'lof.oe_ci.lower': 0.03, 'lof.oe_ci.upper': 0.21, 'lof.z_score': 5.1, 'lof.pLI': 1.0, 'lof.pNull': 0.0,
+                                                                       'lof.pRec': 0.0, 'lof.oe_ci.upper_bin_decile': 0, 'lof.oe_ci.upper_rank': 120, 'mis.obs': 100, 'mis.exp': 220.0, 'mis.oe': 0.45, 'mis.oe_ci.upper': 0.52,
+                                                                       'mis.oe_ci.lower': 0.4, 'mis.z_score': 4.2, 'syn.z_score': 0.3}),
+            crow('GENE1', 'ENSG_G1', 'ENST1b', 'false', 'false', **{'lof.oe_ci.upper': 0.9}),
+            crow('GENE2', 'ENSG_G2', 'ENST2', 'true', 'true', **{'mis.obs': 50, 'mis.exp': 55.0, 'mis.oe': 0.91, 'mis.oe_ci.upper': 1.1, 'mis.z_score': 0.2, 'constraint_flags': '["no_exp_lof"]'}),
+            crow('GENE3', 'ENSG_UNKNOWN', 'ENST3', 'true', 'true', **{'lof.oe': 0.5, 'lof.oe_ci.upper': 0.7})]
+    with gzip.open(os.path.join(out, 'gnomad.v4.1.2.constraint_metrics.tsv.bgz'), 'wt') as f:
+        f.write('\t'.join(ch) + '\n' + '\n'.join(rows) + '\n')
+    wrong = 'A' if b('1', 440) != 'A' else 'C'
+    flags = ['Flag Mapping Error', 'Flag Last Exon', 'LoF in Untranslated Transcript']
+    lh = ['Variant ID', 'Gene', 'Verdict'] + flags
+    lrows = [[f'1-402-{b("1", 402)}-{alt("1", 402)}', 'ENSG_G1:GENE1', 'LoF', 'FALSE', 'FALSE', 'FALSE'], [f'1-410-{b("1", 410)}-{alt("1", 410)}', 'ENSG_G1:GENE1', 'Not LoF', 'FALSE', 'TRUE', 'TRUE'],
+             [f'1-440-{wrong}-T', 'ENSG_G1:GENE1', 'Uncertain', 'FALSE', 'FALSE', 'FALSE'], ['not-a-variant', 'ENSG_G2:GENE2', 'Likely LoF', 'FALSE', 'FALSE', 'FALSE']]
+    with open(os.path.join(out, 'lof_curation', 'incomplete_penetrance_curation_results.csv'), 'w') as f:
+        f.write(','.join(lh) + '\n' + '\n'.join(','.join(r) for r in lrows) + '\n')
+    jh = ['chrom', 'pos', 'ref', 'alt', 'filter', 'AC_joint', 'AN_joint', 'AF_joint', 'nhomalt_joint', 'AC_grpmax_joint', 'AN_grpmax_joint', 'AF_grpmax_joint', 'AC_exomes', 'AN_exomes', 'AF_exomes', 'AC_genomes',
+          'AN_genomes', 'AF_genomes', 'AC_joint_afr', 'AN_joint_afr', 'AF_joint_afr', 'AC_joint_nfe', 'AN_joint_nfe', 'AF_joint_nfe', 'grpmax_joint', 'fafmax_faf95_max_joint', 'fafmax_faf95_max_gen_anc_joint',
+          'exomes_filters', 'genomes_filters', 'not_called_in_exomes', 'not_called_in_genomes']
+
+    def jrow(pos, ref, alt_, flt, ac, an, **kw):
+        d = dict.fromkeys(jh, '')
+        d.update(chrom='1', pos=pos, ref=ref, alt=alt_, filter=flt, AC_joint=ac, AN_joint=an, AF_joint=f'{ac / an:.6g}', nhomalt_joint=0, AC_joint_afr=ac, AN_joint_afr=an // 2, AF_joint_afr=f'{ac / (an // 2):.6g}',
+                 AC_joint_nfe=0, AN_joint_nfe=an // 2, AF_joint_nfe='0.00000', grpmax_joint='afr' if ac else '')
+        d.update(kw)
+        return '\t'.join(str(d[c]) for c in jh)
+    with gzip.open(os.path.join(out, 'regional', 'gnomad_v4_1_joint_at_mavedb_positions.tsv.gz'), 'wt') as f:
+        f.write('\t'.join(jh) + '\n' + '\n'.join([jrow(402, b('1', 402), alt('1', 402), 'PASS', 4, 200000), jrow(410, b('1', 410), alt('1', 410), 'EXOMES_FILTERED', 0, 100000, exomes_filters='AC0'),
+                                                    jrow(440, wrong, 'T', 'PASS', 1, 50000)]) + '\n')
+    eh = ['chrom', 'pos', 'ref', 'alt', 'filter', 'cadd_phred', 'revel_max', 'spliceai_ds_max', 'pangolin_largest_ds', 'sift_max', 'polyphen_max']
+    with gzip.open(os.path.join(out, 'regional', 'gnomad_v4_1_exomes_at_mavedb_positions.tsv.gz'), 'wt') as f:
+        f.write('\t'.join(eh) + '\n' + '\n'.join(['\t'.join(map(str, [1, 402, b('1', 402), alt('1', 402), 'PASS', 26.5, 0.478, 0.05, 0.01, '', 0.982])), '\t'.join(map(str, [1, 410, b('1', 410), alt('1', 410), 'PASS', '', '', '', '', '', '']))]) + '\n')
+
+
+VCV_VARIATION = ['variation_id', 'accession', 'version', 'record_type', 'variation_type', 'name', 'record_status', 'date_created', 'date_last_updated', 'most_recent_submission',
+                 'number_of_submissions', 'number_of_submitters', 'allele_ids', 'canonical_spdi', 'hgvs_grch38', 'genes', 'xrefs', 'germline_review_status', 'germline_description',
+                 'germline_date_last_evaluated', 'germline_submission_count', 'somatic_review_status', 'somatic_description', 'somatic_date_last_evaluated', 'oncogenicity_review_status',
+                 'oncogenicity_description', 'oncogenicity_date_last_evaluated', 'release_date']
+VCV_LOCATION = ['variation_id', 'allele_id', 'allele_type', 'assembly', 'chr', 'accession', 'start', 'stop', 'inner_start', 'inner_stop', 'outer_start', 'outer_stop', 'display_start',
+                'display_stop', 'variant_length', 'position_vcf', 'reference_allele_vcf', 'alternate_allele_vcf', 'for_display']
+VCV_SCV = ['scv', 'version', 'variation_id', 'assertion_id', 'org_id', 'submitter', 'organization_category', 'classification_type', 'classification', 'date_last_evaluated', 'review_status',
+           'submission_date', 'date_created', 'date_updated', 'contributes_to_aggregate', 'assertion_method', 'origin', 'affected_status', 'number_tested', 'method_types', 'conditions',
+           'citations', 'comment', 'comment_length', 'record_status']
+
+
+def mini_vcv(out):
+    """Mini ClinVar VCV tables (stream-derived Parquet; every column a string, as in the real files) that line up with mini_clinvar_vcf: VariationIDs 1001-1015 are the VCF's
+    (AlleleID = VariationID + 1000), 2xxx are structural records, 3xxx composite records. Returns the names of the cases for the tests."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    def table(cols, rows):
+        return pa.table({c: pa.array([None if r.get(c) is None else str(r[c]) for r in rows], pa.string()) for c in cols})
+
+    variation, location, scv = [], [], []
+
+    def var(vid, typ, name, rec='classified', alleles=None, genes='GENEA:1001', **kw):
+        row = dict(variation_id=vid, accession='VCV' + str(vid).zfill(9), version='1', record_type=rec, variation_type=typ, name=name, record_status='current',
+                   number_of_submissions='1', number_of_submitters='1', allele_ids=alleles if alleles is not None else str(int(vid) + 1000), genes=genes, release_date='2026-01-02')
+        row.update(kw)
+        variation.append(row)
+
+    def germline(desc, rev='criteria provided, single submitter', when='2025-01-01', n='1'):
+        return dict(germline_description=desc, germline_review_status=rev, germline_date_last_evaluated=when, germline_submission_count=n)
+
+    def loc(vid, typ, assembly='GRCh38', chrom='1', **kw):
+        row = dict(variation_id=vid, allele_id=str(int(vid) + 1000), allele_type=typ, assembly=assembly, chr=chrom)
+        row.update(kw)
+        location.append(row)
+
+    def sub(n, vid, label, ctype='GermlineClassification', rev='criteria provided, single submitter', **kw):
+        row = dict(scv=f'SCV{n:09d}', version='1', variation_id=vid, org_id=str(500000 + n), submitter=f'Lab {n}', organization_category='laboratory', classification_type=ctype,
+                   classification=label, date_last_evaluated='2024-06-01', review_status=rev, submission_date='2024-07-01', contributes_to_aggregate='true', assertion_method='ACMG 2015',
+                   origin='germline', affected_status='yes', number_tested='', method_types='clinical testing', conditions='MedGen:C0000001#Test syndrome', citations=None,
+                   comment='free text', comment_length='9', record_status='current')
+        row.update(kw)
+        scv.append(row)
+
+    # simple records that are in the mini VCF (some mapped, some kept there as unmapped/rejected rows)
+    for vid, label in ((1001, 'Pathogenic'), (1002, 'Benign/Likely benign'), (1003, 'Uncertain significance'), (1004, 'Conflicting classifications of pathogenicity'), (1005, 'Likely pathogenic'),
+                       (1006, 'Pathogenic'), (1007, 'Pathogenic'), (1008, 'Pathogenic'), (1009, 'not provided'), (1011, 'Pathogenic'), (1012, 'Likely benign'), (1013, 'Pathogenic')):
+        var(str(vid), 'single nucleotide variant', f'rec {vid}', **germline(label))
+    var('1010', 'single nucleotide variant', 'rec 1010', oncogenicity_description='Oncogenic', oncogenicity_review_status='criteria provided, single submitter', oncogenicity_date_last_evaluated='2025-02-02',
+        somatic_description='Tier I - Strong', somatic_review_status='criteria provided, single submitter', somatic_date_last_evaluated='2025-02-03')
+    var('1014', 'single nucleotide variant', 'rec 1014')
+    var('1015', 'single nucleotide variant', 'rec 1015')
+    loc('1001', 'single nucleotide variant', start='402', stop='402', variant_length='1')
+    # structural records
+    var('2001', 'Deletion', 'NC_000001.11:g.1000_1099del', alleles='5001', **germline('Pathogenic'))
+    loc('2001', 'Deletion', start='1000', stop='1099', variant_length='100')
+    var('2002', 'copy number gain', 'GRCh38/hg38 1q21(chr1:1500-1799)x3', alleles='5002', **germline('Uncertain significance', rev='no assertion criteria provided'))
+    loc('2002', 'copy number gain', inner_start='1500', inner_stop='1799', outer_start='1490', outer_stop='1810', variant_length='300')
+    var('2003', 'copy number loss', 'GRCh38/hg38 1q22(chr1:2000-2300)x1', alleles='5003', **germline('Pathogenic', rev='reviewed by expert panel'))
+    loc('2003', 'copy number loss', inner_start='2000', inner_stop='2300', variant_length='301')                    # '?' limits: the outer extent is unknown
+    var('2004', 'Deletion', 'GRCh37/hg19 1p36(chr1:900-1000)x1', alleles='5004', **germline('Likely pathogenic'))
+    loc('2004', 'Deletion', assembly='GRCh37', start='900', stop='1000', variant_length='101')                    # GRCh37 only: no lift-over is performed
+    var('2005', 'Deletion', 'NC_000001.11:g.1200_1229del', alleles='5005', **germline('Benign', rev='criteria provided, multiple submitters, no conflicts'))
+    loc('2005', 'Deletion', start='1200', stop='1229', variant_length='30')                                         # below the 50 bp event threshold and not in the VCF
+    var('2006', 'copy number gain', 'GRCh38/hg38 2q11(chr2:100-400)x2,3', alleles='5006', genes='GENEB:1002', **germline('Likely benign'))
+    loc('2006', 'copy number gain', chrom='2', start='100', stop='400', variant_length='301')
+    var('2007', 'Inversion', 'NC_000002.12:g.600_699inv', alleles='5007', genes='', **germline('Pathogenic'))
+    loc('2007', 'Inversion', chrom='2', start='600', stop='699', variant_length='100')
+    var('2008', 'Translocation', '46,XX,t(1;2)(q1;q1)', alleles='5008', genes='', **germline('Pathogenic'))
+    loc('2008', 'Translocation', chrom='1', start='2500', stop='2500')
+    var('2009', 'Deletion', 'no coordinates', alleles='5009', genes='', **germline('Pathogenic'))                  # no location rows at all
+    # composite records
+    var('3001', 'Haplotype', 'Test haplotype', alleles='2001|2002', genes='GENEA:1001|GENEA:1001', **germline('Pathogenic', rev='reviewed by expert panel'))
+    var('3002', 'Diplotype', 'GENEA*1/*2', alleles='2003|2003|9999', genes='GENEA:1001|GENEB:1002', **germline('drug response', rev='practice guideline'))
+    var('3003', 'CompoundHeterozygote', 'Compound het', alleles='2004|2005', genes='GENEA:1001|GENEA:1001', **germline('Likely benign'))
+    var('3004', 'Phase unknown', 'Unclassified combination', alleles='2001|2003')
+    # submissions
+    sub(1, '1001', 'Pathogenic', rev='reviewed by expert panel', conditions='MedGen:C0000001|OMIM:100001#Test syndrome', citations='PubMed:111|PubMed:222', number_tested='52')
+    sub(2, '1001', 'likely pathogenic', contributes_to_aggregate='false', origin='de novo', number_tested='118|331')
+    sub(6, '1004', 'Pathogenic')
+    sub(7, '1004', 'Likely Benign', submitter='Lab 7', conditions='HP:HP:0002282|MedGen:CN002072#Abnormality of neuronal migration')
+    sub(3, '1002', 'Likely benign')
+    sub(4, '1002', 'Benign', origin='germline|not applicable')
+    sub(20, '1003', 'Pathogenic, low penetrance')
+    sub(21, '1003', 'Mystery class')
+    sub(22, '1003', 'not provided')
+    sub(30, '1001', None, ctype=None, rev='no classification provided', method_types='in vitro', citations='PubMed:31275557', origin='not applicable', affected_status='not applicable')
+    sub(31, '1001', None, ctype=None, rev='no classification provided', method_types='phenotyping only', origin='not applicable')
+    sub(32, '1001', None, ctype=None, rev='no classification provided', method_types='in vitro', citations='PubMed:1|PubMed:2')
+    sub(12, '1010', 'Oncogenic', ctype='OncogenicityClassification', origin='somatic')
+    sub(13, '1010', 'Tier I - Strong', ctype='SomaticClinicalImpact', origin='somatic')
+    sub(40, '3001', 'Pathogenic')
+    sub(41, '2001', 'Pathogenic')
+    sub(42, '2004', 'Likely pathogenic')
+    sub(43, '2005', 'Benign')
+    sub(44, '1013', 'Pathogenic')
+    sub(45, '1008', 'Pathogenic')
+    sub(46, '9999', 'Pathogenic')
+    sub(47, '2009', 'Pathogenic')
+    for t, cols, rows in (('variation', VCV_VARIATION, variation), ('allele_location', VCV_LOCATION, location), ('scv', VCV_SCV, scv)):
+        os.makedirs(os.path.join(out, t), exist_ok=True)
+        pq.write_table(table(cols, rows), os.path.join(out, t, 'part-0000.parquet'))
+    os.makedirs(os.path.join(out, 'rcv'), exist_ok=True)
+    pq.write_table(table(['rcv', 'version', 'variation_id'], []), os.path.join(out, 'rcv', 'part-0000.parquet'))
+    return dict(scv_count=len(scv), variation_count=len(variation))
+
+
 def write_all(out):
     """Write every mini source file into `out` (a temporary directory: synthetic VCF-like files are never committed)."""
     os.makedirs(out, exist_ok=True)
@@ -603,6 +758,8 @@ def write_all(out):
     write_all.opentargets = mini_opentargets(os.path.join(out, 'opentargets'))
     mini_opentargets_gene(os.path.join(out, 'opentargets'))
     mini_events(os.path.join(out, 'events'))
+    mini_gnomad(os.path.join(out, 'gnomad'))
+    write_all.vcv = mini_vcv(os.path.join(out, 'vcv'))
     return out
 
 

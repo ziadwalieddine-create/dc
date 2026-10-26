@@ -20,6 +20,7 @@ from itertools import combinations_with_replacement, permutations
 from .match_small import status_of
 
 KNOWN_STRUCTURAL_GENES = {'CYP2D6', 'CYP2A6', 'GSTM1', 'GSTT1', 'UGT2B17', 'SULT1A1', 'HLA-A', 'HLA-B', 'HLA-C', 'HLA-DRB1', 'HLA-DQB1', 'HLA-DPB1', 'CYP2B6'}
+NON_STAR_SYSTEMS = {'clinvar'}      # haplotype systems whose rows are classified combinations of alleles, never candidate star alleles for a diplotype call
 
 
 @dataclass
@@ -45,7 +46,10 @@ def _alt_dosage(st):
 
 def call_gene(ctx, index, gene, system=None, external=None, specialised_genes=KNOWN_STRUCTURAL_GENES, levels=None):
     """levels: restrict to allele levels (for example ('core',) for PharmVar so that sub-alleles do not multiply the candidates)."""
-    all_haps = index.haplotypes(gene, system)
+    if system in NON_STAR_SYSTEMS:
+        return HaplotypeCall(gene, system, 'UNRESOLVED', basis='system_is_not_a_star_allele_system',
+                             missing={'evidence': f'{system} composite records are classified combinations of alleles (see match_composite), not star-allele definitions to call a diplotype from'})
+    all_haps = [h for h in index.haplotypes(gene, system) if h['system'] not in NON_STAR_SYSTEMS]
     if not all_haps:
         return HaplotypeCall(gene, system or '', 'UNRESOLVED', basis='no_haplotype_definitions_in_index', missing={'definitions': gene})
     present = {h['system'] for h in all_haps}

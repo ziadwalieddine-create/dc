@@ -54,6 +54,7 @@ def to_float(v):
 
 class _EventAdapter:
     source_id = 'events'
+    sink_name = 'events'
     targets = []
 
     def event(self, ctx, st, rel, **kw):
@@ -65,12 +66,13 @@ class _EventAdapter:
         if row['end'] is None or row['start'] is None or row['end'] < row['start']:
             st.inc('events_with_unusable_interval')
             return
-        ctx.emit('entity_event', row, name=self.source_id)
+        ctx.emit('entity_event', row, name=self.sink_name)
         st.inc(f"events:{row['event_type']}")
 
 
 class GnomadSvAdapter(_EventAdapter):
-    source_id = 'gnomad_sv'
+    source_id = 'gnomad'
+    sink_name = 'gnomad_sv'
     targets = ['gnomad_sv_v4_1_sites_vcf']
 
     def __init__(self, path=None):
@@ -116,7 +118,8 @@ class GnomadSvAdapter(_EventAdapter):
 
 
 class GnomadCnvAdapter(_EventAdapter):
-    source_id = 'gnomad_cnv'
+    source_id = 'gnomad'
+    sink_name = 'gnomad_cnv'
     targets = ['gnomad_exome_cnv_v4_1']
 
     def __init__(self, path=None):
@@ -155,6 +158,7 @@ DGV_TYPES = {'deletion': 'DEL', 'duplication': 'DUP', 'tandem duplication': 'DUP
 
 class DgvAdapter(_EventAdapter):
     source_id = 'dgv'
+    sink_name = 'dgv'
     targets = ['dgv_grch38_variants_2025_12_01']
 
     def __init__(self, path=None):
@@ -192,6 +196,7 @@ class DgvAdapter(_EventAdapter):
 
 class Hgsvc3Adapter(_EventAdapter):
     source_id = 'hgsvc3'
+    sink_name = 'hgsvc3'
     targets = ['hgsvc3_grch38_sv_insdel_sym_vcf', 'hgsvc3_grch38_sv_inv_sym_vcf']
 
     def __init__(self, paths=None):

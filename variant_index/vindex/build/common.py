@@ -136,7 +136,7 @@ class BuildContext:
             self.found.setdefault((namespace, identifier), []).append(entity_id)
 
     def st(self, name=None):
-        name = name or (self.adapter.source_id if self.adapter else '_')
+        name = name or (type(self.adapter).__name__ if self.adapter else '_')
         return self.stats.setdefault(name, Stats())
 
     # ---- releases -------------------------------------------------------------------------------------------------------------

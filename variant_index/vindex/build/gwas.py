@@ -200,6 +200,9 @@ class GwasCatalogAdapter:
         subject, mapping, reason, flags, eff_allele, other_allele = None, 'unmapped', None, (), None, None
         unmapped_key = r['SNPS'] or r['STRONGEST SNP-RISK ALLELE']
         canon = ctx.ref.contig(chrom) if chrom else None
+        if canon and pos is not None and not 1 <= pos <= ctx.ref.length(canon):
+            st.inc('positions_beyond_contig_length')              # a typo in the catalogue (one real record has chr2:179179368916): kept as unmapped with its text, never coerced
+            kind, pos = 'bad_position', None
         if kind in ('rs', 'chr'):
             if canon is None:
                 reason = 'contig_unmapped'
@@ -224,7 +227,7 @@ class GwasCatalogAdapter:
                         reason = res.reason
         else:
             reason = {'interaction': 'interaction_between_variants', 'multi': 'multi_variant_record', 'rs_nopos': 'no_position_in_catalog', 'chr_indel': 'indel_notation_in_author_identifier',
-                      'other': 'non_rsid_identifier_or_hla_or_amino_acid'}[kind]
+                      'other': 'non_rsid_identifier_or_hla_or_amino_acid', 'bad_position': 'position_beyond_contig_length'}[kind]
         c0 = dict(chrom=canon if (subject or kind in ('rs', 'chr')) else None, pos=pos if (subject or kind in ('rs', 'chr')) else None, unmapped_key=None if subject else unmapped_key)
         acc = f"{r['STUDY ACCESSION']}:{unmapped_key}:{r['MAPPED_TRAIT'] or r['DISEASE/TRAIT']}"
         ev_assert = 'effect' if (p is not None and p <= GENOME_WIDE) else 'uncertain'

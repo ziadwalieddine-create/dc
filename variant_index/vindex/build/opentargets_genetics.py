@@ -50,7 +50,7 @@ def ancestry_text(st):
 
 
 class OpenTargetsGeneticsAdapter:
-    source_id = 'opentargets_genetics'
+    source_id = 'opentargets'
     targets = ['opentargets_26_09_credible_set', 'opentargets_26_09_study', 'opentargets_26_09_l2g_prediction', 'opentargets_26_09_biosample']
 
     def __init__(self, genes, root=None, gwas_pip=0.1, qtl_pip=0.5, l2g_min=0.5):
@@ -71,10 +71,10 @@ class OpenTargetsGeneticsAdapter:
     def run(self, ctx, limit=None):
         ctx.adapter = self
         st = ctx.st()
-        rel_cs = ctx.register_release('opentargets_genetics', 'opentargets_26_09_credible_set', '26.09')
-        rel_st = ctx.register_release('opentargets_genetics', 'opentargets_26_09_study', '26.09')
-        rel_l2g = ctx.register_release('opentargets_genetics', 'opentargets_26_09_l2g_prediction', '26.09')
-        ctx.register_release('opentargets_genetics', 'opentargets_26_09_biosample', '26.09')
+        rel_cs = ctx.register_release('opentargets', 'opentargets_26_09_credible_set', '26.09')
+        rel_st = ctx.register_release('opentargets', 'opentargets_26_09_study', '26.09')
+        rel_l2g = ctx.register_release('opentargets', 'opentargets_26_09_l2g_prediction', '26.09')
+        ctx.register_release('opentargets', 'opentargets_26_09_biosample', '26.09')
         biosample = {}
         for f in self.files('biosample'):
             t = pq.read_table(f, columns=['biosampleId', 'biosampleName'])
@@ -144,7 +144,7 @@ class OpenTargetsGeneticsAdapter:
                              lead_variant=row['variantId'], is_lead=is_lead, is95=m.get('is95CredibleSet'), is99=m.get('is99CredibleSet'), log_bf=m.get('logBF'), r2_to_lead=m.get('r2Overall'),
                              set_log10_bf=row['credibleSetlog10BF'], set_purity_mean_r2=row['purityMeanR2'], quality_controls=row['qualityControls'], trans_qtl=row['isTransQtl'],
                              p_text=None if pv is not None or m.get('pValueMantissa') is None else f"{m['pValueMantissa']}e{m['pValueExponent']}", beta_reference='alternate allele of the variant id')
-                ctx.emit_evidence(evidence_row(rel_cs, 'opentargets_genetics', row['studyLocusId'], f"credible_set/{fname}#{row['studyLocusId']}:{m['variantId']}", raw, 'variant', key, 'fine_mapping_probability',
+                ctx.emit_evidence(evidence_row(rel_cs, 'opentargets', row['studyLocusId'], f"credible_set/{fname}#{row['studyLocusId']}:{m['variantId']}", raw, 'variant', key, 'fine_mapping_probability',
                                                'statistical_association', 'qtl_fine_mapping_pip' if qtl else 'gwas_fine_mapping_pip', f"{m['posteriorProbability']:.4g}", 'not_applicable', mapping, reason,
                                                discriminator=m['variantId'], claim_num=m['posteriorProbability'], pip=m['posteriorProbability'], beta=m.get('beta'), se=m.get('standardError'), p_value=pv,
                                                effect_allele=parts[3] or None, other_allele=parts[2] or None, eaf=row['effectAlleleFrequencyFromSource'] if is_lead else None,
@@ -155,7 +155,7 @@ class OpenTargetsGeneticsAdapter:
                 st.inc(f'integrated_rows:{"qtl" if qtl else "gwas"}:{mapping}')
                 if qtl and key and s.get('geneId') and (key, s['geneId']) not in vg_seen:
                     vg_seen.add((key, s['geneId']))
-                    ctx.emit('variant_gene', dict(variant_key=key, gene_id=s['geneId'], relation=f"ot_{s['studyType']}_credible_set", consequence=None, release_id=rel_cs), name='opentargets_genetics')
+                    ctx.emit('variant_gene', dict(variant_key=key, gene_id=s['geneId'], relation=f"ot_{s['studyType']}_credible_set", consequence=None, release_id=rel_cs), name='opentargets')
             for r in rows:
                 if r['studyLocusId'] not in l2g:
                     continue
@@ -171,7 +171,7 @@ class OpenTargetsGeneticsAdapter:
                     gid = gene if known is None or gene in known else None
                     condition = (s.get('traitFromSource') or '') if s['studyType'] == 'gwas' else f"{s['studyType']} of {s.get('geneId') or ''}"
                     raw = json.dumps(dict(studyLocusId=r['studyLocusId'], geneId=gene, score=score), sort_keys=True)
-                    ctx.emit_evidence(evidence_row(rel_l2g, 'opentargets_genetics', r['studyLocusId'], f"l2g_prediction#{r['studyLocusId']}:{gene}", raw, 'gene', gid, 'fine_mapping_probability',
+                    ctx.emit_evidence(evidence_row(rel_l2g, 'opentargets', r['studyLocusId'], f"l2g_prediction#{r['studyLocusId']}:{gene}", raw, 'gene', gid, 'fine_mapping_probability',
                                                    'computational_prediction', 'l2g_score', f'{score:.3f}', 'not_applicable', 'mapped' if gid else 'unmapped', None if gid else 'gene_not_in_gene_map',
                                                    discriminator=gene, claim_num=score, score=score, score_unit='l2g_score', condition_ids=(s.get('traitFromSourceMappedIds') or []) or None,
                                                    condition_text=condition or None, curator='Open Targets Genetics L2G', lineage_group=self.lineage(s), unmapped_key=None if gid else gene,
@@ -180,7 +180,7 @@ class OpenTargetsGeneticsAdapter:
                     st.inc('l2g_rows_integrated')
                     if lead_key and gid and (lead_key, gid, 'l2g') not in vg_seen:
                         vg_seen.add((lead_key, gid, 'l2g'))
-                        ctx.emit('variant_gene', dict(variant_key=lead_key, gene_id=gid, relation='ot_l2g_lead_variant', consequence=f'{score:.3f}', release_id=rel_l2g), name='opentargets_genetics')
+                        ctx.emit('variant_gene', dict(variant_key=lead_key, gene_id=gid, relation='ot_l2g_lead_variant', consequence=f'{score:.3f}', release_id=rel_l2g), name='opentargets')
         return st.c
 
     def study_entity(self, ctx, rel_st, s, biosample, seen, st):
@@ -192,8 +192,8 @@ class OpenTargetsGeneticsAdapter:
             st.inc('studies_described_by_another_source')
             return
         qtl = s['studyType'] != 'gwas'
-        ctx.emit('entity_study', dict(study_id=sid, source_id='opentargets_genetics', lineage_group=self.lineage(s), study_type=s['studyType'], pubmed=s.get('pubmedId'),
+        ctx.emit('entity_study', dict(study_id=sid, source_id='opentargets', lineage_group=self.lineage(s), study_type=s['studyType'], pubmed=s.get('pubmedId'),
                                       trait_ids=(s.get('traitFromSourceMappedIds') or []) + (s.get('diseaseIds') or []) or None, trait_text=s.get('traitFromSource'), n_total=s.get('nSamples'),
                                       n_cases=s.get('nCases'), ancestry=ancestry_text(s), cohorts=', '.join(s.get('cohorts') or []) or None,
-                                      biosample=(biosample.get(s.get('biosampleId')) or s.get('biosampleId')) if qtl else None, has_sumstats=s.get('hasSumstats'), release_id=rel_st), name='opentargets_genetics')
+                                      biosample=(biosample.get(s.get('biosampleId')) or s.get('biosampleId')) if qtl else None, has_sumstats=s.get('hasSumstats'), release_id=rel_st), name='opentargets')
         st.inc('studies')
