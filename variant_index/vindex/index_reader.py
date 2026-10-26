@@ -80,16 +80,18 @@ class Index:
         p = os.path.join(self.root, name, sub)
         return pds.dataset(p, format='parquet', ignore_prefixes=[]) if os.path.isdir(p) else None
 
-    def filtered(self, name, expr, sub=''):
-        """Rows of table `name` for which the Arrow expression holds, without loading the whole table when the index is on disk."""
+    def filtered(self, name, expr, sub='', columns=None):
+        """Rows of table `name` for which the Arrow expression holds, without loading the whole table when the index is on disk. `columns` limits what is read."""
         if self.root is not None and name not in self._t:
             ds = self._on_disk(name, sub)
             if ds is not None:
-                return ds.to_table(filter=expr)
+                return ds.to_table(filter=expr, columns=columns)
             if os.path.isdir(os.path.join(self.root, name)):          # a partition that does not exist holds no rows
-                return schema.empty_table(name)
+                return schema.empty_table(name).select(columns) if columns else schema.empty_table(name)
         t = self.table(name)
-        return pds.dataset(t).to_table(filter=expr) if t.num_rows else t
+        if not t.num_rows:
+            return t.select(columns) if columns else t
+        return pds.dataset(t).to_table(filter=expr, columns=columns)
 
     # ---- evidence ---------------------------------------------------------------------------------------------------------------------
     def evidence_for_variants(self, keys):

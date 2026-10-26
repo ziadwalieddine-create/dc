@@ -4,3 +4,21 @@ acquisition/manifest.jsonl.lock
 .venv/
 *.tbi
 *.csi
+
+# Personal genome data and per-sample results are never committed (see variant_index/README.md, privacy rules).
+# Public-source data and the built index live under data/ (already ignored); these patterns are a second line of defence.
+*.vcf
+*.vcf.gz
+*.g.vcf
+*.g.vcf.gz
+*.gvcf
+*.gvcf.gz
+*.bcf
+*.bam
+*.bai
+*.cram
+*.crai
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz

@@ -8,4 +8,4 @@ Modules:
   callability reference-confidence providers (gVCF blocks, callable-region BED, read pileup)
   schema      table schemas and controlled vocabulary of the index
 """
-SCHEMA_VERSION = '0.3.0'
+SCHEMA_VERSION = '0.4.0'

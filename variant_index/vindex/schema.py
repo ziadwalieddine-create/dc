@@ -105,6 +105,10 @@ ENTITY_ASSAY = pa.schema([
     ('dose_context', S), ('readout', S), ('score_direction', S), ('lineage_group', S), ('release_id', S),
 ])
 
+GENE_SET_MEMBER = pa.schema([
+    ('set_id', S), ('source_id', S), ('kind', S), ('name', S), ('gene_id', S), ('release_id', S),      # one row per (set, gene): Reactome pathways today; annotation, never evidence
+])
+
 VARIANT_GENE = pa.schema([
     ('variant_key', S), ('gene_id', S), ('relation', S), ('consequence', S), ('release_id', S),
 ])
@@ -126,7 +130,7 @@ EVIDENCE = pa.schema([
 TABLES = {
     'source_release': SOURCE_RELEASE, 'entity_variant': ENTITY_VARIANT, 'xref': XREF, 'entity_event': ENTITY_EVENT,
     'entity_haplotype': ENTITY_HAPLOTYPE, 'haplotype_definition': HAPLOTYPE_DEFINITION, 'entity_gene': ENTITY_GENE,
-    'entity_region': ENTITY_REGION, 'entity_study': ENTITY_STUDY, 'entity_assay': ENTITY_ASSAY, 'variant_gene': VARIANT_GENE, 'evidence': EVIDENCE,
+    'entity_region': ENTITY_REGION, 'entity_study': ENTITY_STUDY, 'entity_assay': ENTITY_ASSAY, 'variant_gene': VARIANT_GENE, 'gene_set_member': GENE_SET_MEMBER, 'evidence': EVIDENCE,
 }
 
 

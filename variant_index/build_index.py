@@ -23,7 +23,7 @@ from vindex.refgenome import Reference                            # noqa: E402
 FASTA = os.path.join(DATA, 'reference_sequence', 'Homo_sapiens.GRCh38.dna.toplevel.fa.gz')
 REPORT = os.path.join(DATA, 'refseq', 'GCF_000001405.40_GRCh38.p14_assembly_report.txt')
 
-ORDER = ['genes', 'clinvar', 'clinvar_vcv', 'clingen_erepo', 'clingen_gene_region', 'giab_regions', 'strchive', 'gwas', 'cpic', 'pharmvar', 'clinpgx', 'mavedb', 'opentargets_genetics', 'opentargets_gene', 'gnomad_constraint', 'gnomad_lof_curation', 'gnomad_frequency', 'gnomad_sv', 'gnomad_cnv', 'dgv', 'hgsvc3']
+ORDER = ['genes', 'clinvar', 'clinvar_vcv', 'clingen_erepo', 'clingen_gene_region', 'giab_regions', 'strchive', 'reactome', 'gwas', 'cpic', 'pharmvar', 'clinpgx', 'mavedb', 'opentargets_genetics', 'opentargets_gene', 'gnomad_constraint', 'gnomad_lof_curation', 'gnomad_frequency', 'gnomad_sv', 'gnomad_cnv', 'dgv', 'hgsvc3']
 
 
 def make_adapters(names, ref):
@@ -33,6 +33,7 @@ def make_adapters(names, ref):
     from vindex.build.clingen import ClinGenErepoAdapter, ClinGenGeneRegionAdapter
     from vindex.build.gwas import GwasCatalogAdapter
     from vindex.build.regions import GiabRegionAdapter, StrchiveAdapter
+    from vindex.build.pathways import ReactomeAdapter
     from vindex.build.alleles import OtVariantIndex
     from vindex.build.pgx import CpicAdapter, PharmVarAdapter
     from vindex.build.clinpgx import ClinPgxAdapter
@@ -50,6 +51,7 @@ def make_adapters(names, ref):
         'clingen_gene_region': lambda: ClinGenGeneRegionAdapter(genes),
         'giab_regions': lambda: GiabRegionAdapter(),
         'strchive': lambda: StrchiveAdapter(genes),
+        'reactome': lambda: ReactomeAdapter(genes),
         'gwas': lambda: GwasCatalogAdapter(genes, OtVariantIndex(os.path.join(DATA, 'opentargets', '26.09', 'variant'))),
         'cpic': lambda: CpicAdapter(genes),
         'pharmvar': lambda: PharmVarAdapter(),

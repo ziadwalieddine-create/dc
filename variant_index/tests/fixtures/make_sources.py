@@ -779,6 +779,18 @@ def mini_vcv(out):
     return dict(scv_count=len(scv), variation_count=len(variation))
 
 
+def mini_reactome(out):
+    """Mini Ensembl2Reactome in the real layout: other species, transcript ids, duplicates and a gene the gene map does not know."""
+    os.makedirs(out, exist_ok=True)
+    rows = [('ENSG_G1', 'R-HSA-1', 'Test pathway one', 'Homo sapiens'), ('ENSG_G1.5', 'R-HSA-2', 'Test pathway two', 'Homo sapiens'), ('ENSG_G2', 'R-HSA-1', 'Test pathway one', 'Homo sapiens'),
+            ('ENSG_G2', 'R-HSA-1', 'Test pathway one', 'Homo sapiens'), ('ENST_T1', 'R-HSA-3', 'Transcript keyed', 'Homo sapiens'), ('ENSG_ZZZ', 'R-HSA-4', 'Unknown gene pathway', 'Homo sapiens'),
+            ('ENSMUSG1', 'R-MMU-1', 'Mouse pathway', 'Mus musculus')]
+    with open(os.path.join(out, 'Ensembl2Reactome.txt'), 'w') as f:
+        for g, pid, name, sp in rows:
+            f.write(f'{g}\t{pid}\thttps://reactome.org/PathwayBrowser/#/{pid}\t{name}\tIEA\t{sp}\n')
+    return out
+
+
 def write_all(out):
     """Write every mini source file into `out` (a temporary directory: synthetic VCF-like files are never committed)."""
     os.makedirs(out, exist_ok=True)
@@ -797,6 +809,7 @@ def write_all(out):
     mini_gnomad(os.path.join(out, 'gnomad'))
     write_all.vcv = mini_vcv(os.path.join(out, 'vcv'))
     mini_regions(os.path.join(out, 'regions'))
+    mini_reactome(os.path.join(out, 'reactome'))
     return out
 
 
