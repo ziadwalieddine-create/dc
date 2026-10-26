@@ -99,6 +99,15 @@ class TestReports(unittest.TestCase):
         self.assertGreater(v['checks']['mapped_variant_row_filed_under_another_chromosome']['violations'], 0)
         self.assertFalse(v['ok'])
 
+    def test_an_effect_allele_that_is_not_an_allele_of_the_snv_key_is_caught(self):
+        clean = reports.validate(self.idx, syn_reference())
+        self.assertEqual((clean['checks']['effect_allele_not_an_allele_of_the_snv_key']['violations'], clean['checks']['other_allele_not_an_allele_of_the_snv_key']['violations']), (0, 0))
+        v = self.damaged(lambda d: self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'effect_allele', lambda xs: ['Z'] * len(xs)))
+        self.assertGreater(v['checks']['effect_allele_not_an_allele_of_the_snv_key']['violations'], 0)
+        self.assertFalse(v['ok'])
+        v = self.damaged(lambda d: self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'other_allele', lambda xs: ['Z'] * len(xs)))
+        self.assertGreater(v['checks']['other_allele_not_an_allele_of_the_snv_key']['violations'], 0)
+
     def test_duplicate_ids_and_orphan_subjects_are_caught(self):
         v = self.damaged(lambda d: self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'evidence_id', lambda xs: [xs[0]] + [xs[0]] + xs[2:]))
         self.assertEqual(v['checks']['evidence_id_not_unique']['violations'], 1)

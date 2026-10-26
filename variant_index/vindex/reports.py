@@ -122,6 +122,13 @@ def validate(index_dir, reference=None, sample_keys=50000):
         var_mapped = pc.and_(mapped, pc.equal(t['level'], 'variant'))
         colons = pc.count_substring(pc.fill_null(t['subject_id'], ''), ':')
         bad['variant_key_not_chrom_pos_ref_alt'] += int(pc.sum(pc.and_(var_mapped, pc.not_equal(colons, 3))).as_py() or 0)
+        ex = pc.extract_regex(pc.fill_null(t['subject_id'], ''), r'^(?P<c>[^:]+):(?P<p>[0-9]+):(?P<r>[ACGTN]+):(?P<a>[ACGTN]+)$')
+        kr, ka = pc.struct_field(ex, 'r'), pc.struct_field(ex, 'a')
+        snv = pc.and_(var_mapped, pc.and_(pc.equal(pc.utf8_length(pc.fill_null(kr, '')), 1), pc.equal(pc.utf8_length(pc.fill_null(ka, '')), 1)))
+        for col in ('effect_allele', 'other_allele'):
+            given = pc.and_(snv, pc.and_(pc.is_valid(t[col]), pc.not_equal(t[col], '')))
+            inside = pc.or_(pc.equal(t[col], kr), pc.equal(t[col], ka))
+            bad[f'{col}_not_an_allele_of_the_snv_key'] += int(pc.sum(pc.and_(given, pc.invert(pc.fill_null(inside, False)))).as_py() or 0)
         pv, pip = t['p_value'], t['pip']
         bad['p_value_outside_0_1'] += int(pc.sum(pc.or_(pc.less(pv, 0), pc.greater(pv, 1))).as_py() or 0)
         bad['pip_outside_0_1'] += int(pc.sum(pc.or_(pc.less(pip, 0), pc.greater(pip, 1.0000001))).as_py() or 0)
