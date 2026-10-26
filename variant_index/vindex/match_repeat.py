@@ -60,3 +60,20 @@ def match_repeats(callset, loci):
         cls = tuple(classify_allele(c, r.ci[i] if i < len(r.ci) else None, th['normal_max'], th['pathologic_min']) for i, c in enumerate(r.counts))
         out.append(RepeatResult(L['locus_id'], L.get('gene', ''), 'GENOTYPED', cls, r.counts, th, flags, inheritance=L.get('inheritance', ''), disease=L.get('disease', '')))
     return out
+
+
+def loci_from_index(index):
+    """Locus dictionaries for match_repeats, rebuilt from the STRchive rows of an index: the region, the locus -> disease row and the two threshold rows.
+    A threshold the source does not give stays None (such a locus is genotyped, not classified)."""
+    regions = index.regions_by_kind(['strchive_locus'])
+    ev = index.evidence_for('region', [r['region_id'] for r in regions])
+    symbols = {g['gene_id']: g['symbol'] for g in index.table('entity_gene').to_pylist()} if index.table('entity_gene').num_rows else {}
+    out = []
+    for r in sorted(regions, key=lambda r: (r['chrom'], r['start'], r['region_id'])):
+        by = {x['claim_type']: x for x in ev.get(r['region_id'], ())}
+        gid = (r.get('gene_ids') or [None])[0]
+        locus = by.get('strchive_disease_locus') or {}
+        th = lambda k: int(by[k]['claim_num']) if k in by and by[k].get('claim_num') is not None else None
+        out.append(dict(locus_id=r['name'], gene=symbols.get(gid) or (gid or '').replace('symbol:', ''), chrom=r['chrom'], start=r['start'], end=r['end'], normal_max=th('repeat_normal_max'),
+                        pathologic_min=th('repeat_pathologic_min'), inheritance=locus.get('inheritance') or '', disease=locus.get('condition_text') or ''))
+    return out

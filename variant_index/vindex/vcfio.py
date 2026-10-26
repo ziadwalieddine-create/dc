@@ -215,8 +215,34 @@ def _ref_confident(qc, filt, gq, mdp):
     return (gq is None or gq >= qc.min_ref_gq) and (mdp is None or mdp >= qc.min_ref_dp) and not (qc.require_pass and filt not in ('PASS', '.'))
 
 
-def read_vcf(path, reference, sample=None, qc=None):
-    """Read one sample of a VCF/gVCF into a CallSet (see module docstring). Raises only for unusable input (no/ambiguous sample)."""
+def _records(vf, reference, contigs):
+    """(running index, record) for the whole file, or only for the records on `contigs` (canonical names). An indexed file is fetched per contig; an
+    unindexed one is read through and filtered, so the result is the same either way."""
+    if contigs is None:
+        yield from enumerate(vf)
+        return
+    wanted = set(contigs)
+    names = [c for c in vf.header.contigs if reference.contig(c) in wanted]
+    idx = 0
+    try:
+        for n in names:
+            for rec in vf.fetch(n):
+                yield idx, rec
+                idx += 1
+        return
+    except (ValueError, OSError):           # no index: fall through to a filtered pass
+        if idx:
+            raise
+    vf.reset()
+    for rec in vf:
+        if reference.contig(rec.chrom) in wanted:
+            yield idx, rec
+            idx += 1
+
+
+def read_vcf(path, reference, sample=None, qc=None, contigs=None):
+    """Read one sample of a VCF/gVCF into a CallSet (see module docstring). Raises only for unusable input (no/ambiguous sample).
+    contigs: canonical contig names to read (default all); a whole-genome file is matched one chromosome at a time to bound memory."""
     qc = qc or QCPolicy()
     vf = pysam.VariantFile(path)
     samples = list(vf.header.samples)
@@ -226,12 +252,12 @@ def read_vcf(path, reference, sample=None, qc=None):
         sample = samples[0]
     elif sample not in samples:
         raise ValueError(f'{path}: sample {sample!r} not in {samples}')
-    contigs = {c.name: c.length for c in vf.header.contigs.values()}
+    header_contigs = {c.name: c.length for c in vf.header.contigs.values()}
     has_trid = 'TRID' in vf.header.info
-    cs = CallSet(sample=sample, path=path, assembly=reference.assembly_check(contigs))
+    cs = CallSet(sample=sample, path=path, assembly=reference.assembly_check(header_contigs))
     st = dict(records=0, alleles=0, small=0, split_multiallelic_records=0, rejected=0, nocall_records=0, ref_blocks=0, sv_records=0,
               spanning_markers=0, unplaced_records=0, mnv_calls=0, repeat_records=0)
-    for idx, rec in enumerate(vf):
+    for idx, rec in _records(vf, reference, contigs):
         st['records'] += 1
         canon = reference.contig(rec.chrom)
         alts = tuple(rec.alts or ())

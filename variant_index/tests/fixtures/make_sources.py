@@ -608,7 +608,12 @@ def mini_gnomad(out):
                                                                        'mis.oe_ci.lower': 0.4, 'mis.z_score': 4.2, 'syn.z_score': 0.3}),
             crow('GENE1', 'ENSG_G1', 'ENST1b', 'false', 'false', **{'lof.oe_ci.upper': 0.9}),
             crow('GENE2', 'ENSG_G2', 'ENST2', 'true', 'true', **{'mis.obs': 50, 'mis.exp': 55.0, 'mis.oe': 0.91, 'mis.oe_ci.upper': 1.1, 'mis.z_score': 0.2, 'constraint_flags': '["no_exp_lof"]'}),
-            crow('GENE3', 'ENSG_UNKNOWN', 'ENST3', 'true', 'true', **{'lof.oe': 0.5, 'lof.oe_ci.upper': 0.7})]
+            crow('GENE3', 'ENSG_UNKNOWN', 'ENST3', 'true', 'true', **{'lof.oe': 0.5, 'lof.oe_ci.upper': 0.7}),
+            # the real file lists every MANE Select transcript twice: Ensembl (ENSG id) and RefSeq (NCBI gene id)
+            crow('GENE1', '1001', 'NM_1', 'true', 'true', **{'lof.obs': 2, 'lof.exp': 20.5, 'lof.oe': 0.098, 'lof.oe_ci.lower': 0.03, 'lof.oe_ci.upper': 0.21, 'lof.z_score': 5.1, 'lof.pLI': 1.0}),
+            crow('GENE2', '1002', 'NM_2', 'true', 'true', **{'mis.obs': 50, 'mis.exp': 55.0, 'mis.oe': 0.91, 'mis.oe_ci.upper': 1.1}),
+            crow('GENE4', '1004', 'NM_4', 'true', 'true', **{'lof.oe': 0.4, 'lof.oe_ci.upper': 0.6}),                 # no Ensembl partner row in the file
+            crow('GENE5', '1005', 'NM_5', 'true', 'true', **{'lof.oe': 0.3, 'lof.oe_ci.upper': 0.5})]                  # NCBI gene id the gene map does not know
     with gzip.open(os.path.join(out, 'gnomad.v4.1.2.constraint_metrics.tsv.bgz'), 'wt') as f:
         f.write('\t'.join(ch) + '\n' + '\n'.join(rows) + '\n')
     wrong = 'A' if b('1', 440) != 'A' else 'C'
@@ -634,6 +639,37 @@ def mini_gnomad(out):
     eh = ['chrom', 'pos', 'ref', 'alt', 'filter', 'cadd_phred', 'revel_max', 'spliceai_ds_max', 'pangolin_largest_ds', 'sift_max', 'polyphen_max']
     with gzip.open(os.path.join(out, 'regional', 'gnomad_v4_1_exomes_at_mavedb_positions.tsv.gz'), 'wt') as f:
         f.write('\t'.join(eh) + '\n' + '\n'.join(['\t'.join(map(str, [1, 402, b('1', 402), alt('1', 402), 'PASS', 26.5, 0.478, 0.05, 0.01, '', 0.982])), '\t'.join(map(str, [1, 410, b('1', 410), alt('1', 410), 'PASS', '', '', '', '', '', '']))]) + '\n')
+
+
+def mini_regions(out):
+    """Mini GIAB stratification BEDs (at the destination paths of the acquisition targets) and STRchive locus files in the real layouts."""
+    import gzip
+    for rel, rows in (('SegmentalDuplications/GRCh38_segdups.bed.gz', ['chr1\t100\t300', 'chr1\t1000\t1200', 'chr2\t0\t50', 'chrUn_xx\t0\t100', 'chr1\t500\t500']),
+                      ('Union/GRCh38_alldifficultregions.bed.gz', ['chr1\t100\t350', 'chrX\t10\t20']),
+                      ('XY/GRCh38_chrX_PAR.bed.gz', ['chrX\t0\t100'])):
+        p = os.path.join(out, 'giab', 'v3.6', 'GRCh38', rel)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with gzip.open(p, 'wt') as f:
+            f.write('\n'.join(rows) + '\n')
+    d = os.path.join(out, 'strchive')
+    os.makedirs(d, exist_ok=True)
+    hdr = '#chrom\tstart\tstop\tid\tgene\treference_motif_reference_orientation\tpathogenic_motif_reference_orientation\tpathogenic_min\tinheritance\tdisease'
+    rows = ['chr1\t1000\t1030\tTEST1_GENEA\tGENEA\tCAG\tCAG\t40\tAD\tTest disease one', 'chr1\t2000\t2024\tTEST2_GENEB\tGENEB\tGGC\tGGC\tNone\tAR\tTest disease two',
+            'chr2\t500\t560\tTEST3_MULTI\tGENEC\tAAAAT\tTGAAA\t274\tAD\tTest disease three', 'chrUn_xx\t10\t40\tTEST4_OFF\tGENED\tCAG\tCAG\t30\tAD\tOff-contig disease',
+            'chr1\t2500\t2530\tTEST5_NOJSON\tGENEE\tCAG\tCAG\t35\tXL\tNo stranger record']
+    with open(os.path.join(d, 'STRchive-disease-loci.hg38.general.bed'), 'w') as f:
+        f.write('\n'.join([hdr] + rows) + '\n')
+    with open(os.path.join(d, 'STRchive-disease-loci.hg38.TRGT.bed'), 'w') as f:
+        f.write('chr1\t1000\t1030\tID=TEST1_GENEA;MOTIFS=CAG;STRUC=<TR>\nchr2\t500\t560\tID=TEST3_MULTI;MOTIFS=AAAAT,TGAAA;STRUC=<TR>\n')
+    js = [dict(LocusId='TEST1_GENEA', ReferenceRegion='chr1:1000-1030', LocusStructure='(CAG)*', VariantType='Repeat', HGNCId=None, InheritanceMode=['AD'], DisplayRU='CAG', Disease='T1', NormalMax=35, PathologicMin=40, Gene='GENEA'),
+          dict(LocusId='TEST2_GENEB', ReferenceRegion='chr1:2000-2024', LocusStructure='(GGC)*', VariantType='Repeat', HGNCId=None, InheritanceMode=['AR'], DisplayRU='GGC', Disease='T2', NormalMax=20, PathologicMin=None, Gene='GENEB'),
+          dict(LocusId='TEST3_MULTI', ReferenceRegion=['chr2:500-530', 'chr2:530-560'], LocusStructure='(AAAAT)*(TGAAA)*', VariantType=['Repeat', 'Repeat'], VariantId=['TEST3_MULTI', 'TEST3_MULTI_B'],
+               PathologicRegion='chr2:500-530', HGNCId=None, InheritanceMode=['AD'], DisplayRU='TGAAA', Disease='T3', NormalMax=273, PathologicMin=274, Gene='GENEC'),
+          dict(LocusId='TEST4_OFF', ReferenceRegion='chrUn_xx:10-40', LocusStructure='(CAG)*', VariantType='Repeat', HGNCId=None, InheritanceMode=['AD'], DisplayRU='CAG', Disease='T4', NormalMax=29, PathologicMin=30, Gene='GENED'),
+          dict(LocusId='TEST6_ONLYJSON', ReferenceRegion='chr1:2800-2830', LocusStructure='(CAG)*', VariantType='Repeat', HGNCId=None, InheritanceMode=['AD'], DisplayRU='CAG', Disease='T6', NormalMax=10, PathologicMin=20, Gene='GENEF')]
+    with open(os.path.join(d, 'STRchive-disease-loci.hg38.stranger.json'), 'w') as f:
+        json.dump(js, f)
+    return out
 
 
 VCV_VARIATION = ['variation_id', 'accession', 'version', 'record_type', 'variation_type', 'name', 'record_status', 'date_created', 'date_last_updated', 'most_recent_submission',
@@ -760,6 +796,7 @@ def write_all(out):
     mini_events(os.path.join(out, 'events'))
     mini_gnomad(os.path.join(out, 'gnomad'))
     write_all.vcv = mini_vcv(os.path.join(out, 'vcv'))
+    mini_regions(os.path.join(out, 'regions'))
     return out
 
 

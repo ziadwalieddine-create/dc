@@ -18,7 +18,10 @@ b, alt = make_sources.b, make_sources.alt
 
 
 class FakeGenes:
-    by_ensg = {'ENSG_G1': 1, 'ENSG_G2': 1}
+    by_ensg = {'ENSG_G1': 1, 'ENSG_G2': 1, 'ENSG_G4': 1}
+
+    def from_ncbi(self, ncbi):
+        return {'1001': 'ENSG_G1', '1002': 'ENSG_G2', '1004': 'ENSG_G4'}.get(str(ncbi))
 
 
 def adapters():
@@ -47,7 +50,7 @@ class TestGnomad(unittest.TestCase):
 
     def test_constraint_uses_mane_select_only_and_stays_at_gene_level(self):
         s = self.stats['GnomadConstraintAdapter']
-        self.assertEqual((s['transcript_rows'], s['mane_rows']), (4, 3))
+        self.assertEqual((s['transcript_rows'], s['mane_rows']), (8, 7))
         lof = self.rows(claim_type='gnomad_lof_constraint', subject_id='ENSG_G1')[0]
         self.assertEqual((lof['level'], lof['axis'], lof['evidence_kind'], lof['effect_assertion'], lof['claim_value'], lof['claim_num'], lof['score']), ('gene', 'mechanistic_confidence', 'population_observation', 'not_applicable', 'LOEUF 0.210', 0.21, 0.098))
         x = json.loads(lof['extra_json'])
@@ -58,7 +61,14 @@ class TestGnomad(unittest.TestCase):
         self.assertEqual(json.loads(self.rows(claim_type='gnomad_missense_constraint', subject_id='ENSG_G2')[0]['extra_json'])['flags'], ['no_exp_lof'])
         self.assertTrue(all(r['level'] == 'gene' for r in self.rows(source_id='gnomad_constraint')))
         un = [r for r in self.rows(source_id='gnomad_constraint') if r['mapping_status'] == 'unmapped']
-        self.assertEqual([(r['unmapped_key'], r['mapping_reason']) for r in un], [('ENSG_UNKNOWN', 'gene_not_in_gene_map')])
+        self.assertEqual(sorted((r['unmapped_key'], r['mapping_reason']) for r in un), [('ENSG_UNKNOWN', 'gene_not_in_gene_map'), ('NCBIGene:1005', 'gene_not_in_gene_map')])
+
+    def test_each_mane_select_gene_is_one_measurement_whichever_transcript_source_lists_it(self):
+        s = self.stats['GnomadConstraintAdapter']
+        self.assertEqual((s['refseq_mane_rows_repeating_an_ensembl_row'], s['refseq_mane_rows_without_an_ensembl_partner']), (2, 2))
+        self.assertEqual(len(self.rows(claim_type='gnomad_lof_constraint', subject_id='ENSG_G1')), 1)               # not once per transcript source
+        g4 = self.rows(claim_type='gnomad_lof_constraint', subject_id='ENSG_G4')
+        self.assertEqual((len(g4), g4[0]['mapping_status'], g4[0]['gene_ids']), (1, 'mapped', ['ENSG_G4']))           # reached through its NCBI gene id
 
     def test_lof_curation_rows(self):
         a = self.rows(claim_type='gnomad_lof_curation_verdict', subject_id=self.k402)[0]

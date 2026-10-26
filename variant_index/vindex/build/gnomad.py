@@ -52,6 +52,7 @@ class GnomadConstraintAdapter:
         st = ctx.st()
         rel = ctx.register_release('gnomad', 'gnomad_constraint_v4_1_2', 'v4.1.2')
         known = getattr(self.genes, 'by_ensg', None)
+        rows = []
         with gzip.open(self.path, 'rt', encoding='utf-8', newline='') as f:
             hdr = f.readline().rstrip('\n').split('\t')
             ix = {n: k for k, n in enumerate(hdr)}
@@ -60,30 +61,41 @@ class GnomadConstraintAdapter:
                 st.inc('transcript_rows')
                 if c[ix['mane_select']] != 'true':
                     continue
-                if limit and st.c.get('mane_rows', 0) >= limit:
+                if limit and len(rows) >= limit:
                     break
-                st.inc('mane_rows')
-                g = lambda name: c[ix[name]] if name in ix and ix[name] < len(c) else ''
-                gid = g('gene_id')
-                subject, status, reason = (gid, 'mapped', None) if gid and (known is None or gid in known) else (None, 'unmapped', 'gene_not_in_gene_map')
-                common = dict(gene_ids=[gid] if gid else None, curator='gnomAD v4.1.2 constraint', lineage_group='gnomad_v4.1_constraint',
-                              lineage_note='one model fitted to one release; the loss-of-function and missense rows share it', unmapped_key=None if subject else gid or g('gene'))
-                flags = [x for x in (g('gene_flags') + g('constraint_flags')).replace('[', ' ').replace(']', ' ').replace('"', ' ').replace(',', ' ').split() if x]
-                quality = {k.split('.', 1)[1]: num(g(k)) for k in ('gene_quality_metrics.exome_prop_bp_AN90', 'gene_quality_metrics.exome_mean_AS_MQ', 'gene_quality_metrics.exome_prop_segdup', 'gene_quality_metrics.exome_prop_LCR')}
-                for kind, prefix, label in (('gnomad_lof_constraint', 'lof', 'LOEUF'), ('gnomad_missense_constraint', 'mis', 'upper oe')):
-                    upper, oe = num(g(f'{prefix}.oe_ci.upper')), num(g(f'{prefix}.oe'))
-                    if upper is None and oe is None:
-                        st.inc(f'{kind}:no_metric')
-                        continue
-                    extra = dict(transcript=g('transcript'), transcript_version=g('transcript_version'), symbol=g('gene'), canonical=g('canonical'), cds_length=i(g('cds_length')), coding_exons=i(g('num_coding_exons')),
-                                 observed=num(g(f'{prefix}.obs')), expected=num(g(f'{prefix}.exp')), oe=oe, oe_lower=num(g(f'{prefix}.oe_ci.lower')), oe_upper=upper, z_score=num(g(f'{prefix}.z_score')),
-                                 synonymous_z_score=num(g('syn.z_score')), flags=flags, gene_quality=quality)
-                    if prefix == 'lof':
-                        extra.update(pLI=num(g('lof.pLI')), pNull=num(g('lof.pNull')), pRec=num(g('lof.pRec')), upper_decile=i(g('lof.oe_ci.upper_bin_decile')), upper_rank=i(g('lof.oe_ci.upper_rank')))
-                    ctx.emit_evidence(evidence_row(rel, 'gnomad_constraint', f"constraint:{gid}", f'gnomad.v4.1.2.constraint_metrics.tsv.bgz#L{ln}', line.rstrip('\n'), 'gene', subject, 'mechanistic_confidence', 'population_observation', kind,
-                                                   f'{label} {upper:.3f}' if upper is not None else f'oe {oe:.3f}', 'not_applicable', status, reason, discriminator=prefix, claim_num=upper, score=oe,
-                                                   score_unit='observed/expected', origin='germline', extra_json=json.dumps(extra, sort_keys=True), **common))
-                    st.inc(f'{kind}:{status}')
+                rows.append((ln, line, c))
+        # the file lists each MANE Select transcript twice: the Ensembl one (ENSG gene id) and its RefSeq partner (NCBI gene id); one gene is one measurement
+        ensembl = {c[ix['gene_id']] for _ln, _l, c in rows if c[ix['gene_id']].startswith('ENSG')}
+        for ln, line, c in rows:
+            st.inc('mane_rows')
+            g = lambda name: c[ix[name]] if name in ix and ix[name] < len(c) else ''
+            gid = g('gene_id')
+            if gid.isdigit():
+                mapped = self.genes.from_ncbi(gid) if self.genes else None
+                if mapped in ensembl:
+                    st.inc('refseq_mane_rows_repeating_an_ensembl_row')
+                    continue
+                gid = mapped or f'NCBIGene:{gid}'
+                st.inc('refseq_mane_rows_without_an_ensembl_partner')
+            subject, status, reason = (gid, 'mapped', None) if gid and (known is None or gid in known) else (None, 'unmapped', 'gene_not_in_gene_map')
+            common = dict(gene_ids=[gid] if gid else None, curator='gnomAD v4.1.2 constraint', lineage_group='gnomad_v4.1_constraint',
+                          lineage_note='one model fitted to one release; the loss-of-function and missense rows share it', unmapped_key=None if subject else gid or g('gene'))
+            flags = [x for x in (g('gene_flags') + g('constraint_flags')).replace('[', ' ').replace(']', ' ').replace('"', ' ').replace(',', ' ').split() if x]
+            quality = {k.split('.', 1)[1]: num(g(k)) for k in ('gene_quality_metrics.exome_prop_bp_AN90', 'gene_quality_metrics.exome_mean_AS_MQ', 'gene_quality_metrics.exome_prop_segdup', 'gene_quality_metrics.exome_prop_LCR')}
+            for kind, prefix, label in (('gnomad_lof_constraint', 'lof', 'LOEUF'), ('gnomad_missense_constraint', 'mis', 'upper oe')):
+                upper, oe = num(g(f'{prefix}.oe_ci.upper')), num(g(f'{prefix}.oe'))
+                if upper is None and oe is None:
+                    st.inc(f'{kind}:no_metric')
+                    continue
+                extra = dict(transcript=g('transcript'), transcript_version=g('transcript_version'), symbol=g('gene'), canonical=g('canonical'), cds_length=i(g('cds_length')), coding_exons=i(g('num_coding_exons')),
+                             observed=num(g(f'{prefix}.obs')), expected=num(g(f'{prefix}.exp')), oe=oe, oe_lower=num(g(f'{prefix}.oe_ci.lower')), oe_upper=upper, z_score=num(g(f'{prefix}.z_score')),
+                             synonymous_z_score=num(g('syn.z_score')), flags=flags, gene_quality=quality)
+                if prefix == 'lof':
+                    extra.update(pLI=num(g('lof.pLI')), pNull=num(g('lof.pNull')), pRec=num(g('lof.pRec')), upper_decile=i(g('lof.oe_ci.upper_bin_decile')), upper_rank=i(g('lof.oe_ci.upper_rank')))
+                ctx.emit_evidence(evidence_row(rel, 'gnomad_constraint', f"constraint:{gid}", f'gnomad.v4.1.2.constraint_metrics.tsv.bgz#L{ln}', line.rstrip('\n'), 'gene', subject, 'mechanistic_confidence', 'population_observation', kind,
+                                               f'{label} {upper:.3f}' if upper is not None else f'oe {oe:.3f}', 'not_applicable', status, reason, discriminator=prefix, claim_num=upper, score=oe,
+                                               score_unit='observed/expected', origin='germline', extra_json=json.dumps(extra, sort_keys=True), **common))
+                st.inc(f'{kind}:{status}')
         return st.c
 
 

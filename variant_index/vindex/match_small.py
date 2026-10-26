@@ -179,26 +179,37 @@ def match_index_variants(ctx, keys):
     return {k: status_of(ctx, k) for k in keys}
 
 
-def interpret_calls(callset, index, ctx=None):
-    """Call-centric interpretation of every small call. Calls with dosage 0 are not calls and do not appear."""
+def is_difficult(regions):
+    """True when a region of a difficult-region stratification overlaps (the XY context regions are about ploidy, not call quality)."""
+    return any(r['kind'].startswith('giab_') and not r['kind'].startswith('giab_xy_') for r in regions)
+
+
+def iter_interpretations(callset, index, ctx=None, chunk=200_000):
+    """Call-centric interpretation of every small call, as a generator so a whole-genome callset never needs all its evidence rows in memory at once:
+    evidence is fetched for `chunk` calls at a time. Calls with dosage 0 are not calls and do not appear."""
     ctx = ctx or MatchContext(callset)
     calls = [c for c in callset.small if c.dosage > 0]
-    ev = index.evidence_for_variants({c.key for c in calls})
     mnv_idx = index.mnv_components()
-    out = []
-    for c in calls:
-        rows = ev.get(c.key, [])
-        mnv_ctx = []
-        for mk in mnv_idx.get(c.key, []):
-            mnv_ctx.append((mk, status_of(ctx, mk)))
-        genes = index.genes_overlapping(c.chrom, c.pos, c.pos + len(c.ref) - 1)
-        regions = index.regions_overlapping(c.chrom, c.pos, c.pos + len(c.ref) - 1)
-        if c.missing:
-            status = 'NO_CALL'
-        elif not c.qc_pass:
-            status = 'FILTERED_CALL'
-        else:
-            status = 'EXACT_MATCH' if rows else 'NO_INDEX_RECORD'
-        flags = tuple(c.qc_flags) + (('multiallelic_split',) if c.multiallelic else ()) + (('difficult_region',) if any(r['kind'].startswith('giab_') for r in regions) else ())
-        out.append(CallInterpretation(c, status, rows, _summary.summarise(rows), genes, regions, flags, mnv_ctx))
-    return out
+    for off in range(0, len(calls), chunk):
+        part = calls[off:off + chunk]
+        ev = index.evidence_for_variants({c.key for c in part})
+        for c in part:
+            rows = ev.get(c.key, [])
+            mnv_ctx = []
+            for mk in mnv_idx.get(c.key, []):
+                mnv_ctx.append((mk, status_of(ctx, mk)))
+            genes = index.genes_overlapping(c.chrom, c.pos, c.pos + len(c.ref) - 1)
+            regions = index.regions_overlapping(c.chrom, c.pos, c.pos + len(c.ref) - 1)
+            if c.missing:
+                status = 'NO_CALL'
+            elif not c.qc_pass:
+                status = 'FILTERED_CALL'
+            else:
+                status = 'EXACT_MATCH' if rows else 'NO_INDEX_RECORD'
+            flags = tuple(c.qc_flags) + (('multiallelic_split',) if c.multiallelic else ()) + (('difficult_region',) if is_difficult(regions) else ())
+            yield CallInterpretation(c, status, rows, _summary.summarise(rows), genes, regions, flags, mnv_ctx)
+
+
+def interpret_calls(callset, index, ctx=None):
+    """List form of iter_interpretations (tests and small callsets)."""
+    return list(iter_interpretations(callset, index, ctx))
