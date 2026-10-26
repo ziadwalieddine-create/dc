@@ -73,7 +73,7 @@
         "test_build_gwas"
       ],
       "status": "partial",
-      "gap": "Full summary-statistics files are listed but not downloaded (per-study files; storage in this environment is about 5 GB free). Association-level evidence does not stand in for them."
+      "gap": "Full summary statistics are not downloaded and have no adapter: 181,588 of the 232,202 studies in the acquired studies table list them (per-study files, mostly molecular-QTL sets; this environment has a few GB of free disk), and the relevant studies have not been chosen. Association-level evidence does not stand in for them."
     },
     {
       "id": "Q3",

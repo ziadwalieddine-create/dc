@@ -46,7 +46,7 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 **Q1.** Every acquisition target records its URL, method and SHA-256 in acquisition/manifest.jsonl; the sources are bulk releases (ClinVar VCF and VCV XML, GWAS Catalog tables, Open Targets Parquet, gnomAD files, PGS Catalog files) or official API exports (ClinGen, CPIC, ClinPGx, PharmVar).
 
-**Q2.** The associations table and study metadata are acquired and integrated (GwasCatalogAdapter). *Gap:* Full summary-statistics files are listed but not downloaded (per-study files; storage in this environment is about 5 GB free). Association-level evidence does not stand in for them.
+**Q2.** The associations table and study metadata are acquired and integrated (GwasCatalogAdapter). *Gap:* Full summary statistics are not downloaded and have no adapter: 181,588 of the 232,202 studies in the acquired studies table list them (per-study files, mostly molecular-QTL sets; this environment has a few GB of free disk), and the relevant studies have not been chosen. Association-level evidence does not stand in for them.
 
 **Q3.** Variant index, studies, credible sets (with posterior inclusion probabilities) and locus-to-gene scores are acquired and integrated; gene-level evidence (IMPC, constraint-like tables) is integrated separately. *Gap:* The colocalisation datasets (15.4 GiB) are not downloaded.
 

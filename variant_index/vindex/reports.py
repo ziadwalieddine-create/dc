@@ -50,8 +50,8 @@ MODULES = (
     dict(name='annotation resources acquired for later use (AlphaMissense, ProteinGym, AlphaFold DB, InterPro, SIFTS, UniProt, GTEx, HPA, ENCODE, BioGRID, 1000 Genomes metadata)', status='unimplemented',
          note='acquired, validated and join-tested (acquisition/compat_report.json) but no adapter writes them into the index; the lifecycle report lists them as acquired and not integrated'),
     dict(name='ontology roll-up of traits (EFO / MONDO ancestors)', status='unimplemented', note='trait views group by the sources\' own identifiers'),
-    dict(name='GWAS Catalog full summary statistics', status='not_acquired', note='the association table and study metadata are integrated; summary-statistics files are listed, not downloaded'),
-    dict(name='Open Targets colocalisation', status='not_acquired', note='credible sets, fine-mapping and L2G are integrated; the colocalisation datasets are not downloaded'),
+    dict(name='GWAS Catalog full summary statistics', status='not_acquired', note='the association table and study metadata are integrated; 181,588 of 232,202 catalogue studies list full summary statistics (per-study files, mostly molecular-QTL sets), none is downloaded and no adapter for them exists; choosing the relevant studies is not done'),
+    dict(name='Open Targets colocalisation', status='not_acquired', note='credible sets, fine-mapping and L2G are integrated; the colocalisation datasets (15.4 GiB) are not downloaded and have no adapter'),
     dict(name='personal 30x GRCh38 SNP/indel, CNV and SV calls', status='unavailable_input', note='no personal call file exists in this environment; matching is verified on synthetic fixtures and, when run, on a public truth set'),
 )
 
