@@ -1,0 +1,10 @@
+# Established tools used as arbiters in the tests (normalisation: bcftools norm; score arithmetic: plink2 --score) and by the build.
+name: vindex
+channels: [conda-forge, bioconda]
+dependencies:
+  - python>=3.12
+  - pysam
+  - pyarrow
+  - bcftools=1.24
+  - htslib=1.24
+  - plink2
