@@ -16,6 +16,7 @@ import re
 import zipfile
 
 from ..normalise import normalise
+from .genes import entity_id
 from .common import DATA, evidence_row
 from .hgvs import change_to_key, split_changes
 
@@ -211,7 +212,7 @@ class CpicAdapter:
                 ctx.emit_evidence(evidence_row(rel_fun, 'cpic', f"{gene}:{name}:{f['id']}", f"allele:{f['id']}", json.dumps(f, sort_keys=True, ensure_ascii=False), 'haplotype', hid,
                                                'effect_magnitude_direction', 'curated_expert_classification', 'allele_functional_status', fs, FUNC_EFFECT.get(low, 'not_applicable'),
                                                direction=FUNC_DIRECTION.get(low), claim_num=avn, review_status=f.get('strength'), curator='CPIC',
-                                               lineage_group=f'cpic_allele:{gene}:{name}', gene_ids=[gene], origin='germline', extra_json=json.dumps(extra, sort_keys=True, default=str)))
+                                               lineage_group=f'cpic_allele:{gene}:{name}', gene_ids=[entity_id(self.genes, symbol=gene)], origin='germline', extra_json=json.dumps(extra, sort_keys=True, default=str)))
                 st.inc('allele_function_rows')
         for r in self.load('recommendation'):
             g_info = guideline.get(r['guidelineid'], {})

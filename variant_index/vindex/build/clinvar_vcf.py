@@ -13,6 +13,7 @@ import os
 
 from ..normalise import normalise
 from .common import DATA, evidence_row
+from .genes import entity_id
 from .classes import effect_of, stars, unknown_tokens, STARS   # noqa: F401  (effect_of/STARS stay importable from here)
 
 
@@ -86,11 +87,10 @@ class ClinVarVcfAdapter:
                 for gi in (info.get('GENEINFO') or '').split('|'):
                     if ':' in gi:
                         sym, _, nid = gi.partition(':')
-                        gene_ids.append(f'NCBIGene:{nid}')
+                        gid = entity_id(genes, symbol=sym, ncbi=nid)
+                        gene_ids.append(gid)
                         if subject:
-                            ens = genes.from_ncbi(nid) if genes else None
-                            ctx.emit('variant_gene', dict(variant_key=subject, gene_id=ens or f'NCBIGene:{nid}', relation='clinvar_geneinfo',
-                                                          consequence=info.get('MC', ''), release_id=release), name='clinvar')
+                            ctx.emit('variant_gene', dict(variant_key=subject, gene_id=gid, relation='clinvar_geneinfo', consequence=info.get('MC', ''), release_id=release), name='clinvar')
                 common['gene_ids'] = gene_ids
                 acc = f'VariationID:{vid}|AlleleID:{info.get("ALLELEID", "")}'
                 locator = f'L{ln}'

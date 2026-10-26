@@ -79,6 +79,19 @@ class GeneMap:
         return None, 'unresolved'
 
 
+def entity_id(genes, symbol=None, ncbi=None, hgnc=None):
+    """The id a row uses for a gene: the Ensembl gene id when the gene resolves (HGNC id, then NCBI Gene id, then symbol), otherwise the identifier as given with its
+    namespace (HGNC:, NCBIGene:, symbol:). A gene that does not resolve is kept under that spelling, never dropped and never guessed from a similar symbol."""
+    if genes is not None:
+        gid, _how = genes.resolve(hgnc=hgnc, symbol=symbol, ncbi=ncbi)
+        if gid:
+            return gid
+    for ns, v in (('HGNC', hgnc), ('NCBIGene', ncbi), ('symbol', symbol)):
+        if v:
+            return f'{ns}:{v}'
+    return None
+
+
 class GeneAdapter:
     """Writes the gene entity table (all genes of the Open Targets target dataset) and symbol/HGNC cross-references."""
     source_id = 'opentargets'

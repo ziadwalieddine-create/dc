@@ -17,6 +17,7 @@ import os
 import re
 
 from .common import DATA, evidence_row
+from .genes import entity_id
 
 CG = os.path.join(DATA, 'clingen')
 RS_TAIL = 'A single record of a ClinGen expert panel; the underlying case reports and functional studies may also be cited by ClinVar submitters and in the literature'
@@ -55,8 +56,9 @@ class ClinGenErepoAdapter:
     targets = ['clingen_erepo_variant_classifications']
     requires = ('clinvar',)      # variants are resolved through the ClinVar entities of the same build
 
-    def __init__(self, path=None):
+    def __init__(self, path=None, genes=None):
         self.path = path or os.path.join(CG, 'erepo_variant_classifications.tsv')
+        self.genes = genes
 
     def prepare(self, ctx):
         ids_cv, ids_ca = set(), set()
@@ -101,7 +103,7 @@ class ClinGenErepoAdapter:
                 chrom, pos = c, int(p)
             unmapped_key = None if key else (f"ClinVar:{r['ClinVar Variation Id']}" if r['ClinVar Variation Id'] else (f"CA:{r['Allele Registry Id']}" if r['Allele Registry Id'] else r['Variation']))
             common = dict(chrom=chrom, pos=pos, unmapped_key=unmapped_key, condition_ids=mondo, condition_text=r['Disease'], inheritance=r['Mode of Inheritance'] or None,
-                          curator=r['Expert Panel'], evaluated=r['Approval Date'] or None, assertion_criteria=r['Guideline'] or None, gene_ids=[r['HGNC Gene Symbol']] if r['HGNC Gene Symbol'] else None,
+                          curator=r['Expert Panel'], evaluated=r['Approval Date'] or None, assertion_criteria=r['Guideline'] or None, gene_ids=[entity_id(self.genes, symbol=r['HGNC Gene Symbol'])] if r['HGNC Gene Symbol'] else None,
                           lineage_group=f"clingen_erepo:{r['Uuid']}", lineage_note=RS_TAIL, origin='germline')
             met, notmet = split_codes(r['Applied Evidence Codes (Met)']), split_codes(r['Applied Evidence Codes (Not Met)'])
             extra = json.dumps(dict(met=met, not_met=notmet, pubmed=r['PubMed Articles'], link=r['Evidence Repo Link'], retracted=r['Retracted'], published=r['Published Date'],

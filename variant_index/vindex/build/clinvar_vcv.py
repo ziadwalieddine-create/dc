@@ -31,6 +31,7 @@ import pyarrow.parquet as pq
 
 from .classes import effect_of, stars, unknown_tokens
 from .common import DATA, evidence_row
+from .genes import entity_id
 
 VCV = os.path.join(DATA, 'clinvar', 'vcv')
 EVENT_TYPE = {'copy number gain': 'CNV_GAIN', 'copy number loss': 'CNV_LOSS', 'Deletion': 'DEL', 'Duplication': 'DUP', 'Tandem duplication': 'DUP', 'Insertion': 'INS',
@@ -117,8 +118,8 @@ class ClinVarVcvAdapter:
     def gene_ids(self, text):
         out = []
         for tok in (text or '').split('|'):
-            nid = tok.partition(':')[2]
-            gid = (self.genes.from_ncbi(nid) if self.genes else None) or (f'NCBIGene:{nid}' if nid else None)
+            sym, _, nid = tok.partition(':')
+            gid = entity_id(self.genes, symbol=sym or None, ncbi=nid or None) if nid else None
             if gid and gid not in out:
                 out.append(gid)
         return out or None

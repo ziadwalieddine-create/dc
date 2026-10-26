@@ -47,7 +47,7 @@ def make_adapters(names, ref):
         'genes': lambda: GeneAdapter(genes),
         'clinvar': lambda: ClinVarVcfAdapter(genes),
         'clinvar_vcv': lambda: ClinVarVcvAdapter(genes),
-        'clingen_erepo': lambda: ClinGenErepoAdapter(),
+        'clingen_erepo': lambda: ClinGenErepoAdapter(genes=genes),
         'clingen_gene_region': lambda: ClinGenGeneRegionAdapter(genes),
         'giab_regions': lambda: GiabRegionAdapter(),
         'strchive': lambda: StrchiveAdapter(genes),
