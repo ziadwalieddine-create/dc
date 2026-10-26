@@ -1,4 +1,5 @@
 """The cross-check recomputes calls and evidence matches with bcftools only. It must agree with a clean run and must be able to fail."""
+import glob
 import os
 import shutil
 import tempfile
@@ -96,6 +97,50 @@ class TestCrosscheck(unittest.TestCase):
         self.assertEqual(r['calls']['only_matcher'], 1)
         self.assertEqual(r['evidence']['only_bcftools_unexplained'], 1)
         self.assertEqual(r['examples']['evidence_only_bcftools'], [gone])
+
+
+    # ---- the ClinVar rows of the index against the ClinVar VCF, read by bcftools ----------------------------------------------------------
+    def fields(self, idx=None):
+        return crosscheck.clinvar_fields(idx or self.idx, self.cv, self.ref)
+
+    def tampered_index(self, name, change):
+        d = os.path.join(self.work, name)
+        shutil.copytree(self.idx, d)
+        path = [p for p in sorted(glob.glob(os.path.join(d, 'evidence', 'variant', '1', 'clinvar.parquet')))][0]
+        t = pq.read_table(path)
+        rows = t.to_pylist()
+        victim = next(i for i, r in enumerate(rows) if r['claim_type'] == 'germline_classification' and r['locator'].startswith('L') and r['accession'].startswith('VariationID:1001|'))
+        rows = change(rows, victim)
+        pq.write_table(pa.Table.from_pylist(rows, schema=t.schema), path)
+        return d
+
+    def test_every_clinvar_vcf_row_of_the_index_equals_the_file(self):
+        r = self.fields()
+        self.assertTrue(r['ok'], r['examples'])
+        t = r['totals']
+        self.assertGreaterEqual(t['vcf_records_with_classification'], 10)
+        self.assertEqual(t['vcf_records_with_classification'], t['index_rows'])
+
+    def test_a_changed_label_a_deleted_row_and_an_invented_row_are_each_reported(self):
+        def relabel(rows, i):
+            rows[i]['claim_value'] = 'Benign'
+            rows[i]['review_status'] = 'no_assertion_criteria_provided'
+            rows[i]['condition_text'] = 'something else'
+            return rows
+        r = self.fields(self.tampered_index('idx_relabelled', relabel))
+        self.assertFalse(r['ok'])
+        self.assertEqual((r['totals']['claim_value_differs'], r['totals']['review_status_differs'], r['totals']['condition_text_differs']), (1, 1, 1))
+        self.assertEqual(r['examples']['claim_value_differs'], ['VariationID:1001|AlleleID:2001'])
+
+        r = self.fields(self.tampered_index('idx_deleted', lambda rows, i: rows[:i] + rows[i + 1:]))
+        self.assertEqual((r['totals']['missing_in_index'], r['examples']['missing_in_index']), (1, ['VariationID:1001|AlleleID:2001']))
+
+        def invent(rows, i):
+            extra = dict(rows[i])
+            extra['accession'] = 'VariationID:777|AlleleID:888'
+            return rows + [extra]
+        r = self.fields(self.tampered_index('idx_invented', invent))
+        self.assertEqual((r['totals']['extra_in_index'], r['examples']['extra_in_index']), (1, ['VariationID:777|AlleleID:888']))
 
 
 if __name__ == '__main__':

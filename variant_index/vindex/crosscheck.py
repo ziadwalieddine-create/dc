@@ -159,3 +159,67 @@ def crosscheck(vcf, results, reference, evidence_vcf=None, evidence_source='clin
         return report
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def clinvar_fields(index_dir, vcf, reference, contigs=None, bcftools=None, examples=10):
+    """Compare every ClinVar-VCF-derived evidence row of the index with the VCF itself, read by bcftools: the classification string, review status and condition text of
+    each (VariationID, AlleleID) must be the ones the file states, no record with a classification may be missing from the index, and the index may hold no such row
+    that the file lacks. bcftools is the independent parser; the comparison is one contig at a time."""
+    import pyarrow.dataset as pds
+    bcf = bcftools or find_bcftools()
+    if not bcf:
+        raise RuntimeError('bcftools not found (set VINDEX_TOOLS_BIN or put it on PATH)')
+    from . import schema
+    from .wgs import chromosome_order
+    primary = chromosome_order(reference, contigs)
+    passes = [(c, [c], c) for c in primary] + ([('other_contigs', None, schema.OTHER_PARTITION)] if contigs is None else [])
+    tmp = tempfile.mkdtemp(prefix='clinvar_fields_')
+    try:
+        norm = Normaliser(bcf, reference, tmp)
+        names_in_file = norm.contig_names(vcf)
+        total = dict(vcf_records_with_classification=0, index_rows=0, missing_in_index=0, extra_in_index=0, claim_value_differs=0, review_status_differs=0, condition_text_differs=0)
+        ex = {k: [] for k in ('missing_in_index', 'extra_in_index', 'claim_value_differs', 'review_status_differs', 'condition_text_differs')}
+        per = {}
+        for label, canon_list, part in passes:
+            names = [n for n in names_in_file if (reference.contig(n) in canon_list if canon_list else not (reference.contig(n) and reference.is_primary(reference.contig(n))))]
+            want = {}
+            for n in names:
+                stages = [[bcf, 'query', '-r', n, '-f', '%ID\t%INFO/ALLELEID\t%INFO/CLNSIG\t%INFO/CLNREVSTAT\t%INFO/CLNDN\n', norm.indexed(vcf)]]
+                for line in _chain(stages):
+                    vid, aid, sig, rev, dn = line.rstrip('\n').split('\t')
+                    if sig not in ('.', ''):
+                        want[f'VariationID:{vid}|AlleleID:{aid}'] = (sig, rev if rev != '.' else '', dn.replace('_', ' ') if dn != '.' else '')
+            got = {}
+            p = os.path.join(index_dir, 'evidence', 'variant', part)
+            files = [os.path.join(p, f) for f in sorted(os.listdir(p)) if f.endswith('.parquet')] if os.path.isdir(p) else []
+            if files:
+                import pyarrow.compute as pc
+                flt = (pc.field('source_id') == 'clinvar') & (pc.field('claim_type') == 'germline_classification') & pc.match_substring_regex(pc.field('locator'), '^L[0-9]+$')
+                if canon_list is None:
+                    pass
+                else:
+                    flt = flt & (pc.field('chrom') == canon_list[0])
+                t = pds.dataset(files, format='parquet').to_table(columns=['accession', 'claim_value', 'review_status', 'condition_text', 'chrom'], filter=flt)
+                for r in t.to_pylist():
+                    got[r['accession']] = (r['claim_value'], r['review_status'] or '', r['condition_text'] or '')
+            missing = sorted(set(want) - set(got))
+            extra = sorted(set(got) - set(want))
+            diff = {'claim_value_differs': [], 'review_status_differs': [], 'condition_text_differs': []}
+            for k in set(want) & set(got):
+                for i, name in enumerate(('claim_value_differs', 'review_status_differs', 'condition_text_differs')):
+                    if want[k][i] != got[k][i]:
+                        diff[name].append(k)
+            per[label] = dict(vcf_records_with_classification=len(want), index_rows=len(got), missing_in_index=len(missing), extra_in_index=len(extra), **{k: len(v) for k, v in diff.items()})
+            total['vcf_records_with_classification'] += len(want)
+            total['index_rows'] += len(got)
+            total['missing_in_index'] += len(missing)
+            total['extra_in_index'] += len(extra)
+            for k, v in diff.items():
+                total[k] += len(v)
+            for k, v in (('missing_in_index', missing), ('extra_in_index', extra), *[(k, sorted(v)) for k, v in diff.items()]):
+                ex[k] += v[:examples]
+        report = dict(bcftools=subprocess.run([bcf, '--version'], capture_output=True, text=True).stdout.split('\n')[0], totals=total, examples={k: v[:examples] for k, v in ex.items()}, per_contig=per)
+        report['ok'] = all(total[k] == 0 for k in ('missing_in_index', 'extra_in_index', 'claim_value_differs', 'review_status_differs', 'condition_text_differs'))
+        return report
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
