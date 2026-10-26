@@ -362,6 +362,16 @@ def dataset_lifecycle():
             if t.get('kind') == 'http_dir':
                 size = sum(os.path.getsize(os.path.join(p, f)) for f in os.listdir(p) if f.endswith('.parquet')) if os.path.isdir(p) else None
                 acquired, why = size == m.get('bytes'), f'{size} bytes on disk, manifest {m.get("bytes")}'
+            elif t.get('kind') == 'stream_derive':          # the archive was streamed and parsed, not stored: the derived Parquet tables must be there with the recorded sizes
+                tabs = m.get('tables') or {}
+                bad = []
+                for name, tm in tabs.items():
+                    d = os.path.join(p, name)
+                    files = [f for f in os.listdir(d) if f.endswith('.parquet')] if os.path.isdir(d) else []
+                    size = sum(os.path.getsize(os.path.join(d, f)) for f in files)
+                    if len(files) != tm.get('files') or size != tm.get('bytes'):
+                        bad.append(f'{name}: {len(files)} files / {size} bytes, manifest {tm.get("files")} / {tm.get("bytes")}')
+                acquired, why = bool(tabs) and not bad, '; '.join(bad) or f'{len(tabs)} derived tables present with the recorded sizes'
             elif t.get('kind') == 'per_entity':
                 acquired, why = os.path.isdir(p) and any(True for _ in os.scandir(p)), 'directory present' if os.path.isdir(p) else 'directory missing'
             else:
