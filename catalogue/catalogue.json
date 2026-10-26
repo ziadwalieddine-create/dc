@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25 14:57 UTC",
+ "generated_utc": "2026-10-26 02:55 UTC",
  "sources": [
   {
    "id": "1000genomes",
@@ -116,8 +116,8 @@
     "accessible": true,
     "acquired": true,
     "validated": true,
-    "mapped": false,
-    "usable": false
+    "mapped": true,
+    "usable": true
    },
    "lifecycle_by_dimension": {
     "population_frequency": {
@@ -129,6 +129,141 @@
      "usable": false
     },
     "structural_variation_cnv": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "JSON",
+    "TSV",
+    "GAF",
+    "FASTA"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "Alliance gene ids (MGI:, RGD:, ZFIN:, HGNC:)",
+    "ontology terms (MP, DOID, GO)"
+   ],
+   "id": "alliance_genome",
+   "name": "Alliance of Genome Resources (model-organism and human gene knowledge)",
+   "categories": [
+    "perturbation_evidence"
+   ],
+   "maintainer": "Alliance of Genome Resources (MGI, RGD, SGD, ZFIN, FlyBase, WormBase, Xenbase and the Gene Ontology Consortium)",
+   "url": "https://www.alliancegenome.org/",
+   "provenance": [
+    "https://download.alliancegenome.org/",
+    "https://www.alliancegenome.org/api/releaseInfo"
+   ],
+   "version": {
+    "value": "Release 9.1.0 (API release info dated 2026-09-02)",
+    "release_date": "2026-09-02",
+    "verified": "live"
+   },
+   "scope": "Harmonised gene, allele, disease-model, phenotype, expression and orthology data from model-organism databases and human. The public download bucket holds, for release 9.1.0, directories for AGM, ALLELE, BGI, CONSTRUCT, DAF (disease annotations), EXPRESSION, FASTA, GAF, gene descriptions and cross references, and PHENOTYPE files for HUMAN, MGI, RGD, SGD and ZFIN.",
+   "variant_classes": [
+    "gene_level"
+   ],
+   "mapping_methods": "Gene records use the identifiers of the contributing model-organism databases with Alliance orthology assertions to human.",
+   "quantitative": {
+    "summary": "n/a",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Not retrieved: the Alliance website pages are JavaScript-only and one probe was refused by the content delivery network; no licence text was read.",
+    "redistribution": "Unknown",
+    "access": "unverified",
+    "verified": "unverified"
+   },
+   "update_frequency": "Releases several times a year (9.1.0 in September 2026).",
+   "coverage_limitations": [
+    "Model-organism phenotypes and disease models inform human genes only through orthology",
+    "Allele and construct records describe engineered models, not human variants"
+   ],
+   "known_omissions": [
+    "No files fetched; the mouse knockout phenotypes are held through IMPC and the orthology through Open Targets (homology dataset)"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "Mouse phenotypes (IMPC) and orthology (Open Targets) are already held; the Alliance adds zebrafish, rat, yeast, fly and worm models. Fetch specific phenotype files once the licence is read."
+   },
+   "status": {
+    "accessible": "partial",
+    "notes": "The release information API and the public bucket listing answered; the website pages are not readable without JavaScript."
+   },
+   "unverified_fields": [
+    "licence",
+    "file sizes of the human-relevant files"
+   ],
+   "evidence": [
+    "alliance/downloads",
+    "alliance/release_info",
+    "alliance/bucket_release_9_1_0",
+    "alliance/bucket_phenotype_9_1_0"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "perturbation_experimental",
+     "curated_expert_classification",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "gene_dosage",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "perturbation_evidence",
+      "note": "model-organism knockout and mutant phenotypes, orthology-mapped"
+     },
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "perturbation_evidence",
+      "note": "curated disease-model annotations"
+     }
+    ],
+    "biological_context": "Phenotypes and disease models of engineered or natural mutants in other species, mapped to human genes by orthology; the genotype is an organism-specific allele.",
+    "evidence_strength": "Curated from model-organism databases; the evidence is as strong as the original experiment and weakened by orthology mapping.",
+    "mechanistic_confidence": "Low to moderate for the gene's role in the model; none for a specific human allele.",
+    "phenotype_implication": "Model-organism phenotype terms; supportive of a human phenotype only when concordant with human genetics.",
+    "absence_means": "A gene without a model phenotype was not studied or has no ortholog in the model; it is not shown to be dispensable.",
+    "overlaps_with_sources": [
+     {
+      "source": "impc",
+      "relation": "independent_related",
+      "note": "mouse knockout phenotypes appear in both through MGI; count a mouse line once"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "perturbation_evidence": {
      "catalogued": true,
      "accessible": true,
      "acquired": false,
@@ -391,6 +526,173 @@
    "lifecycle_notes": []
   },
   {
+   "id": "biogrid_interactions",
+   "name": "BioGRID protein and genetic interactions (release 5.0.262, human file)",
+   "categories": [
+    "pathways_interactions_epistasis"
+   ],
+   "maintainer": "BioGRID (Tyers lab and collaborators)",
+   "url": "https://thebiogrid.org/",
+   "provenance": [
+    "https://downloads.thebiogrid.org/BioGRID/Latest-Release/",
+    "https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab3.zip"
+   ],
+   "version": {
+    "value": "BioGRID release 5.0.262 (read from the member names of the organism archive fetched on 2026-10-25; the \"Latest-Release\" archive is generated on request)",
+    "release_date": "unknown (generated on request)",
+    "verified": "live"
+   },
+   "scope": "Literature-curated interactions in tab3 format. The human file holds 1,433,067 interactions: 1,411,994 physical and 21,073 genetic, from 29 experimental systems (genetic ones include synthetic lethality, synthetic rescue, dosage rescue, dosage lethality, positive and negative genetic interaction, phenotypic enhancement and suppression, synthetic growth defect). 1,319,164 (92%) are human-human; the rest are cross-species and host-pathogen interactions, mainly SARS-CoV-2, mouse, rat, HIV-1, HPV and yeast proteins with a human partner. The archive holds 98 organism files; only the human file is used.",
+   "variant_classes": [
+    "gene_level",
+    "protein_level"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "formats": [
+    "tab3 TSV (zip)"
+   ],
+   "identifiers": [
+    "BioGRID interaction id",
+    "Entrez Gene id",
+    "BioGRID id",
+    "official symbol",
+    "UniProt and RefSeq accessions",
+    "PubMed id",
+    "NCBI taxonomy id"
+   ],
+   "mapping_methods": "Each interaction names both partners by Entrez Gene id, symbol and UniProt/RefSeq accessions, plus the experimental system, system type (physical or genetic), throughput, author and PubMed id of the supporting publication.",
+   "quantitative": {
+    "summary": "Presence of an interaction with its experimental system and throughput; an optional score for some systems.",
+    "units": "n/a",
+    "uncertainty": "throughput (high or low) and number of supporting publications, not a probability",
+    "direction": "n/a for physical interactions; genetic systems encode the direction (for example negative or positive genetic)"
+   },
+   "licence": {
+    "name": "MIT License: \"100% freely available to both academic and commercial users\" and provided without warranty (BioGRID download repository page, verified live); citation of the contributing authors and the BioGRID publication is requested.",
+    "redistribution": "MIT terms",
+    "access": "open",
+    "verified": "live"
+   },
+   "update_frequency": "Monthly releases (the release number advances with each).",
+   "coverage_limitations": [
+    "Interactions are curated from publications and reflect what has been studied; well-studied proteins have many more interactions",
+    "Physical interactions say two proteins were found together in an assay (system types such as affinity capture or two-hybrid differ in what that means), not that they interact in a given tissue",
+    "Genetic interactions are mostly from yeast and from screens in cell lines; 21,073 are in the human file",
+    "About 8% of the human file are cross-species or host-pathogen interactions and must not be read as human-human"
+   ],
+   "known_omissions": [
+    "Other organisms, chemical interactions, post-translational modification annotations and the multi-validated physical subset are not fetched",
+    "Interactions of IntAct, STRING and Reactome are held through Open Targets (interaction dataset)"
+   ],
+   "overlap_with_existing": [],
+   "reuse_decision": {
+    "action": "retrieve_source",
+    "rationale": "The only open resource in the catalogue that carries curated genetic interactions (synthetic lethality, dosage rescue, suppression) for epistasis and compensation, alongside physical interactions; MIT-licensed and a single 189 MB archive. Open Targets already integrates IntAct, STRING, Reactome and Signor interactions, so those are not mirrored separately."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Archive generated on request: no size or checksum is published, so the manifest pins size and SHA-256; the release number is read from the member names."
+   },
+   "unverified_fields": [
+    "update frequency (monthly releases are stated on the BioGRID site, not retrieved here)"
+   ],
+   "evidence": [
+    "biogrid_interactions/latest_release_listing"
+   ],
+   "acquisition_targets": [
+    "biogrid_interactions_organism_tab3"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification",
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "direct",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "curated genetic interactions from double-perturbation experiments; whole-gene, not allele-specific"
+     },
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "gene_level",
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "physical interaction network"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "curated",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "protein-protein interaction partners"
+     }
+    ],
+    "components": [
+     {
+      "name": "physical interactions (affinity capture, two-hybrid and related systems)",
+      "evidence_kind": [
+       "curated_expert_classification"
+      ],
+      "allele_resolution": "gene_level",
+      "origin": "native"
+     },
+     {
+      "name": "genetic interactions (synthetic lethality, dosage rescue, suppression and related systems)",
+      "evidence_kind": [
+       "curated_expert_classification",
+       "perturbation_experimental"
+      ],
+      "allele_resolution": "gene_level",
+      "origin": "native"
+     }
+    ],
+    "biological_context": "Interactions from published experiments in many systems (cell lines, yeast and others); each row records the experimental system, throughput and publication. The partner proteins are whole proteins, so an interaction is not tied to a particular isoform, domain or variant.",
+    "evidence_strength": "Curated from the literature; the supporting publications and experimental systems are the evidence, and high-throughput studies are flagged. Counts of supporting publications are an indication of reproducibility, not a probability.",
+    "mechanistic_confidence": "Low to moderate. A genetic interaction shows that perturbing two genes together has an effect that differs from the single perturbations, which is the basis for epistasis and compensation hypotheses; it does not identify the allele, the pathway step or the direction of compensation. A physical interaction does not show that a variant disrupts it.",
+    "phenotype_implication": "Cell-level or organism-level phenotype of the double perturbation, as described in the supporting study; no human disease phenotype.",
+    "absence_means": "A missing interaction means it was not reported in curated publications, which reflects what has been tested; it does not show that two genes do not interact, nor that perturbing both has no combined effect.",
+    "overlaps_with_sources": [
+     {
+      "source": "opentargets",
+      "relation": "independent_related",
+      "note": "Open Targets interactions come from IntAct, Signor, Reactome and STRING; BioGRID is a separate curation, so the same pair can appear in both and should be counted once per publication"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "pathways_interactions_epistasis": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "biogrid_orcs",
    "name": "BioGRID ORCS (Open Repository of CRISPR Screens)",
    "categories": [
@@ -601,6 +903,134 @@
    },
    "lifecycle_by_dimension": {
     "resource_catalogues": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "TSV (bgzip) with tabix index",
+    "scripts"
+   ],
+   "assemblies": [
+    "GRCh37",
+    "GRCh38"
+   ],
+   "identifiers": [
+    "chromosome, position, reference, alternate"
+   ],
+   "id": "cadd",
+   "name": "CADD: combined annotation dependent depletion",
+   "categories": [
+    "annotation_integration"
+   ],
+   "maintainer": "University of Washington and Berlin Institute of Health",
+   "url": "https://cadd.gs.washington.edu/",
+   "provenance": [
+    "https://cadd.gs.washington.edu/download"
+   ],
+   "version": {
+    "value": "CADD v1.7 (the download page names v1.7 as the current release and lists v1.0 to v1.6 and a v1.7 pre-release for GRCh37)",
+    "release_date": "unknown",
+    "verified": "live"
+   },
+   "scope": "A score that integrates many annotations to estimate the deleteriousness of a single-nucleotide variant or small indel. The download page offers, for GRCh38 and GRCh37, all possible SNVs with and without all annotations, the annotation files for offline scoring and the scoring scripts; indel scores are computed on request.",
+   "variant_classes": [
+    "snv",
+    "indel"
+   ],
+   "mapping_methods": "Scores are keyed by position and alleles on the stated build.",
+   "quantitative": {
+    "summary": "Raw score and PHRED-scaled score (rank among all possible substitutions).",
+    "units": "raw score; PHRED",
+    "uncertainty": "none per score",
+    "direction": "higher means more deleterious"
+   },
+   "licence": {
+    "name": "\"CADD scores are freely available for all non-commercial applications\"; commercial use needs a licence from the university (download page).",
+    "redistribution": "Non-commercial use; commercial licence required otherwise",
+    "access": "open_with_terms",
+    "verified": "live"
+   },
+   "update_frequency": "Versions every one to two years.",
+   "coverage_limitations": [
+    "A single combined predictor trained on proxy labels; correlated with the predictors it integrates",
+    "No indication of the mechanism"
+   ],
+   "known_omissions": [
+    "No files fetched: the whole-genome SNV files are tens of gigabytes; CADD scores already reach the library through the INFO fields of gnomAD v4.1 and through dbNSFP"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "CADD scores for observed variants are carried in gnomAD v4.1 INFO fields, and the full table is tens of gigabytes with non-commercial terms. Fetch only if a variant outside gnomAD needs a score, and read the terms for the intended use first."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "The download page answers a plain curl request but the probe collector's agent receives an empty reply; the page text is stored from the curl fetch."
+   },
+   "unverified_fields": [
+    "file sizes",
+    "training labels and annotation set of v1.7"
+   ],
+   "evidence": [
+    "cadd/download_page_curl",
+    "cadd/download",
+    "cadd/info",
+    "dbnsfp/download_page"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "computational_prediction"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "prediction",
+      "dimension": "annotation_integration",
+      "note": "combined deleteriousness score"
+     }
+    ],
+    "biological_context": "A genome-wide score that combines conservation, regulatory and protein-level annotations; it carries no tissue or cell-type context.",
+    "evidence_strength": "Computational prediction with no per-variant uncertainty; the score is a rank among possible substitutions, not a probability.",
+    "mechanistic_confidence": "Low. It does not distinguish protein, splicing and regulatory mechanisms and is not calibrated to a particular phenotype.",
+    "phenotype_implication": "A deleteriousness rank; no phenotype.",
+    "absence_means": "A variant without a score was not precomputed (for example an indel) or lies outside the scored set; absence is not a benign prediction.",
+    "overlaps_with_sources": [
+     {
+      "source": "gnomad_variants",
+      "relation": "independent_related",
+      "note": "gnomAD INFO carries CADD scores for observed variants, so the score and the frequency come from one file for those variants"
+     },
+     {
+      "source": "dbnsfp",
+      "relation": "independent_related",
+      "note": "dbNSFP carries CADD among its predictors"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "annotation_integration": {
      "catalogued": true,
      "accessible": true,
      "acquired": false,
@@ -922,14 +1352,17 @@
     "https://api.cpicpgx.org/v1/"
    ],
    "version": {
-    "value": "Public API (gene, guideline endpoints) queried 2026-10-25",
+    "value": "Public API tables queried 2026-10-25 (PostgREST 12.0.2); the database advances with guideline updates and the API publishes no release number",
     "release_date": "2026-10-25",
     "verified": "live"
    },
-   "scope": "Gene-drug guidelines, allele function tables and diplotype-phenotype translations.",
+   "scope": "Gene-drug guidelines, allele function tables and diplotype-phenotype translations. The CPIC database API tables fetched here: 1,354 allele definitions for 22 genes (13 flagged structural), the 3,160 allele-location values and 1,210 sequence locations that define them (992 with a dbSNP id; 22 mitochondrial MT-RNR1 locations), 1,378 allele function records, 101 phenotype results with 208 function-pair lookups, 112,820 diplotype-to-phenotype entries and 2,115 drug recommendations.",
    "variant_classes": [
     "gene_level",
-    "snv"
+    "snv",
+    "indel",
+    "cnv",
+    "mtdna"
    ],
    "assemblies": [
     "none/not_applicable"
@@ -941,7 +1374,7 @@
     "HGNC/Ensembl/NCBI gene IDs",
     "star alleles"
    ],
-   "mapping_methods": "Allele definitions refer to reference sequences; coordinate mapping to be done via PharmVar/ClinPGx.",
+   "mapping_methods": "Alleles are defined by variants at sequence locations given in chromosomal (g.), gene and protein notation with a dbSNP id where there is one; the chromosomal positions are tested against the reference sequence in compat_resources.py. The pharmvarid field of the allele definitions is empty in this snapshot, so alleles are matched to PharmVar by gene and star-allele name.",
    "quantitative": {
     "summary": "Allele function and phenotype categories.",
     "units": "n/a",
@@ -957,30 +1390,44 @@
    },
    "update_frequency": "With guideline updates.",
    "coverage_limitations": [
-    "Limited to genes with CPIC guidelines"
+    "Limited to genes with CPIC guidelines (22 genes with allele definitions)",
+    "Allele function is assigned to named alleles by CPIC; unlisted alleles have no function assignment",
+    "Structural alleles (13 flagged) are defined as alleles, not by breakpoints",
+    "The API snapshot carries no release number; the manifest pins size and SHA-256"
    ],
    "known_omissions": [
-    "Endpoints beyond gene and guideline lists were not explored"
+    "Endpoints beyond the allele, phenotype, diplotype and recommendation tables (publications, drugs, pairs, test alerts, guideline text) were not fetched"
    ],
    "overlap_with_existing": [],
    "reuse_decision": {
     "action": "retrieve_source",
-    "rationale": "Small API tables; combine with ClinPGx and PharmVar."
+    "rationale": "Small API tables that give allele definitions, allele function with evidence strength and population frequency, phenotype translation and recommendations in one open, versioned source; combined with PharmVar nomenclature and ClinPGx annotations rather than rebuilt."
    },
    "status": {
     "accessible": "yes",
-    "notes": "API returns JSON."
+    "notes": "API returns JSON; a plain GET returns every row. The CPIC licence page needs JavaScript and its content equals the ClinPGx page."
    },
    "acquisition_targets": [
     "cpic_genes",
-    "cpic_guidelines"
+    "cpic_guidelines",
+    "cpic_api_allele_definition",
+    "cpic_api_allele_location_value",
+    "cpic_api_sequence_location",
+    "cpic_api_allele",
+    "cpic_api_gene_result",
+    "cpic_api_gene_result_lookup",
+    "cpic_api_gene_result_diplotype",
+    "cpic_api_recommendation"
    ],
    "unverified_fields": [
     "CPIC-specific licence terms"
    ],
    "evidence": [
+    "cpic/api_allele_definition_sample",
     "cpic/api_genes",
+    "cpic/api_root",
     "cpic/home",
+    "cpic/licence",
     "cpic/license"
    ],
    "evidence_profile": {
@@ -993,15 +1440,27 @@
       "axis": "pharmacogenomic_haplotype",
       "variant_classes": [
        "snv",
+       "indel",
+       "cnv",
        "gene_level"
       ],
       "basis": "curated",
-      "dimension": "functional_haplotypes_pgx"
+      "dimension": "functional_haplotypes_pgx",
+      "note": "star-allele function and diplotype-phenotype translation"
+     },
+     {
+      "axis": "mitochondrial",
+      "variant_classes": [
+       "mtdna"
+      ],
+      "basis": "curated",
+      "dimension": "functional_haplotypes_pgx",
+      "note": "MT-RNR1 alleles and their drug-response guideline"
      }
     ],
-    "biological_context": "Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline.",
+    "biological_context": "Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles; for X-linked, mitochondrial and HLA genes single alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline. Allele function records carry the strength of evidence, citations and population frequencies.",
     "evidence_strength": "Expert-curated allele function and guideline recommendations with CPIC's own evidence levels; assertions derived from published studies, not measurements of a given sample's alleles.",
-    "mechanistic_confidence": "Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles and unresolved phase.",
+    "mechanistic_confidence": "Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles defined without breakpoints, and unresolved phase.",
     "phenotype_implication": "Predicted metaboliser or transporter phenotype and a prescribing recommendation for a diplotype; drug-specific, not general.",
     "absence_means": "An allele missing from the definition tables has unassigned function, which is different from normal function. A sample with no defining variant detected defaults to the reference allele by convention, an assumption about untested positions.",
     "overlaps_with_sources": [
@@ -2354,11 +2813,11 @@
    "overlap_with_existing": [],
    "reuse_decision": {
     "action": "adopt_curated",
-    "rationale": "Open Targets already consumes eQTL Catalogue credible sets for colocalisation; defer direct download of the very large sumstats until a locus-level analysis requires them."
+    "rationale": "Open Targets lists the eQTL Catalogue among its integrated data sources, and the acquired Open Targets credible_set dataset already holds 1,718,748 eQTL, 844,764 sQTL, 521,558 transcript-usage QTL and 123,630 single-cell eQTL credible-set rows with effect sizes. Which of its projects are eQTL Catalogue datasets was not matched, so the catalogue's own files (summary statistics and credible sets per dataset, now under a new data-access scheme with an r8_beta release) are not fetched until a gap in the Open Targets coverage is shown."
    },
    "status": {
     "accessible": "partial",
-    "notes": "FTP listing verified; API retired."
+    "notes": "FTP directory listing and licence page readable; the old REST API is gone (its replacement is documented under /Data_access/) and no data file was fetched."
    },
    "unverified_fields": [],
    "evidence": [
@@ -2366,7 +2825,9 @@
     "eqtl_catalogue/data_access",
     "eqtl_catalogue/ftp_listing",
     "eqtl_catalogue/home",
-    "eqtl_catalogue/license_page"
+    "eqtl_catalogue/license_page",
+    "opentargets/credible_set_counts",
+    "opentargets/docs_licence"
    ],
    "acquisition_targets": [],
    "evidence_profile": {
@@ -2682,6 +3143,165 @@
    "lifecycle_notes": []
   },
   {
+   "id": "giab_stratifications",
+   "name": "GIAB genome stratifications v3.6 (GRCh38): difficult and complex regions",
+   "categories": [
+    "complex_loci_callability"
+   ],
+   "maintainer": "NIST Genome in a Bottle Consortium with the GA4GH Benchmarking Team and the Telomere-to-Telomere Consortium",
+   "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/",
+   "provenance": [
+    "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/",
+    "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/"
+   ],
+   "version": {
+    "value": "v3.6 (directory listed 2025-04-25; GRCh38 files dated 2025-04-24)",
+    "release_date": "2025-04-25",
+    "verified": "live"
+   },
+   "scope": "BED stratifications of the GRCh38 reference into regions where variant calling or interpretation is difficult: low mappability, segmental duplications, tandem repeats and satellites, reference gaps, falsely duplicated and collapsed regions, regions of copy-number variation that cause false-positive calls, the MHC, KIR and VDJ loci, extreme-GC promoters, and the union of all difficult regions, with sex-chromosome regions. The GRCh38 set lists 189 stratification files; 23 BED files that bear on complex loci are mirrored with the set's README, background, file list and checksum list.",
+   "variant_classes": [
+    "region_level",
+    "complex_locus"
+   ],
+   "assemblies": [
+    "GRCh38"
+   ],
+   "formats": [
+    "BED (gzip)",
+    "TSV",
+    "Markdown"
+   ],
+   "identifiers": [
+    "UCSC-style chromosome names (chr1 to chrY)"
+   ],
+   "mapping_methods": "0-based half-open BED intervals on the GRCh38 primary-assembly chromosomes named chr1 to chrY; the names equal the UCSC-style names of the RefSeq assembly report, which is how they are joined to the 1, 2, X naming of ClinVar, gnomAD and Ensembl.",
+   "quantitative": {
+    "summary": "Region membership only.",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "\"Publicly released data are freely available for reuse without embargo\" (BACKGROUND file of the GRCh38 set, verified live); no formal licence identifier is given.",
+    "redistribution": "Free to reuse; the README files carry the citations that the maintainers request",
+    "access": "open",
+    "verified": "live"
+   },
+   "update_frequency": "New versions every few months to a year (the listing shows v2.0 in 2020-03 through v3.6 in 2025-04).",
+   "coverage_limitations": [
+    "Stratifications describe where benchmark variant calls are difficult; they do not say whether a particular call is right or wrong",
+    "Intervals exist only on the GRCh38 primary-assembly chromosomes; a variant on an alternate or patch scaffold has no stratification here",
+    "Mappability regions are defined for short-read mapping (README)"
+   ],
+   "known_omissions": [
+    "The GRCh37, CHM13 and HG002 haplotype sets, the bigBED versions, and the Ancestry, GC-content, functional and genome-specific (HG001 to HG007) stratifications are not fetched",
+    "Of the 189 GRCh38 files, the remaining low-complexity (homopolymer, simple-repeat) and mappability files are not fetched",
+    "The GIAB benchmark call sets (truth variants) are not fetched"
+   ],
+   "overlap_with_existing": [],
+   "reuse_decision": {
+    "action": "retrieve_source",
+    "rationale": "Before a call in a duplicated, polymorphic or low-mappability region is interpreted, the region has to be recognised; the maintained GA4GH/GIAB stratifications are the community standard for this and are small (23 files, a few MB each), so building own masks would repeat established work."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "FTP directory with an MD5 list; all downloaded files verified against it. The set README says the files were developed with GA4GH and the T2T Consortium."
+   },
+   "unverified_fields": [
+    "how each individual stratification was derived (only the category summaries of the README were read)"
+   ],
+   "evidence": [
+    "giab/stratifications_listing",
+    "giab/stratifications_v3_6_listing",
+    "giab/v3_6_readme",
+    "giab/grch38_readme",
+    "giab/grch38_background",
+    "giab/grch38_stratifications_tsv"
+   ],
+   "acquisition_targets": [
+    "giab_v3_6_grch38_readme",
+    "giab_v3_6_grch38_background",
+    "giab_v3_6_grch38_stratification_list",
+    "giab_v3_6_grch38_md5s",
+    "giab_v3_6_grch38_alldifficultregions",
+    "giab_v3_6_grch38_alllowmapandsegdupregions",
+    "giab_v3_6_grch38_lowmappabilityall",
+    "giab_v3_6_grch38_segdups",
+    "giab_v3_6_grch38_segdups_gt10kb",
+    "giab_v3_6_grch38_mhc",
+    "giab_v3_6_grch38_kir",
+    "giab_v3_6_grch38_vdj",
+    "giab_v3_6_grch38_false_duplications_correct_copy",
+    "giab_v3_6_grch38_false_duplications_incorrect_copy",
+    "giab_v3_6_grch38_collapsed_duplication_fp_regions",
+    "giab_v3_6_grch38_population_cnv_fp_regions",
+    "giab_v3_6_grch38_l1h_gt500",
+    "giab_v3_6_grch38_gaps_slop15kb",
+    "giab_v3_6_grch38_allotherdifficultregions",
+    "giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes",
+    "giab_v3_6_grch38_badpromoters",
+    "giab_v3_6_grch38_alltandemrepeats",
+    "giab_v3_6_grch38_satellites_slop5",
+    "giab_v3_6_grch38_chrx_par",
+    "giab_v3_6_grch38_chry_par",
+    "giab_v3_6_grch38_chrx_xtr",
+    "giab_v3_6_grch38_chrx_ampliconic"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "paralog_complex_locus",
+      "variant_classes": [
+       "complex_locus",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "complex_loci_callability",
+      "note": "segmental duplications, falsely duplicated and collapsed regions, MHC, KIR and VDJ loci"
+     },
+     {
+      "axis": "repeat_expansion",
+      "variant_classes": [
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "complex_loci_callability",
+      "note": "tandem-repeat, satellite and homopolymer regions where small-variant calls are unreliable"
+     }
+    ],
+    "biological_context": "Regions defined from reference-sequence features and read mappability, not from the biology of any sample: segmental duplications and paralogous regions, highly polymorphic immune loci (MHC, KIR, VDJ), falsely duplicated or collapsed reference regions, tandem repeats and reference gaps.",
+    "evidence_strength": "Region annotations from the GIAB and GA4GH benchmarking effort. Membership of a region is a property of the reference and of short-read mappability, not a measurement of any variant call.",
+    "mechanistic_confidence": "Not applicable to mechanism. A region flag says a call there is less reliable or that a paralog may be involved; it cannot separate a true variant from a mis-mapped paralogous sequence variant.",
+    "phenotype_implication": "None: region membership carries no phenotype information.",
+    "absence_means": "A position outside every listed region is not guaranteed to be reliably callable: the sets stratify benchmark performance and do not certify individual calls. A call inside a region must not be discarded or trusted on that basis alone.",
+    "overlaps_with_sources": []
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "complex_loci_callability": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "gnomad_constraint",
    "name": "gnomAD constraint metrics (LoF/missense) and pext",
    "categories": [
@@ -2819,6 +3439,134 @@
      "validated": true,
      "mapped": true,
      "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    ".ld.bm matrices",
+    ".ht index tables"
+   ],
+   "assemblies": [
+    "GRCh37"
+   ],
+   "identifiers": [
+    "chrom:pos:ref:alt"
+   ],
+   "id": "gnomad_ld",
+   "name": "gnomAD v2.1.1 linkage disequilibrium matrices",
+   "categories": [
+    "association_finemapping_coloc",
+    "population_frequency"
+   ],
+   "maintainer": "Broad Institute (gnomAD)",
+   "url": "https://gnomad.broadinstitute.org/downloads",
+   "provenance": [
+    "https://gnomad-public-us-east-1.s3.amazonaws.com/release/2.1.1/ld/"
+   ],
+   "version": {
+    "value": "gnomAD v2.1.1 LD matrices (S3 prefix release/2.1.1/ld/, 39 entries)",
+    "release_date": "unknown",
+    "verified": "live"
+   },
+   "scope": "LD matrices in files with the extensions .ld.bm (matrices) and .ht (variant index tables) for common variants of each genetic ancestry group of the genome callset on GRCh37, with and without the \"adj\" genotype filter.",
+   "variant_classes": [
+    "snv"
+   ],
+   "mapping_methods": "The index table maps matrix rows to variants.",
+   "quantitative": {
+    "summary": "Pairwise LD between common variants per ancestry group.",
+    "units": "r",
+    "uncertainty": "sample size of the group",
+    "direction": "signed"
+   },
+   "licence": {
+    "name": "gnomAD data are released under CC0 1.0 (as listed for gnomAD in the Open Targets data-source table); the gnomAD LD files themselves carry no separate statement that was read.",
+    "redistribution": "No restriction stated",
+    "access": "open",
+    "verified": "unverified"
+   },
+   "update_frequency": "Not updated for v4.",
+   "coverage_limitations": [
+    "GRCh37 only and common variants only",
+    "The matrices are in a binary matrix format (.ld.bm) that needs the library that wrote it to read; the format was not examined"
+   ],
+   "known_omissions": [
+    "No files fetched: the matrices are large and in a binary format that was not examined"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "LD for fine-mapping is wanted per region; the matrices are large and GRCh37-only, so fetching waits for a concrete locus and a liftover or a recomputation from phased GRCh38 genotypes."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "S3 prefix listing read."
+   },
+   "unverified_fields": [
+    "sizes of the matrices",
+    "licence statement of the LD files",
+    "file format and sizes (the extensions suggest Hail matrices and tables; the gnomAD documentation was not read)"
+   ],
+   "evidence": [
+    "gnomad/s3_v2_1_1_ld",
+    "opentargets/docs_licence"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "population",
+      "dimension": "association_finemapping_coloc",
+      "note": "LD separates a causal variant from linked variants"
+     }
+    ],
+    "biological_context": "Correlation of common alleles across haplotypes in the gnomAD genome callset, by genetic ancestry group.",
+    "evidence_strength": "Computed from genotype calls of a large sample; precise for common variants.",
+    "mechanistic_confidence": "None for mechanism; LD identifies linked variants.",
+    "phenotype_implication": "None: linkage disequilibrium carries no phenotype information.",
+    "absence_means": "A variant outside the common set or the callset has no LD entry.",
+    "overlaps_with_sources": [
+     {
+      "source": "gnomad_variants",
+      "relation": "derived_from",
+      "note": "LD is computed from the gnomAD callset; the same individuals"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "association_finemapping_coloc": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    },
+    "population_frequency": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
     }
    },
    "lifecycle_notes": []
@@ -3400,6 +4148,307 @@
    "lifecycle_notes": []
   },
   {
+   "id": "hgsvc3",
+   "name": "HGSVC3 release 1.0: assembly-based structural variants from 65 phased genomes (GRCh38)",
+   "categories": [
+    "structural_variation_cnv",
+    "complex_loci_callability"
+   ],
+   "maintainer": "Human Genome Structural Variation Consortium (phase 3), hosted by EBI/IGSR",
+   "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/",
+   "provenance": [
+    "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/"
+   ],
+   "version": {
+    "value": "Variant calls release 1.0 (directory dated 2024-09-18; PAV 2.4.0.1, merged with SV-Pop; VCF fileDate 2024-04-11)",
+    "release_date": "2024-09-18",
+    "verified": "live"
+   },
+   "scope": "Structural variants called from 65 phased long-read-based genome assemblies and genotyped per haplotype: 176,231 insertions and deletions (64,428 DEL, 111,803 INS; symbolic alleles) and 300 inversions on GRCh38 primary-assembly coordinates, with flags for overlap with reference segmental duplications (REF_SD) and tandem repeats (REF_TRF). The SNV and indel call sets, T2T-CHM13 coordinates, complex SVs, mobile-element, segmental-duplication, centromere and graph-genome releases are not fetched.",
+   "variant_classes": [
+    "sv",
+    "complex_locus"
+   ],
+   "assemblies": [
+    "GRCh38"
+   ],
+   "formats": [
+    "VCF (bgzip)",
+    "MANIFEST",
+    "Markdown"
+   ],
+   "identifiers": [
+    "chromosome-position-SVTYPE-length identifier",
+    "sample ids (HG/NA numbers)"
+   ],
+   "mapping_methods": "GRCh38 no-alt primary coordinates with chr-prefixed contig names; each record lists the sample and haplotype from which the representative allele was taken, and genotypes are phased pairs (haplotype 1 | haplotype 2), with \".\" where the haplotype was not aligned.",
+   "quantitative": {
+    "summary": "Phased presence or absence of each SV in each of 65 diploid genomes.",
+    "units": "allele (0, 1 or .)",
+    "uncertainty": "no quality score; \".\" marks regions where assemblies were not aligned",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): in the spirit of the Fort Lauderdale principles, data users may use the data for many studies but are expected to allow the data producers to make the first presentations and to publish the first paper with global analyses.",
+    "redistribution": "Reuse for research is encouraged; the first-publication expectation applies to global analyses of the data; attribution to the consortium",
+    "access": "open_with_terms",
+    "verified": "live"
+   },
+   "update_frequency": "Irregular releases (the release directory shows 2024 and 2025 subdirectories and a 2026 update of the chrY analysis).",
+   "coverage_limitations": [
+    "65 genomes of diverse ancestry: frequencies are indicative and not population frequencies",
+    "Calls come from alignment of phased assemblies to GRCh38 primary assembly; unreliable regions such as centromeres and telomeres were discarded, and \".\" genotypes mark regions where assemblies could not be aligned",
+    "Insertions and deletions are symbolic alleles; the inserted sequences are in the full (non-symbolic) callset that is not fetched",
+    "The data reuse statement asks users to let the producers publish the first global analyses"
+   ],
+   "known_omissions": [
+    "Non-symbolic (sequence-resolved) insertion/deletion VCFs (51 MB), the SNV (503 MB) and indel (186 MB) call sets, annotation tables, T2T-CHM13 calls and complex SV calls are not fetched",
+    "Assemblies and alignments are not fetched"
+   ],
+   "overlap_with_existing": [],
+   "reuse_decision": {
+    "action": "retrieve_source",
+    "rationale": "Long-read assembly-based SV calls resolve insertions, inversions and repeat-embedded events that short-read catalogues miss, with per-haplotype genotypes and built-in flags for segmental duplications and tandem repeats. The symbolic insertion/deletion and inversion call sets total 6.4 MB; the multi-hundred-megabyte SNV and indel releases are deferred."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "FTP files with a MANIFEST of sizes and MD5s; both VCFs verified against it."
+   },
+   "unverified_fields": [
+    "the calling and merging methods beyond the release README (PAV and SV-Pop are named; their parameters were not read)"
+   ],
+   "evidence": [
+    "hgsvc3/data_reuse_statement",
+    "hgsvc3/ftp_listing",
+    "hgsvc3/release_listing",
+    "hgsvc3/variant_calls_readme",
+    "hgsvc3/variant_calls_manifest",
+    "hgsvc3/variant_calls_grch38_listing"
+   ],
+   "acquisition_targets": [
+    "hgsvc3_grch38_sv_insdel_sym_vcf",
+    "hgsvc3_grch38_sv_inv_sym_vcf",
+    "hgsvc3_variant_calls_readme",
+    "hgsvc3_variant_calls_manifest"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "structural_rearrangement",
+      "variant_classes": [
+       "sv"
+      ],
+      "basis": "population",
+      "dimension": "structural_variation_cnv",
+      "note": "insertions, deletions and inversions in 65 assembled genomes"
+     },
+     {
+      "axis": "paralog_complex_locus",
+      "variant_classes": [
+       "sv",
+       "complex_locus"
+      ],
+      "basis": "context",
+      "dimension": "complex_loci_callability",
+      "note": "REF_SD and REF_TRF flag calls in segmental duplications and tandem repeats"
+     }
+    ],
+    "biological_context": "Germline structural variants of 65 individuals of diverse ancestry, called by comparing phased long-read-based assemblies with the reference; the sample set is a research panel and carries no phenotype data.",
+    "evidence_strength": "Observational allele calls with per-haplotype genotypes from assembly alignment. Breakpoints and sizes are sequence-based, which makes them more exact than short-read estimates; sensitivity depends on how well the assemblies align.",
+    "mechanistic_confidence": "None for mechanism. It supplies which structural alleles exist and where; effects on genes, regulation or dosage must come from annotation and from the curated dosage and clinical sources.",
+    "phenotype_implication": "Presence in a research panel without phenotype data; no disease implication.",
+    "absence_means": "A structural variant not listed was not seen in these 65 genomes or lay where assemblies did not align; this is not evidence that the variant is rare in populations or harmless.",
+    "overlaps_with_sources": [
+     {
+      "source": "gnomad_sv_cnv",
+      "relation": "independent_related",
+      "note": "independent callsets of structural variants (long-read assemblies versus short-read population sequencing); compare by type and reciprocal overlap, never pool counts"
+     },
+     {
+      "source": "1000genomes",
+      "relation": "independent_related",
+      "note": "the release also genotypes its variants in 1000 Genomes samples (Genotyping_1kGP directory), so the same individuals can appear in 1000 Genomes-derived callsets; count an individual once"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "structural_variation_cnv": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    },
+    "complex_loci_callability": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "id": "hpa",
+   "name": "Human Protein Atlas v25.1: tissue and cell-type RNA expression and protein subcellular location",
+   "categories": [
+    "regulation_expression_splicing",
+    "protein_structure_function"
+   ],
+   "maintainer": "The Human Protein Atlas consortium (Science for Life Laboratory, Sweden)",
+   "url": "https://www.proteinatlas.org/",
+   "provenance": [
+    "https://www.proteinatlas.org/about/download",
+    "https://www.proteinatlas.org/about/licence",
+    "https://www.proteinatlas.org/download/tsv/"
+   ],
+   "version": {
+    "value": "Human Protein Atlas version 25.1 (the download page names the version; the URLs serve the current release); files dated 2025-11-06 and 2025-12-12",
+    "release_date": "2025-12-12",
+    "verified": "live"
+   },
+   "scope": "Three gene-level tables of the atlas: consensus RNA expression (nTPM) in 51 tissues for 20,162 genes; RNA expression (nCPM) of the same genes in 154 single-cell types; and the subcellular location of proteins for 13,603 genes with a reliability category (Enhanced, Supported, Approved, Uncertain). The atlas also holds antibody-based tissue and cancer protein data, mass-spectrometry, blood, brain, cell-line and interaction data that are not fetched.",
+   "variant_classes": [
+    "gene_level"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "formats": [
+    "TSV (zip)"
+   ],
+   "identifiers": [
+    "Ensembl gene id (ENSG)",
+    "gene symbol"
+   ],
+   "mapping_methods": "Rows are keyed by Ensembl gene id without a version, so they join to the MANE summary, the Ensembl annotation and Open Targets after stripping versions elsewhere.",
+   "quantitative": {
+    "summary": "Normalised RNA expression per gene and tissue or cell type (nTPM, nCPM) and categorical protein-location reliability.",
+    "units": "nTPM; nCPM",
+    "uncertainty": "none per value; reliability category for locations",
+    "direction": "higher = more expression"
+   },
+   "licence": {
+    "name": "Creative Commons Attribution 4.0 International for all copyrightable parts of the Human Protein Atlas; data subject to third-party constraints may also be included, and the licence page lists external sources with other licences (HPA licence and citation page, verified live).",
+    "redistribution": "Attribution required; check the third-party licences listed on the HPA page before redistributing derived tables",
+    "access": "open_with_terms",
+    "verified": "live"
+   },
+   "update_frequency": "Annual versions (the release history is linked from the download page).",
+   "coverage_limitations": [
+    "Gene-level summaries: no allele-specific or isoform-resolved information",
+    "The consensus tissue table has 1,026,292 gene-tissue values for 20,162 genes and 51 tissues (0.998 of all pairs); absent pairs are absent, not zero",
+    "Bulk-tissue values average over the cell types present; the single-cell-type table is the cell-resolved view"
+   ],
+   "known_omissions": [
+    "The antibody-based protein expression, pathology, blood, brain-region, cell-line, immune-cell, mass-spectrometry and interaction tables, and the full proteinatlas.tsv/json/xml summaries, are not fetched",
+    "The separate HPA-only and GTEx-only RNA tables are not fetched; the GTEx expression files are held through the gtex source"
+   ],
+   "overlap_with_existing": [],
+   "reuse_decision": {
+    "action": "retrieve_source",
+    "rationale": "Tissue and cell-type specificity of gene expression decides whether a regulatory or loss-of-function mechanism is plausible in a tissue of interest, and subcellular location bears on protein-level mechanisms. The three tables are small (22 MB) and fill the cell-type-resolved and protein-localisation gaps that GTEx bulk tissue and Open Targets baseline expression leave."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Plain HTTPS downloads; no checksum is published, so size and SHA-256 are pinned. The URLs always serve the current release."
+   },
+   "unverified_fields": [
+    "how the consensus expression levels are computed (the page lists the HPA, GTEx and consensus RNA datasets separately; the combination method was not read)",
+    "licences of the external sources that the licence page lists"
+   ],
+   "evidence": [
+    "hpa/download",
+    "hpa/licence"
+   ],
+   "acquisition_targets": [
+    "hpa_v25_1_rna_tissue_consensus",
+    "hpa_v25_1_rna_single_cell_type",
+    "hpa_v25_1_subcellular_location"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "experimental_annotation",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "context",
+      "dimension": "regulation_expression_splicing",
+      "note": "tissue and cell-type resolved RNA expression of the gene"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "gene_level"
+      ],
+      "basis": "context",
+      "dimension": "protein_structure_function",
+      "note": "subcellular location of the protein"
+     }
+    ],
+    "biological_context": "RNA sequencing of tissues and single-cell types, normalised per gene, and protein localisation by immunofluorescence imaging of cultured cell lines (the download page lists the image-based location data). Expression is a property of the sampled tissue or cell type and its donors.",
+    "evidence_strength": "Measured expression and localisation summarised per gene; reliability categories grade the localisation evidence. The consensus RNA table combines datasets (see unverified fields), so it is not independent of GTEx.",
+    "mechanistic_confidence": "Low. It shows where a gene is expressed or its protein found, which bears on whether a tissue-specific regulatory or loss-of-function mechanism is plausible; it says nothing about the effect of any allele.",
+    "phenotype_implication": "None directly; tissue specificity informs which tissues could manifest an effect.",
+    "absence_means": "A gene without a value in a tissue or cell type is not shown to be silent there: detection limits, dilution in bulk tissue and tissues or states that were not sampled apply. A gene absent from the localisation table was not localised (13,603 genes), not shown to be non-localised.",
+    "overlaps_with_sources": [
+     {
+      "source": "gtex",
+      "relation": "aggregates",
+      "note": "the consensus tissue RNA table is described on the download page beside separate HPA and GTEx RNA tables; do not count GTEx expression twice (the combination method was not read)"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "regulation_expression_splicing": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    },
+    "protein_structure_function": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "impc",
    "name": "IMPC (International Mouse Phenotyping Consortium)",
    "categories": [
@@ -3417,7 +4466,7 @@
     "release_date": "2026-03-16",
     "verified": "live"
    },
-   "scope": "Systematic knockout mouse phenotyping: 9,605 phenotyped genes, 10,341 mutant lines, 111,664 phenotype calls (release 24.0).",
+   "scope": "Systematic knockout mouse phenotyping: release 24.0 reports 9,605 phenotyped genes, 10,341 mutant lines and 111,664 phenotype calls. Fetched result files: the genotype-phenotype assertions (67,350 significant assertions for 8,429 genes and 8,735 alleles: 52,692 homozygous, 13,982 heterozygous, 676 hemizygous), 70 gene to phenotype-term association rows, and viability calls for 9,162 gene-allele lines (6,284 viable, 2,139 lethal, 739 subviable). The release page counts and the file rows are different quantities, whose definitions were not reconciled.",
    "variant_classes": [
     "gene_level"
    ],
@@ -3448,27 +4497,36 @@
    "update_frequency": "Several releases per year.",
    "coverage_limitations": [
     "Mouse, not human; ortholog mapping required",
-    "Homozygous knockouts mainly; hypomorphic and missense effects absent"
+    "Homozygous knockouts mainly; hypomorphic and missense effects absent",
+    "Significant assertions only: a gene without an assertion was tested and showed nothing significant, or was not tested for that procedure",
+    "1,215 of the 67,350 assertions are on alleles that carry a NOT-RELEASED placeholder accession instead of an MGI allele id",
+    "1,569 assertions use histopathology (MPATH) terms rather than MP terms, and one row has no term"
    ],
    "known_omissions": [
-    "Human phenotype of a human variant cannot be read directly from mouse knockouts"
+    "The statistical-results file (538 MB), the per-parameter, per-procedure and per-line hit tables, the fertility and LacZ expression reports and the other assertion subsets are not fetched"
    ],
    "overlap_with_existing": [],
    "reuse_decision": {
     "action": "adopt_curated",
-    "rationale": "Open Targets integrates IMPC as evidence_impc and mouse_phenotype with human ortholog mapping; fetch source tables only if gene-level mouse detail is needed."
+    "rationale": "Open Targets integrates IMPC with human ortholog mapping (evidence_impc, mouse_phenotype), which is the route for orthology-mapped use; the three small result files are fetched in addition because they carry the allele, zygosity, sex and viability information that the integrated datasets drop, and viability is the mouse counterpart of human loss-of-function intolerance (tested against gnomAD LOEUF)."
    },
    "status": {
     "accessible": "yes",
-    "notes": "Release page and FTP listing readable."
+    "notes": "FTP result files for release 24.0; the server publishes no checksums, so sizes and SHA-256 are pinned."
    },
    "evidence": [
     "impc/release_page",
     "impc/ftp_listing",
-    "impc/licence"
+    "impc/licence",
+    "impc/results_listing_r24"
    ],
    "unverified_fields": [],
-   "acquisition_targets": [],
+   "acquisition_targets": [
+    "impc_r24_readme",
+    "impc_r24_genotype_phenotype_assertions_all",
+    "impc_r24_gene_mp_association_1",
+    "impc_r24_viability"
+   ],
    "evidence_profile": {
     "evidence_kind": [
      "perturbation_experimental"
@@ -3482,7 +4540,7 @@
       ],
       "basis": "direct",
       "dimension": "perturbation_evidence",
-      "note": "mouse knockout phenotype; orthology to the human gene is an inference"
+      "note": "mouse knockout phenotype with allele, zygosity and sex; orthology to the human gene is an inference"
      },
      {
       "axis": "gene_dosage",
@@ -3491,15 +4549,162 @@
       ],
       "basis": "direct",
       "dimension": "natural_knockouts_dosage",
-      "note": "mouse knockout phenotype used as a proxy for loss-of-function tolerance"
+      "note": "viability of the knockout (lethal, subviable, viable) as the mouse counterpart of loss-of-function intolerance"
      }
     ],
-    "biological_context": "Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered knockout in one organism, and phenotype calls are made per procedure.",
+    "biological_context": "Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered allele (named by allele accession, zygosity and sex) in one organism and strain background; phenotype calls are made per procedure and parameter. For human use the result is gene-level, through orthology.",
     "evidence_strength": "Direct measurement of phenotypes in knockout mice, with statistical phenotype calls and release-specific thresholds.",
     "mechanistic_confidence": "Moderate for the gene's role in the mouse. It is not allele-specific, differences between mouse and human physiology limit transfer, and compensation by paralogs is not resolved.",
     "phenotype_implication": "Mouse phenotype terms. They support a human loss-of-function phenotype only when concordant with human genetics.",
-    "absence_means": "No phenotype call means none was detected in the procedures performed; screen breadth and genotype coverage vary, and lines that were not phenotyped or are lethal have no adult phenotype.",
+    "absence_means": "No assertion means none was significant in the procedures performed (screen breadth, sex and genotype coverage vary); a line that was not phenotyped, or was lethal before adult procedures, has no adult phenotype. Absence is not shown to be dispensable.",
     "overlaps_with_sources": []
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "perturbation_evidence": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    },
+    "natural_knockouts_dosage": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "PSI-MITAB",
+    "PSI-MI (psi25, psi30 directories)",
+    "ZIP"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "IntAct interaction accession (EBI-)",
+    "UniProt accession",
+    "PubMed id"
+   ],
+   "id": "intact",
+   "name": "IntAct molecular interaction database",
+   "categories": [
+    "pathways_interactions_epistasis"
+   ],
+   "maintainer": "EMBL-EBI",
+   "url": "https://www.ebi.ac.uk/intact/",
+   "provenance": [
+    "https://ftp.ebi.ac.uk/pub/databases/intact/current/"
+   ],
+   "version": {
+    "value": "Current release directory listed 2026-01-14 (all.zip 15 GB)",
+    "release_date": "2026-01-14",
+    "verified": "live"
+   },
+   "scope": "Curated molecular interactions from the literature and direct submissions in PSI-MI formats; the release directory holds all.zip (15 GB), the psi25 and psi30 directories, a psimitab directory, controlled vocabularies (cv) and various tables. Open Targets integrates IntAct, Signor, Reactome and STRING interactions: its 26.09 interaction dataset holds 1,310,951 IntAct rows, 594,648 distinct gene pairs.",
+   "variant_classes": [
+    "gene_level",
+    "protein_level"
+   ],
+   "mapping_methods": "Interactions name both participants by UniProt accession with the detection method, interaction type and publication.",
+   "quantitative": {
+    "summary": "Presence of an interaction with its detection method; a confidence score exists but its definition was not read.",
+    "units": "unverified",
+    "uncertainty": "unverified",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "EMBL-EBI terms of use, as listed for IntAct in the Open Targets data-source licence table; the IntAct-specific licence statement was not retrieved.",
+    "redistribution": "Attribution; IntAct terms not read",
+    "access": "open_with_terms",
+    "verified": "unverified"
+   },
+   "update_frequency": "Several releases a year (the directory is dated 2026-01-14).",
+   "coverage_limitations": [
+    "Interactions are curated from what has been studied",
+    "Participants are whole proteins; the effect of a variant on an interaction is recorded only in the mutation annotations that were not examined"
+   ],
+   "known_omissions": [
+    "All files: the human interactions reach the library through the Open Targets interaction dataset; the 15 GB archive, the PSI-MI files and mutation annotations are not fetched"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "Already integrated in Open Targets (594,648 distinct human gene pairs), so a separate 15 GB archive adds mostly the same pairs. Revisit when interaction-level mutation annotations are needed."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "FTP release listing read."
+   },
+   "unverified_fields": [
+    "licence statement of IntAct itself",
+    "size of the human-only subset",
+    "quantitative (the definition of the confidence score was not read)"
+   ],
+   "evidence": [
+    "intact/ftp_listing",
+    "opentargets/docs_licence",
+    "opentargets/interaction_source_counts"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "gene_level",
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "physical interaction network"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "curated",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "protein interaction partners"
+     }
+    ],
+    "biological_context": "Interactions curated from publications with the detection method of each; they are properties of whole proteins in the studied system.",
+    "evidence_strength": "Literature curation with an interaction confidence score; independent detections raise the score.",
+    "mechanistic_confidence": "Low for variant effects: an interaction says two proteins associate, not that a particular change disrupts it.",
+    "phenotype_implication": "None directly.",
+    "absence_means": "A pair that is not listed was not reported in curated publications; it is not shown not to interact.",
+    "overlaps_with_sources": [
+     {
+      "source": "opentargets",
+      "relation": "identical_records",
+      "note": "Open Targets carries IntAct interactions as its intact source; use one route and count each pair once"
+     },
+     {
+      "source": "biogrid_interactions",
+      "relation": "independent_related",
+      "note": "separate curation of physical interactions; two thirds of the curated Open Targets pairs (IntAct, Signor, Reactome) also appear in BioGRID"
+     }
+    ]
    },
    "lifecycle_all_targets": {
     "catalogued": true,
@@ -3510,15 +4715,7 @@
     "usable": false
    },
    "lifecycle_by_dimension": {
-    "perturbation_evidence": {
-     "catalogued": true,
-     "accessible": true,
-     "acquired": false,
-     "validated": false,
-     "mapped": false,
-     "usable": false
-    },
-    "natural_knockouts_dosage": {
+    "pathways_interactions_epistasis": {
      "catalogued": true,
      "accessible": true,
      "acquired": false,
@@ -3644,6 +4841,370 @@
      "validated": true,
      "mapped": true,
      "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "DAT",
+    "FASTA",
+    "TXT",
+    "XML"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "HLA allele name (for example A*01:01:01:01)",
+    "allele id (HLA00001)"
+   ],
+   "id": "ipd_imgt_hla",
+   "name": "IPD-IMGT/HLA Database (HLA allele sequences and nomenclature)",
+   "categories": [
+    "complex_loci_callability"
+   ],
+   "maintainer": "Anthony Nolan Research Institute (IPD team) with EMBL-EBI",
+   "url": "https://www.ebi.ac.uk/ipd/imgt/hla/",
+   "provenance": [
+    "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/"
+   ],
+   "version": {
+    "value": "IPD-IMGT/HLA 3.66.0 (header of Allelelist.txt dated 2026-10-14; Alignments_Rel_3660.zip). The release_version.txt in the same directory still says 3.63.0 (2026-01-14), so it is stale and the allele list header is taken as current.",
+    "release_date": "2026-10-14",
+    "verified": "live"
+   },
+   "scope": "Named HLA alleles with their nucleotide, genomic and protein sequences, alignments, nomenclature and allele status, distributed as hla.dat (337 MB), hla_gen.fasta, hla_nuc.fasta, hla_prot.fasta, allele lists and per-release alignments. HLA is the most polymorphic region of the genome; a variant call there is only meaningful against the named allele sequences and not against the single reference sequence.",
+   "variant_classes": [
+    "complex_locus",
+    "region_level"
+   ],
+   "mapping_methods": "Allele names follow the HLA nomenclature; the allele list maps allele ids to names; sequences are given per allele and per release alignment.",
+   "quantitative": {
+    "summary": "n/a",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Creative Commons Attribution-NoDerivs: free to copy, distribute, display and make commercial use of the databases with credit by citing the maintainers; \"strongly opposed to the mirroring of the data contained on our sites\" and modified versions need permission (LICENCE.md, verified live).",
+    "redistribution": "Attribution required; mirroring is discouraged by the maintainers and modified versions need permission",
+    "access": "open_with_terms",
+    "verified": "live"
+   },
+   "update_frequency": "Quarterly releases (3.63.0 in January, 3.66.0 in October 2026).",
+   "coverage_limitations": [
+    "Allele sequences and nomenclature only: no population frequencies, disease associations or functional assays",
+    "Exon-only and full-genomic sequences exist for different alleles; many alleles are known by their exons only"
+   ],
+   "known_omissions": [
+    "Everything: the data are not mirrored here, following the maintainers' request",
+    "The sister KIR database is catalogued separately (ipd_kir)"
+   ],
+   "reuse_decision": {
+    "action": "do_not_acquire",
+    "rationale": "The licence forbids derivatives without permission and the maintainers strongly oppose mirroring. The HLA allele sequences are therefore used by reference (queried at their source when an HLA analysis is built), while the GIAB MHC region and the RefSeq HLA gene models are held for locating the region and recognising that calls there need allele-aware handling."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "FTP listing, LICENCE.md, md5 list and allele list head were read; nothing was downloaded beyond those small files."
+   },
+   "unverified_fields": [
+    "number of alleles in the release (only the list head was read)"
+   ],
+   "evidence": [
+    "ipd_hla/ftp_listing",
+    "ipd_hla/licence",
+    "ipd_hla/release_version",
+    "ipd_hla/md5checksum",
+    "ipd_hla/allelelist_head"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation",
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "haplotype_level",
+    "mechanism_evidence": [
+     {
+      "axis": "paralog_complex_locus",
+      "variant_classes": [
+       "complex_locus"
+      ],
+      "basis": "context",
+      "dimension": "complex_loci_callability",
+      "note": "named allele sequences needed to interpret calls in the HLA region"
+     }
+    ],
+    "biological_context": "Curated sequences of named HLA alleles from submitted samples of many populations; each allele is a full haplotype of the gene, not a single variant, and the nomenclature encodes protein, synonymous and non-coding differences.",
+    "evidence_strength": "Curated sequence records with nomenclature committee review; sequence completeness differs per allele.",
+    "mechanistic_confidence": "Not applicable. It names and sequences alleles; it asserts no functional or clinical effect.",
+    "phenotype_implication": "None: sequences carry no phenotype information.",
+    "absence_means": "An allele that is not listed has not been submitted and named; a sequence that matches no listed allele may be novel or mis-assembled. Absence says nothing about function.",
+    "overlaps_with_sources": [
+     {
+      "source": "ipd_kir",
+      "relation": "independent_related",
+      "note": "sister database for the KIR genes under the same terms"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "complex_loci_callability": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "DAT",
+    "FASTA",
+    "TXT",
+    "XML"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "KIR allele name (for example KIR2DL1*0010101)",
+    "allele id (KIR00001)"
+   ],
+   "id": "ipd_kir",
+   "name": "IPD-KIR Database (killer-cell immunoglobulin-like receptor allele sequences)",
+   "categories": [
+    "complex_loci_callability"
+   ],
+   "maintainer": "Anthony Nolan Research Institute (IPD team) with EMBL-EBI",
+   "url": "https://www.ebi.ac.uk/ipd/kir/",
+   "provenance": [
+    "https://ftp.ebi.ac.uk/pub/databases/ipd/kir/"
+   ],
+   "version": {
+    "value": "IPD-KIR 2.15.0 (Allelelist.txt header, dated 2025-12-10)",
+    "release_date": "2025-12-10",
+    "verified": "live"
+   },
+   "scope": "Named KIR alleles with genomic, nucleotide and protein sequences (kir.dat 35 MB, kir_gen.fasta, kir_nuc.fasta, kir_prot.fasta), allele lists, deleted alleles and alignments. The KIR region is highly polymorphic (GIAB README), so reference-based calls there need allele-aware handling.",
+   "variant_classes": [
+    "complex_locus",
+    "region_level"
+   ],
+   "mapping_methods": "Allele names follow the KIR nomenclature; the allele list maps ids to names.",
+   "quantitative": {
+    "summary": "n/a",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Creative Commons Attribution-NoDerivs: free to copy, distribute, display and make commercial use with credit by citing the maintainers; \"strongly opposed to the mirroring of the data contained on our sites\"; modified versions need permission (LICENCE.md, verified live).",
+    "redistribution": "Attribution required; mirroring is discouraged by the maintainers and modified versions need permission",
+    "access": "open_with_terms",
+    "verified": "live"
+   },
+   "update_frequency": "Irregular releases (2.15.0 in December 2025; allele lists of every earlier release are kept).",
+   "coverage_limitations": [
+    "Allele sequences and nomenclature only: no frequencies, associations or functional data",
+    "Gene-content haplotypes of the KIR region are not described here"
+   ],
+   "known_omissions": [
+    "Everything: the data are not mirrored here, following the maintainers' request"
+   ],
+   "reuse_decision": {
+    "action": "do_not_acquire",
+    "rationale": "Same terms and request as IPD-IMGT/HLA: no derivatives without permission and mirroring is discouraged. KIR allele sequences are used by reference; the GIAB KIR region and the RefSeq KIR gene models locate the region here."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "FTP listing, LICENCE.md and the allele list head were read; nothing larger was downloaded."
+   },
+   "unverified_fields": [
+    "number of alleles in the release (only the list head was read)"
+   ],
+   "evidence": [
+    "ipd_kir/ftp_listing",
+    "ipd_kir/licence",
+    "ipd_kir/allelelist_head"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation",
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "haplotype_level",
+    "mechanism_evidence": [
+     {
+      "axis": "paralog_complex_locus",
+      "variant_classes": [
+       "complex_locus"
+      ],
+      "basis": "context",
+      "dimension": "complex_loci_callability",
+      "note": "named allele sequences for the KIR genes"
+     }
+    ],
+    "biological_context": "Curated sequences of named KIR alleles from submitted samples; the genes are highly similar to each other and differ in presence between individuals.",
+    "evidence_strength": "Curated sequence records; completeness differs per allele.",
+    "mechanistic_confidence": "Not applicable. It names and sequences alleles and asserts no functional or clinical effect.",
+    "phenotype_implication": "None: sequences carry no phenotype information.",
+    "absence_means": "An allele that is not listed has not been submitted and named. Absence of a KIR gene in a person is a real polymorphism and not a gap in the database.",
+    "overlaps_with_sources": []
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "complex_loci_callability": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "web application",
+    "REST API"
+   ],
+   "assemblies": [
+    "GRCh37",
+    "GRCh38"
+   ],
+   "identifiers": [
+    "rsID",
+    "chromosome:position"
+   ],
+   "id": "ldlink",
+   "name": "LDlink (NCI): linkage disequilibrium tools for 1000 Genomes populations",
+   "categories": [
+    "association_finemapping_coloc"
+   ],
+   "maintainer": "Division of Cancer Epidemiology and Genetics, National Cancer Institute",
+   "url": "https://ldlink.nih.gov/",
+   "provenance": [
+    "https://ldlink.nih.gov/"
+   ],
+   "version": {
+    "value": "LDlink 7.4.0 (as named on the home page)",
+    "release_date": "unknown",
+    "verified": "live"
+   },
+   "scope": "A suite of web tools (LDassoc, LDexpress, LDhap, LDmatrix, LDpair, LDpop, LDproxy and others) that compute linkage disequilibrium between variants in population groups from the 1000 Genomes data, with an API for programmatic access.",
+   "variant_classes": [
+    "snv",
+    "indel"
+   ],
+   "mapping_methods": "Queries are by rsID or coordinate with a population choice; results are computed on request.",
+   "quantitative": {
+    "summary": "r-squared and D-prime between variant pairs per population.",
+    "units": "correlation measures in [0, 1]",
+    "uncertainty": "depends on the sample size of the population panel",
+    "direction": "signed D-prime"
+   },
+   "licence": {
+    "name": "Not retrieved: usage conditions of the API (token, rate limits) were not read.",
+    "redistribution": "Unknown",
+    "access": "registration_required",
+    "verified": "unverified"
+   },
+   "update_frequency": "Versioned releases (a version history is linked).",
+   "coverage_limitations": [
+    "LD is computed from 1000 Genomes phase 3 samples, so it describes those populations only",
+    "Results are generated per query, not provided as a bulk dataset"
+   ],
+   "known_omissions": [
+    "No access: the API needs a token and is not a bulk resource"
+   ],
+   "reuse_decision": {
+    "action": "do_not_acquire",
+    "rationale": "An on-demand computation service, not a dataset. LD for the populations of interest can be computed from the 1000 Genomes genotypes, and gnomAD LD matrices (catalogued as gnomad_ld) are the bulk alternative; fine-mapped credible sets already come with the association sources."
+   },
+   "status": {
+    "accessible": "partial",
+    "notes": "Home page read; API access needs a token."
+   },
+   "unverified_fields": [
+    "licence (usage conditions of the API)",
+    "release date"
+   ],
+   "evidence": [
+    "ldlink/home"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "population_observation"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "outcome_association",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "population",
+      "dimension": "association_finemapping_coloc",
+      "note": "LD separates a causal variant from linked variants"
+     }
+    ],
+    "biological_context": "Correlation of alleles across haplotypes in reference population samples; the structure differs between ancestry groups.",
+    "evidence_strength": "Computed from phased reference genotypes; reliable for common variants and small for rare ones.",
+    "mechanistic_confidence": "None for mechanism. LD says which variants travel together and so which are candidates for a shared association signal.",
+    "phenotype_implication": "None: linkage disequilibrium carries no phenotype information.",
+    "absence_means": "A variant not in the reference panel has no LD estimate; low LD in one population does not imply low LD in another.",
+    "overlaps_with_sources": [
+     {
+      "source": "1000genomes",
+      "relation": "derived_from",
+      "note": "LD is computed from 1000 Genomes genotypes; the individuals are the same"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "association_finemapping_coloc": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
     }
    },
    "lifecycle_notes": []
@@ -3796,6 +5357,268 @@
    ]
   },
   {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "web"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "mtDNA position and change (rCRS)"
+   ],
+   "id": "mitomap",
+   "name": "MITOMAP: human mitochondrial genome database",
+   "categories": [
+    "clinical_interpretation"
+   ],
+   "maintainer": "MITOMAP (Children's Hospital of Philadelphia and collaborators)",
+   "url": "https://www.mitomap.org/",
+   "provenance": [
+    "https://www.mitomap.org/MITOMAP"
+   ],
+   "version": {
+    "value": "Not retrieved: the site answered HTTP 403 to the automated request",
+    "release_date": "unknown",
+    "verified": "unverified"
+   },
+   "scope": "A database of mitochondrial DNA variants associated with disease and of polymorphisms (not read: the site refused the request). Listed because mitochondrial variants are a variant class with no catalogued curated source other than the CPIC MT-RNR1 alleles.",
+   "variant_classes": [
+    "mtdna"
+   ],
+   "mapping_methods": "Not read.",
+   "quantitative": {
+    "summary": "n/a",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Not retrieved.",
+    "redistribution": "Unknown",
+    "access": "blocked_for_automation",
+    "verified": "unverified"
+   },
+   "update_frequency": "Unknown.",
+   "coverage_limitations": [
+    "Not assessed"
+   ],
+   "known_omissions": [
+    "Everything: the site refused automated access and the refusal was not circumvented"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "The mitochondrial class is a coverage gap. The resource is catalogued so that the gap is explicit; reading its terms and data access conditions by a person is the next step."
+   },
+   "status": {
+    "accessible": "no",
+    "notes": "HTTP 403 to the automated probe; recorded and not circumvented."
+   },
+   "unverified_fields": [
+    "everything except the existence of the resource and its refusal of automated access",
+    "licence",
+    "version"
+   ],
+   "evidence": [
+    "mitomap/home"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "mitochondrial",
+      "variant_classes": [
+       "mtdna"
+      ],
+      "basis": "curated",
+      "dimension": "clinical_interpretation",
+      "note": "curated disease-associated mitochondrial DNA variants (not assessed: the site was not readable)"
+     }
+    ],
+    "biological_context": "Not assessed: the site was not readable. Mitochondrial variants act through heteroplasmy, tissue distribution and the mitochondrial genetic code.",
+    "evidence_strength": "Not assessed.",
+    "mechanistic_confidence": "Not assessed.",
+    "phenotype_implication": "Not assessed.",
+    "absence_means": "Not assessed; a mitochondrial variant missing from every catalogued source is simply uncovered.",
+    "overlaps_with_sources": []
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": false,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "clinical_interpretation": {
+     "catalogued": true,
+     "accessible": false,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "web application (R Shiny)"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "variant coordinates",
+    "disease",
+    "cell line"
+   ],
+   "id": "mpravardb",
+   "name": "MPRAVarDB: massively parallel reporter assay variant database",
+   "categories": [
+    "direct_experimental_variant_effects",
+    "regulation_expression_splicing"
+   ],
+   "maintainer": "Department of Biostatistics, University of Florida",
+   "url": "https://mpravardb.rc.ufl.edu/",
+   "provenance": [
+    "https://mpravardb.rc.ufl.edu/"
+   ],
+   "version": {
+    "value": "Not stated on the home page",
+    "release_date": "unknown",
+    "verified": "unverified"
+   },
+   "scope": "A web database of regulatory effects of genetic variants measured by 18 MPRA experiments in GWAS loci, eQTLs and other genomic features: 242,818 variants tested across 32 cell lines and 37 diseases, queryable by region, disease and cell line, with pretrained models for regulatory causal variants. The application offers a \"Download All MPRA Data\" button that is part of an interactive session; no static file URL was found.",
+   "variant_classes": [
+    "snv",
+    "indel",
+    "region_level"
+   ],
+   "mapping_methods": "Variants are given with genomic coordinates; the assembly is not stated on the home page.",
+   "quantitative": {
+    "summary": "MPRA activity and allelic effect per variant (details not read).",
+    "units": "unverified",
+    "uncertainty": "unverified",
+    "direction": "unverified"
+   },
+   "licence": {
+    "name": "Not stated on the pages read.",
+    "redistribution": "Unknown",
+    "access": "unverified",
+    "verified": "unverified"
+   },
+   "update_frequency": "Unknown.",
+   "coverage_limitations": [
+    "Only 18 MPRA experiments; coverage of GWAS loci is limited to those experiments",
+    "Assay context is a cell line with an episomal reporter"
+   ],
+   "known_omissions": [
+    "No data fetched: licence and assembly are unstated and the download is interactive"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "A compilation of published MPRA studies, several of which are expected in MaveDB (which names MPRA among its assay types). Fetch the data only after the licence and genome build are confirmed and overlap with MaveDB MPRA score sets is matched by publication."
+   },
+   "status": {
+    "accessible": "partial",
+    "notes": "Home page read; the data are behind an interactive application."
+   },
+   "unverified_fields": [
+    "licence",
+    "version",
+    "genome build",
+    "scale and direction of the effect measure"
+   ],
+   "evidence": [
+    "mpravardb/home"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "direct_experimental",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "direct",
+      "dimension": "direct_experimental_variant_effects",
+      "note": "MPRA allelic regulatory activity"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv"
+      ],
+      "basis": "direct",
+      "dimension": "regulation_expression_splicing",
+      "note": "variants at GWAS loci and eQTLs"
+     }
+    ],
+    "components": [
+     {
+      "name": "published MPRA measurements, collected",
+      "evidence_kind": [
+       "direct_experimental"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "external: the original MPRA studies"
+     }
+    ],
+    "biological_context": "Reporter-assay measurements of variant sequences in cultured cell lines; the regulatory effect is that of the sequence in an episomal reporter, outside its native chromatin context.",
+    "evidence_strength": "Direct allele-specific measurements compiled from studies; the quality control differs between studies. Details of the stored measure were not read.",
+    "mechanistic_confidence": "Moderate for regulatory activity of the tested sequence in the tested cell line; it does not show the effect at the native locus, in other cell types or on a target gene.",
+    "phenotype_implication": "A molecular phenotype (reporter activity); the disease label names the GWAS trait of the tested locus and is not a measured phenotype.",
+    "absence_means": "A variant that was not tested has no data; an untested cell type or state is unknown, and a variant with no effect in one cell line may act in another.",
+    "overlaps_with_sources": [
+     {
+      "source": "mavedb",
+      "relation": "independent_related",
+      "note": "MaveDB holds MPRA score sets; the same experiment can appear in both and should be counted once"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "direct_experimental_variant_effects": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    },
+    "regulation_expression_splicing": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "nhgri_education",
    "name": "NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)",
    "categories": [
@@ -3925,7 +5748,7 @@
     "release_date": "2026-09",
     "verified": "live"
    },
-   "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome. The variant dataset states that all variation is mapped to GRCh38 with 1-based gnomAD-style identifiers (chrom_pos_ref_alt) and population allele frequencies from gnomAD 4.1.",
+   "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome. The variant dataset states that all variation is mapped to GRCh38 with 1-based gnomAD-style identifiers (chrom_pos_ref_alt) and population allele frequencies from gnomAD 4.1. The acquired credible_set dataset holds 4,761,925 credible-set rows (eQTL 1,718,748; GWAS 1,519,507; sQTL 844,764; transcript-usage QTL 521,558; single-cell eQTL 123,630; pQTL 33,718), fine-mapped by SuSiE (3,231,045), SuSiE-inf (771,560) or PICS (759,320), with beta, z-score, standard error, p-value and effect-allele frequency per variant; the study dataset describes 3,004,247 studies from 47 projects.",
    "variant_classes": [
     "snv",
     "indel",
@@ -3988,7 +5811,9 @@
     "opentargets/docs_variant",
     "opentargets/downloads_page",
     "opentargets/ftp_26_09_output",
-    "opentargets/ftp_platform_listing"
+    "opentargets/ftp_platform_listing",
+    "opentargets/credible_set_counts",
+    "opentargets/interaction_source_counts"
    ],
    "acquisition_targets": [
     "opentargets_26_09_biosample",
@@ -4134,6 +5959,36 @@
       "basis": "context",
       "dimension": "pathways_interactions_epistasis",
       "note": "interaction and pathway context"
+     },
+     {
+      "axis": "transcription_regulation",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "regulation_expression_splicing",
+      "note": "molecular-QTL credible sets: eQTL, single-cell eQTL and transcript-usage QTL"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "regulation_expression_splicing",
+      "note": "sQTL credible sets"
+     },
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "snv",
+       "indel"
+      ],
+      "basis": "association",
+      "dimension": "association_finemapping_coloc",
+      "note": "pQTL credible sets (protein abundance)"
      }
     ],
     "components": [
@@ -4462,6 +6317,132 @@
    "lifecycle_notes": []
   },
   {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "software",
+    "VCF input",
+    "JSON/HTML report"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "star-allele names",
+    "diplotypes",
+    "CPIC/DPWG/FDA guideline ids"
+   ],
+   "id": "pharmcat",
+   "name": "PharmCAT (Pharmacogenomics Clinical Annotation Tool)",
+   "categories": [
+    "functional_haplotypes_pgx"
+   ],
+   "maintainer": "ClinPGx (Stanford University and collaborators)",
+   "url": "https://pharmcat.clinpgx.org/",
+   "provenance": [
+    "https://pharmcat.clinpgx.org/"
+   ],
+   "version": {
+    "value": "PharmCAT v3.4.0 (as named on the documentation home page)",
+    "release_date": "unknown",
+    "verified": "live"
+   },
+   "scope": "A software tool: it reads a VCF from sequencing or genotyping, identifies pharmacogenomic genotypes and infers haplotypes (star alleles), then uses the diplotypes to predict phenotypes and reports drug-prescribing recommendations from CPIC guidelines and from ClinPGx-annotated DPWG and FDA sources. Its documentation covers VCF requirements, calling of CYP2D6 and HLA by outside callers, and allele-frequency analysis.",
+   "variant_classes": [
+    "snv",
+    "indel",
+    "cnv",
+    "gene_level"
+   ],
+   "mapping_methods": "Matches VCF genotypes at allele-defining positions to named allele definitions and translates diplotypes to phenotype categories using the guideline tables.",
+   "quantitative": {
+    "summary": "n/a",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Not retrieved: the documentation pages were read but the software licence file was not.",
+    "redistribution": "Unknown",
+    "access": "unverified",
+    "verified": "unverified"
+   },
+   "update_frequency": "Versioned releases (a changelog and versioning page are linked from the documentation).",
+   "coverage_limitations": [
+    "Limited to the genes and drugs for which CPIC, DPWG or FDA recommendations exist",
+    "CYP2D6 and HLA calls come from outside callers; structural alleles are not called from a short-read VCF alone"
+   ],
+   "known_omissions": [
+    "The software and its bundled definitions are not installed; the same allele definitions are held through the CPIC API tables and PharmVar"
+   ],
+   "reuse_decision": {
+    "action": "do_not_acquire",
+    "rationale": "A tool that applies the allele definitions and guidelines already held through CPIC, PharmVar and ClinPGx; it carries no evidence that is not in those sources. It is the reference implementation to run, or to compare a future allele caller with, when a pharmacogenomic analysis is built."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Documentation home page read."
+   },
+   "unverified_fields": [
+    "licence",
+    "release date"
+   ],
+   "evidence": [
+    "pharmcat/home"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "haplotype_level",
+    "mechanism_evidence": [
+     {
+      "axis": "pharmacogenomic_haplotype",
+      "variant_classes": [
+       "snv",
+       "indel",
+       "cnv",
+       "gene_level"
+      ],
+      "basis": "curated",
+      "dimension": "functional_haplotypes_pgx",
+      "note": "applies curated allele definitions and guideline tables; a method, not a new assertion"
+     }
+    ],
+    "biological_context": "A method that applies published allele definitions and guidelines to a genotype; the clinical meaning is that of the guidelines, specific to the gene and the drug.",
+    "evidence_strength": "Inherited from the guidelines it applies; a calling pipeline adds the risk of wrong calls at positions it cannot see.",
+    "mechanistic_confidence": "As for the CPIC and PharmVar tables it uses: moderate at the haplotype level, low for variants outside the definitions.",
+    "phenotype_implication": "Predicted metaboliser or risk phenotype and a recommendation for a diplotype, drug-specific.",
+    "absence_means": "A gene, drug or allele outside the covered set receives no report; an uncalled position is treated according to the tool's rules, which can default to the reference allele.",
+    "overlaps_with_sources": [
+     {
+      "source": "cpic",
+      "relation": "derived_from",
+      "note": "applies the CPIC allele definitions and guideline tables; the evidence is the CPIC evidence, so count it once"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "functional_haplotypes_pgx": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "pharmgkb",
    "name": "ClinPGx / PharmGKB",
    "categories": [
@@ -4749,6 +6730,166 @@
    "lifecycle_notes": []
   },
   {
+   "id": "proteingym",
+   "name": "ProteinGym v1.3: deep mutational scanning benchmark assays (substitutions and indels)",
+   "categories": [
+    "direct_experimental_variant_effects"
+   ],
+   "maintainer": "ProteinGym project (OATML-Markslab repository; files served from marks.hms.harvard.edu)",
+   "url": "https://proteingym.org/",
+   "provenance": [
+    "https://proteingym.org/",
+    "https://proteingym.org/download",
+    "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/",
+    "https://github.com/OATML-Markslab/ProteinGym"
+   ],
+   "version": {
+    "value": "v1.3 (files dated 2025-04-13); the repository README lists releases v1.0 to v1.3",
+    "release_date": "2025-04-13",
+    "verified": "live"
+   },
+   "scope": "Curated deep mutational scanning benchmark: 217 substitution assays (2,465,767 variants, 96 on human proteins, 69 including multiple mutants) and 66 indel assays (287,207 variants, 25 on human proteins) from published studies, each as a table of variants with the measured score and a binarised label, plus a reference file with the target sequence, organism, publication and selection assay of every assay. The clinical benchmarks, model scores, alignments and structures of the project are not fetched.",
+   "variant_classes": [
+    "protein_level",
+    "indel"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "formats": [
+    "CSV (zip)",
+    "CSV"
+   ],
+   "identifiers": [
+    "UniProt entry name (for example A0A140D2T1_ZIKV)",
+    "amino-acid substitution strings relative to the assay target sequence (multiple mutants joined by colons)",
+    "DMS assay id (UniProt entry name, first author, year)"
+   ],
+   "mapping_methods": "Mutations are given relative to the target sequence stored in the reference file; every substitution row was checked to apply to that sequence and to reproduce the mutated sequence. The UniProt entry name is the only protein identifier, so joins to UniProt accessions, transcripts or genome coordinates need a separate mapping. Indel assays give only the mutated sequence.",
+   "quantitative": {
+    "summary": "Per-variant assay score in the units of the source experiment, and a 0/1 label obtained with a per-assay cutoff.",
+    "units": "assay-specific; the direction of the score differs between assays and is recorded in the reference file",
+    "uncertainty": "none per variant (replicate statistics are not retained)",
+    "direction": "assay-specific; higher usually means higher fitness, with the raw directionality recorded per assay"
+   },
+   "licence": {
+    "name": "MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read in the read-only clone at commit 144fe22). The licences of the underlying published assay datasets are not stated in the repository files.",
+    "redistribution": "MIT terms for the project; the original studies' terms may apply to their data",
+    "access": "open_with_terms",
+    "verified": "live"
+   },
+   "update_frequency": "Versioned releases (v1.0 to v1.3 in the repository README).",
+   "coverage_limitations": [
+    "A curated subset of published assays chosen for benchmarking models, not an exhaustive collection of deep mutational scans",
+    "Scores are assay-specific and not harmonised; no per-variant uncertainty is retained",
+    "Variants are amino-acid changes in the assay construct, which may be a fragment or domain; no nucleotide or genome coordinates are given",
+    "Many assays measure stability by cDNA display proteolysis rather than function; the selection type is recorded per assay",
+    "Only 96 of the 217 substitution assays and 25 of the 66 indel assays are on human proteins"
+   ],
+   "known_omissions": [
+    "The clinical benchmarks (labels derived from clinical databases) are not fetched; the clinical records are held through ClinVar",
+    "Zero-shot and supervised model scores, multiple sequence alignments and weights, predicted structures and cross-validation splits are not fetched",
+    "Raw (unprocessed) assay files are not fetched"
+   ],
+   "overlap_with_existing": [
+    "mavedb-human"
+   ],
+   "reuse_decision": {
+    "action": "adopt_curated",
+    "rationale": "An established curated benchmark that already puts 283 published assays into one checked format; reusing it avoids re-curating each paper. Some assays are expected to be the same experiments as MaveDB score sets, so they are matched by publication and target before any combination, and each experiment is counted once."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Plain HTTPS downloads; the server publishes no checksum, so sizes are pinned and zip integrity is tested. One assay file carries an extra DMS_bin_score column."
+   },
+   "unverified_fields": [
+    "licences of the underlying published assay datasets",
+    "which assays are the same experiments as MaveDB score sets (not yet matched)"
+   ],
+   "evidence": [
+    "proteingym/home",
+    "proteingym/download",
+    "proteingym/repository_licence",
+    "proteingym/repository_readme",
+    "proteingym/reference_files_description"
+   ],
+   "acquisition_targets": [
+    "proteingym_v1_3_dms_substitutions",
+    "proteingym_v1_3_dms_indels",
+    "proteingym_v1_3_dms_substitutions_reference",
+    "proteingym_v1_3_dms_indels_reference"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "direct_experimental",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "allele_specific",
+    "mechanism_evidence": [
+     {
+      "axis": "protein_function",
+      "variant_classes": [
+       "protein_level",
+       "indel"
+      ],
+      "basis": "direct",
+      "dimension": "direct_experimental_variant_effects",
+      "note": "assay-specific readout such as growth, binding, abundance or proteolytic stability"
+     },
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "protein_level"
+      ],
+      "basis": "direct",
+      "dimension": "direct_experimental_variant_effects",
+      "note": "assays with multiple mutants allow non-additivity (epistasis) to be estimated"
+     }
+    ],
+    "components": [
+     {
+      "name": "published deep mutational scanning measurements, re-formatted",
+      "evidence_kind": [
+       "direct_experimental"
+      ],
+      "allele_resolution": "allele_specific",
+      "origin": "external: the original studies"
+     }
+    ],
+    "biological_context": "Each assay measures a variant library of one protein or domain in a specific system; the organism, selection assay and selection type are given per assay in the reference file. The score reflects the assayed function under that selection.",
+    "evidence_strength": "Direct measurements curated and processed by the benchmark maintainers: scores are as published in assay-specific units and the binarised label uses a per-assay cutoff. Replicate-level uncertainty is not retained.",
+    "mechanistic_confidence": "Moderate for the assayed molecular function of the substitution in the assayed system. Stability, activity and binding effects are not separated unless the selection type says so.",
+    "phenotype_implication": "A molecular or cellular phenotype of the assay. Correspondence to a human disease phenotype needs calibration, and most assays are of non-human proteins or of protein stability.",
+    "absence_means": "A mutation missing from an assay table was not measured or was filtered by the maintainers; an untested position is unknown and not tolerant. A protein with no assay has no curated measurement here.",
+    "overlaps_with_sources": [
+     {
+      "source": "mavedb",
+      "relation": "independent_related",
+      "note": "some assays are the same experiments as MaveDB score sets; match by publication and target before combining, and count each experiment once"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "direct_experimental_variant_effects": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
    "id": "reactome",
    "name": "Reactome",
    "categories": [
@@ -4854,6 +6995,186 @@
    },
    "lifecycle_by_dimension": {
     "pathways_interactions_epistasis": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "id": "refseq",
+   "name": "NCBI RefSeq: GRCh38.p14 accession map, alternate-locus placement and gene annotation (release RS_2025_08)",
+   "categories": [
+    "reference_annotation",
+    "complex_loci_callability"
+   ],
+   "maintainer": "NCBI (National Library of Medicine)",
+   "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/",
+   "provenance": [
+    "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/",
+    "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/annotation_releases/"
+   ],
+   "version": {
+    "value": "GCF_000001405.40 (GRCh38.p14) with annotation release GCF_000001405.40-RS_2025_08 (annotation software 10.4, evidence freeze 01-August-2025, release 06-August-2025); the annotation_releases listing shows RS_2025_08 as the current release",
+    "release_date": "2025-08-06",
+    "verified": "live"
+   },
+   "scope": "The RefSeq view of GRCh38.p14: the assembly report that maps every sequence between RefSeq, GenBank and UCSC-style names and gives its role (assembled molecule, alternate scaffold, fix or novel patch, unlocalised or unplaced scaffold); the named regions that carry alternate loci or patches; the placement of each alternate-locus and patch scaffold on the chromosomes; and the RefSeq annotation of genes, transcripts (NM_, NR_, XM_, XR_), exons and CDS in GFF3, made by the NCBI eukaryotic annotation pipeline (Best-placed RefSeq, Gnomon, RefSeqFE, cmsearch, tRNAscan-SE).",
+   "variant_classes": [
+    "gene_level",
+    "region_level",
+    "complex_locus"
+   ],
+   "assemblies": [
+    "GRCh38"
+   ],
+   "formats": [
+    "TXT/TSV",
+    "GFF3 (gzip)"
+   ],
+   "identifiers": [
+    "RefSeq accessions (NC_, NT_, NW_, NM_, NR_, XM_, XR_)",
+    "GenBank accessions",
+    "UCSC-style sequence names",
+    "GeneID",
+    "HGNC ID"
+   ],
+   "mapping_methods": "The assembly report gives RefSeq accession, GenBank accession, sequence name and UCSC-style name for each sequence, which is how contig names used by ClinVar (RefSeq NT_/NW_), Ensembl (sequence names) and GIAB (chr names) are tied together; the GFF3 carries GeneID and HGNC cross-references per gene.",
+   "quantitative": {
+    "summary": "Sequence and feature annotation; no scores.",
+    "units": "n/a",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights; acknowledgement of NLM is requested (NCBI Policies and Disclaimers page). RefSeq-specific terms were not separately retrieved.",
+    "redistribution": "No NCBI restriction; third-party submitter rights may apply",
+    "access": "open",
+    "verified": "live"
+   },
+   "update_frequency": "Annotation releases roughly yearly for GRCh38.p14 (the listing shows RS_2023_03, RS_2023_10, RS_2024_08 and RS_2025_08); the assembly itself changes only with a new patch release.",
+   "coverage_limitations": [
+    "GRCh38.p14 only; the T2T-CHM13v2.0 RefSeq annotation (GCF_009914755.1) is listed by NCBI but not fetched",
+    "The annotation is NCBI's own gene set: it differs from the Ensembl and GENCODE gene sets in transcripts, boundaries and identifiers; MANE Select pairs one transcript of each",
+    "Placements on alternate loci and patches repeat genes of the primary assembly, so feature counts are larger than counts of distinct genes"
+   ],
+   "known_omissions": [
+    "Genome, transcript and protein sequence files (genomic.fna 928 MB, rna, protein, gbff), the GTF, feature table, repeat annotation output (rm.out) and the per-scaffold alignments are not fetched",
+    "Annotation_comparison files and the annotation report are not fetched"
+   ],
+   "overlap_with_existing": [
+    "ensembl-human-genomes"
+   ],
+   "reuse_decision": {
+    "action": "retrieve_source",
+    "rationale": "ClinVar reports HGVS on RefSeq transcripts and some records on RefSeq NT_/NW_ contigs; the assembly report is the authoritative map from those names to the Ensembl and UCSC names used elsewhere, and the placement files identify the alternate-locus and patch regions where one reference interval has competing representations. The 80 KB report, 45 KB regions file and 78 MB GFF are small relative to their use; sequence files are not needed because the Ensembl FASTA is mirrored."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "FTP files with MD5 checksums published in md5checksums.txt; all six files verified against them."
+   },
+   "unverified_fields": [
+    "RefSeq-specific licence statement"
+   ],
+   "evidence": [
+    "refseq/ftp_assembly_dir",
+    "refseq/annotation_listing",
+    "refseq/annotation_releases_listing",
+    "refseq/annotation_releases_current",
+    "refseq/md5checksums",
+    "refseq/assembly_report_head",
+    "refseq/assembly_regions_head",
+    "refseq/alt_scaffold_placement_head",
+    "refseq/assembly_structure_readme",
+    "refseq/genomic_gff_head",
+    "refseq/annotation_release_readme",
+    "refseq/feature_count",
+    "gencode/ncbi_policies"
+   ],
+   "acquisition_targets": [
+    "refseq_grch38p14_assembly_report",
+    "refseq_grch38p14_assembly_regions",
+    "refseq_grch38p14_alt_scaffold_placement",
+    "refseq_grch38p14_feature_count",
+    "refseq_annotation_release_readme",
+    "refseq_grch38p14_genomic_gff"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "truncation_nmd",
+      "variant_classes": [
+       "gene_level",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "RefSeq transcript structures on which ClinVar HGVS is expressed"
+     },
+     {
+      "axis": "splicing",
+      "variant_classes": [
+       "gene_level",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "reference_annotation",
+      "note": "exon structure of RefSeq transcripts"
+     },
+     {
+      "axis": "paralog_complex_locus",
+      "variant_classes": [
+       "complex_locus"
+      ],
+      "basis": "context",
+      "dimension": "complex_loci_callability",
+      "note": "alternate-locus and patch scaffolds and the regions they cover"
+     }
+    ],
+    "biological_context": "Reference accessions and transcript models of one haploid reference with alternate loci and patches. The annotation is a set of transcript models and not a map of which isoform is expressed where.",
+    "evidence_strength": "Reference data from an automated and curated annotation pipeline; correctness is checked here by published checksums, structural consistency of the GFF and joins to the other reference files.",
+    "mechanistic_confidence": "Not applicable. It supplies identifiers, roles and transcript structure needed to define consequences and to recognise regions with competing representations; it asserts no effect.",
+    "phenotype_implication": "None: accession maps and gene models carry no phenotype information.",
+    "absence_means": "A sequence not in the report is not part of GRCh38.p14; a position outside annotated features is not shown to be non-functional; a region without alternate loci or patches is not shown to be free of duplication.",
+    "overlaps_with_sources": [
+     {
+      "source": "gencode_mane",
+      "relation": "independent_related",
+      "note": "MANE Select pairs one RefSeq with one Ensembl transcript per gene; the RefSeq half of MANE should reappear in this annotation, and the two gene sets are otherwise independent annotations of the same genome"
+     },
+     {
+      "source": "ensembl_genomes",
+      "relation": "independent_related",
+      "note": "independent annotation of the same assembly; compare transcript sets and boundaries, never merge counts"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": true,
+    "validated": true,
+    "mapped": true,
+    "usable": true
+   },
+   "lifecycle_by_dimension": {
+    "reference_annotation": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": true,
+     "validated": true,
+     "mapped": true,
+     "usable": true
+    },
+    "complex_loci_callability": {
      "catalogued": true,
      "accessible": true,
      "acquired": true,
@@ -4989,6 +7310,267 @@
      "validated": true,
      "mapped": true,
      "usable": true
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "TXT (gzip)",
+    "SQL"
+   ],
+   "assemblies": [
+    "none/not_applicable"
+   ],
+   "identifiers": [
+    "STRING protein id (taxon.ENSP)",
+    "Ensembl protein id"
+   ],
+   "id": "string_db",
+   "name": "STRING protein-protein association networks",
+   "categories": [
+    "pathways_interactions_epistasis"
+   ],
+   "maintainer": "STRING Consortium (SIB, CPR, EMBL)",
+   "url": "https://string-db.org/",
+   "provenance": [
+    "https://string-db.org/cgi/download"
+   ],
+   "version": {
+    "value": "STRING v12.5 (file names of the download page)",
+    "release_date": "unknown",
+    "verified": "live"
+   },
+   "scope": "Scored protein-protein associations (physical and functional) for many species; the download page lists protein.links.v12.5.txt.gz (124.6 GB for the full network), protein.links.detailed (187.2 GB, with per-channel subscores), protein.info, protein.sequences and aliases, plus species-specific downloads. Open Targets integrates STRING: its 26.09 interaction dataset holds 13,205,373 STRING rows, 6,482,505 distinct gene pairs.",
+   "variant_classes": [
+    "gene_level",
+    "protein_level"
+   ],
+   "mapping_methods": "Proteins are identified by STRING ids that combine the NCBI taxon and the Ensembl protein id; aliases map them to gene names.",
+   "quantitative": {
+    "summary": "Combined association score from channels (experiments, databases, text mining, co-expression, neighbourhood, fusion, co-occurrence).",
+    "units": "score 0 to 1000",
+    "uncertainty": "the score is a confidence, not a measured strength",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "CC BY 4.0 as listed for STRING in the Open Targets data-source licence table; the STRING licence page itself was not read.",
+    "redistribution": "Attribution; STRING terms not read",
+    "access": "open_with_terms",
+    "verified": "unverified"
+   },
+   "update_frequency": "Major versions every one to two years.",
+   "coverage_limitations": [
+    "A STRING link is an association (including text mining and co-expression), not necessarily a physical interaction",
+    "Scores are confidences and depend on channel weights"
+   ],
+   "known_omissions": [
+    "All files: the association scores reach the library through the Open Targets interaction dataset; the full-network files are far too large and the human-only files were not fetched"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "Already integrated in Open Targets (13.2 million rows, 6.5 million distinct gene pairs), and the full network is 124.6 GB. A human-only file could be fetched later if channel subscores are needed."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Download page read (file names and sizes); the licence page was not."
+   },
+   "unverified_fields": [
+    "licence statement of STRING itself",
+    "size of the human-only files"
+   ],
+   "evidence": [
+    "string/download",
+    "opentargets/docs_licence",
+    "opentargets/interaction_source_counts"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "curated_expert_classification",
+     "computational_prediction"
+    ],
+    "allele_resolution": "gene_level",
+    "mechanism_evidence": [
+     {
+      "axis": "genetic_interaction",
+      "variant_classes": [
+       "gene_level",
+       "protein_level"
+      ],
+      "basis": "context",
+      "dimension": "pathways_interactions_epistasis",
+      "note": "functional association network"
+     }
+    ],
+    "biological_context": "Associations from experiments, curated pathway databases, text mining, co-expression and genomic context, combined into one score; not tissue-specific.",
+    "evidence_strength": "A mixture of curated, experimental and predicted evidence combined into a confidence; the channels differ greatly in reliability.",
+    "mechanistic_confidence": "Low. It places proteins in a network; it does not show that a variant affects a link.",
+    "phenotype_implication": "None directly.",
+    "absence_means": "A pair without a link has no combined evidence above the stored threshold; it is not shown to be unrelated.",
+    "overlaps_with_sources": [
+     {
+      "source": "opentargets",
+      "relation": "identical_records",
+      "note": "Open Targets carries STRING associations as its string source; use one route and count each pair once"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "pathways_interactions_epistasis": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
+    }
+   },
+   "lifecycle_notes": []
+  },
+  {
+   "overlap_with_existing": [],
+   "acquisition_targets": [],
+   "formats": [
+    "BED (bgzip)",
+    "JSON",
+    "TSV"
+   ],
+   "assemblies": [
+    "GRCh38",
+    "T2T-CHM13"
+   ],
+   "identifiers": [
+    "locus coordinates with motif",
+    "gene and Ensembl ids"
+   ],
+   "id": "trexplorer",
+   "name": "TRExplorer: genome-wide tandem-repeat catalogue",
+   "categories": [
+    "repeat_expansions_str"
+   ],
+   "maintainer": "Broad Institute (TRExplorer project)",
+   "url": "https://trexplorer.broadinstitute.org/",
+   "provenance": [
+    "https://trexplorer.broadinstitute.org/",
+    "https://storage.googleapis.com/tandem-repeat-catalog"
+   ],
+   "version": {
+    "value": "Catalogue versions v1.0, v2.0 and v2.1 in the public bucket (the v2.1 hg38 base catalogue is 45.3 MB); the companion manuscript is listed as AJHG 2026",
+    "release_date": "unknown",
+    "verified": "live"
+   },
+   "scope": "A catalogue of tandem-repeat loci for genotyping with short- and long-read tools, with motif definitions, exported in the formats of ExpansionHunter, GangSTR, HipSTR, LongTR, TRGT and ATaRVa, plus variation clusters, an extended-loci table, annotation tables with polymorphism in 100 HPRC genomes, and per-source catalogue subsets. The v2.1 hg38 base catalogue (1 to 1000 bp motifs) is a 45.3 MB BED; the fully annotated tables are 0.9 to 1.2 GB.",
+   "variant_classes": [
+    "str",
+    "region_level"
+   ],
+   "mapping_methods": "Loci are given as hg38 (and T2T-CHM13) intervals with repeat motifs, exported per genotyping tool.",
+   "quantitative": {
+    "summary": "Locus definitions with motif and (in the annotated tables) polymorphism and disease association annotations.",
+    "units": "base pairs; repeat counts",
+    "uncertainty": "n/a",
+    "direction": "n/a"
+   },
+   "licence": {
+    "name": "Not found: neither the about page, the FAQ nor the bucket listing states a data licence.",
+    "redistribution": "Unknown",
+    "access": "unverified",
+    "verified": "unverified"
+   },
+   "update_frequency": "Several catalogue versions within a year (the bucket has v1.0, v1.0.1, v1.0.2, v2.0, v2.1 and dated exports).",
+   "coverage_limitations": [
+    "A catalogue of loci to genotype, not a set of allele-size distributions for a population",
+    "The annotated tables are very large"
+   ],
+   "known_omissions": [
+    "No files fetched: the licence is not stated; the pathogenic loci are held through STRchive"
+   ],
+   "reuse_decision": {
+    "action": "defer",
+    "rationale": "Wanted for loci outside the curated pathogenic set, but the licence is not stated and the useful annotated tables are about 1 GB. Ask for the terms, then fetch the 45 MB base BED and the extended-loci table first."
+   },
+   "status": {
+    "accessible": "yes",
+    "notes": "Web pages and the public bucket listing were read; no data file was downloaded."
+   },
+   "unverified_fields": [
+    "licence",
+    "locus count of each version"
+   ],
+   "evidence": [
+    "trexplorer/home",
+    "trexplorer/about",
+    "trexplorer/faq",
+    "trexplorer/bucket_top",
+    "trexplorer/bucket_v2_1"
+   ],
+   "evidence_profile": {
+    "evidence_kind": [
+     "reference_annotation",
+     "population_observation",
+     "aggregated_integration"
+    ],
+    "allele_resolution": "region_level",
+    "mechanism_evidence": [
+     {
+      "axis": "repeat_expansion",
+      "variant_classes": [
+       "str"
+      ],
+      "basis": "population",
+      "dimension": "repeat_expansions_str",
+      "note": "polymorphism of repeat loci in long-read genomes"
+     },
+     {
+      "axis": "repeat_expansion",
+      "variant_classes": [
+       "str",
+       "region_level"
+      ],
+      "basis": "context",
+      "dimension": "repeat_expansions_str",
+      "note": "locus and motif definitions"
+     }
+    ],
+    "biological_context": "Repeat loci defined from the reference sequence with motifs, annotated with polymorphism in assembled genomes of diverse ancestry (HPRC).",
+    "evidence_strength": "A curated and computed catalogue; polymorphism summaries come from long-read genomes of a research panel.",
+    "mechanistic_confidence": "None for mechanism. A locus being polymorphic or near a gene does not make an allele pathogenic; thresholds for disease come from curated sources such as STRchive.",
+    "phenotype_implication": "None directly.",
+    "absence_means": "A repeat not in the catalogue was not defined as a locus (for example a very long or impure repeat); this is not evidence that it is stable.",
+    "overlaps_with_sources": [
+     {
+      "source": "strchive",
+      "relation": "independent_related",
+      "note": "STRchive curates disease loci with thresholds; TRExplorer extends the locus list genome-wide"
+     }
+    ]
+   },
+   "lifecycle_all_targets": {
+    "catalogued": true,
+    "accessible": true,
+    "acquired": false,
+    "validated": false,
+    "mapped": false,
+    "usable": false
+   },
+   "lifecycle_by_dimension": {
+    "repeat_expansions_str": {
+     "catalogued": true,
+     "accessible": true,
+     "acquired": false,
+     "validated": false,
+     "mapped": false,
+     "usable": false
     }
    },
    "lifecycle_notes": []

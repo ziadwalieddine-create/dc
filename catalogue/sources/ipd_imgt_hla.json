@@ -1,0 +1,107 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "DAT",
+  "FASTA",
+  "TXT",
+  "XML"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "HLA allele name (for example A*01:01:01:01)",
+  "allele id (HLA00001)"
+ ],
+ "id": "ipd_imgt_hla",
+ "name": "IPD-IMGT/HLA Database (HLA allele sequences and nomenclature)",
+ "categories": [
+  "complex_loci_callability"
+ ],
+ "maintainer": "Anthony Nolan Research Institute (IPD team) with EMBL-EBI",
+ "url": "https://www.ebi.ac.uk/ipd/imgt/hla/",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/"
+ ],
+ "version": {
+  "value": "IPD-IMGT/HLA 3.66.0 (header of Allelelist.txt dated 2026-10-14; Alignments_Rel_3660.zip). The release_version.txt in the same directory still says 3.63.0 (2026-01-14), so it is stale and the allele list header is taken as current.",
+  "release_date": "2026-10-14",
+  "verified": "live"
+ },
+ "scope": "Named HLA alleles with their nucleotide, genomic and protein sequences, alignments, nomenclature and allele status, distributed as hla.dat (337 MB), hla_gen.fasta, hla_nuc.fasta, hla_prot.fasta, allele lists and per-release alignments. HLA is the most polymorphic region of the genome; a variant call there is only meaningful against the named allele sequences and not against the single reference sequence.",
+ "variant_classes": [
+  "complex_locus",
+  "region_level"
+ ],
+ "mapping_methods": "Allele names follow the HLA nomenclature; the allele list maps allele ids to names; sequences are given per allele and per release alignment.",
+ "quantitative": {
+  "summary": "n/a",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Creative Commons Attribution-NoDerivs: free to copy, distribute, display and make commercial use of the databases with credit by citing the maintainers; \"strongly opposed to the mirroring of the data contained on our sites\" and modified versions need permission (LICENCE.md, verified live).",
+  "redistribution": "Attribution required; mirroring is discouraged by the maintainers and modified versions need permission",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Quarterly releases (3.63.0 in January, 3.66.0 in October 2026).",
+ "coverage_limitations": [
+  "Allele sequences and nomenclature only: no population frequencies, disease associations or functional assays",
+  "Exon-only and full-genomic sequences exist for different alleles; many alleles are known by their exons only"
+ ],
+ "known_omissions": [
+  "Everything: the data are not mirrored here, following the maintainers' request",
+  "The sister KIR database is catalogued separately (ipd_kir)"
+ ],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "The licence forbids derivatives without permission and the maintainers strongly oppose mirroring. The HLA allele sequences are therefore used by reference (queried at their source when an HLA analysis is built), while the GIAB MHC region and the RefSeq HLA gene models are held for locating the region and recognising that calls there need allele-aware handling."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP listing, LICENCE.md, md5 list and allele list head were read; nothing was downloaded beyond those small files."
+ },
+ "unverified_fields": [
+  "number of alleles in the release (only the list head was read)"
+ ],
+ "evidence": [
+  "ipd_hla/ftp_listing",
+  "ipd_hla/licence",
+  "ipd_hla/release_version",
+  "ipd_hla/md5checksum",
+  "ipd_hla/allelelist_head"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation",
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "haplotype_level",
+  "mechanism_evidence": [
+   {
+    "axis": "paralog_complex_locus",
+    "variant_classes": [
+     "complex_locus"
+    ],
+    "basis": "context",
+    "dimension": "complex_loci_callability",
+    "note": "named allele sequences needed to interpret calls in the HLA region"
+   }
+  ],
+  "biological_context": "Curated sequences of named HLA alleles from submitted samples of many populations; each allele is a full haplotype of the gene, not a single variant, and the nomenclature encodes protein, synonymous and non-coding differences.",
+  "evidence_strength": "Curated sequence records with nomenclature committee review; sequence completeness differs per allele.",
+  "mechanistic_confidence": "Not applicable. It names and sequences alleles; it asserts no functional or clinical effect.",
+  "phenotype_implication": "None: sequences carry no phenotype information.",
+  "absence_means": "An allele that is not listed has not been submitted and named; a sequence that matches no listed allele may be novel or mis-assembled. Absence says nothing about function.",
+  "overlaps_with_sources": [
+   {
+    "source": "ipd_kir",
+    "relation": "independent_related",
+    "note": "sister database for the KIR genes under the same terms"
+   }
+  ]
+ }
+}

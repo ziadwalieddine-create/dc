@@ -183,6 +183,17 @@ def validate(vocab, sources, ev, targets):
             if pair in declared:
                 errs.append(f"{i}: overlap with {o['source']} is already declared by {declared[pair]}; declare each pair once")
             declared[pair] = i
+    gr = jload(os.path.join(HERE, 'goal_resources.json'))
+    if gr is None:
+        errs.append('goal_resources.json is missing')
+    else:
+        for grp in gr['groups']:
+            for r in grp['resources']:
+                if not r.get('note'):
+                    errs.append(f"goal resource {r.get('name')}: no note")
+                for sid in r['sources']:
+                    if sid not in all_ids:
+                        errs.append(f"goal resource {r['name']}: unknown source {sid}")
     claimed = {t for s in sources for t in s.get('acquisition_targets', [])}
     for tid, t in targets.items():
         if tid not in claimed:
@@ -524,6 +535,31 @@ def build(check_only=False):
     none_ = [s['id'] for s in sources if not prof[s['id']]['mechanism_evidence']]
     L += ['## Sources with no mechanism content', '', ', '.join(f'`{x}`' for x in none_) or 'none', '']
     open(os.path.join(HERE, 'MECHANISM_MATRIX.md'), 'w').write('\n'.join(L))
+    # ---- GOAL RESOURCES -----------------------------------------------------------------------------------
+    gr = jload(os.path.join(HERE, 'goal_resources.json'))
+    def best_stage(sid):
+        st = life[(sid, None)][0]
+        return next((k for k in reversed(STAGES) if st[k] is True), 'none')
+    L = ['# Resources named in the project goal', '', gen, '', legend, '', gr['purpose'], '',
+         '*Best stage* is the furthest lifecycle stage that any of the listed records reaches over all of its files; it is computed, not asserted. A resource with no record is a gap.', '']
+    n_res = n_usable = 0
+    gaps_ = []
+    for grp in gr['groups']:
+        L += [f"## {grp['group']}", '', '| Resource | Records (best stage · decision) | Best stage | Note |', '|---|---|---|---|']
+        for r in grp['resources']:
+            n_res += 1
+            sd = {s['id']: s for s in sources}
+            parts = [f"`{sid}` ({best_stage(sid)} · {sd[sid]['reuse_decision']['action']})" for sid in r['sources']]
+            stages = [best_stage(sid) for sid in r['sources']]
+            best = max(stages, key=lambda x: (STAGES.index(x) if x in STAGES else -1)) if stages else 'no record'
+            n_usable += best == 'usable'
+            if best != 'usable':
+                gaps_.append((grp['group'], r['name'], best))
+            L.append(f"| {r['name']} | {'<br>'.join(parts) or '—'} | {best} | {r['note']} |")
+        L.append('')
+    L += [f'{n_res} resources named; {n_usable} have at least one record that is usable for something (acquired, validated, mapped and with a verified licence).', '', '## Not yet usable', '',
+          '| Group | Resource | Best stage reached |', '|---|---|---|'] + [f'| {g} | {n} | {b} |' for g, n, b in gaps_] + ['']
+    open(os.path.join(HERE, 'GOAL_RESOURCES.md'), 'w').write('\n'.join(L))
     summary = {k: sum(1 for s in sources if life[(s['id'], None)][0][k] is True) for k in STAGES}
     print('sources reaching each stage (all files):', summary)
     print('sources usable for at least one dimension:', sum(1 for s in sources if usable_dims[s['id']]))

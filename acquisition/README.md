@@ -13,6 +13,7 @@ Reproducible download of external resources into `data/external/` (git-ignored; 
 | `fetch_per_protein.py` | AlphaFold DB (canonical model, per-residue confidence; isoform-only proteins are recorded, not stored) and InterPro matches for the UniProt proteins named by the MaveDB score sets. Per-file SHA-256 table in `manifest_files/` |
 | `fetch_gnomad_regional.py`, `mavedb_snvs.py` | gnomAD v4.1 exome and genome records at the genomic positions of MaveDB-mapped SNVs, read by remote tabix (no whole-file download); every region is read until two reads agree. `mavedb_snvs.py` derives the SNV alleles and merged regions |
 | `fetch_reference_regional.py` | GRCh38 reference sequence for the same merged regions (1,546 regions on 54 sequences), read by HTTP range requests from the Ensembl release-116 toplevel FASTA; every region is read until two reads agree. The saved `.fai` is kept in `index_cache/` for validation |
+| `compat_resources.py` | Join and mapping tests for the RefSeq, GIAB, ProteinGym, HPA, BioGRID, HGSVC3, CPIC and IMPC files (25 tests): RefSeq-report bridging of contig and scaffold names (ClinVar NT_/NW_ records, MANE alternate and patch transcripts, GIAB chromosomes), GIAB regions against genes, ClinVar and MaveDB, ProteinGym against UniProt, humsavar and MaveDB, HPA against GTEx, BioGRID against MANE and Open Targets, HGSVC3 against gnomAD-SV and GIAB, CPIC against the reference and PharmVar, IMPC against Open Targets and gnomAD constraint. Every pass criterion is written into the test note before the run |
 | `compat_reference.py` | Ties the mirrored FASTA and the Ensembl release-116 GTF to the other coordinate-bearing files: remote reads equal the local file, REF alleles of every ClinVar record and every AlphaMissense position, start and stop codons, MANE, Open Targets locations, the amino-acid change implied by sequence and annotation against AlphaMissense, and the gnomAD LoF curation. Test code, not an annotation engine |
 | `intervals.py`, `test_helpers.py` | The exact interval-stabbing query behind every overlap count, and unit tests for it and for the other small helpers (`python3 -m unittest acquisition.test_helpers` from the repository root; no data needed) |
 | `dump_equivalence_sample.json` | Fixed list of our score sets whose tables are also extracted from the dump, to check dump and API agree |
@@ -31,7 +32,7 @@ python3 acquisition/acquire.py --ids ensembl_grch38_dna_toplevel ensembl_grch38_
 python3 -m unittest acquisition.test_helpers                   # 17 tests, no data needed
 python3 -m venv .venv && .venv/bin/pip install -r acquisition/requirements.txt
 .venv/bin/python acquisition/validate.py                       # every downloaded target
-.venv/bin/python acquisition/compat_tests.py                   # about 30 minutes; --skip orcs ot ref shortens it
+.venv/bin/python acquisition/compat_tests.py                   # about 30 minutes; --skip orcs ot ref res shortens it
 python3 catalogue/build_catalogue.py                           # regenerate the inventory, matrices and plan
 ```
 

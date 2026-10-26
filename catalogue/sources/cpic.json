@@ -10,14 +10,17 @@
   "https://api.cpicpgx.org/v1/"
  ],
  "version": {
-  "value": "Public API (gene, guideline endpoints) queried 2026-10-25",
+  "value": "Public API tables queried 2026-10-25 (PostgREST 12.0.2); the database advances with guideline updates and the API publishes no release number",
   "release_date": "2026-10-25",
   "verified": "live"
  },
- "scope": "Gene-drug guidelines, allele function tables and diplotype-phenotype translations.",
+ "scope": "Gene-drug guidelines, allele function tables and diplotype-phenotype translations. The CPIC database API tables fetched here: 1,354 allele definitions for 22 genes (13 flagged structural), the 3,160 allele-location values and 1,210 sequence locations that define them (992 with a dbSNP id; 22 mitochondrial MT-RNR1 locations), 1,378 allele function records, 101 phenotype results with 208 function-pair lookups, 112,820 diplotype-to-phenotype entries and 2,115 drug recommendations.",
  "variant_classes": [
   "gene_level",
-  "snv"
+  "snv",
+  "indel",
+  "cnv",
+  "mtdna"
  ],
  "assemblies": [
   "none/not_applicable"
@@ -29,7 +32,7 @@
   "HGNC/Ensembl/NCBI gene IDs",
   "star alleles"
  ],
- "mapping_methods": "Allele definitions refer to reference sequences; coordinate mapping to be done via PharmVar/ClinPGx.",
+ "mapping_methods": "Alleles are defined by variants at sequence locations given in chromosomal (g.), gene and protein notation with a dbSNP id where there is one; the chromosomal positions are tested against the reference sequence in compat_resources.py. The pharmvarid field of the allele definitions is empty in this snapshot, so alleles are matched to PharmVar by gene and star-allele name.",
  "quantitative": {
   "summary": "Allele function and phenotype categories.",
   "units": "n/a",
@@ -45,30 +48,44 @@
  },
  "update_frequency": "With guideline updates.",
  "coverage_limitations": [
-  "Limited to genes with CPIC guidelines"
+  "Limited to genes with CPIC guidelines (22 genes with allele definitions)",
+  "Allele function is assigned to named alleles by CPIC; unlisted alleles have no function assignment",
+  "Structural alleles (13 flagged) are defined as alleles, not by breakpoints",
+  "The API snapshot carries no release number; the manifest pins size and SHA-256"
  ],
  "known_omissions": [
-  "Endpoints beyond gene and guideline lists were not explored"
+  "Endpoints beyond the allele, phenotype, diplotype and recommendation tables (publications, drugs, pairs, test alerts, guideline text) were not fetched"
  ],
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "retrieve_source",
-  "rationale": "Small API tables; combine with ClinPGx and PharmVar."
+  "rationale": "Small API tables that give allele definitions, allele function with evidence strength and population frequency, phenotype translation and recommendations in one open, versioned source; combined with PharmVar nomenclature and ClinPGx annotations rather than rebuilt."
  },
  "status": {
   "accessible": "yes",
-  "notes": "API returns JSON."
+  "notes": "API returns JSON; a plain GET returns every row. The CPIC licence page needs JavaScript and its content equals the ClinPGx page."
  },
  "acquisition_targets": [
   "cpic_genes",
-  "cpic_guidelines"
+  "cpic_guidelines",
+  "cpic_api_allele_definition",
+  "cpic_api_allele_location_value",
+  "cpic_api_sequence_location",
+  "cpic_api_allele",
+  "cpic_api_gene_result",
+  "cpic_api_gene_result_lookup",
+  "cpic_api_gene_result_diplotype",
+  "cpic_api_recommendation"
  ],
  "unverified_fields": [
   "CPIC-specific licence terms"
  ],
  "evidence": [
+  "cpic/api_allele_definition_sample",
   "cpic/api_genes",
+  "cpic/api_root",
   "cpic/home",
+  "cpic/licence",
   "cpic/license"
  ],
  "evidence_profile": {
@@ -81,15 +98,27 @@
     "axis": "pharmacogenomic_haplotype",
     "variant_classes": [
      "snv",
+     "indel",
+     "cnv",
      "gene_level"
     ],
     "basis": "curated",
-    "dimension": "functional_haplotypes_pgx"
+    "dimension": "functional_haplotypes_pgx",
+    "note": "star-allele function and diplotype-phenotype translation"
+   },
+   {
+    "axis": "mitochondrial",
+    "variant_classes": [
+     "mtdna"
+    ],
+    "basis": "curated",
+    "dimension": "functional_haplotypes_pgx",
+    "note": "MT-RNR1 alleles and their drug-response guideline"
    }
   ],
-  "biological_context": "Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline.",
+  "biological_context": "Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles; for X-linked, mitochondrial and HLA genes single alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline. Allele function records carry the strength of evidence, citations and population frequencies.",
   "evidence_strength": "Expert-curated allele function and guideline recommendations with CPIC's own evidence levels; assertions derived from published studies, not measurements of a given sample's alleles.",
-  "mechanistic_confidence": "Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles and unresolved phase.",
+  "mechanistic_confidence": "Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles defined without breakpoints, and unresolved phase.",
   "phenotype_implication": "Predicted metaboliser or transporter phenotype and a prescribing recommendation for a diplotype; drug-specific, not general.",
   "absence_means": "An allele missing from the definition tables has unassigned function, which is different from normal function. A sample with no defining variant detected defaults to the reference allele by convention, an assumption about untested positions.",
   "overlaps_with_sources": [

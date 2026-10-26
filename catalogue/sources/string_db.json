@@ -1,0 +1,104 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "TXT (gzip)",
+  "SQL"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "STRING protein id (taxon.ENSP)",
+  "Ensembl protein id"
+ ],
+ "id": "string_db",
+ "name": "STRING protein-protein association networks",
+ "categories": [
+  "pathways_interactions_epistasis"
+ ],
+ "maintainer": "STRING Consortium (SIB, CPR, EMBL)",
+ "url": "https://string-db.org/",
+ "provenance": [
+  "https://string-db.org/cgi/download"
+ ],
+ "version": {
+  "value": "STRING v12.5 (file names of the download page)",
+  "release_date": "unknown",
+  "verified": "live"
+ },
+ "scope": "Scored protein-protein associations (physical and functional) for many species; the download page lists protein.links.v12.5.txt.gz (124.6 GB for the full network), protein.links.detailed (187.2 GB, with per-channel subscores), protein.info, protein.sequences and aliases, plus species-specific downloads. Open Targets integrates STRING: its 26.09 interaction dataset holds 13,205,373 STRING rows, 6,482,505 distinct gene pairs.",
+ "variant_classes": [
+  "gene_level",
+  "protein_level"
+ ],
+ "mapping_methods": "Proteins are identified by STRING ids that combine the NCBI taxon and the Ensembl protein id; aliases map them to gene names.",
+ "quantitative": {
+  "summary": "Combined association score from channels (experiments, databases, text mining, co-expression, neighbourhood, fusion, co-occurrence).",
+  "units": "score 0 to 1000",
+  "uncertainty": "the score is a confidence, not a measured strength",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "CC BY 4.0 as listed for STRING in the Open Targets data-source licence table; the STRING licence page itself was not read.",
+  "redistribution": "Attribution; STRING terms not read",
+  "access": "open_with_terms",
+  "verified": "unverified"
+ },
+ "update_frequency": "Major versions every one to two years.",
+ "coverage_limitations": [
+  "A STRING link is an association (including text mining and co-expression), not necessarily a physical interaction",
+  "Scores are confidences and depend on channel weights"
+ ],
+ "known_omissions": [
+  "All files: the association scores reach the library through the Open Targets interaction dataset; the full-network files are far too large and the human-only files were not fetched"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Already integrated in Open Targets (13.2 million rows, 6.5 million distinct gene pairs), and the full network is 124.6 GB. A human-only file could be fetched later if channel subscores are needed."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Download page read (file names and sizes); the licence page was not."
+ },
+ "unverified_fields": [
+  "licence statement of STRING itself",
+  "size of the human-only files"
+ ],
+ "evidence": [
+  "string/download",
+  "opentargets/docs_licence",
+  "opentargets/interaction_source_counts"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification",
+   "computational_prediction"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "gene_level",
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "functional association network"
+   }
+  ],
+  "biological_context": "Associations from experiments, curated pathway databases, text mining, co-expression and genomic context, combined into one score; not tissue-specific.",
+  "evidence_strength": "A mixture of curated, experimental and predicted evidence combined into a confidence; the channels differ greatly in reliability.",
+  "mechanistic_confidence": "Low. It places proteins in a network; it does not show that a variant affects a link.",
+  "phenotype_implication": "None directly.",
+  "absence_means": "A pair without a link has no combined evidence above the stored threshold; it is not shown to be unrelated.",
+  "overlaps_with_sources": [
+   {
+    "source": "opentargets",
+    "relation": "identical_records",
+    "note": "Open Targets carries STRING associations as its string source; use one route and count each pair once"
+   }
+  ]
+ }
+}

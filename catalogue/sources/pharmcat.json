@@ -1,0 +1,107 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "software",
+  "VCF input",
+  "JSON/HTML report"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "star-allele names",
+  "diplotypes",
+  "CPIC/DPWG/FDA guideline ids"
+ ],
+ "id": "pharmcat",
+ "name": "PharmCAT (Pharmacogenomics Clinical Annotation Tool)",
+ "categories": [
+  "functional_haplotypes_pgx"
+ ],
+ "maintainer": "ClinPGx (Stanford University and collaborators)",
+ "url": "https://pharmcat.clinpgx.org/",
+ "provenance": [
+  "https://pharmcat.clinpgx.org/"
+ ],
+ "version": {
+  "value": "PharmCAT v3.4.0 (as named on the documentation home page)",
+  "release_date": "unknown",
+  "verified": "live"
+ },
+ "scope": "A software tool: it reads a VCF from sequencing or genotyping, identifies pharmacogenomic genotypes and infers haplotypes (star alleles), then uses the diplotypes to predict phenotypes and reports drug-prescribing recommendations from CPIC guidelines and from ClinPGx-annotated DPWG and FDA sources. Its documentation covers VCF requirements, calling of CYP2D6 and HLA by outside callers, and allele-frequency analysis.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "cnv",
+  "gene_level"
+ ],
+ "mapping_methods": "Matches VCF genotypes at allele-defining positions to named allele definitions and translates diplotypes to phenotype categories using the guideline tables.",
+ "quantitative": {
+  "summary": "n/a",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Not retrieved: the documentation pages were read but the software licence file was not.",
+  "redistribution": "Unknown",
+  "access": "unverified",
+  "verified": "unverified"
+ },
+ "update_frequency": "Versioned releases (a changelog and versioning page are linked from the documentation).",
+ "coverage_limitations": [
+  "Limited to the genes and drugs for which CPIC, DPWG or FDA recommendations exist",
+  "CYP2D6 and HLA calls come from outside callers; structural alleles are not called from a short-read VCF alone"
+ ],
+ "known_omissions": [
+  "The software and its bundled definitions are not installed; the same allele definitions are held through the CPIC API tables and PharmVar"
+ ],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "A tool that applies the allele definitions and guidelines already held through CPIC, PharmVar and ClinPGx; it carries no evidence that is not in those sources. It is the reference implementation to run, or to compare a future allele caller with, when a pharmacogenomic analysis is built."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Documentation home page read."
+ },
+ "unverified_fields": [
+  "licence",
+  "release date"
+ ],
+ "evidence": [
+  "pharmcat/home"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "haplotype_level",
+  "mechanism_evidence": [
+   {
+    "axis": "pharmacogenomic_haplotype",
+    "variant_classes": [
+     "snv",
+     "indel",
+     "cnv",
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "functional_haplotypes_pgx",
+    "note": "applies curated allele definitions and guideline tables; a method, not a new assertion"
+   }
+  ],
+  "biological_context": "A method that applies published allele definitions and guidelines to a genotype; the clinical meaning is that of the guidelines, specific to the gene and the drug.",
+  "evidence_strength": "Inherited from the guidelines it applies; a calling pipeline adds the risk of wrong calls at positions it cannot see.",
+  "mechanistic_confidence": "As for the CPIC and PharmVar tables it uses: moderate at the haplotype level, low for variants outside the definitions.",
+  "phenotype_implication": "Predicted metaboliser or risk phenotype and a recommendation for a diplotype, drug-specific.",
+  "absence_means": "A gene, drug or allele outside the covered set receives no report; an uncalled position is treated according to the tool's rules, which can default to the reference allele.",
+  "overlaps_with_sources": [
+   {
+    "source": "cpic",
+    "relation": "derived_from",
+    "note": "applies the CPIC allele definitions and guideline tables; the evidence is the CPIC evidence, so count it once"
+   }
+  ]
+ }
+}

@@ -24,7 +24,7 @@
   "release_date": "2026-09",
   "verified": "live"
  },
- "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome. The variant dataset states that all variation is mapped to GRCh38 with 1-based gnomAD-style identifiers (chrom_pos_ref_alt) and population allele frequencies from gnomAD 4.1.",
+ "scope": "Integrated target-disease evidence. The 26.09 output has 61 datasets, including: credible_set, study, variant, colocalisation, l2g_prediction, enhancer_to_gene, baseline_expression, interaction, target_essentiality (DepMap), evidence_crispr/evidence_crispr_screen, evidence_impc, evidence_clingen, evidence_eva (ClinVar), evidence_gwas_credible_sets, evidence_gene_burden, evidence_genomics_england, evidence_uniprot_variants, pharmacogenomics, mouse_phenotype and reactome. The variant dataset states that all variation is mapped to GRCh38 with 1-based gnomAD-style identifiers (chrom_pos_ref_alt) and population allele frequencies from gnomAD 4.1. The acquired credible_set dataset holds 4,761,925 credible-set rows (eQTL 1,718,748; GWAS 1,519,507; sQTL 844,764; transcript-usage QTL 521,558; single-cell eQTL 123,630; pQTL 33,718), fine-mapped by SuSiE (3,231,045), SuSiE-inf (771,560) or PICS (759,320), with beta, z-score, standard error, p-value and effect-allele frequency per variant; the study dataset describes 3,004,247 studies from 47 projects.",
  "variant_classes": [
   "snv",
   "indel",
@@ -87,7 +87,9 @@
   "opentargets/docs_variant",
   "opentargets/downloads_page",
   "opentargets/ftp_26_09_output",
-  "opentargets/ftp_platform_listing"
+  "opentargets/ftp_platform_listing",
+  "opentargets/credible_set_counts",
+  "opentargets/interaction_source_counts"
  ],
  "acquisition_targets": [
   "opentargets_26_09_biosample",
@@ -233,6 +235,36 @@
     "basis": "context",
     "dimension": "pathways_interactions_epistasis",
     "note": "interaction and pathway context"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "regulation_expression_splicing",
+    "note": "molecular-QTL credible sets: eQTL, single-cell eQTL and transcript-usage QTL"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "regulation_expression_splicing",
+    "note": "sQTL credible sets"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "association",
+    "dimension": "association_finemapping_coloc",
+    "note": "pQTL credible sets (protein abundance)"
    }
   ],
   "components": [

@@ -1,0 +1,37 @@
+{
+  "kind": "storage#objects",
+  "prefixes": [
+    "2025-06-11_export/",
+    "2025-10-21_export/",
+    "2025-12-22_export/",
+    "gcloud/",
+    "other_catalogs/",
+    "v1.0.1/",
+    "v1.0.2/",
+    "v1.0/",
+    "v2.0/",
+    "v2.1/"
+  ],
+  "items": [
+    {
+      "kind": "storage#object",
+      "id": "tandem-repeat-catalog/1kGP_metadata.tsv/1772943117880881",
+      "selfLink": "https://www.googleapis.com/storage/v1/b/tandem-repeat-catalog/o/1kGP_metadata.tsv",
+      "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/tandem-repeat-catalog/o/1kGP_metadata.tsv?generation=1772943117880881&alt=media",
+      "name": "1kGP_metadata.tsv",
+      "bucket": "tandem-repeat-catalog",
+      "generation": "1772943117880881",
+      "metageneration": "1",
+      "contentType": "text/tab-separated-values",
+      "storageClass": "STANDARD",
+      "size": "706327",
+      "md5Hash": "9xhLaLECdglhDXmuQtlgQg==",
+      "crc32c": "vqgMHw==",
+      "etag": "CLGc/uW3j5MDEAE=",
+      "timeCreated": "2026-03-08T04:11:57.886Z",
+      "updated": "2026-03-08T04:11:57.886Z",
+      "timeStorageClassUpdated": "2026-03-08T04:11:57.886Z",
+      "timeFinalized": "2026-03-08T04:11:57.886Z"
+    }
+  ]
+}

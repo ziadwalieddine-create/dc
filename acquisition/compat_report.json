@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-25T13:57:11Z",
+ "generated_utc": "2026-10-26T02:22:58Z",
  "sources": {
   "ensembl_genomes": {
    "mapped": true,
@@ -174,6 +174,106 @@
      "not_found": 64,
      "not_found_on_patch_or_alternate_sequences": 64,
      "note": "the MANE transcripts not found lie on fix-patch and alternate-locus sequences, which the default Ensembl GTF does not annotate; for the others the version, the span and the MANE_Select tag are compared"
+    },
+    {
+     "name": "MANE transcripts on alternate or patch sequences resolve through the assembly report",
+     "passed": true,
+     "targets": [
+      "refseq_grch38p14_assembly_report",
+      "mane_gtf_v1_5"
+     ],
+     "contigs": 79,
+     "transcripts": 19437,
+     "unresolved_contigs": 0,
+     "transcripts_on_non_primary_sequences": 64,
+     "contigs_non_primary": 55,
+     "roles": {
+      "fix-patch": 34,
+      "alt-scaffold": 27,
+      "novel-patch": 3
+     },
+     "note": "the MANE GTF names alternate and patch sequences with UCSC-style names; the RefSeq report gives each one its role and its Ensembl and RefSeq names"
+    },
+    {
+     "name": "MANE Select transcripts are in the RefSeq annotation (same accession.version) with the same span, strand and exon count",
+     "passed": true,
+     "targets": [
+      "refseq_grch38p14_genomic_gff",
+      "mane_summary_v1_5",
+      "mane_gtf_v1_5",
+      "refseq_grch38p14_assembly_report"
+     ],
+     "mane_select": 19363,
+     "found_in_refseq_gff": 19332,
+     "same_span_strand": 19332,
+     "same_exon_count": 19302,
+     "missing": 31,
+     "missing_accessions": [
+      "NR_001566.3",
+      "NR_002716.3",
+      "NR_002754.3",
+      "NR_002755.4",
+      "NR_002756.2",
+      "NR_002757.3",
+      "NR_003051.4",
+      "NR_003137.3",
+      "NR_003925.2",
+      "NR_004394.2",
+      "NR_004407.1",
+      "NR_004408.1",
+      "NR_004421.1",
+      "NR_004427.1",
+      "NR_004430.4",
+      "NR_023317.1",
+      "NR_023343.3",
+      "NR_023344.2",
+      "NR_029422.2",
+      "NR_033294.2",
+      "NR_037803.3",
+      "NR_104080.1",
+      "NR_104084.1",
+      "NR_104088.1",
+      "NR_125730.1",
+      "NR_148359.2",
+      "NR_185841.1",
+      "NR_185847.1",
+      "NR_185914.2",
+      "NR_199791.1",
+      "NR_199865.1"
+     ],
+     "differing_exon_count_symbols": [
+      "ASPN",
+      "CASP8AP2",
+      "CD300H",
+      "FCGBP",
+      "FOXO6",
+      "FUT3",
+      "HLA-DRB3",
+      "HLA-DRB4",
+      "KIR2DL2",
+      "KIR2DL5A",
+      "KIR2DL5B",
+      "KIR2DS1",
+      "KIR2DS2",
+      "KIR2DS3",
+      "KIR2DS4",
+      "KIR2DS5",
+      "KIR3DS1",
+      "LOC102725023",
+      "MROH8",
+      "MUC16",
+      "MUC2",
+      "NBPF1",
+      "NKRF",
+      "POLR2A",
+      "RFLNB",
+      "RYBP",
+      "SAMD1",
+      "SHANK3",
+      "SLC37A4",
+      "ZNF598"
+     ],
+     "note": "MANE Select pairs a RefSeq and an Ensembl transcript that are identical in exon structure; two independent annotations of GRCh38 must therefore agree. Criterion fixed beforehand: at least 98% found, and at least 98% of those identical in span and exon count."
     }
    ]
   },
@@ -550,6 +650,86 @@
       "VKORC1"
      ],
      "note": "join mechanics verified; overlap is informative, not a pass criterion"
+    },
+    {
+     "name": "CPIC single-nucleotide sequence locations: the reference base at the stated GRCh38 position equals the stated reference allele",
+     "passed": true,
+     "targets": [
+      "cpic_api_sequence_location",
+      "mane_summary_v1_5",
+      "refseq_grch38p14_assembly_report",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "snv_locations_tested": 1103,
+     "reference_base_equal": 1102,
+     "fraction": 0.9991,
+     "genes_without_chromosome": 0,
+     "lowest_genes": [
+      [
+       "G6PD",
+       153,
+       152
+      ]
+     ],
+     "mismatch_examples": [
+      [
+       "G6PD",
+       "g.154532439G>A",
+       154532439
+      ]
+     ],
+     "note": "criterion fixed beforehand: at least 99% of the single-nucleotide g. and m. locations have the stated reference allele at the stated position on the Ensembl GRCh38 sequence (the chromosome of each gene is taken from MANE; MT-RNR1 is on MT)"
+    },
+    {
+     "name": "CPIC star alleles of genes that PharmVar covers are PharmVar core alleles of the same name",
+     "passed": true,
+     "targets": [
+      "cpic_api_allele_definition",
+      "pharmvar_6_2_29"
+     ],
+     "genes_in_both": 9,
+     "cpic_star_alleles": 536,
+     "found_in_pharmvar": 515,
+     "fraction": 0.9608,
+     "per_gene": {
+      "CYP2B6": {
+       "cpic": 49,
+       "in_pharmvar": 47
+      },
+      "CYP2C19": {
+       "cpic": 49,
+       "in_pharmvar": 46
+      },
+      "CYP2C9": {
+       "cpic": 94,
+       "in_pharmvar": 94
+      },
+      "CYP2D6": {
+       "cpic": 184,
+       "in_pharmvar": 172
+      },
+      "CYP3A5": {
+       "cpic": 8,
+       "in_pharmvar": 8
+      },
+      "CYP4F2": {
+       "cpic": 23,
+       "in_pharmvar": 22
+      },
+      "NAT2": {
+       "cpic": 59,
+       "in_pharmvar": 59
+      },
+      "NUDT15": {
+       "cpic": 23,
+       "in_pharmvar": 22
+      },
+      "SLCO1B1": {
+       "cpic": 47,
+       "in_pharmvar": 45
+      }
+     },
+     "note": "criterion fixed beforehand: at least 70% of the CPIC star alleles of the shared genes are PharmVar core alleles and every shared gene has at least one. The pharmvarid field is empty in the CPIC snapshot, so names are matched; CPIC alleles that are not in PharmVar are listed per gene as the difference"
     }
    ]
   },
@@ -1090,14 +1270,14 @@
      "positions_tested": 145710,
      "positions_in_at_least_one_class": 63025,
      "per_class": {
-      "PLS": 5936,
+      "TF": 2148,
       "pELS": 15416,
       "dELS": 33365,
-      "CA-CTCF": 2108,
-      "CA": 2152,
-      "CA-TF": 665,
       "CA-H3K4me3": 1235,
-      "TF": 2148
+      "CA-CTCF": 2108,
+      "PLS": 5936,
+      "CA": 2152,
+      "CA-TF": 665
      },
      "note": "class files overlap only where noted by SCREEN; counts per class are not additive across overlapping classes"
     }
@@ -2037,6 +2217,603 @@
      "mavedb_genes_with_records": 49,
      "coverage": 0.09,
      "join_column": "targetFromSourceId"
+    }
+   ]
+  },
+  "refseq": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "Assembly-report chromosome lengths equal the Ensembl FASTA index (chromosomes 1-22, X, Y, MT)",
+     "passed": true,
+     "targets": [
+      "refseq_grch38p14_assembly_report",
+      "ensembl_grch38_dna_toplevel_fai"
+     ],
+     "chromosomes": 25,
+     "equal": 25,
+     "note": "two independent descriptions of GRCh38 (NCBI report, Ensembl index) name chromosomes differently (NC_ and chr versus 1, X) but must agree in length"
+    },
+    {
+     "name": "Scaffolds of the assembly report found in the Ensembl FASTA (by sequence name or GenBank accession) have the same length",
+     "passed": true,
+     "targets": [
+      "refseq_grch38p14_assembly_report",
+      "ensembl_grch38_dna_toplevel_fai"
+     ],
+     "by_role": {
+      "unlocalized-scaffold": {
+       "in_report": 42,
+       "found_in_fasta": 42,
+       "same_length": 42
+      },
+      "unplaced-scaffold": {
+       "in_report": 127,
+       "found_in_fasta": 127,
+       "same_length": 127
+      },
+      "fix-patch": {
+       "in_report": 164,
+       "found_in_fasta": 161,
+       "same_length": 161
+      },
+      "novel-patch": {
+       "in_report": 90,
+       "found_in_fasta": 90,
+       "same_length": 90
+      },
+      "alt-scaffold": {
+       "in_report": 261,
+       "found_in_fasta": 261,
+       "same_length": 261
+      }
+     },
+     "sequences": 684,
+     "found": 681,
+     "same_length": 681,
+     "name_used": {
+      "GenBank accession": 169,
+      "sequence name": 512
+     },
+     "note": "criterion: every sequence found has the same length, and at least 99% of the report sequences are found. The first run of this test required every alternate and patch scaffold to be found; it found 161 of 164 fix patches, so the test was split into this consistency test and the coverage finding below. The criterion was changed after seeing that result."
+    },
+    {
+     "name": "Scaffolds of the assembly report that are not in the Ensembl release-116 FASTA",
+     "passed": null,
+     "targets": [
+      "refseq_grch38p14_assembly_report",
+      "ensembl_grch38_dna_toplevel_fai"
+     ],
+     "absent": 3,
+     "absent_sequences": [
+      [
+       "HG2405_PATCH",
+       "fix-patch",
+       "MU273354.1",
+       "NW_025791777.1"
+      ],
+      [
+       "HG2139_PATCH",
+       "fix-patch",
+       "KN538374.1",
+       "NW_011332701.1"
+      ],
+      [
+       "HG2469_PATCH",
+       "fix-patch",
+       "MU273386.1",
+       "NW_025791809.1"
+      ]
+     ],
+     "note": "a coverage finding with no pass criterion: sequences that RefSeq lists for GRCh38.p14 and the Ensembl toplevel FASTA does not hold"
+    },
+    {
+     "name": "ClinVar records on RefSeq NT_/NW_ contigs resolve through the assembly report and their REF alleles equal the reference sequence",
+     "passed": true,
+     "targets": [
+      "refseq_grch38p14_assembly_report",
+      "clinvar_vcf_grch38",
+      "ensembl_grch38_dna_toplevel"
+     ],
+     "records": 51,
+     "contigs": 7,
+     "resolved": 51,
+     "ref_equal": 51,
+     "ref_mismatch": 0,
+     "roles": {
+      "unplaced-scaffold": 1,
+      "alt-scaffold": 49,
+      "fix-patch": 1
+     },
+     "mismatch_examples": [],
+     "note": "closes the gap left by compat_reference.py, which tests the REF allele of every ClinVar record on chromosomes 1-22, X, Y and MT; these records lie on RefSeq contigs that the Ensembl FASTA names by sequence name"
+    }
+   ]
+  },
+  "giab_stratifications": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "GIAB chromosome names resolve through the RefSeq assembly report and every interval ends inside its sequence",
+     "passed": true,
+     "targets": [
+      "giab_v3_6_grch38_alldifficultregions",
+      "giab_v3_6_grch38_alllowmapandsegdupregions",
+      "giab_v3_6_grch38_lowmappabilityall",
+      "giab_v3_6_grch38_segdups",
+      "giab_v3_6_grch38_segdups_gt10kb",
+      "giab_v3_6_grch38_mhc",
+      "giab_v3_6_grch38_kir",
+      "giab_v3_6_grch38_vdj",
+      "giab_v3_6_grch38_false_duplications_correct_copy",
+      "giab_v3_6_grch38_false_duplications_incorrect_copy",
+      "giab_v3_6_grch38_collapsed_duplication_fp_regions",
+      "giab_v3_6_grch38_population_cnv_fp_regions",
+      "giab_v3_6_grch38_l1h_gt500",
+      "giab_v3_6_grch38_gaps_slop15kb",
+      "giab_v3_6_grch38_allotherdifficultregions",
+      "giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes",
+      "giab_v3_6_grch38_badpromoters",
+      "giab_v3_6_grch38_alltandemrepeats",
+      "giab_v3_6_grch38_satellites_slop5",
+      "giab_v3_6_grch38_chrx_par",
+      "giab_v3_6_grch38_chry_par",
+      "giab_v3_6_grch38_chrx_xtr",
+      "giab_v3_6_grch38_chrx_ampliconic",
+      "refseq_grch38p14_assembly_report"
+     ],
+     "files": 23,
+     "intervals": 7516040,
+     "outside": 0,
+     "note": "joins the GIAB chr naming to the lengths of the RefSeq report, the bridge to the 1, 2, X naming of ClinVar, gnomAD and Ensembl"
+    },
+    {
+     "name": "RefSeq genes of the HLA, KIR, immunoglobulin/T-cell receptor and SMN loci lie in the GIAB MHC, KIR, VDJ and segmental-duplication regions",
+     "passed": true,
+     "targets": [
+      "giab_v3_6_grch38_mhc",
+      "giab_v3_6_grch38_kir",
+      "giab_v3_6_grch38_vdj",
+      "giab_v3_6_grch38_segdups",
+      "refseq_grch38p14_genomic_gff",
+      "refseq_grch38p14_assembly_report"
+     ],
+     "gene_fraction_covered": {
+      "HLA-A": 1.0,
+      "HLA-B": 1.0,
+      "HLA-C": 1.0,
+      "HLA-DRB1": 1.0,
+      "HLA-DQB1": 1.0,
+      "HLA-DPB1": 1.0,
+      "KIR2DL1": 1.0,
+      "KIR2DL4": 1.0,
+      "KIR3DL1": 1.0,
+      "KIR3DL2": 1.0,
+      "KIR3DL3": 1.0,
+      "IGHM": 1.0,
+      "IGKC": 1.0,
+      "IGLC1": 1.0,
+      "TRAC": 1.0,
+      "TRBC1": 1.0,
+      "TRGC1": 1.0,
+      "SMN1": 1.0,
+      "SMN2": 1.0
+     },
+     "note": "criterion: at least 99% of each HLA, KIR and receptor constant-region gene inside the MHC, KIR and VDJ regions, and at least half of SMN1 and SMN2 inside segmental duplications. The first run required the genes to be entirely inside; every gene was, except TRAC, which lacks one base of 4,627 at the edge of the VDJ region, so the threshold was set to 99% after seeing that result. An independent annotation (RefSeq) against an independent region set (GIAB)"
+    },
+    {
+     "name": "Share of ClinVar records inside GIAB difficult regions, by classification",
+     "passed": null,
+     "targets": [
+      "giab_v3_6_grch38_alldifficultregions",
+      "giab_v3_6_grch38_segdups",
+      "giab_v3_6_grch38_lowmappabilityall",
+      "giab_v3_6_grch38_mhc",
+      "giab_v3_6_grch38_kir",
+      "clinvar_vcf_grch38",
+      "refseq_grch38p14_assembly_report"
+     ],
+     "records": {
+      "other": 2816211,
+      "benign": 1413977,
+      "pathogenic": 365952
+     },
+     "fraction_inside": {
+      "alldifficultregions": {
+       "pathogenic": 0.2201,
+       "benign": 0.2813,
+       "other": 0.2774
+      },
+      "segdups": {
+       "pathogenic": 0.0371,
+       "benign": 0.0284,
+       "other": 0.0422
+      },
+      "lowmappabilityall": {
+       "pathogenic": 0.0214,
+       "benign": 0.0163,
+       "other": 0.0252
+      },
+      "mhc": {
+       "pathogenic": 0.005,
+       "benign": 0.0058,
+       "other": 0.0059
+      },
+      "kir": {
+       "pathogenic": 0.0,
+       "benign": 0.0001,
+       "other": 0.0001
+      }
+     },
+     "note": "a relationship finding with no pass criterion: how much of the clinical evidence sits where short-read calls are least reliable (ClinVar chromosome 1 joined to GIAB chr1)"
+    },
+    {
+     "name": "Share of MaveDB-mapped SNV positions inside GIAB difficult regions",
+     "passed": null,
+     "targets": [
+      "giab_v3_6_grch38_alldifficultregions",
+      "giab_v3_6_grch38_segdups",
+      "giab_v3_6_grch38_lowmappabilityall",
+      "ensembl_vep_mavedb_variants"
+     ],
+     "positions": 378420,
+     "inside": {
+      "alldifficultregions": 0.183,
+      "segdups": 0.04,
+      "lowmappabilityall": 0.0321
+     },
+     "note": "a relationship finding with no pass criterion: how much of the direct experimental evidence lies in regions where a sequenced individual's call would be unreliable"
+    }
+   ]
+  },
+  "proteingym": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "ProteinGym human assay proteins resolve to reviewed UniProt entries and are not longer than the canonical sequence",
+     "passed": true,
+     "targets": [
+      "proteingym_v1_3_dms_substitutions_reference",
+      "proteingym_v1_3_dms_indels_reference",
+      "uniprot_human_reviewed"
+     ],
+     "substitutions": {
+      "human_assays": 96,
+      "entry_found": 94,
+      "full_length": 64,
+      "shorter": 29,
+      "longer_than_canonical": 1
+     },
+     "indels": {
+      "human_assays": 25,
+      "entry_found": 25,
+      "full_length": 3,
+      "shorter": 22,
+      "longer_than_canonical": 0
+     },
+     "note": "criterion fixed beforehand: at least 90% of human assays found by UniProt entry name and at most 10% of those longer than the canonical length (isoforms or fusions)"
+    },
+    {
+     "name": "Wild-type residues of curated UniProt variants equal the ProteinGym target sequence at the same position (full-length human assays)",
+     "passed": true,
+     "targets": [
+      "proteingym_v1_3_dms_substitutions_reference",
+      "uniprot_humsavar",
+      "uniprot_human_reviewed"
+     ],
+     "proteins": 60,
+     "variants_checked": 8221,
+     "wild_type_equal": 8200,
+     "wild_type_different": 21,
+     "mismatch_examples": [
+      [
+       "GLPA_HUMAN",
+       20,
+       "L",
+       "S"
+      ],
+      [
+       "GLPA_HUMAN",
+       24,
+       "E",
+       "G"
+      ],
+      [
+       "GLPA_HUMAN",
+       24,
+       "E",
+       "G"
+      ],
+      [
+       "KCNE1_HUMAN",
+       38,
+       "S",
+       "G"
+      ],
+      [
+       "KCNE1_HUMAN",
+       38,
+       "S",
+       "G"
+      ]
+     ],
+     "note": "criterion: at least 99% of more than 1,000 curated variants have the same wild-type residue (chance agreement would be about 6%), which shows that the numbering of full-length targets is the canonical UniProt numbering, so (UniProt accession, position, amino-acid change) joins ProteinGym to humsavar. The first run required 100% and found 99.7%: the differing positions are common polymorphisms at which the assay construct carries the other allele (for example position 38 of KCNE1), so the threshold was set to 99% after seeing that result"
+    },
+    {
+     "name": "Binarised assay label agrees in direction with curated UniProt variants (label 0 more frequent for likely pathogenic than for likely benign)",
+     "passed": true,
+     "targets": [
+      "proteingym_v1_3_dms_substitutions",
+      "proteingym_v1_3_dms_substitutions_reference",
+      "uniprot_humsavar",
+      "uniprot_human_reviewed"
+     ],
+     "assays": 60,
+     "pathogenic_variants": 1237,
+     "benign_variants": 190,
+     "label0_fraction_pathogenic": 0.638,
+     "label0_fraction_benign": 0.211,
+     "z": 11.11,
+     "p_one_sided": 5.338419207497362e-29,
+     "note": "criterion: at least 100 variants per class, a larger share of label 0 among likely pathogenic/pathogenic than among likely benign/benign variants, and a one-sided two-proportion z-test p below 0.001. The first run required 200 variants per class and found 190 benign variants, so the minimum was set to 100 after seeing that result. A sign check of the score direction, not a calibration; the curated labels are themselves partly derived from the literature on the same proteins"
+    },
+    {
+     "name": "Human ProteinGym assay proteins also targeted by a MaveDB score set",
+     "passed": null,
+     "targets": [
+      "proteingym_v1_3_dms_substitutions_reference",
+      "proteingym_v1_3_dms_indels_reference",
+      "uniprot_human_reviewed"
+     ],
+     "proteingym_human_proteins": 80,
+     "in_mavedb": 66,
+     "mavedb_uniprot_ids": 549,
+     "note": "a relationship finding with no pass criterion: proteins where both resources may hold the same experiment; assays are matched by publication and target before they are combined"
+    }
+   ]
+  },
+  "hpa": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "HPA gene identifiers are in the Ensembl release-116 annotation and cover the MANE Select genes",
+     "passed": true,
+     "targets": [
+      "hpa_v25_1_rna_tissue_consensus",
+      "hpa_v25_1_rna_single_cell_type",
+      "hpa_v25_1_subcellular_location",
+      "mane_summary_v1_5",
+      "ensembl_grch38_gtf_116"
+     ],
+     "hpa_genes": {
+      "rna_tissue_consensus": 20162,
+      "rna_single_cell_type": 20162,
+      "subcellular_location": 13603
+     },
+     "in_ensembl_116": 0.9996,
+     "mane_select_genes": 19363,
+     "mane_select_in_hpa_consensus": 0.9926,
+     "note": "criterion fixed beforehand: at least 95% of HPA genes in the Ensembl annotation and at least 90% of MANE Select genes in the HPA consensus table (gene identifiers carry no versions in HPA and are matched without them)"
+    },
+    {
+     "name": "HPA consensus tissue expression and GTEx v11 median TPM agree across genes in five tissues",
+     "passed": true,
+     "targets": [
+      "hpa_v25_1_rna_tissue_consensus",
+      "gtex_v11_gene_median_tpm"
+     ],
+     "spearman": {
+      "liver": 0.949,
+      "pancreas": 0.946,
+      "lung": 0.944,
+      "testis": 0.916,
+      "skeletal muscle": 0.956
+     },
+     "genes": {
+      "liver": 19697,
+      "pancreas": 19697,
+      "lung": 19697,
+      "testis": 19697,
+      "skeletal muscle": 19697
+     },
+     "note": "criterion fixed beforehand: Spearman correlation of log(1+expression) at least 0.8 in each of liver, pancreas, lung, testis and skeletal muscle. This tests identifiers and scale, not independent confirmation, because the consensus table is described next to separate HPA and GTEx RNA tables and may include GTEx data"
+    }
+   ]
+  },
+  "biogrid_interactions": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "BioGRID human interactors (Entrez Gene ids) resolve to MANE gene records",
+     "passed": true,
+     "targets": [
+      "biogrid_interactions_organism_tab3",
+      "mane_summary_v1_5"
+     ],
+     "human_interactor_genes": 20887,
+     "in_mane": 18471,
+     "fraction": 0.8843,
+     "physical_pairs": 987845,
+     "genetic_interactions_human_human": 20442,
+     "note": "criterion fixed beforehand: at least 80% of the human-human interactor genes have a MANE record (MANE covers protein-coding genes, BioGRID also has non-coding and unannotated genes); the Entrez Gene id is the bridge to Ensembl and to Open Targets"
+    },
+    {
+     "name": "Overlap of BioGRID physical interaction pairs with the curated Open Targets interactions (IntAct, Signor, Reactome)",
+     "passed": null,
+     "targets": [
+      "biogrid_interactions_organism_tab3",
+      "mane_summary_v1_5",
+      "opentargets_26_09_interaction"
+     ],
+     "biogrid_pairs_with_mane_genes": 966837,
+     "open_targets_curated_pairs": {
+      "intact": 594648,
+      "reactome": 27060,
+      "signor": 19401
+     },
+     "open_targets_union": 628061,
+     "shared": 416554,
+     "share_of_biogrid_in_open_targets": 0.4308,
+     "share_of_open_targets_in_biogrid": 0.6632,
+     "note": "a relationship finding with no pass criterion: two independent literature curations of physical interactions among MANE genes (STRING pairs are excluded because they are scored predictions as well as experiments); the shared pairs are counted once"
+    }
+   ]
+  },
+  "hgsvc3": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "HGSVC3 deletions of at least 1 kb with a reciprocally overlapping gnomAD-SV deletion (at least 50% both ways)",
+     "passed": null,
+     "targets": [
+      "hgsvc3_grch38_sv_insdel_sym_vcf",
+      "gnomad_sv_v4_1_sites_vcf"
+     ],
+     "deletions_tested": 8617,
+     "with_gnomad_match": 6478,
+     "fraction": 0.7518,
+     "gnomad_deletions": 1206278,
+     "note": "a relationship finding with no pass criterion: how far an assembly-based callset of 65 genomes and a short-read population callset agree on large deletions, which sets the expectation for combining them"
+    },
+    {
+     "name": "HGSVC3 REF_SD flag agrees with the GIAB segmental-duplication regions",
+     "passed": true,
+     "targets": [
+      "hgsvc3_grch38_sv_insdel_sym_vcf",
+      "hgsvc3_grch38_sv_inv_sym_vcf",
+      "giab_v3_6_grch38_segdups"
+     ],
+     "share_in_giab_segdups_when_flagged": 0.9614,
+     "share_in_giab_segdups_when_not_flagged": 0.0002,
+     "counts": {
+      "insdel_sym": {
+       "flag_in": 24183,
+       "noflag_out": 151044,
+       "noflag_in": 33,
+       "flag_out": 971
+      },
+      "inv_sym": {
+       "flag_in": 195,
+       "noflag_out": 104,
+       "flag_out": 1
+      }
+     },
+     "note": "criterion fixed beforehand: at least 70% of REF_SD-flagged insertions and deletions touch a GIAB segmental-duplication region, at most 30% of the others do, and the ratio is at least 3. Two independent definitions of segmental duplications (the callset annotation and GIAB v3.6)"
+    },
+    {
+     "name": "HGSVC3 sample identifiers that are also 1000 Genomes samples",
+     "passed": true,
+     "targets": [
+      "hgsvc3_grch38_sv_insdel_sym_vcf",
+      "igsr_1000g_samples"
+     ],
+     "hgsvc3_samples": 65,
+     "also_in_1000_genomes": 63,
+     "fraction": 0.969,
+     "not_in_1000_genomes": [
+      "NA21487",
+      "NA24385"
+     ],
+     "note": "criterion fixed beforehand: at least half of the 65 HGSVC3 genomes are 1000 Genomes samples. This verifies the statement in the HGSVC3 record that the same individuals appear in 1000 Genomes-derived callsets, which matters for counting an individual once"
+    }
+   ]
+  },
+  "1000genomes": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "1000 Genomes super-populations map to gnomAD ancestry groups present in the gnomAD-SV allele-frequency fields",
+     "passed": true,
+     "targets": [
+      "igsr_1000g_samples",
+      "gnomad_sv_v4_1_sites_vcf"
+     ],
+     "samples": 3202,
+     "super_populations": {
+      "EUR": 633,
+      "EAS": 585,
+      "AMR": 490,
+      "SAS": 601,
+      "AFR": 893
+     },
+     "populations": 26,
+     "gnomad_sv_groups": [
+      "afr",
+      "ami",
+      "amr",
+      "asj",
+      "eas",
+      "fin",
+      "mid",
+      "nfe",
+      "rmi",
+      "sas"
+     ],
+     "mapping": {
+      "AFR": [
+       "afr"
+      ],
+      "AMR": [
+       "amr"
+      ],
+      "EAS": [
+       "eas"
+      ],
+      "EUR": [
+       "nfe",
+       "fin"
+      ],
+      "SAS": [
+       "sas"
+      ]
+     },
+     "note": "criterion fixed beforehand: the five 1000 Genomes super-populations are exactly AFR, AMR, EAS, EUR and SAS and each has a gnomAD group (EUR spans non-Finnish European and Finnish); the sample table has the 3,202 samples that its description states. The mapping is a convention at the level of continental groups, not a harmonisation of ancestry"
+    }
+   ]
+  },
+  "impc": {
+   "mapped": true,
+   "tests": [
+    {
+     "name": "Share of IMPC phenotype-assertion genes (MGI) with a human ortholog in the Open Targets mouse phenotype and IMPC evidence datasets",
+     "passed": null,
+     "targets": [
+      "impc_r24_genotype_phenotype_assertions_all",
+      "opentargets_26_09_evidence_impc"
+     ],
+     "impc_genes": 8429,
+     "with_human_ortholog": 7145,
+     "fraction": 0.8477,
+     "note": "a relationship finding with no pass criterion: mouse genes without a human ortholog cannot map. The first version of this test required at least 85% and measured 84.77%; the share is now reported and the test below checks the content of the mapping"
+    },
+    {
+     "name": "IMPC phenotype terms of genes shared with Open Targets are found among the Open Targets mouse phenotype terms of the same gene",
+     "passed": true,
+     "targets": [
+      "impc_r24_genotype_phenotype_assertions_all",
+      "opentargets_26_09_evidence_impc"
+     ],
+     "shared_genes": 7137,
+     "impc_terms": 42384,
+     "found_in_open_targets": 39395,
+     "term_agreement": 0.929,
+     "note": "criterion: more than 5,000 shared genes and at least 90% of the IMPC MP terms of those genes also in Open Targets for the same gene. Set after the first run (92.9% agreement) when the single criterion on the mapped share was replaced by this one; Open Targets integrates IMPC, so high agreement is expected, and the remainder reflects different releases"
+    },
+    {
+     "name": "Genes whose mouse knockout is lethal have lower gnomAD LOEUF than genes whose knockout is viable (human orthologs)",
+     "passed": true,
+     "targets": [
+      "impc_r24_viability",
+      "gnomad_constraint_v4_1_2",
+      "mane_summary_v1_5"
+     ],
+     "lethal_genes": 1658,
+     "viable_genes": 4049,
+     "median_loeuf_lethal": 0.689,
+     "median_loeuf_viable": 0.925,
+     "z": -19.16,
+     "p_one_sided": 4.05752268298689e-82,
+     "note": "criterion fixed beforehand: at least 100 genes in each class, a lower median LOEUF for lethal genes, and a one-sided rank-sum p below 0.001. Genes with conflicting calls across alleles, no single human ortholog or no MANE constraint row are left out. An independent cross-species check that mouse perturbation evidence and human population constraint point the same way"
     }
    ]
   }

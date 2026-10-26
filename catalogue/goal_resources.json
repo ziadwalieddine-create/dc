@@ -1,0 +1,416 @@
+{
+ "purpose": "Every resource or category that the project goal names, with the catalogue records that cover it. The state of each is computed in GOAL_RESOURCES.md from the lifecycle of its records; nothing here asserts that a resource is usable.",
+ "groups": [
+  {
+   "group": "Reference and annotation",
+   "resources": [
+    {
+     "name": "Ensembl VEP and its plugins",
+     "sources": [
+      "ensembl_vep"
+     ],
+     "note": "Plugin catalogue (74 plugins) and release-116 plugin data listings are recorded; MaveDB and LOEUF plugin files are acquired; SpliceAI, SpliceVault, Enformer and the other plugin data sets are listed with sizes and not mirrored."
+    },
+    {
+     "name": "GENCODE",
+     "sources": [
+      "gencode_mane",
+      "ensembl_genomes"
+     ],
+     "note": "The Ensembl release-116 GTF (the GENCODE gene set for human) is mirrored with its checksum."
+    },
+    {
+     "name": "MANE",
+     "sources": [
+      "gencode_mane"
+     ],
+     "note": "MANE v1.5 summary and GTF acquired; transcripts on alternate and patch sequences resolve through the RefSeq report and MANE Select agrees with the RefSeq annotation for 99.8% of transcripts."
+    },
+    {
+     "name": "RefSeq",
+     "sources": [
+      "refseq"
+     ],
+     "note": "Assembly report, regions, alternate-locus placement, feature counts and the GFF3 annotation of GRCh38.p14 (release RS_2025_08) acquired with published MD5s."
+    },
+    {
+     "name": "dbNSFP",
+     "sources": [
+      "dbnsfp"
+     ],
+     "note": "Registration is required for the data; its predictors reach the library separately (AlphaMissense, CADD scores in gnomAD INFO)."
+    }
+   ]
+  },
+  {
+   "group": "Functional assays",
+   "resources": [
+    {
+     "name": "MaveDB",
+     "sources": [
+      "mavedb"
+     ],
+     "note": "Existing verified asset: 1,402 human-target score sets and their tables."
+    },
+    {
+     "name": "ProteinGym",
+     "sources": [
+      "proteingym"
+     ],
+     "note": "217 substitution and 66 indel DMS assays acquired and checked row by row; overlap with MaveDB experiments not yet matched."
+    },
+    {
+     "name": "MAVE and deep mutational scanning data",
+     "sources": [
+      "mavedb",
+      "proteingym"
+     ],
+     "note": "Two independent routes; each experiment must be counted once."
+    },
+    {
+     "name": "MPRA and reporter-assay variant effects",
+     "sources": [
+      "mavedb",
+      "mpravardb"
+     ],
+     "note": "MaveDB holds MPRA score sets; MPRAVarDB is catalogued and deferred until its licence and genome build are known."
+    },
+    {
+     "name": "Knock-in and rescue experiments",
+     "sources": [],
+     "note": "No catalogued source: such experiments live in the literature and in model-organism allele and construct records (the Alliance bucket has ALLELE and CONSTRUCT directories, not fetched)."
+    }
+   ]
+  },
+  {
+   "group": "Population and association",
+   "resources": [
+    {
+     "name": "gnomAD",
+     "sources": [
+      "gnomad_variants",
+      "gnomad_constraint",
+      "gnomad_sv_cnv",
+      "gnomad_ld"
+     ],
+     "note": "Allele-frequency slices at MaveDB-mapped regions, constraint metrics and the SV/CNV callsets acquired; LD matrices (GRCh37, large) deferred."
+    },
+    {
+     "name": "1000 Genomes",
+     "sources": [
+      "1000genomes"
+     ],
+     "note": "Sample metadata and release files catalogued; the project page and tutorials are the existing NHGRI asset."
+    },
+    {
+     "name": "GWAS Catalog",
+     "sources": [
+      "gwas_catalog"
+     ],
+     "note": "Associations and studies tables acquired."
+    },
+    {
+     "name": "Open Targets",
+     "sources": [
+      "opentargets"
+     ],
+     "note": "27 of 61 datasets of release 26.09 acquired and validated."
+    },
+    {
+     "name": "Linkage disequilibrium",
+     "sources": [
+      "ldlink",
+      "gnomad_ld",
+      "1000genomes"
+     ],
+     "note": "LDlink is an on-demand service and is not acquired; gnomAD LD matrices are deferred; LD can be computed from phased 1000 Genomes genotypes."
+    },
+    {
+     "name": "Fine-mapping and colocalisation",
+     "sources": [
+      "eqtl_catalogue",
+      "opentargets"
+     ],
+     "note": "Open Targets credible sets and the eQTL Catalogue fine-mapping are the sources; the large colocalisation dataset is deferred."
+    }
+   ]
+  },
+  {
+   "group": "Regulation",
+   "resources": [
+    {
+     "name": "GTEx",
+     "sources": [
+      "gtex"
+     ],
+     "note": "v11 gene median TPM and the dataset API acquired."
+    },
+    {
+     "name": "ENCODE and candidate cis-regulatory elements",
+     "sources": [
+      "encode"
+     ],
+     "note": "SCREEN cCRE class BED files acquired."
+    },
+    {
+     "name": "eQTL Catalogue",
+     "sources": [
+      "eqtl_catalogue"
+     ],
+     "note": "Catalogued; summary statistics and credible sets are not acquired."
+    },
+    {
+     "name": "eQTL and sQTL",
+     "sources": [
+      "gtex",
+      "eqtl_catalogue"
+     ],
+     "note": "GTEx and eQTL Catalogue are catalogued for this; association files are not yet acquired."
+    },
+    {
+     "name": "Chromatin accessibility and binding",
+     "sources": [
+      "encode"
+     ],
+     "note": "cCRE classification only; signal tracks are not acquired."
+    },
+    {
+     "name": "Tissue and cell-type specificity",
+     "sources": [
+      "gtex",
+      "hpa"
+     ],
+     "note": "GTEx median TPM and HPA consensus tissue and single-cell-type tables acquired."
+    }
+   ]
+  },
+  {
+   "group": "Perturbation",
+   "resources": [
+    {
+     "name": "DepMap",
+     "sources": [
+      "depmap"
+     ],
+     "note": "Blocked for automation (human-verification page); not circumvented."
+    },
+    {
+     "name": "IMPC",
+     "sources": [
+      "impc"
+     ],
+     "note": "Catalogued; data files are not acquired."
+    },
+    {
+     "name": "BioGRID ORCS",
+     "sources": [
+      "biogrid_orcs"
+     ],
+     "note": "Human screens acquired."
+    },
+    {
+     "name": "Natural human knockouts",
+     "sources": [
+      "gnomad_constraint"
+     ],
+     "note": "Constraint metrics and gnomAD LoF curation acquired."
+    },
+    {
+     "name": "Knockout and knockdown screens",
+     "sources": [
+      "depmap",
+      "biogrid_orcs",
+      "impc",
+      "alliance_genome"
+     ],
+     "note": "BioGRID ORCS acquired; others catalogued."
+    },
+    {
+     "name": "CRISPR interference and activation",
+     "sources": [
+      "biogrid_orcs"
+     ],
+     "note": "BioGRID ORCS records screen types; the share of interference and activation screens was not counted."
+    },
+    {
+     "name": "Overexpression and gene dosage",
+     "sources": [
+      "clingen",
+      "biogrid_interactions"
+     ],
+     "note": "ClinGen dosage curation and BioGRID dosage-rescue and dosage-lethality interactions acquired."
+    }
+   ]
+  },
+  {
+   "group": "Clinical and pharmacogenomics",
+   "resources": [
+    {
+     "name": "ClinVar",
+     "sources": [
+      "clinvar"
+     ],
+     "note": "GRCh38 VCF acquired; records on RefSeq NT_/NW_ contigs resolve through the assembly report."
+    },
+    {
+     "name": "ClinGen",
+     "sources": [
+      "clingen"
+     ],
+     "note": "Dosage, recurrent-region and gene-validity files acquired."
+    },
+    {
+     "name": "PharmGKB (ClinPGx)",
+     "sources": [
+      "pharmgkb"
+     ],
+     "note": "Annotation archives acquired."
+    },
+    {
+     "name": "PharmVar",
+     "sources": [
+      "pharmvar"
+     ],
+     "note": "Complete database 6.2.29 acquired (CC BY-SA 4.0, research use)."
+    },
+    {
+     "name": "CPIC",
+     "sources": [
+      "cpic"
+     ],
+     "note": "Gene and guideline lists and eight database API tables (allele definitions, locations, function, phenotypes, diplotypes, recommendations) acquired."
+    },
+    {
+     "name": "PharmCAT",
+     "sources": [
+      "pharmcat"
+     ],
+     "note": "A tool applying the CPIC and ClinPGx tables; catalogued, not acquired."
+    }
+   ]
+  },
+  {
+   "group": "Proteins and pathways",
+   "resources": [
+    {
+     "name": "UniProt",
+     "sources": [
+      "uniprot"
+     ],
+     "note": "Reviewed human entries and the humsavar variant index acquired."
+    },
+    {
+     "name": "InterPro",
+     "sources": [
+      "interpro"
+     ],
+     "note": "Per-protein annotation of MaveDB proteins acquired."
+    },
+    {
+     "name": "AlphaFold DB",
+     "sources": [
+      "alphafold_db"
+     ],
+     "note": "Canonical models of MaveDB proteins acquired."
+    },
+    {
+     "name": "Reactome",
+     "sources": [
+      "reactome"
+     ],
+     "note": "Pathway and mapping tables acquired."
+    },
+    {
+     "name": "Interaction databases",
+     "sources": [
+      "biogrid_interactions",
+      "intact",
+      "string_db",
+      "opentargets"
+     ],
+     "note": "BioGRID (physical and genetic) acquired; IntAct, STRING and Reactome interactions reach the library through the Open Targets interaction dataset."
+    },
+    {
+     "name": "PDB residue mappings",
+     "sources": [
+      "pdbe_sifts"
+     ],
+     "note": "SIFTS mappings acquired."
+    }
+   ]
+  },
+  {
+   "group": "Complex variants",
+   "resources": [
+    {
+     "name": "Copy-number and structural variation",
+     "sources": [
+      "gnomad_sv_cnv",
+      "dgv",
+      "dbvar",
+      "clingen",
+      "hgsvc3",
+      "1000genomes",
+      "decipher"
+     ],
+     "note": "gnomAD-SV/CNV, DGV, ClinGen regions and HGSVC3 acquired; dbVar deferred; DECIPHER is restricted."
+    },
+    {
+     "name": "Short tandem repeats, VNTRs and repeat expansions",
+     "sources": [
+      "strchive",
+      "trexplorer"
+     ],
+     "note": "STRchive disease loci acquired; the genome-wide TRExplorer catalogue is deferred until its licence is known."
+    },
+    {
+     "name": "Complex pharmacogene loci",
+     "sources": [
+      "pharmvar",
+      "cpic",
+      "ipd_imgt_hla",
+      "ipd_kir",
+      "pharmcat"
+     ],
+     "note": "PharmVar and CPIC acquired; HLA and KIR allele databases are not mirrored (no-derivatives licence, mirroring discouraged)."
+    },
+    {
+     "name": "Callability and region reliability",
+     "sources": [
+      "giab_stratifications",
+      "refseq",
+      "hgsvc3"
+     ],
+     "note": "GIAB difficult-region stratifications, alternate-locus placement and HGSVC3 repeat flags acquired."
+    },
+    {
+     "name": "Mitochondrial DNA variants",
+     "sources": [
+      "mitomap",
+      "cpic"
+     ],
+     "note": "MITOMAP refuses automated access; CPIC supplies MT-RNR1 alleles only."
+    }
+   ]
+  },
+  {
+   "group": "Discovery",
+   "resources": [
+    {
+     "name": "FAIRsharing",
+     "sources": [
+      "fairsharing"
+     ],
+     "note": "Registration required; not acquired."
+    },
+    {
+     "name": "bio.tools and OpenEBench",
+     "sources": [
+      "biotools"
+     ],
+     "note": "API refused automated clients; OpenEBench counts recorded."
+    }
+   ]
+  }
+ ]
+}

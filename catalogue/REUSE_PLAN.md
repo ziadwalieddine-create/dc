@@ -1,6 +1,6 @@
 # Source-by-source reuse, acquisition and integration plan
 
-*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Decision hierarchy: reuse existing verified material → adopt existing curated datasets → extend existing integrations → retrieve uncovered source data → build original methods only where justified.
 
@@ -17,7 +17,7 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet · existing assets nhgri-gwas, nhgri-1000-genomes: downloaded_verified
 - **Access:** open (NHGRI website content is in the public domain unless otherwise indicated (NHGRI Copyright Policy); material with a credi)
 
-## Adopt an existing curated integration (7)
+## Adopt an existing curated integration (8)
 
 ### `dbnsfp`: dbNSFP
 - **Why:** Best single consolidated source of missense predictors and frequencies. Not acquired: it needs the user to register with an institutional email.
@@ -38,7 +38,7 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Unverified:** per-plugin data licences not stated on the plugin page
 
 ### `eqtl_catalogue`: eQTL Catalogue
-- **Why:** Open Targets already consumes eQTL Catalogue credible sets for colocalisation; defer direct download of the very large sumstats until a locus-level analysis requires them.
+- **Why:** Open Targets lists the eQTL Catalogue among its integrated data sources, and the acquired Open Targets credible_set dataset already holds 1,718,748 eQTL, 844,764 sQTL, 521,558 transcript-usage QTL and 123,630 single-cell eQTL credible-set rows with effect sizes. Which of its projects are eQTL Catalogue datasets was not matched, so the catalogue's own files (summary statistics and credible sets per dataset, now under a new data-access scheme with an r8_beta release) are not fetched until a gap in the Open Targets coverage is shown.
 - **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
 - **Access:** open (Data under Creative Commons Attribution 4.0 International; code under Apache 2.0 (eQTL Catalogue License page))
 
@@ -50,9 +50,10 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Unverified:** assembly
 
 ### `impc`: IMPC (International Mouse Phenotyping Consortium)
-- **Why:** Open Targets integrates IMPC as evidence_impc and mouse_phenotype with human ortholog mapping; fetch source tables only if gene-level mouse detail is needed.
-- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Why:** Open Targets integrates IMPC with human ortholog mapping (evidence_impc, mouse_phenotype), which is the route for orthology-mapped use; the three small result files are fetched in addition because they carry the allele, zygosity, sex and viability information that the integrated datasets drop, and viability is the mouse counterpart of human loss-of-function intolerance (tested against gnomAD LOEUF).
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D04, D05
 - **Access:** open (Creative Commons Attribution 4.0 (site footer statement))
+- **Targets:** `impc_r24_readme`, `impc_r24_genotype_phenotype_assertions_all`, `impc_r24_gene_mp_association_1`, `impc_r24_viability`
 
 ### `opentargets`: Open Targets Platform
 - **Why:** Already integrates GWAS credible sets, colocalisation, DepMap, CRISPR screens, IMPC, ClinGen, ClinVar (EVA) and pharmacogenomics. Use it as the primary route for those dimensions instead of scraping each source; keep the originals only where Open Targets omits information.
@@ -67,15 +68,22 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Deferred (0.128 GiB):** cancer and drug datasets (evidence_cancer_biomarkers, evidence_cancer_gene_census, evidence_intogen, evidence_clinical_precedence, drug_molecule, drug_mechanism_of_action, drug_warning, clinical_indication, clinical_report, clinical_target, chemical_probe, target_tractability, target_safety_event, target_prioritisation, openfda_significant_adverse_drug_reactions): Somatic-cancer and drug-development content; outside germline genome interpretation for now.
 - **Deferred (0.028 GiB):** transcript: Ensembl transcript table (29 MiB); the MANE summary already bridges Ensembl, RefSeq and HGNC identifiers for the joins in use. Fetch when transcript-level consequences are needed.
 
+### `proteingym`: ProteinGym v1.3: deep mutational scanning benchmark assays (substitutions and indels)
+- **Why:** An established curated benchmark that already puts 283 published assays into one checked format; reusing it avoids re-curating each paper. Some assays are expected to be the same experiments as MaveDB score sets, so they are matched by publication and target before any combination, and each experiment is counted once.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D01
+- **Access:** open_with_terms (MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read in the read-only clone)
+- **Targets:** `proteingym_v1_3_dms_substitutions`, `proteingym_v1_3_dms_indels`, `proteingym_v1_3_dms_substitutions_reference`, `proteingym_v1_3_dms_indels_reference`
+- **Unverified:** licences of the underlying published assay datasets, which assays are the same experiments as MaveDB score sets (not yet matched)
+
 ## Extend an existing integration (1)
 
 ### `1000genomes`: 1000 Genomes Project / IGSR (International Genome Sample Resource)
 - **Why:** The existing NHGRI page gives project documentation only. Acquire the 3,202-sample population table now (links genotypes to ancestry); fetch chromosome-scale genotype files only on demand, since gnomAD/dbNSFP already carry 1000 Genomes frequencies.
-- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped· · usable for: nothing yet
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: nothing yet
 - **Access:** open (IGSR provides open data; terms of use are in the IGSR data disclaimer (not parsed))
 - **Targets:** `igsr_1000g_samples`
 
-## Retrieve the source data (21)
+## Retrieve the source data (26)
 
 ### `alphafold_db`: AlphaFold Protein Structure Database
 - **Why:** Per-protein retrieval for the UniProt proteins our MaveDB score sets are about (models, per-residue pLDDT and prediction metadata through the API); the 5.18 GB human proteome bundle is not needed for that set.
@@ -89,6 +97,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open_with_terms (Conflicting statements, applied conservatively as CC BY-NC-SA 4.0 for the copy held. The bucket README.pdf (2024-03-13) )
 - **Targets:** `alphamissense_gene_hg38`, `alphamissense_hg38`
 - **Unverified:** training and calibration details (paper not retrievable), which licence statement governs the 2023 data files
+
+### `biogrid_interactions`: BioGRID protein and genetic interactions (release 5.0.262, human file)
+- **Why:** The only open resource in the catalogue that carries curated genetic interactions (synthetic lethality, dosage rescue, suppression) for epistasis and compensation, alongside physical interactions; MIT-licensed and a single 189 MB archive. Open Targets already integrates IntAct, STRING, Reactome and Signor interactions, so those are not mirrored separately.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D10
+- **Access:** open (MIT License: "100% freely available to both academic and commercial users" and provided without warranty (BioGRID downlo)
+- **Targets:** `biogrid_interactions_organism_tab3`
+- **Unverified:** update frequency (monthly releases are stated on the BioGRID site, not retrieved here)
 
 ### `biogrid_orcs`: BioGRID ORCS (Open Repository of CRISPR Screens)
 - **Why:** Open Targets lists evidence_crispr/evidence_crispr_screen, but its source mix is not verified to equal ORCS; fetch the human bundle for gene-level screen detail.
@@ -109,10 +124,10 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Targets:** `clinvar_vcf_grch38`, `clinvar_readme`, `clinvar_readme_vcf`
 
 ### `cpic`: CPIC (Clinical Pharmacogenetics Implementation Consortium)
-- **Why:** Small API tables; combine with ClinPGx and PharmVar.
+- **Why:** Small API tables that give allele definitions, allele function with evidence strength and population frequency, phenotype translation and recommendations in one open, versioned source; combined with PharmVar nomenclature and ClinPGx annotations rather than rebuilt.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D07
 - **Access:** open_with_terms (The CPIC licence URL resolves to the ClinPGx data-use text (CC BY-SA 4.0))
-- **Targets:** `cpic_genes`, `cpic_guidelines`
+- **Targets:** `cpic_genes`, `cpic_guidelines`, `cpic_api_allele_definition`, `cpic_api_allele_location_value`, `cpic_api_sequence_location`, `cpic_api_allele`, `cpic_api_gene_result`, `cpic_api_gene_result_lookup`, `cpic_api_gene_result_diplotype`, `cpic_api_recommendation`
 - **Unverified:** CPIC-specific licence terms
 
 ### `dgv`: DGV (Database of Genomic Variants)
@@ -139,6 +154,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (GENCODE: 'all the GENCODE project data is open access' (GENCODE data-access page), under the EMBL-EBI Terms of Use (free)
 - **Targets:** `mane_summary_v1_5`, `mane_gtf_v1_5`
 
+### `giab_stratifications`: GIAB genome stratifications v3.6 (GRCh38): difficult and complex regions
+- **Why:** Before a call in a duplicated, polymorphic or low-mappability region is interpreted, the region has to be recognised; the maintained GA4GH/GIAB stratifications are the community standard for this and are small (23 files, a few MB each), so building own masks would repeat established work.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D17
+- **Access:** open ("Publicly released data are freely available for reuse without embargo" (BACKGROUND file of the GRCh38 set, verified liv)
+- **Targets:** `giab_v3_6_grch38_readme`, `giab_v3_6_grch38_background`, `giab_v3_6_grch38_stratification_list`, `giab_v3_6_grch38_md5s`, `giab_v3_6_grch38_alldifficultregions`, `giab_v3_6_grch38_alllowmapandsegdupregions`, `giab_v3_6_grch38_lowmappabilityall`, `giab_v3_6_grch38_segdups`, `giab_v3_6_grch38_segdups_gt10kb`, `giab_v3_6_grch38_mhc`, `giab_v3_6_grch38_kir`, `giab_v3_6_grch38_vdj`, `giab_v3_6_grch38_false_duplications_correct_copy`, `giab_v3_6_grch38_false_duplications_incorrect_copy`, `giab_v3_6_grch38_collapsed_duplication_fp_regions`, `giab_v3_6_grch38_population_cnv_fp_regions`, `giab_v3_6_grch38_l1h_gt500`, `giab_v3_6_grch38_gaps_slop15kb`, `giab_v3_6_grch38_allotherdifficultregions`, `giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes`, `giab_v3_6_grch38_badpromoters`, `giab_v3_6_grch38_alltandemrepeats`, `giab_v3_6_grch38_satellites_slop5`, `giab_v3_6_grch38_chrx_par`, `giab_v3_6_grch38_chry_par`, `giab_v3_6_grch38_chrx_xtr`, `giab_v3_6_grch38_chrx_ampliconic`
+- **Unverified:** how each individual stratification was derived (only the category summaries of the README were read)
+
 ### `gnomad_constraint`: gnomAD constraint metrics (LoF/missense) and pext
 - **Why:** Primary source of record and moderate size; the Ensembl LOEUF file is a derivative of the same resource so is not downloaded separately.
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D05
@@ -163,6 +185,20 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (Open-access files free to download; raw sequence and full donor metadata are protected (dbGaP/AnVIL))
 - **Targets:** `gtex_v11_gene_median_tpm`, `gtex_datasets_api`
 - **Unverified:** coverage_limitations (donor ancestry composition and sampling conditions are from the GTEx publications, not retrieved)
+
+### `hgsvc3`: HGSVC3 release 1.0: assembly-based structural variants from 65 phased genomes (GRCh38)
+- **Why:** Long-read assembly-based SV calls resolve insertions, inversions and repeat-embedded events that short-read catalogues miss, with per-haplotype genotypes and built-in flags for segmental duplications and tandem repeats. The symbolic insertion/deletion and inversion call sets total 6.4 MB; the multi-hundred-megabyte SNV and indel releases are deferred.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D08, D17
+- **Access:** open_with_terms (Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): in the spirit of the Fort Lau)
+- **Targets:** `hgsvc3_grch38_sv_insdel_sym_vcf`, `hgsvc3_grch38_sv_inv_sym_vcf`, `hgsvc3_variant_calls_readme`, `hgsvc3_variant_calls_manifest`
+- **Unverified:** the calling and merging methods beyond the release README (PAV and SV-Pop are named; their parameters were not read)
+
+### `hpa`: Human Protein Atlas v25.1: tissue and cell-type RNA expression and protein subcellular location
+- **Why:** Tissue and cell-type specificity of gene expression decides whether a regulatory or loss-of-function mechanism is plausible in a tissue of interest, and subcellular location bears on protein-level mechanisms. The three tables are small (22 MB) and fill the cell-type-resolved and protein-localisation gaps that GTEx bulk tissue and Open Targets baseline expression leave.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D03, D02
+- **Access:** open_with_terms (Creative Commons Attribution 4.0 International for all copyrightable parts of the Human Protein Atlas; data subject to t)
+- **Targets:** `hpa_v25_1_rna_tissue_consensus`, `hpa_v25_1_rna_single_cell_type`, `hpa_v25_1_subcellular_location`
+- **Unverified:** how the consensus expression levels are computed (the page lists the HPA, GTEx and consensus RNA datasets separately; the combination method was not read), licences of the external sources that the licence page lists
 
 ### `interpro`: InterPro
 - **Why:** Per-protein retrieval of InterPro and member-database matches (with residue locations) for the UniProt proteins our MaveDB score sets are about; the bulk match files are not needed for that set.
@@ -195,6 +231,13 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (Data licensed CC0; illustrations CC BY 4.0 (license page))
 - **Targets:** `reactome_ensembl2reactome`, `reactome_uniprot2reactome_all_levels`, `reactome_pathways`
 
+### `refseq`: NCBI RefSeq: GRCh38.p14 accession map, alternate-locus placement and gene annotation (release RS_2025_08)
+- **Why:** ClinVar reports HGVS on RefSeq transcripts and some records on RefSeq NT_/NW_ contigs; the assembly report is the authoritative map from those names to the Ensembl and UCSC names used elsewhere, and the placement files identify the alternate-locus and patch regions where one reference interval has competing representations. The 80 KB report, 45 KB regions file and 78 MB GFF are small relative to their use; sequence files are not needed because the Ensembl FASTA is mirrored.
+- **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D14, D17
+- **Access:** open (NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original su)
+- **Targets:** `refseq_grch38p14_assembly_report`, `refseq_grch38p14_assembly_regions`, `refseq_grch38p14_alt_scaffold_placement`, `refseq_grch38p14_feature_count`, `refseq_annotation_release_readme`, `refseq_grch38p14_genomic_gff`
+- **Unverified:** RefSeq-specific licence statement
+
 ### `strchive`: STRchive and related tandem-repeat catalogues
 - **Why:** Small, openly licensed disease-locus catalogue. Catalogue files are linked for download from the STRchive site itself (hosted as raw files on GitHub).
 - **Status (all files):** catalogued✓ accessible✓ acquired✓ validated✓ mapped✓ · usable for: D09
@@ -207,7 +250,19 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (CC BY 4.0 for copyrightable parts)
 - **Targets:** `uniprot_human_reviewed`, `uniprot_humsavar`
 
-## Deferred (1)
+## Deferred (9)
+
+### `alliance_genome`: Alliance of Genome Resources (model-organism and human gene knowledge)
+- **Why:** Mouse phenotypes (IMPC) and orthology (Open Targets) are already held; the Alliance adds zebrafish, rat, yeast, fly and worm models. Fetch specific phenotype files once the licence is read.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** unverified (Not retrieved: the Alliance website pages are JavaScript-only and one probe was refused by the content delivery network;)
+- **Unverified:** licence, file sizes of the human-relevant files
+
+### `cadd`: CADD: combined annotation dependent depletion
+- **Why:** CADD scores for observed variants are carried in gnomAD v4.1 INFO fields, and the full table is tens of gigabytes with non-commercial terms. Fetch only if a variant outside gnomAD needs a score, and read the terms for the intended use first.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open_with_terms ("CADD scores are freely available for all non-commercial applications"; commercial use needs a licence from the universi)
+- **Unverified:** file sizes, training labels and annotation set of v1.7
 
 ### `dbvar`: dbVar (NCBI database of genomic structural variation)
 - **Why:** Catalogued only: ClinGen, gnomAD-SV and DGV cover the near-term needs; inspect dbVar contents and currency before any download.
@@ -215,7 +270,43 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Access:** open (NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original su)
 - **Unverified:** currency, contents
 
-## Not acquired by design (3)
+### `gnomad_ld`: gnomAD v2.1.1 linkage disequilibrium matrices
+- **Why:** LD for fine-mapping is wanted per region; the matrices are large and GRCh37-only, so fetching waits for a concrete locus and a liftover or a recomputation from phased GRCh38 genotypes.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open (gnomAD data are released under CC0 1.0 (as listed for gnomAD in the Open Targets data-source table); the gnomAD LD files)
+- **Unverified:** sizes of the matrices, licence statement of the LD files, file format and sizes (the extensions suggest Hail matrices and tables; the gnomAD documentation was not read)
+
+### `intact`: IntAct molecular interaction database
+- **Why:** Already integrated in Open Targets (594,648 distinct human gene pairs), so a separate 15 GB archive adds mostly the same pairs. Revisit when interaction-level mutation annotations are needed.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open_with_terms (EMBL-EBI terms of use, as listed for IntAct in the Open Targets data-source licence table; the IntAct-specific licence s)
+- **Unverified:** licence statement of IntAct itself, size of the human-only subset, quantitative (the definition of the confidence score was not read)
+
+### `mitomap`: MITOMAP: human mitochondrial genome database
+- **Why:** The mitochondrial class is a coverage gap. The resource is catalogued so that the gap is explicit; reading its terms and data access conditions by a person is the next step.
+- **Status (all files):** catalogued✓ accessible· acquired· validated· mapped· · usable for: nothing yet
+- **Access:** blocked_for_automation (Not retrieved.)
+- **Unverified:** everything except the existence of the resource and its refusal of automated access, licence, version
+
+### `mpravardb`: MPRAVarDB: massively parallel reporter assay variant database
+- **Why:** A compilation of published MPRA studies, several of which are expected in MaveDB (which names MPRA among its assay types). Fetch the data only after the licence and genome build are confirmed and overlap with MaveDB MPRA score sets is matched by publication.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** unverified (Not stated on the pages read.)
+- **Unverified:** licence, version, genome build, scale and direction of the effect measure
+
+### `string_db`: STRING protein-protein association networks
+- **Why:** Already integrated in Open Targets (13.2 million rows, 6.5 million distinct gene pairs), and the full network is 124.6 GB. A human-only file could be fetched later if channel subscores are needed.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open_with_terms (CC BY 4.0 as listed for STRING in the Open Targets data-source licence table; the STRING licence page itself was not rea)
+- **Unverified:** licence statement of STRING itself, size of the human-only files
+
+### `trexplorer`: TRExplorer: genome-wide tandem-repeat catalogue
+- **Why:** Wanted for loci outside the curated pathogenic set, but the licence is not stated and the useful annotated tables are about 1 GB. Ask for the terms, then fetch the 45 MB base BED and the extended-loci table first.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** unverified (Not found: neither the about page, the FAQ nor the bucket listing states a data licence.)
+- **Unverified:** licence, locus count of each version
+
+## Not acquired by design (7)
 
 ### `biotools`: bio.tools and OpenEBench tool registry
 - **Why:** Used for discovery only. Counts derived by catalogue/derive/openebench_counts.py from a 253 MB snapshot that is not stored.
@@ -233,3 +324,27 @@ Decision hierarchy: reuse existing verified material → adopt existing curated 
 - **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
 - **Access:** registration_required (API terms not retrieved; the API requires registration)
 - **Unverified:** API access terms, licence
+
+### `ipd_imgt_hla`: IPD-IMGT/HLA Database (HLA allele sequences and nomenclature)
+- **Why:** The licence forbids derivatives without permission and the maintainers strongly oppose mirroring. The HLA allele sequences are therefore used by reference (queried at their source when an HLA analysis is built), while the GIAB MHC region and the RefSeq HLA gene models are held for locating the region and recognising that calls there need allele-aware handling.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open_with_terms (Creative Commons Attribution-NoDerivs: free to copy, distribute, display and make commercial use of the databases with c)
+- **Unverified:** number of alleles in the release (only the list head was read)
+
+### `ipd_kir`: IPD-KIR Database (killer-cell immunoglobulin-like receptor allele sequences)
+- **Why:** Same terms and request as IPD-IMGT/HLA: no derivatives without permission and mirroring is discouraged. KIR allele sequences are used by reference; the GIAB KIR region and the RefSeq KIR gene models locate the region here.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** open_with_terms (Creative Commons Attribution-NoDerivs: free to copy, distribute, display and make commercial use with credit by citing t)
+- **Unverified:** number of alleles in the release (only the list head was read)
+
+### `ldlink`: LDlink (NCI): linkage disequilibrium tools for 1000 Genomes populations
+- **Why:** An on-demand computation service, not a dataset. LD for the populations of interest can be computed from the 1000 Genomes genotypes, and gnomAD LD matrices (catalogued as gnomad_ld) are the bulk alternative; fine-mapped credible sets already come with the association sources.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** registration_required (Not retrieved: usage conditions of the API (token, rate limits) were not read.)
+- **Unverified:** licence (usage conditions of the API), release date
+
+### `pharmcat`: PharmCAT (Pharmacogenomics Clinical Annotation Tool)
+- **Why:** A tool that applies the allele definitions and guidelines already held through CPIC, PharmVar and ClinPGx; it carries no evidence that is not in those sources. It is the reference implementation to run, or to compare a future allele caller with, when a pharmacogenomic analysis is built.
+- **Status (all files):** catalogued✓ accessible✓ acquired· validated· mapped· · usable for: nothing yet
+- **Access:** unverified (Not retrieved: the documentation pages were read but the software licence file was not.)
+- **Unverified:** licence, release date

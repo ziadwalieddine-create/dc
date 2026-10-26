@@ -1,0 +1,22 @@
+ 
+ Index of /vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/GRCh38 
+ Index of /vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/GRCh38 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ annotation_table/ 2024-09-18 09:24 -   
+ variants_GRCh38_indel_insdel_alt_HGSVC2024v1.0.vcf.gz 2024-09-18 09:23 186M   
+ variants_GRCh38_indel_insdel_alt_HGSVC2024v1.0.vcf.gz.csi 2024-09-18 09:24 1.5M   
+ variants_GRCh38_indel_insdel_alt_HGSVC2024v1.0.vcf.gz.tbi 2024-09-18 09:24 1.7M   
+ variants_GRCh38_snv_snv_alt_HGSVC2024v1.0.vcf.gz 2024-09-18 09:23 503M   
+ variants_GRCh38_snv_snv_alt_HGSVC2024v1.0.vcf.gz.csi 2024-09-18 09:24 1.7M   
+ variants_GRCh38_snv_snv_alt_HGSVC2024v1.0.vcf.gz.tbi 2024-09-18 09:24 2.1M   
+ variants_GRCh38_sv_insdel_alt_HGSVC2024v1.0.vcf.gz 2024-09-18 09:23 51M   
+ variants_GRCh38_sv_insdel_alt_HGSVC2024v1.0.vcf.gz.csi 2024-09-18 09:23 460K   
+ variants_GRCh38_sv_insdel_alt_HGSVC2024v1.0.vcf.gz.tbi 2024-09-18 09:24 533K   
+ variants_GRCh38_sv_insdel_sym_HGSVC2024v1.0.vcf.gz 2024-09-18 09:24 6.1M   
+ variants_GRCh38_sv_insdel_sym_HGSVC2024v1.0.vcf.gz.csi 2024-09-18 09:24 467K   
+ variants_GRCh38_sv_insdel_sym_HGSVC2024v1.0.vcf.gz.tbi 2024-09-18 09:23 550K   
+ variants_GRCh38_sv_inv_sym_HGSVC2024v1.0.vcf.gz 2024-09-18 09:24 22K   
+ variants_GRCh38_sv_inv_sym_HGSVC2024v1.0.vcf.gz.csi 2024-09-18 09:24 3.3K   
+ variants_GRCh38_sv_inv_sym_HGSVC2024v1.0.vcf.gz.tbi 2024-09-18 09:23 8.3K   
+ vcf_with_unphased/ 2024-09-18 09:25 -   

@@ -1,0 +1,109 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "TSV (bgzip) with tabix index",
+  "scripts"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "identifiers": [
+  "chromosome, position, reference, alternate"
+ ],
+ "id": "cadd",
+ "name": "CADD: combined annotation dependent depletion",
+ "categories": [
+  "annotation_integration"
+ ],
+ "maintainer": "University of Washington and Berlin Institute of Health",
+ "url": "https://cadd.gs.washington.edu/",
+ "provenance": [
+  "https://cadd.gs.washington.edu/download"
+ ],
+ "version": {
+  "value": "CADD v1.7 (the download page names v1.7 as the current release and lists v1.0 to v1.6 and a v1.7 pre-release for GRCh37)",
+  "release_date": "unknown",
+  "verified": "live"
+ },
+ "scope": "A score that integrates many annotations to estimate the deleteriousness of a single-nucleotide variant or small indel. The download page offers, for GRCh38 and GRCh37, all possible SNVs with and without all annotations, the annotation files for offline scoring and the scoring scripts; indel scores are computed on request.",
+ "variant_classes": [
+  "snv",
+  "indel"
+ ],
+ "mapping_methods": "Scores are keyed by position and alleles on the stated build.",
+ "quantitative": {
+  "summary": "Raw score and PHRED-scaled score (rank among all possible substitutions).",
+  "units": "raw score; PHRED",
+  "uncertainty": "none per score",
+  "direction": "higher means more deleterious"
+ },
+ "licence": {
+  "name": "\"CADD scores are freely available for all non-commercial applications\"; commercial use needs a licence from the university (download page).",
+  "redistribution": "Non-commercial use; commercial licence required otherwise",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Versions every one to two years.",
+ "coverage_limitations": [
+  "A single combined predictor trained on proxy labels; correlated with the predictors it integrates",
+  "No indication of the mechanism"
+ ],
+ "known_omissions": [
+  "No files fetched: the whole-genome SNV files are tens of gigabytes; CADD scores already reach the library through the INFO fields of gnomAD v4.1 and through dbNSFP"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "CADD scores for observed variants are carried in gnomAD v4.1 INFO fields, and the full table is tens of gigabytes with non-commercial terms. Fetch only if a variant outside gnomAD needs a score, and read the terms for the intended use first."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "The download page answers a plain curl request but the probe collector's agent receives an empty reply; the page text is stored from the curl fetch."
+ },
+ "unverified_fields": [
+  "file sizes",
+  "training labels and annotation set of v1.7"
+ ],
+ "evidence": [
+  "cadd/download_page_curl",
+  "cadd/download",
+  "cadd/info",
+  "dbnsfp/download_page"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "computational_prediction"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "prediction",
+    "dimension": "annotation_integration",
+    "note": "combined deleteriousness score"
+   }
+  ],
+  "biological_context": "A genome-wide score that combines conservation, regulatory and protein-level annotations; it carries no tissue or cell-type context.",
+  "evidence_strength": "Computational prediction with no per-variant uncertainty; the score is a rank among possible substitutions, not a probability.",
+  "mechanistic_confidence": "Low. It does not distinguish protein, splicing and regulatory mechanisms and is not calibrated to a particular phenotype.",
+  "phenotype_implication": "A deleteriousness rank; no phenotype.",
+  "absence_means": "A variant without a score was not precomputed (for example an indel) or lies outside the scored set; absence is not a benign prediction.",
+  "overlaps_with_sources": [
+   {
+    "source": "gnomad_variants",
+    "relation": "independent_related",
+    "note": "gnomAD INFO carries CADD scores for observed variants, so the score and the frequency come from one file for those variants"
+   },
+   {
+    "source": "dbnsfp",
+    "relation": "independent_related",
+    "note": "dbNSFP carries CADD among its predictors"
+   }
+  ]
+ }
+}

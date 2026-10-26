@@ -1,0 +1,7 @@
+ 
+ Index of /refseq/H_sapiens/annotation/annotation_releases/current 
+ Index of /refseq/H_sapiens/annotation/annotation_releases/current 
+ Name Last modified Size Parent Directory - 
+ GCF_000001405.40-RS_2025_08/ 2026-10-25 09:30 - 
+ GCF_009914755.1-RS_2025_08/ 2026-10-25 07:49 - 
+ HHS Vulnerability Disclosure 

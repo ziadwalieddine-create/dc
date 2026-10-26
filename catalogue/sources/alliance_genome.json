@@ -1,0 +1,116 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "JSON",
+  "TSV",
+  "GAF",
+  "FASTA"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "Alliance gene ids (MGI:, RGD:, ZFIN:, HGNC:)",
+  "ontology terms (MP, DOID, GO)"
+ ],
+ "id": "alliance_genome",
+ "name": "Alliance of Genome Resources (model-organism and human gene knowledge)",
+ "categories": [
+  "perturbation_evidence"
+ ],
+ "maintainer": "Alliance of Genome Resources (MGI, RGD, SGD, ZFIN, FlyBase, WormBase, Xenbase and the Gene Ontology Consortium)",
+ "url": "https://www.alliancegenome.org/",
+ "provenance": [
+  "https://download.alliancegenome.org/",
+  "https://www.alliancegenome.org/api/releaseInfo"
+ ],
+ "version": {
+  "value": "Release 9.1.0 (API release info dated 2026-09-02)",
+  "release_date": "2026-09-02",
+  "verified": "live"
+ },
+ "scope": "Harmonised gene, allele, disease-model, phenotype, expression and orthology data from model-organism databases and human. The public download bucket holds, for release 9.1.0, directories for AGM, ALLELE, BGI, CONSTRUCT, DAF (disease annotations), EXPRESSION, FASTA, GAF, gene descriptions and cross references, and PHENOTYPE files for HUMAN, MGI, RGD, SGD and ZFIN.",
+ "variant_classes": [
+  "gene_level"
+ ],
+ "mapping_methods": "Gene records use the identifiers of the contributing model-organism databases with Alliance orthology assertions to human.",
+ "quantitative": {
+  "summary": "n/a",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Not retrieved: the Alliance website pages are JavaScript-only and one probe was refused by the content delivery network; no licence text was read.",
+  "redistribution": "Unknown",
+  "access": "unverified",
+  "verified": "unverified"
+ },
+ "update_frequency": "Releases several times a year (9.1.0 in September 2026).",
+ "coverage_limitations": [
+  "Model-organism phenotypes and disease models inform human genes only through orthology",
+  "Allele and construct records describe engineered models, not human variants"
+ ],
+ "known_omissions": [
+  "No files fetched; the mouse knockout phenotypes are held through IMPC and the orthology through Open Targets (homology dataset)"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Mouse phenotypes (IMPC) and orthology (Open Targets) are already held; the Alliance adds zebrafish, rat, yeast, fly and worm models. Fetch specific phenotype files once the licence is read."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "The release information API and the public bucket listing answered; the website pages are not readable without JavaScript."
+ },
+ "unverified_fields": [
+  "licence",
+  "file sizes of the human-relevant files"
+ ],
+ "evidence": [
+  "alliance/downloads",
+  "alliance/release_info",
+  "alliance/bucket_release_9_1_0",
+  "alliance/bucket_phenotype_9_1_0"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "perturbation_experimental",
+   "curated_expert_classification",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "gene_dosage",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "perturbation_evidence",
+    "note": "model-organism knockout and mutant phenotypes, orthology-mapped"
+   },
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "curated",
+    "dimension": "perturbation_evidence",
+    "note": "curated disease-model annotations"
+   }
+  ],
+  "biological_context": "Phenotypes and disease models of engineered or natural mutants in other species, mapped to human genes by orthology; the genotype is an organism-specific allele.",
+  "evidence_strength": "Curated from model-organism databases; the evidence is as strong as the original experiment and weakened by orthology mapping.",
+  "mechanistic_confidence": "Low to moderate for the gene's role in the model; none for a specific human allele.",
+  "phenotype_implication": "Model-organism phenotype terms; supportive of a human phenotype only when concordant with human genetics.",
+  "absence_means": "A gene without a model phenotype was not studied or has no ortholog in the model; it is not shown to be dispensable.",
+  "overlaps_with_sources": [
+   {
+    "source": "impc",
+    "relation": "independent_related",
+    "note": "mouse knockout phenotypes appear in both through MGI; count a mouse line once"
+   }
+  ]
+ }
+}

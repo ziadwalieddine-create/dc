@@ -16,7 +16,7 @@
   "release_date": "2026-03-16",
   "verified": "live"
  },
- "scope": "Systematic knockout mouse phenotyping: 9,605 phenotyped genes, 10,341 mutant lines, 111,664 phenotype calls (release 24.0).",
+ "scope": "Systematic knockout mouse phenotyping: release 24.0 reports 9,605 phenotyped genes, 10,341 mutant lines and 111,664 phenotype calls. Fetched result files: the genotype-phenotype assertions (67,350 significant assertions for 8,429 genes and 8,735 alleles: 52,692 homozygous, 13,982 heterozygous, 676 hemizygous), 70 gene to phenotype-term association rows, and viability calls for 9,162 gene-allele lines (6,284 viable, 2,139 lethal, 739 subviable). The release page counts and the file rows are different quantities, whose definitions were not reconciled.",
  "variant_classes": [
   "gene_level"
  ],
@@ -47,27 +47,36 @@
  "update_frequency": "Several releases per year.",
  "coverage_limitations": [
   "Mouse, not human; ortholog mapping required",
-  "Homozygous knockouts mainly; hypomorphic and missense effects absent"
+  "Homozygous knockouts mainly; hypomorphic and missense effects absent",
+  "Significant assertions only: a gene without an assertion was tested and showed nothing significant, or was not tested for that procedure",
+  "1,215 of the 67,350 assertions are on alleles that carry a NOT-RELEASED placeholder accession instead of an MGI allele id",
+  "1,569 assertions use histopathology (MPATH) terms rather than MP terms, and one row has no term"
  ],
  "known_omissions": [
-  "Human phenotype of a human variant cannot be read directly from mouse knockouts"
+  "The statistical-results file (538 MB), the per-parameter, per-procedure and per-line hit tables, the fertility and LacZ expression reports and the other assertion subsets are not fetched"
  ],
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "adopt_curated",
-  "rationale": "Open Targets integrates IMPC as evidence_impc and mouse_phenotype with human ortholog mapping; fetch source tables only if gene-level mouse detail is needed."
+  "rationale": "Open Targets integrates IMPC with human ortholog mapping (evidence_impc, mouse_phenotype), which is the route for orthology-mapped use; the three small result files are fetched in addition because they carry the allele, zygosity, sex and viability information that the integrated datasets drop, and viability is the mouse counterpart of human loss-of-function intolerance (tested against gnomAD LOEUF)."
  },
  "status": {
   "accessible": "yes",
-  "notes": "Release page and FTP listing readable."
+  "notes": "FTP result files for release 24.0; the server publishes no checksums, so sizes and SHA-256 are pinned."
  },
  "evidence": [
   "impc/release_page",
   "impc/ftp_listing",
-  "impc/licence"
+  "impc/licence",
+  "impc/results_listing_r24"
  ],
  "unverified_fields": [],
- "acquisition_targets": [],
+ "acquisition_targets": [
+  "impc_r24_readme",
+  "impc_r24_genotype_phenotype_assertions_all",
+  "impc_r24_gene_mp_association_1",
+  "impc_r24_viability"
+ ],
  "evidence_profile": {
   "evidence_kind": [
    "perturbation_experimental"
@@ -81,7 +90,7 @@
     ],
     "basis": "direct",
     "dimension": "perturbation_evidence",
-    "note": "mouse knockout phenotype; orthology to the human gene is an inference"
+    "note": "mouse knockout phenotype with allele, zygosity and sex; orthology to the human gene is an inference"
    },
    {
     "axis": "gene_dosage",
@@ -90,14 +99,14 @@
     ],
     "basis": "direct",
     "dimension": "natural_knockouts_dosage",
-    "note": "mouse knockout phenotype used as a proxy for loss-of-function tolerance"
+    "note": "viability of the knockout (lethal, subviable, viable) as the mouse counterpart of loss-of-function intolerance"
    }
   ],
-  "biological_context": "Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered knockout in one organism, and phenotype calls are made per procedure.",
+  "biological_context": "Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered allele (named by allele accession, zygosity and sex) in one organism and strain background; phenotype calls are made per procedure and parameter. For human use the result is gene-level, through orthology.",
   "evidence_strength": "Direct measurement of phenotypes in knockout mice, with statistical phenotype calls and release-specific thresholds.",
   "mechanistic_confidence": "Moderate for the gene's role in the mouse. It is not allele-specific, differences between mouse and human physiology limit transfer, and compensation by paralogs is not resolved.",
   "phenotype_implication": "Mouse phenotype terms. They support a human loss-of-function phenotype only when concordant with human genetics.",
-  "absence_means": "No phenotype call means none was detected in the procedures performed; screen breadth and genotype coverage vary, and lines that were not phenotyped or are lethal have no adult phenotype.",
+  "absence_means": "No assertion means none was significant in the procedures performed (screen breadth, sex and genotype coverage vary); a line that was not phenotyped, or was lethal before adult procedures, has no adult phenotype. Absence is not shown to be dispensable.",
   "overlaps_with_sources": []
  }
 }

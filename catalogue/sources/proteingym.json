@@ -1,0 +1,141 @@
+{
+ "id": "proteingym",
+ "name": "ProteinGym v1.3: deep mutational scanning benchmark assays (substitutions and indels)",
+ "categories": [
+  "direct_experimental_variant_effects"
+ ],
+ "maintainer": "ProteinGym project (OATML-Markslab repository; files served from marks.hms.harvard.edu)",
+ "url": "https://proteingym.org/",
+ "provenance": [
+  "https://proteingym.org/",
+  "https://proteingym.org/download",
+  "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/",
+  "https://github.com/OATML-Markslab/ProteinGym"
+ ],
+ "version": {
+  "value": "v1.3 (files dated 2025-04-13); the repository README lists releases v1.0 to v1.3",
+  "release_date": "2025-04-13",
+  "verified": "live"
+ },
+ "scope": "Curated deep mutational scanning benchmark: 217 substitution assays (2,465,767 variants, 96 on human proteins, 69 including multiple mutants) and 66 indel assays (287,207 variants, 25 on human proteins) from published studies, each as a table of variants with the measured score and a binarised label, plus a reference file with the target sequence, organism, publication and selection assay of every assay. The clinical benchmarks, model scores, alignments and structures of the project are not fetched.",
+ "variant_classes": [
+  "protein_level",
+  "indel"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "CSV (zip)",
+  "CSV"
+ ],
+ "identifiers": [
+  "UniProt entry name (for example A0A140D2T1_ZIKV)",
+  "amino-acid substitution strings relative to the assay target sequence (multiple mutants joined by colons)",
+  "DMS assay id (UniProt entry name, first author, year)"
+ ],
+ "mapping_methods": "Mutations are given relative to the target sequence stored in the reference file; every substitution row was checked to apply to that sequence and to reproduce the mutated sequence. The UniProt entry name is the only protein identifier, so joins to UniProt accessions, transcripts or genome coordinates need a separate mapping. Indel assays give only the mutated sequence.",
+ "quantitative": {
+  "summary": "Per-variant assay score in the units of the source experiment, and a 0/1 label obtained with a per-assay cutoff.",
+  "units": "assay-specific; the direction of the score differs between assays and is recorded in the reference file",
+  "uncertainty": "none per variant (replicate statistics are not retained)",
+  "direction": "assay-specific; higher usually means higher fitness, with the raw directionality recorded per assay"
+ },
+ "licence": {
+  "name": "MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read in the read-only clone at commit 144fe22). The licences of the underlying published assay datasets are not stated in the repository files.",
+  "redistribution": "MIT terms for the project; the original studies' terms may apply to their data",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Versioned releases (v1.0 to v1.3 in the repository README).",
+ "coverage_limitations": [
+  "A curated subset of published assays chosen for benchmarking models, not an exhaustive collection of deep mutational scans",
+  "Scores are assay-specific and not harmonised; no per-variant uncertainty is retained",
+  "Variants are amino-acid changes in the assay construct, which may be a fragment or domain; no nucleotide or genome coordinates are given",
+  "Many assays measure stability by cDNA display proteolysis rather than function; the selection type is recorded per assay",
+  "Only 96 of the 217 substitution assays and 25 of the 66 indel assays are on human proteins"
+ ],
+ "known_omissions": [
+  "The clinical benchmarks (labels derived from clinical databases) are not fetched; the clinical records are held through ClinVar",
+  "Zero-shot and supervised model scores, multiple sequence alignments and weights, predicted structures and cross-validation splits are not fetched",
+  "Raw (unprocessed) assay files are not fetched"
+ ],
+ "overlap_with_existing": [
+  "mavedb-human"
+ ],
+ "reuse_decision": {
+  "action": "adopt_curated",
+  "rationale": "An established curated benchmark that already puts 283 published assays into one checked format; reusing it avoids re-curating each paper. Some assays are expected to be the same experiments as MaveDB score sets, so they are matched by publication and target before any combination, and each experiment is counted once."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Plain HTTPS downloads; the server publishes no checksum, so sizes are pinned and zip integrity is tested. One assay file carries an extra DMS_bin_score column."
+ },
+ "unverified_fields": [
+  "licences of the underlying published assay datasets",
+  "which assays are the same experiments as MaveDB score sets (not yet matched)"
+ ],
+ "evidence": [
+  "proteingym/home",
+  "proteingym/download",
+  "proteingym/repository_licence",
+  "proteingym/repository_readme",
+  "proteingym/reference_files_description"
+ ],
+ "acquisition_targets": [
+  "proteingym_v1_3_dms_substitutions",
+  "proteingym_v1_3_dms_indels",
+  "proteingym_v1_3_dms_substitutions_reference",
+  "proteingym_v1_3_dms_indels_reference"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "direct_experimental",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level",
+     "indel"
+    ],
+    "basis": "direct",
+    "dimension": "direct_experimental_variant_effects",
+    "note": "assay-specific readout such as growth, binding, abundance or proteolytic stability"
+   },
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "direct",
+    "dimension": "direct_experimental_variant_effects",
+    "note": "assays with multiple mutants allow non-additivity (epistasis) to be estimated"
+   }
+  ],
+  "components": [
+   {
+    "name": "published deep mutational scanning measurements, re-formatted",
+    "evidence_kind": [
+     "direct_experimental"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "external: the original studies"
+   }
+  ],
+  "biological_context": "Each assay measures a variant library of one protein or domain in a specific system; the organism, selection assay and selection type are given per assay in the reference file. The score reflects the assayed function under that selection.",
+  "evidence_strength": "Direct measurements curated and processed by the benchmark maintainers: scores are as published in assay-specific units and the binarised label uses a per-assay cutoff. Replicate-level uncertainty is not retained.",
+  "mechanistic_confidence": "Moderate for the assayed molecular function of the substitution in the assayed system. Stability, activity and binding effects are not separated unless the selection type says so.",
+  "phenotype_implication": "A molecular or cellular phenotype of the assay. Correspondence to a human disease phenotype needs calibration, and most assays are of non-human proteins or of protein stability.",
+  "absence_means": "A mutation missing from an assay table was not measured or was filtered by the maintainers; an untested position is unknown and not tolerant. A protein with no assay has no curated measurement here.",
+  "overlaps_with_sources": [
+   {
+    "source": "mavedb",
+    "relation": "independent_related",
+    "note": "some assays are the same experiments as MaveDB score sets; match by publication and target before combining, and count each experiment once"
+   }
+  ]
+ }
+}

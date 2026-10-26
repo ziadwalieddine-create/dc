@@ -1,6 +1,6 @@
 # Evidence profiles
 
-*Generated 2026-10-25 14:57 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
+*Generated 2026-10-26 02:55 UTC by `catalogue/build_catalogue.py` from `catalogue/sources/*.json`, `acquisition/targets.json`, `acquisition/manifest.jsonl`, `acquisition/validation_report.json` and `acquisition/compat_report.json`. Edit the sources, not this file.*
 
 Every source record carries an `evidence_profile` that keeps apart what the resource is (a measurement, a perturbation, a population observation, an association, a curated classification, a prediction, a reference annotation), the resolution at which its records refer to alleles, the mechanisms it informs and on what basis, how strong the evidence is, how far a mechanistic reading can be trusted, what phenotype it implies and what absence means. These fields are independent: a curated classification can be strong and carry no mechanism; a strong association says nothing about the causal variant; a gene-level knockout or constraint metric is never allele-specific evidence; the absence of a study is never recorded as the absence of an effect. Hypotheses and competing explanations are listed per mechanism axis in `MECHANISM_MATRIX.md`.
 
@@ -10,19 +10,19 @@ Rules enforced by `build_catalogue.py --check`: a gene- or region-level resource
 
 | Kind | Meaning | Sources |
 |---|---|---|
-| `direct_experimental` | A measurement of the effect of specific alleles in an assay (for example deep mutational scanning, MPRA, saturation genome editing) | `ensembl_vep`, `mavedb` |
-| `perturbation_experimental` | A gene- or region-level perturbation in cells or model organisms (knockout, knockdown, CRISPRi/a, overexpression); not allele-specific unless stated | `biogrid_orcs`, `depmap`, `impc`, `opentargets` |
-| `population_observation` | Allele or genotype observations in cohorts (frequency, homozygosity, constraint derived from them); indirect evidence about function | `1000genomes`, `dbnsfp`, `dbvar`, `dgv`, `ensembl_vep`, `gnomad_constraint`, `gnomad_sv_cnv`, `gnomad_variants` |
+| `direct_experimental` | A measurement of the effect of specific alleles in an assay (for example deep mutational scanning, MPRA, saturation genome editing) | `ensembl_vep`, `mavedb`, `mpravardb`, `proteingym` |
+| `perturbation_experimental` | A gene- or region-level perturbation in cells or model organisms (knockout, knockdown, CRISPRi/a, overexpression); not allele-specific unless stated | `alliance_genome`, `biogrid_interactions`, `biogrid_orcs`, `depmap`, `impc`, `opentargets` |
+| `population_observation` | Allele or genotype observations in cohorts (frequency, homozygosity, constraint derived from them); indirect evidence about function | `1000genomes`, `dbnsfp`, `dbvar`, `dgv`, `ensembl_vep`, `gnomad_constraint`, `gnomad_ld`, `gnomad_sv_cnv`, `gnomad_variants`, `hgsvc3`, `ldlink`, `trexplorer` |
 | `statistical_association` | A statistical association between variants and a trait or molecular phenotype (GWAS, QTL, fine-mapping, colocalisation); association is not mechanism | `eqtl_catalogue`, `gtex`, `gwas_catalog`, `opentargets` |
-| `curated_expert_classification` | A classification or assertion made by curators or expert panels from other evidence (clinical significance, gene-disease validity, dosage sensitivity, star-allele function) | `clingen`, `clinvar`, `cpic`, `dbvar`, `opentargets`, `pharmgkb`, `pharmvar`, `reactome`, `strchive`, `uniprot` |
-| `computational_prediction` | A model or algorithm output; a hypothesis about effect, never a measurement | `alphamissense`, `dbnsfp`, `ensembl_vep`, `gnomad_sv_cnv`, `gnomad_variants`, `opentargets` |
-| `reference_annotation` | Reference sequence, gene models, transcript sets, region annotations and identifier maps | `ensembl_genomes`, `gencode_mane`, `interpro`, `pdbe_sifts`, `uniprot` |
+| `curated_expert_classification` | A classification or assertion made by curators or expert panels from other evidence (clinical significance, gene-disease validity, dosage sensitivity, star-allele function) | `alliance_genome`, `biogrid_interactions`, `clingen`, `clinvar`, `cpic`, `dbvar`, `intact`, `ipd_imgt_hla`, `ipd_kir`, `mitomap`, `opentargets`, `pharmcat`, `pharmgkb`, `pharmvar`, `reactome`, `strchive`, `string_db`, `uniprot` |
+| `computational_prediction` | A model or algorithm output; a hypothesis about effect, never a measurement | `alphamissense`, `cadd`, `dbnsfp`, `ensembl_vep`, `gnomad_sv_cnv`, `gnomad_variants`, `opentargets`, `string_db` |
+| `reference_annotation` | Reference sequence, gene models, transcript sets, region annotations and identifier maps | `ensembl_genomes`, `gencode_mane`, `giab_stratifications`, `interpro`, `ipd_imgt_hla`, `ipd_kir`, `pdbe_sifts`, `refseq`, `trexplorer`, `uniprot` |
 | `experimental_structure` | Atomic structures or residue coverage determined experimentally | `pdbe_sifts` |
 | `predicted_structure` | Structure models predicted computationally | `alphafold_db` |
-| `aggregated_integration` | A resource that aggregates and harmonises records from other sources; evidence kinds of the parts persist | `dbnsfp`, `dbvar`, `encode`, `ensembl_vep`, `interpro`, `opentargets`, `pharmgkb` |
+| `aggregated_integration` | A resource that aggregates and harmonises records from other sources; evidence kinds of the parts persist | `alliance_genome`, `dbnsfp`, `dbvar`, `encode`, `ensembl_vep`, `hpa`, `interpro`, `mpravardb`, `opentargets`, `pharmgkb`, `proteingym`, `trexplorer` |
 | `catalogue_metadata` | Descriptions of resources (catalogues of databases and tools), not biological evidence | `biotools`, `fairsharing` |
 | `documentation` | Educational or background material with no variant-level data | `nhgri_education` |
-| `experimental_annotation` | Assays of the biochemical activity of the genome (chromatin, binding, expression) that annotate regions or genes without measuring the effect of a particular allele | `encode`, `gtex` |
+| `experimental_annotation` | Assays of the biochemical activity of the genome (chromatin, binding, expression) that annotate regions or genes without measuring the effect of a particular allele | `encode`, `gtex`, `hpa` |
 | `case_observation` | Observations of variants in affected individuals or families (case series, cohorts ascertained on phenotype, segregation); ascertained on phenotype, so frequency in cases is not a test of association | `decipher` |
 
 ## Allele resolution
@@ -31,11 +31,11 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 
 | Resolution | Meaning | Sources |
 |---|---|---|
-| `allele_specific` | Records refer to specific alleles (chromosome, position, reference, alternate or an exact protein change) | `1000genomes`, `alphamissense`, `clinvar`, `dbnsfp`, `ensembl_vep`, `eqtl_catalogue`, `gnomad_variants`, `gtex`, `gwas_catalog`, `mavedb`, `pharmgkb` |
-| `haplotype_level` | Records refer to haplotypes, star alleles or named alleles composed of several variants | `cpic`, `pharmvar` |
+| `allele_specific` | Records refer to specific alleles (chromosome, position, reference, alternate or an exact protein change) | `1000genomes`, `alphamissense`, `cadd`, `clinvar`, `dbnsfp`, `ensembl_vep`, `eqtl_catalogue`, `gnomad_ld`, `gnomad_variants`, `gtex`, `gwas_catalog`, `ldlink`, `mavedb`, `mitomap`, `mpravardb`, `pharmgkb`, `proteingym` |
+| `haplotype_level` | Records refer to haplotypes, star alleles or named alleles composed of several variants | `cpic`, `ipd_imgt_hla`, `ipd_kir`, `pharmcat`, `pharmvar` |
 | `variant_class_level` | Records refer to classes of change (for example any loss-of-function change in a gene) | — |
-| `gene_level` | Records refer to genes or proteins as a whole (constraint, knockout phenotypes, essentiality); they do not describe any particular allele | `biogrid_orcs`, `clingen`, `depmap`, `gnomad_constraint`, `impc`, `opentargets`, `reactome` |
-| `region_level` | Records refer to genomic intervals or loci (regulatory elements, CNV and repeat regions, difficult regions) | `dbvar`, `decipher`, `dgv`, `encode`, `ensembl_genomes`, `gencode_mane`, `gnomad_sv_cnv`, `strchive` |
+| `gene_level` | Records refer to genes or proteins as a whole (constraint, knockout phenotypes, essentiality); they do not describe any particular allele | `alliance_genome`, `biogrid_interactions`, `biogrid_orcs`, `clingen`, `depmap`, `gnomad_constraint`, `hpa`, `impc`, `intact`, `opentargets`, `reactome`, `string_db` |
+| `region_level` | Records refer to genomic intervals or loci (regulatory elements, CNV and repeat regions, difficult regions) | `dbvar`, `decipher`, `dgv`, `encode`, `ensembl_genomes`, `gencode_mane`, `giab_stratifications`, `gnomad_sv_cnv`, `hgsvc3`, `refseq`, `strchive`, `trexplorer` |
 | `protein_residue_level` | Records refer to residues, domains or structures of a protein | `alphafold_db`, `interpro`, `pdbe_sifts`, `uniprot` |
 | `none` | No variant-level or gene-level content | `biotools`, `fairsharing`, `nhgri_education` |
 
@@ -53,6 +53,20 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Mechanistic confidence | None for mechanism. Presence of an allele in a healthy-declared cohort is indirect evidence of tolerance only and cannot separate a benign allele from one with recessive, late-onset or reduced-penetrance effects. |
 | Phenotype implication | Observation in healthy-declared individuals argues against a high-penetrance, early-onset dominant effect of that allele; it does not exclude recessive, late-onset or reduced-penetrance effects. |
 | Absence means | An allele missing from the callset was not observed in this cohort. Coverage, callset design and population representation decide what could be seen; absence is not evidence of rarity or harm. |
+
+### `alliance_genome` · Alliance of Genome Resources (model-organism and human gene knowledge)
+
+| | |
+|---|---|
+| Evidence kinds | perturbation_experimental, curated_expert_classification, aggregated_integration |
+| Allele resolution | gene_level |
+| Mechanism evidence | `gene_dosage` · direct · gene_level · perturbation_evidence (model-organism knockout and mutant phenotypes, orthology-mapped)<br>`outcome_association` · curated · gene_level · perturbation_evidence (curated disease-model annotations) |
+| Biological context | Phenotypes and disease models of engineered or natural mutants in other species, mapped to human genes by orthology; the genotype is an organism-specific allele. |
+| Evidence strength | Curated from model-organism databases; the evidence is as strong as the original experiment and weakened by orthology mapping. |
+| Mechanistic confidence | Low to moderate for the gene's role in the model; none for a specific human allele. |
+| Phenotype implication | Model-organism phenotype terms; supportive of a human phenotype only when concordant with human genetics. |
+| Absence means | A gene without a model phenotype was not studied or has no ortholog in the model; it is not shown to be dispensable. |
+| Overlaps (declared here) | independent_related · `impc` (mouse knockout phenotypes appear in both through MGI; count a mouse line once) |
 
 ### `alphafold_db` · AlphaFold Protein Structure Database
 
@@ -81,6 +95,21 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | A pathogenicity likelihood for the substitution; no phenotype, penetrance or mode of inheritance. |
 | Absence means | No score exists for synonymous, nonsense, splice, indel, structural or non-coding variants. Absence of a prediction is not evidence of a benign effect. |
 
+### `biogrid_interactions` · BioGRID protein and genetic interactions (release 5.0.262, human file)
+
+| | |
+|---|---|
+| Evidence kinds | curated_expert_classification, perturbation_experimental |
+| Allele resolution | gene_level |
+| Mechanism evidence | `genetic_interaction` · direct · gene_level · pathways_interactions_epistasis (curated genetic interactions from double-perturbation experiments; whole-gene, not allele-specific)<br>`genetic_interaction` · context · gene_level, protein_level · pathways_interactions_epistasis (physical interaction network)<br>`protein_function` · curated · protein_level · pathways_interactions_epistasis (protein-protein interaction partners) |
+| Components | physical interactions (affinity capture, two-hybrid and related systems) — curated_expert_classification · gene_level · from native<br>genetic interactions (synthetic lethality, dosage rescue, suppression and related systems) — curated_expert_classification, perturbation_experimental · gene_level · from native |
+| Biological context | Interactions from published experiments in many systems (cell lines, yeast and others); each row records the experimental system, throughput and publication. The partner proteins are whole proteins, so an interaction is not tied to a particular isoform, domain or variant. |
+| Evidence strength | Curated from the literature; the supporting publications and experimental systems are the evidence, and high-throughput studies are flagged. Counts of supporting publications are an indication of reproducibility, not a probability. |
+| Mechanistic confidence | Low to moderate. A genetic interaction shows that perturbing two genes together has an effect that differs from the single perturbations, which is the basis for epistasis and compensation hypotheses; it does not identify the allele, the pathway step or the direction of compensation. A physical interaction does not show that a variant disrupts it. |
+| Phenotype implication | Cell-level or organism-level phenotype of the double perturbation, as described in the supporting study; no human disease phenotype. |
+| Absence means | A missing interaction means it was not reported in curated publications, which reflects what has been tested; it does not show that two genes do not interact, nor that perturbing both has no combined effect. |
+| Overlaps (declared here) | independent_related · `opentargets` (Open Targets interactions come from IntAct, Signor, Reactome and STRING; BioGRID is a separate curation, so the same pair can appear in both and should be counted once per publication) |
+
 ### `biogrid_orcs` · BioGRID ORCS (Open Repository of CRISPR Screens)
 
 | | |
@@ -108,6 +137,20 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | None: registry entries carry no phenotype information. |
 | Absence means | A tool missing from the registry is unregistered, not unavailable; absent annotation terms mean undeclared, not unsupported. |
 | Overlaps (declared here) | independent_related · `fairsharing` (both describe resources; use only for discovery) |
+
+### `cadd` · CADD: combined annotation dependent depletion
+
+| | |
+|---|---|
+| Evidence kinds | computational_prediction |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `protein_function` · prediction · snv, indel · annotation_integration (combined deleteriousness score) |
+| Biological context | A genome-wide score that combines conservation, regulatory and protein-level annotations; it carries no tissue or cell-type context. |
+| Evidence strength | Computational prediction with no per-variant uncertainty; the score is a rank among possible substitutions, not a probability. |
+| Mechanistic confidence | Low. It does not distinguish protein, splicing and regulatory mechanisms and is not calibrated to a particular phenotype. |
+| Phenotype implication | A deleteriousness rank; no phenotype. |
+| Absence means | A variant without a score was not precomputed (for example an indel) or lies outside the scored set; absence is not a benign prediction. |
+| Overlaps (declared here) | independent_related · `gnomad_variants` (gnomAD INFO carries CADD scores for observed variants, so the score and the frequency come from one file for those variants)<br>independent_related · `dbnsfp` (dbNSFP carries CADD among its predictors) |
 
 ### `clingen` · ClinGen (dosage sensitivity, gene-disease validity, region curation)
 
@@ -142,10 +185,10 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 |---|---|
 | Evidence kinds | curated_expert_classification |
 | Allele resolution | haplotype_level |
-| Mechanism evidence | `pharmacogenomic_haplotype` · curated · snv, gene_level · functional_haplotypes_pgx |
-| Biological context | Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline. |
+| Mechanism evidence | `pharmacogenomic_haplotype` · curated · snv, indel, cnv, gene_level · functional_haplotypes_pgx (star-allele function and diplotype-phenotype translation)<br>`mitochondrial` · curated · mtdna · functional_haplotypes_pgx (MT-RNR1 alleles and their drug-response guideline) |
+| Biological context | Gene-drug pairs with guidelines. Function is assigned to named alleles (star alleles; for X-linked, mitochondrial and HLA genes single alleles) and diplotypes are translated to phenotype categories; categories are specific to the gene and to the drug in the guideline. Allele function records carry the strength of evidence, citations and population frequencies. |
 | Evidence strength | Expert-curated allele function and guideline recommendations with CPIC's own evidence levels; assertions derived from published studies, not measurements of a given sample's alleles. |
-| Mechanistic confidence | Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles and unresolved phase. |
+| Mechanistic confidence | Moderate at the haplotype level for well-studied alleles: function belongs to the haplotype and is not shown separately for each variant. Low for variants outside the allele definition tables, structural alleles defined without breakpoints, and unresolved phase. |
 | Phenotype implication | Predicted metaboliser or transporter phenotype and a prescribing recommendation for a diplotype; drug-specific, not general. |
 | Absence means | An allele missing from the definition tables has unassigned function, which is different from normal function. A sample with no defining variant detected defaults to the reference allele by convention, an assumption about untested positions. |
 | Overlaps (declared here) | independent_related · `pharmvar` (both describe star-allele definitions of the same genes; compare definitions, never sum counts) |
@@ -300,6 +343,19 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | None directly. A consequence in a non-MANE isoform can be misread as benign or damaging, so consequences are reported per transcript. |
 | Absence means | A gene without a MANE Select transcript, or a variant outside MANE transcripts, has no clinical-reference consequence here; this reflects the transcript set and not benignity. |
 
+### `giab_stratifications` · GIAB genome stratifications v3.6 (GRCh38): difficult and complex regions
+
+| | |
+|---|---|
+| Evidence kinds | reference_annotation |
+| Allele resolution | region_level |
+| Mechanism evidence | `paralog_complex_locus` · context · complex_locus, region_level · complex_loci_callability (segmental duplications, falsely duplicated and collapsed regions, MHC, KIR and VDJ loci)<br>`repeat_expansion` · context · region_level · complex_loci_callability (tandem-repeat, satellite and homopolymer regions where small-variant calls are unreliable) |
+| Biological context | Regions defined from reference-sequence features and read mappability, not from the biology of any sample: segmental duplications and paralogous regions, highly polymorphic immune loci (MHC, KIR, VDJ), falsely duplicated or collapsed reference regions, tandem repeats and reference gaps. |
+| Evidence strength | Region annotations from the GIAB and GA4GH benchmarking effort. Membership of a region is a property of the reference and of short-read mappability, not a measurement of any variant call. |
+| Mechanistic confidence | Not applicable to mechanism. A region flag says a call there is less reliable or that a paralog may be involved; it cannot separate a true variant from a mis-mapped paralogous sequence variant. |
+| Phenotype implication | None: region membership carries no phenotype information. |
+| Absence means | A position outside every listed region is not guaranteed to be reliably callable: the sets stratify benchmark performance and do not certify individual calls. A call inside a region must not be discarded or trusted on that basis alone. |
+
 ### `gnomad_constraint` · gnomAD constraint metrics (LoF/missense) and pext
 
 | | |
@@ -313,6 +369,20 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | Intolerance to loss of function suggests, but does not show, a severe early-onset dominant phenotype. Tolerance does not exclude recessive disease, gain of function or missense mechanisms. |
 | Absence means | A gene without metrics (too few expected variants or poor coverage) is unscored, not unconstrained. A tolerant score is not evidence that a particular allele is benign. |
 | Overlaps (declared here) | derived_from · `gnomad_variants` (constraint is computed from the gnomAD callsets; the counts are the same observations) |
+
+### `gnomad_ld` · gnomAD v2.1.1 linkage disequilibrium matrices
+
+| | |
+|---|---|
+| Evidence kinds | population_observation |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `outcome_association` · population · snv · association_finemapping_coloc (LD separates a causal variant from linked variants) |
+| Biological context | Correlation of common alleles across haplotypes in the gnomAD genome callset, by genetic ancestry group. |
+| Evidence strength | Computed from genotype calls of a large sample; precise for common variants. |
+| Mechanistic confidence | None for mechanism; LD identifies linked variants. |
+| Phenotype implication | None: linkage disequilibrium carries no phenotype information. |
+| Absence means | A variant outside the common set or the callset has no LD entry. |
+| Overlaps (declared here) | derived_from · `gnomad_variants` (LD is computed from the gnomAD callset; the same individuals) |
 
 ### `gnomad_sv_cnv` · gnomAD structural variants and copy-number variants
 
@@ -367,18 +437,60 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | Statistical association with a trait or disease in the studied ancestry. Effects of common variants are generally small, and transfer across ancestries needs evidence. |
 | Absence means | A variant with no association in the catalogue has not reached the reporting threshold in catalogued studies, whose trait coverage, ancestry and power vary. It is not evidence of no effect. |
 
+### `hgsvc3` · HGSVC3 release 1.0: assembly-based structural variants from 65 phased genomes (GRCh38)
+
+| | |
+|---|---|
+| Evidence kinds | population_observation |
+| Allele resolution | region_level |
+| Mechanism evidence | `structural_rearrangement` · population · sv · structural_variation_cnv (insertions, deletions and inversions in 65 assembled genomes)<br>`paralog_complex_locus` · context · sv, complex_locus · complex_loci_callability (REF_SD and REF_TRF flag calls in segmental duplications and tandem repeats) |
+| Biological context | Germline structural variants of 65 individuals of diverse ancestry, called by comparing phased long-read-based assemblies with the reference; the sample set is a research panel and carries no phenotype data. |
+| Evidence strength | Observational allele calls with per-haplotype genotypes from assembly alignment. Breakpoints and sizes are sequence-based, which makes them more exact than short-read estimates; sensitivity depends on how well the assemblies align. |
+| Mechanistic confidence | None for mechanism. It supplies which structural alleles exist and where; effects on genes, regulation or dosage must come from annotation and from the curated dosage and clinical sources. |
+| Phenotype implication | Presence in a research panel without phenotype data; no disease implication. |
+| Absence means | A structural variant not listed was not seen in these 65 genomes or lay where assemblies did not align; this is not evidence that the variant is rare in populations or harmless. |
+| Overlaps (declared here) | independent_related · `gnomad_sv_cnv` (independent callsets of structural variants (long-read assemblies versus short-read population sequencing); compare by type and reciprocal overlap, never pool counts)<br>independent_related · `1000genomes` (the release also genotypes its variants in 1000 Genomes samples (Genotyping_1kGP directory), so the same individuals can appear in 1000 Genomes-derived callsets; count an individual once) |
+
+### `hpa` · Human Protein Atlas v25.1: tissue and cell-type RNA expression and protein subcellular location
+
+| | |
+|---|---|
+| Evidence kinds | experimental_annotation, aggregated_integration |
+| Allele resolution | gene_level |
+| Mechanism evidence | `transcription_regulation` · context · gene_level · regulation_expression_splicing (tissue and cell-type resolved RNA expression of the gene)<br>`protein_function` · context · gene_level · protein_structure_function (subcellular location of the protein) |
+| Biological context | RNA sequencing of tissues and single-cell types, normalised per gene, and protein localisation by immunofluorescence imaging of cultured cell lines (the download page lists the image-based location data). Expression is a property of the sampled tissue or cell type and its donors. |
+| Evidence strength | Measured expression and localisation summarised per gene; reliability categories grade the localisation evidence. The consensus RNA table combines datasets (see unverified fields), so it is not independent of GTEx. |
+| Mechanistic confidence | Low. It shows where a gene is expressed or its protein found, which bears on whether a tissue-specific regulatory or loss-of-function mechanism is plausible; it says nothing about the effect of any allele. |
+| Phenotype implication | None directly; tissue specificity informs which tissues could manifest an effect. |
+| Absence means | A gene without a value in a tissue or cell type is not shown to be silent there: detection limits, dilution in bulk tissue and tissues or states that were not sampled apply. A gene absent from the localisation table was not localised (13,603 genes), not shown to be non-localised. |
+| Overlaps (declared here) | aggregates · `gtex` (the consensus tissue RNA table is described on the download page beside separate HPA and GTEx RNA tables; do not count GTEx expression twice (the combination method was not read)) |
+
 ### `impc` · IMPC (International Mouse Phenotyping Consortium)
 
 | | |
 |---|---|
 | Evidence kinds | perturbation_experimental |
 | Allele resolution | gene_level |
-| Mechanism evidence | `gene_dosage` · direct · gene_level · perturbation_evidence (mouse knockout phenotype; orthology to the human gene is an inference)<br>`gene_dosage` · direct · gene_level · natural_knockouts_dosage (mouse knockout phenotype used as a proxy for loss-of-function tolerance) |
-| Biological context | Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered knockout in one organism, and phenotype calls are made per procedure. |
+| Mechanism evidence | `gene_dosage` · direct · gene_level · perturbation_evidence (mouse knockout phenotype with allele, zygosity and sex; orthology to the human gene is an inference)<br>`gene_dosage` · direct · gene_level · natural_knockouts_dosage (viability of the knockout (lethal, subviable, viable) as the mouse counterpart of loss-of-function intolerance) |
+| Biological context | Knockout mouse lines phenotyped in a standardised pipeline. The genotype is an engineered allele (named by allele accession, zygosity and sex) in one organism and strain background; phenotype calls are made per procedure and parameter. For human use the result is gene-level, through orthology. |
 | Evidence strength | Direct measurement of phenotypes in knockout mice, with statistical phenotype calls and release-specific thresholds. |
 | Mechanistic confidence | Moderate for the gene's role in the mouse. It is not allele-specific, differences between mouse and human physiology limit transfer, and compensation by paralogs is not resolved. |
 | Phenotype implication | Mouse phenotype terms. They support a human loss-of-function phenotype only when concordant with human genetics. |
-| Absence means | No phenotype call means none was detected in the procedures performed; screen breadth and genotype coverage vary, and lines that were not phenotyped or are lethal have no adult phenotype. |
+| Absence means | No assertion means none was significant in the procedures performed (screen breadth, sex and genotype coverage vary); a line that was not phenotyped, or was lethal before adult procedures, has no adult phenotype. Absence is not shown to be dispensable. |
+
+### `intact` · IntAct molecular interaction database
+
+| | |
+|---|---|
+| Evidence kinds | curated_expert_classification |
+| Allele resolution | gene_level |
+| Mechanism evidence | `genetic_interaction` · context · gene_level, protein_level · pathways_interactions_epistasis (physical interaction network)<br>`protein_function` · curated · protein_level · pathways_interactions_epistasis (protein interaction partners) |
+| Biological context | Interactions curated from publications with the detection method of each; they are properties of whole proteins in the studied system. |
+| Evidence strength | Literature curation with an interaction confidence score; independent detections raise the score. |
+| Mechanistic confidence | Low for variant effects: an interaction says two proteins associate, not that a particular change disrupts it. |
+| Phenotype implication | None directly. |
+| Absence means | A pair that is not listed was not reported in curated publications; it is not shown not to interact. |
+| Overlaps (declared here) | identical_records · `opentargets` (Open Targets carries IntAct interactions as its intact source; use one route and count each pair once)<br>independent_related · `biogrid_interactions` (separate curation of physical interactions; two thirds of the curated Open Targets pairs (IntAct, Signor, Reactome) also appear in BioGRID) |
 
 ### `interpro` · InterPro
 
@@ -394,6 +506,47 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Absence means | A residue outside every signature is unannotated, not functionally unimportant; signature coverage is incomplete for disordered and lineage-specific regions. |
 | Overlaps (declared here) | independent_related · `uniprot` (UniProt entries cross-reference InterPro; domain boundaries from curated features and from signatures can differ, so compare) |
 
+### `ipd_imgt_hla` · IPD-IMGT/HLA Database (HLA allele sequences and nomenclature)
+
+| | |
+|---|---|
+| Evidence kinds | reference_annotation, curated_expert_classification |
+| Allele resolution | haplotype_level |
+| Mechanism evidence | `paralog_complex_locus` · context · complex_locus · complex_loci_callability (named allele sequences needed to interpret calls in the HLA region) |
+| Biological context | Curated sequences of named HLA alleles from submitted samples of many populations; each allele is a full haplotype of the gene, not a single variant, and the nomenclature encodes protein, synonymous and non-coding differences. |
+| Evidence strength | Curated sequence records with nomenclature committee review; sequence completeness differs per allele. |
+| Mechanistic confidence | Not applicable. It names and sequences alleles; it asserts no functional or clinical effect. |
+| Phenotype implication | None: sequences carry no phenotype information. |
+| Absence means | An allele that is not listed has not been submitted and named; a sequence that matches no listed allele may be novel or mis-assembled. Absence says nothing about function. |
+| Overlaps (declared here) | independent_related · `ipd_kir` (sister database for the KIR genes under the same terms) |
+
+### `ipd_kir` · IPD-KIR Database (killer-cell immunoglobulin-like receptor allele sequences)
+
+| | |
+|---|---|
+| Evidence kinds | reference_annotation, curated_expert_classification |
+| Allele resolution | haplotype_level |
+| Mechanism evidence | `paralog_complex_locus` · context · complex_locus · complex_loci_callability (named allele sequences for the KIR genes) |
+| Biological context | Curated sequences of named KIR alleles from submitted samples; the genes are highly similar to each other and differ in presence between individuals. |
+| Evidence strength | Curated sequence records; completeness differs per allele. |
+| Mechanistic confidence | Not applicable. It names and sequences alleles and asserts no functional or clinical effect. |
+| Phenotype implication | None: sequences carry no phenotype information. |
+| Absence means | An allele that is not listed has not been submitted and named. Absence of a KIR gene in a person is a real polymorphism and not a gap in the database. |
+
+### `ldlink` · LDlink (NCI): linkage disequilibrium tools for 1000 Genomes populations
+
+| | |
+|---|---|
+| Evidence kinds | population_observation |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `outcome_association` · population · snv, indel · association_finemapping_coloc (LD separates a causal variant from linked variants) |
+| Biological context | Correlation of alleles across haplotypes in reference population samples; the structure differs between ancestry groups. |
+| Evidence strength | Computed from phased reference genotypes; reliable for common variants and small for rare ones. |
+| Mechanistic confidence | None for mechanism. LD says which variants travel together and so which are candidates for a shared association signal. |
+| Phenotype implication | None: linkage disequilibrium carries no phenotype information. |
+| Absence means | A variant not in the reference panel has no LD estimate; low LD in one population does not imply low LD in another. |
+| Overlaps (declared here) | derived_from · `1000genomes` (LD is computed from 1000 Genomes genotypes; the individuals are the same) |
+
 ### `mavedb` · MaveDB (Multiplexed Assays of Variant Effect database)
 
 | | |
@@ -406,6 +559,34 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Mechanistic confidence | Moderate to high for the assayed molecular function in the assayed system (for example growth, binding, abundance or reporter output). Mechanisms that give the same readout are not distinguished, and splicing or regulatory effects are missed unless the assay includes them. |
 | Phenotype implication | A molecular or cellular phenotype of the assay. Mapping to a disease phenotype needs calibration against clinical labels, which the repository holds only where authors supplied it. |
 | Absence means | A variant without a score was not measured, was filtered for low counts, or lies outside the assayed region; a position with no data is untested and not tolerant. A neutral score means no effect on the assayed function only. |
+
+### `mitomap` · MITOMAP: human mitochondrial genome database
+
+| | |
+|---|---|
+| Evidence kinds | curated_expert_classification |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `mitochondrial` · curated · mtdna · clinical_interpretation (curated disease-associated mitochondrial DNA variants (not assessed: the site was not readable)) |
+| Biological context | Not assessed: the site was not readable. Mitochondrial variants act through heteroplasmy, tissue distribution and the mitochondrial genetic code. |
+| Evidence strength | Not assessed. |
+| Mechanistic confidence | Not assessed. |
+| Phenotype implication | Not assessed. |
+| Absence means | Not assessed; a mitochondrial variant missing from every catalogued source is simply uncovered. |
+
+### `mpravardb` · MPRAVarDB: massively parallel reporter assay variant database
+
+| | |
+|---|---|
+| Evidence kinds | direct_experimental, aggregated_integration |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `transcription_regulation` · direct · snv, indel · direct_experimental_variant_effects (MPRA allelic regulatory activity)<br>`transcription_regulation` · direct · snv · regulation_expression_splicing (variants at GWAS loci and eQTLs) |
+| Components | published MPRA measurements, collected — direct_experimental · allele_specific · from external: the original MPRA studies |
+| Biological context | Reporter-assay measurements of variant sequences in cultured cell lines; the regulatory effect is that of the sequence in an episomal reporter, outside its native chromatin context. |
+| Evidence strength | Direct allele-specific measurements compiled from studies; the quality control differs between studies. Details of the stored measure were not read. |
+| Mechanistic confidence | Moderate for regulatory activity of the tested sequence in the tested cell line; it does not show the effect at the native locus, in other cell types or on a target gene. |
+| Phenotype implication | A molecular phenotype (reporter activity); the disease label names the GWAS trait of the tested locus and is not a measured phenotype. |
+| Absence means | A variant that was not tested has no data; an untested cell type or state is unknown, and a variant with no effect in one cell line may act in another. |
+| Overlaps (declared here) | independent_related · `mavedb` (MaveDB holds MPRA score sets; the same experiment can appear in both and should be counted once) |
 
 ### `nhgri_education` · NHGRI educational pages (Talking Glossary, 1000 Genomes Project page)
 
@@ -426,7 +607,7 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 |---|---|
 | Evidence kinds | aggregated_integration, statistical_association, curated_expert_classification, perturbation_experimental, computational_prediction |
 | Allele resolution | gene_level |
-| Mechanism evidence | `outcome_association` · association · snv, indel · association_finemapping_coloc (credible sets, studies and colocalisation)<br>`outcome_association` · prediction · snv, indel · association_finemapping_coloc (locus-to-gene predictions)<br>`outcome_association` · curated · snv, indel, gene_level · clinical_interpretation (evidence from ClinVar, ClinGen and UniProt variants)<br>`gene_dosage` · direct · gene_level · perturbation_evidence (essentiality, CRISPR screens and knockout mouse phenotypes)<br>`transcription_regulation` · prediction · region_level · regulation_expression_splicing (enhancer-to-gene links)<br>`pharmacogenomic_haplotype` · curated · snv, gene_level · functional_haplotypes_pgx (pharmacogenomics dataset)<br>`genetic_interaction` · context · gene_level, protein_level · pathways_interactions_epistasis (interaction and pathway context) |
+| Mechanism evidence | `outcome_association` · association · snv, indel · association_finemapping_coloc (credible sets, studies and colocalisation)<br>`outcome_association` · prediction · snv, indel · association_finemapping_coloc (locus-to-gene predictions)<br>`outcome_association` · curated · snv, indel, gene_level · clinical_interpretation (evidence from ClinVar, ClinGen and UniProt variants)<br>`gene_dosage` · direct · gene_level · perturbation_evidence (essentiality, CRISPR screens and knockout mouse phenotypes)<br>`transcription_regulation` · prediction · region_level · regulation_expression_splicing (enhancer-to-gene links)<br>`pharmacogenomic_haplotype` · curated · snv, gene_level · functional_haplotypes_pgx (pharmacogenomics dataset)<br>`genetic_interaction` · context · gene_level, protein_level · pathways_interactions_epistasis (interaction and pathway context)<br>`transcription_regulation` · association · snv, indel · regulation_expression_splicing (molecular-QTL credible sets: eQTL, single-cell eQTL and transcript-usage QTL)<br>`splicing` · association · snv, indel · regulation_expression_splicing (sQTL credible sets)<br>`protein_function` · association · snv, indel · association_finemapping_coloc (pQTL credible sets (protein abundance)) |
 | Components | credible_set, study and colocalisation (GWAS and molecular QTL) — statistical_association · allele_specific · from external: published GWAS and QTL studies<br>l2g_prediction and enhancer_to_gene — computational_prediction · allele_specific · from native<br>evidence_eva — curated_expert_classification · allele_specific · from clinvar<br>evidence_clingen — curated_expert_classification · gene_level · from clingen<br>evidence_uniprot_variants — curated_expert_classification · allele_specific · from uniprot<br>target_essentiality — perturbation_experimental · gene_level · from depmap<br>evidence_impc — perturbation_experimental · gene_level · from impc |
 | Biological context | Integrated target-disease evidence. The target-disease association is gene-level; variant-level datasets (credible sets, colocalisation, evidence from ClinVar and UniProt) are allele-specific but remain those of the originating source, whose profile governs. |
 | Evidence strength | Aggregated, with the evidence kind of each part retained: association statistics, curated assertions, perturbation results and predictions. Overall association scores combine datasets with fixed weights and are ranking aids, not evidence strength. |
@@ -447,6 +628,20 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Mechanistic confidence | Moderate for the structural context of observed residues (position, burial, contacts) when the construct is relevant. It does not show the effect of a substitution, and unobserved residues have no coordinates. |
 | Phenotype implication | None: residue mappings carry no phenotype information. |
 | Absence means | A residue not covered by any PDB chain, or not observed in the covering chains, has no experimental coordinates; this is not evidence of disorder. |
+
+### `pharmcat` · PharmCAT (Pharmacogenomics Clinical Annotation Tool)
+
+| | |
+|---|---|
+| Evidence kinds | curated_expert_classification |
+| Allele resolution | haplotype_level |
+| Mechanism evidence | `pharmacogenomic_haplotype` · curated · snv, indel, cnv, gene_level · functional_haplotypes_pgx (applies curated allele definitions and guideline tables; a method, not a new assertion) |
+| Biological context | A method that applies published allele definitions and guidelines to a genotype; the clinical meaning is that of the guidelines, specific to the gene and the drug. |
+| Evidence strength | Inherited from the guidelines it applies; a calling pipeline adds the risk of wrong calls at positions it cannot see. |
+| Mechanistic confidence | As for the CPIC and PharmVar tables it uses: moderate at the haplotype level, low for variants outside the definitions. |
+| Phenotype implication | Predicted metaboliser or risk phenotype and a recommendation for a diplotype, drug-specific. |
+| Absence means | A gene, drug or allele outside the covered set receives no report; an uncalled position is treated according to the tool's rules, which can default to the reference allele. |
+| Overlaps (declared here) | derived_from · `cpic` (applies the CPIC allele definitions and guideline tables; the evidence is the CPIC evidence, so count it once) |
 
 ### `pharmgkb` · ClinPGx / PharmGKB
 
@@ -476,6 +671,21 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | None directly. |
 | Absence means | A variant not in any allele definition is not a named allele, so its function is unassigned and not normal. Genes outside the 15 are not covered. |
 
+### `proteingym` · ProteinGym v1.3: deep mutational scanning benchmark assays (substitutions and indels)
+
+| | |
+|---|---|
+| Evidence kinds | direct_experimental, aggregated_integration |
+| Allele resolution | allele_specific |
+| Mechanism evidence | `protein_function` · direct · protein_level, indel · direct_experimental_variant_effects (assay-specific readout such as growth, binding, abundance or proteolytic stability)<br>`genetic_interaction` · direct · protein_level · direct_experimental_variant_effects (assays with multiple mutants allow non-additivity (epistasis) to be estimated) |
+| Components | published deep mutational scanning measurements, re-formatted — direct_experimental · allele_specific · from external: the original studies |
+| Biological context | Each assay measures a variant library of one protein or domain in a specific system; the organism, selection assay and selection type are given per assay in the reference file. The score reflects the assayed function under that selection. |
+| Evidence strength | Direct measurements curated and processed by the benchmark maintainers: scores are as published in assay-specific units and the binarised label uses a per-assay cutoff. Replicate-level uncertainty is not retained. |
+| Mechanistic confidence | Moderate for the assayed molecular function of the substitution in the assayed system. Stability, activity and binding effects are not separated unless the selection type says so. |
+| Phenotype implication | A molecular or cellular phenotype of the assay. Correspondence to a human disease phenotype needs calibration, and most assays are of non-human proteins or of protein stability. |
+| Absence means | A mutation missing from an assay table was not measured or was filtered by the maintainers; an untested position is unknown and not tolerant. A protein with no assay has no curated measurement here. |
+| Overlaps (declared here) | independent_related · `mavedb` (some assays are the same experiments as MaveDB score sets; match by publication and target before combining, and count each experiment once) |
+
 ### `reactome` · Reactome
 
 | | |
@@ -489,6 +699,20 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Phenotype implication | None directly; pathway enrichment is hypothesis-generating. |
 | Absence means | A gene absent from the pathways is uncurated, not unrelated; coverage is biased towards well-studied biology. |
 
+### `refseq` · NCBI RefSeq: GRCh38.p14 accession map, alternate-locus placement and gene annotation (release RS_2025_08)
+
+| | |
+|---|---|
+| Evidence kinds | reference_annotation |
+| Allele resolution | region_level |
+| Mechanism evidence | `truncation_nmd` · context · gene_level, region_level · reference_annotation (RefSeq transcript structures on which ClinVar HGVS is expressed)<br>`splicing` · context · gene_level, region_level · reference_annotation (exon structure of RefSeq transcripts)<br>`paralog_complex_locus` · context · complex_locus · complex_loci_callability (alternate-locus and patch scaffolds and the regions they cover) |
+| Biological context | Reference accessions and transcript models of one haploid reference with alternate loci and patches. The annotation is a set of transcript models and not a map of which isoform is expressed where. |
+| Evidence strength | Reference data from an automated and curated annotation pipeline; correctness is checked here by published checksums, structural consistency of the GFF and joins to the other reference files. |
+| Mechanistic confidence | Not applicable. It supplies identifiers, roles and transcript structure needed to define consequences and to recognise regions with competing representations; it asserts no effect. |
+| Phenotype implication | None: accession maps and gene models carry no phenotype information. |
+| Absence means | A sequence not in the report is not part of GRCh38.p14; a position outside annotated features is not shown to be non-functional; a region without alternate loci or patches is not shown to be free of duplication. |
+| Overlaps (declared here) | independent_related · `gencode_mane` (MANE Select pairs one RefSeq with one Ensembl transcript per gene; the RefSeq half of MANE should reappear in this annotation, and the two gene sets are otherwise independent annotations of the same genome)<br>independent_related · `ensembl_genomes` (independent annotation of the same assembly; compare transcript sets and boundaries, never merge counts) |
+
 ### `strchive` · STRchive and related tandem-repeat catalogues
 
 | | |
@@ -501,6 +725,34 @@ The resolution at which a source's records refer to alleles. Gene-, region- and 
 | Mechanistic confidence | Moderate for repeat length and motif as the disease-relevant variable at curated loci. The molecular mechanism (RNA toxicity, polyglutamine proteotoxicity, silencing) varies by locus and is not resolved by length alone. |
 | Phenotype implication | Length above the pathogenic threshold associates with the named disease; onset, penetrance and severity depend on length and modifiers. |
 | Absence means | A locus missing from the catalogue is not curated as disease-associated. It is not shown to be benign, and the catalogue covers only loci with published disease associations. |
+
+### `string_db` · STRING protein-protein association networks
+
+| | |
+|---|---|
+| Evidence kinds | curated_expert_classification, computational_prediction |
+| Allele resolution | gene_level |
+| Mechanism evidence | `genetic_interaction` · context · gene_level, protein_level · pathways_interactions_epistasis (functional association network) |
+| Biological context | Associations from experiments, curated pathway databases, text mining, co-expression and genomic context, combined into one score; not tissue-specific. |
+| Evidence strength | A mixture of curated, experimental and predicted evidence combined into a confidence; the channels differ greatly in reliability. |
+| Mechanistic confidence | Low. It places proteins in a network; it does not show that a variant affects a link. |
+| Phenotype implication | None directly. |
+| Absence means | A pair without a link has no combined evidence above the stored threshold; it is not shown to be unrelated. |
+| Overlaps (declared here) | identical_records · `opentargets` (Open Targets carries STRING associations as its string source; use one route and count each pair once) |
+
+### `trexplorer` · TRExplorer: genome-wide tandem-repeat catalogue
+
+| | |
+|---|---|
+| Evidence kinds | reference_annotation, population_observation, aggregated_integration |
+| Allele resolution | region_level |
+| Mechanism evidence | `repeat_expansion` · population · str · repeat_expansions_str (polymorphism of repeat loci in long-read genomes)<br>`repeat_expansion` · context · str, region_level · repeat_expansions_str (locus and motif definitions) |
+| Biological context | Repeat loci defined from the reference sequence with motifs, annotated with polymorphism in assembled genomes of diverse ancestry (HPRC). |
+| Evidence strength | A curated and computed catalogue; polymorphism summaries come from long-read genomes of a research panel. |
+| Mechanistic confidence | None for mechanism. A locus being polymorphic or near a gene does not make an allele pathogenic; thresholds for disease come from curated sources such as STRchive. |
+| Phenotype implication | None directly. |
+| Absence means | A repeat not in the catalogue was not defined as a locus (for example a very long or impure repeat); this is not evidence that it is stable. |
+| Overlaps (declared here) | independent_related · `strchive` (STRchive curates disease loci with thresholds; TRExplorer extends the locus list genome-wide) |
 
 ### `uniprot` · UniProtKB (Swiss-Prot and TrEMBL)
 
@@ -528,6 +780,7 @@ Policy: identical records are combined once; independent experiments are never m
 | `ensembl_vep` | aggregates | `alphamissense` | AlphaMissense plugin |
 | `ensembl_vep` | aggregates | `gnomad_constraint` | LOEUF plugin |
 | `ensembl_vep` | aggregates | `mavedb` | MaveDB plugin |
+| `hpa` | aggregates | `gtex` | the consensus tissue RNA table is described on the download page beside separate HPA and GTEx RNA tables; do not count GTEx expression twice (the combination method was not read) |
 | `opentargets` | aggregates | `alphamissense` |  |
 | `opentargets` | aggregates | `clingen` |  |
 | `opentargets` | aggregates | `clinvar` | ClinVar via EVA |
@@ -543,13 +796,31 @@ Policy: identical records are combined once; independent experiments are never m
 | `pharmgkb` | aggregates | `cpic` | ClinPGx comprises PharmGKB, CPIC and PharmCAT; clinical guideline annotations include CPIC guidelines, so count a guideline once |
 | `ensembl_genomes` | derived_from | `gencode_mane` | the human gene annotation distributed by Ensembl is merged with the GENCODE gene set |
 | `gnomad_constraint` | derived_from | `gnomad_variants` | constraint is computed from the gnomAD callsets; the counts are the same observations |
+| `gnomad_ld` | derived_from | `gnomad_variants` | LD is computed from the gnomAD callset; the same individuals |
+| `ldlink` | derived_from | `1000genomes` | LD is computed from 1000 Genomes genotypes; the individuals are the same |
+| `pharmcat` | derived_from | `cpic` | applies the CPIC allele definitions and guideline tables; the evidence is the CPIC evidence, so count it once |
 | `dbvar` | identical_records | `dgv` | studies shown in DGV are archived either in dbVar (accessions nsv, nssv) or in DGVa (esv, essv); count each study once |
+| `intact` | identical_records | `opentargets` | Open Targets carries IntAct interactions as its intact source; use one route and count each pair once |
+| `string_db` | identical_records | `opentargets` | Open Targets carries STRING associations as its string source; use one route and count each pair once |
+| `alliance_genome` | independent_related | `impc` | mouse knockout phenotypes appear in both through MGI; count a mouse line once |
 | `alphafold_db` | independent_related | `pdbe_sifts` | predicted models versus experimentally determined structures: compare, never merge |
+| `biogrid_interactions` | independent_related | `opentargets` | Open Targets interactions come from IntAct, Signor, Reactome and STRING; BioGRID is a separate curation, so the same pair can appear in both and should be counted once per publication |
 | `biogrid_orcs` | independent_related | `depmap` | both report cancer cell-line perturbation screens; keep both and compare, do not count a gene twice when the same screen appears in both |
 | `biotools` | independent_related | `fairsharing` | both describe resources; use only for discovery |
+| `cadd` | independent_related | `dbnsfp` | dbNSFP carries CADD among its predictors |
+| `cadd` | independent_related | `gnomad_variants` | gnomAD INFO carries CADD scores for observed variants, so the score and the frequency come from one file for those variants |
 | `cpic` | independent_related | `pharmvar` | both describe star-allele definitions of the same genes; compare definitions, never sum counts |
 | `dgv` | independent_related | `gnomad_sv_cnv` | independent population SV catalogues of different design; compare frequencies, do not pool |
+| `hgsvc3` | independent_related | `1000genomes` | the release also genotypes its variants in 1000 Genomes samples (Genotyping_1kGP directory), so the same individuals can appear in 1000 Genomes-derived callsets; count an individual once |
+| `hgsvc3` | independent_related | `gnomad_sv_cnv` | independent callsets of structural variants (long-read assemblies versus short-read population sequencing); compare by type and reciprocal overlap, never pool counts |
+| `intact` | independent_related | `biogrid_interactions` | separate curation of physical interactions; two thirds of the curated Open Targets pairs (IntAct, Signor, Reactome) also appear in BioGRID |
 | `interpro` | independent_related | `uniprot` | UniProt entries cross-reference InterPro; domain boundaries from curated features and from signatures can differ, so compare |
+| `ipd_imgt_hla` | independent_related | `ipd_kir` | sister database for the KIR genes under the same terms |
+| `mpravardb` | independent_related | `mavedb` | MaveDB holds MPRA score sets; the same experiment can appear in both and should be counted once |
+| `proteingym` | independent_related | `mavedb` | some assays are the same experiments as MaveDB score sets; match by publication and target before combining, and count each experiment once |
+| `refseq` | independent_related | `ensembl_genomes` | independent annotation of the same assembly; compare transcript sets and boundaries, never merge counts |
+| `refseq` | independent_related | `gencode_mane` | MANE Select pairs one RefSeq with one Ensembl transcript per gene; the RefSeq half of MANE should reappear in this annotation, and the two gene sets are otherwise independent annotations of the same genome |
+| `trexplorer` | independent_related | `strchive` | STRchive curates disease loci with thresholds; TRExplorer extends the locus list genome-wide |
 | `clinvar` | may_conflict | `uniprot` | humsavar categories are curated independently from the literature; disagreement with ClinVar is information |
 
 Relations: **identical_records** — Both sources carry the same underlying records; combine them once, not twice; **derived_from** — This source is built from, or re-expresses, the other; treat as one lineage; **aggregates** — This source aggregates the other among others; prefer the aggregate for reuse and the original for fields the aggregate drops; **independent_related** — Independent measurements or curations of related phenomena; keep both and compare; **may_conflict** — Independent assertions that can disagree; never merged, disagreement is information
@@ -560,6 +831,8 @@ Where one resource carries parts of different evidence kinds, each part keeps it
 
 | Source | Component | Evidence kind | Allele resolution | Origin |
 |---|---|---|---|---|
+| `biogrid_interactions` | physical interactions (affinity capture, two-hybrid and related systems) | curated_expert_classification | gene_level | native |
+| `biogrid_interactions` | genetic interactions (synthetic lethality, dosage rescue, suppression and related systems) | curated_expert_classification, perturbation_experimental | gene_level | native |
 | `dbnsfp` | deleteriousness predictors (37 algorithms) | computational_prediction | allele_specific | external: third-party algorithms |
 | `dbnsfp` | allele frequencies from 1000 Genomes, gnomAD and others | population_observation | allele_specific | gnomad_variants |
 | `ensembl_vep` | consequence terms against transcript models | computational_prediction | allele_specific | native |
@@ -568,6 +841,7 @@ Where one resource carries parts of different evidence kinds, each part keeps it
 | `ensembl_vep` | LOEUF plugin | population_observation | gene_level | gnomad_constraint |
 | `gnomad_variants` | allele counts and frequencies per ancestry group | population_observation | allele_specific | native |
 | `gnomad_variants` | in-silico scores carried in INFO (CADD, REVEL, SpliceAI, Pangolin, PhyloP, SIFT, PolyPhen) | computational_prediction | allele_specific | external: published predictors |
+| `mpravardb` | published MPRA measurements, collected | direct_experimental | allele_specific | external: the original MPRA studies |
 | `opentargets` | credible_set, study and colocalisation (GWAS and molecular QTL) | statistical_association | allele_specific | external: published GWAS and QTL studies |
 | `opentargets` | l2g_prediction and enhancer_to_gene | computational_prediction | allele_specific | native |
 | `opentargets` | evidence_eva | curated_expert_classification | allele_specific | clinvar |
@@ -577,5 +851,6 @@ Where one resource carries parts of different evidence kinds, each part keeps it
 | `opentargets` | evidence_impc | perturbation_experimental | gene_level | impc |
 | `pharmgkb` | variant and clinical annotations from the literature | curated_expert_classification | allele_specific | native |
 | `pharmgkb` | clinical guideline annotations | curated_expert_classification | haplotype_level | cpic |
+| `proteingym` | published deep mutational scanning measurements, re-formatted | direct_experimental | allele_specific | external: the original studies |
 | `uniprot` | sequence, function, domain, site and modification annotation | curated_expert_classification, reference_annotation | protein_residue_level | native |
 | `uniprot` | humsavar variant index (ACMG/AMP-style categories) | curated_expert_classification | allele_specific | native |

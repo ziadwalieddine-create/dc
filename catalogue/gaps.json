@@ -1,8 +1,8 @@
 {
  "dimensions": {
   "direct_experimental_variant_effects": {
-   "gap": "Genomic placement is incomplete: 1,040 of 1,402 sets (74.2%) have at least one genomic-coordinate product (990 through Ensembl's codon expansion, 191 through MaveDB's own mapper, 141 through both) and 362 have neither. Ensembl expands each protein-level variant into every codon-compatible allele; MaveDB's mapper gives genomic HGVS to about 317k of 3.07M annotated variants. 197 of our sets are absent from the CC0 dump (62 non-CC0, 134 published after the dump date, 1 unexplained: urn:mavedb:00001251-a-1). 51 superseded human-target sets exist only as a labelled extension. Scores are not comparable across sets and calibrations exist for few sets.",
-   "next": "Build one variant-level table keyed by VRS digest or ClinGen allele ID that links assay variant, mapped alleles and annotations; treat superseded versions explicitly; do not pool raw scores across sets."
+   "gap": "Genomic placement is incomplete: 1,040 of 1,402 sets (74.2%) have at least one genomic-coordinate product (990 through Ensembl's codon expansion, 191 through MaveDB's own mapper, 141 through both) and 362 have neither. Ensembl expands each protein-level variant into every codon-compatible allele; MaveDB's mapper gives genomic HGVS to about 317k of 3.07M annotated variants. 197 of our sets are absent from the CC0 dump (62 non-CC0, 134 published after the dump date, 1 unexplained: urn:mavedb:00001251-a-1). 51 superseded human-target sets exist only as a labelled extension. Scores are not comparable across sets and calibrations exist for few sets. ProteinGym v1.3 (MIT licence for the project; the licences of the underlying assays are not verified) is acquired: 217 substitution and 66 indel DMS assays, every substitution row applying to the target sequence; 66 of its 80 human assay proteins are also targeted by a MaveDB score set, so the same experiment can arrive by two routes and must be counted once.",
+   "next": "Build one variant-level table keyed by VRS digest or ClinGen allele ID that links assay variant, mapped alleles and annotations; treat superseded versions explicitly; do not pool raw scores across sets. Match ProteinGym assays to MaveDB score sets by publication and target before pooling."
   },
   "protein_structure_function": {
    "gap": "UniProt reviewed entries, the humsavar variant index, AlphaFold DB canonical models with per-residue confidence, InterPro/member-database matches and the PDBe SIFTS mappings of experimental structures (1.05M PDB chain segments, 246,198 PDB entries, 76,796 UniProt accessions; 1.58M observed segments) are acquired; the AlphaFold and InterPro files cover the 549 UniProt accessions of the MaveDB set. Seven very long proteins have only isoform models in AlphaFold DB (recorded, not stored as canonical) and 13 accessions have no model. Variant-level stability and structural-effect predictors (Ensembl ProtVar 1.3 GB, mutfunc 2.0 GB) are not fetched; FoldX and AlphaMissense values reach us only through the Open Targets variant index and AlphaMissense tables. Coordinate files of the experimental structures, ligand and interface annotation, and PDB-derived stability data are not held.",
@@ -13,7 +13,7 @@
    "next": "Use the gnomAD slice scores for variants of interest; evaluate SpliceVault; use the MPRA score sets already in MaveDB for regulatory variants; fetch eQTL Catalogue credible sets only for loci that need them."
   },
   "perturbation_evidence": {
-   "gap": "Acquired and joined to MaveDB genes: BioGRID ORCS human screens (MIT licence), Open Targets target_essentiality (DepMap-derived), CRISPR-screen evidence and IMPC mouse knockout evidence. DepMap's own portal is behind a human-verification wall and was not fetched. No variant-level perturbation (base-editing) source is catalogued.",
+   "gap": "Acquired and joined to MaveDB genes: BioGRID ORCS human screens (MIT licence), Open Targets target_essentiality (DepMap-derived), CRISPR-screen evidence and IMPC mouse knockout evidence. DepMap's own portal is behind a human-verification wall and was not fetched. No variant-level perturbation (base-editing) source is catalogued. IMPC release 24 phenotype assertions and viability calls are acquired: 8,429 genes (7,145 with a human ortholog) and lethal knockouts have lower gnomAD LOEUF than viable ones (median 0.689 vs 0.925). Mouse knockouts are gene-level and cross-species; they say nothing about a specific human allele.",
    "next": "User downloads DepMap Public manually if the original files are needed; assess base-editor screen repositories."
   },
   "natural_knockouts_dosage": {
@@ -25,19 +25,19 @@
    "next": "Decide the LD source and slice it by region; fetch colocalisation only for loci of interest (Open Targets GraphQL can serve single loci)."
   },
   "functional_haplotypes_pgx": {
-   "gap": "ClinPGx, CPIC and Open Targets pharmacogenomics tables and the PharmVar 6.2.29 complete database are acquired. PharmVar contributes 15 pharmacogenes with 2,458 haplotype names, a table of defining variants and a VCF per haplotype on RefSeqGene, GRCh37 and GRCh38 coordinates (7,865 VCF files, 35,172 variant records) and haplotype FASTA; licence CC BY-SA 4.0 for research use, not for sale as a commercial item. Not covered: pharmacogenes outside the complete-database download, haplotypes defined by structural variation (excluded from the download), and allele function or phenotype assignments beyond the CPIC and ClinPGx tables held.",
-   "next": "Link the PharmVar defining variants to the CPIC and ClinPGx function assignments when diplotype interpretation is built; check PharmVar's API for genes that the download omits."
+   "gap": "ClinPGx, CPIC and Open Targets pharmacogenomics tables and the PharmVar 6.2.29 complete database are acquired. PharmVar contributes 15 pharmacogenes with 2,458 haplotype names, a table of defining variants and a VCF per haplotype on RefSeqGene, GRCh37 and GRCh38 coordinates (7,865 VCF files, 35,172 variant records) and haplotype FASTA; licence CC BY-SA 4.0 for research use, not for sale as a commercial item. Not covered: pharmacogenes outside the complete-database download, haplotypes defined by structural variation (excluded from the download), and allele function or phenotype assignments beyond the CPIC and ClinPGx tables held. The CPIC API tables are also held (alleles, allele definitions, locations, gene results, diplotype lookups, recommendations): 1,102 of 1,103 single-nucleotide locations carry the reference base stated at the GRCh38 position (the exception is G6PD) and 515 of 536 CPIC star alleles of the nine genes shared with PharmVar are PharmVar core alleles of the same name. The PharmVar identifier column of the CPIC snapshot is empty.",
+   "next": "Link the PharmVar defining variants to the CPIC and ClinPGx function assignments when diplotype interpretation is built; check PharmVar's API for genes that the download omits. Treat CPIC and PharmVar as two descriptions of one allele set; do not count their agreement as replication."
   },
   "structural_variation_cnv": {
-   "gap": "Acquired: gnomAD v4.1 genome SV (2.15M records), gnomAD exome CNV, DGV GRCh38 (1.99M records, control cohorts) and ClinGen recurrent CNV and dosage regions. Not acquired: long-read SV callsets (gnomAD release/lr, 1000 Genomes/HGSVC). dbVar currency is unknown and DECIPHER denied access.",
+   "gap": "Acquired: gnomAD v4.1 genome SV (2.15M records), gnomAD exome CNV, DGV GRCh38 (1.99M records, control cohorts) and ClinGen recurrent CNV and dosage regions. Not acquired: long-read SV callsets (gnomAD release/lr, 1000 Genomes/HGSVC). dbVar currency is unknown and DECIPHER denied access. HGSVC3 (65 genomes, assembly-based, GRCh38) insertion/deletion and inversion calls are acquired (63 of the 65 samples are also 1000 Genomes samples); 75.2% of its 8,617 deletions of at least 1 kb have a reciprocally overlapping gnomAD-SV deletion, which sets the expectation for combining assembly-based and short-read callsets; its REF_SD flag agrees with GIAB segmental duplications (96.1% when flagged, 0.02% when not).",
    "next": "Inspect dbVar contents and dates; assess long-read SV catalogues."
   },
   "repeat_expansions_str": {
-   "gap": "STRchive disease loci (82, hg38) are acquired. Population allele-size distributions (gnomAD TR) and genome-wide reference catalogues (PlatinumTRs, 7.8M loci) are not.",
+   "gap": "STRchive disease loci (82, hg38) are acquired. Population allele-size distributions (gnomAD TR) and genome-wide reference catalogues (PlatinumTRs, 7.8M loci) are not. TRExplorer (genome-wide tandem-repeat catalogue) and MitoMap are catalogued; MitoMap returned HTTP 403 and TRExplorer states no licence, so neither is fetched.",
    "next": "Fetch gnomAD tandem-repeat and PlatinumTRs data when STR calling is in scope."
   },
   "pathways_interactions_epistasis": {
-   "gap": "Reactome mappings and the Open Targets aggregation of molecular interactions (IntAct, SIGNOR, Reactome, STRING: 14.6M interactions with 27.4M evidence records) are acquired. The interaction resources are held only in aggregated form. Nothing in the library quantifies epistasis or compensation, and digenic or oligogenic disease databases have not been assessed.",
+   "gap": "Reactome mappings and the Open Targets aggregation of molecular interactions (IntAct, SIGNOR, Reactome, STRING: 14.6M interactions with 27.4M evidence records) are acquired. The interaction resources are held only in aggregated form. Nothing in the library quantifies epistasis or compensation, and digenic or oligogenic disease databases have not been assessed. BioGRID 5.0 interactions (MIT licence) are acquired in their own right: 987,845 physical pairs and 20,442 human-human genetic interactions; 88.4% of human interactor genes resolve to MANE gene records, and 43% of the BioGRID physical pairs are also in the curated Open Targets interactions (66% of the curated pairs are in BioGRID). IntAct and STRING are catalogued but not fetched directly.",
    "next": "Assess digenic and oligogenic resources; fetch IntAct or STRING directly only if the aggregation proves insufficient."
   },
   "clinical_interpretation": {
@@ -53,7 +53,7 @@
    "next": "Ask the user to register for dbNSFP; fetch the VEP GRCh38 cache and the SpliceAI/SpliceVault plugin data when whole-genome annotation begins."
   },
   "reference_annotation": {
-   "gap": "The GRCh38 reference sequence (Ensembl release 116 toplevel FASTA: 706 sequences, 3.29 Gb of which 161 Mb are N; checksum-verified, with its .fai and .gzi checked against the file) and the release-116 gene annotation (GTF: 78,941 genes, 646,577 transcripts, 19,299 MANE Select; for human equal to the GENCODE gene set per Ensembl's README) are held locally, with MANE v1.5, the Open Targets target annotation (78,733 genes), GO, Sequence Ontology, homology and biosample tables. Checked against each other: REF alleles of all 4.6M ClinVar records and 27.1M AlphaMissense positions equal the reference; 99.96% of annotated start codons read ATG and 99.999% of stop codons TAA/TAG/TGA; 19,373 of 19,437 MANE transcripts resolve with the same version and span; all 78,733 Open Targets gene locations equal the annotation; the amino-acid change implied by sequence and annotation equals AlphaMissense's protein_variant for 41,844 of 41,858 tested rows (99.97%; the eight kept as examples among the 14 exceptions have the same amino acids at a shifted position, an isoform numbering offset). Transcript versions move between releases: 35% of sampled AlphaMissense rows name a transcript version that differs from release 116 and 3% a transcript not in it, so joins on transcript IDs must compare versions. Not held: GRCh37 and T2T-CHM13 sequence, patch and haplotype annotation, soft-masked or primary-only FASTA, GENCODE's own files, regulatory build and repeat annotation.",
+   "gap": "The GRCh38 reference sequence (Ensembl release 116 toplevel FASTA: 706 sequences, 3.29 Gb of which 161 Mb are N; checksum-verified, with its .fai and .gzi checked against the file) and the release-116 gene annotation (GTF: 78,941 genes, 646,577 transcripts, 19,299 MANE Select; for human equal to the GENCODE gene set per Ensembl's README) are held locally, with MANE v1.5, the Open Targets target annotation (78,733 genes), GO, Sequence Ontology, homology and biosample tables. Checked against each other: REF alleles of all 4.6M ClinVar records and 27.1M AlphaMissense positions equal the reference; 99.96% of annotated start codons read ATG and 99.999% of stop codons TAA/TAG/TGA; 19,373 of 19,437 MANE transcripts resolve with the same version and span; all 78,733 Open Targets gene locations equal the annotation; the amino-acid change implied by sequence and annotation equals AlphaMissense's protein_variant for 41,844 of 41,858 tested rows (99.97%; the eight kept as examples among the 14 exceptions have the same amino acids at a shifted position, an isoform numbering offset). Transcript versions move between releases: 35% of sampled AlphaMissense rows name a transcript version that differs from release 116 and 3% a transcript not in it, so joins on transcript IDs must compare versions. Not held: GRCh37 and T2T-CHM13 sequence, patch and haplotype annotation, soft-masked or primary-only FASTA, GENCODE's own files, regulatory build and repeat annotation. The NCBI GRCh38.p14 assembly report, assembly regions, alternate-scaffold placement and RefSeq GFF3 (release RS_2025_08) are held: chromosome lengths equal the Ensembl FASTA index (25 of 25), 681 of 684 scaffolds resolve with equal length (the three fix patches HG2405, HG2139 and HG2469 are not in the Ensembl release-116 FASTA), all 51 ClinVar records on NT_/NW_ contigs resolve and carry the reference allele, the 64 MANE transcripts on patch and alternate sequences resolve, and 19,332 of 19,363 MANE Select transcripts are in the RefSeq annotation with the same span and strand (31 are absent, 30 of the rest differ in exon count).",
    "next": "A transcript, codon and consequence layer on top of these files belongs to the later analysis engine and is deliberately not built here. Fetch GRCh37 or T2T sequence only if cross-assembly mapping is needed."
   },
   "resource_catalogues": {
@@ -63,6 +63,10 @@
   "background_documentation": {
    "gap": "Background pages only (NHGRI glossary and 1000 Genomes project page); they carry no variant-level evidence.",
    "next": "None."
+  },
+  "complex_loci_callability": {
+   "gap": "GIAB genome stratifications v3.6 for GRCh38 are acquired (27 files; 7,516,040 intervals in 23 BED files, all inside their chromosomes): difficult-region unions, low mappability, segmental duplications, MHC, KIR, VDJ, false and collapsed duplications, gaps, pseudo-autosomal and ampliconic regions. The HLA, KIR, immunoglobulin/T-cell-receptor and SMN genes lie in these regions, and 22.0% of ClinVar pathogenic/likely pathogenic records and 18.3% of MaveDB-mapped SNV positions fall in the difficult-region union, so calls there are not interchangeable with calls elsewhere. Not held: benchmark truth sets (HG002 and others), T2T- and HPRC-based stratifications, HLA and KIR allele databases (IPD-IMGT/HLA and IPD-KIR are CC BY-ND and mirroring is discouraged), and callers for CYP2D6, HLA, KIR and SMN genotypes.",
+   "next": "Flag calls inside the stratified regions; resolve HLA, KIR, SMN and CYP2D6 genotypes with dedicated callers rather than from SNV/indel calls; add a benchmark truth set when a matcher needs one."
   }
  },
  "needs": {
@@ -72,19 +76,26 @@
   "fairsharing": "User creates a FAIRsharing account or token if programmatic harvesting is wanted.",
   "eqtl_catalogue": "Licence is CC BY 4.0 (verified). Summary statistics are on the FTP and are large; the REST API v2 is retired and v3 should be checked before use; metadata tables are hosted in a GitHub repository outside this session's scope.",
   "dbvar": "Inspect FTP contents and dates before use.",
-  "biotools": "The bio.tools API is behind a bot challenge; OpenEBench is used instead."
+  "biotools": "The bio.tools API is behind a bot challenge; OpenEBench is used instead.",
+  "trexplorer": "Licence not stated on the pages read; ask the maintainers or use a catalogue with a stated licence (STRchive is held).",
+  "mitomap": "The site returned HTTP 403 to automated access; the user can download MitoMap tables in a browser.",
+  "mpravardb": "Download is interactive and the licence is not stated; assess before fetching.",
+  "alliance_genome": "Licence page was not readable by the probe; read it in a browser before fetching model-organism allele and construct records.",
+  "cadd": "CADD scores are free for non-commercial use only and the whole-genome files are very large; held per variant in the gnomAD slices.",
+  "ldlink": "The LDlink API needs a personal token; LD can instead be computed from a sliced 1000 Genomes panel.",
+  "pharmcat": "PharmCAT is catalogued as the production star-allele engine; install it (Java) when a real VCF is available."
  },
  "not_yet_assessed": [
   "HPO annotation files and the Monarch Initiative / MONDO (the Open Targets copies of the ontologies are held, the originals are not assessed)",
   "OMIM (licensed; restricted agreement)",
   "gnomAD tandem repeats and local-ancestry datasets (listed on the downloads page, contents not opened)",
   "Haplotype and LD reference panels (HGDP+1kGP, 1000 Genomes high-coverage phased genotypes)",
-  "Interaction resources in their original form (IntAct, STRING, BioGRID interactions): only the Open Targets aggregation is held",
   "Epistasis, digenic and oligogenic disease databases",
-  "Protein stability databases and benchmarks (ThermoMutDB, ProteinGym) and PTM databases",
   "Standalone predictors outside dbNSFP and gnomAD INFO (SpliceAI as distributed by Illumina, ESM1b and popEVE scores)",
   "ClinGen Allele Registry and ClinGen Variant Curation Expert Panel classifications beyond the files acquired",
   "Regulatory variant-effect datasets outside MaveDB (MPRA/STARR-seq repositories)",
-  "Ensembl VEP plugin list and per-plugin licences (the documentation page returned HTTP 504 and then timed out)"
+  "Ensembl VEP plugin list and per-plugin licences (the documentation page returned HTTP 504 and then timed out)",
+  "Protein stability databases and PTM databases (ThermoMutDB and others; ProteinGym is assessed)",
+  "Interaction resources IntAct and STRING in their original form (BioGRID is acquired; the Open Targets aggregation holds the others)"
  ]
 }

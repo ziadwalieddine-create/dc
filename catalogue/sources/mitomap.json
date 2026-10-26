@@ -1,0 +1,91 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "web"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "mtDNA position and change (rCRS)"
+ ],
+ "id": "mitomap",
+ "name": "MITOMAP: human mitochondrial genome database",
+ "categories": [
+  "clinical_interpretation"
+ ],
+ "maintainer": "MITOMAP (Children's Hospital of Philadelphia and collaborators)",
+ "url": "https://www.mitomap.org/",
+ "provenance": [
+  "https://www.mitomap.org/MITOMAP"
+ ],
+ "version": {
+  "value": "Not retrieved: the site answered HTTP 403 to the automated request",
+  "release_date": "unknown",
+  "verified": "unverified"
+ },
+ "scope": "A database of mitochondrial DNA variants associated with disease and of polymorphisms (not read: the site refused the request). Listed because mitochondrial variants are a variant class with no catalogued curated source other than the CPIC MT-RNR1 alleles.",
+ "variant_classes": [
+  "mtdna"
+ ],
+ "mapping_methods": "Not read.",
+ "quantitative": {
+  "summary": "n/a",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Not retrieved.",
+  "redistribution": "Unknown",
+  "access": "blocked_for_automation",
+  "verified": "unverified"
+ },
+ "update_frequency": "Unknown.",
+ "coverage_limitations": [
+  "Not assessed"
+ ],
+ "known_omissions": [
+  "Everything: the site refused automated access and the refusal was not circumvented"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "The mitochondrial class is a coverage gap. The resource is catalogued so that the gap is explicit; reading its terms and data access conditions by a person is the next step."
+ },
+ "status": {
+  "accessible": "no",
+  "notes": "HTTP 403 to the automated probe; recorded and not circumvented."
+ },
+ "unverified_fields": [
+  "everything except the existence of the resource and its refusal of automated access",
+  "licence",
+  "version"
+ ],
+ "evidence": [
+  "mitomap/home"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "mitochondrial",
+    "variant_classes": [
+     "mtdna"
+    ],
+    "basis": "curated",
+    "dimension": "clinical_interpretation",
+    "note": "curated disease-associated mitochondrial DNA variants (not assessed: the site was not readable)"
+   }
+  ],
+  "biological_context": "Not assessed: the site was not readable. Mitochondrial variants act through heteroplasmy, tissue distribution and the mitochondrial genetic code.",
+  "evidence_strength": "Not assessed.",
+  "mechanistic_confidence": "Not assessed.",
+  "phenotype_implication": "Not assessed.",
+  "absence_means": "Not assessed; a mitochondrial variant missing from every catalogued source is simply uncovered.",
+  "overlaps_with_sources": []
+ }
+}

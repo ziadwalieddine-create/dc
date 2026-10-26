@@ -1,0 +1,101 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  ".ld.bm matrices",
+  ".ht index tables"
+ ],
+ "assemblies": [
+  "GRCh37"
+ ],
+ "identifiers": [
+  "chrom:pos:ref:alt"
+ ],
+ "id": "gnomad_ld",
+ "name": "gnomAD v2.1.1 linkage disequilibrium matrices",
+ "categories": [
+  "association_finemapping_coloc",
+  "population_frequency"
+ ],
+ "maintainer": "Broad Institute (gnomAD)",
+ "url": "https://gnomad.broadinstitute.org/downloads",
+ "provenance": [
+  "https://gnomad-public-us-east-1.s3.amazonaws.com/release/2.1.1/ld/"
+ ],
+ "version": {
+  "value": "gnomAD v2.1.1 LD matrices (S3 prefix release/2.1.1/ld/, 39 entries)",
+  "release_date": "unknown",
+  "verified": "live"
+ },
+ "scope": "LD matrices in files with the extensions .ld.bm (matrices) and .ht (variant index tables) for common variants of each genetic ancestry group of the genome callset on GRCh37, with and without the \"adj\" genotype filter.",
+ "variant_classes": [
+  "snv"
+ ],
+ "mapping_methods": "The index table maps matrix rows to variants.",
+ "quantitative": {
+  "summary": "Pairwise LD between common variants per ancestry group.",
+  "units": "r",
+  "uncertainty": "sample size of the group",
+  "direction": "signed"
+ },
+ "licence": {
+  "name": "gnomAD data are released under CC0 1.0 (as listed for gnomAD in the Open Targets data-source table); the gnomAD LD files themselves carry no separate statement that was read.",
+  "redistribution": "No restriction stated",
+  "access": "open",
+  "verified": "unverified"
+ },
+ "update_frequency": "Not updated for v4.",
+ "coverage_limitations": [
+  "GRCh37 only and common variants only",
+  "The matrices are in a binary matrix format (.ld.bm) that needs the library that wrote it to read; the format was not examined"
+ ],
+ "known_omissions": [
+  "No files fetched: the matrices are large and in a binary format that was not examined"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "LD for fine-mapping is wanted per region; the matrices are large and GRCh37-only, so fetching waits for a concrete locus and a liftover or a recomputation from phased GRCh38 genotypes."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "S3 prefix listing read."
+ },
+ "unverified_fields": [
+  "sizes of the matrices",
+  "licence statement of the LD files",
+  "file format and sizes (the extensions suggest Hail matrices and tables; the gnomAD documentation was not read)"
+ ],
+ "evidence": [
+  "gnomad/s3_v2_1_1_ld",
+  "opentargets/docs_licence"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "population",
+    "dimension": "association_finemapping_coloc",
+    "note": "LD separates a causal variant from linked variants"
+   }
+  ],
+  "biological_context": "Correlation of common alleles across haplotypes in the gnomAD genome callset, by genetic ancestry group.",
+  "evidence_strength": "Computed from genotype calls of a large sample; precise for common variants.",
+  "mechanistic_confidence": "None for mechanism; LD identifies linked variants.",
+  "phenotype_implication": "None: linkage disequilibrium carries no phenotype information.",
+  "absence_means": "A variant outside the common set or the callset has no LD entry.",
+  "overlaps_with_sources": [
+   {
+    "source": "gnomad_variants",
+    "relation": "derived_from",
+    "note": "LD is computed from the gnomAD callset; the same individuals"
+   }
+  ]
+ }
+}

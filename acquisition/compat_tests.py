@@ -5,7 +5,7 @@ with explicit coverage numbers and failure reasons, go to acquisition/compat_rep
 'mapped' only if at least one join test passed its stated threshold. This is a minimal ingestion/compatibility
 check, not the analysis engine.
 
-  python3 compat_tests.py [--skip orcs ot ref] # ot = the Open Targets Parquet tests (compat_opentargets.py, needs pyarrow); ref = the reference sequence and annotation tests (compat_reference.py, needs pysam)
+  python3 compat_tests.py [--skip orcs ot ref res] # ot = the Open Targets Parquet tests (compat_opentargets.py, needs pyarrow); ref = the reference sequence and annotation tests (compat_reference.py, needs pysam); res = the RefSeq, GIAB and ProteinGym tests (compat_resources.py)
 """
 import argparse
 import bisect
@@ -841,6 +841,13 @@ if 'ref' not in a.skip:
     sys.path.insert(0, HERE)
     import compat_reference
     compat_reference.run(dict(src=src, log=log, D=D, MAN=MAN, M_ensg_all=M_ensg_all))
+    write_report()
+
+# RefSeq accession map, GIAB difficult regions and ProteinGym against the other files (separate module; the reference-sequence test needs pysam)
+if 'res' not in a.skip:
+    sys.path.insert(0, HERE)
+    import compat_resources
+    compat_resources.run(dict(src=src, log=log, D=D, MAN=MAN, M_uni=M_uni))
     write_report()
 
 # Open Targets Parquet datasets (separate module; needs pyarrow)

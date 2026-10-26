@@ -1,0 +1,30 @@
+ 
+ Index of /pub/databases/impc/all-data-releases/release-24.0/results 
+ Index of /pub/databases/impc/all-data-releases/release-24.0/results 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ README.md 2026-03-16 13:48 20K   
+ data-overview-1-summary.csv.gz 2026-03-16 13:49 235   
+ data-overview-2-top-level-mp.csv.gz 2026-03-16 13:49 855   
+ data-overview-3-mp.csv.gz 2026-03-16 13:49 10K   
+ fertility-1-summary.csv.gz 2026-03-16 13:49 51K   
+ fertility-2-conflicting.csv.gz 2026-03-16 13:49 172   
+ fertility-3-detailed.csv.gz 2026-03-16 13:49 169K   
+ gene-mp-association-1.csv.gz 2026-03-16 13:49 193K   
+ gene-mp-association-2.csv.gz 2026-03-16 13:49 80K   
+ genotype-phenotype-assertions-3I.csv.gz 2026-03-16 13:49 19K   
+ genotype-phenotype-assertions-ALL.csv.gz 2026-03-16 13:49 4.8M   
+ genotype-phenotype-assertions-EUROPHENOME.csv.gz 2026-03-16 13:49 195K   
+ genotype-phenotype-assertions-IMPC.csv.gz 2026-03-16 13:49 4.3M   
+ genotype-phenotype-assertions-MGP.csv.gz 2026-03-16 13:49 76K   
+ hits-per-top-mp-1-annotations.csv.gz 2026-03-16 13:49 638   
+ hits-per-top-mp-2-lines.csv.gz 2026-03-16 13:49 618   
+ hits-per-top-mp-3-genes.csv.gz 2026-03-16 13:49 615   
+ laczExpression.csv.gz 2026-03-16 13:49 609K   
+ phenotypeHitsPerGene.csv.gz 2026-03-16 13:49 231K   
+ phenotypeHitsPerLine.csv.gz 2026-03-16 13:49 762   
+ phenotypeHitsPerParameter.csv.gz 2026-03-16 13:49 309K   
+ phenotypeHitsPerProcedure.csv.gz 2026-03-16 13:49 171K   
+ procedureCompletenessAndPhenotypeHits.csv.gz 2026-03-16 13:49 24M   
+ statistical-results-ALL.csv.gz 2026-03-16 13:49 538M   
+ viability.csv.gz 2026-03-16 13:49 468K   

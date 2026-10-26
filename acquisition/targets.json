@@ -1243,5 +1243,848 @@
    "functional_haplotypes_pgx"
   ],
   "scope_note": "15 genes (CYP1A2, CYP2A13, CYP2A6, CYP2B6, CYP2C19, CYP2C8, CYP2C9, CYP2D6, CYP3A4, CYP3A5, CYP4F2, DPYD, NAT2, NUDT15, SLCO1B1); other pharmacogenes are not in this download"
+ },
+ {
+  "id": "refseq_grch38p14_assembly_report",
+  "source": "refseq",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_report.txt",
+  "dest": "refseq/GCF_000001405.40_GRCh38.p14_assembly_report.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights (policy page, verified live)",
+  "note": "GRCh38.p14 assembly report: for every sequence its RefSeq and GenBank accessions, UCSC name, role (assembled molecule, alternate scaffold, fix patch, novel patch, unplaced) and, for placed scaffolds, the chromosome. Resolves NC_, NT_ and NW_ accessions used by ClinVar, MANE and RefSeq annotation.",
+  "expected_size": 80454,
+  "expected_md5": "21f3ac4aa8245a99eb874082051b9dde",
+  "supports": [
+   "reference_annotation",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "refseq_grch38p14_assembly_regions",
+  "source": "refseq",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_regions.txt",
+  "dest": "refseq/GCF_000001405.40_GRCh38.p14_assembly_regions.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights (policy page, verified live)",
+  "note": "Named regions of the primary assembly that have alternate loci or patches (region name, chromosome, start, stop), the loci where one reference interval has competing representations.",
+  "expected_size": 45306,
+  "expected_md5": "5f48064779ec456efa30aa733daeac52",
+  "supports": [
+   "reference_annotation",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "refseq_grch38p14_alt_scaffold_placement",
+  "source": "refseq",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_structure/all_alt_scaffold_placement.txt",
+  "dest": "refseq/all_alt_scaffold_placement.txt",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights (policy page, verified live)",
+  "note": "Placement of every alternate-locus and patch scaffold on the primary chromosomes (scaffold accession, parent chromosome, scaffold and parent start and stop, orientation, region name).",
+  "expected_size": 65881,
+  "expected_md5": "f9f64710f4ae7a8881a9e2993393e0fb",
+  "supports": [
+   "reference_annotation",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "refseq_grch38p14_feature_count",
+  "source": "refseq",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_feature_count.txt",
+  "dest": "refseq/GCF_000001405.40_GRCh38.p14_feature_count.txt",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights (policy page, verified live)",
+  "note": "Counts of annotated features by type and sequence set for annotation release RS_2025_08; used to check the GFF.",
+  "expected_size": 9901,
+  "expected_md5": "ac84ee39894aa6403bfb7b2413f8a0f6",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "refseq_annotation_release_readme",
+  "source": "refseq",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/README_GCF_000001405.40-RS_2025_08",
+  "dest": "refseq/README_GCF_000001405.40-RS_2025_08",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights (policy page, verified live)",
+  "note": "Annotation release description: release name, pipeline, evidence freeze and release dates, annotated assemblies.",
+  "expected_size": 2108,
+  "expected_md5": "b8b3776ac2911e98a18532e4319839b5",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "refseq_grch38p14_genomic_gff",
+  "source": "refseq",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_genomic.gff.gz",
+  "dest": "refseq/GCF_000001405.40_GRCh38.p14_genomic.gff.gz",
+  "tier": "B",
+  "kind": "gff.gz",
+  "licence": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights (policy page, verified live)",
+  "note": "RefSeq annotation (release RS_2025_08) of GRCh38.p14 including patches and alternate loci: genes, transcripts (NM_, NR_, XM_, XR_), exons and CDS, with HGNC and GeneID cross-references.",
+  "expected_size": 78190483,
+  "expected_md5": "24b731562b9d4cae9e37b23404b5be16",
+  "supports": [
+   "reference_annotation"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_readme",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-README.md",
+  "dest": "giab/v3.6/GRCh38/GRCh38-README.md",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "Description of each stratification category and how the files were made.",
+  "expected_size": 9016,
+  "expected_md5": "c3b985ecbbe48529ee7cdd79c9311672",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_background",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-BACKGROUND.md",
+  "dest": "giab/v3.6/GRCh38/GRCh38-BACKGROUND.md",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "Authors, access conditions and citations of the stratification release.",
+  "expected_size": 4316,
+  "expected_md5": "ccaa127a7e8048d2a144e4bb895a5ba3",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_stratification_list",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-all-stratifications.tsv",
+  "dest": "giab/v3.6/GRCh38/GRCh38-all-stratifications.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "Name and relative path of every GRCh38 stratification BED file.",
+  "expected_size": 17629,
+  "expected_md5": "05f4b5d0e945e9173a9eef39b8e5dbbe",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_md5s",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-genome-stratifications-md5s.txt",
+  "dest": "giab/v3.6/GRCh38/GRCh38-genome-stratifications-md5s.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "MD5 of every file of the GRCh38 stratification set.",
+  "expected_size": 17864,
+  "expected_md5": "4d4c3a41e0668998e847ecdc7f9a2d34",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_alldifficultregions",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/Union/GRCh38_alldifficultregions.bed.gz",
+  "dest": "giab/v3.6/GRCh38/Union/GRCh38_alldifficultregions.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: union of all difficult regions (low mappability, segmental duplications, tandem repeats, homopolymers, GC extremes, other). 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 31493049,
+  "expected_md5": "55a6b84934fcea76eebf38fd94503f9b",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_alllowmapandsegdupregions",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/Union/GRCh38_alllowmapandsegdupregions.bed.gz",
+  "dest": "giab/v3.6/GRCh38/Union/GRCh38_alllowmapandsegdupregions.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: union of low-mappability and segmental-duplication regions. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 3513364,
+  "expected_md5": "b1b8a7e364aa8bc6b470b3b549e126d6",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_lowmappabilityall",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/Mappability/GRCh38_lowmappabilityall.bed.gz",
+  "dest": "giab/v3.6/GRCh38/Mappability/GRCh38_lowmappabilityall.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: regions where short-read mapping is unreliable. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 4466885,
+  "expected_md5": "8a78766bb99abf1d25a5b307d49a0324",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_segdups",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/SegmentalDuplications/GRCh38_segdups.bed.gz",
+  "dest": "giab/v3.6/GRCh38/SegmentalDuplications/GRCh38_segdups.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: segmental duplications (repeats over 1 kb with over 90% similarity). 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 65098,
+  "expected_md5": "72ec3f7db18ef9318c64b1df271703fe",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_segdups_gt10kb",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/SegmentalDuplications/GRCh38_segdups_gt10kb.bed.gz",
+  "dest": "giab/v3.6/GRCh38/SegmentalDuplications/GRCh38_segdups_gt10kb.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: segmental duplications over 10 kb. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 16937,
+  "expected_md5": "747a94ef8f7a15128fb19265f8ecc170",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_mhc",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_MHC.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_MHC.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: major histocompatibility complex region (highly polymorphic). 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 82,
+  "expected_md5": "47675293278e690d7ffce11fd6dafc2d",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_kir",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_KIR.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_KIR.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: killer-cell immunoglobulin-like receptor region (highly polymorphic). 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 83,
+  "expected_md5": "a88877e50dad3a7bb567549e611f04cf",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_vdj",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_VDJ.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_VDJ.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: immunoglobulin and T-cell receptor VDJ loci (polymorphic, somatically rearranged). 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 162,
+  "expected_md5": "bfe48ba5586f624972b8c243d21d97a0",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_false_duplications_correct_copy",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_false_duplications_correct_copy.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_false_duplications_correct_copy.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: regions falsely duplicated in the reference: the copy that is correct. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 201,
+  "expected_md5": "89e87651a0239b892170d7aad942f5fd",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_false_duplications_incorrect_copy",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_false_duplications_incorrect_copy.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_false_duplications_incorrect_copy.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: regions falsely duplicated in the reference: the copy that is incorrect. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 178,
+  "expected_md5": "24112e2c656aa4b610a8e7d0f9012979",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_collapsed_duplication_fp_regions",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_collapsed_duplication_FP_regions.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_collapsed_duplication_FP_regions.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: regions where collapsed duplications cause false-positive variant calls. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 1709,
+  "expected_md5": "483cd58b013ff0ffb136e0700e5ee1bb",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_population_cnv_fp_regions",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_population_CNV_FP_regions.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_population_CNV_FP_regions.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: regions where population copy-number variation causes false-positive calls. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 4566,
+  "expected_md5": "d74487e99d9f8a7cd79e14fe2a1987d2",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_l1h_gt500",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_L1H_gt500.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_L1H_gt500.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: LINE-1 elements of subfamily L1H over 500 bp. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 9297,
+  "expected_md5": "a0de22565c7a53834e1e267f2620d59a",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_gaps_slop15kb",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_gaps_slop15kb.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_gaps_slop15kb.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: reference gaps extended by 15 kb on each side. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 6976,
+  "expected_md5": "194125f93992e1167d1b534fd23171c6",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_allotherdifficultregions",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/OtherDifficult/GRCh38_allOtherDifficultregions.bed.gz",
+  "dest": "giab/v3.6/GRCh38/OtherDifficult/GRCh38_allOtherDifficultregions.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: union of the miscellaneous difficult regions. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 316313,
+  "expected_md5": "2303d01c4e32914dc424c90ec1e595a5",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/FunctionalTechnicallyDifficult/GRCh38_CMRGv1.00_falselyduplicatedgenes.bed.gz",
+  "dest": "giab/v3.6/GRCh38/FunctionalTechnicallyDifficult/GRCh38_CMRGv1.00_falselyduplicatedgenes.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: genes in falsely duplicated reference regions (challenging medically relevant genes, v1.00). 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 109,
+  "expected_md5": "49d6e4d56c4507fa73bc4a7782ca9804",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_badpromoters",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/FunctionalTechnicallyDifficult/GRCh38_BadPromoters.bed.gz",
+  "dest": "giab/v3.6/GRCh38/FunctionalTechnicallyDifficult/GRCh38_BadPromoters.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: promoters with extreme GC content that are poorly covered by short reads. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 7968,
+  "expected_md5": "447cccc40d3e5a10be030db03d720b4a",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_alltandemrepeats",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/LowComplexity/GRCh38_AllTandemRepeats.bed.gz",
+  "dest": "giab/v3.6/GRCh38/LowComplexity/GRCh38_AllTandemRepeats.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: all tandem repeats. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 9228465,
+  "expected_md5": "d27d2b4e43e46a724da4934333cf0367",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_satellites_slop5",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/LowComplexity/GRCh38_satellites_slop5.bed.gz",
+  "dest": "giab/v3.6/GRCh38/LowComplexity/GRCh38_satellites_slop5.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: satellite repeats extended by 5 bp. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 47277,
+  "expected_md5": "63da9414e5edad77a2b29ae93a47ab20",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_chrx_par",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/XY/GRCh38_chrX_PAR.bed.gz",
+  "dest": "giab/v3.6/GRCh38/XY/GRCh38_chrX_PAR.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: X pseudoautosomal regions. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 138,
+  "expected_md5": "aad483415e3e545eaee56f966ea02fbb",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_chry_par",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/XY/GRCh38_chrY_PAR.bed.gz",
+  "dest": "giab/v3.6/GRCh38/XY/GRCh38_chrY_PAR.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: Y pseudoautosomal regions. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 138,
+  "expected_md5": "4af9c2db3f32fd22f183f00414a77d60",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_chrx_xtr",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/XY/GRCh38_chrX_XTR.bed.gz",
+  "dest": "giab/v3.6/GRCh38/XY/GRCh38_chrX_XTR.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: X-transposed region. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 82,
+  "expected_md5": "a470b4cc45e8436e7ac14ec7a2ae0904",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "giab_v3_6_grch38_chrx_ampliconic",
+  "source": "giab_stratifications",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/XY/GRCh38_chrX_ampliconic.bed.gz",
+  "dest": "giab/v3.6/GRCh38/XY/GRCh38_chrX_ampliconic.bed.gz",
+  "tier": "A",
+  "kind": "bed.gz",
+  "licence": "Publicly released data are freely available for reuse without embargo (GIAB v3.6 GRCh38 BACKGROUND file, verified live); no formal licence identifier is given",
+  "note": "GIAB v3.6 GRCh38 stratification: X ampliconic regions. 0-based half-open BED on the GRCh38 primary-assembly chromosome names.",
+  "expected_size": 209,
+  "expected_md5": "b2a4aa92d7606d2a9120fb684150b233",
+  "supports": [
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "proteingym_v1_3_dms_substitutions",
+  "source": "proteingym",
+  "url": "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/DMS_ProteinGym_substitutions.zip",
+  "dest": "proteingym/v1.3/DMS_ProteinGym_substitutions.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read at commit 144fe22 in the read-only clone); the licences of the underlying published assay datasets are not stated",
+  "note": "ProteinGym v1.3 substitution benchmark: one CSV per DMS assay (mutant, mutated sequence, DMS_score, DMS_score_bin), 217 assays. The server publishes no checksum.",
+  "expected_size": 43021128,
+  "supports": [
+   "direct_experimental_variant_effects"
+  ]
+ },
+ {
+  "id": "proteingym_v1_3_dms_indels",
+  "source": "proteingym",
+  "url": "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/DMS_ProteinGym_indels.zip",
+  "dest": "proteingym/v1.3/DMS_ProteinGym_indels.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read at commit 144fe22 in the read-only clone); the licences of the underlying published assay datasets are not stated",
+  "note": "ProteinGym v1.3 indel benchmark: one CSV per DMS assay, 66 assays. The server publishes no checksum.",
+  "expected_size": 6709750,
+  "supports": [
+   "direct_experimental_variant_effects"
+  ]
+ },
+ {
+  "id": "proteingym_v1_3_dms_substitutions_reference",
+  "source": "proteingym",
+  "url": "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/DMS_substitutions.csv",
+  "dest": "proteingym/v1.3/DMS_substitutions.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read at commit 144fe22 in the read-only clone); the licences of the underlying published assay datasets are not stated",
+  "note": "Reference file of the substitution assays: UniProt entry name, taxon, target sequence, number of single and multiple mutants, publication, selection assay and type. The server publishes no checksum.",
+  "expected_size": 208734,
+  "supports": [
+   "direct_experimental_variant_effects"
+  ]
+ },
+ {
+  "id": "proteingym_v1_3_dms_indels_reference",
+  "source": "proteingym",
+  "url": "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/DMS_indels.csv",
+  "dest": "proteingym/v1.3/DMS_indels.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "MIT licence for the ProteinGym project (LICENSE of the OATML-Markslab/ProteinGym repository, read at commit 144fe22 in the read-only clone); the licences of the underlying published assay datasets are not stated",
+  "note": "Reference file of the indel assays (same columns as the substitution reference). The server publishes no checksum.",
+  "expected_size": 44542,
+  "supports": [
+   "direct_experimental_variant_effects"
+  ]
+ },
+ {
+  "id": "hpa_v25_1_rna_tissue_consensus",
+  "source": "hpa",
+  "url": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip",
+  "dest": "hpa/v25.1/rna_tissue_consensus.tsv.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "Creative Commons Attribution 4.0 International for all copyrightable parts of the Human Protein Atlas; data subject to third-party constraints may also be included (HPA licence and citation page, verified live)",
+  "note": "Consensus RNA expression (nTPM) per gene and tissue, from the Human Protein Atlas, GTEx and FANTOM datasets (51 consensus tissues according to the download page). The server publishes no checksum and the URL always serves the current release (25.1 at fetch time), so the manifest pins size and SHA-256.",
+  "expected_size": 5293680,
+  "supports": [
+   "regulation_expression_splicing"
+  ]
+ },
+ {
+  "id": "hpa_v25_1_rna_single_cell_type",
+  "source": "hpa",
+  "url": "https://www.proteinatlas.org/download/tsv/rna_single_cell_type.tsv.zip",
+  "dest": "hpa/v25.1/rna_single_cell_type.tsv.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "Creative Commons Attribution 4.0 International for all copyrightable parts of the Human Protein Atlas; data subject to third-party constraints may also be included (HPA licence and citation page, verified live)",
+  "note": "RNA expression per gene and single-cell type cluster (nTPM and cell counts). The server publishes no checksum and the URL always serves the current release (25.1 at fetch time), so the manifest pins size and SHA-256.",
+  "expected_size": 16346850,
+  "supports": [
+   "regulation_expression_splicing"
+  ]
+ },
+ {
+  "id": "hpa_v25_1_subcellular_location",
+  "source": "hpa",
+  "url": "https://www.proteinatlas.org/download/tsv/subcellular_location.tsv.zip",
+  "dest": "hpa/v25.1/subcellular_location.tsv.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "Creative Commons Attribution 4.0 International for all copyrightable parts of the Human Protein Atlas; data subject to third-party constraints may also be included (HPA licence and citation page, verified live)",
+  "note": "Subcellular location of proteins from immunofluorescence, with reliability. The server publishes no checksum and the URL always serves the current release (25.1 at fetch time), so the manifest pins size and SHA-256.",
+  "expected_size": 252331,
+  "supports": [
+   "protein_structure_function"
+  ]
+ },
+ {
+  "id": "biogrid_interactions_organism_tab3",
+  "source": "biogrid_interactions",
+  "url": "https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab3.zip",
+  "dest": "biogrid/BIOGRID-ORGANISM-LATEST.tab3.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "MIT License: 100% freely available to both academic and commercial users, without warranty (BioGRID download repository page, verified live)",
+  "note": "All BioGRID interactions in tab3 format, one file per organism (physical and genetic interactions with experimental system, throughput, publication). Generated on request, so no size or checksum is published; the manifest pins size and SHA-256 and the release number is read from the member names.",
+  "supports": [
+   "pathways_interactions_epistasis"
+  ]
+ },
+ {
+  "id": "hgsvc3_grch38_sv_insdel_sym_vcf",
+  "source": "hgsvc3",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/GRCh38/variants_GRCh38_sv_insdel_sym_HGSVC2024v1.0.vcf.gz",
+  "dest": "hgsvc3/1.0/variants_GRCh38_sv_insdel_sym_HGSVC2024v1.0.vcf.gz",
+  "tier": "A",
+  "kind": "vcf.gz",
+  "licence": "Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): data users may use the data for many studies but are expected to allow the data producers to make the first presentations and publish the first paper with global analyses",
+  "note": "Structural insertions and deletions from 65 phased long-read assemblies on GRCh38 (PAV 2.4.0.1, merged with SV-Pop), symbolic alleles, phased genotypes per haplotype.",
+  "expected_size": 6408218,
+  "expected_md5": "e1923d95310163e81e7ec9819219b570",
+  "supports": [
+   "structural_variation_cnv",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "hgsvc3_grch38_sv_inv_sym_vcf",
+  "source": "hgsvc3",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/GRCh38/variants_GRCh38_sv_inv_sym_HGSVC2024v1.0.vcf.gz",
+  "dest": "hgsvc3/1.0/variants_GRCh38_sv_inv_sym_HGSVC2024v1.0.vcf.gz",
+  "tier": "A",
+  "kind": "vcf.gz",
+  "licence": "Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): data users may use the data for many studies but are expected to allow the data producers to make the first presentations and publish the first paper with global analyses",
+  "note": "Inversions from the same 65 phased assemblies on GRCh38.",
+  "expected_size": 22606,
+  "expected_md5": "95b1312dfd3905442a3a0880be8bb9fb",
+  "supports": [
+   "structural_variation_cnv",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "hgsvc3_variant_calls_readme",
+  "source": "hgsvc3",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/README_Variant_Calls_1.0.md",
+  "dest": "hgsvc3/1.0/README_Variant_Calls_1.0.md",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): data users may use the data for many studies but are expected to allow the data producers to make the first presentations and publish the first paper with global analyses",
+  "note": "Description of the release 1.0 callset: callers, merging, references, genotype conventions.",
+  "expected_size": 1809,
+  "supports": [
+   "structural_variation_cnv",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "hgsvc3_variant_calls_manifest",
+  "source": "hgsvc3",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/MANIFEST_Variant_Calls_1.0",
+  "dest": "hgsvc3/1.0/MANIFEST_Variant_Calls_1.0",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): data users may use the data for many studies but are expected to allow the data producers to make the first presentations and publish the first paper with global analyses",
+  "note": "Path, size and MD5 of every file of the release.",
+  "expected_size": 8506,
+  "supports": [
+   "structural_variation_cnv",
+   "complex_loci_callability"
+  ]
+ },
+ {
+  "id": "cpic_api_allele_definition",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/allele_definition",
+  "dest": "cpic/api/allele_definition.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Star-allele definitions: gene, allele name, PharmVar id, whether it matches the reference sequence, whether it is structural. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 1354,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_allele_location_value",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/allele_location_value",
+  "dest": "cpic/api/allele_location_value.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Variant allele at each sequence location for every allele definition. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 3160,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_sequence_location",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/sequence_location",
+  "dest": "cpic/api/sequence_location.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Positions that define alleles: chromosomal (g.), gene and protein notation, dbSNP id and position. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 1210,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_allele",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/allele",
+  "dest": "cpic/api/allele.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Allele function: functional status, clinical functional status, activity value, strength of evidence, citations and population frequencies. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 1378,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_gene_result",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/gene_result",
+  "dest": "cpic/api/gene_result.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Phenotype categories per gene (for example poor metaboliser) with activity score and consultation text. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 101,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_gene_result_lookup",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/gene_result_lookup",
+  "dest": "cpic/api/gene_result_lookup.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Function pairs and activity scores that give each phenotype. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 208,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_gene_result_diplotype",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/gene_result_diplotype",
+  "dest": "cpic/api/gene_result_diplotype.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Diplotype to phenotype translation table. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 112820,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "cpic_api_recommendation",
+  "source": "cpic",
+  "url": "https://api.cpicpgx.org/v1/recommendation",
+  "dest": "cpic/api/recommendation.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinPGx terms (the CPIC licence page is JavaScript-only; its content was identical to the ClinPGx page); open_with_terms, confirm CPIC-specific terms before redistribution",
+  "note": "Drug recommendations per guideline, phenotype or allele status, with classification of strength. Served by the CPIC database API (PostgREST); the manifest pins size and SHA-256 of the copy fetched.",
+  "expected_rows": 2115,
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "impc_r24_readme",
+  "source": "impc",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/impc/all-data-releases/release-24.0/results/README.md",
+  "dest": "impc/release-24.0/README.md",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "Creative Commons Attribution 4.0 International (IMPC site footer statement, verified live)",
+  "note": "Description of the release 24.0 results files. The server publishes no checksum.",
+  "expected_size": 19984,
+  "supports": [
+   "perturbation_evidence",
+   "natural_knockouts_dosage"
+  ]
+ },
+ {
+  "id": "impc_r24_genotype_phenotype_assertions_all",
+  "source": "impc",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/impc/all-data-releases/release-24.0/results/genotype-phenotype-assertions-ALL.csv.gz",
+  "dest": "impc/release-24.0/genotype-phenotype-assertions-ALL.csv.gz",
+  "tier": "A",
+  "kind": "csv.gz",
+  "licence": "Creative Commons Attribution 4.0 International (IMPC site footer statement, verified live)",
+  "note": "Significant genotype-phenotype assertions of release 24.0 (all pipelines): marker, allele, zygosity, MP term, statistical method, p-value and effect size. The server publishes no checksum.",
+  "expected_size": 5001223,
+  "supports": [
+   "perturbation_evidence",
+   "natural_knockouts_dosage"
+  ]
+ },
+ {
+  "id": "impc_r24_gene_mp_association_1",
+  "source": "impc",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/impc/all-data-releases/release-24.0/results/gene-mp-association-1.csv.gz",
+  "dest": "impc/release-24.0/gene-mp-association-1.csv.gz",
+  "tier": "A",
+  "kind": "csv.gz",
+  "licence": "Creative Commons Attribution 4.0 International (IMPC site footer statement, verified live)",
+  "note": "Gene to mammalian-phenotype term associations of release 24.0. The server publishes no checksum.",
+  "expected_size": 197649,
+  "supports": [
+   "perturbation_evidence",
+   "natural_knockouts_dosage"
+  ]
+ },
+ {
+  "id": "impc_r24_viability",
+  "source": "impc",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/impc/all-data-releases/release-24.0/results/viability.csv.gz",
+  "dest": "impc/release-24.0/viability.csv.gz",
+  "tier": "A",
+  "kind": "csv.gz",
+  "licence": "Creative Commons Attribution 4.0 International (IMPC site footer statement, verified live)",
+  "note": "Viability outcome per gene of release 24.0 (for example lethal, subviable, viable). The server publishes no checksum.",
+  "expected_size": 479554,
+  "supports": [
+   "perturbation_evidence",
+   "natural_knockouts_dosage"
+  ]
  }
 ]

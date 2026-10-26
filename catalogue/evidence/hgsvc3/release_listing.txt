@@ -1,0 +1,13 @@
+ 
+ Index of /vol1/ftp/data_collections/HGSVC3/release 
+ Index of /vol1/ftp/data_collections/HGSVC3/release 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ Assembly_Info/ 2025-01-08 17:16 -   
+ Centromeres/ 2024-09-20 09:08 -   
+ Genotyping_1kGP/ 2025-01-06 17:01 -   
+ Graph_Genomes/ 2024-09-23 16:18 -   
+ Mobile_Elements/ 2024-12-18 15:39 -   
+ Segmental_Duplications/ 2024-09-23 10:57 -   
+ Variant_Calls/ 2024-09-18 09:29 -   
+ chrY_analysis/ 2026-09-24 10:39 -   

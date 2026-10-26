@@ -1,0 +1,98 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "DAT",
+  "FASTA",
+  "TXT",
+  "XML"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "KIR allele name (for example KIR2DL1*0010101)",
+  "allele id (KIR00001)"
+ ],
+ "id": "ipd_kir",
+ "name": "IPD-KIR Database (killer-cell immunoglobulin-like receptor allele sequences)",
+ "categories": [
+  "complex_loci_callability"
+ ],
+ "maintainer": "Anthony Nolan Research Institute (IPD team) with EMBL-EBI",
+ "url": "https://www.ebi.ac.uk/ipd/kir/",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/ipd/kir/"
+ ],
+ "version": {
+  "value": "IPD-KIR 2.15.0 (Allelelist.txt header, dated 2025-12-10)",
+  "release_date": "2025-12-10",
+  "verified": "live"
+ },
+ "scope": "Named KIR alleles with genomic, nucleotide and protein sequences (kir.dat 35 MB, kir_gen.fasta, kir_nuc.fasta, kir_prot.fasta), allele lists, deleted alleles and alignments. The KIR region is highly polymorphic (GIAB README), so reference-based calls there need allele-aware handling.",
+ "variant_classes": [
+  "complex_locus",
+  "region_level"
+ ],
+ "mapping_methods": "Allele names follow the KIR nomenclature; the allele list maps ids to names.",
+ "quantitative": {
+  "summary": "n/a",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Creative Commons Attribution-NoDerivs: free to copy, distribute, display and make commercial use with credit by citing the maintainers; \"strongly opposed to the mirroring of the data contained on our sites\"; modified versions need permission (LICENCE.md, verified live).",
+  "redistribution": "Attribution required; mirroring is discouraged by the maintainers and modified versions need permission",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Irregular releases (2.15.0 in December 2025; allele lists of every earlier release are kept).",
+ "coverage_limitations": [
+  "Allele sequences and nomenclature only: no frequencies, associations or functional data",
+  "Gene-content haplotypes of the KIR region are not described here"
+ ],
+ "known_omissions": [
+  "Everything: the data are not mirrored here, following the maintainers' request"
+ ],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "Same terms and request as IPD-IMGT/HLA: no derivatives without permission and mirroring is discouraged. KIR allele sequences are used by reference; the GIAB KIR region and the RefSeq KIR gene models locate the region here."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP listing, LICENCE.md and the allele list head were read; nothing larger was downloaded."
+ },
+ "unverified_fields": [
+  "number of alleles in the release (only the list head was read)"
+ ],
+ "evidence": [
+  "ipd_kir/ftp_listing",
+  "ipd_kir/licence",
+  "ipd_kir/allelelist_head"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation",
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "haplotype_level",
+  "mechanism_evidence": [
+   {
+    "axis": "paralog_complex_locus",
+    "variant_classes": [
+     "complex_locus"
+    ],
+    "basis": "context",
+    "dimension": "complex_loci_callability",
+    "note": "named allele sequences for the KIR genes"
+   }
+  ],
+  "biological_context": "Curated sequences of named KIR alleles from submitted samples; the genes are highly similar to each other and differ in presence between individuals.",
+  "evidence_strength": "Curated sequence records; completeness differs per allele.",
+  "mechanistic_confidence": "Not applicable. It names and sequences alleles and asserts no functional or clinical effect.",
+  "phenotype_implication": "None: sequences carry no phenotype information.",
+  "absence_means": "An allele that is not listed has not been submitted and named. Absence of a KIR gene in a person is a real polymorphism and not a gap in the database.",
+  "overlaps_with_sources": []
+ }
+}

@@ -1,0 +1,125 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "web application (R Shiny)"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "variant coordinates",
+  "disease",
+  "cell line"
+ ],
+ "id": "mpravardb",
+ "name": "MPRAVarDB: massively parallel reporter assay variant database",
+ "categories": [
+  "direct_experimental_variant_effects",
+  "regulation_expression_splicing"
+ ],
+ "maintainer": "Department of Biostatistics, University of Florida",
+ "url": "https://mpravardb.rc.ufl.edu/",
+ "provenance": [
+  "https://mpravardb.rc.ufl.edu/"
+ ],
+ "version": {
+  "value": "Not stated on the home page",
+  "release_date": "unknown",
+  "verified": "unverified"
+ },
+ "scope": "A web database of regulatory effects of genetic variants measured by 18 MPRA experiments in GWAS loci, eQTLs and other genomic features: 242,818 variants tested across 32 cell lines and 37 diseases, queryable by region, disease and cell line, with pretrained models for regulatory causal variants. The application offers a \"Download All MPRA Data\" button that is part of an interactive session; no static file URL was found.",
+ "variant_classes": [
+  "snv",
+  "indel",
+  "region_level"
+ ],
+ "mapping_methods": "Variants are given with genomic coordinates; the assembly is not stated on the home page.",
+ "quantitative": {
+  "summary": "MPRA activity and allelic effect per variant (details not read).",
+  "units": "unverified",
+  "uncertainty": "unverified",
+  "direction": "unverified"
+ },
+ "licence": {
+  "name": "Not stated on the pages read.",
+  "redistribution": "Unknown",
+  "access": "unverified",
+  "verified": "unverified"
+ },
+ "update_frequency": "Unknown.",
+ "coverage_limitations": [
+  "Only 18 MPRA experiments; coverage of GWAS loci is limited to those experiments",
+  "Assay context is a cell line with an episomal reporter"
+ ],
+ "known_omissions": [
+  "No data fetched: licence and assembly are unstated and the download is interactive"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "A compilation of published MPRA studies, several of which are expected in MaveDB (which names MPRA among its assay types). Fetch the data only after the licence and genome build are confirmed and overlap with MaveDB MPRA score sets is matched by publication."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "Home page read; the data are behind an interactive application."
+ },
+ "unverified_fields": [
+  "licence",
+  "version",
+  "genome build",
+  "scale and direction of the effect measure"
+ ],
+ "evidence": [
+  "mpravardb/home"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "direct_experimental",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "direct",
+    "dimension": "direct_experimental_variant_effects",
+    "note": "MPRA allelic regulatory activity"
+   },
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "snv"
+    ],
+    "basis": "direct",
+    "dimension": "regulation_expression_splicing",
+    "note": "variants at GWAS loci and eQTLs"
+   }
+  ],
+  "components": [
+   {
+    "name": "published MPRA measurements, collected",
+    "evidence_kind": [
+     "direct_experimental"
+    ],
+    "allele_resolution": "allele_specific",
+    "origin": "external: the original MPRA studies"
+   }
+  ],
+  "biological_context": "Reporter-assay measurements of variant sequences in cultured cell lines; the regulatory effect is that of the sequence in an episomal reporter, outside its native chromatin context.",
+  "evidence_strength": "Direct allele-specific measurements compiled from studies; the quality control differs between studies. Details of the stored measure were not read.",
+  "mechanistic_confidence": "Moderate for regulatory activity of the tested sequence in the tested cell line; it does not show the effect at the native locus, in other cell types or on a target gene.",
+  "phenotype_implication": "A molecular phenotype (reporter activity); the disease label names the GWAS trait of the tested locus and is not a measured phenotype.",
+  "absence_means": "A variant that was not tested has no data; an untested cell type or state is unknown, and a variant with no effect in one cell line may act in another.",
+  "overlaps_with_sources": [
+   {
+    "source": "mavedb",
+    "relation": "independent_related",
+    "note": "MaveDB holds MPRA score sets; the same experiment can appear in both and should be counted once"
+   }
+  ]
+ }
+}

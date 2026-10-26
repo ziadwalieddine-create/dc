@@ -1,0 +1,140 @@
+{
+ "id": "giab_stratifications",
+ "name": "GIAB genome stratifications v3.6 (GRCh38): difficult and complex regions",
+ "categories": [
+  "complex_loci_callability"
+ ],
+ "maintainer": "NIST Genome in a Bottle Consortium with the GA4GH Benchmarking Team and the Telomere-to-Telomere Consortium",
+ "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/",
+ "provenance": [
+  "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/",
+  "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/"
+ ],
+ "version": {
+  "value": "v3.6 (directory listed 2025-04-25; GRCh38 files dated 2025-04-24)",
+  "release_date": "2025-04-25",
+  "verified": "live"
+ },
+ "scope": "BED stratifications of the GRCh38 reference into regions where variant calling or interpretation is difficult: low mappability, segmental duplications, tandem repeats and satellites, reference gaps, falsely duplicated and collapsed regions, regions of copy-number variation that cause false-positive calls, the MHC, KIR and VDJ loci, extreme-GC promoters, and the union of all difficult regions, with sex-chromosome regions. The GRCh38 set lists 189 stratification files; 23 BED files that bear on complex loci are mirrored with the set's README, background, file list and checksum list.",
+ "variant_classes": [
+  "region_level",
+  "complex_locus"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "BED (gzip)",
+  "TSV",
+  "Markdown"
+ ],
+ "identifiers": [
+  "UCSC-style chromosome names (chr1 to chrY)"
+ ],
+ "mapping_methods": "0-based half-open BED intervals on the GRCh38 primary-assembly chromosomes named chr1 to chrY; the names equal the UCSC-style names of the RefSeq assembly report, which is how they are joined to the 1, 2, X naming of ClinVar, gnomAD and Ensembl.",
+ "quantitative": {
+  "summary": "Region membership only.",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "\"Publicly released data are freely available for reuse without embargo\" (BACKGROUND file of the GRCh38 set, verified live); no formal licence identifier is given.",
+  "redistribution": "Free to reuse; the README files carry the citations that the maintainers request",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "New versions every few months to a year (the listing shows v2.0 in 2020-03 through v3.6 in 2025-04).",
+ "coverage_limitations": [
+  "Stratifications describe where benchmark variant calls are difficult; they do not say whether a particular call is right or wrong",
+  "Intervals exist only on the GRCh38 primary-assembly chromosomes; a variant on an alternate or patch scaffold has no stratification here",
+  "Mappability regions are defined for short-read mapping (README)"
+ ],
+ "known_omissions": [
+  "The GRCh37, CHM13 and HG002 haplotype sets, the bigBED versions, and the Ancestry, GC-content, functional and genome-specific (HG001 to HG007) stratifications are not fetched",
+  "Of the 189 GRCh38 files, the remaining low-complexity (homopolymer, simple-repeat) and mappability files are not fetched",
+  "The GIAB benchmark call sets (truth variants) are not fetched"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Before a call in a duplicated, polymorphic or low-mappability region is interpreted, the region has to be recognised; the maintained GA4GH/GIAB stratifications are the community standard for this and are small (23 files, a few MB each), so building own masks would repeat established work."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP directory with an MD5 list; all downloaded files verified against it. The set README says the files were developed with GA4GH and the T2T Consortium."
+ },
+ "unverified_fields": [
+  "how each individual stratification was derived (only the category summaries of the README were read)"
+ ],
+ "evidence": [
+  "giab/stratifications_listing",
+  "giab/stratifications_v3_6_listing",
+  "giab/v3_6_readme",
+  "giab/grch38_readme",
+  "giab/grch38_background",
+  "giab/grch38_stratifications_tsv"
+ ],
+ "acquisition_targets": [
+  "giab_v3_6_grch38_readme",
+  "giab_v3_6_grch38_background",
+  "giab_v3_6_grch38_stratification_list",
+  "giab_v3_6_grch38_md5s",
+  "giab_v3_6_grch38_alldifficultregions",
+  "giab_v3_6_grch38_alllowmapandsegdupregions",
+  "giab_v3_6_grch38_lowmappabilityall",
+  "giab_v3_6_grch38_segdups",
+  "giab_v3_6_grch38_segdups_gt10kb",
+  "giab_v3_6_grch38_mhc",
+  "giab_v3_6_grch38_kir",
+  "giab_v3_6_grch38_vdj",
+  "giab_v3_6_grch38_false_duplications_correct_copy",
+  "giab_v3_6_grch38_false_duplications_incorrect_copy",
+  "giab_v3_6_grch38_collapsed_duplication_fp_regions",
+  "giab_v3_6_grch38_population_cnv_fp_regions",
+  "giab_v3_6_grch38_l1h_gt500",
+  "giab_v3_6_grch38_gaps_slop15kb",
+  "giab_v3_6_grch38_allotherdifficultregions",
+  "giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes",
+  "giab_v3_6_grch38_badpromoters",
+  "giab_v3_6_grch38_alltandemrepeats",
+  "giab_v3_6_grch38_satellites_slop5",
+  "giab_v3_6_grch38_chrx_par",
+  "giab_v3_6_grch38_chry_par",
+  "giab_v3_6_grch38_chrx_xtr",
+  "giab_v3_6_grch38_chrx_ampliconic"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "paralog_complex_locus",
+    "variant_classes": [
+     "complex_locus",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "complex_loci_callability",
+    "note": "segmental duplications, falsely duplicated and collapsed regions, MHC, KIR and VDJ loci"
+   },
+   {
+    "axis": "repeat_expansion",
+    "variant_classes": [
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "complex_loci_callability",
+    "note": "tandem-repeat, satellite and homopolymer regions where small-variant calls are unreliable"
+   }
+  ],
+  "biological_context": "Regions defined from reference-sequence features and read mappability, not from the biology of any sample: segmental duplications and paralogous regions, highly polymorphic immune loci (MHC, KIR, VDJ), falsely duplicated or collapsed reference regions, tandem repeats and reference gaps.",
+  "evidence_strength": "Region annotations from the GIAB and GA4GH benchmarking effort. Membership of a region is a property of the reference and of short-read mappability, not a measurement of any variant call.",
+  "mechanistic_confidence": "Not applicable to mechanism. A region flag says a call there is less reliable or that a paralog may be involved; it cannot separate a true variant from a mis-mapped paralogous sequence variant.",
+  "phenotype_implication": "None: region membership carries no phenotype information.",
+  "absence_means": "A position outside every listed region is not guaranteed to be reliably callable: the sets stratify benchmark performance and do not certify individual calls. A call inside a region must not be discarded or trusted on that basis alone.",
+  "overlaps_with_sources": []
+ }
+}

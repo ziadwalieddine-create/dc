@@ -1,0 +1,10 @@
+ 
+ Features: 
+ Search TRs by genomic intervals, genes, observed polymorphism rates, variation clusters, and other attributes 
+ Export search results to BED, TSV, JSON or to the specific formats used as input to various TR genotyping tools 
+ Use IGV.js to explore more than 10 recently-published or widely-used TR catalogs alongside other reference tracks 
+ TRExplorer is a companion resource to the manuscript: 
+ Defining a tandem repeat catalog and variation clusters for genome-wide analyses and population databases 
+ Ben Weisburd, Egor Dolzhenko, Mark F. Bennett, Matt C. Danzi, Adam English, Laurel Hiatt, Hope Tanudisastro, Nehir Edibe Kurtas, Helyaneh Ziaei Jam, Harrison Brand, Fritz J. Sedlazeck, Melissa Gymrek, Harriet Dashnow, Michael A. Eberle, Heidi L. Rehm 
+ Preprint: bioRxiv 2024.10.04.615514 
+ Journal: AJHG 2026 

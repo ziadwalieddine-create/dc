@@ -1,0 +1,77 @@
+ 
+ Q1:   How do I use TRExplorer? 
+ Q2:   What datasets are included in TRExplorer? 
+ Q3:   Why do many TR loci have population allele frequencies from some datasets but not from others? 
+ Q4:   How do I interpret differences in allele distributions across datasets? 
+ Q5:   How do I interpret the (O/E) constraint percentile score? 
+ Q6:   How do I use the VC, mappability, and nearby TR annotations? 
+ Q7:   How do I cite TRExplorer? 
+ Q8:   Can I contribute data to TRExplorer? 
+ Q1: How do I use TRExplorer? 
+TRExplorer is similar to the gnomAD browser, but for tandem repeats (TRs). It allows users to search for TRs by their genomic intervals, 
+gene names, gene regions, motifs, and other properties. Then, it displays TR allele size distributions, constraint metrics, and many other annotations 
+based on different short read and long read datasets (see Q2 for details). 
+ Example use cases: 
+ Example #1 
+ View a table of all STR and VNTR loci in the CACNA1C gene, sorted by motif size 
+ Example #2 
+ View a table of all coding CAG loci throughout the genome, sorted by their degree of polymorphism in 100 long read genomes from the HPRC, then export them to an ExpansionHunter catalog by selecting Export To: ExpansionHunter 
+ Example #3 
+ See other TR loci and sequence context around the NOTCH2NLC disease-associated locus in IGV.js, along with the segmental duplications and mappability tracks in IGV.js 
+ Q2: What datasets are included in TRExplorer? 
+ Population allele frequencies are currently available from the following short read, long read, and assembly-based datasets: 
+ Assembly-based datasets 
+ Telomere-to-Telomere [ T2T ]: 78 diploid T2T assembly-to-hg38 alignments, genotyped using Dipcall v0.3. 
+ Long-read datasets 
+ All of Us project [ AoU1027:LPS ]: 1,027 PacBio HiFi genomes from African American participants, mean depth 8x, genotyped with TRGT v1.1.1 followed by LPS (longest pure segment) computation to derive repeat counts at each locus. 
+ Human Pangenome Reference Consortium [ HPRC256:LPS ]: 256 PacBio HiFi genomes, mean depth of 30x, genotyped using TRGT-LPS v0.8. 
+ Human Pangenome Reference Consortium [ HPRC256:Length ]: the same 256 genomes and TRGT calls, but using the total length of each allele (the TRGT allele length divided by the motif length, rounded down) instead of its longest pure segment. For a locus in a variation cluster, the total length of the whole cluster is used. 
+ Short-read datasets 
+ TenK10K Phase 1 [ 10k10k ]: 1,925 Illumina (150 bp paired end sequencing; 30x mean coverage; aligned to hg38) genomes from European ancestry individuals, genotyped with ExpansionHunter v5. 
+ 1000 Genomes Project [ 1KGP ]: 2,504 Illumina genomes from individuals of diverse ancestry, characterized with STR-Finder as described in the Illumina STR generation docs . 
+ Q3: Why do many TR loci have population allele frequencies from some datasets but not from others? 
+Tandem repeat (TR) genotyping depends on the catalog used - that is, most short-read and long-read TR genotyping tools 
+require the user to specify the list (aka. catalog) of loci to genotype - including their exact genomic coordinates and repeat motifs. 
+The different datasets in TRExplorer were generated at different times by different groups, and were genotyped using different subsets of loci. 
+That being said, we made sure to only include datasets in TRExplorer if they were genotyped using the same, or compatible locus 
+definitions (ie. start and end coordinates and motifs).
+ Q4: How do I interpret differences in allele distributions across datasets? 
+Differences in tandem repeat (TR) allele distributions between datasets can arise from a variety of technical and biological factors, including but not limited to: 
+ Ancestry: TRs are among the most mutable elements in the genome and have been demonstrated to exhibit population-specific variation 
+[ Jam et al. 2023 ]. 
+ Sequencing modality: Datasets generated with long-read sequencing yield more accurate TR genotypes, especially for longer or more complex repeats. 
+In contrast, short-read sequencing may produce less precise genotypes, particularly for alleles that exceed the read length. 
+ Coverage: Higher sequencing depth generally improves genotyping accuracy. In low-coverage datasets, some alleles, especially 
+rare or longer alleles, may be underrepresented or missed entirely due to stochastic sampling. 
+ Genotyping tool and reference catalog: TR genotyping algorithms differ in how they model repeats and handle alignment artifacts. Additionally, 
+not all datasets are genotyped using the same representation of the TR catalog, which may lead to differences in the way alleles are reported. 
+ Q5: How do I interpret the (O/E) constraint percentile score? 
+The (O/E) constraint percentile reflects how much observed variation in a tandem repeat (TR) differs from the expectation under neutral selection.
+[ Danzi et al. 2025 ] defines observed-to-expected (O/E) constraint as the ratio of observed variability in longest pure segment (LPS) length to the expected variability, 
+based on sequence context. These expectations are predicted using a deep learning model trained on TRs more than 10kb away from the nearest gene, which are presumably 
+mostly under neutral selection. Unlike genic constraint models, which focus primarily on identifying loci under purifying selection, TR constraint captures both ends 
+of the evolutionary spectrum: 
+ Low O/E values (constrained): 
+TRs with less variability than expected may be functionally important and under negative selection. For example, repeats in coding regions where expansion or contraction 
+could disrupt protein structure or dosage. 
+ High O/E values (excess variation): 
+TRs with greater variability than expected may reflect positive selection, recent evolutionary origin, or genomic instability. Notably, many known pathogenic TRs 
+(those causing repeat expansion disorders) fall into this high-variance category. 
+The percentile score contextualizes this measure across the genome to help prioritize loci for follow-up.
+ Q6: How do I use the VC, mappability, and nearby TR annotations? 
+These annotations provide important context about the genomic context of a tandem repeat (TR) locus and can inform interpretation of genotyping accuracy and biological relevance. 
+ Variation cluster (VC): As described in [ Weisburd, Dolzhenko et al., 2026 ], variation clusters represent broader polymorphic regions composed of adjacent or overlapping TRs 
+and possibly other variation. If a TR is flagged as part of a VC, we recommend reviewing neighboring TRs in the same cluster, as the region may harbor complex or composite repeat structures. 
+ Nearby TRs: This flag indicates whether a given locus is located within a dense region of adjacent TRs. Loci in TR-dense regions may be prone to ambiguous alignments or 
+compound variation patterns that may impact analysis accuracy and interpretation. 
+ Low mappability: TRs with low sequence mappability may be difficult to genotype accurately using short-read sequencing due to read alignment uncertainty.
+In combination, these annotations can help flag loci that may be challenging to resolve with short reads, and highlight regions where long-read data or broader contextual analysis 
+may be warranted. 
+ Q7: How do I cite TRExplorer? 
+If you use TRExplorer in your work, please cite the following publication: 
+ Weisburd B, Dolzhenko E, Bennett MF, Danzi MC, English A, Hiatt L, Tanudisastro H, Kurtas NE, Jam HZ, Brand H, Sedlazeck FJ, Gymrek M, Dashnow H, Eberle MA, Rehm HL.
+ Defining a tandem repeat catalog and variation clusters for genome-wide analyses and population databases. 
+ AJHG 2026 
+ Q8: Can I contribute data to TRExplorer? 
+If you are interested in contributing tandem repeat genotypes or annotations to the TRExplorer resource, please email
+ weisburd @ broadinstitute.org 

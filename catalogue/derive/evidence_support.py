@@ -204,7 +204,7 @@ def main():
                     miss.append(f'{v:g} {u}')
             miss += [f'{k / 1000:g}k' for k in ks if not thousand_supported(cints, int(k))]
             if miss:
-                if field.split('.')[0].split('[')[0] in exempt or re.search(r'unverified|not retrieved', text):
+                if field.split('.')[0].split('[')[0] in exempt or re.search(r'unverified|not retrieved|not read|not examined', text):
                     exempt_items += 1
                     continue
                 flagged_items += 1

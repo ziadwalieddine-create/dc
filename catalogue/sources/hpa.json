@@ -1,0 +1,118 @@
+{
+ "id": "hpa",
+ "name": "Human Protein Atlas v25.1: tissue and cell-type RNA expression and protein subcellular location",
+ "categories": [
+  "regulation_expression_splicing",
+  "protein_structure_function"
+ ],
+ "maintainer": "The Human Protein Atlas consortium (Science for Life Laboratory, Sweden)",
+ "url": "https://www.proteinatlas.org/",
+ "provenance": [
+  "https://www.proteinatlas.org/about/download",
+  "https://www.proteinatlas.org/about/licence",
+  "https://www.proteinatlas.org/download/tsv/"
+ ],
+ "version": {
+  "value": "Human Protein Atlas version 25.1 (the download page names the version; the URLs serve the current release); files dated 2025-11-06 and 2025-12-12",
+  "release_date": "2025-12-12",
+  "verified": "live"
+ },
+ "scope": "Three gene-level tables of the atlas: consensus RNA expression (nTPM) in 51 tissues for 20,162 genes; RNA expression (nCPM) of the same genes in 154 single-cell types; and the subcellular location of proteins for 13,603 genes with a reliability category (Enhanced, Supported, Approved, Uncertain). The atlas also holds antibody-based tissue and cancer protein data, mass-spectrometry, blood, brain, cell-line and interaction data that are not fetched.",
+ "variant_classes": [
+  "gene_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "TSV (zip)"
+ ],
+ "identifiers": [
+  "Ensembl gene id (ENSG)",
+  "gene symbol"
+ ],
+ "mapping_methods": "Rows are keyed by Ensembl gene id without a version, so they join to the MANE summary, the Ensembl annotation and Open Targets after stripping versions elsewhere.",
+ "quantitative": {
+  "summary": "Normalised RNA expression per gene and tissue or cell type (nTPM, nCPM) and categorical protein-location reliability.",
+  "units": "nTPM; nCPM",
+  "uncertainty": "none per value; reliability category for locations",
+  "direction": "higher = more expression"
+ },
+ "licence": {
+  "name": "Creative Commons Attribution 4.0 International for all copyrightable parts of the Human Protein Atlas; data subject to third-party constraints may also be included, and the licence page lists external sources with other licences (HPA licence and citation page, verified live).",
+  "redistribution": "Attribution required; check the third-party licences listed on the HPA page before redistributing derived tables",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Annual versions (the release history is linked from the download page).",
+ "coverage_limitations": [
+  "Gene-level summaries: no allele-specific or isoform-resolved information",
+  "The consensus tissue table has 1,026,292 gene-tissue values for 20,162 genes and 51 tissues (0.998 of all pairs); absent pairs are absent, not zero",
+  "Bulk-tissue values average over the cell types present; the single-cell-type table is the cell-resolved view"
+ ],
+ "known_omissions": [
+  "The antibody-based protein expression, pathology, blood, brain-region, cell-line, immune-cell, mass-spectrometry and interaction tables, and the full proteinatlas.tsv/json/xml summaries, are not fetched",
+  "The separate HPA-only and GTEx-only RNA tables are not fetched; the GTEx expression files are held through the gtex source"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Tissue and cell-type specificity of gene expression decides whether a regulatory or loss-of-function mechanism is plausible in a tissue of interest, and subcellular location bears on protein-level mechanisms. The three tables are small (22 MB) and fill the cell-type-resolved and protein-localisation gaps that GTEx bulk tissue and Open Targets baseline expression leave."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Plain HTTPS downloads; no checksum is published, so size and SHA-256 are pinned. The URLs always serve the current release."
+ },
+ "unverified_fields": [
+  "how the consensus expression levels are computed (the page lists the HPA, GTEx and consensus RNA datasets separately; the combination method was not read)",
+  "licences of the external sources that the licence page lists"
+ ],
+ "evidence": [
+  "hpa/download",
+  "hpa/licence"
+ ],
+ "acquisition_targets": [
+  "hpa_v25_1_rna_tissue_consensus",
+  "hpa_v25_1_rna_single_cell_type",
+  "hpa_v25_1_subcellular_location"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "experimental_annotation",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "transcription_regulation",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "context",
+    "dimension": "regulation_expression_splicing",
+    "note": "tissue and cell-type resolved RNA expression of the gene"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "context",
+    "dimension": "protein_structure_function",
+    "note": "subcellular location of the protein"
+   }
+  ],
+  "biological_context": "RNA sequencing of tissues and single-cell types, normalised per gene, and protein localisation by immunofluorescence imaging of cultured cell lines (the download page lists the image-based location data). Expression is a property of the sampled tissue or cell type and its donors.",
+  "evidence_strength": "Measured expression and localisation summarised per gene; reliability categories grade the localisation evidence. The consensus RNA table combines datasets (see unverified fields), so it is not independent of GTEx.",
+  "mechanistic_confidence": "Low. It shows where a gene is expressed or its protein found, which bears on whether a tissue-specific regulatory or loss-of-function mechanism is plausible; it says nothing about the effect of any allele.",
+  "phenotype_implication": "None directly; tissue specificity informs which tissues could manifest an effect.",
+  "absence_means": "A gene without a value in a tissue or cell type is not shown to be silent there: detection limits, dilution in bulk tissue and tissues or states that were not sampled apply. A gene absent from the localisation table was not localised (13,603 genes), not shown to be non-localised.",
+  "overlaps_with_sources": [
+   {
+    "source": "gtex",
+    "relation": "aggregates",
+    "note": "the consensus tissue RNA table is described on the download page beside separate HPA and GTEx RNA tables; do not count GTEx expression twice (the combination method was not read)"
+   }
+  ]
+ }
+}

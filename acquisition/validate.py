@@ -1012,6 +1012,525 @@ def v_json(tid, r, min_len=1):
     return d
 
 
+# --- RefSeq GRCh38.p14, GIAB v3.6 stratifications, ProteinGym v1.3 ----------------------------------------------------
+RS_REPORT = 'refseq_grch38p14_assembly_report'
+RS_HEADER = ['Sequence-Name', 'Sequence-Role', 'Assigned-Molecule', 'Assigned-Molecule-Location/Type', 'GenBank-Accn', 'Relationship', 'RefSeq-Accn', 'Assembly-Unit', 'Sequence-Length', 'UCSC-style-name']
+RS_ACC = re.compile(r'^(NC|NT|NW)_\d+\.\d+$')
+PRIMARY_CHROMS = [str(i) for i in range(1, 23)] + ['X', 'Y']
+
+
+def refseq_report(p):
+    """(metadata, column names, rows) of an NCBI assembly report; the UCSC-style names and RefSeq accessions are the join keys used elsewhere."""
+    meta, hdr, rows = {}, None, []
+    with open(p, encoding='utf-8') as f:
+        for l in f:
+            l = l.rstrip('\n')
+            if l.startswith('# Sequence-Name'):
+                hdr = l[2:].split('\t')
+            elif l.startswith('#'):
+                if not l.startswith('##') and ':' in l:
+                    k, _, v = l[1:].partition(':')
+                    meta[k.strip()] = v.strip()
+            elif l:
+                rows.append(l.split('\t'))
+    return meta, hdr, rows
+
+
+def ucsc_lengths():
+    """UCSC-style sequence name -> length, from the RefSeq assembly report (the bridge between GIAB's chr1 naming and the RefSeq and Ensembl naming)."""
+    meta, hdr, rows = refseq_report(path(RS_REPORT))
+    return {x[9]: int(x[8]) for x in rows if x[9] != 'na'}
+
+
+def commented_table(p, header_start):
+    """Column names from the commented header line starting with header_start, and the data rows of a '#'-commented TSV."""
+    hdr, rows = None, []
+    with open(p, encoding='utf-8') as f:
+        for l in f:
+            l = l.rstrip('\n')
+            if l.startswith(header_start):
+                hdr = l.lstrip('#').strip().split('\t')
+            elif l and not l.startswith('#'):
+                rows.append(l.split('\t'))
+    return hdr, rows
+
+
+def v_refseq(tid, r):
+    p = path(tid)
+    if tid == RS_REPORT:
+        meta, hdr, rows = refseq_report(p)
+        r.check('column header', hdr == RS_HEADER, hdr)
+        r.check('GRCh38.p14, GCF_000001405.40', meta.get('Assembly name') == 'GRCh38.p14' and meta.get('RefSeq assembly accession') == 'GCF_000001405.40', {k: meta.get(k) for k in ('Assembly name', 'RefSeq assembly accession')})
+        r.check('every row has 10 columns', all(len(x) == 10 for x in rows), len(rows))
+        roles = collections.Counter(x[1] for x in rows)
+        r.check('sequence roles are the known set', set(roles) <= {'assembled-molecule', 'alt-scaffold', 'fix-patch', 'novel-patch', 'unlocalized-scaffold', 'unplaced-scaffold'}, dict(roles))
+        chrom = {x[0]: x for x in rows if x[1] == 'assembled-molecule' and x[3] == 'Chromosome'}
+        r.check('chromosomes 1-22, X and Y are assembled molecules', set(PRIMARY_CHROMS) <= set(chrom), sorted(chrom))
+        c1 = chrom.get('1', [''] * 10)
+        r.check('chromosome 1 is NC_000001.11, 248,956,422 bases, named chr1', c1[6] == 'NC_000001.11' and c1[8] == '248956422' and c1[9] == 'chr1', c1)
+        have = [x for x in rows if x[6] != 'na']
+        r.check('RefSeq accessions have NC_, NT_ or NW_ form (a few GenBank-only sequences have none)', all(RS_ACC.match(x[6]) for x in have) and len(rows) - len(have) <= 10, [x[6] for x in have if not RS_ACC.match(x[6])][:5])
+        r.check('RefSeq accessions are unique', len({x[6] for x in have}) == len(have), len(have))
+        r.check('lengths are positive integers', all(x[8].isdigit() and int(x[8]) > 0 for x in rows))
+        mt = [x for x in rows if x[3] == 'Mitochondrion']
+        r.check('mitochondrial genome NC_012920.1 (16,569 bases) present', any(x[6] == 'NC_012920.1' and x[8] == '16569' for x in mt), [x[6] for x in mt])
+        r.stats.update(rows=len(rows), roles=dict(roles), primary_chromosomes=len(chrom), mitochondrion=len(mt), without_refseq_accession=len(rows) - len(have))
+    elif tid == 'refseq_grch38p14_assembly_regions':
+        hdr, rows = commented_table(p, '# Region-Name')
+        r.check('column header', hdr == ['Region-Name', 'Chromosome', 'Chromosome-Start', 'Chromosome-Stop', 'Scaffold-Role', 'Scaffold-GenBank-Accn', 'Scaffold-RefSeq-Accn', 'Assembly-Unit'], hdr)
+        r.check('every row has 8 columns', all(len(x) == 8 for x in rows), len(rows))
+        names = {x[0] for x in refseq_report(path(RS_REPORT))[2]}
+        offchrom = [x[1] for x in rows if x[1] not in PRIMARY_CHROMS]
+        r.check('chromosome is 1-22, X or Y, or (alternate loci placed on another alternate scaffold) a sequence of the assembly report', all(c in names for c in offchrom), offchrom[:5])
+        r.check('start < stop', all(x[2].isdigit() and x[3].isdigit() and int(x[2]) < int(x[3]) for x in rows))
+        roles = collections.Counter(x[4] for x in rows)
+        r.check('roles are alt-scaffold, fix-patch, novel-patch, or the unplaced region types CEN, HET, PAR and na', set(roles) <= {'alt-scaffold', 'fix-patch', 'novel-patch', 'CEN', 'HET', 'PAR', 'na'}, dict(roles))
+        sc = [x for x in rows if x[4] in ('alt-scaffold', 'fix-patch', 'novel-patch')]
+        r.check('scaffold RefSeq accessions have NT_ or NW_ form for scaffold regions and are na for the others', all(re.match(r'^N[TW]_\d+\.\d+$', x[6]) for x in sc) and all(x[6] == 'na' for x in rows if x not in sc), len(sc))
+        r.check('region rows > 400', len(rows) > 400, len(rows))
+        r.stats.update(rows=len(rows), regions=len({x[0] for x in rows}), roles=dict(roles), scaffold_rows=len(sc))
+    elif tid == 'refseq_grch38p14_alt_scaffold_placement':
+        with open(p, encoding='utf-8') as f:
+            rows = [l.rstrip('\n').split('\t') for l in f if l.strip()]
+        hdr, rows = rows[0], rows[1:]
+        want = ['#alt_asm_name', 'prim_asm_name', 'alt_scaf_name', 'alt_scaf_acc', 'parent_type', 'parent_name', 'parent_acc', 'region_name', 'ori', 'alt_scaf_start', 'alt_scaf_stop', 'parent_start', 'parent_stop', 'alt_start_tail', 'alt_stop_tail']
+        r.check('column header', hdr == want, hdr)
+        r.check('every row has 15 columns', all(len(x) == 15 for x in rows), len(rows))
+        r.check('parent types are CHROMOSOME or SCAFFOLD', {x[4] for x in rows} <= {'CHROMOSOME', 'SCAFFOLD'}, collections.Counter(x[4] for x in rows))
+        r.check('scaffold accessions have NT_ or NW_ form, parent accessions NC_, NT_ or NW_', all(re.match(r'^N[TW]_\d+\.\d+$', x[3]) and RS_ACC.match(x[6]) for x in rows))
+        r.check('coordinates are integers and start <= stop', all(x[9].isdigit() and x[10].isdigit() and x[11].isdigit() and x[12].isdigit() and int(x[9]) <= int(x[10]) and int(x[11]) <= int(x[12]) for x in rows))
+        r.check("orientation is '+', '-' or 'b' (mixed), as defined in the assembly_structure README", {x[8] for x in rows} <= {'+', '-', 'b'}, collections.Counter(x[8] for x in rows))
+        r.check('scaffold accessions are unique', len({x[3] for x in rows}) == len(rows), len(rows))
+        r.stats.update(rows=len(rows), assembly_units=dict(collections.Counter(x[0] for x in rows)), regions=len({x[7] for x in rows}), orientations=dict(collections.Counter(x[8] for x in rows)))
+    elif tid == 'refseq_grch38p14_feature_count':
+        hdr, rows = commented_table(p, '# Feature')
+        r.check('column header', hdr == ['Feature', 'Class', 'Full Assembly', 'Assembly-unit accession', 'Assembly-unit name', 'Unique Ids', 'Placements'], hdr)
+        r.check('every row has 7 columns', all(len(x) == 7 for x in rows), len(rows))
+        pc = next((x for x in rows if x[0] == 'gene' and x[1] == 'protein_coding' and x[4] == 'all'), None)
+        r.check('protein-coding genes (whole assembly) between 19,000 and 21,000', pc is not None and 19000 <= int(pc[5]) <= 21000, pc)
+        r.stats.update(rows=len(rows), protein_coding_genes=int(pc[5]) if pc else None)
+    elif tid == 'refseq_annotation_release_readme':
+        kv = {}
+        with open(p, encoding='utf-8') as f:
+            for l in f:
+                if ':\t' in l:
+                    k, _, v = l.rstrip('\n').partition(':\t')
+                    kv[k] = v
+        r.check('annotation release GCF_000001405.40-RS_2025_08', kv.get('ANNOTATION RELEASE NAME') == 'GCF_000001405.40-RS_2025_08', kv.get('ANNOTATION RELEASE NAME'))
+        r.check('assembly GRCh38.p14, GCF_000001405.40', kv.get('ASSEMBLY NAME') == 'GRCh38.p14' and kv.get('ASSEMBLY ACCESSION') == 'GCF_000001405.40')
+        r.check('provider NCBI RefSeq, taxid 9606', kv.get('ANNOTATION PROVIDER') == 'NCBI RefSeq' and kv.get('TAXID') == '9606')
+        r.stats.update({k.lower().replace(' ', '_'): kv.get(k) for k in ('ANNOTATION SOFTWARE VERSION', 'ANNOTATION EVIDENCE FREEZE DATE', 'ANNOTATION RELEASE DATE', 'NUMBER OF ASSEMBLY-UNITS')})
+    elif tid == 'refseq_grch38p14_genomic_gff':
+        meta, hdr, arows = refseq_report(path(RS_REPORT))
+        accs = {x[6] for x in arows}
+        head, types, unknown, bad, strands, nlines = [], collections.Counter(), collections.Counter(), 0, collections.Counter(), 0
+        ids, parents, genes_hgnc, geneids = set(), set(), 0, set()
+        with gzip.open(p, 'rt', encoding='utf-8') as f:
+            for l in f:
+                if l.startswith('#'):
+                    head.append(l.rstrip('\n'))
+                    continue
+                c = l.rstrip('\n').split('\t')
+                nlines += 1
+                if len(c) != 9 or not c[3].isdigit() or not c[4].isdigit() or int(c[3]) > int(c[4]) or c[6] not in '+-.':
+                    bad += 1
+                    continue
+                if c[0] not in accs:
+                    unknown[c[0]] += 1
+                types[c[2]] += 1
+                strands[c[6]] += 1
+                a = c[8]
+                if c[2] in ('exon', 'CDS'):
+                    m = re.search(r'Parent=([^;]+)', a)
+                    if m:
+                        parents.update(m.group(1).split(','))
+                else:
+                    m = re.search(r'(?:^|;)ID=([^;]+)', a)
+                    if m:
+                        ids.add(m.group(1))
+                    if c[2] in ('mRNA', 'transcript', 'lnc_RNA'):
+                        m = re.search(r'Parent=([^;]+)', a)
+                        if m:
+                            parents.update(m.group(1).split(','))
+                    if c[2] == 'gene':
+                        m = re.search(r'Dbxref=([^;]+)', a)
+                        if m:
+                            for x in m.group(1).split(','):
+                                if x.startswith('GeneID:'):
+                                    geneids.add(x)
+                            genes_hgnc += 'HGNC:HGNC:' in m.group(1)
+        r.check('GFF3 header names GRCh38.p14, GCF_000001405.40 and annotation release RS_2025_08', '##gff-version 3' in head and '#!genome-build GRCh38.p14' in head and '#!genome-build-accession NCBI_Assembly:GCF_000001405.40' in head and '#!annotation-source NCBI RefSeq GCF_000001405.40-RS_2025_08' in head, head[:6])
+        r.check('every feature line has 9 columns, integer start <= end and a strand', bad == 0, bad)
+        r.check('every sequence is in the assembly report', not unknown, dict(unknown.most_common(3)))
+        r.check('every Parent refers to a defined feature ID', parents <= ids, sorted(parents - ids)[:5])
+        fc = commented_table(path('refseq_grch38p14_feature_count'), '# Feature')[1]
+        placed = sum(int(x[6]) for x in fc if x[0] == 'gene' and x[4] == 'all')
+        r.check('gene and pseudogene features equal the gene placements of the feature-count file', types['gene'] + types['pseudogene'] == placed, (types['gene'] + types['pseudogene'], placed))
+        r.check('mRNA > 100,000, exon > 1,000,000, CDS > 1,000,000', types['mRNA'] > 100000 and types['exon'] > 1000000 and types['CDS'] > 1000000, {k: types[k] for k in ('mRNA', 'exon', 'CDS')})
+        r.stats.update(lines=nlines, feature_types=dict(types.most_common(12)), genes_with_geneid=len(geneids), genes_with_hgnc=genes_hgnc, strands=dict(strands))
+
+
+def v_giab(tid, r):
+    p = path(tid)
+    lst = 'giab_v3_6_grch38_stratification_list'
+    if tid == 'giab_v3_6_grch38_readme':
+        t = open(p, encoding='utf-8').read()
+        r.check('describes the GRCh38 stratifications', 'stratifications for the reference GRCh38' in t)
+        r.check('has the Segmental Duplications and Other Difficult sections', '## Segmental Duplications' in t and '## Other Difficult' in t)
+        r.stats['characters'] = len(t)
+    elif tid == 'giab_v3_6_grch38_background':
+        t = open(p, encoding='utf-8').read()
+        r.check('states the reuse condition', 'freely available for reuse without embargo' in t)
+        r.check('names the GIAB consortium', 'Genome in a Bottle' in t or 'GIAB' in t)
+        r.stats['characters'] = len(t)
+    elif tid == lst:
+        rows = [l.rstrip('\n').split('\t') for l in open(p, encoding='utf-8') if l.strip()]
+        r.check('two columns per row', all(len(x) == 2 for x in rows), len(rows))
+        r.check('paths are category/GRCh38_*.bed.gz', all(re.match(r'^[A-Za-z]+/GRCh38_.+\.bed\.gz$', x[1]) for x in rows))
+        r.check('names are unique', len({x[0] for x in rows}) == len(rows))
+        have = {x[1] for x in rows}
+        mine = [TARGETS[t]['url'].split('GRCh38@all/')[1] for t in TARGETS if t.startswith('giab_v3_6_grch38_') and TARGETS[t]['kind'] == 'bed.gz']
+        r.check('every downloaded stratification is in the list', all(m in have for m in mine), [m for m in mine if m not in have][:5])
+        r.check('list has > 150 stratifications', len(rows) > 150, len(rows))
+        r.stats.update(rows=len(rows), categories=dict(collections.Counter(x[1].split('/')[0] for x in rows)), downloaded=len(mine))
+    elif tid == 'giab_v3_6_grch38_md5s':
+        rows = [l.rstrip('\n').split('  ', 1) for l in open(p, encoding='utf-8') if l.strip()]
+        r.check('md5 and path per line', all(len(x) == 2 and re.match(r'^[0-9a-f]{32}$', x[0]) for x in rows), len(rows))
+        have = {x[1]: x[0] for x in rows}
+        mine = {TARGETS[t]['url'].split('GRCh38@all/')[1]: TARGETS[t].get('expected_md5') for t in TARGETS if t.startswith('giab_v3_6_grch38_') and TARGETS[t]['kind'] == 'bed.gz'}
+        r.check('the md5 pinned for each downloaded stratification equals the published list', all(have.get(k) == v for k, v in mine.items()), [k for k, v in mine.items() if have.get(k) != v][:5])
+        r.stats.update(rows=len(rows))
+    else:
+        lens = ucsc_lengths()
+        n = bases = bad = past = 0
+        chroms, overlap, unsorted, last = collections.Counter(), 0, 0, {}
+        with gzip.open(p, 'rt', encoding='utf-8') as f:
+            for l in f:
+                if not l.strip() or l.startswith(('#', 'track', 'browser')):
+                    continue
+                c = l.rstrip('\n').split('\t')
+                n += 1
+                if len(c) < 3 or not c[1].isdigit() or not c[2].isdigit() or int(c[1]) >= int(c[2]):
+                    bad += 1
+                    continue
+                s, e = int(c[1]), int(c[2])
+                if c[0] not in lens or e > lens[c[0]]:
+                    past += 1
+                chroms[c[0]] += 1
+                bases += e - s
+                if c[0] in last:
+                    unsorted += s < last[c[0]][0]
+                    overlap += s < last[c[0]][1]
+                last[c[0]] = (s, e)
+        r.check('every line is a BED interval with start < end', bad == 0, bad)
+        r.check('rows > 0', n > 0, n)
+        r.check('chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence', past == 0, past)
+        r.check('intervals are sorted by start within each chromosome', unsorted == 0, unsorted)
+        r.stats.update(rows=n, bases=bases, chromosomes=len(chroms), overlapping_neighbours=overlap)
+
+
+PG_COLS = ['mutant', 'mutated_sequence', 'DMS_score', 'DMS_score_bin']
+PG_TOKEN = re.compile(r'^([A-Z])(\d+)([A-Z])$')
+
+
+def v_proteingym(tid, r):
+    if tid.endswith('_reference'):
+        sub = 'indels' not in tid
+        rows = list(csv.DictReader(open(path(tid), encoding='utf-8')))
+        need = ['DMS_id', 'DMS_filename', 'UniProt_ID', 'taxon', 'target_seq', 'seq_len', 'DMS_total_number_mutants', 'DMS_binarization_cutoff', 'first_author', 'year', 'selection_type']
+        if sub:
+            need += ['includes_multiple_mutants', 'DMS_number_single_mutants', 'DMS_number_multiple_mutants']
+        r.check('required columns present', all(c in rows[0] for c in need), [c for c in need if c not in rows[0]])
+        r.check(f'assays equal the {217 if sub else 66} on the ProteinGym website', len(rows) == (217 if sub else 66), len(rows))
+        r.check('DMS_id and DMS_filename are unique', len({x['DMS_id'] for x in rows}) == len(rows) and len({x['DMS_filename'] for x in rows}) == len(rows))
+        r.check('target sequences are amino-acid strings whose length is seq_len', all(re.match(r'^[ACDEFGHIKLMNPQRSTVWYX]+$', x['target_seq']) and len(x['target_seq']) == int(x['seq_len']) for x in rows))
+        if sub:
+            r.check('single + multiple mutants = total, and includes_multiple_mutants agrees', all(int(x['DMS_number_single_mutants']) + int(x['DMS_number_multiple_mutants']) == int(x['DMS_total_number_mutants']) and (x['includes_multiple_mutants'].lower() == 'true') == (int(x['DMS_number_multiple_mutants']) > 0) for x in rows))
+        total = sum(int(x['DMS_total_number_mutants']) for x in rows)
+        r.stats.update(assays=len(rows), mutants=total, taxa=dict(collections.Counter(x['taxon'] for x in rows)), selection_types=dict(collections.Counter(x['selection_type'] for x in rows).most_common(8)))
+        return
+    sub = 'indels' not in tid
+    ref = list(csv.DictReader(open(path(tid + '_reference'), encoding='utf-8')))
+    prefix = 'DMS_ProteinGym_substitutions/' if sub else 'DMS_ProteinGym_indels/'
+    with zipfile.ZipFile(path(tid)) as z:
+        r.check('zip CRC test', z.testzip() is None)
+        members = {n for n in z.namelist() if n.endswith('.csv')}
+        r.check('one CSV per assay of the reference file', members == {prefix + x['DMS_filename'] for x in ref}, len(members))
+        counts, hdrs, wt_bad, seq_bad, fmt_bad, nonnum, binbad, rows_total, extra = 0, collections.Counter(), 0, 0, 0, 0, 0, 0, []
+        for x in ref:
+            rd = csv.DictReader(io.StringIO(z.read(prefix + x['DMS_filename']).decode('utf-8')))
+            hdrs[tuple(rd.fieldnames)] += 1
+            n, ts = 0, x['target_seq']
+            for row in rd:
+                n += 1
+                try:
+                    float(row['DMS_score'])
+                except (ValueError, KeyError):
+                    nonnum += 1
+                binbad += row.get('DMS_score_bin') not in ('0', '1')
+                if sub:
+                    s, ok = list(ts), True
+                    for tk in row['mutant'].split(':'):
+                        g = PG_TOKEN.match(tk)
+                        if not g:
+                            fmt_bad += 1
+                            ok = False
+                            break
+                        pos = int(g.group(2))
+                        if pos < 1 or pos > len(s) or s[pos - 1] != g.group(1):
+                            wt_bad += 1
+                            ok = False
+                            break
+                        s[pos - 1] = g.group(3)
+                    if ok and ''.join(s) != row['mutated_sequence']:
+                        seq_bad += 1
+                elif not re.match(r'^[A-Z]+$', row['mutated_sequence']):
+                    fmt_bad += 1
+            rows_total += n
+            if n != int(x['DMS_total_number_mutants']):
+                counts += 1
+        base_cols = set(PG_COLS if sub else PG_COLS[1:])
+        r.check('every assay file has the benchmark columns (extra columns are listed in the stats)', all(base_cols <= set(h) for h in hdrs), [h for h in hdrs if not base_cols <= set(h)])
+        r.check('rows per assay equal DMS_total_number_mutants of the reference file', counts == 0, counts)
+        r.check('DMS_score is numeric and DMS_score_bin is 0 or 1 in every row', nonnum == 0 and binbad == 0, (nonnum, binbad))
+        if sub:
+            r.check('every mutation token is wild-type, position, mutant', fmt_bad == 0, fmt_bad)
+            r.check('wild-type residue equals the target sequence at that position in every row', wt_bad == 0, wt_bad)
+            r.check('applying the mutations to the target sequence gives mutated_sequence in every row', seq_bad == 0, seq_bad)
+        else:
+            r.check('mutated_sequence is an amino-acid string in every row', fmt_bad == 0, fmt_bad)
+        r.stats.update(assays=len(ref), rows=rows_total, header_variants=[list(h) for h in hdrs], wild_type_mismatches=wt_bad, sequence_mismatches=seq_bad)
+
+
+# --- HPA v25.1, BioGRID interactions, HGSVC3 SV calls, CPIC API tables --------------------------------------------------
+ENSG_RE = re.compile(r'^ENSG\d{11}$')
+BIOGRID_HEADER = ['#BioGRID Interaction ID', 'Entrez Gene Interactor A', 'Entrez Gene Interactor B', 'BioGRID ID Interactor A', 'BioGRID ID Interactor B', 'Systematic Name Interactor A', 'Systematic Name Interactor B',
+                  'Official Symbol Interactor A', 'Official Symbol Interactor B', 'Synonyms Interactor A', 'Synonyms Interactor B', 'Experimental System', 'Experimental System Type', 'Author', 'Publication Source',
+                  'Organism ID Interactor A', 'Organism ID Interactor B', 'Throughput', 'Score', 'Modification', 'Qualifications', 'Tags', 'Source Database', 'SWISS-PROT Accessions Interactor A',
+                  'TREMBL Accessions Interactor A', 'REFSEQ Accessions Interactor A', 'SWISS-PROT Accessions Interactor B', 'TREMBL Accessions Interactor B', 'REFSEQ Accessions Interactor B',
+                  'Ontology Term IDs', 'Ontology Term Names', 'Ontology Term Categories', 'Ontology Term Qualifier IDs', 'Ontology Term Qualifier Names', 'Ontology Term Types', 'Organism Name Interactor A', 'Organism Name Interactor B']
+
+
+def v_hpa(tid, r):
+    names = v_zip(tid, r)
+    r.check('one TSV member', len(names) == 1 and names[0].endswith('.tsv'), names)
+    with zipfile.ZipFile(path(tid)) as z, z.open(names[0]) as f:
+        t = io.TextIOWrapper(f, encoding='utf-8')
+        hdr = t.readline().rstrip('\n').split('\t')
+        n, bad_gene, bad_num, genes, groups, pairs = 0, 0, 0, set(), set(), set()
+        reliab = collections.Counter()
+        for l in t:
+            p = l.rstrip('\n').split('\t')
+            n += 1
+            genes.add(p[0])
+            bad_gene += not ENSG_RE.match(p[0])
+            if 'consensus' in tid or 'single_cell' in tid:
+                groups.add(p[2])
+                pairs.add((p[0], p[2]))
+                try:
+                    bad_num += float(p[3]) < 0
+                except ValueError:
+                    bad_num += 1
+            else:
+                reliab[p[2]] += 1
+    if 'consensus' in tid:
+        r.check('columns Gene, Gene name, Tissue, nTPM', hdr == ['Gene', 'Gene name', 'Tissue', 'nTPM'], hdr)
+        r.check('20,162 genes and 51 consensus tissues, as stated on the HPA download page', len(genes) == 20162 and len(groups) == 51, (len(genes), len(groups)))
+        r.check('no repeated gene-tissue pair, and at least 99% of all gene-tissue pairs present', len(pairs) == n and n >= 0.99 * len(genes) * len(groups), (n, len(pairs), len(genes) * len(groups)))
+    elif 'single_cell' in tid:
+        r.check('columns Gene, Gene name, Cell type, nCPM', hdr == ['Gene', 'Gene name', 'Cell type', 'nCPM'], hdr)
+        r.check('20,162 genes, as stated on the HPA download page, and more than 100 cell types', len(genes) == 20162 and len(groups) > 100, (len(genes), len(groups)))
+        r.check('no repeated gene-cell-type pair, and at least 99% of all gene-cell-type pairs present', len(pairs) == n and n >= 0.99 * len(genes) * len(groups), (n, len(pairs), len(genes) * len(groups)))
+    else:
+        r.check('columns start Gene, Gene name, Reliability, Main location', hdr[:4] == ['Gene', 'Gene name', 'Reliability', 'Main location'], hdr[:5])
+        r.check('13,603 genes, as stated on the HPA download page', len(genes) == 13603 and n == 13603, (len(genes), n))
+        r.check('reliability is Enhanced, Supported, Approved or Uncertain', set(reliab) <= {'Enhanced', 'Supported', 'Approved', 'Uncertain'}, dict(reliab))
+    r.check('Gene is an Ensembl gene id in every row', bad_gene == 0, bad_gene)
+    r.check('expression values are non-negative numbers', bad_num == 0, bad_num)
+    r.stats.update(rows=n, genes=len(genes), groups=len(groups), reliability=dict(reliab) or None, grid_fraction=round(n / (len(genes) * len(groups)), 4) if groups else None)
+
+
+def v_biogrid(tid, r):
+    names = v_zip(tid, r)
+    versions = {m.group(1) for m in (re.match(r'^BIOGRID-ORGANISM-.+-(\d+\.\d+\.\d+)\.tab3\.txt$', n) for n in names) if m}
+    r.check('every member is BIOGRID-ORGANISM-<organism>-<version>.tab3.txt with one release number', len(versions) == 1 and all(n.endswith('.tab3.txt') for n in names), (sorted(versions), len(names)))
+    hs = [n for n in names if 'Homo_sapiens' in n]
+    r.check('a Homo sapiens member is present', len(hs) == 1, hs)
+    with zipfile.ZipFile(path(tid)) as z, z.open(hs[0]) as f:
+        t = io.TextIOWrapper(f, encoding='utf-8')
+        hdr = t.readline().rstrip('\n').split('\t')
+        r.check('37 documented columns', hdr == BIOGRID_HEADER, hdr[:5])
+        i = {c: hdr.index(c) for c in ('#BioGRID Interaction ID', 'Experimental System Type', 'Organism ID Interactor A', 'Organism ID Interactor B', 'Throughput', 'Publication Source', 'Official Symbol Interactor A', 'Experimental System')}
+        n = both = onehuman = 0
+        partner = collections.Counter()
+        types, system, thr, ids, pubs, short = collections.Counter(), collections.Counter(), collections.Counter(), set(), set(), 0
+        for l in t:
+            p = l.rstrip('\n').split('\t')
+            if len(p) != len(hdr):
+                short += 1
+                continue
+            n += 1
+            ids.add(p[i['#BioGRID Interaction ID']])
+            a, b = p[i['Organism ID Interactor A']], p[i['Organism ID Interactor B']]
+            both += a == b == '9606'
+            onehuman += '9606' in (a, b)
+            if a != b:
+                partner[b if a == '9606' else a] += 1
+            types[p[i['Experimental System Type']]] += 1
+            system[p[i['Experimental System']]] += 1
+            thr[p[i['Throughput']]] += 1
+            pubs.add(p[i['Publication Source']])
+    r.check('every row has 37 fields', short == 0, short)
+    r.check('interaction ids are unique', len(ids) == n, n)
+    r.check('every interaction has a human interactor, and at least 90% are human-human (the rest are host-pathogen and cross-species interactions)', onehuman == n and both / max(1, n) >= 0.90, (onehuman, both, n))
+    r.check('system type is physical or genetic', set(types) <= {'physical', 'genetic'}, dict(types))
+    r.check('more than 1,000,000 interactions and 15,000 genetic interactions', n > 1_000_000 and types['genetic'] > 15000, (n, dict(types)))
+    r.stats.update(release=sorted(versions)[0] if versions else None, organisms_in_archive=len(names), human_interactions=n, human_human=both, cross_species=n - both, cross_species_partner_taxa=dict(partner.most_common(6)), system_types=dict(types), throughput=dict(thr), publications=len(pubs), experimental_systems=len(system),
+                   genetic_systems=[k for k, _ in system.most_common(40) if k in ('Synthetic Lethality', 'Synthetic Rescue', 'Dosage Rescue', 'Dosage Lethality', 'Negative Genetic', 'Positive Genetic', 'Synthetic Growth Defect', 'Phenotypic Enhancement', 'Phenotypic Suppression')])
+
+
+def v_hgsvc3(tid, r):
+    p = path(tid)
+    if tid == 'hgsvc3_variant_calls_readme':
+        t = open(p, encoding='utf-8').read()
+        r.check('release 1.0, PAV, 65 phased genomes', '# Release 1.0 variant callset' in t and 'PAV' in t and '65 phased genomes' in t)
+        r.stats['characters'] = len(t)
+    elif tid == 'hgsvc3_variant_calls_manifest':
+        rows = [l.split() for l in open(p, encoding='utf-8') if l.strip()]
+        r.check('path, size and MD5 per line', all(len(x) == 3 and x[1].isdigit() and re.match(r'^[0-9a-f]{32}$', x[2]) for x in rows), len(rows))
+        have = {x[0].lstrip('./'): (int(x[1]), x[2]) for x in rows}
+        mine = {TARGETS[t]['url'].split('Variant_Calls/1.0/')[1]: (TARGETS[t]['expected_size'], TARGETS[t]['expected_md5']) for t in TARGETS if t.startswith('hgsvc3_') and TARGETS[t].get('expected_md5')}
+        r.check('size and MD5 of the downloaded VCF files equal their manifest entries', all(have.get(k) == v for k, v in mine.items()), [k for k, v in mine.items() if have.get(k) != v])
+        r.stats.update(rows=len(rows))
+    else:
+        want = 'INV' if '_inv_' in tid else None
+        lens = ucsc_lengths()
+        samples, n, bad_id, bad_len, bad_gt, past, bad_type, id_pos0 = 0, 0, 0, 0, 0, 0, 0, 0
+        types, info_keys, contigs, ids = collections.Counter(), collections.Counter(), {}, set()
+        hdr = None
+        with gzip.open(p, 'rt', encoding='utf-8') as f:
+            for l in f:
+                if l.startswith('##contig'):
+                    m = re.match(r'##contig=<ID=([^,]+),length=(\d+)', l)
+                    contigs[m.group(1)] = int(m.group(2))
+                elif l.startswith('#CHROM'):
+                    hdr = l.rstrip('\n').split('\t')
+                    samples = len(hdr) - 9
+                elif l[0] != '#':
+                    c = l.rstrip('\n').split('\t', 9)
+                    n += 1
+                    info = dict(kv.split('=', 1) if '=' in kv else (kv, True) for kv in c[7].split(';'))
+                    info_keys.update(info.keys())
+                    st = info.get('SVTYPE')
+                    types[st] += 1
+                    bad_type += st not in (('INV',) if want else ('INS', 'DEL'))
+                    try:
+                        sl = int(info['SVLEN'])
+                    except (KeyError, ValueError):
+                        sl = None
+                    bad_len += sl is None or (st == 'DEL' and sl >= 0) or (st in ('INS', 'INV') and sl <= 0)
+                    base = re.sub(r'\.\d+$', '', c[2])           # a repeated id carries a numeric suffix such as .1
+                    pos1 = base == f"{c[0]}-{int(c[1]) + 1}-{st}-{abs(sl) if sl is not None else '?'}"
+                    pos0 = base == f"{c[0]}-{int(c[1])}-{st}-{abs(sl) if sl is not None else '?'}"
+                    id_pos0 += pos0 and not pos1
+                    bad_id += not (pos1 or pos0) or c[2] != info.get('ID')
+                    ids.add(c[2])
+                    past += c[0] not in lens or int(c[1]) > lens[c[0]]
+                    gts = c[9].split('\t', 1)[0] if len(c) > 9 else ''
+                    bad_gt += not re.match(r'^[01.]\|[01.]$', gts)
+        r.check('VCF header with 65 sample columns, as the release README states', hdr is not None and hdr[:9] == ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT'] and samples == 65, samples)
+        r.check('contig lengths in the header equal the RefSeq report lengths for chromosomes 1-22, X, Y', all(contigs.get(k) == v for k, v in lens.items() if k in contigs and re.match(r'^chr([0-9]+|X|Y)$', k)) and sum(1 for k in contigs if re.match(r'^chr([0-9]+|X|Y)$', k)) == 24, len(contigs))
+        r.check('SVTYPE is INS or DEL' if not want else 'SVTYPE is INV', bad_type == 0, dict(types))
+        r.check('SVLEN is present, negative for DEL and positive for INS' if not want else 'SVLEN is present and positive', bad_len == 0, bad_len)
+        r.check('record id equals chromosome-position-SVTYPE-|SVLEN| (position POS+1, or POS for a few insertions; a repeated id has a numeric suffix) and the ID field of INFO', bad_id == 0, bad_id)
+        r.check('ids are unique', len(ids) == n, n)
+        r.check('positions lie inside the chromosome', past == 0, past)
+        r.check('first genotype is a phased pair of 0, 1 or .', bad_gt == 0, bad_gt)
+        r.check('records > 100,000' if not want else 'records > 100', n > (100_000 if not want else 100), n)
+        r.stats.update(records=n, samples=samples, svtypes={str(k): v for k, v in types.items()}, info_keys=dict(info_keys.most_common(12)), id_position_equals_pos=id_pos0)
+
+
+CPIC_KEYS = {'allele_definition': ['id', 'genesymbol', 'name', 'pharmvarid', 'matchesreferencesequence', 'structuralvariation'], 'allele_location_value': ['alleledefinitionid', 'locationid', 'variantallele'],
+             'sequence_location': ['id', 'name', 'chromosomelocation', 'proteinlocation', 'genesymbol', 'dbsnpid', 'position'], 'allele': ['id', 'genesymbol', 'name', 'functionalstatus', 'clinicalfunctionalstatus', 'activityvalue', 'definitionid', 'citations', 'strength'],
+             'gene_result': ['id', 'genesymbol', 'result', 'activityscore'], 'gene_result_lookup': ['id', 'phenotypeid', 'lookupkey', 'function1', 'function2'],
+             'gene_result_diplotype': ['id', 'functionphenotypeid', 'diplotype', 'diplotypekey'], 'recommendation': ['id', 'guidelineid', 'drugid', 'drugrecommendation', 'classification']}
+
+
+def v_cpic_api(tid, r):
+    table = tid[len('cpic_api_'):]
+    d = v_json(tid, r, 1)
+    r.check('row count equals the count the API reported when the target was defined', len(d) == TARGETS[tid]['expected_rows'], (len(d), TARGETS[tid]['expected_rows']))
+    r.check('documented keys present in every row', all(all(k in x for k in CPIC_KEYS[table]) for x in d), [k for k in CPIC_KEYS[table] if not all(k in x for x in d)])
+    if 'id' in d[0]:
+        r.check('ids are unique', len({x['id'] for x in d}) == len(d), len(d))
+    if table == 'allele_definition':
+        r.check('every allele has a gene symbol and a name', all(x['genesymbol'] and x['name'] for x in d))
+        genes = collections.Counter(x['genesymbol'] for x in d)
+        r.stats.update(genes=len(genes), with_pharmvar_id=sum(1 for x in d if x['pharmvarid']), structural=sum(1 for x in d if x['structuralvariation']))
+    elif table == 'sequence_location':
+        r.check('chromosomal notation starts with g. (nuclear) or m. (mitochondrial) and position is an integer', all((x['chromosomelocation'] or 'g.').startswith(('g.', 'm.')) and isinstance(x['position'], int) for x in d))
+        r.stats.update(with_dbsnp=sum(1 for x in d if x['dbsnpid']), mitochondrial_locations=sum(1 for x in d if (x['chromosomelocation'] or '').startswith('m.')), mitochondrial_genes=sorted({x['genesymbol'] for x in d if (x['chromosomelocation'] or '').startswith('m.')}))
+    elif table == 'allele_location_value':
+        r.check('variant alleles are not empty', all(x['variantallele'] for x in d))
+    elif table == 'gene_result_diplotype':
+        single = collections.Counter(next(iter(x['diplotypekey'])) for x in d if '/' not in x['diplotype'])
+        r.check('diplotypes are written allele/allele, except single alleles for the X-linked, mitochondrial and HLA genes', set(single) <= {'G6PD', 'MT-RNR1', 'HLA-A', 'HLA-B'}, dict(single))
+        r.stats.update(single_allele_entries=dict(single))
+    elif table == 'allele':
+        r.stats.update(functional_status={str(k): v for k, v in collections.Counter(x['clinicalfunctionalstatus'] for x in d).most_common(8)})
+    r.stats.update(rows=len(d))
+
+
+
+# --- IMPC release 24.0 results -----------------------------------------------------------------------------------------
+IMPC_GP_COLS = ['marker_accession_id', 'marker_symbol', 'colony_id', 'sex', 'zygosity', 'allele_accession_id', 'allele_symbol', 'mp_term_id', 'mp_term_name', 'p_value', 'effect_size', 'statistical_method']
+
+
+def v_impc(tid, r):
+    p = path(tid)
+    if tid == 'impc_r24_readme':
+        t = open(p, encoding='utf-8').read()
+        r.check('describes the IMPC reports (viability, genotype-phenotype assertions)', t.startswith('# IMPC Reports') and 'Viability' in t and 'Genotype-Phenotype Assertions' in t)
+        r.stats['characters'] = len(t)
+        return
+    with gzip.open(p, 'rt', encoding='utf-8', newline='') as f:
+        rd = csv.DictReader(f)
+        hdr = rd.fieldnames
+        rows = list(rd)
+    if tid == 'impc_r24_genotype_phenotype_assertions_all':
+        r.check('documented columns present', all(c in hdr for c in IMPC_GP_COLS), [c for c in IMPC_GP_COLS if c not in hdr])
+        r.check('rows > 50,000', len(rows) > 50000, len(rows))
+        unrel = sum(1 for x in rows if x['allele_accession_id'].startswith('NOT-RELEASED-'))
+        r.check('MGI accession for every marker; allele accession is MGI or a NOT-RELEASED placeholder', all(re.match(r'^MGI:\d+$', x['marker_accession_id']) and re.match(r'^(MGI:\d+|NOT-RELEASED-[0-9a-f]+)$', x['allele_accession_id']) for x in rows), unrel)
+        onto = collections.Counter(x['mp_term_id'].split(':')[0] for x in rows)
+        noterm = sum(1 for x in rows if not x['mp_term_id'])
+        r.check('phenotype term ids are MP:nnnnnnn or (histopathology) MPATH:n, with at most 5 rows lacking a term', all(re.match(r'^(MP:\d{7}|MPATH:\d+)$', x['mp_term_id']) for x in rows if x['mp_term_id']) and noterm <= 5, dict(onto))
+        zy = collections.Counter(x['zygosity'] for x in rows)
+        r.check('zygosity is homozygote, heterozygote or hemizygote', set(zy) <= {'homozygote', 'heterozygote', 'hemizygote'}, dict(zy))
+        bad_p = 0
+        for x in rows:
+            try:
+                bad_p += not (0 <= float(x['p_value']) <= 1)
+            except ValueError:
+                bad_p += x['p_value'] != ''
+        r.check('p-values lie in [0, 1]', bad_p == 0, bad_p)
+        r.stats.update(rows=len(rows), genes=len({x['marker_accession_id'] for x in rows}), alleles=len({x['allele_accession_id'] for x in rows}), rows_with_unreleased_allele=unrel, rows_without_term=noterm, zygosity=dict(zy), ontologies=dict(onto), terms=len({x['mp_term_id'] for x in rows}), sexes=dict(collections.Counter(x['sex'] for x in rows)))
+    elif tid == 'impc_r24_gene_mp_association_1':
+        r.check('columns MP Term, Zygosity, # Genes, Gene Symbol (Gene Accession Id)', hdr == ['MP Term', 'Zygosity', '# Genes', 'Gene Symbol (Gene Accession Id)'], hdr)
+        off = [(x['# Genes'], len(re.findall(r'MGI:\d+', x['Gene Symbol (Gene Accession Id)']))) for x in rows]
+        r.check('# Genes is an integer and equals the number of listed genes, within one for at most 10 rows', all(a.isdigit() for a, _ in off) and all(abs(int(a) - b) <= 1 for a, b in off) and sum(int(a) != b for a, b in off) <= 10, [o for o in off if int(o[0]) != o[1]][:6])
+        r.check('rows >= 50', len(rows) >= 50, len(rows))
+        r.stats.update(rows=len(rows), rows_with_count_off_by_one=sum(int(a) != b for a, b in off))
+    else:
+        call = 'Viability Phenotype HOMs/HEMIs'
+        r.check('documented columns present', all(c in hdr for c in ('Gene Symbol', 'Gene Accession Id', 'Allele Symbol', 'Zygosity', 'Total # Pups', call, 'Viability Call Method')), hdr[:6])
+        r.check('rows > 5,000', len(rows) > 5000, len(rows))
+        r.check('MGI accession for every gene', all(re.match(r'^MGI:\d+$', x['Gene Accession Id']) for x in rows))
+        vc = collections.Counter(x[call] for x in rows)
+        r.check('viability call is viable, subviable or lethal', set(vc) <= {'viable', 'subviable', 'lethal'}, dict(vc))
+        r.check('pup counts are non-negative integers', all(x['Total # Pups'].isdigit() for x in rows))
+        r.stats.update(rows=len(rows), genes=len({x['Gene Accession Id'] for x in rows}), calls=dict(vc))
+
 # --- per-target dispatch -------------------------------------------------------------------------------------------
 def run(tid):
     r = R()
@@ -1029,6 +1548,22 @@ def run(tid):
             v_per_entity(tid, r)
         elif t.get('kind') == 'http_dir':
             v_parquet_dir(tid, r)
+        elif tid.startswith('refseq_'):
+            v_refseq(tid, r)
+        elif tid.startswith('giab_v3_6_grch38'):
+            v_giab(tid, r)
+        elif tid.startswith('proteingym_v1_3_'):
+            v_proteingym(tid, r)
+        elif tid.startswith('hpa_v25_1_'):
+            v_hpa(tid, r)
+        elif tid.startswith('biogrid_interactions_'):
+            v_biogrid(tid, r)
+        elif tid.startswith('hgsvc3_'):
+            v_hgsvc3(tid, r)
+        elif tid.startswith('cpic_api_'):
+            v_cpic_api(tid, r)
+        elif tid.startswith('impc_r24_'):
+            v_impc(tid, r)
         elif tid == 'clinvar_vcf_grch38':
             v_clinvar_vcf(tid, r)
         elif tid == 'gnomad_exome_cnv_v4_1':
@@ -1219,4 +1754,5 @@ if __name__ == '__main__':
         res = run(tid)
         out[tid] = dict(passed=res.passed(), checks=res.checks, stats=res.stats)
         print(('PASS ' if res.passed() else 'FAIL ') + tid, '' if res.passed() else [c for c in res.checks if not c['ok']], flush=True)
-    json.dump(out, open(rp, 'w'), indent=1, sort_keys=True)
+    text = json.dumps(out, indent=1, sort_keys=True)     # serialise first: a failure must not truncate the report
+    open(rp, 'w').write(text)

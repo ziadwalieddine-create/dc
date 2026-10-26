@@ -1,0 +1,119 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "BED (bgzip)",
+  "JSON",
+  "TSV"
+ ],
+ "assemblies": [
+  "GRCh38",
+  "T2T-CHM13"
+ ],
+ "identifiers": [
+  "locus coordinates with motif",
+  "gene and Ensembl ids"
+ ],
+ "id": "trexplorer",
+ "name": "TRExplorer: genome-wide tandem-repeat catalogue",
+ "categories": [
+  "repeat_expansions_str"
+ ],
+ "maintainer": "Broad Institute (TRExplorer project)",
+ "url": "https://trexplorer.broadinstitute.org/",
+ "provenance": [
+  "https://trexplorer.broadinstitute.org/",
+  "https://storage.googleapis.com/tandem-repeat-catalog"
+ ],
+ "version": {
+  "value": "Catalogue versions v1.0, v2.0 and v2.1 in the public bucket (the v2.1 hg38 base catalogue is 45.3 MB); the companion manuscript is listed as AJHG 2026",
+  "release_date": "unknown",
+  "verified": "live"
+ },
+ "scope": "A catalogue of tandem-repeat loci for genotyping with short- and long-read tools, with motif definitions, exported in the formats of ExpansionHunter, GangSTR, HipSTR, LongTR, TRGT and ATaRVa, plus variation clusters, an extended-loci table, annotation tables with polymorphism in 100 HPRC genomes, and per-source catalogue subsets. The v2.1 hg38 base catalogue (1 to 1000 bp motifs) is a 45.3 MB BED; the fully annotated tables are 0.9 to 1.2 GB.",
+ "variant_classes": [
+  "str",
+  "region_level"
+ ],
+ "mapping_methods": "Loci are given as hg38 (and T2T-CHM13) intervals with repeat motifs, exported per genotyping tool.",
+ "quantitative": {
+  "summary": "Locus definitions with motif and (in the annotated tables) polymorphism and disease association annotations.",
+  "units": "base pairs; repeat counts",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Not found: neither the about page, the FAQ nor the bucket listing states a data licence.",
+  "redistribution": "Unknown",
+  "access": "unverified",
+  "verified": "unverified"
+ },
+ "update_frequency": "Several catalogue versions within a year (the bucket has v1.0, v1.0.1, v1.0.2, v2.0, v2.1 and dated exports).",
+ "coverage_limitations": [
+  "A catalogue of loci to genotype, not a set of allele-size distributions for a population",
+  "The annotated tables are very large"
+ ],
+ "known_omissions": [
+  "No files fetched: the licence is not stated; the pathogenic loci are held through STRchive"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Wanted for loci outside the curated pathogenic set, but the licence is not stated and the useful annotated tables are about 1 GB. Ask for the terms, then fetch the 45 MB base BED and the extended-loci table first."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Web pages and the public bucket listing were read; no data file was downloaded."
+ },
+ "unverified_fields": [
+  "licence",
+  "locus count of each version"
+ ],
+ "evidence": [
+  "trexplorer/home",
+  "trexplorer/about",
+  "trexplorer/faq",
+  "trexplorer/bucket_top",
+  "trexplorer/bucket_v2_1"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation",
+   "population_observation",
+   "aggregated_integration"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "repeat_expansion",
+    "variant_classes": [
+     "str"
+    ],
+    "basis": "population",
+    "dimension": "repeat_expansions_str",
+    "note": "polymorphism of repeat loci in long-read genomes"
+   },
+   {
+    "axis": "repeat_expansion",
+    "variant_classes": [
+     "str",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "repeat_expansions_str",
+    "note": "locus and motif definitions"
+   }
+  ],
+  "biological_context": "Repeat loci defined from the reference sequence with motifs, annotated with polymorphism in assembled genomes of diverse ancestry (HPRC).",
+  "evidence_strength": "A curated and computed catalogue; polymorphism summaries come from long-read genomes of a research panel.",
+  "mechanistic_confidence": "None for mechanism. A locus being polymorphic or near a gene does not make an allele pathogenic; thresholds for disease come from curated sources such as STRchive.",
+  "phenotype_implication": "None directly.",
+  "absence_means": "A repeat not in the catalogue was not defined as a locus (for example a very long or impure repeat); this is not evidence that it is stable.",
+  "overlaps_with_sources": [
+   {
+    "source": "strchive",
+    "relation": "independent_related",
+    "note": "STRchive curates disease loci with thresholds; TRExplorer extends the locus list genome-wide"
+   }
+  ]
+ }
+}

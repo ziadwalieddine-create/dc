@@ -1,0 +1,102 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "web application",
+  "REST API"
+ ],
+ "assemblies": [
+  "GRCh37",
+  "GRCh38"
+ ],
+ "identifiers": [
+  "rsID",
+  "chromosome:position"
+ ],
+ "id": "ldlink",
+ "name": "LDlink (NCI): linkage disequilibrium tools for 1000 Genomes populations",
+ "categories": [
+  "association_finemapping_coloc"
+ ],
+ "maintainer": "Division of Cancer Epidemiology and Genetics, National Cancer Institute",
+ "url": "https://ldlink.nih.gov/",
+ "provenance": [
+  "https://ldlink.nih.gov/"
+ ],
+ "version": {
+  "value": "LDlink 7.4.0 (as named on the home page)",
+  "release_date": "unknown",
+  "verified": "live"
+ },
+ "scope": "A suite of web tools (LDassoc, LDexpress, LDhap, LDmatrix, LDpair, LDpop, LDproxy and others) that compute linkage disequilibrium between variants in population groups from the 1000 Genomes data, with an API for programmatic access.",
+ "variant_classes": [
+  "snv",
+  "indel"
+ ],
+ "mapping_methods": "Queries are by rsID or coordinate with a population choice; results are computed on request.",
+ "quantitative": {
+  "summary": "r-squared and D-prime between variant pairs per population.",
+  "units": "correlation measures in [0, 1]",
+  "uncertainty": "depends on the sample size of the population panel",
+  "direction": "signed D-prime"
+ },
+ "licence": {
+  "name": "Not retrieved: usage conditions of the API (token, rate limits) were not read.",
+  "redistribution": "Unknown",
+  "access": "registration_required",
+  "verified": "unverified"
+ },
+ "update_frequency": "Versioned releases (a version history is linked).",
+ "coverage_limitations": [
+  "LD is computed from 1000 Genomes phase 3 samples, so it describes those populations only",
+  "Results are generated per query, not provided as a bulk dataset"
+ ],
+ "known_omissions": [
+  "No access: the API needs a token and is not a bulk resource"
+ ],
+ "reuse_decision": {
+  "action": "do_not_acquire",
+  "rationale": "An on-demand computation service, not a dataset. LD for the populations of interest can be computed from the 1000 Genomes genotypes, and gnomAD LD matrices (catalogued as gnomad_ld) are the bulk alternative; fine-mapped credible sets already come with the association sources."
+ },
+ "status": {
+  "accessible": "partial",
+  "notes": "Home page read; API access needs a token."
+ },
+ "unverified_fields": [
+  "licence (usage conditions of the API)",
+  "release date"
+ ],
+ "evidence": [
+  "ldlink/home"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation"
+  ],
+  "allele_resolution": "allele_specific",
+  "mechanism_evidence": [
+   {
+    "axis": "outcome_association",
+    "variant_classes": [
+     "snv",
+     "indel"
+    ],
+    "basis": "population",
+    "dimension": "association_finemapping_coloc",
+    "note": "LD separates a causal variant from linked variants"
+   }
+  ],
+  "biological_context": "Correlation of alleles across haplotypes in reference population samples; the structure differs between ancestry groups.",
+  "evidence_strength": "Computed from phased reference genotypes; reliable for common variants and small for rare ones.",
+  "mechanistic_confidence": "None for mechanism. LD says which variants travel together and so which are candidates for a shared association signal.",
+  "phenotype_implication": "None: linkage disequilibrium carries no phenotype information.",
+  "absence_means": "A variant not in the reference panel has no LD estimate; low LD in one population does not imply low LD in another.",
+  "overlaps_with_sources": [
+   {
+    "source": "1000genomes",
+    "relation": "derived_from",
+    "note": "LD is computed from 1000 Genomes genotypes; the individuals are the same"
+   }
+  ]
+ }
+}

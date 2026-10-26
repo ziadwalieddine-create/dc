@@ -1,0 +1,120 @@
+{
+ "overlap_with_existing": [],
+ "acquisition_targets": [],
+ "formats": [
+  "PSI-MITAB",
+  "PSI-MI (psi25, psi30 directories)",
+  "ZIP"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "identifiers": [
+  "IntAct interaction accession (EBI-)",
+  "UniProt accession",
+  "PubMed id"
+ ],
+ "id": "intact",
+ "name": "IntAct molecular interaction database",
+ "categories": [
+  "pathways_interactions_epistasis"
+ ],
+ "maintainer": "EMBL-EBI",
+ "url": "https://www.ebi.ac.uk/intact/",
+ "provenance": [
+  "https://ftp.ebi.ac.uk/pub/databases/intact/current/"
+ ],
+ "version": {
+  "value": "Current release directory listed 2026-01-14 (all.zip 15 GB)",
+  "release_date": "2026-01-14",
+  "verified": "live"
+ },
+ "scope": "Curated molecular interactions from the literature and direct submissions in PSI-MI formats; the release directory holds all.zip (15 GB), the psi25 and psi30 directories, a psimitab directory, controlled vocabularies (cv) and various tables. Open Targets integrates IntAct, Signor, Reactome and STRING interactions: its 26.09 interaction dataset holds 1,310,951 IntAct rows, 594,648 distinct gene pairs.",
+ "variant_classes": [
+  "gene_level",
+  "protein_level"
+ ],
+ "mapping_methods": "Interactions name both participants by UniProt accession with the detection method, interaction type and publication.",
+ "quantitative": {
+  "summary": "Presence of an interaction with its detection method; a confidence score exists but its definition was not read.",
+  "units": "unverified",
+  "uncertainty": "unverified",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "EMBL-EBI terms of use, as listed for IntAct in the Open Targets data-source licence table; the IntAct-specific licence statement was not retrieved.",
+  "redistribution": "Attribution; IntAct terms not read",
+  "access": "open_with_terms",
+  "verified": "unverified"
+ },
+ "update_frequency": "Several releases a year (the directory is dated 2026-01-14).",
+ "coverage_limitations": [
+  "Interactions are curated from what has been studied",
+  "Participants are whole proteins; the effect of a variant on an interaction is recorded only in the mutation annotations that were not examined"
+ ],
+ "known_omissions": [
+  "All files: the human interactions reach the library through the Open Targets interaction dataset; the 15 GB archive, the PSI-MI files and mutation annotations are not fetched"
+ ],
+ "reuse_decision": {
+  "action": "defer",
+  "rationale": "Already integrated in Open Targets (594,648 distinct human gene pairs), so a separate 15 GB archive adds mostly the same pairs. Revisit when interaction-level mutation annotations are needed."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP release listing read."
+ },
+ "unverified_fields": [
+  "licence statement of IntAct itself",
+  "size of the human-only subset",
+  "quantitative (the definition of the confidence score was not read)"
+ ],
+ "evidence": [
+  "intact/ftp_listing",
+  "opentargets/docs_licence",
+  "opentargets/interaction_source_counts"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "gene_level",
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "physical interaction network"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "curated",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "protein interaction partners"
+   }
+  ],
+  "biological_context": "Interactions curated from publications with the detection method of each; they are properties of whole proteins in the studied system.",
+  "evidence_strength": "Literature curation with an interaction confidence score; independent detections raise the score.",
+  "mechanistic_confidence": "Low for variant effects: an interaction says two proteins associate, not that a particular change disrupts it.",
+  "phenotype_implication": "None directly.",
+  "absence_means": "A pair that is not listed was not reported in curated publications; it is not shown not to interact.",
+  "overlaps_with_sources": [
+   {
+    "source": "opentargets",
+    "relation": "identical_records",
+    "note": "Open Targets carries IntAct interactions as its intact source; use one route and count each pair once"
+   },
+   {
+    "source": "biogrid_interactions",
+    "relation": "independent_related",
+    "note": "separate curation of physical interactions; two thirds of the curated Open Targets pairs (IntAct, Signor, Reactome) also appear in BioGRID"
+   }
+  ]
+ }
+}

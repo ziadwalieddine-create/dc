@@ -1,0 +1,148 @@
+{
+ "id": "biogrid_interactions",
+ "name": "BioGRID protein and genetic interactions (release 5.0.262, human file)",
+ "categories": [
+  "pathways_interactions_epistasis"
+ ],
+ "maintainer": "BioGRID (Tyers lab and collaborators)",
+ "url": "https://thebiogrid.org/",
+ "provenance": [
+  "https://downloads.thebiogrid.org/BioGRID/Latest-Release/",
+  "https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab3.zip"
+ ],
+ "version": {
+  "value": "BioGRID release 5.0.262 (read from the member names of the organism archive fetched on 2026-10-25; the \"Latest-Release\" archive is generated on request)",
+  "release_date": "unknown (generated on request)",
+  "verified": "live"
+ },
+ "scope": "Literature-curated interactions in tab3 format. The human file holds 1,433,067 interactions: 1,411,994 physical and 21,073 genetic, from 29 experimental systems (genetic ones include synthetic lethality, synthetic rescue, dosage rescue, dosage lethality, positive and negative genetic interaction, phenotypic enhancement and suppression, synthetic growth defect). 1,319,164 (92%) are human-human; the rest are cross-species and host-pathogen interactions, mainly SARS-CoV-2, mouse, rat, HIV-1, HPV and yeast proteins with a human partner. The archive holds 98 organism files; only the human file is used.",
+ "variant_classes": [
+  "gene_level",
+  "protein_level"
+ ],
+ "assemblies": [
+  "none/not_applicable"
+ ],
+ "formats": [
+  "tab3 TSV (zip)"
+ ],
+ "identifiers": [
+  "BioGRID interaction id",
+  "Entrez Gene id",
+  "BioGRID id",
+  "official symbol",
+  "UniProt and RefSeq accessions",
+  "PubMed id",
+  "NCBI taxonomy id"
+ ],
+ "mapping_methods": "Each interaction names both partners by Entrez Gene id, symbol and UniProt/RefSeq accessions, plus the experimental system, system type (physical or genetic), throughput, author and PubMed id of the supporting publication.",
+ "quantitative": {
+  "summary": "Presence of an interaction with its experimental system and throughput; an optional score for some systems.",
+  "units": "n/a",
+  "uncertainty": "throughput (high or low) and number of supporting publications, not a probability",
+  "direction": "n/a for physical interactions; genetic systems encode the direction (for example negative or positive genetic)"
+ },
+ "licence": {
+  "name": "MIT License: \"100% freely available to both academic and commercial users\" and provided without warranty (BioGRID download repository page, verified live); citation of the contributing authors and the BioGRID publication is requested.",
+  "redistribution": "MIT terms",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Monthly releases (the release number advances with each).",
+ "coverage_limitations": [
+  "Interactions are curated from publications and reflect what has been studied; well-studied proteins have many more interactions",
+  "Physical interactions say two proteins were found together in an assay (system types such as affinity capture or two-hybrid differ in what that means), not that they interact in a given tissue",
+  "Genetic interactions are mostly from yeast and from screens in cell lines; 21,073 are in the human file",
+  "About 8% of the human file are cross-species or host-pathogen interactions and must not be read as human-human"
+ ],
+ "known_omissions": [
+  "Other organisms, chemical interactions, post-translational modification annotations and the multi-validated physical subset are not fetched",
+  "Interactions of IntAct, STRING and Reactome are held through Open Targets (interaction dataset)"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "The only open resource in the catalogue that carries curated genetic interactions (synthetic lethality, dosage rescue, suppression) for epistasis and compensation, alongside physical interactions; MIT-licensed and a single 189 MB archive. Open Targets already integrates IntAct, STRING, Reactome and Signor interactions, so those are not mirrored separately."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "Archive generated on request: no size or checksum is published, so the manifest pins size and SHA-256; the release number is read from the member names."
+ },
+ "unverified_fields": [
+  "update frequency (monthly releases are stated on the BioGRID site, not retrieved here)"
+ ],
+ "evidence": [
+  "biogrid_interactions/latest_release_listing"
+ ],
+ "acquisition_targets": [
+  "biogrid_interactions_organism_tab3"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "curated_expert_classification",
+   "perturbation_experimental"
+  ],
+  "allele_resolution": "gene_level",
+  "mechanism_evidence": [
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "gene_level"
+    ],
+    "basis": "direct",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "curated genetic interactions from double-perturbation experiments; whole-gene, not allele-specific"
+   },
+   {
+    "axis": "genetic_interaction",
+    "variant_classes": [
+     "gene_level",
+     "protein_level"
+    ],
+    "basis": "context",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "physical interaction network"
+   },
+   {
+    "axis": "protein_function",
+    "variant_classes": [
+     "protein_level"
+    ],
+    "basis": "curated",
+    "dimension": "pathways_interactions_epistasis",
+    "note": "protein-protein interaction partners"
+   }
+  ],
+  "components": [
+   {
+    "name": "physical interactions (affinity capture, two-hybrid and related systems)",
+    "evidence_kind": [
+     "curated_expert_classification"
+    ],
+    "allele_resolution": "gene_level",
+    "origin": "native"
+   },
+   {
+    "name": "genetic interactions (synthetic lethality, dosage rescue, suppression and related systems)",
+    "evidence_kind": [
+     "curated_expert_classification",
+     "perturbation_experimental"
+    ],
+    "allele_resolution": "gene_level",
+    "origin": "native"
+   }
+  ],
+  "biological_context": "Interactions from published experiments in many systems (cell lines, yeast and others); each row records the experimental system, throughput and publication. The partner proteins are whole proteins, so an interaction is not tied to a particular isoform, domain or variant.",
+  "evidence_strength": "Curated from the literature; the supporting publications and experimental systems are the evidence, and high-throughput studies are flagged. Counts of supporting publications are an indication of reproducibility, not a probability.",
+  "mechanistic_confidence": "Low to moderate. A genetic interaction shows that perturbing two genes together has an effect that differs from the single perturbations, which is the basis for epistasis and compensation hypotheses; it does not identify the allele, the pathway step or the direction of compensation. A physical interaction does not show that a variant disrupts it.",
+  "phenotype_implication": "Cell-level or organism-level phenotype of the double perturbation, as described in the supporting study; no human disease phenotype.",
+  "absence_means": "A missing interaction means it was not reported in curated publications, which reflects what has been tested; it does not show that two genes do not interact, nor that perturbing both has no combined effect.",
+  "overlaps_with_sources": [
+   {
+    "source": "opentargets",
+    "relation": "independent_related",
+    "note": "Open Targets interactions come from IntAct, Signor, Reactome and STRING; BioGRID is a separate curation, so the same pair can appear in both and should be counted once per publication"
+   }
+  ]
+ }
+}

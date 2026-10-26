@@ -1,0 +1,14 @@
+{
+ "source": "proteingym",
+ "name": "repository_licence",
+ "url": "https://github.com/OATML-Markslab/ProteinGym/blob/main/LICENSE",
+ "local_path": "/home/user/oatml-markslab/proteingym/LICENSE",
+ "read_utc": "2026-10-25T15:01:40Z",
+ "file_bytes": 1134,
+ "file_sha256": "9b0d23df61da60c379c15bef09ba5f5b14ab16bae6df025509dde9e50299393c",
+ "line_range": null,
+ "git_origin": "https://github.com/OATML-Markslab/proteingym",
+ "git_commit": "144fe22b07dfaeec2b366f2346203a9838a55b4c",
+ "note": "Read from the read-only clone attached to this session; the project README states that the project is available under the MIT license found in this file.",
+ "text": "MIT License\n\nCopyright (c) 2023 OATML-Markslab, Pascal Notin, Aaron Kollasch, Daniel Ritter, Lood van Niekerk\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+}

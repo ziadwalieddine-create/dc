@@ -1,0 +1,129 @@
+{
+ "id": "hgsvc3",
+ "name": "HGSVC3 release 1.0: assembly-based structural variants from 65 phased genomes (GRCh38)",
+ "categories": [
+  "structural_variation_cnv",
+  "complex_loci_callability"
+ ],
+ "maintainer": "Human Genome Structural Variation Consortium (phase 3), hosted by EBI/IGSR",
+ "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/",
+ "provenance": [
+  "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/"
+ ],
+ "version": {
+  "value": "Variant calls release 1.0 (directory dated 2024-09-18; PAV 2.4.0.1, merged with SV-Pop; VCF fileDate 2024-04-11)",
+  "release_date": "2024-09-18",
+  "verified": "live"
+ },
+ "scope": "Structural variants called from 65 phased long-read-based genome assemblies and genotyped per haplotype: 176,231 insertions and deletions (64,428 DEL, 111,803 INS; symbolic alleles) and 300 inversions on GRCh38 primary-assembly coordinates, with flags for overlap with reference segmental duplications (REF_SD) and tandem repeats (REF_TRF). The SNV and indel call sets, T2T-CHM13 coordinates, complex SVs, mobile-element, segmental-duplication, centromere and graph-genome releases are not fetched.",
+ "variant_classes": [
+  "sv",
+  "complex_locus"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "VCF (bgzip)",
+  "MANIFEST",
+  "Markdown"
+ ],
+ "identifiers": [
+  "chromosome-position-SVTYPE-length identifier",
+  "sample ids (HG/NA numbers)"
+ ],
+ "mapping_methods": "GRCh38 no-alt primary coordinates with chr-prefixed contig names; each record lists the sample and haplotype from which the representative allele was taken, and genotypes are phased pairs (haplotype 1 | haplotype 2), with \".\" where the haplotype was not aligned.",
+ "quantitative": {
+  "summary": "Phased presence or absence of each SV in each of 65 diploid genomes.",
+  "units": "allele (0, 1 or .)",
+  "uncertainty": "no quality score; \".\" marks regions where assemblies were not aligned",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "Data reuse statement of the project (README_HGSVC3_datareuse_statement.md, verified live): in the spirit of the Fort Lauderdale principles, data users may use the data for many studies but are expected to allow the data producers to make the first presentations and to publish the first paper with global analyses.",
+  "redistribution": "Reuse for research is encouraged; the first-publication expectation applies to global analyses of the data; attribution to the consortium",
+  "access": "open_with_terms",
+  "verified": "live"
+ },
+ "update_frequency": "Irregular releases (the release directory shows 2024 and 2025 subdirectories and a 2026 update of the chrY analysis).",
+ "coverage_limitations": [
+  "65 genomes of diverse ancestry: frequencies are indicative and not population frequencies",
+  "Calls come from alignment of phased assemblies to GRCh38 primary assembly; unreliable regions such as centromeres and telomeres were discarded, and \".\" genotypes mark regions where assemblies could not be aligned",
+  "Insertions and deletions are symbolic alleles; the inserted sequences are in the full (non-symbolic) callset that is not fetched",
+  "The data reuse statement asks users to let the producers publish the first global analyses"
+ ],
+ "known_omissions": [
+  "Non-symbolic (sequence-resolved) insertion/deletion VCFs (51 MB), the SNV (503 MB) and indel (186 MB) call sets, annotation tables, T2T-CHM13 calls and complex SV calls are not fetched",
+  "Assemblies and alignments are not fetched"
+ ],
+ "overlap_with_existing": [],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "Long-read assembly-based SV calls resolve insertions, inversions and repeat-embedded events that short-read catalogues miss, with per-haplotype genotypes and built-in flags for segmental duplications and tandem repeats. The symbolic insertion/deletion and inversion call sets total 6.4 MB; the multi-hundred-megabyte SNV and indel releases are deferred."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP files with a MANIFEST of sizes and MD5s; both VCFs verified against it."
+ },
+ "unverified_fields": [
+  "the calling and merging methods beyond the release README (PAV and SV-Pop are named; their parameters were not read)"
+ ],
+ "evidence": [
+  "hgsvc3/data_reuse_statement",
+  "hgsvc3/ftp_listing",
+  "hgsvc3/release_listing",
+  "hgsvc3/variant_calls_readme",
+  "hgsvc3/variant_calls_manifest",
+  "hgsvc3/variant_calls_grch38_listing"
+ ],
+ "acquisition_targets": [
+  "hgsvc3_grch38_sv_insdel_sym_vcf",
+  "hgsvc3_grch38_sv_inv_sym_vcf",
+  "hgsvc3_variant_calls_readme",
+  "hgsvc3_variant_calls_manifest"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "population_observation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "structural_rearrangement",
+    "variant_classes": [
+     "sv"
+    ],
+    "basis": "population",
+    "dimension": "structural_variation_cnv",
+    "note": "insertions, deletions and inversions in 65 assembled genomes"
+   },
+   {
+    "axis": "paralog_complex_locus",
+    "variant_classes": [
+     "sv",
+     "complex_locus"
+    ],
+    "basis": "context",
+    "dimension": "complex_loci_callability",
+    "note": "REF_SD and REF_TRF flag calls in segmental duplications and tandem repeats"
+   }
+  ],
+  "biological_context": "Germline structural variants of 65 individuals of diverse ancestry, called by comparing phased long-read-based assemblies with the reference; the sample set is a research panel and carries no phenotype data.",
+  "evidence_strength": "Observational allele calls with per-haplotype genotypes from assembly alignment. Breakpoints and sizes are sequence-based, which makes them more exact than short-read estimates; sensitivity depends on how well the assemblies align.",
+  "mechanistic_confidence": "None for mechanism. It supplies which structural alleles exist and where; effects on genes, regulation or dosage must come from annotation and from the curated dosage and clinical sources.",
+  "phenotype_implication": "Presence in a research panel without phenotype data; no disease implication.",
+  "absence_means": "A structural variant not listed was not seen in these 65 genomes or lay where assemblies did not align; this is not evidence that the variant is rare in populations or harmless.",
+  "overlaps_with_sources": [
+   {
+    "source": "gnomad_sv_cnv",
+    "relation": "independent_related",
+    "note": "independent callsets of structural variants (long-read assemblies versus short-read population sequencing); compare by type and reciprocal overlap, never pool counts"
+   },
+   {
+    "source": "1000genomes",
+    "relation": "independent_related",
+    "note": "the release also genotypes its variants in 1000 Genomes samples (Genotyping_1kGP directory), so the same individuals can appear in 1000 Genomes-derived callsets; count an individual once"
+   }
+  ]
+ }
+}

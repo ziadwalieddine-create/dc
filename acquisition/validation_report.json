@@ -178,6 +178,118 @@
    "uniprot_accessions": 19117
   }
  },
+ "biogrid_interactions_organism_tab3": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "(['5.0.262'], 98)",
+    "name": "every member is BIOGRID-ORGANISM-<organism>-<version>.tab3.txt with one release number",
+    "ok": true
+   },
+   {
+    "detail": "['BIOGRID-ORGANISM-Homo_sapiens-5.0.262.tab3.txt']",
+    "name": "a Homo sapiens member is present",
+    "ok": true
+   },
+   {
+    "detail": "['#BioGRID Interaction ID', 'Entrez Gene Interactor A', 'Entrez Gene Interactor B', 'BioGRID ID Interactor A', 'BioGRID ID Interactor B']",
+    "name": "37 documented columns",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row has 37 fields",
+    "ok": true
+   },
+   {
+    "detail": "1433067",
+    "name": "interaction ids are unique",
+    "ok": true
+   },
+   {
+    "detail": "(1433067, 1319164, 1433067)",
+    "name": "every interaction has a human interactor, and at least 90% are human-human (the rest are host-pathogen and cross-species interactions)",
+    "ok": true
+   },
+   {
+    "detail": "{'physical': 1411994, 'genetic': 21073}",
+    "name": "system type is physical or genetic",
+    "ok": true
+   },
+   {
+    "detail": "(1433067, {'physical': 1411994, 'genetic': 21073})",
+    "name": "more than 1,000,000 interactions and 15,000 genetic interactions",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "cross_species": 113903,
+   "cross_species_partner_taxa": {
+    "10090": 28276,
+    "10116": 3821,
+    "11676": 2558,
+    "2697049": 57186,
+    "333760": 3876,
+    "559292": 3868
+   },
+   "experimental_systems": 29,
+   "genetic_systems": [
+    "Negative Genetic",
+    "Positive Genetic",
+    "Synthetic Lethality",
+    "Phenotypic Suppression",
+    "Synthetic Growth Defect",
+    "Phenotypic Enhancement",
+    "Synthetic Rescue",
+    "Dosage Lethality",
+    "Dosage Rescue"
+   ],
+   "human_human": 1319164,
+   "human_interactions": 1433067,
+   "members": [
+    "BIOGRID-ORGANISM-Anas_platyrhynchos-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Anopheles_gambiae_PEST-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Apis_mellifera-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Arabidopsis_thaliana_Columbia-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Bacillus_subtilis_168-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Bos_taurus-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Caenorhabditis_elegans-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Candida_albicans_SC5314-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Canis_familiaris-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Cavia_porcellus-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Chlamydomonas_reinhardtii-5.0.262.tab3.txt",
+    "BIOGRID-ORGANISM-Chlorocebus_sabaeus-5.0.262.tab3.txt"
+   ],
+   "n_members": 98,
+   "organisms_in_archive": 98,
+   "publications": 41380,
+   "release": "5.0.262",
+   "system_types": {
+    "genetic": 21073,
+    "physical": 1411994
+   },
+   "throughput": {
+    "High Throughput": 1175434,
+    "High Throughput|Low Throughput": 7127,
+    "Low Throughput": 250506
+   }
+  }
+ },
  "biogrid_orcs_human": {
   "checks": [
    {
@@ -686,6 +798,397 @@
    "records": 4599326,
    "with_CLNSIG": 4356442,
    "with_GENEINFO": 4598328
+  }
+ },
+ "cpic_api_allele": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "1378",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(1378, 1378)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "1378",
+    "name": "ids are unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "functional_status": {
+    "Decreased function": 124,
+    "I/Deficient with CNSHA": 86,
+    "Malignant Hyperthermia associated": 98,
+    "No function": 165,
+    "None": 100,
+    "Normal function": 130,
+    "Uncertain function": 384,
+    "ivacaftor responsive": 103
+   },
+   "items": 1378,
+   "rows": 1378
+  }
+ },
+ "cpic_api_allele_definition": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "1354",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(1354, 1354)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "1354",
+    "name": "ids are unique",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "every allele has a gene symbol and a name",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genes": 22,
+   "items": 1354,
+   "rows": 1354,
+   "structural": 13,
+   "with_pharmvar_id": 0
+  }
+ },
+ "cpic_api_allele_location_value": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "3160",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(3160, 3160)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "variant alleles are not empty",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "items": 3160,
+   "rows": 3160
+  }
+ },
+ "cpic_api_gene_result": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "101",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(101, 101)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "101",
+    "name": "ids are unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "items": 101,
+   "rows": 101
+  }
+ },
+ "cpic_api_gene_result_diplotype": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "112820",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(112820, 112820)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "112820",
+    "name": "ids are unique",
+    "ok": true
+   },
+   {
+    "detail": "{'G6PD': 187, 'MT-RNR1': 24, 'HLA-A': 2, 'HLA-B': 6}",
+    "name": "diplotypes are written allele/allele, except single alleles for the X-linked, mitochondrial and HLA genes",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "items": 112820,
+   "rows": 112820,
+   "single_allele_entries": {
+    "G6PD": 187,
+    "HLA-A": 2,
+    "HLA-B": 6,
+    "MT-RNR1": 24
+   }
+  }
+ },
+ "cpic_api_gene_result_lookup": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "208",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(208, 208)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "208",
+    "name": "ids are unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "items": 208,
+   "rows": 208
+  }
+ },
+ "cpic_api_recommendation": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "2115",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(2115, 2115)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "2115",
+    "name": "ids are unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "items": 2115,
+   "rows": 2115
+  }
+ },
+ "cpic_api_sequence_location": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "valid JSON",
+    "ok": true
+   },
+   {
+    "detail": "1210",
+    "name": "length >= 1",
+    "ok": true
+   },
+   {
+    "detail": "(1210, 1210)",
+    "name": "row count equals the count the API reported when the target was defined",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented keys present in every row",
+    "ok": true
+   },
+   {
+    "detail": "1210",
+    "name": "ids are unique",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "chromosomal notation starts with g. (nuclear) or m. (mitochondrial) and position is an integer",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "items": 1210,
+   "mitochondrial_genes": [
+    "MT-RNR1"
+   ],
+   "mitochondrial_locations": 22,
+   "rows": 1210,
+   "with_dbsnp": 992
   }
  },
  "cpic_genes": {
@@ -1218,6 +1721,1090 @@
   ],
   "passed": true,
   "stats": {}
+ },
+ "giab_v3_6_grch38_alldifficultregions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "4841150",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 624829623,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 4841150
+  }
+ },
+ "giab_v3_6_grch38_alllowmapandsegdupregions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "529528",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 305705758,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 529528
+  }
+ },
+ "giab_v3_6_grch38_allotherdifficultregions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "48787",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 83934913,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 48787
+  }
+ },
+ "giab_v3_6_grch38_alltandemrepeats": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "1403470",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 168369990,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 1403470
+  }
+ },
+ "giab_v3_6_grch38_background": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "states the reuse condition",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "names the GIAB consortium",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "characters": 4311
+  }
+ },
+ "giab_v3_6_grch38_badpromoters": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "981",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 197273,
+   "chromosomes": 23,
+   "overlapping_neighbours": 0,
+   "rows": 981
+  }
+ },
+ "giab_v3_6_grch38_chrx_ampliconic": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "14",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 1565209,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 14
+  }
+ },
+ "giab_v3_6_grch38_chrx_par": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "7",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 2778692,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 7
+  }
+ },
+ "giab_v3_6_grch38_chrx_xtr": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "1",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 4287238,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 1
+  }
+ },
+ "giab_v3_6_grch38_chry_par": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "7",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 2778692,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 7
+  }
+ },
+ "giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "3",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 93071,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 3
+  }
+ },
+ "giab_v3_6_grch38_collapsed_duplication_fp_regions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "223",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 8015146,
+   "chromosomes": 21,
+   "overlapping_neighbours": 0,
+   "rows": 223
+  }
+ },
+ "giab_v3_6_grch38_false_duplications_correct_copy": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "12",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 1237625,
+   "chromosomes": 7,
+   "overlapping_neighbours": 0,
+   "rows": 12
+  }
+ },
+ "giab_v3_6_grch38_false_duplications_incorrect_copy": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "10",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 972401,
+   "chromosomes": 5,
+   "overlapping_neighbours": 0,
+   "rows": 10
+  }
+ },
+ "giab_v3_6_grch38_gaps_slop15kb": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "878",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 11496278,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 878
+  }
+ },
+ "giab_v3_6_grch38_kir": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "1",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 155043,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 1
+  }
+ },
+ "giab_v3_6_grch38_l1h_gt500": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "1021",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 3288114,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 1021
+  }
+ },
+ "giab_v3_6_grch38_lowmappabilityall": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "673815",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 248876839,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 673815
+  }
+ },
+ "giab_v3_6_grch38_md5s": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "189",
+    "name": "md5 and path per line",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "the md5 pinned for each downloaded stratification equals the published list",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 189
+  }
+ },
+ "giab_v3_6_grch38_mhc": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "1",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 4970557,
+   "chromosomes": 1,
+   "overlapping_neighbours": 0,
+   "rows": 1
+  }
+ },
+ "giab_v3_6_grch38_population_cnv_fp_regions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "640",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 11067115,
+   "chromosomes": 23,
+   "overlapping_neighbours": 0,
+   "rows": 640
+  }
+ },
+ "giab_v3_6_grch38_readme": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "describes the GRCh38 stratifications",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "has the Segmental Duplications and Other Difficult sections",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "characters": 9016
+  }
+ },
+ "giab_v3_6_grch38_satellites_slop5": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "6208",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 75653409,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 6208
+  }
+ },
+ "giab_v3_6_grch38_segdups": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "7432",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 166860344,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 7432
+  }
+ },
+ "giab_v3_6_grch38_segdups_gt10kb": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "1843",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 151840905,
+   "chromosomes": 24,
+   "overlapping_neighbours": 0,
+   "rows": 1843
+  }
+ },
+ "giab_v3_6_grch38_stratification_list": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "189",
+    "name": "two columns per row",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "paths are category/GRCh38_*.bed.gz",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "names are unique",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every downloaded stratification is in the list",
+    "ok": true
+   },
+   {
+    "detail": "189",
+    "name": "list has > 150 stratifications",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "categories": {
+    "Ancestry": 6,
+    "Functional": 2,
+    "FunctionalTechnicallyDifficult": 3,
+    "GCcontent": 14,
+    "GenomeSpecific": 90,
+    "LowComplexity": 40,
+    "Mappability": 4,
+    "OtherDifficult": 13,
+    "SegmentalDuplications": 4,
+    "Union": 4,
+    "XY": 9
+   },
+   "downloaded": 23,
+   "rows": 189
+  }
+ },
+ "giab_v3_6_grch38_vdj": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every line is a BED interval with start < end",
+    "ok": true
+   },
+   {
+    "detail": "8",
+    "name": "rows > 0",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "chromosome names are UCSC-style names of the assembly report and every interval ends inside its sequence",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "intervals are sorted by start within each chromosome",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bases": 4872786,
+   "chromosomes": 4,
+   "overlapping_neighbours": 0,
+   "rows": 8
+  }
  },
  "gnomad_constraint_v4_1_2": {
   "checks": [
@@ -1855,6 +3442,399 @@
    "rows": 1203840
   }
  },
+ "hgsvc3_grch38_sv_insdel_sym_vcf": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "65",
+    "name": "VCF header with 65 sample columns, as the release README states",
+    "ok": true
+   },
+   {
+    "detail": "194",
+    "name": "contig lengths in the header equal the RefSeq report lengths for chromosomes 1-22, X, Y",
+    "ok": true
+   },
+   {
+    "detail": "{'DEL': 64428, 'INS': 111803}",
+    "name": "SVTYPE is INS or DEL",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "SVLEN is present, negative for DEL and positive for INS",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "record id equals chromosome-position-SVTYPE-|SVLEN| (position POS+1, or POS for a few insertions; a repeated id has a numeric suffix) and the ID field of INFO",
+    "ok": true
+   },
+   {
+    "detail": "176231",
+    "name": "ids are unique",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "positions lie inside the chromosome",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "first genotype is a phased pair of 0, 1 or .",
+    "ok": true
+   },
+   {
+    "detail": "176231",
+    "name": "records > 100,000",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "id_position_equals_pos": 181,
+   "info_keys": {
+    "ID": 176231,
+    "REF_SD": 25154,
+    "REF_TRF": 131775,
+    "SAMPLE": 176231,
+    "SVLEN": 176231,
+    "SVTYPE": 176231,
+    "VARTYPE": 176231
+   },
+   "records": 176231,
+   "samples": 65,
+   "svtypes": {
+    "DEL": 64428,
+    "INS": 111803
+   }
+  }
+ },
+ "hgsvc3_grch38_sv_inv_sym_vcf": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "65",
+    "name": "VCF header with 65 sample columns, as the release README states",
+    "ok": true
+   },
+   {
+    "detail": "194",
+    "name": "contig lengths in the header equal the RefSeq report lengths for chromosomes 1-22, X, Y",
+    "ok": true
+   },
+   {
+    "detail": "{'INV': 300}",
+    "name": "SVTYPE is INV",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "SVLEN is present and positive",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "record id equals chromosome-position-SVTYPE-|SVLEN| (position POS+1, or POS for a few insertions) and the ID field of INFO",
+    "ok": true
+   },
+   {
+    "detail": "300",
+    "name": "ids are unique",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "positions lie inside the chromosome",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "first genotype is a phased pair of 0, 1 or .",
+    "ok": true
+   },
+   {
+    "detail": "300",
+    "name": "records > 100",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "id_position_equals_pos": 0,
+   "info_keys": {
+    "ID": 300,
+    "REF_SD": 196,
+    "REF_TRF": 12,
+    "SAMPLE": 300,
+    "SVLEN": 300,
+    "SVTYPE": 300,
+    "VARTYPE": 300
+   },
+   "records": 300,
+   "samples": 65,
+   "svtypes": {
+    "INV": 300
+   }
+  }
+ },
+ "hgsvc3_variant_calls_manifest": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "71",
+    "name": "path, size and MD5 per line",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "size and MD5 of the downloaded VCF files equal their manifest entries",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 71
+  }
+ },
+ "hgsvc3_variant_calls_readme": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "release 1.0, PAV, 65 phased genomes",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "characters": 1809
+  }
+ },
+ "hpa_v25_1_rna_single_cell_type": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['rna_single_cell_type.tsv']",
+    "name": "one TSV member",
+    "ok": true
+   },
+   {
+    "detail": "['Gene', 'Gene name', 'Cell type', 'nCPM']",
+    "name": "columns Gene, Gene name, Cell type, nCPM",
+    "ok": true
+   },
+   {
+    "detail": "(20162, 154)",
+    "name": "20,162 genes, as stated on the HPA download page, and more than 100 cell types",
+    "ok": true
+   },
+   {
+    "detail": "(3087080, 3087080, 3104948)",
+    "name": "no repeated gene-cell-type pair, and at least 99% of all gene-cell-type pairs present",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Gene is an Ensembl gene id in every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "expression values are non-negative numbers",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genes": 20162,
+   "grid_fraction": 0.9942,
+   "groups": 154,
+   "members": [
+    "rna_single_cell_type.tsv"
+   ],
+   "n_members": 1,
+   "reliability": null,
+   "rows": 3087080
+  }
+ },
+ "hpa_v25_1_rna_tissue_consensus": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['rna_tissue_consensus.tsv']",
+    "name": "one TSV member",
+    "ok": true
+   },
+   {
+    "detail": "['Gene', 'Gene name', 'Tissue', 'nTPM']",
+    "name": "columns Gene, Gene name, Tissue, nTPM",
+    "ok": true
+   },
+   {
+    "detail": "(20162, 51)",
+    "name": "20,162 genes and 51 consensus tissues, as stated on the HPA download page",
+    "ok": true
+   },
+   {
+    "detail": "(1026292, 1026292, 1028262)",
+    "name": "no repeated gene-tissue pair, and at least 99% of all gene-tissue pairs present",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Gene is an Ensembl gene id in every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "expression values are non-negative numbers",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genes": 20162,
+   "grid_fraction": 0.9981,
+   "groups": 51,
+   "members": [
+    "rna_tissue_consensus.tsv"
+   ],
+   "n_members": 1,
+   "reliability": null,
+   "rows": 1026292
+  }
+ },
+ "hpa_v25_1_subcellular_location": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['subcellular_location.tsv']",
+    "name": "one TSV member",
+    "ok": true
+   },
+   {
+    "detail": "['Gene', 'Gene name', 'Reliability', 'Main location', 'Additional location']",
+    "name": "columns start Gene, Gene name, Reliability, Main location",
+    "ok": true
+   },
+   {
+    "detail": "(13603, 13603)",
+    "name": "13,603 genes, as stated on the HPA download page",
+    "ok": true
+   },
+   {
+    "detail": "{'Approved': 6999, 'Supported': 4582, 'Uncertain': 792, 'Enhanced': 1230}",
+    "name": "reliability is Enhanced, Supported, Approved or Uncertain",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Gene is an Ensembl gene id in every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "expression values are non-negative numbers",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genes": 13603,
+   "groups": 0,
+   "members": [
+    "subcellular_location.tsv"
+   ],
+   "n_members": 1,
+   "reliability": {
+    "Approved": 6999,
+    "Enhanced": 1230,
+    "Supported": 4582,
+    "Uncertain": 792
+   },
+   "rows": 13603
+  }
+ },
  "igsr_1000g_samples": {
   "checks": [
    {
@@ -1888,6 +3868,181 @@
     "EUR": 633,
     "SAS": 601
    }
+  }
+ },
+ "impc_r24_gene_mp_association_1": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['MP Term', 'Zygosity', '# Genes', 'Gene Symbol (Gene Accession Id)']",
+    "name": "columns MP Term, Zygosity, # Genes, Gene Symbol (Gene Accession Id)",
+    "ok": true
+   },
+   {
+    "detail": "[('2075', 2074), ('1937', 1936), ('2392', 2391), ('1072', 1071), ('1475', 1474)]",
+    "name": "# Genes is an integer and equals the number of listed genes, within one for at most 10 rows",
+    "ok": true
+   },
+   {
+    "detail": "70",
+    "name": "rows >= 50",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 70,
+   "rows_with_count_off_by_one": 5
+  }
+ },
+ "impc_r24_genotype_phenotype_assertions_all": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "67350",
+    "name": "rows > 50,000",
+    "ok": true
+   },
+   {
+    "detail": "1215",
+    "name": "MGI accession for every marker; allele accession is MGI or a NOT-RELEASED placeholder",
+    "ok": true
+   },
+   {
+    "detail": "{'MP': 65780, 'MPATH': 1569, '': 1}",
+    "name": "phenotype term ids are MP:nnnnnnn or (histopathology) MPATH:n, with at most 5 rows lacking a term",
+    "ok": true
+   },
+   {
+    "detail": "{'homozygote': 52692, 'heterozygote': 13982, 'hemizygote': 676}",
+    "name": "zygosity is homozygote, heterozygote or hemizygote",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "p-values lie in [0, 1]",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "alleles": 8735,
+   "genes": 8429,
+   "ontologies": {
+    "": 1,
+    "MP": 65780,
+    "MPATH": 1569
+   },
+   "rows": 67350,
+   "rows_with_unreleased_allele": 1215,
+   "rows_without_term": 1,
+   "sexes": {
+    "female": 26265,
+    "male": 29741,
+    "no data": 241,
+    "not_considered": 11103
+   },
+   "terms": 813,
+   "zygosity": {
+    "hemizygote": 676,
+    "heterozygote": 13982,
+    "homozygote": 52692
+   }
+  }
+ },
+ "impc_r24_readme": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "describes the IMPC reports (viability, genotype-phenotype assertions)",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "characters": 19946
+  }
+ },
+ "impc_r24_viability": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Gene Symbol', 'Gene Accession Id', 'Allele Symbol', 'Allele Accession Id', 'Background Strain Name', 'Background Strain Accession Id']",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "9162",
+    "name": "rows > 5,000",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "MGI accession for every gene",
+    "ok": true
+   },
+   {
+    "detail": "{'viable': 6284, 'subviable': 739, 'lethal': 2139}",
+    "name": "viability call is viable, subviable or lethal",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "pup counts are non-negative integers",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "calls": {
+    "lethal": 2139,
+    "subviable": 739,
+    "viable": 6284
+   },
+   "genes": 8698,
+   "rows": 9162
   }
  },
  "interpro_mavedb_proteins": {
@@ -4270,6 +6425,255 @@
    "vcf_records": 35172
   }
  },
+ "proteingym_v1_3_dms_indels": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "66",
+    "name": "one CSV per assay of the reference file",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every assay file has the benchmark columns (extra columns are listed in the stats)",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "rows per assay equal DMS_total_number_mutants of the reference file",
+    "ok": true
+   },
+   {
+    "detail": "(0, 0)",
+    "name": "DMS_score is numeric and DMS_score_bin is 0 or 1 in every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "mutated_sequence is an amino-acid string in every row",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assays": 66,
+   "header_variants": [
+    [
+     "mutated_sequence",
+     "DMS_score",
+     "DMS_score_bin"
+    ]
+   ],
+   "rows": 287207,
+   "sequence_mismatches": 0,
+   "wild_type_mismatches": 0
+  }
+ },
+ "proteingym_v1_3_dms_indels_reference": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "66",
+    "name": "assays equal the 66 on the ProteinGym website",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "DMS_id and DMS_filename are unique",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "target sequences are amino-acid strings whose length is seq_len",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assays": 66,
+   "mutants": 287207,
+   "selection_types": {
+    "": 2,
+    "Amp resistance": 1,
+    "FACS": 2,
+    "Growth": 3,
+    "cDNA display proteolysis": 54,
+    "enzyme activity": 1,
+    "lipid phosphatase activity": 1,
+    "survival assessment assay": 2
+   },
+   "taxa": {
+    "Eukaryote": 20,
+    "Human": 25,
+    "Prokaryote": 14,
+    "Virus": 7
+   }
+  }
+ },
+ "proteingym_v1_3_dms_substitutions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "217",
+    "name": "one CSV per assay of the reference file",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every assay file has the benchmark columns (extra columns are listed in the stats)",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "rows per assay equal DMS_total_number_mutants of the reference file",
+    "ok": true
+   },
+   {
+    "detail": "(0, 0)",
+    "name": "DMS_score is numeric and DMS_score_bin is 0 or 1 in every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every mutation token is wild-type, position, mutant",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "wild-type residue equals the target sequence at that position in every row",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "applying the mutations to the target sequence gives mutated_sequence in every row",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assays": 217,
+   "header_variants": [
+    [
+     "mutant",
+     "mutated_sequence",
+     "DMS_score",
+     "DMS_score_bin"
+    ],
+    [
+     "mutant",
+     "mutated_sequence",
+     "DMS_score",
+     "DMS_bin_score",
+     "DMS_score_bin"
+    ]
+   ],
+   "rows": 2465767,
+   "sequence_mismatches": 0,
+   "wild_type_mismatches": 0
+  }
+ },
+ "proteingym_v1_3_dms_substitutions_reference": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "217",
+    "name": "assays equal the 217 on the ProteinGym website",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "DMS_id and DMS_filename are unique",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "target sequences are amino-acid strings whose length is seq_len",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "single + multiple mutants = total, and includes_multiple_mutants agrees",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assays": 217,
+   "mutants": 2465767,
+   "selection_types": {
+    "": 19,
+    "Binding": 6,
+    "FACS": 21,
+    "Flow Cytometry Assay": 4,
+    "Growth": 58,
+    "cDNA display proteolysis": 64,
+    "complementation": 4,
+    "survival assessment assay": 3
+   },
+   "taxa": {
+    "Eukaryote": 40,
+    "Human": 96,
+    "Prokaryote": 50,
+    "Virus": 31
+   }
+  }
+ },
  "reactome_ensembl2reactome": {
   "checks": [
    {
@@ -4373,6 +6777,385 @@
    },
    "homo_sapiens_rows": 161425,
    "rows": 942792
+  }
+ },
+ "refseq_annotation_release_readme": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "GCF_000001405.40-RS_2025_08",
+    "name": "annotation release GCF_000001405.40-RS_2025_08",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "assembly GRCh38.p14, GCF_000001405.40",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "provider NCBI RefSeq, taxid 9606",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "annotation_evidence_freeze_date": "01-August-2025",
+   "annotation_release_date": "06-August-2025",
+   "annotation_software_version": "10.4",
+   "number_of_assembly-units": "38"
+  }
+ },
+ "refseq_grch38p14_alt_scaffold_placement": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['#alt_asm_name', 'prim_asm_name', 'alt_scaf_name', 'alt_scaf_acc', 'parent_type', 'parent_name', 'parent_acc', 'region_name', 'ori', 'alt_scaf_start', 'alt_scaf_stop', 'parent_start', 'parent_stop', 'alt_start_tail', 'alt_stop_tail']",
+    "name": "column header",
+    "ok": true
+   },
+   {
+    "detail": "514",
+    "name": "every row has 15 columns",
+    "ok": true
+   },
+   {
+    "detail": "Counter({'CHROMOSOME': 511, 'SCAFFOLD': 3})",
+    "name": "parent types are CHROMOSOME or SCAFFOLD",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "scaffold accessions have NT_ or NW_ form, parent accessions NC_, NT_ or NW_",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "coordinates are integers and start <= stop",
+    "ok": true
+   },
+   {
+    "detail": "Counter({'+': 427, '-': 58, 'b': 29})",
+    "name": "orientation is '+', '-' or 'b' (mixed), as defined in the assembly_structure README",
+    "ok": true
+   },
+   {
+    "detail": "514",
+    "name": "scaffold accessions are unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assembly_units": {
+    "ALT_REF_LOCI_1": 186,
+    "ALT_REF_LOCI_10": 1,
+    "ALT_REF_LOCI_11": 1,
+    "ALT_REF_LOCI_12": 1,
+    "ALT_REF_LOCI_13": 1,
+    "ALT_REF_LOCI_14": 1,
+    "ALT_REF_LOCI_15": 1,
+    "ALT_REF_LOCI_16": 1,
+    "ALT_REF_LOCI_17": 1,
+    "ALT_REF_LOCI_18": 1,
+    "ALT_REF_LOCI_19": 1,
+    "ALT_REF_LOCI_2": 26,
+    "ALT_REF_LOCI_20": 1,
+    "ALT_REF_LOCI_21": 1,
+    "ALT_REF_LOCI_22": 1,
+    "ALT_REF_LOCI_23": 1,
+    "ALT_REF_LOCI_24": 1,
+    "ALT_REF_LOCI_25": 1,
+    "ALT_REF_LOCI_26": 1,
+    "ALT_REF_LOCI_27": 1,
+    "ALT_REF_LOCI_28": 1,
+    "ALT_REF_LOCI_29": 1,
+    "ALT_REF_LOCI_3": 7,
+    "ALT_REF_LOCI_30": 1,
+    "ALT_REF_LOCI_31": 1,
+    "ALT_REF_LOCI_32": 1,
+    "ALT_REF_LOCI_33": 1,
+    "ALT_REF_LOCI_34": 1,
+    "ALT_REF_LOCI_35": 1,
+    "ALT_REF_LOCI_4": 3,
+    "ALT_REF_LOCI_5": 3,
+    "ALT_REF_LOCI_6": 3,
+    "ALT_REF_LOCI_7": 3,
+    "ALT_REF_LOCI_8": 2,
+    "ALT_REF_LOCI_9": 1,
+    "PATCHES": 254
+   },
+   "orientations": {
+    "+": 427,
+    "-": 58,
+    "b": 29
+   },
+   "regions": 390,
+   "rows": 514
+  }
+ },
+ "refseq_grch38p14_assembly_regions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Region-Name', 'Chromosome', 'Chromosome-Start', 'Chromosome-Stop', 'Scaffold-Role', 'Scaffold-GenBank-Accn', 'Scaffold-RefSeq-Accn', 'Assembly-Unit']",
+    "name": "column header",
+    "ok": true
+   },
+   {
+    "detail": "554",
+    "name": "every row has 8 columns",
+    "ok": true
+   },
+   {
+    "detail": "['HSCHR19_2_CTG3_1', 'HSCHR5_1_CTG1_1', 'HSCHR15_4_CTG8']",
+    "name": "chromosome is 1-22, X or Y, or (alternate loci placed on another alternate scaffold) a sequence of the assembly report",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "start < stop",
+    "ok": true
+   },
+   {
+    "detail": "{'alt-scaffold': 260, 'fix-patch': 164, 'novel-patch': 90, 'CEN': 24, 'HET': 1, 'na': 11, 'PAR': 4}",
+    "name": "roles are alt-scaffold, fix-patch, novel-patch, or the unplaced region types CEN, HET, PAR and na",
+    "ok": true
+   },
+   {
+    "detail": "514",
+    "name": "scaffold RefSeq accessions have NT_ or NW_ form for scaffold regions and are na for the others",
+    "ok": true
+   },
+   {
+    "detail": "554",
+    "name": "region rows > 400",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "regions": 428,
+   "roles": {
+    "CEN": 24,
+    "HET": 1,
+    "PAR": 4,
+    "alt-scaffold": 260,
+    "fix-patch": 164,
+    "na": 11,
+    "novel-patch": 90
+   },
+   "rows": 554,
+   "scaffold_rows": 514
+  }
+ },
+ "refseq_grch38p14_assembly_report": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Sequence-Name', 'Sequence-Role', 'Assigned-Molecule', 'Assigned-Molecule-Location/Type', 'GenBank-Accn', 'Relationship', 'RefSeq-Accn', 'Assembly-Unit', 'Sequence-Length', 'UCSC-style-name']",
+    "name": "column header",
+    "ok": true
+   },
+   {
+    "detail": "{'Assembly name': 'GRCh38.p14', 'RefSeq assembly accession': 'GCF_000001405.40'}",
+    "name": "GRCh38.p14, GCF_000001405.40",
+    "ok": true
+   },
+   {
+    "detail": "709",
+    "name": "every row has 10 columns",
+    "ok": true
+   },
+   {
+    "detail": "{'assembled-molecule': 25, 'unlocalized-scaffold': 42, 'unplaced-scaffold': 127, 'fix-patch': 164, 'novel-patch': 90, 'alt-scaffold': 261}",
+    "name": "sequence roles are the known set",
+    "ok": true
+   },
+   {
+    "detail": "['1', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '2', '20', '21', '22', '3', '4', '5', '6', '7', '8', '9', 'X', 'Y']",
+    "name": "chromosomes 1-22, X and Y are assembled molecules",
+    "ok": true
+   },
+   {
+    "detail": "['1', 'assembled-molecule', '1', 'Chromosome', 'CM000663.2', '=', 'NC_000001.11', 'Primary Assembly', '248956422', 'chr1']",
+    "name": "chromosome 1 is NC_000001.11, 248,956,422 bases, named chr1",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "RefSeq accessions have NC_, NT_ or NW_ form (a few GenBank-only sequences have none)",
+    "ok": true
+   },
+   {
+    "detail": "705",
+    "name": "RefSeq accessions are unique",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "lengths are positive integers",
+    "ok": true
+   },
+   {
+    "detail": "['NC_012920.1']",
+    "name": "mitochondrial genome NC_012920.1 (16,569 bases) present",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "mitochondrion": 1,
+   "primary_chromosomes": 24,
+   "roles": {
+    "alt-scaffold": 261,
+    "assembled-molecule": 25,
+    "fix-patch": 164,
+    "novel-patch": 90,
+    "unlocalized-scaffold": 42,
+    "unplaced-scaffold": 127
+   },
+   "rows": 709,
+   "without_refseq_accession": 4
+  }
+ },
+ "refseq_grch38p14_feature_count": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Feature', 'Class', 'Full Assembly', 'Assembly-unit accession', 'Assembly-unit name', 'Unique Ids', 'Placements']",
+    "name": "column header",
+    "ok": true
+   },
+   {
+    "detail": "171",
+    "name": "every row has 7 columns",
+    "ok": true
+   },
+   {
+    "detail": "['gene', 'protein_coding', 'GCF_000001405.40', '', 'all', '20076', '23306']",
+    "name": "protein-coding genes (whole assembly) between 19,000 and 21,000",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "protein_coding_genes": 20076,
+   "rows": 171
+  }
+ },
+ "refseq_grch38p14_genomic_gff": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['##gff-version 3', '#!gff-spec-version 1.21', '#!processor NCBI annotwriter', '#!genome-build GRCh38.p14', '#!genome-build-accession NCBI_Assembly:GCF_000001405.40', '#!annotation-date 08/01/2025']",
+    "name": "GFF3 header names GRCh38.p14, GCF_000001405.40 and annotation release RS_2025_08",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every feature line has 9 columns, integer start <= end and a strand",
+    "ok": true
+   },
+   {
+    "detail": "{}",
+    "name": "every sequence is in the assembly report",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every Parent refers to a defined feature ID",
+    "ok": true
+   },
+   {
+    "detail": "(67512, 67512)",
+    "name": "gene and pseudogene features equal the gene placements of the feature-count file",
+    "ok": true
+   },
+   {
+    "detail": "{'mRNA': 145477, 'exon': 2324920, 'CDS': 1850767}",
+    "name": "mRNA > 100,000, exon > 1,000,000, CDS > 1,000,000",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "feature_types": {
+    "CDS": 1850767,
+    "biological_region": 137093,
+    "cDNA_match": 27301,
+    "enhancer": 115208,
+    "exon": 2324920,
+    "gene": 48173,
+    "lnc_RNA": 33203,
+    "mRNA": 145477,
+    "match": 161208,
+    "pseudogene": 19339,
+    "silencer": 35932,
+    "transcript": 15171
+   },
+   "genes_with_geneid": 42722,
+   "genes_with_hgnc": 33236,
+   "lines": 4932571,
+   "strands": {
+    "+": 2539208,
+    "-": 2235383,
+    ".": 157980
+   }
   }
  },
  "screen_ccre_ca": {

@@ -57,11 +57,11 @@
  "overlap_with_existing": [],
  "reuse_decision": {
   "action": "adopt_curated",
-  "rationale": "Open Targets already consumes eQTL Catalogue credible sets for colocalisation; defer direct download of the very large sumstats until a locus-level analysis requires them."
+  "rationale": "Open Targets lists the eQTL Catalogue among its integrated data sources, and the acquired Open Targets credible_set dataset already holds 1,718,748 eQTL, 844,764 sQTL, 521,558 transcript-usage QTL and 123,630 single-cell eQTL credible-set rows with effect sizes. Which of its projects are eQTL Catalogue datasets was not matched, so the catalogue's own files (summary statistics and credible sets per dataset, now under a new data-access scheme with an r8_beta release) are not fetched until a gap in the Open Targets coverage is shown."
  },
  "status": {
   "accessible": "partial",
-  "notes": "FTP listing verified; API retired."
+  "notes": "FTP directory listing and licence page readable; the old REST API is gone (its replacement is documented under /Data_access/) and no data file was fetched."
  },
  "unverified_fields": [],
  "evidence": [
@@ -69,7 +69,9 @@
   "eqtl_catalogue/data_access",
   "eqtl_catalogue/ftp_listing",
   "eqtl_catalogue/home",
-  "eqtl_catalogue/license_page"
+  "eqtl_catalogue/license_page",
+  "opentargets/credible_set_counts",
+  "opentargets/docs_licence"
  ],
  "acquisition_targets": [],
  "evidence_profile": {

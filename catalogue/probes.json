@@ -1184,13 +1184,17 @@
   "source": "cadd",
   "name": "download",
   "url": "https://cadd.gs.washington.edu/download",
-  "render": true
+  "render": true,
+  "ua": "curl/8.5.0",
+  "note": "the default probe agent receives an empty reply from this site; the plain curl agent is accepted. Read-only fetch of one public page."
  },
  {
   "source": "cadd",
   "name": "info",
   "url": "https://cadd.gs.washington.edu/info",
-  "render": true
+  "render": true,
+  "ua": "curl/8.5.0",
+  "note": "the default probe agent receives an empty reply from this site; the plain curl agent is accepted. Read-only fetch of one public page."
  },
  {
   "source": "biogrid_interactions",
@@ -1317,5 +1321,148 @@
   "name": "listing_indexed_vep_cache",
   "url": "https://ftp.ensembl.org/pub/release-116/variation/indexed_vep_cache/",
   "note": "contents and sizes of indexed_vep_cache"
+ },
+ {
+  "source": "refseq",
+  "name": "annotation_release_readme",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/README_GCF_000001405.40-RS_2025_08"
+ },
+ {
+  "source": "refseq",
+  "name": "feature_count",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_feature_count.txt"
+ },
+ {
+  "source": "refseq",
+  "name": "alt_scaffold_placement_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_structure/all_alt_scaffold_placement.txt",
+  "range": [
+   0,
+   6000
+  ]
+ },
+ {
+  "source": "refseq",
+  "name": "assembly_regions_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_regions.txt",
+  "range": [
+   0,
+   4000
+  ]
+ },
+ {
+  "source": "giab",
+  "name": "grch38_background",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-BACKGROUND.md"
+ },
+ {
+  "source": "giab",
+  "name": "grch38_readme",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-README.md"
+ },
+ {
+  "source": "giab",
+  "name": "grch38_stratifications_tsv",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/GRCh38@all/GRCh38-all-stratifications.tsv"
+ },
+ {
+  "source": "giab",
+  "name": "v3_6_readme",
+  "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.6/README.md"
+ },
+ {
+  "source": "refseq",
+  "name": "assembly_structure_readme",
+  "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_assembly_structure/README.txt"
+ },
+ {
+  "source": "refseq",
+  "name": "annotation_releases_listing",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/annotation_releases/"
+ },
+ {
+  "source": "refseq",
+  "name": "annotation_releases_current",
+  "url": "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/annotation_releases/current/"
+ },
+ {
+  "source": "hgsvc3",
+  "name": "variant_calls_readme",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/README_Variant_Calls_1.0.md"
+ },
+ {
+  "source": "hgsvc3",
+  "name": "variant_calls_manifest",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/MANIFEST_Variant_Calls_1.0"
+ },
+ {
+  "source": "hgsvc3",
+  "name": "release_listing",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/"
+ },
+ {
+  "source": "hgsvc3",
+  "name": "variant_calls_grch38_listing",
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGSVC3/release/Variant_Calls/1.0/GRCh38/"
+ },
+ {
+  "source": "ipd_kir",
+  "name": "licence",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/kir/LICENCE.md"
+ },
+ {
+  "source": "ipd_kir",
+  "name": "allelelist_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/ipd/kir/Allelelist.txt",
+  "range": [
+   0,
+   3000
+  ]
+ },
+ {
+  "source": "trexplorer",
+  "name": "bucket_top",
+  "url": "https://storage.googleapis.com/storage/v1/b/tandem-repeat-catalog/o?delimiter=/&maxResults=100"
+ },
+ {
+  "source": "trexplorer",
+  "name": "bucket_v2_1",
+  "url": "https://storage.googleapis.com/storage/v1/b/tandem-repeat-catalog/o?prefix=v2.1/&delimiter=/&maxResults=100"
+ },
+ {
+  "source": "trexplorer",
+  "name": "faq",
+  "url": "https://trexplorer.broadinstitute.org/FAQ.html"
+ },
+ {
+  "source": "trexplorer",
+  "name": "about",
+  "url": "https://trexplorer.broadinstitute.org/about.html"
+ },
+ {
+  "source": "alliance",
+  "name": "release_info",
+  "url": "https://www.alliancegenome.org/api/releaseInfo"
+ },
+ {
+  "source": "alliance",
+  "name": "bucket_release_9_1_0",
+  "url": "https://download.alliancegenome.org/?prefix=9.1.0/&delimiter=/&max-keys=100"
+ },
+ {
+  "source": "alliance",
+  "name": "bucket_phenotype_9_1_0",
+  "url": "https://download.alliancegenome.org/?prefix=9.1.0/PHENOTYPE/&delimiter=/&max-keys=100"
+ },
+ {
+  "source": "mitomap",
+  "name": "home",
+  "url": "https://www.mitomap.org/MITOMAP",
+  "note": "expected to be refused: the site answered HTTP 403 to automated clients when first tried; recorded, not circumvented"
+ },
+ {
+  "source": "impc",
+  "name": "results_listing_r24",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/impc/all-data-releases/release-24.0/results/"
  }
 ]

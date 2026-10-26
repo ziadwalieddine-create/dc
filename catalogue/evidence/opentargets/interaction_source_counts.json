@@ -1,0 +1,24 @@
+{
+ "dataset": "opentargets 26.09 interaction",
+ "files": 2,
+ "generated_utc": "2026-10-25T15:52:41Z",
+ "rows_per_source": {
+  "string": 13205373,
+  "intact": 1310951,
+  "reactome": 56076,
+  "signor": 39799
+ },
+ "rows_with_both_targets": {
+  "string": 12978048,
+  "intact": 1261638,
+  "reactome": 54573,
+  "signor": 39421
+ },
+ "distinct_unordered_gene_pairs": {
+  "string": 6482505,
+  "intact": 594648,
+  "reactome": 27060,
+  "signor": 19401
+ },
+ "text": "{\"rows_per_source\": {\"string\": 13205373, \"intact\": 1310951, \"reactome\": 56076, \"signor\": 39799}, \"distinct_pairs\": {\"string\": 6482505, \"intact\": 594648, \"reactome\": 27060, \"signor\": 19401}}"
+}

@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-10-25T14:57:34Z",
- "commit": "a7d725297e43db640cdb36d8ba6e5ea2218cd008",
+ "generated_utc": "2026-10-26T02:57:00Z",
+ "commit": "27cb8cdbaddd3a134fb634a1acf7829b0f437ffe",
  "visibility": "visibility: public (ziadwalieddine-create/dc)",
  "checks": [
   {
@@ -21,7 +21,7 @@
   {
    "check": "catalogue records validate against the vocabulary, evidence files and acquisition targets",
    "ok": true,
-   "detail": "35 source records valid; 89 acquisition targets; 225 evidence probes"
+   "detail": "53 source records valid; 146 acquisition targets; 251 evidence probes"
   },
   {
    "check": "repository policy: size, personal-genome file types, credential patterns",
@@ -31,7 +31,7 @@
   {
    "check": "all scripts compile",
    "ok": true,
-   "detail": "25 scripts"
+   "detail": "30 scripts"
   },
   {
    "check": "the claim checker detects a changed number in every claim (mutation self-test)",
@@ -170,25 +170,25 @@
    "doc": "catalogue/MASTER_INVENTORY.md",
    "pattern": "(\\d+) sources catalogued",
    "status": "PASS",
-   "detail": "[35.0]"
+   "detail": "[53.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "`validate\\.py`: (\\d+) of (\\d+) targets pass",
    "status": "PASS",
-   "detail": "[89.0, 89.0]"
+   "detail": "[146.0, 146.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "(\\d+) manifest records",
    "status": "PASS",
-   "detail": "[89.0]"
+   "detail": "[146.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "`compat_tests\\.py`: (\\d+) tests, (\\d+) PASS, (\\d+) FAIL, (\\d+) INFO",
    "status": "PASS",
-   "detail": "[88.0, 81.0, 0.0, 7.0]"
+   "detail": "[115.0, 101.0, 0.0, 14.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
@@ -230,11 +230,11 @@
  "branches": [
   {
    "branch": "ccr-b13fd75a-ra9gfy",
-   "tip": "a7d7252",
+   "tip": "27cb8cd",
    "date": "2026-10-25",
-   "subject": "Mirror the GRCh38 reference sequence and gene annotation; add SIFTS, gnomAD LoF curation a",
-   "tracked_files": 399,
-   "ahead_of_main": "5",
+   "subject": "Add evidence profiles, mechanism matrix, repository audit and evidence-support checks",
+   "tracked_files": 459,
+   "ahead_of_main": "6",
    "behind_main": "0"
   },
   {
@@ -257,11 +257,11 @@
   },
   {
    "branch": "origin/ccr-b13fd75a-ra9gfy",
-   "tip": "a7d7252",
+   "tip": "27cb8cd",
    "date": "2026-10-25",
-   "subject": "Mirror the GRCh38 reference sequence and gene annotation; add SIFTS, gnomAD LoF curation a",
-   "tracked_files": 399,
-   "ahead_of_main": "5",
+   "subject": "Add evidence profiles, mechanism matrix, repository audit and evidence-support checks",
+   "tracked_files": 459,
+   "ahead_of_main": "6",
    "behind_main": "0"
   },
   {
@@ -721,7 +721,7 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
+   "mapped": true,
    "integrated": false,
    "bytes": 8634035
   },
@@ -735,7 +735,7 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
+   "mapped": true,
    "integrated": false,
    "bytes": 97483
   },
@@ -1617,7 +1617,7 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
+   "mapped": true,
    "integrated": false,
    "bytes": 26844
   },
@@ -1716,20 +1716,943 @@
    "mapped": true,
    "integrated": false,
    "bytes": 193085083
+  },
+  {
+   "id": "refseq_grch38p14_assembly_report",
+   "source": "refseq",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "reference_annotation",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 80454
+  },
+  {
+   "id": "refseq_grch38p14_assembly_regions",
+   "source": "refseq",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "reference_annotation",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 45306
+  },
+  {
+   "id": "refseq_grch38p14_alt_scaffold_placement",
+   "source": "refseq",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "reference_annotation",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 65881
+  },
+  {
+   "id": "refseq_grch38p14_feature_count",
+   "source": "refseq",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 9901
+  },
+  {
+   "id": "refseq_annotation_release_readme",
+   "source": "refseq",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 2108
+  },
+  {
+   "id": "refseq_grch38p14_genomic_gff",
+   "source": "refseq",
+   "tier": "B",
+   "kind": "gff.gz",
+   "supports": [
+    "reference_annotation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 78190483
+  },
+  {
+   "id": "giab_v3_6_grch38_readme",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 9016
+  },
+  {
+   "id": "giab_v3_6_grch38_background",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 4316
+  },
+  {
+   "id": "giab_v3_6_grch38_stratification_list",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 17629
+  },
+  {
+   "id": "giab_v3_6_grch38_md5s",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 17864
+  },
+  {
+   "id": "giab_v3_6_grch38_alldifficultregions",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 31493049
+  },
+  {
+   "id": "giab_v3_6_grch38_alllowmapandsegdupregions",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 3513364
+  },
+  {
+   "id": "giab_v3_6_grch38_lowmappabilityall",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 4466885
+  },
+  {
+   "id": "giab_v3_6_grch38_segdups",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 65098
+  },
+  {
+   "id": "giab_v3_6_grch38_segdups_gt10kb",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 16937
+  },
+  {
+   "id": "giab_v3_6_grch38_mhc",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 82
+  },
+  {
+   "id": "giab_v3_6_grch38_kir",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 83
+  },
+  {
+   "id": "giab_v3_6_grch38_vdj",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 162
+  },
+  {
+   "id": "giab_v3_6_grch38_false_duplications_correct_copy",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 201
+  },
+  {
+   "id": "giab_v3_6_grch38_false_duplications_incorrect_copy",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 178
+  },
+  {
+   "id": "giab_v3_6_grch38_collapsed_duplication_fp_regions",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 1709
+  },
+  {
+   "id": "giab_v3_6_grch38_population_cnv_fp_regions",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 4566
+  },
+  {
+   "id": "giab_v3_6_grch38_l1h_gt500",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 9297
+  },
+  {
+   "id": "giab_v3_6_grch38_gaps_slop15kb",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 6976
+  },
+  {
+   "id": "giab_v3_6_grch38_allotherdifficultregions",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 316313
+  },
+  {
+   "id": "giab_v3_6_grch38_cmrgv1_00_falselyduplicatedgenes",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 109
+  },
+  {
+   "id": "giab_v3_6_grch38_badpromoters",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 7968
+  },
+  {
+   "id": "giab_v3_6_grch38_alltandemrepeats",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 9228465
+  },
+  {
+   "id": "giab_v3_6_grch38_satellites_slop5",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 47277
+  },
+  {
+   "id": "giab_v3_6_grch38_chrx_par",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 138
+  },
+  {
+   "id": "giab_v3_6_grch38_chry_par",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 138
+  },
+  {
+   "id": "giab_v3_6_grch38_chrx_xtr",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 82
+  },
+  {
+   "id": "giab_v3_6_grch38_chrx_ampliconic",
+   "source": "giab_stratifications",
+   "tier": "A",
+   "kind": "bed.gz",
+   "supports": [
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 209
+  },
+  {
+   "id": "proteingym_v1_3_dms_substitutions",
+   "source": "proteingym",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 43021128
+  },
+  {
+   "id": "proteingym_v1_3_dms_indels",
+   "source": "proteingym",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 6709750
+  },
+  {
+   "id": "proteingym_v1_3_dms_substitutions_reference",
+   "source": "proteingym",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 208734
+  },
+  {
+   "id": "proteingym_v1_3_dms_indels_reference",
+   "source": "proteingym",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 44542
+  },
+  {
+   "id": "hpa_v25_1_rna_tissue_consensus",
+   "source": "hpa",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 5293680
+  },
+  {
+   "id": "hpa_v25_1_rna_single_cell_type",
+   "source": "hpa",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "regulation_expression_splicing"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 16346850
+  },
+  {
+   "id": "hpa_v25_1_subcellular_location",
+   "source": "hpa",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "protein_structure_function"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 252331
+  },
+  {
+   "id": "biogrid_interactions_organism_tab3",
+   "source": "biogrid_interactions",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "pathways_interactions_epistasis"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 188866951
+  },
+  {
+   "id": "hgsvc3_grch38_sv_insdel_sym_vcf",
+   "source": "hgsvc3",
+   "tier": "A",
+   "kind": "vcf.gz",
+   "supports": [
+    "structural_variation_cnv",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 6408218
+  },
+  {
+   "id": "hgsvc3_grch38_sv_inv_sym_vcf",
+   "source": "hgsvc3",
+   "tier": "A",
+   "kind": "vcf.gz",
+   "supports": [
+    "structural_variation_cnv",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 22606
+  },
+  {
+   "id": "hgsvc3_variant_calls_readme",
+   "source": "hgsvc3",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "structural_variation_cnv",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1809
+  },
+  {
+   "id": "hgsvc3_variant_calls_manifest",
+   "source": "hgsvc3",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "structural_variation_cnv",
+    "complex_loci_callability"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 8506
+  },
+  {
+   "id": "cpic_api_allele_definition",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 199553
+  },
+  {
+   "id": "cpic_api_allele_location_value",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 271348
+  },
+  {
+   "id": "cpic_api_sequence_location",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 251953
+  },
+  {
+   "id": "cpic_api_allele",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1062771
+  },
+  {
+   "id": "cpic_api_gene_result",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 86915
+  },
+  {
+   "id": "cpic_api_gene_result_lookup",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 68193
+  },
+  {
+   "id": "cpic_api_gene_result_diplotype",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 22178103
+  },
+  {
+   "id": "cpic_api_recommendation",
+   "source": "cpic",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 2356919
+  },
+  {
+   "id": "impc_r24_readme",
+   "source": "impc",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "perturbation_evidence",
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 19984
+  },
+  {
+   "id": "impc_r24_genotype_phenotype_assertions_all",
+   "source": "impc",
+   "tier": "A",
+   "kind": "csv.gz",
+   "supports": [
+    "perturbation_evidence",
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 5001223
+  },
+  {
+   "id": "impc_r24_gene_mp_association_1",
+   "source": "impc",
+   "tier": "A",
+   "kind": "csv.gz",
+   "supports": [
+    "perturbation_evidence",
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 197649
+  },
+  {
+   "id": "impc_r24_viability",
+   "source": "impc",
+   "tier": "A",
+   "kind": "csv.gz",
+   "supports": [
+    "perturbation_evidence",
+    "natural_knockouts_dosage"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": false,
+   "bytes": 479554
   }
  ],
  "dataset_summary": {
-  "listed": 89,
-  "acquired": 89,
-  "verified": 89,
-  "mapped": 66,
+  "listed": 146,
+  "acquired": 146,
+  "verified": 146,
+  "mapped": 107,
   "integrated": 0
  },
  "manifests": [
   {
    "path": "acquisition/manifest.jsonl",
-   "records": 89,
-   "detail": "89 ok"
+   "records": 146,
+   "detail": "146 ok"
   },
   {
    "path": "acquisition/manifest_files/alphafold_db_mavedb_proteins.tsv",
@@ -1908,7 +2831,7 @@
   },
   {
    "path": "catalogue/evidence/evidence_index.jsonl",
-   "records": 267,
+   "records": 295,
    "detail": "append-only record of every probe (URL, time, status, sha256)"
   }
  ],
@@ -1916,8 +2839,8 @@
   {
    "path": "AUDIT_LOG.md",
    "title": "Audit log",
-   "lines": 151,
-   "bytes": 30504,
+   "lines": 200,
+   "bytes": 40459,
    "last_commit": "2026-10-25"
   },
   {
@@ -1937,50 +2860,64 @@
   {
    "path": "catalogue/ACQUIRED_FILES.md",
    "title": "Acquired files register",
-   "lines": 97,
-   "bytes": 29110,
+   "lines": 154,
+   "bytes": 46361,
    "last_commit": "2026-10-25"
   },
   {
    "path": "catalogue/ATTRIBUTION.md",
    "title": "Attribution and licence notes for the data we hold",
-   "lines": 35,
-   "bytes": 8161,
+   "lines": 42,
+   "bytes": 10407,
    "last_commit": "2026-10-25"
   },
   {
    "path": "catalogue/COVERAGE_MATRIX.md",
    "title": "Coverage matrix: evidence dimensions by lifecycle stage",
-   "lines": 205,
-   "bytes": 16061,
+   "lines": 229,
+   "bytes": 19827,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/EVIDENCE_PROFILES.md",
+   "title": "Evidence profiles",
+   "lines": 856,
+   "bytes": 98143,
    "last_commit": "2026-10-25"
   },
   {
    "path": "catalogue/GAP_MATRIX.md",
    "title": "Gap matrix",
-   "lines": 60,
-   "bytes": 15307,
+   "lines": 66,
+   "bytes": 20607,
    "last_commit": "2026-10-25"
   },
   {
    "path": "catalogue/MASTER_INVENTORY.md",
    "title": "Master inventory of reusable genomic resources",
-   "lines": 126,
-   "bytes": 15623,
+   "lines": 149,
+   "bytes": 22029,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "catalogue/MECHANISM_MATRIX.md",
+   "title": "Mechanism matrix: variant types by mechanism axis",
+   "lines": 322,
+   "bytes": 27945,
    "last_commit": "2026-10-25"
   },
   {
    "path": "catalogue/README.md",
    "title": "Evidence-source catalogue",
-   "lines": 38,
-   "bytes": 4180,
+   "lines": 47,
+   "bytes": 7424,
    "last_commit": "2026-10-25"
   },
   {
    "path": "catalogue/REUSE_PLAN.md",
    "title": "Source-by-source reuse, acquisition and integration plan",
-   "lines": 235,
-   "bytes": 24174,
+   "lines": 350,
+   "bytes": 40067,
    "last_commit": "2026-10-25"
   },
   {
@@ -1988,6 +2925,13 @@
    "title": "Existing assets: inventory and verified status",
    "lines": 49,
    "bytes": 3454,
+   "last_commit": "2026-10-25"
+  },
+  {
+   "path": "inventory/REPOSITORY_AUDIT.md",
+   "title": "Repository audit",
+   "lines": 251,
+   "bytes": 22773,
    "last_commit": "2026-10-25"
   },
   {
@@ -2040,7 +2984,7 @@
   },
   {
    "path": "acquisition/compat_tests.py",
-   "lines": 852,
+   "lines": 859,
    "compiles": true,
    "purpose": "Compatibility tests: do the acquired resources join to the existing dc assets (MaveDB human set)?"
   },
@@ -2094,15 +3038,27 @@
   },
   {
    "path": "acquisition/validate.py",
-   "lines": 1222,
+   "lines": 1758,
    "compiles": true,
    "purpose": "Validate downloaded external files against each source's own description."
   },
   {
    "path": "catalogue/build_catalogue.py",
-   "lines": 536,
+   "lines": 572,
    "compiles": true,
    "purpose": "Validate catalogue/sources/*.json and generate the inventory, coverage matrix, gap matrix and reuse plan."
+  },
+  {
+   "path": "catalogue/derive/evidence_support.py",
+   "lines": 222,
+   "compiles": true,
+   "purpose": "Find statements in the source records that none of their stored evidence supports."
+  },
+  {
+   "path": "catalogue/derive/gnomad_sv_header.py",
+   "lines": 38,
+   "compiles": true,
+   "purpose": "Record the INFO and FILTER definitions of the gnomAD v4.1 SV sites VCF, read from the header of the downloaded"
   },
   {
    "path": "catalogue/derive/gnomad_vcf_header.py",
@@ -2129,6 +3085,18 @@
    "purpose": "Measure the size of every Open Targets output dataset from the EBI FTP directory indexes (read-only listing re"
   },
   {
+   "path": "catalogue/derive/pdf_text.py",
+   "lines": 39,
+   "compiles": true,
+   "purpose": "Store the text of a PDF as evidence (the probe collector decodes bodies as text and cannot read PDFs)."
+  },
+  {
+   "path": "catalogue/derive/vep_plugins.py",
+   "lines": 85,
+   "compiles": true,
+   "purpose": "List the Ensembl VEP plugins from the documentation page and keep what the page says about their data and lice"
+  },
+  {
    "path": "catalogue/probe.py",
    "lines": 128,
    "compiles": true,
@@ -2151,6 +3119,12 @@
    "lines": 99,
    "compiles": true,
    "purpose": "Repository policy check: nothing that must stay out of git is tracked, and the visibility is stated."
+  },
+  {
+   "path": "inventory/repository_audit.py",
+   "lines": 416,
+   "compiles": true,
+   "purpose": "Repository audit: what exists, what state it is in, and whether the documentation matches the implementation."
   },
   {
    "path": "scrape/mavedb-human/build_index.py",

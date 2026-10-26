@@ -1,0 +1,153 @@
+{
+ "id": "refseq",
+ "name": "NCBI RefSeq: GRCh38.p14 accession map, alternate-locus placement and gene annotation (release RS_2025_08)",
+ "categories": [
+  "reference_annotation",
+  "complex_loci_callability"
+ ],
+ "maintainer": "NCBI (National Library of Medicine)",
+ "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/",
+ "provenance": [
+  "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/",
+  "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/annotation_releases/"
+ ],
+ "version": {
+  "value": "GCF_000001405.40 (GRCh38.p14) with annotation release GCF_000001405.40-RS_2025_08 (annotation software 10.4, evidence freeze 01-August-2025, release 06-August-2025); the annotation_releases listing shows RS_2025_08 as the current release",
+  "release_date": "2025-08-06",
+  "verified": "live"
+ },
+ "scope": "The RefSeq view of GRCh38.p14: the assembly report that maps every sequence between RefSeq, GenBank and UCSC-style names and gives its role (assembled molecule, alternate scaffold, fix or novel patch, unlocalised or unplaced scaffold); the named regions that carry alternate loci or patches; the placement of each alternate-locus and patch scaffold on the chromosomes; and the RefSeq annotation of genes, transcripts (NM_, NR_, XM_, XR_), exons and CDS in GFF3, made by the NCBI eukaryotic annotation pipeline (Best-placed RefSeq, Gnomon, RefSeqFE, cmsearch, tRNAscan-SE).",
+ "variant_classes": [
+  "gene_level",
+  "region_level",
+  "complex_locus"
+ ],
+ "assemblies": [
+  "GRCh38"
+ ],
+ "formats": [
+  "TXT/TSV",
+  "GFF3 (gzip)"
+ ],
+ "identifiers": [
+  "RefSeq accessions (NC_, NT_, NW_, NM_, NR_, XM_, XR_)",
+  "GenBank accessions",
+  "UCSC-style sequence names",
+  "GeneID",
+  "HGNC ID"
+ ],
+ "mapping_methods": "The assembly report gives RefSeq accession, GenBank accession, sequence name and UCSC-style name for each sequence, which is how contig names used by ClinVar (RefSeq NT_/NW_), Ensembl (sequence names) and GIAB (chr names) are tied together; the GFF3 carries GeneID and HGNC cross-references per gene.",
+ "quantitative": {
+  "summary": "Sequence and feature annotation; no scores.",
+  "units": "n/a",
+  "uncertainty": "n/a",
+  "direction": "n/a"
+ },
+ "licence": {
+  "name": "NCBI data usage policy: NCBI places no restrictions on the use or distribution of the data in its databases; original submitters may claim rights; acknowledgement of NLM is requested (NCBI Policies and Disclaimers page). RefSeq-specific terms were not separately retrieved.",
+  "redistribution": "No NCBI restriction; third-party submitter rights may apply",
+  "access": "open",
+  "verified": "live"
+ },
+ "update_frequency": "Annotation releases roughly yearly for GRCh38.p14 (the listing shows RS_2023_03, RS_2023_10, RS_2024_08 and RS_2025_08); the assembly itself changes only with a new patch release.",
+ "coverage_limitations": [
+  "GRCh38.p14 only; the T2T-CHM13v2.0 RefSeq annotation (GCF_009914755.1) is listed by NCBI but not fetched",
+  "The annotation is NCBI's own gene set: it differs from the Ensembl and GENCODE gene sets in transcripts, boundaries and identifiers; MANE Select pairs one transcript of each",
+  "Placements on alternate loci and patches repeat genes of the primary assembly, so feature counts are larger than counts of distinct genes"
+ ],
+ "known_omissions": [
+  "Genome, transcript and protein sequence files (genomic.fna 928 MB, rna, protein, gbff), the GTF, feature table, repeat annotation output (rm.out) and the per-scaffold alignments are not fetched",
+  "Annotation_comparison files and the annotation report are not fetched"
+ ],
+ "overlap_with_existing": [
+  "ensembl-human-genomes"
+ ],
+ "reuse_decision": {
+  "action": "retrieve_source",
+  "rationale": "ClinVar reports HGVS on RefSeq transcripts and some records on RefSeq NT_/NW_ contigs; the assembly report is the authoritative map from those names to the Ensembl and UCSC names used elsewhere, and the placement files identify the alternate-locus and patch regions where one reference interval has competing representations. The 80 KB report, 45 KB regions file and 78 MB GFF are small relative to their use; sequence files are not needed because the Ensembl FASTA is mirrored."
+ },
+ "status": {
+  "accessible": "yes",
+  "notes": "FTP files with MD5 checksums published in md5checksums.txt; all six files verified against them."
+ },
+ "unverified_fields": [
+  "RefSeq-specific licence statement"
+ ],
+ "evidence": [
+  "refseq/ftp_assembly_dir",
+  "refseq/annotation_listing",
+  "refseq/annotation_releases_listing",
+  "refseq/annotation_releases_current",
+  "refseq/md5checksums",
+  "refseq/assembly_report_head",
+  "refseq/assembly_regions_head",
+  "refseq/alt_scaffold_placement_head",
+  "refseq/assembly_structure_readme",
+  "refseq/genomic_gff_head",
+  "refseq/annotation_release_readme",
+  "refseq/feature_count",
+  "gencode/ncbi_policies"
+ ],
+ "acquisition_targets": [
+  "refseq_grch38p14_assembly_report",
+  "refseq_grch38p14_assembly_regions",
+  "refseq_grch38p14_alt_scaffold_placement",
+  "refseq_grch38p14_feature_count",
+  "refseq_annotation_release_readme",
+  "refseq_grch38p14_genomic_gff"
+ ],
+ "evidence_profile": {
+  "evidence_kind": [
+   "reference_annotation"
+  ],
+  "allele_resolution": "region_level",
+  "mechanism_evidence": [
+   {
+    "axis": "truncation_nmd",
+    "variant_classes": [
+     "gene_level",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "RefSeq transcript structures on which ClinVar HGVS is expressed"
+   },
+   {
+    "axis": "splicing",
+    "variant_classes": [
+     "gene_level",
+     "region_level"
+    ],
+    "basis": "context",
+    "dimension": "reference_annotation",
+    "note": "exon structure of RefSeq transcripts"
+   },
+   {
+    "axis": "paralog_complex_locus",
+    "variant_classes": [
+     "complex_locus"
+    ],
+    "basis": "context",
+    "dimension": "complex_loci_callability",
+    "note": "alternate-locus and patch scaffolds and the regions they cover"
+   }
+  ],
+  "biological_context": "Reference accessions and transcript models of one haploid reference with alternate loci and patches. The annotation is a set of transcript models and not a map of which isoform is expressed where.",
+  "evidence_strength": "Reference data from an automated and curated annotation pipeline; correctness is checked here by published checksums, structural consistency of the GFF and joins to the other reference files.",
+  "mechanistic_confidence": "Not applicable. It supplies identifiers, roles and transcript structure needed to define consequences and to recognise regions with competing representations; it asserts no effect.",
+  "phenotype_implication": "None: accession maps and gene models carry no phenotype information.",
+  "absence_means": "A sequence not in the report is not part of GRCh38.p14; a position outside annotated features is not shown to be non-functional; a region without alternate loci or patches is not shown to be free of duplication.",
+  "overlaps_with_sources": [
+   {
+    "source": "gencode_mane",
+    "relation": "independent_related",
+    "note": "MANE Select pairs one RefSeq with one Ensembl transcript per gene; the RefSeq half of MANE should reappear in this annotation, and the two gene sets are otherwise independent annotations of the same genome"
+   },
+   {
+    "source": "ensembl_genomes",
+    "relation": "independent_related",
+    "note": "independent annotation of the same assembly; compare transcript sets and boundaries, never merge counts"
+   }
+  ]
+ }
+}
