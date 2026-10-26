@@ -1,0 +1,16 @@
+ 
+ Index of /pub/databases/spot/pgs/metadata 
+ Index of /pub/databases/spot/pgs/metadata 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ pgs_all_metadata.tar.gz 2026-10-23 10:29 4.6M   
+ pgs_all_metadata.xlsx 2026-10-23 10:29 3.7M   
+ pgs_all_metadata_cohorts.csv 2026-10-23 10:29 120K   
+ pgs_all_metadata_efo_traits.csv 2026-10-23 10:29 199K   
+ pgs_all_metadata_evaluation_sample_sets.csv 2026-10-23 10:29 1.6M   
+ pgs_all_metadata_performance_metrics.csv 2026-10-23 10:29 5.2M   
+ pgs_all_metadata_publications.csv 2026-10-23 10:29 447K   
+ pgs_all_metadata_score_development_samples.csv 2026-10-23 10:29 2.6M   
+ pgs_all_metadata_scores.csv 2026-10-23 10:29 4.1M   
+ previous_releases/ 2026-02-26 11:26 -   
+ publications/ 2026-07-28 15:40 -   

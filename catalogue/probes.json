@@ -1464,5 +1464,183 @@
   "source": "impc",
   "name": "results_listing_r24",
   "url": "https://ftp.ebi.ac.uk/pub/databases/impc/all-data-releases/release-24.0/results/"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "home",
+  "url": "https://www.pgscatalog.org/"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "about_terms",
+  "url": "https://www.pgscatalog.org/about/"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "downloads",
+  "url": "https://www.pgscatalog.org/downloads/"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "ftp_readme",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/README.txt"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "ftp_root_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "ftp_metadata_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "scores_list_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/pgs_scores_list.txt",
+  "range": [
+   0,
+   1200
+  ]
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "scoring_file_hmpos_grch38_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/scores/PGS000001/ScoringFiles/Harmonized/PGS000001_hmPOS_GRCh38.txt.gz",
+  "gunzip": true,
+  "note": "whole small file; the header documents the harmonised columns and match statistics"
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "metadata_scores_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_scores.csv",
+  "range": [
+   0,
+   6000
+  ]
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "metadata_performance_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_performance_metrics.csv",
+  "range": [
+   0,
+   4000
+  ]
+ },
+ {
+  "source": "pgs_catalog",
+  "name": "ebi_terms_of_use",
+  "url": "https://www.ebi.ac.uk/about/terms-of-use/"
+ },
+ {
+  "source": "clingen",
+  "name": "actionability_assertions_head",
+  "url": "https://actionability.clinicalgenome.org/ac/Adult/api/summ/assertion?format=tsv&assertionType=all",
+  "range": [
+   0,
+   5000
+  ]
+ },
+ {
+  "source": "clingen",
+  "name": "actionability_scoring_head",
+  "url": "https://actionability.clinicalgenome.org/ac/Adult/api/summ/scoring?format=tsv&excludeNotScored=true",
+  "range": [
+   0,
+   5000
+  ]
+ },
+ {
+  "source": "clingen",
+  "name": "erepo_classifications_head",
+  "url": "https://erepo.clinicalgenome.org/evrepo/api/summary/classifications/download?type=csv",
+  "range": [
+   0,
+   6000
+  ]
+ },
+ {
+  "source": "clingen",
+  "name": "erepo_docs",
+  "url": "https://erepo.clinicalgenome.org/docs/cg-erepo/"
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "ftp_release_2026_10_22_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2026/10/22/"
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "studies_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2026/10/22/gwas-catalog-download-studies-v1.0.3.1.tsv",
+  "range": [
+   0,
+   5000
+  ]
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "ancestries_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2026/10/22/gwas-catalog-download-ancestries-v1.0.3.1.tsv",
+  "range": [
+   0,
+   4000
+  ]
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "sumstats_root_listing",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/"
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "sumstats_harmonised_list_head",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/harmonised_list.txt",
+  "range": [
+   0,
+   2500
+  ]
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "sumstats_study_listing_example",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST000001-GCST001000/GCST000028/harmonised/"
+ },
+ {
+  "source": "gwas_catalog",
+  "name": "sumstats_docs",
+  "url": "https://www.ebi.ac.uk/gwas/docs/summary-statistics-format"
+ },
+ {
+  "source": "clinvar",
+  "name": "xml_listing",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/"
+ },
+ {
+  "source": "clinvar",
+  "name": "xml_readme",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/_README"
+ },
+ {
+  "source": "clinvar",
+  "name": "submission_summary_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/submission_summary.txt.gz",
+  "range": [
+   0,
+   20000
+  ],
+  "gunzip": true
+ },
+ {
+  "source": "clinvar",
+  "name": "vcv_xml_head",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarVCVRelease_00-latest.xml.gz",
+  "range": [
+   0,
+   60000
+  ],
+  "gunzip": true
  }
 ]

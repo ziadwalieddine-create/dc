@@ -1,0 +1,70 @@
+
+ PGS Catalog - The Polygenic Score Catalog 
+ PGS Catalog 
+ Home 
+ Browse 
+ Polygenic Scores 
+ Traits 
+ Publications 
+ Downloads 
+ Data Downloads 
+ REST API 
+ Documentation 
+ About 
+ Ancestry Data 
+ Data Description 
+ FAQ 
+ Examples: breast cancer , glaucoma , BMI , EFO_0001645 
+ Feedback 
+ 38 New Publications: 14 ">
+ Latest release: Oct. 23, 2026 
+ The Polygenic Score (PGS) Catalog 
+ An open database of polygenic scores and the relevant metadata required for accurate application and evaluation. 
+ Examples: breast cancer , glaucoma , BMI , EFO_0001645 
+ Available tool: pgsc_calc A reproducible workflow to calculate both PGS Catalog and custom polygenic scores. See more information 
+ Explore the Data 
+ In the current PGS Catalog you can browse the scores and metadata through the following categories: 
+ Polygenic Scores 
+ 7,029 
+ Traits 
+ 820 
+ Publications 
+ 850 
+ Submit a PGS
+ What is a PGS ? 
+ A polygenic score (PGS) aggregates the effects of many genetic variants into a single number
+ which predicts genetic predisposition for a phenotype. PGS are typically composed of hundreds-to-millions
+ of genetic variants (usually SNPs )
+ which are combined using a weighted sum of allele dosages multiplied by their corresponding effect sizes,
+ as estimated from a relevant genome-wide association study ( GWAS ).
+ PGS nomenclature is heterogeneous: they can also be referred to as genetic scores , or as
+ genomic risk scores (GRS) or polygenic risk scores (PRS) if they predict a discrete phenotype, such as a disease.
+ About the PGS Catalog 
+ The PGS Catalog 
+ is an open database of published polygenic scores (PGS) . Each PGS in the Catalog is consistently
+ annotated with relevant metadata; including scoring files (variants, effect alleles/weights),
+ annotations of how the PGS was developed and applied, and evaluations of their predictive performance.
+ See our tutorial for a comprehensive introduction.
+ More about the PGS Catalog project, descriptions of the data, and publication eligibility criteria
+ can be found in our documentation and recent publication .
+ Downloads & Access 
+ Bulk downloads of PGS metadata and scoring files (variants, effect alleles/weights)
+ needed to calculate PGS on your own data are available from the website and FTP.
+ View available PGS Catalog downloads . 
+ Programmatic access to the Catalog metadata through our REST API . 
+ Command line download via the pgscatalog_utils Python package. 
+ We also provide software for reproducible calculation of PGS Catalog and custom polygenic scores (pgsc_calc) .
+ Submissions & Contact 
+ You can submit your data to the PGS catalog at the publication, preprint, or pre-release/embargo stages
+ ( instructions ). 
+ Recommend missing PGS publications and scores for inclusion in the Catalog using this form .
+ To provide feedback , or ask questions : contact the PGS Catalog team at pgs-info@ebi.ac.uk .
+ Development of the PGS Catalog is supported by: 
+ This repository is under review for potential modification in compliance with Administration directives. This resource is part funded by NIH and the US government requires this banner. The resource continues to operate as usual at EMBL-EBI & University of Cambridge.
+ Supported by: 
+ Copyright © EMBL-EBI 2026 
+ EMBL-EBI is an Outstation of the European Molecular Biology Laboratory 
+ Privacy 
+ Cookies 
+ Terms of use 
+ Data Preservation Statement 

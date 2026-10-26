@@ -85,15 +85,28 @@ class BuildContext:
         self.manifest = {}
         mp = manifest_path or os.path.join(REPO, 'acquisition', 'manifest.jsonl')
         if os.path.exists(mp):
-            for line in open(mp):
-                if line.strip():
-                    r = json.loads(line)
-                    self.manifest[r['id']] = r
+            with open(mp) as f:
+                for line in f:
+                    if line.strip():
+                        r = json.loads(line)
+                        self.manifest[r['id']] = r
         self.targets = {}
         tp = os.path.join(REPO, 'acquisition', 'targets.json')
         if os.path.exists(tp):
-            self.targets = {t['id']: t for t in json.load(open(tp))}
+            with open(tp) as f:
+                self.targets = {t['id']: t for t in json.load(f)}
         self.adapter = None
+        self.interest = {}      # namespace -> identifiers some adapter wants resolved to entities
+        self.found = {}         # (namespace, identifier) -> entity id, filled by the adapter that owns the namespace
+
+    def want(self, namespace, identifiers):
+        self.interest.setdefault(namespace, set()).update(str(i) for i in identifiers)
+
+    def offer(self, namespace, identifier, entity_id):
+        """Called by an adapter for every identifier it maps to an entity; kept only when another adapter asked for it."""
+        w = self.interest.get(namespace)
+        if w and identifier in w:
+            self.found.setdefault((namespace, identifier), []).append(entity_id)
 
     def st(self, name=None):
         name = name or (self.adapter.source_id if self.adapter else '_')

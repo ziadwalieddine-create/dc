@@ -1,0 +1,9 @@
+ 
+ Index of /pub/databases/gwas/summary_statistics/GCST000001-GCST001000/GCST000028/harmonised 
+ Index of /pub/databases/gwas/summary_statistics/GCST000001-GCST001000/GCST000028/harmonised 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ 17463246-GCST000028-EFO_0001360-Build35.f.tsv.gz 2021-02-05 08:21 30M   
+ 17463246-GCST000028-EFO_0001360.h.tsv.gz 2021-02-05 08:20 34M   
+ 17463246-GCST000028-EFO_0001360.h.tsv.gz-meta.yaml 2025-01-22 12:54 811   
+ readme.txt 2021-02-05 08:22 7.7K   

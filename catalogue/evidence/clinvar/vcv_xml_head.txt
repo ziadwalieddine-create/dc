@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ClinVarVariationRelease xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ftp.ncbi.nlm.nih.gov/pub/clinvar/xsd_public/ClinVar_VCV_2.6.xsd" ReleaseDate="2026-09-28">
+<VariationArchive RecordType="classified" VariationID="455" VariationName="NM_000097.7(CPOX):c.489_509del (p.Cys164_Val170del)" VariationType="Deletion" Accession="VCV000000455" Version="2" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2022-04-25" DateCreated="2020-05-31" MostRecentSubmission="2020-05-31">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="15494" VariationID="455">
+      <GeneList>
+        <Gene Symbol="CPOX" FullName="coproporphyrinogen oxidase" GeneID="1371" HGNC_ID="HGNC:2321" Source="submitted" RelationshipType="within single gene">
+          <Location>
+            <CytogeneticLocation>3q11.2</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="98570488" stop="98593611" display_start="98570488" display_stop="98593611" Strand="-"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="98298289" stop="98312454" display_start="98298289" display_stop="98312454" Strand="-"/>
+          </Location>
+          <OMIM>612732</OMIM>
+        </Gene>
+      </GeneList>
+      <Name>NM_000097.7(CPOX):c.489_509del (p.Cys164_Val170del)</Name>
+      <CanonicalSPDI>NC_000003.12:98592995:ACCTGTGCCAGAGCCTGGCACACCTG:ACCTG</CanonicalSPDI>
+      <VariantType>Deletion</VariantType>
+      <Location>
+        <CytogeneticLocation>3q11.2</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" forDisplay="true" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="98592996" stop="98593016" display_start="98592996" display_stop="98593016" variantLength="21" positionVCF="98592995" referenceAlleleVCF="TACCTGTGCCAGAGCCTGGCAC" alternateAlleleVCF="T"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="98311840" stop="98311860" display_start="98311840" display_stop="98311860" variantLength="21" positionVCF="98311839" referenceAlleleVCF="TACCTGTGCCAGAGCCTGGCAC" alternateAlleleVCF="T"/>
+      </Location>
+      <HGVSlist>
+        <HGVS Type="coding">
+          <NucleotideExpression sequenceAccessionVersion="LRG_1077t1" sequenceAccession="LRG_1077t1" change="c.489_509del">
+            <Expression>LRG_1077t1:c.489_509del</Expression>
+          </NucleotideExpression>
+          <ProteinExpression sequenceAccessionVersion="LRG_1077p1" sequenceAccession="LRG_1077p1" change="p.Cys164_Val170del">
+            <Expression>LRG_1077p1:p.Cys164_Val170del</Expression>
+          </ProteinExpression>
+        </HGVS>
+        <HGVS Type="genomic">
+          <NucleotideExpression sequenceAccessionVersion="LRG_1077" sequenceAccession="LRG_1077" change="g.5596_5616del">
+            <Expression>LRG_1077:g.5596_5616del</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Assembly="GRCh37" Type="genomic, top-level">
+          <NucleotideExpression sequenceAccessionVersion="NC_000003.11" sequenceAccession="NC_000003" sequenceVersion="11" change="g.98311845_98311865del" Assembly="GRCh37">
+            <Expression>NC_000003.11:g.98311845_98311865del</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Assembly="GRCh38" Type="genomic, top-level">
+          <NucleotideExpression sequenceAccessionVersion="NC_000003.12" sequenceAccession="NC_000003" sequenceVersion="12" change="g.98593001_98593021del" Assembly="GRCh38">
+            <Expression>NC_000003.12:g.98593001_98593021del</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Type="genomic">
+          <NucleotideExpression sequenceAccessionVersion="NG_015994.2" sequenceAccession="NG_015994" sequenceVersion="2" change="g.5596_5616del">
+            <Expression>NG_015994.2:g.5596_5616del</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Type="coding">
+          <NucleotideExpression sequenceAccessionVersion="NM_000097.7" sequenceAccession="NM_000097" sequenceVersion="7" change="c.489_509del" MANESelect="true">
+            <Expression>NM_000097.7:c.489_509del</Expression>
+          </NucleotideExpression>
+          <ProteinExpression sequenceAccessionVersion="NP_000088.3" sequenceAccession="NP_000088" sequenceVersion="3" change="p.Cys164_Val170del">
+            <Expression>NP_000088.3:p.Cys164_Val170del</Expression>
+          </ProteinExpression>
+          <MolecularConsequence ID="SO:0001822" Type="inframe_deletion" DB="SO"/>
+        </HGVS>
+      </HGVSlist>
+      <XRefList>
+        <XRef ID="CA212740" DB="ClinGen"/>
+        <XRef Type="Allelic variant" ID="612732.0005" DB="OMIM"/>
+        <XRef Type="rs" ID="786205054" DB="dbSNP"/>
+      </XRefList>
+      <Comment DataSource="NCBI curation" Type="public">NCBI staff reviewed the sequence information reported in PubMed 8990017 to determine the location of this allele on the current reference sequence.</Comment>
+    </SimpleAllele>
+    <RCVList>
+      <RCVAccession Title="NM_000097.7(CPOX):c.489_509del (p.Cys164_Val170del) AND Coproporphyria" Accession="RCV000000484" Version="5">
+        <ClassifiedConditionList TraitSetID="128">
+          <ClassifiedCondition DB="MedGen" ID="C0342856">Coproporphyria</ClassifiedCondition>
+        </ClassifiedConditionList>
+        <RCVClassifications>
+          <GermlineClassification>
+            <ReviewStatus>no assertion criteria provided</ReviewStatus>
+            <Description DateLastEvaluated="1997-01-01" SubmissionCount="1">Pathogenic</Description>
+          </GermlineClassification>
+        </RCVClassifications>
+      </RCVAccession>
+    </RCVList>
+    <Classifications>
+      <GermlineClassification DateLastEvaluated="1997-01-01" NumberOfSubmissions="1" NumberOfSubmitters="1" DateCreated="2020-05-31" MostRecentSubmission="2020-05-31">
+        <ReviewStatus>no assertion criteria provided</ReviewStatus>
+        <Description>Pathogenic</Description>
+        <Explanation DataSource="ClinVar" Type="public">Pathogenic (1)</Explanation>
+        <Citation Type="general">
+          <ID Source="PubMed">8990017</ID>
+        </Citation>
+        <ConditionList>
+          <TraitSet ID="128" Type="Disease" ContributesToAggregateClassification="true">
+            <Trait ID="9639" Type="Disease">
+              <Name>
+                <ElementValue Type="Preferred">Coproporphyria</ElementValue>
+                <XRef ID="190915002" DB="SNOMED CT"/>
+              </Name>
+              <XRef ID="C0342856" DB="MedGen"/>
+            </Trait>
+          </TraitSet>
+        </ConditionList>
+      </GermlineClassification>
+    </Classifications>
+    <ClinicalAssertionList>
+      <ClinicalAssertion ID="20633" SubmissionDate="2020-05-22" DateLastUpdated="2020-05-31" DateCreated="2013-04-04" ContributesToAggregateClassification="true">
+        <ClinVarSubmissionID localKey="612732.0005_COPROPORPHYRIA" title="CPOX, 21-BP DEL_COPROPORPHYRIA"/>
+        <ClinVarAccession Accession="SCV000020633" DateUpdated="2020-05-31" DateCreated="2013-04-04" Type="SCV" Version="4" SubmitterName="OMIM" OrgID="3" OrganizationCategory="resource"/>
+        <RecordStatus>current</RecordStatus>
+        <Classification DateLastEvaluated="1997-01-01">
+          <ReviewStatus>no assertion criteria provided</ReviewStatus>
+          <GermlineClassification>Pathogenic</GermlineClassification>
+        </Classification>
+        <Assertion>variation to disease</Assertion>
+        <ObservedInList>
+          <ObservedIn>
+            <Sample>
+              <Origin>germline</Origin>
+              <Species>human</Species>
+              <AffectedStatus>not provided</AffectedStatus>
+            </Sample>
+            <Method>
+              <MethodType>literature only</MethodType>
+            </Method>
+            <ObservedData>
+              <Attribute Type="Description">Lamoril et al. (1997) demonstrated a novel heterozygous mutation in the CPO gene in each of 3 unrelated patients with hereditary coproporphyria (HCP; 121300). The diagnosis was based on the observation of typical clinical manifestations, increased excretions of delta-aminolevulinic acid and porphobilinogen in urine and coproporphyrin III in both feces and urine, and 50% decreased COX activity in lymphocytes. One patient was found to have a 21-bp in-frame deletion after nucleotide 483 in exon 1 (484del21).</Attribute>
+              <Citation>
+                <ID Source="PubMed">8990017</ID>
+              </Citation>
+              <XRef DB="OMIM" ID="121300" Type="MIM"/>
+            </ObservedData>
+          </ObservedIn>
+        </ObservedInList>
+        <SimpleAllele>
+          <GeneList>
+            <Gene Symbol="CPOX"/>
+          </GeneList>
+          <Name>CPOX, 21-BP DEL</Name>
+          <VariantType>Variation</VariantType>
+          <OtherNameList>
+            <Name Type="NonHGVS">21-BP DEL</Name>
+          </OtherNameList>
+          <XRefList>
+            <XRef DB="OMIM" ID="612732.0005" Type="Allelic variant"/>
+          </XRefList>
+        </SimpleAllele>
+        <TraitSet Type="Disease">
+          <Trait Type="Disease">
+            <Name>
+              <ElementValue Type="Preferred">COPROPORPHYRIA</ElementValue>
+            </Name>
+          </Trait>
+        </TraitSet>
+      </ClinicalAssertion>
+    </ClinicalAssertionList>
+    <TraitMappingList>
+      <TraitMapping ClinicalAssertionID="20633" TraitType="Disease" MappingType="Name" MappingValue="COPROPORPHYRIA" MappingRef="Preferred">
+        <MedGen CUI="C0342856" Name="Coproporphyria"/>
+      </TraitMapping>
+    </TraitMappingList>
+  </ClassifiedRecord>
+</VariationArchive>
+
+<VariationArchive RecordType="classified" VariationID="441" VariationName="NG_007480.1:g.(7267_8082)_(8469_9169)del" VariationType="Deletion" Accession="VCV000000441" Version="1" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2023-01-07" DateCreated="2015-08-22" MostRecentSubmission="2015-08-22">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="15480" VariationID="441">
+      <GeneList>
+        <Gene Symbol="BCAM" FullName="basal cell adhesion molecule (Lutheran blood group)" GeneID="4059" HGNC_ID="HGNC:6722" Source="submitted" RelationshipType="asserted, but not computed">
+          <Location>
+            <CytogeneticLocation>19q13.32</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="19" Accession="NC_000019.10" start="44809059" stop="44821421" display_start="44809059" display_stop="44821421" Strand="+"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="19" Accession="NC_000019.9" start="45312315" stop="45324677" display_start="45312315" display_stop="45324677" Strand="+"/>
+          </Location>
+          <OMIM>612773</OMIM>
+        </Gene>
+      </GeneList>
+      <Name>NG_007480.1:g.(7267_8082)_(8469_9169)del</Name>
+      <VariantType>Deletion</VariantType>
+      <Location>
+        <CytogeneticLocation>19q13.2</CytogeneticLocation>
+      </Location>
+      <OtherNameList>
+        <Name>EX3-4DEL</Name>
+      </OtherNameList>
+      <HGVSlist>
+        <HGVS Type="genomic">
+          <NucleotideExpression sequenceAccessionVersion="LRG_798" sequenceAccession="LRG_798">
+            <Expression>LRG_798:g.(7267_8082)_(8469_9169)del</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Type="genomic">
+          <NucleotideExpression sequenceAccessionVersion="NG_007480.1" sequenceAccession="NG_007480" sequenceVersion="1" change="g.(7267_8082)_(8469_9169)del">
+            <Expression>NG_007480.1:g.(7267_8082)_(8469_9169)del</Expression>
+          </NucleotideExpression>
+        </HGVS>
+      </HGVSlist>
+      <XRefList>
+        <XRef Type="Allelic variant" ID="612773.0004" DB="OMIM"/>
+      </XRefList>
+    </SimpleAllele>
+    <RCVList>
+      <RCVAccession Title="NG_007480.1:g.(7267_8082)_(8469_9169)del AND BLOOD GROUP--LUTHERAN NULL" Accession="RCV000000470" Version="4">
+        <ClassifiedConditionList TraitSetID="125">
+          <ClassifiedCondition DB="MedGen" ID="C4017284">BLOOD GROUP--LUTHERAN NULL</ClassifiedCondition>
+        </ClassifiedConditionList>
+        <RCVClassifications>
+          <GermlineClassification>
+            <ReviewStatus>no assertion criteria provided</ReviewStatus>
+            <Description DateLastEvaluated="2007-03-01" SubmissionCount="1">Pathogenic</Description>
+          </GermlineClassification>
+        </RCVClassifications>
+      </RCVAccession>
+    </RCVList>
+    <Classifications>
+      <GermlineClassification DateLastEvaluated="2007-03-01" NumberOfSubmissions="1" NumberOfSubmitters="1" DateCreated="2015-08-22" MostRecentSubmission="2015-08-22">
+        <ReviewStatus>no assertion criteria provided</ReviewStatus>
+        <Description>Pathogenic</Description>
+        <Explanation DataSource="ClinVar" Type="public">Pathogenic (1)</Explanation>
+        <Citation Type="general">
+          <ID Source="PubMed">17319831</ID>
+        </Citation>
+        <ConditionList>
+          <TraitSet ID="125" Type="Disease" ContributesToAggregateClassification="true">
+            <Trait ID="9638" Type="BloodGroup">
+              <Name>
+                <ElementValue Type="Preferred">BLOOD GROUP--LUTHERAN NULL</ElementValue>
+                <XRef Type="Allelic variant" ID="612773.0005" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="612773.0006" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="612773.0003" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="612773.0004" DB="OMIM"/>
+              </Name>
+              <XRef ID="C4017284" DB="MedGen"/>
+            </Trait>
+          </TraitSet>
+        </ConditionList>
+      </GermlineClassification>
+    </Classifications>
+    <ClinicalAssertionList>
+      <ClinicalAssertion ID="20619" SubmissionDate="2015-08-20" DateLastUpdated="2015-08-22" DateCreated="2013-04-04" ContributesToAggregateClassification="true">
+        <ClinVarSubmissionID localKey="612773.0004_BLOOD GROUP--LUTHERAN NULL" title="BCAM, EX3-4DEL_BLOOD GROUP--LUTHERAN NULL"/>
+        <ClinVarAccession Accession="SCV000020619" DateUpdated="2015-08-22" DateCreated="2013-04-04" Type="SCV" Version="3" SubmitterName="OMIM" OrgID="3" OrganizationCategory="resource"/>
+        <RecordStatus>current</RecordStatus>
+        <Classification DateLastEvaluated="2007-03-01">
+          <ReviewStatus>no assertion criteria provided</ReviewStatus>
+          <GermlineClassification>Pathogenic</GermlineClassification>
+        </Classification>
+        <Assertion>variation to disease</Assertion>
+        <ObservedInList>
+          <ObservedIn>
+            <Sample>
+              <Origin>germline</Origin>
+              <Species>human</Species>
+              <AffectedStatus>not provided</AffectedStatus>
+            </Sample>
+            <Method>
+              <MethodType>literature only</MethodType>
+            </Method>
+            <ObservedData>
+              <Attribute Type="Description">For discussion of the deletion of exons 3 and 4 in the BCAM gene that was found in compound heterozygous state in a patient with the Lutheran null blood group phenotype (247420) by Karamatic Crew et al. (2007), see 612773.0003.</Attribute>
+              <Citation>
+                <ID Source="PubMed">17319831</ID>
+              </Citation>
+              <XRef DB="OMIM" ID="247420" Type="MIM"/>
+            </ObservedData>
+          </ObservedIn>
+        </ObservedInList>
+        <SimpleAllele>
+          <GeneList>
+            <Gene Symbol="BCAM"/>
+          </GeneList>
+          <Name>BCAM, EX3-4DEL</Name>
+          <VariantType>Variation</VariantType>
+          <OtherNameList>
+            <Name Type="NonHGVS">EX3-4DEL</Name>
+          </OtherNameList>
+          <XRefList>
+            <XRef DB="OMIM" ID="612773.0004" Type="Allelic variant"/>
+          </XRefList>
+        </SimpleAllele>
+        <TraitSet Type="Disease">
+          <Trait Type="Disease">
+            <Name>
+              <ElementValue Type="Preferred">BLOOD GROUP--LUTHERAN NULL</ElementValue>
+            </Name>
+          </Trait>
+        </TraitSet>
+      </ClinicalAssertion>
+    </ClinicalAssertionList>
+    <TraitMappingList>
+      <TraitMapping ClinicalAssertionID="20619" TraitType="Disease" MappingType="Name" MappingValue="BLOOD GROUP--LUTHERAN NULL" MappingRef="Preferred">
+        <MedGen CUI="C4017284" Name="BLOOD GROUP--LUTHERAN NULL"/>
+      </TraitMapping>
+    </TraitMappingList>
+  </ClassifiedRecord>
+</VariationArchive>
+
+<VariationArchive RecordType="classified" VariationID="838" VariationName="APC, 1-BP DEL, 3720T" VariationType="Deletion" Accession="VCV000000838" Version="2" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2022-12-17" DateCreated="2013-04-04" MostRecentSubmission="2013-04-04">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="15877" VariationID="838">
+      <GeneList>
+        <Gene Symbol="APC" FullName="APC regulator of WNT signaling pathway" GeneID="324" HGNC_ID="HGNC:583" Source="submitted" RelationshipType="asserted, but not computed">
+          <Location>
+            <CytogeneticLocation>5q22.2</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="5" Accession="NC_000005.10" start="112707498" stop="112846239" display_start="112707498" display_stop="112846239" Strand="+"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="5" Accession="NC_000005.9" start="112043201" stop="112181935" display_start="112043201" display_stop="112181935" Strand="+"/>
+          </Location>
+          <OMIM>611731</OMIM>
+          <Haploinsufficiency last_evaluated="2021-07-18" ClinGen="https://www.ncbi.nlm.nih.gov/projects/dbvar/ISCA/isca_gene.cgi?sym=APC">Sufficient evidence for dosage pathogenicity</Haploinsufficiency>
+          <Triplosensitivity last_evaluated="2021-07-18" ClinGen="https://www.ncbi.nlm.nih.gov/projects/dbvar/ISCA/isca_gene.cgi?sym=APC">No evidence available</Triplosensitivity>
+          <Property>gene_acmg_incidental_2013</Property>
+          <Property>gene_acmg_incidental_2016</Property>
+          <Property>gene_acmg_incidental_2021</Property>
+          <Property>gene_acmg_incidental_2022</Property>
+        </Gene>
+      </GeneList>
+      <Name>APC, 1-BP DEL, 3720T</Name>
+      <VariantType>Deletion</VariantType>
+      <Location>
+        <CytogeneticLocation>5q21-q22</CytogeneticLocation>
+      </Location>
+      <OtherNameList>
+        <Name>1-BP DEL, 3720T</Name>
+      </OtherNameList>
+      <XRefList>
+        <XRef Type="Allelic variant" ID="611731.0046" DB="OMIM"/>
+      </XRefList>
+      <Comment DataSource="NCBI curation" Type="public">NCBI staff could not confirm the published nucleotide change on current reference sequence after review of PubMed 10782927.</Comment>
+    </SimpleAllele>
+    <RCVList>
+      <RCVAccession Title="APC, 1-BP DEL, 3720T AND Desmoid tumor caused by somatic mutation" Accession="RCV000000881" Version="4">
+        <ClassifiedConditionList TraitSetID="217">
+          <ClassifiedCondition DB="MedGen" ID="C2675440">Desmoid tumor caused by somatic mutation</ClassifiedCondition>
+        </ClassifiedConditionList>
+        <RCVClassifications>
+          <GermlineClassification>
+            <ReviewStatus>no assertion criteria provided</ReviewStatus>
+            <Description DateLastEvaluated="2000-03-01" SubmissionCount="1">Pathogenic</Description>
+          </GermlineClassification>
+        </RCVClassifications>
+      </RCVAccession>
+    </RCVList>
+    <Classifications>
+      <GermlineClassification DateLastEvaluated="2000-03-01" NumberOfSubmissions="1" NumberOfSubmitters="1" DateCreated="2013-04-04" MostRecentSubmission="2013-04-04">
+        <ReviewStatus>no assertion criteria provided</ReviewStatus>
+        <Description>Pathogenic</Description>
+        <Explanation DataSource="ClinVar" Type="public">Pathogenic (1)</Explanation>
+        <Citation Type="general">
+          <ID Source="PubMed">10782927</ID>
+        </Citation>
+        <ConditionList>
+          <TraitSet ID="217" Type="Disease" ContributesToAggregateClassification="true">
+            <Trait ID="8516" Type="Disease">
+              <Name>
+                <ElementValue Type="Alternate">Desmoid tumor, somatic</ElementValue>
+              </Name>
+              <Name>
+                <ElementValue Type="Preferred">Desmoid tumor caused by somatic mutation</ElementValue>
+                <XRef ID="MONDO:0100168" DB="MONDO"/>
+              </Name>
+              <Symbol>
+                <ElementValue Type="Alternate">Desmoplastic small round cell tumor (DSRCT)</ElementValue>
+              </Symbol>
+              <XRef ID="C2675440" DB="MedGen"/>
+              <XRef ID="MONDO:0100168" DB="MONDO"/>
+            </Trait>
+          </TraitSet>
+        </ConditionList>
+      </GermlineClassification>
+    </Classifications>
+    <ClinicalAssertionList>
+      <ClinicalAssertion ID="21031" SubmissionDate="2020-03-20" DateLastUpdated="2013-04-04" DateCreated="2013-04-04" ContributesToAggregateClassification="true">
+        <ClinVarSubmissionID localKey="611731.0046_DESMOID TUMOR, SOMATIC" title="APC, 1-BP DEL, 3720T_DESMOID TUMOR, SOMATIC"/>
+        <ClinVarAccession Accession="SCV000021031" DateUpdated="2013-04-04" DateCreated="2013-04-04" Type="SCV" Version="1" SubmitterName="OMIM" OrgID="3" OrganizationCategory="resource"/>
+        <RecordStatus>current</RecordStatus>
+        <Classification DateLastEvaluated="2000-03-01">
+          <ReviewStatus>no assertion criteria provided</ReviewStatus>
+          <GermlineClassification>Pathogenic</GermlineClassification>
+        </Classification>
+        <Assertion>variation to disease</Assertion>
+        <ObservedInList>
+          <ObservedIn>
+            <Sample>
+              <Origin>somatic</Origin>
+              <Species>human</Species>
+              <AffectedStatus>not provided</AffectedStatus>
+            </Sample>
+            <Method>
+              <MethodType>literature only</MethodType>
+            </Method>
+            <ObservedData>
+              <Attribute Type="Description">Couture et al. (2000) identified a somatic 1-bp deletion (3720delT) in codon 1240 of the APC gene in desmoid tumor tissue from a patient with hereditary desmoid disease (DESMD; 135290) and a germline mutation in the APC gene (611731.0045). Immunohistochemistry on the tumor tissue demonstrated elevated levels of beta-catenin (116806).</Attribute>
+              <Citation>
+                <ID Source="PubMed">10782927</ID>
+              </Citation>
+              <XRef DB="OMIM" ID="135290" Type="MIM"/>
+              <XRef DB="OMIM" ID="116806" Type="MIM"/>
+            </ObservedData>
+          </ObservedIn>
+        </ObservedInList>
+        <SimpleAllele>
+          <GeneList>
+            <Gene Symbol="APC"/>
+          </GeneList>
+          <Name>APC, 1-BP DEL, 3720T</Name>
+          <VariantType>Variation</VariantType>
+          <OtherNameList>
+            <Name Type="NonHGVS">1-BP DEL, 3720T</Name>
+          </OtherNameList>
+          <XRefList>
+            <XRef DB="OMIM" ID="611731.0046" Type="Allelic variant"/>
+          </XRefList>
+        </SimpleAllele>
+        <TraitSet Type="Disease">
+          <Trait Type="Disease">
+            <Name>
+              <ElementValue Type="Preferred">DESMOID TUMOR, SOMATIC</ElementValue>
+            </Name>
+          </Trait>
+        </TraitSet>
+      </ClinicalAssertion>
+    </ClinicalAssertionList>
+    <TraitMappingList>
+      <TraitMapping ClinicalAssertionID="21031" TraitType="Disease" MappingType="Name" MappingValue="DESMOID TUMOR, SOMATIC" MappingRef="Preferred">
+        <MedGen CUI="C2675440" Name="Desmoid tumor caused by somatic mutation"/>
+      </TraitMapping>
+    </TraitMappingList>
+  </ClassifiedRecord>
+</VariationArchive>
+
+<VariationArchive VariationID="984" VariationName="NM_024782.3(NHEJ1):c.177+1_177+3delinsTT" VariationType="Indel" Accession="VCV000000984" Version="2" RecordType="classified" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2024-09-01" DateCreated="2013-09-21" MostRecentSubmission="2024-09-01">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="16023" VariationID="984">
+      <GeneList>
+        <Gene Symbol="NHEJ1" FullName="non-homologous end joining factor 1" GeneID="79840" HGNC_ID="HGNC:25737" Source="submitted" RelationshipType="within single gene">
+          <Location>
+            <CytogeneticLocation>2q35</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="2" Accession="NC_000002.12" start="219069357" stop="219160815" display_start="219069357" display_stop="219160815" Strand="-"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="2" Accession="NC_000002.11" start="219940045" stop="220025586" display_start="219940045" display_stop="220025586" Strand="-"/>
+          </Location>
+          <OMIM>611290</OMIM>
+        </Gene>
+      </GeneList>
+      <Name>NM_024782.3(NHEJ1):c.177+1_177+3delinsTT</Name>
+      <CanonicalSPDI>NC_000002.12:219158182:TAC:AA</CanonicalSPDI>
+      <VariantType>Indel</VariantType>
+      <Location>
+        <CytogeneticLocation>2q35</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" forDisplay="true" AssemblyStatus="current" Chr="2" Accession="NC_000002.12" start="219158183" stop="219158185" display_start="219158183" display_stop="219158185" variantLength="3" positionVCF="219158183" referenceAlleleVCF="TAC" alternateAlleleVCF="AA"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="2" Accession="NC_000002.11" start="220022905" stop="220022907" display_start="220022905" display_stop="220022907" variantLength="3" positionVCF="220022905" referenceAlleleVCF="TAC" alternateAlleleVCF="AA"/>
+      </Location>
+      <HGVSlist>
+        <HGVS Assembly="GRCh37" Type="genomic, top-level">
+          <NucleotideExpression sequenceAccessionVersion="NC_000002.11" sequenceAccession="NC_000002" sequenceVersion="11" change="g.220022905_220022907delinsAA" Assembly="GRCh37">
+            <Expression>NC_000002.11:g.220022905_220022907delinsAA</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Assembly="GRCh38" Type="genomic, top-level">
+          <NucleotideExpression sequenceAccessionVersion="NC_000002.12" sequenceAccession="NC_000002" sequenceVersion="12" change="g.219158183_219158185delinsAA" Assembly="GRCh38">
+            <Expression>NC_000002.12:g.219158183_219158185delinsAA</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Type="genomic">
+          <NucleotideExpression sequenceAccessionVersion="NG_007880.1" sequenceAccession="NG_007880" sequenceVersion="1" change="g.7681_7683delinsTT">
+            <Expression>NG_007880.1:g.7681_7683delinsTT</Expression>
+          </NucleotideExpression>
+        </HGVS>
+        <HGVS Type="coding">
+          <NucleotideExpression sequenceAccessionVersion="NM_024782.3" sequenceAccession="NM_024782" sequenceVersion="3" change="c.177+1_177+3delinsTT" MANESelect="true">
+            <Expression>NM_024782.3:c.177+1_177+3delinsTT</Expression>
+          </NucleotideExpression>
+          <MolecularConsequence ID="SO:0001575" Type="splice donor variant" DB="SO"/>
+        </HGVS>
+        <HGVS Type="coding">
+          <NucleotideExpression sequenceAccessionVersion="NM_001377499.1" sequenceAccession="NM_001377499" sequenceVersion="1" change="c.177+1_177+3delinsTT">
+            <Expression>NM_001377499.1:c.177+1_177+3delinsTT</Expression>
+          </NucleotideExpression>
+          <MolecularConsequence ID="SO:0001575" Type="splice donor variant" DB="SO"/>
+        </HGVS>
+        <HGVS Type="coding">
+          <NucleotideExpression sequenceAccessionVersion="NM_001377498.1" sequenceAccession="NM_001377498" sequenceVersion="1" change="c.177+1_177+3delinsTT">
+            <Expression>NM_001377498.1:c.177+1_177+3delinsTT</Expression>
+          </NucleotideExpression>
+          <MolecularConsequence ID="SO:0001575" Type="splice donor variant" DB="SO"/>
+        </HGVS>
+        <HGVS Type="genomic">
+          <NucleotideExpression sequenceAccessionVersion="LRG_90" sequenceAccession="LRG_90">
+            <Expression>LRG_90:g.7681_7683delinsTT</Expression>
+          </NucleotideExpression>
+        </HGVS>
+      </HGVSlist>
+      <XRefList>
+        <XRef Type="Allelic variant" ID="611290.0004" DB="OMIM"/>
+        <XRef Type="rs" ID="886037606" DB="dbSNP"/>
+        <XRef ID="CA10575466" DB="ClinGen"/>
+      </XRefList>
+    </SimpleAllele>
+    <RCVList>
+      <RCVAccession Title="NM_024782.3(NHEJ1):c.177+1_177+3delinsTT AND Cernunnos-XLF deficiency" Accession="RCV000001035" Version="5">
+        <ClassifiedConditionList TraitSetID="258">
+          <ClassifiedCondition DB="MedGen" ID="C1969799">Cernunnos-XLF deficiency</ClassifiedCondition>
+        </ClassifiedConditionList>
+        <RCVClassifications>
+          <GermlineClassification>
+            <ReviewStatus>no assertion criteria provided</ReviewStatus>
+            <Description DateLastEvaluated="2006-01-27" SubmissionCount="1">Pathogenic</Description>
+          </GermlineClassification>
+        </RCVClassifications>
+      </RCVAccession>
+    </RCVList>
+    <Classifications>
+      <GermlineClassification DateLastEvaluated="2006-01-27" NumberOfSubmissions="1" NumberOfSubmitters="1" DateCreated="2013-09-21" MostRecentSubmission="2024-09-01">
+        <ReviewStatus>no assertion criteria provided</ReviewStatus>
+        <Description>Pathogenic</Description>
+        <Explanation DataSource="ClinVar" Type="public">Pathogenic (1)</Explanation>
+        <Citation Type="general">
+          <ID Source="PubMed">16439204</ID>
+        </Citation>
+        <ConditionList>
+          <TraitSet ID="258" Type="Disease" ContributesToAggregateClassification="true">
+            <Trait ID="3718" Type="Disease">
+              <Name>
+                <ElementValue Type="Alternate">SCID, AUTOSOMAL RECESSIVE, T CELL-NEGATIVE, B CELL-NEGATIVE, NK CELL-POSITIVE, WITH MICROCEPHALY, GROWTH RETARDATION, AND SENSITIVITY TO IONIZING RADIATION</ElementValue>
+                <XRef Type="MIM" ID="611291" DB="OMIM"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">NHEJ1 SYNDROME</ElementValue>
+                <XRef Type="MIM" ID="611291" DB="OMIM"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Preferred">Cernunnos-XLF deficiency</ElementValue>
+                <XRef ID="MONDO:0012650" DB="MONDO"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">Severe combined immunodeficiency with sensitivity to ionizing radiation due to NHEJ1 deficiency</ElementValue>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">SCID, autosomal recessive, T cell-negative, B cell-negative, NK cell-positive, and sensitivity to ionizing radiation due to NHEJ1 deficiency</ElementValue>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">IMMUNODEFICIENCY 124, SEVERE COMBINED</ElementValue>
+                <XRef Type="MIM" ID="611291" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0002" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0008" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0003" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0001" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0007" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0005" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0004" DB="OMIM"/>
+                <XRef Type="Allelic variant" ID="611290.0006" DB="OMIM"/>
+              </Name>
+              <Symbol>
+                <ElementValue Type="Preferred">IMD124</ElementValue>
+                <XRef Type="MIM" ID="611291" DB="OMIM"/>
+              </Symbol>
+              <AttributeSet>
+                <Attribute Type="GARD id" integerValue="17045"/>
+                <XRef ID="17045" DB="Office of Rare Diseases"/>
+              </AttributeSet>
+              <XRef ID="169079" DB="Orphanet"/>
+              <XRef ID="C1969799" DB="MedGen"/>
+              <XRef ID="MONDO:0012650" DB="MONDO"/>
+              <XRef Type="MIM" ID="611291" DB="OMIM"/>
+            </Trait>
+          </TraitSet>
+        </ConditionList>
+      </GermlineClassification>
+    </Classifications>
+    <ClinicalAssertionList>
+      <ClinicalAssertion ID="21185" SubmissionDate="2013-09-19" DateLastUpdated="2024-09-01" DateCreated="2013-04-04" ContributesToAggregateClassification="true">
+        <ClinVarSubmissionID localKey="611290.0004_IMMUNODEFICIENCY 124, SEVERE COMBINED" title="NHEJ1, 1-BP DEL, 267G AND IVS2DS, A-T, +3_IMMUNODEFICIENCY 124, SEVERE COMBINED"/>
+        <ClinVarAccession Accession="SCV000021185" DateUpdated="2024-09-01" DateCreated="2013-04-04" Type="SCV" Version="4" SubmitterName="OMIM" OrgID="3" OrganizationCategory="resource"/>
+        <RecordStatus>current</RecordStatus>
+        <Classification DateLastEvaluated="2006-01-27">
+          <ReviewStatus>no assertion criteria provided</ReviewStatus>
+          <GermlineClassification>Pathogenic</GermlineClassification>
+        </Classification>
+        <Assertion>variation to disease</Assertion>
+        <ObservedInList>
+          <ObservedIn>
+            <Sample>
+              <Origin>germline</Origin>
+              <Species>human</Species>
+              <AffectedStatus>not provided</AffectedStatus>
+            </Sample>
+            <Method>
+              <MethodType>literature only</MethodType>
+            </Method>
+            <ObservedData>
+              <Attribute Type="Description">In 2 Turkish sibs with severe combined immunodeficiency-124 (IMD124; 611291), Buck et al. (2006) identified a homozygous deletion of G267, the last nucleotide of exon 2 in the NHEJ1 gene, as well as a homozygous A-to-T change 3 nucleotides downstream in intron 2. These associated mutations resulted in a mixed RNA population in which normally spliced RNAs carried the G267 deletion, which led to a frameshift and premature termination, and numerous aberrant splicing events led to severely truncated proteins. The parents of the patients were consanguineous.</Attribute>
+              <Citation>
+                <ID Source="PubMed">16439204</ID>
+              </Citation>
+              <XRef DB="OMIM" ID="611291" Type="MIM"/>
+            </ObservedData>
+          </ObservedIn>
+        </ObservedInList>
+        <SimpleAllele>
+          <GeneList>
+            <Gene Symbol="NHEJ1"/>
+          </GeneList>
+          <Name>NHEJ1, 1-BP DEL, 267G AND IVS2DS, A-T, +3</Name>
+          <VariantType>Variation</VariantType>
+          <OtherNameList>
+            <Name Type="NonHGVS">1-BP DEL, 267G AND IVS2DS, A-T, +3</Name>
+          </OtherNameList>
+          <XRefList>
+            <XRef DB="OMIM" ID="611290.0004" Type="Allelic variant"/>
+          </XRefList>
+        </SimpleAllele>
+        <TraitSet Type="Disease">
+          <Trait Type="Disease">
+            <Name>
+              <ElementValue Type="Preferred">IMMUNODEFICIENCY 124, SEVERE COMBINED</ElementValue>
+            </Name>
+          </Trait>
+        </TraitSet>
+      </ClinicalAssertion>
+    </ClinicalAssertionList>
+    <TraitMappingList>
+      <TraitMapping ClinicalAssertionID="21185" TraitType="Disease" MappingType="Name" MappingValue="IMMUNODEFICIENCY 124, SEVERE COMBINED" MappingRef="Preferred">
+        <MedGen CUI="C1969799" Name="Cernunnos-XLF deficiency"/>
+      </TraitMapping>
+    </TraitMappingList>
+  </ClassifiedRecord>
+</VariationArchive>
+
+<VariationArchive VariationID="1172" VariationName="NC_000008.11:g.(142876886_142877022)_(142914909_142915045)dup" VariationType="Duplication" Accession="VCV000001172" Version="1" RecordType="classified" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2024-05-01" DateCreated="2013-04-04" MostRecentSubmission="2013-04-04">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="16211" VariationID="1172">
+      <GeneList>
+        <Gene Symbol="CYP11B1" FullName="cytochrome P450 family 11 subfamily B member 1" GeneID="1584" HGNC_ID="HGNC:2591" Source="submitted" RelationshipType="genes overlapped by variant">
+          <Location>
+            <CytogeneticLocation>8q24.3</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="8" Accession="NC_000008.11" start="142872357" stop="142879825" display_start="142872357" display_stop="142879825" Strand="-"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="8" Accession="NC_000008.10" start="143953772" stop="143961235" display_start="143953772" display_stop="143961235" Strand="-"/>
+          </Location>
+          <OMIM>610613</OMIM>
+        </Gene>
+        <Gene Symbol="CYP11B2" FullName="cytochrome P450 family 11 subfamily B member 2" GeneID="1585" HGNC_ID="HGNC:2592" Source="calculated" RelationshipType="genes overlapped by variant">
+          <Location>
+            <CytogeneticLocation>8q24.3</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="8" Accession="NC_000008.11" start="142910559" stop="142917843" display_start="142910559" display_stop="142917843" Strand="-"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="8" Accession="NC_000008.10" start="143991974" stop="143999258" display_start="143991974" display_stop="143999258" Strand="-"/>
+          </Location>
+          <OMIM>124080</OMIM>
+        </Gene>
+        <Gene Symbol="LOC106799833" FullName="CYP11B1 recombination region" GeneID="106799833" Source="calculated" RelationshipType="genes overlapped by variant">
+          <Location>
+            <CytogeneticLocation>8q24.3</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="8" Accession="NC_000008.11" start="142874234" stop="142879022" display_start="142874234" display_stop="142879022" Strand="+"/>
+          </Location>
+        </Gene>
+        <Gene Symbol="LOC106799834" FullName="CYP11B2 recombination region" GeneID="106799834" Source="calculated" RelationshipType="genes overlapped by variant">
+          <Location>
+            <CytogeneticLocation>8q24.3</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="8" Accession="NC_000008.11" start="142903458" stop="142918174" display_start="142903458" display_stop="142918174" Strand="+"/>
+          </Location>
+        </Gene>
+        <Gene Symbol="LOC110673972" FullName="CYP11B1 promoter" GeneID="110673972" Source="calculated" RelationshipType="genes overlapped by variant">
+          <Location>
+            <CytogeneticLocation>8q24.3</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="8" Accession="NC_000008.11" start="142879723" stop="142881144" display_start="142879723" display_stop="142881144" Strand="+"/>
+          </Location>
+        </Gene>
+      </GeneList>
+      <Name>NC_000008.11:g.(142876886_142877022)_(142914909_142915045)dup</Name>
+      <VariantType>Duplication</VariantType>
+      <Location>
+        <CytogeneticLocation>8q24.3</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" forDisplay="true" AssemblyStatus="current" Chr="8" Accession="NC_000008.11" outerStart="142876886" innerStart="142877022" innerStop="142914909" outerStop="142915045" display_start="142876886" display_stop="142915045" variantLength="38160"/>
+      </Location>
+      <OtherNameList>
+        <Name>CYP11B1, CYP11B1/CYP11B2 ANTI-LEPORE-LIKE CHIMERA</Name>
+      </OtherNameList>
+      <HGVSlist>
+        <HGVS Assembly="GRCh38" Type="genomic, top-level">
+          <NucleotideExpression sequenceAccessionVersion="NC_000008.11" sequenceAccession="NC_000008" sequenceVersion="11" change="g.(142876886_142877022)_(142914909_142915045)dup" Assembly="GRCh38">
+            <Expression>NC_000008.11:g.(142876886_142877022)_(142914909_142915045)dup</Expression>
+          </NucleotideExpression>
+        </HGVS>
+      </HGVSlist>
+      <XRefList>
+        <XRef Type="Allelic variant" ID="610613.0002" DB="OMIM"/>
+      </XRefList>
+      <Comment DataSource="NCBI curation" Type="public">NCBI staff provided an indeterminate HGVS expression for OMIM allelic variant 610613.0002 from the description in Figure 3 of the paper by Lifton et al., 1992 (PubMed 1731223) that the unequal crossing over occurred in intron 3 of both genes.</Comment>
+    </SimpleAllele>
+    <RCVList>
+      <RCVAccession Title="NC_000008.11:g.(142876886_142877022)_(142914909_142915045)dup AND Glucocorticoid-remediable aldosteronism" Accession="RCV000001231" Version="2">
+        <ClassifiedConditionList TraitSetID="313">
+          <ClassifiedCondition DB="MedGen" ID="C3838731">Glucocorticoid-remediable aldosteronism</ClassifiedCondition>
+        </ClassifiedConditionList>
+        <RCVClassifications>
+          <GermlineClassification>
+            <ReviewStatus>no assertion criteria provided</ReviewStatus>
+            <Description DateLastEvaluated="2004-09-01" SubmissionCount="1">Pathogenic</Description>
+          </GermlineClassification>
+        </RCVClassifications>
+      </RCVAccession>
+    </RCVList>
+    <Classifications>
+      <GermlineClassification DateLastEvaluated="2004-09-01" NumberOfSubmissions="1" NumberOfSubmitters="1" DateCreated="2013-04-04" MostRecentSubmission="2013-04-04">
+        <ReviewStatus>no assertion criteria provided</ReviewStatus>
+        <Description>Pathogenic</Description>
+        <Explanation DataSource="ClinVar" Type="public">Pathogenic (1)</Explanation>
+        <Citation Type="general">
+          <ID Source="PubMed">15324322</ID>
+        </Citation>
+        <Citation Type="general">
+          <ID Source="PubMed">1731223</ID>
+        </Citation>
+        <ConditionList>
+          <TraitSet ID="313" Type="Disease" ContributesToAggregateClassification="true">
+            <Trait ID="5196" Type="Disease">
+              <Name>
+                <ElementValue Type="Preferred">Glucocorticoid-remediable aldosteronism</ElementValue>
+                <XRef ID="Glucocorticoid-remediable+aldosteronism/8476" DB="Genetic Alliance"/>
+                <XRef ID="MONDO:0007080" DB="MONDO"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">ACTH-DEPENDENT HYPERALDOSTERONISM SYNDROME</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">ALDOSTERONISM, SENSITIVE TO DEXAMETHASONE</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">FH I</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">GLUCOCORTICOID-SUPPRESSIBLE HYPERALDOSTERONISM</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Name>
+              <Name>
+                <ElementValue Type="Alternate">Hyperaldosteronism, familial, type I</ElementValue>
+              </Name>
+              <Symbol>
+                <ElementValue Type="Alternate">GRA</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Symbol>
+              <Symbol>
+                <ElementValue Type="Alternate">GSH</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Symbol>
+              <Symbol>
+                <ElementValue Type="Alternate">HALD1</ElementValue>
+                <XRef Type="MIM" ID="103900" DB="OMIM"/>
+              </Symbol>
+              <AttributeSet>
+                <Attribute Type="GARD id" integerValue="2790"/>
+                <XRef ID="2790" DB="Office of Rare Diseases"/>
+              </AttributeSet>
+              <XRef ID="403" DB="Orphanet"/>
+              <XRef ID="C3838731" DB="MedGen"/>
+              <XRef ID="MONDO:0007080" DB="MONDO"/>
+              <XRef Type="MIM" ID="103900" DB="OMIM"/>
+            </Trait>
+          </TraitSet>
+        </ConditionList>
+      </GermlineClassification>
+    </Classifications>
+    <ClinicalAssertionList>
+      <ClinicalAssertion ID="21381" SubmissionDate="2009-07-01" DateLastUpdated="2013-04-04" DateCreated="2013-04-04" ContributesToAggregateClassification="true">
+        <ClinVarSubmissionID localKey="610613.0002_GLUCOCORTICOID-REMEDIABLE ALDOSTERONISM" title="CYP11B1, CYP11B1/CYP11B2 ANTI-LEPORE-LIKE CHIMERA_GLUCOCORTICOID-REMEDIABLE ALDOSTERONISM"/>
+        <ClinVarAccession Accession="SCV000021381" DateUpdated="2013-04-04" DateCreated="2013-04-04" Type="SCV" Version="1" SubmitterName="OMIM" OrgID="3" OrganizationCategory="resource"/>
+        <RecordStatus>current</RecordStatus>
+        <Classification DateLastEvaluated="2004-09-01">
+          <ReviewStatus>no assertion criteria provided</ReviewStatus>
+          <GermlineClassification>Pathogenic</GermlineClassification>
+        </Classification>
+        <Assertion>variation to disease</Assertion>
+        <ObservedInList>
+          <ObservedIn>
+            <Sample>
+              <Origin>germline</Origin>
+              <Species>human</Species>
+              <AffectedStatus>not provided</AffectedStatus>
+            </Sample>
+            <Method>
+              <MethodType>literature only</MethodType>
+            </Method>
+            <ObservedData>
+              <Attribute Type="Description">In affected members of a family with glucocorticoid-remediable aldosteronism (103900), clinically characterized by hypertension, variable hyperaldosteronism, and increased levels of the abnormal adrenal steroids 18-oxocortisol and 18-hydroxycortisol, Lifton et al. (1992) identified a chimeric gene in which the 5-prime regulatory sequences of the CYP11B1 gene were fused to the coding region of the CYP11B2 gene (124080), which encodes aldosterone synthase, resulting in ectopic expression of aldosterone synthase in the zona fasciculata. The 2 genes were closely linked in a head-to-tail orientation with the CYP11B2 gene 5-prime to the CYP11B1 gene. The chimeric gene is of the anti-Lepore type, as in hemoglobin Miyada (141900.0179). Polymorphic markers of the CYP11B1 and CYP11B2 genes showed complete linkage (maximum lod score = 3.63), indicating that these are contiguous genes. Lifton et al. (1992) referred to the change as a neomorphic mutation. They suggested that aberrations of this type leading to hypertension inherited as an autosomal dominant trait may be more frequent than previously realized.</Attribute>
+              <Citation>
+                <ID Source="PubMed">1731223</ID>
+              </Citation>
+              <XRef DB="OMIM" ID="103900" Type="MIM"/>
+              <XRef DB="OMIM" ID="124080" Type="MIM"/>
+            </ObservedData>
+            <ObservedData>
+              <Attribute Type="Description">See 610613.0014 and Ezquieta and Luzuriaga (2004) for a description of a deletion hybrid that appears to be the reciprocal recombination product to this duplication hybrid.</Attribute>
+              <Citation>
+                <ID Source="PubMed">15324322</ID>
+              </Citation>
+            </ObservedData>
+          </ObservedIn>
+        </ObservedInList>
+        <SimpleAllele>
+          <GeneList>
+            <Gene Symbol="CYP11B1"/>
+          </GeneList>
+          <Name>CYP11B1, CYP11B1/CYP11B2 ANTI-LEPORE-LIKE CHIMERA</Name>
+          <VariantType>Variation</VariantType>
+          <OtherNameList>
+            <Name Type="NonHGVS">CYP11B1/CYP11B2 ANTI-LEPORE-LIKE CHIMERA</Name>
+          </OtherNameList>
+          <XRefList>
+            <XRef DB="OMIM" ID="610613.0002" Type="Allelic variant"/>
+          </XRefList>
+        </SimpleAllele>
+        <TraitSet Type="Disease">
+          <Trait Type="Disease">
+            <Name>
+              <ElementValue Type="Preferred">GLUCOCORTICOID-REMEDIABLE ALDOSTERONISM</ElementValue>
+            </Name>
+          </Trait>
+        </TraitSet>
+      </ClinicalAssertion>
+    </ClinicalAssertionList>
+    <TraitMappingList>
+      <TraitMapping ClinicalAssertionID="21381" TraitType="Disease" MappingType="Name" MappingValue="GLUCOCORTICOID-REMEDIABLE ALDOSTERONISM" MappingRef="Preferred">
+        <MedGen CUI="C3838731" Name="Glucocorticoid-remediable aldosteronism"/>
+      </TraitMapping>
+    </TraitMappingList>
+  </ClassifiedRecord>
+</VariationArchive>
+
+<VariationArchive RecordType="classified" VariationID="1730" VariationName="A114N" VariationType="single nucleotide variant" Accession="VCV000001730" Version="1" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2023-03-26" DateCreated="2013-04-04" MostRecentSubmission="2013-04-04">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="16769" VariationID="1730">
+      <GeneList>
+        <Gene Symbol="NIPAL4" FullName="NIPA like domain containing 4" GeneID="348938" HGNC_ID="HGNC:28018" Source="submitted" RelationshipType="asserted, but not computed">
+          <Location>
+            <CytogeneticLocation>5q33.3</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="5" Accession="NC_000005.10" start="157460213" stop="157474722" display_start="157460213" display_stop="157474722" Strand="+"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="5" Accession="NC_000005.9" start="156887026" stop="156901729" display_start="156887026" display_stop="156901729" Strand="+"/>
+          </Location>
+          <OMIM>609383</OMIM>
+        </Gene>
+      </GeneList>
+      <Name>A114N</Name>
+      <VariantType>single nucleotide variant</VariantType>
+      <Location>
+        <CytogeneticLocation>5q33</CytogeneticLocation>
+      </Location>
+      <OtherNameList>
+        <Name>A114N</Name>
+      </OtherNameList>
+      <XRefList>
+        <XRef Type="Allelic variant" ID="609383.0002" DB="OMIM"/>
+      </XRefList>
+      <Comment DataSource="NCBI curation" Type="public">NCBI staff could not confirm the published amino acid change on a current reference sequence after review of PubMed 15317751.</Comment>
+    </SimpleAllele>
+    <RCVList>
+      <RCVAccession Title="A114N AND Autosomal recessive congenital ichthyosis 6" Accession="RCV000001800" Version="2">
+        <ClassifiedConditionList TraitSetID="443">
+          <ClassifiedCondition DB="MedGen" ID="C2677065">Autosomal recessive congenital ichthyosis 6</ClassifiedCondition>
+        </ClassifiedConditionList>
+        <RCVClassifications>
+          <GermlineClassification>
+            <ReviewStatus>no assertion criteria provided</ReviewStatus>
+            <Description DateLastEvaluated="2004-10-15" SubmissionCount="1">Pathogenic</Description>
+          </GermlineClassification>
+        </RCVClassifications>
+      </RCVAccession>
+    </RCVList>
+    <Classifications>
+      <GermlineClassification DateLastEvaluated="2004-10-15" NumberOfSubmissions="1" NumberOfSubmitters="1" DateCreated="2013-04-04" MostRecentSubmission="2013-04-04">
+        <ReviewStatus>no assertion criteria provided</ReviewStatus>
+        <Description>Pathogenic</Description>
+        <Explanation DataSource="ClinVar" Type="public">Pathogenic (1)</Explanation>
+        <Citation Type="general">
+          <ID Source="PubMed">15317751</ID>
+        </Citation>
+        <ConditionList>
+          <TraitSet ID="443" Type="Disease" ContributesToAggregateClassification="true">
+            <Trait ID="1773" Type="Disease">
+              <Name>
+                <ElementValue Type="Preferred">Autosomal recessive congenital ichthyosis 6</ElementValue>
+                <XRef ID="Autosomal+recessive+congenital+ichthyosis%2C+NIPAL4-related/7788" DB="Genetic Alliance"/>
+                <XRef ID="MONDO:0012847" DB="MONDO"/>
+              </Name>
+              <Symbol>
+                <ElementValue Type="Preferred">ARCI6</ElementValue>
+                <XRef Type="MIM" ID="612281" DB="OMIM"/>
+              </Symbol>
+              <AttributeSet>
+                <Attribute Type="public definition">Autosomal recessive congenital ichthyosis (ARCI) encompasses several forms of nonsyndromic ichthyosis. Although most neonates with ARCI are collodion babies, the clinical presentation and severity of ARCI may vary significantly, ranging from harlequin ichthyosis, the most severe and often fatal form, to lamellar ichthyosis (LI) and (nonbullous) congenital ichthyosiform erythroderma (CIE). These phenotypes are now recognized to fall on a continuum; however, the phenotypic descriptions are clinically useful for clarification of prognosis and management. Infants with harlequin ichthyosis are usually born prematurely and are encased in thick, hard, armor-like plates of cornified skin that severely restrict movement. Life-threatening complications in the immediate postnatal period include respiratory distress, feeding problems, and systemic infection. Collodion babies are born with a taut, shiny, translucent or opaque membrane that encases the entire body and lasts for days to weeks. LI and CIE are seemingly distinct phenotypes: classic, severe LI with dark brown, plate-like scale with no erythroderma and CIE with finer whiter scale and underlying generalized redness of the skin. Affected individuals with severe involvement can have ectropion, eclabium, scarring alopecia involving the scalp and eyebrows, and palmar and plantar keratoderma. Besides these major forms of nonsyndromic ichthyosis, a few rare subtypes have been recognized, such as bathing suit ichthyosis, self-improving collodion ichthyosis, or ichthyosis-prematurity syndrome.</Attribute>
+                <XRef ID="NBK1420" DB="GeneReviews"/>
+              </AttributeSet>
+              <Citation Type="review" Abbrev="GeneReviews">
+                <ID Source="PubMed">20301593</ID>
+                <ID Source="BookShelf">NBK1420</ID>
+              </Citation>
+              <XRef ID="313" DB="Orphanet"/>
+              <XRef ID="79394" DB="Orphanet"/>
+              <XRef ID="C2677065" DB="MedGen"/>
+              <XRef ID="MONDO:0012847" DB="MONDO"/>
+              <XRef Type="MIM" ID="612281" DB="OMIM"/>
+            </Trait>
+          </TraitSet>
+        </ConditionList>
+      </GermlineClassification>
+    </Classifications>
+    <ClinicalAssertionList>
+      <ClinicalAssertion ID="21956" SubmissionDate="2013-01-17" DateLastUpdated="2013-04-04" DateCreated="2013-04-04" ContributesToAggregateClassification="true">
+        <ClinVarSubmissionID localKey="609383.0002_ICHTHYOSIS, CONGENITAL, AUTOSOMAL RECESSIVE 6" title="NIPAL4, ALA114ASN_ICHTHYOSIS, CONGENITAL, AUTOSOMAL RECESSIVE 6"/>
+        <ClinVarAccession Accession="SCV000021956" DateUpdated="2013-04-04" DateCreated="2013-04-04" Type="SCV" Version="1" SubmitterName="OMIM" OrgID="3" OrganizationCategory="resource"/>
+        <RecordStatus>current</RecordStatus>
+        <Classification DateLastEvaluated="2004-10-15">
+          <ReviewStatus>no assertion criteria provided</ReviewStatus>
+          <GermlineClassification>Pathogenic</GermlineClassification>
+        </Classification>
+        <Assertion>variation to disease</Assertion>
+        <ObservedInList>
+          <ObservedIn>
+            <Sample>
+              <Origin>germline</Origin>
+              <Species>human</Species>
+              <AffectedStatus>not provided</AffectedStatus>
+            </Sample>
+            <Method>
+              <MethodType>literature only</MethodType>
+            </Method>
+            <ObservedData>
+              <Attribute Type="Description">In affected members of 7 consanguineous families with autosomal recessive congenital ichthyosis-6 (612281), Lefevre et al. (2004) identified a homozygous 341C-A transversion in exon 4 of the NIPAL4 gene, resulting in an ala114-to-asn (A114N) substitution. One of the families was from Colombia, 3 were from Turkey, and 3 were from Algeria.</Attribute>
+              <Citation>
+                <ID Source="PubMed">15317751</ID>
+              </Citation>
+              <XRef DB="OMIM" ID="612281" Type="MIM"/>
+            </ObservedData>
+          </ObservedIn>
+        </ObservedInList>
+        <SimpleAllele>
+          <GeneList>
+            <Gene Symbol="NIPAL4"/>
+          </GeneList>
+          <Name>NIPAL4, ALA114ASN</Name>
+          <VariantType>Variation</VariantType>
+          <OtherNameList>
+            <Name Type="NonHGVS">ALA114ASN</Name>
+          </OtherNameList>
+          <XRefList>
+            <XRef DB="OMIM" ID="609383.0002" Type="Allelic variant"/>
+          </XRefList>
+        </SimpleAllele>
+        <TraitSet Type="Disease">
+          <Trait Type="Disease">
+            <Name>
+              <ElementValue Type="Preferred">ICHTHYOSIS, CONGENITAL, AUTOSOMAL RECESSIVE 6</ElementValue>
+            </Name>
+          </Trait>
+        </TraitSet>
+      </ClinicalAssertion>
+    </ClinicalAssertionList>
+    <TraitMappingList>
+      <TraitMapping ClinicalAssertionID="21956" TraitType="Disease" MappingType="Name" MappingValue="ICHTHYOSIS, CONGENITAL, AUTOSOMAL RECESSIVE 6" MappingRef="Preferred">
+        <MedGen CUI="C2677065" Name="Autosomal recessive congenital ichthyosis 6"/>
+      </TraitMapping>
+    </TraitMappingList>
+  </ClassifiedRecord>
+</VariationArchive>
+
+<VariationArchive RecordType="classified" VariationID="1807" VariationName="NM_000102.4(CYP17A1):c.437-2A&gt;C" VariationType="single nucleotide variant" Accession="VCV000001807" Version="1" NumberOfSubmissions="1" NumberOfSubmitters="1" DateLastUpdated="2023-07-29" DateCreated="2016-10-09" MostRecentSubmission="2016-10-09">
+  <RecordStatus>current</RecordStatus>
+  <Species>Homo sapiens</Species>
+  <ClassifiedRecord>
+    <SimpleAllele AlleleID="16846" VariationID="1807">
+      <GeneList>
+        <Gene Symbol="CYP17A1" FullName="cytochrome P450 family 17 subfamily A member 1" GeneID="1586" HGNC_ID="HGNC:2593" Source="submitted" RelationshipType="within single gene">
+          <Location>
+            <CytogeneticLocation>10q24.32</CytogeneticLocation>
+            <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="10" Accession="NC_000010.11" start="102830531" stop="102837413" display_start="102830531" display_stop="102837413" Strand="-"/>
+            <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="10" Accession="NC_000010.10" 

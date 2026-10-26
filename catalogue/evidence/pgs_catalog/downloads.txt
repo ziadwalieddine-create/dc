@@ -1,0 +1,382 @@
+
+ PGS Catalog - Download Information 
+ PGS Catalog 
+ Home 
+ Browse 
+ Polygenic Scores 
+ Traits 
+ Publications 
+ Downloads 
+ Data Downloads 
+ REST API 
+ Documentation 
+ About 
+ Ancestry Data 
+ Data Description 
+ FAQ 
+ breast cancer , glaucoma , BMI , EFO_0001645 
+ Examples: breast cancer , glaucoma , BMI , EFO_0001645 
+ Feedback 
+ PGS Catalog 
+ Downloads 
+ Downloads 
+ Table of Contents 
+ Available PGS Catalog downloads 
+ PGS Catalog FTP structure 
+ PGS Catalog Metadata 
+ PGS Scoring Files 
+ Formatted Files 
+ Header — Columns — Format changes — Previous formats 
+ Harmonized Files 
+ File name — Header — Additional Columns 
+ Available PGS Catalog downloads 
+ PGS Scoring Files & Metadata 
+ Individual PGS variants scoring and metadata files 
+ View PGS Score Directories (FTP) 
+ PGS Catalog Metadata 
+ Available PGS global metadata files 
+ Bulk Metadata Downloads (FTP) 
+ PGS Catalog REST API 
+ Programmatic access to the PGS Catalog metadata 
+ REST API endpoint documentation 
+ Python package pgscatalog_utils 
+ A collection of tools, such as scoring files download 
+ Python package documentation 
+ PGS Catalog FTP structure 
+ The PGS Catalog FTP allows for consistent access to the bulk downloads, and is indexed by Polygenic Score (PGS) ID to allow programmatic access to score level data. The following diagram illustrates the FTP structure: 
+ ftp://ftp.ebi.ac.uk/pub/databases/spot/pgs 
+ ├── pgs_scores_list.txt (list of Polygenic Score IDs) 
+ ├── metadata/ 
+ │   ├── pgs_all_metadata.xlsx 
+ │   ├── pgs_all_metadata_ [ sheet_name ] .csv (7 files) 
+ │   ├── pgs_all_metadata.tar.gz (xlsx + csv files) 
+ │   ├── publications/ (metadata for large studies) 
+ │   └── previous_releases/ 
+ └── scores/ 
+ ├── PGS000001/ 
+ │   ├── Metadata/ 
+ │   │   ├── PGS000001_metadata.xlsx 
+ │   │   ├── PGS000001_metadata_ [ sheet_name ] .csv (7 files) 
+ │   │   ├── PGS000001_metadata.tar.gz (xlsx + csv files) 
+ │   │   └── archived_versions/ 
+ │   └── ScoringFiles/ 
+ │   ├── PGS000001.txt.gz 
+ │   ├── archived_versions/ 
+ │   └── Harmonized/ 
+ │ ├── PGS000001_hmPOS_GRCh37.txt.gz 
+ │    └── PGS000001_hmPOS_GRCh38.txt.gz 
+ ├── PGS000002/ 
+ · ├─ ···
+ · └─ ···
+ ·
+ └── PGS00XXXX/ 
+ ├─ ···
+ └─ ··· 
+ PGS Catalog Metadata 
+ Bulk download of the entire PGS Catalog's metadata, describing all PGS in terms of their publication source, samples used for development/evaluation, and related performance metrics. Download Metadata file .xlsx 
+ The bulk download contains a single Excel file with multiple sheets describing each of the data types. The sheets are also provided as individual .csv files for easier import in analysis tools, and are provided on the FTP in the metadata/ folder. 
+ Worksheet 
+ Description 
+ Download Sheet .csv 
+ Readme PGS Catalog Release Date and Summary Information. - 
+ Publications Lists the publication sources for the PGS and PGS evaluations in the catalog. 
+ EFO Traits Lists the ontology-mapped traits information for all PGS in the catalog. 
+ Scores Lists all PGS scores and their associated metadata. 
+ Score Development Samples Lists the samples used to create the PGS: samples used to discover the variant associations (GWAS), samples used for score development/training. 
+ Performance Metrics Lists all performance metrics and the associated PGS Scores and Publications. 
+ Evaluation Sample Sets Describes the samples used to evaluate PGS performance (refferenced as Polygenic Score Sample Sets (PSS). 
+ Cohorts Lists all the cohorts used in the different samples. 
+ PGS Scoring Files 
+ Formatted Files 
+ Format: 2.0 
+ Header — Columns — Format changes — Previous formats 
+ Each scoring file (variant information, effect alleles/weights) is formatted to be a gzipped tab-delimited text file, labelled by its PGS Catalog Score ID (e.g. PGS000001.txt.gz ).
+ They can be found in URLs like this:
+ ftp://ftp.ebi.ac.uk/pub/databases/spot/pgs/ scores / PGS###### / ScoringFiles / 
+ Note: These files are composed of author-reported variants and annotations, and have only been consistently formatted to have the same column headings and data types within each column. We are currently working on methods to provide harmonized versions of each PGS in different genome builds (GRCh37 and GRCh38), ensuring each variant has a chromosomal position (either by adding it based on rsID or using liftover), and flagging potentially problematic variants (e.g. palindromic SNPs) or those that are inconsistent with the current genome build (e.g. strand flips, and variants not found in the Ensembl Variation databases).
+ Formatted Files — Header 
+ Here is a description of the PGS Scoring Files header: 
+ ###PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ #format_version = Version of the scoring file format, e.g. '2.0' 
+ ##POLYGENIC SCORE (PGS) INFORMATION 
+ #pgs_id = PGS identifier, e.g. 'PGS000001' 
+ #pgs_name = PGS name, e.g. 'PRS77_BC' - optional 
+ #trait_reported = trait, e.g. 'Breast Cancer' 
+ #trait_mapped = Ontology trait name, e.g. 'breast carcinoma' 
+ #trait_efo = Ontology trait ID (EFO), e.g. 'EFO_0000305' 
+ #genome_build = Genome build/assembly, e.g. 'GRCh38' 
+ #variants_number = Number of variants listed in the PGS 
+ #weight_type = Variant weight type, e.g. 'beta', 'OR/HR' (default 'NR') 
+ ##SOURCE INFORMATION 
+ #pgp_id = PGS publication identifier, e.g. 'PGP000001' 
+ #citation = Information about the publication 
+ #license = License and terms of PGS use/distribution - refers to the EMBL-EBI Terms of Use by default 
+ rsID chr_name chr_position effect_allele other_allele effect_weight ... 
+ Note: The " #trait_mapped " and " #trait_efo " metadata can be composed of more than one value (separated by a | "pipe"), e.g.:
+ #trait_mapped =Ischemic stroke | stroke
+ #trait_efo =HP_0002140 | EFO_0000712 
+ Example of PGS Scoring Files header 
+ ###PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ #format_version =2.0
+ ##POLYGENIC SCORE (PGS) INFORMATION 
+ #pgs_id =PGS000348
+ #pgs_name =PRS_PrCa
+ #trait_reported =Prostate cancer
+ #trait_mapped =prostate carcinoma
+ #trait_efo =EFO_0001663
+ #genome_build =GRCh37
+ #variants_number =72
+ #weight_type =log(OR)
+ ##SOURCE INFORMATION 
+ #pgp_id =PGP000113
+ #citation =Black M et al. Prostate (2020). doi:10.1002/pros.24058
+ #license =Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0). © 2020 Ambry Genetics.
+ rsID chr_name chr_position effect_allele other_allele effect_weight ... 
+ Formatted Files — Columns 
+ It also has been edited to have consistent column headings based on the following schema: 
+ Column Header Field Name Field Requirement Field Description 
+ Variant Description: 
+ rsID dbSNP Accession ID (rsID) chr_name and chr_position columns are absent"> Optional The SNP’s rs ID. This column also contains HLA alleles in the standard notation (e.g. HLA-DQA1*0102) that aren’t always provided with chromosomal positions. 
+ chr_name Location - Chromosome rsID for the variant is provided"> Required Chromosome name/number associated with the variant. 
+ chr_position Location within the Chromosome rsID for the variant is provided"> Required Chromosomal position associated with the variant. 
+ effect_allele Effect Allele Required The allele that's dosage is counted (e.g. {0, 1, 2}) and multiplied by the variant's weight ( effect_weight ) when calculating score. The effect allele is also known as the 'risk allele'. Note: this does not necessarily need to correspond to the minor allele/alternative allele. 
+ other_allele Other allele(s) Recommended The other allele(s) at the loci. Note: this does not necessarily need to correspond to the reference allele. 
+ locus_name Locus Name Optional This is kept in for loci where the variant may be referenced by the gene (APOE e4). It is also common (usually in smaller PGS) to see the variants named according to the genes they impact. 
+ is_haplotype is_diplotype FLAG: Haplotype or Diplotype Optional This is a TRUE/FALSE variable that flags whether the effect allele is a haplotype/diplotype rather than a single SNP. Constituent SNPs in the haplotype are semi-colon separated. 
+ imputation_method Imputation Method Optional This described whether the variant was specifically called with a specific imputation or variant calling method. This is mostly kept to describe HLA-genotyping methods (e.g. flag SNP2HLA, HLA*IMP) that gives alleles that are not referenced by genomic position. 
+ variant_description Variant Description Optional This field describes any extra information about the variant (e.g. how it is genotyped or scored) that cannot be captured by the other fields. 
+ inclusion_criteria Score Inclusion Criteria Optional Explanation of when this variant gets included into the PGS (e.g. if it depends on the results from other variants). 
+ Weight Information: 
+ effect_weight Variant Weight Required Value of the effect that is multiplied by the dosage of the effect allele ( effect_allele ) when calculating the score. Additional information on how the effect_weight was derived is in the weight_type field of the header, and score development method in the metadata downloads. 
+ is_interaction FLAG: Interaction Optional This is a TRUE/FALSE variable that flags whether the weight should be multiplied with the dosage of more than one variant. Interactions are demarcated with a _x_ between entries for each of the variants present in the interaction. 
+ is_dominant FLAG: Dominant Inheritance Model Optional This is a TRUE/FALSE variable that flags whether the weight should be added to the PGS sum if there is at least 1 copy of the effect allele (e.g. it is a dominant allele). 
+ is_recessive FLAG: Recessive Inheritance Model Optional This is a TRUE/FALSE variable that flags whether the weight should be added to the PGS sum only if there are 2 copies of the effect allele (e.g. it is a recessive allele). 
+ dosage_0_weight Effect weight with 0 copy of the effect allele Optional Weights that are specific to different dosages of the effect_allele (e.g. {0, 1, 2} copies) can also be reported when the the contribution of the variants to the score is not encoded as additive, dominant, or recessive. In this case three columns are added corresponding to which variant weight should be applied for each dosage, where the column name is formated as dosage_#_weight where the # sign indicates the number of effect_allele copies. 
+ dosage_1_weight Effect weight with 1 copy of the effect allele Optional 
+ dosage_2_weight Effect weight with 2 copies of the effect allele Optional 
+ Other information: 
+ OR HR Odds Ratio [OR], Hazard Ratio [HR] Optional Author-reported effect sizes can be supplied to the Catalog. If no other effect_weight is given the weight is calculated using the log(OR) or log(HR). 
+ allelefrequency_effect Effect Allele Frequency Optional Reported effect allele frequency, if the associated locus is a haplotype then haplotype frequency will be extracted. 
+ allelefrequency_effect_ Ancestry Population-specific effect allele frequency Optional Reported effect allele frequency in a specific population (described by the authors). 
+ Example of PGS Scoring Files data 
+ Scoring Files header 
+ rsID chr_name chr_position effect_allele other_allele effect_weight 
+rs2843152 1 2245570 G C -2.76009e-02
+rs35465346 1 22132518 G A 2.39340e-02
+rs28470722 1 38386727 G A -1.74935e-02
+rs11206510 1 55496039 T C 2.93005e-02
+rs9970807 1 56965664 C T 4.70027e-02
+rs61772626 1 57015668 A G -2.71202e-02
+rs7528419 1 109817192 A G 2.91912e-02
+rs1277930 1 109822143 A G 2.60105e-02
+rs11102000 1 110298166 G C 2.45969e-02
+rs11810571 1 151762308 G C 2.09215e-02
+rs6689306 1 154395946 G A -1.97906e-02
+rs72702224 1 154911689 G A -2.81310e-02
+rs3738591 1 155764808 C G 4.23731e-02
+ ... 
+ Formatted Files — Format changes 
+ Version 2.0 
+ Header (metadata) 
+ The metadata labels will change from the previous text-based titles to new field labels that match the outputs of the REST API Score and Publication endpoints. We will also adopt new formatting by removing spaces (e.g. 'PGS ID' is changed to 'pgs_id').
+ This should make the data easier to parse and more consistent across methods of data access. 
+ Addition of the #format_version field.
+ New versioning to keep track of the format changes. 
+ Addition of the new metadata fields #trait_mapped and #trait_efo .
+ These fields should make it easier to group scores based on structured trait terms. 
+ Addition of the #weight_type field.
+ This information was previously included as a column in the scoring file. This lets users know how the effect_weight column was derived (if known), otherwise it is labeled as NR (Not Reported). 
+ Scoring File Schema (Column data) 
+ Move redundant information of the column weight_type into the header.
+ In all cases the weight_type was identical across all variants in a score.
+ To remove redundant columns with identical data we moved this information into a metadata field that is now presented on the website and API as well as in the scoring file header.
+ Rename the column reference_allele to other_allele .
+ We are renaming this column other_allele to remove the use of the word "reference". "Reference allele" may have been confused with the allele included in the reference genome assembly.
+ The other/non-effect allele may or may not be the reference genome allele.
+ Initially we had named it reference_allele to refer to the allele that when homozygous has zero (reference) dosage.
+ We now rename it other_allele to reflect that it is the non-effect allele.
+ This terminology is consistent with the GWAS summary statistics standard format used by the GWAS Catalog.
+ Format version 2.0 
+ ###PGS CATALOG SCORING FILE - see ... 
+ #format_version = Version of the scoring file format, e.g. '2.0' 
+ ##POLYGENIC SCORE (PGS) INFORMATION 
+ #pgs_id = PGS identifier, e.g. 'PGS000001' 
+ #pgs_name = PGS name, e.g. 'PRS77_BC' - optional 
+ #trait_reported = trait, e.g. 'Breast Cancer' 
+ #trait_mapped = Ontology trait name, e.g. 'breast carcinoma' 
+ #trait_efo = Ontology trait ID (EFO), e.g. 'EFO_0000305' 
+ #genome_build = Genome build/assembly, e.g. 'GRCh38' 
+ #variants_number = Number of variants listed in the PGS 
+ #weight_type = Variant weight type, e.g. 'beta', 'OR/HR' (default 'NR') 
+ ##SOURCE INFORMATION 
+ #pgp_id = PGS publication identifier, e.g. 'PGP000001' 
+ #citation = Information about the publication 
+ #license = License and terms of PGS use/distribution ... 
+ rsID chr_name chr_position effect_allele other_allele ... 
+ Schema version 1.0 
+ ### PGS CATALOG SCORING FILE - see ... 
+ ## POLYGENIC SCORE (PGS) INFORMATION 
+ # PGS ID = PGS identifier, e.g. 'PGS000001' 
+ # PGS Name = PGS name, e.g. 'PRS77_BC' - optional 
+ # Reported Trait = trait, e.g. 'Breast Cancer' 
+ # Original Genome Build = Genome build/assembly, e.g. 'GRCh38' 
+ # Number of Variants = Number of variants listed in the PGS 
+ ## SOURCE INFORMATION 
+ # PGP ID = PGS publication identifier, e.g. 'PGP000001' 
+ # Citation = Information about the publication 
+ # LICENSE = License and terms of PGS use/distribution ... 
+ rsID chr_name chr_position effect_allele reference_allele ... 
+ New header information 
+ Column name change 
+ Formatted Files — Previous formats 
+ Version 1.0 (up to December 14, 2021) 
+ Header 
+ Here is a description of the PGS Scoring Files header: 
+ ### PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ ## POLYGENIC SCORE (PGS) INFORMATION 
+ # PGS ID = PGS identifier, e.g. 'PGS000001' 
+ # PGS Name = PGS name, e.g. 'PRS77_BC' - optional 
+ # Reported Trait = trait, e.g. 'Breast Cancer' 
+ # Original Genome Build = Genome build/assembly, e.g. 'GRCh38' 
+ # Number of Variants = Number of variants listed in the PGS 
+ ## SOURCE INFORMATION 
+ # PGP ID = PGS publication identifier, e.g. 'PGP000001' 
+ # Citation = Information about the publication 
+ # LICENSE = License and terms of PGS use/distribution - refers to the EMBL-EBI Terms of Use by default 
+ rsID chr_name chr_position effect_allele reference_allele ... 
+ Example of PGS Scoring Files header 
+ ### PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ ## POLYGENIC SCORE (PGS) INFORMATION 
+ # PGS ID = PGS000348
+ # PGS Name = PRS_PrCa
+ # Reported Trait = Prostate cancer
+ # Original Genome Build = GRCh37
+ # Number of Variants = 72
+ ## SOURCE INFORMATION 
+ # PGP ID = PGP000113
+ # Citation = Black M et al. Prostate (2020). doi:10.1002/pros.24058
+ # LICENSE = Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0). © 2020 Ambry Genetics.
+ rsID chr_name chr_position effect_allele reference_allele effect_weight ... 
+ Columns 
+ It also has been edited to have consistent column headings based on the following schema: 
+ Column Header Field Name Field Description Field Requirement 
+ rsID dbSNP Accession ID (rsID) The SNP’s rs ID Optional - unless both the chr_name and chr_position columns are absent. This column also contains HLA alleles in the standard notation (e.g. HLA-DQA1*0102) that aren’t always provided with chromosomal positions. 
+ chr_name Location - Chromosome Chromosome name/number associated with the variant Required - may be optional if an rsID for the variant is provided 
+ chr_position Location within the Chromosome Chromosomal position associated with the variant Required - may be optional if an rsID for the variant is provided 
+ effect_allele Effect Allele The allele that's dosage is counted (e.g. {0, 1, 2}) and multiplied by the variant's weight ('effect_weight') when calculating score. The effect allele is also known as the 'risk allele'. Required 
+ reference_allele Reference Allele The other allele(s) at the loci Optional - but strongly recommended 
+ effect_weight Variant Weight Value of the effect that is multiplied by the dosage of the effect allele ('effect_allele') when calculating the score. Required 
+ locus_name Locus Name This is kept in for loci where the variant may be referenced by the gene (APOE e4). It is also common (usually in smaller PGS) to see the variants named according to the genes they impact. Optional 
+ weight_type Type of Weight Whether the author supplied Variant Weight is a: beta (effect size), or something like an OR/HR (odds/hazard ratio) Optional 
+ allelefrequency_effect Effect Allele Frequency Reported effect allele frequency, if the associated locus is a haplotype then haplotype frequency will be extracted. Optional 
+ is_interaction FLAG: Interaction This is a TRUE/FALSE variable that flags whether the weight should be multiplied with the dosage of more than one variant. Interactions are demarcated with a _x_ between entries for each of the variants present in the interaction. Optional 
+ is_dominant FLAG: Dominant Inheritance Model This is a TRUE/FALSE variable that flags whether the weight should be added to the PGS sum if there is at least 1 copy of the effect allele (e.g. it is a dominant allele). Optional 
+ is_recessive FLAG: Recessive Inheritance Model This is a TRUE/FALSE variable that flags whether the weight should be added to the PGS sum only if there are 2 copies of the effect allele (e.g. it is a recessive allele). Optional 
+ is_haplotype is_diplotype FLAG: Haplotype or Diplotype This is a TRUE/FALSE variable that flags whether the effect allele is a haplotype/diplotype rather than a single SNP. Constituent SNPs in the haplotype are semi-colon separated. Optional 
+ imputation_method Imputation Method This described whether the variant was specifically called with a specific imputation or variant calling method. This is mostly kept to describe HLA-genotyping methods (e.g. flag SNP2HLA, HLA*IMP) that gives alleles that are not referenced by genomic position. Optional 
+ variant_description Variant Description This field describes any extra information about the variant (e.g. how it is genotyped or scored) that cannot be captured by the other fields. Optional 
+ inclusion_criteria Score Inclusion Criteria Explanation of when this variant gets included into the PGS (e.g. if it depends on the results from other variants). Optional 
+ Extra columns: 
+ OR HR Odds Ratio [OR], Hazard Ratio [HR] Author-reported effect sizes can be supplied to the Catalog. If no other effect_weight is given the weight is calculated using the log(OR) or log(HR). Optional 
+ allelefrequency_effect_ Ancestry Population-specific effect allele frequency Reported effect allele frequency in a specific population (described by the authors). Optional 
+ Example of PGS Scoring Files data 
+ Scoring Files header 
+ rsID chr_name chr_position effect_allele reference_allele effect_weight 
+rs2843152 1 2245570 G C -2.76009e-02
+rs35465346 1 22132518 G A 2.39340e-02
+rs28470722 1 38386727 G A -1.74935e-02
+rs11206510 1 55496039 T C 2.93005e-02
+rs9970807 1 56965664 C T 4.70027e-02
+rs61772626 1 57015668 A G -2.71202e-02
+rs7528419 1 109817192 A G 2.91912e-02
+rs1277930 1 109822143 A G 2.60105e-02
+rs11102000 1 110298166 G C 2.45969e-02
+rs11810571 1 151762308 G C 2.09215e-02
+rs6689306 1 154395946 G A -1.97906e-02
+rs72702224 1 154911689 G A -2.81310e-02
+rs3738591 1 155764808 C G 4.23731e-02
+ ... 
+ Harmonized Files 
+ Format: 2.0 
+ File name — Header — Additional Columns 
+ PGS Scoring Files in the Catalog are currently provided in a consistent format with standardized column names and data types, along with information about the genome build given by authors.
+ The variant-level information in PGS is often heterogeneously described and may lack chromosome/position information, contain a mix of positions and/or rsIDs, or be mapped to a genome build different from your sample genotypes.
+ To make PGS easier to apply we have created a new set of files that contain additional columns with harmonized variant information (chromosome name and base pair position) and variant identifiers (updated rsID), in commonly used genome builds (GRCh37/hg19 and GRCh38/hg38) to make variant matching and PGS calculation easier.
+ The generation of these harmonized files is done by using the pgs-harmonizer tool. It is based on the Open Targets and GWAS Catalog Summary Statistics harmonizer pipelines . To harmonize the variant positions the pgs-harmonizer performs the following tasks:
+ Mapping rsIDs to chromosomal positions : we use Ensembl (VCF files and REST APIs) on GRCh37 and GRCh38. We use Ensembl version 105 .
+ Liftover - mapping chromosomal positions across builds (only when generating a Scoring file on a different genome build): we use the UCSC liftover tools via the Python library pyliftover .
+ The resultant files create new columns , indicating the source of the variant annotation ( hm_source ), as well as consistently annotated chromosome ( hm_chr ) / position ( hm_pos ), and rsID ( hm_rsID ) which can be used to match variants in your dataset along with the alleles ( effect_allele , and other_allele ).
+ Warning: Complex variants in the human leukocyte antigen (HLA) region (alleles/haplotypes/diplotypes) and larger copy number variants (CNVs) without explicit positions will have missing harmonized positions as they are not indexed in the ENSEMBL VCFs.
+ For these variants we suggest using the author-reported annotations, specifically the effect_allele column, for variant matching in absence of positional information.
+ Harmonized scoring files can be accessed via our FTP, in a separate directory for each score: 
+ ftp://ftp.ebi.ac.uk/pub/databases/spot/pgs/ scores / PGS###### / ScoringFiles / Harmonized / 
+ Note: The harmonized scoring file URLs can also be found for any Score result within the REST API .
+ Harmonized Files — File name 
+ The file name is composed of 3 parts, separated by underscores ( _ ):
+ PGS ID , e.g. 'PGS000001' 
+ Type of harmonized file , e.g. 'hmPOS' 
+ Genome build , either 'GRCh37' or ‘GRCh38’ 
+ For instance: PGS000001 _ hmPOS _ GRCh37 .txt.gz 
+ Harmonized Files — Header 
+ Note: The first part of the header (before the line ##HARMONIZATION DETAILS ) is a copy-paste of the Scoring file header.
+ Here is a description of the PGS Harmonized Scoring Files header: 
+ ###PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ #format_version = Version of the scoring file format, e.g. '2.0' 
+ ##POLYGENIC SCORE (PGS) INFORMATION 
+ #pgs_id = PGS identifier, e.g. 'PGS000001' 
+ ... 
+ #license = License and terms of PGS use/distribution - refers to the EMBL-EBI Terms of Use by default 
+ ##HARMONIZATION DETAILS 
+ #HmPOS_build = Genome build of the harmonized file, e.g. 'GRCh38' 
+ #HmPOS_date = Date of the harmonized file creation, e.g. '2022-05-26' 
+ #HmPOS_match_chr = Number of entries matching and not matching the given chromosome, e.g. {"True": 5210, "False": 8} 
+ #HmPOS_match_pos = Number of entries matching and not matching the given position, e.g. {"True": 5210, "False": 8} 
+ rsID ... hm_source hm_rsID hm_chr hm_pos hm_inferOtherAllele hm_match_chr hm_match_pos 
+ Example of PGS Scoring Files header 
+ ###PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ #format_version =2.0
+ ##POLYGENIC SCORE (PGS) INFORMATION 
+ #pgs_id =PGS000348
+ ... 
+ #license =Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0). © 2020 Ambry Genetics.
+ ##HARMONIZATION DETAILS 
+ #HmPOS_build =GRCh37
+ #HmPOS_date =2022-07-26
+ #HmPOS_match_chr ={"True": 72, "False":0}
+ #HmPOS_match_pos ={"True": 72, "False":0}
+ rsID ... hm_source hm_rsID hm_chr hm_pos hm_inferOtherAllele hm_match_chr hm_match_pos 
+ Harmonized Files — Additional Columns 
+ The formatted scoring file (in the original genome build) has the following additional columns describing the variants in the specified genome build for each HmPOS file: 
+ Additional Column Header Field Name Field Description 
+ hm_source Provider of the harmonized variant information Data source of the variant position. Options include: ENSEMBL, liftover, author-reported (if being harmonized to the same build) . 
+ hm_rsID Harmonized rsID Current rsID. Differences between this column and the author-reported column (rsID) indicate variant merges and annotation updates from dbSNP. 
+ hm_chr Harmonized chromosome name Chromosome that the harmonized variant is present on, preferring matches to chromosomes over patches present in later builds. 
+ hm_pos Harmonized chromosome position Chromosomal position (base pair location) where the variant is located, preferring matches to chromosomes over patches present in later builds. 
+ hm_inferOtherAllele Harmonized other alleles If only the effect_allele is given we attempt to infer the non-effect/other allele(s) using Ensembl/dbSNP alleles. 
+ hm_match_chr FLAG: matching chromosome name Used for QC . Only provided if the scoring file is being harmonized to the same genome build, and where the chromosome name is provided in the column chr_name . 
+ hm_match_pos FLAG: matching chromosome position Used for QC . Only provided if the scoring file is being harmonized to the same genome build, and where the chromosome name is provided in the column chr_position . 
+ Example of PGS Harmonized File ( GRCh37 file harmonized on GRCh38 ) 
+ ###PGS CATALOG SCORING FILE - see https://www.pgscatalog.org/downloads/#dl_ftp_scoring for additional information 
+ #format_version =2.0
+ ##POLYGENIC SCORE (PGS) INFORMATION 
+ #pgs_id =PGS000116
+ ... 
+ #genome_build = GRCh37 
+ ... 
+ ##HARMONIZATION DETAILS 
+ #HmPOS_build = GRCh38 
+ ... 
+ rsID chr_name chr_position effect_allele other_allele effect_weight hm_source hm_rsID hm_chr hm_pos 
+rs1921 1 949608 A G -0.003965 ENSEMBL rs1921 1 1014228
+rs2710887 1 986443 T C -0.000846 ENSEMBL rs2710887 1 1051063
+rs11260596 1 1002434 T C 0.000789 ENSEMBL rs11260596 1 1067054
+rs113355263 1 1069535 A G -0.001627 ENSEMBL rs113355263 1 1134155
+rs11260539 1 1109903 T C 0.000170 ENSEMBL rs11260539 1 1174523
+... 
+ Supported by: 
+ Copyright © EMBL-EBI 2026 
+ EMBL-EBI is an Outstation of the European Molecular Biology Laboratory 
+ Privacy 
+ Cookies 
+ Terms of use 
+ Data Preservation Statement 

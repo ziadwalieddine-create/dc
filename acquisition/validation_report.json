@@ -319,6 +319,362 @@
    ]
   }
  },
+ "clingen_actionability_adult_assertions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['docId', 'iri', 'curationType', 'latestSearchDate', 'lastUpdated', 'lastAuthor']",
+    "name": "has docId, context and geneOrVariant columns",
+    "ok": true
+   },
+   {
+    "detail": "3396",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[('Adult', 3396)]",
+    "name": "context is Adult in every row",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "record identifiers look like AC####",
+    "ok": true
+   },
+   {
+    "detail": "3396",
+    "name": "more than 500 rows",
+    "ok": true
+   },
+   {
+    "detail": "1",
+    "name": "record identifiers of this export are a subset of the summary records, within 5%",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 21,
+   "records": 153,
+   "rows": 3396
+  }
+ },
+ "clingen_actionability_adult_scoring": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['docId', 'iri', 'curationType', 'latestSearchDate', 'lastUpdated', 'lastAuthor']",
+    "name": "has docId, context and geneOrVariant columns",
+    "ok": true
+   },
+   {
+    "detail": "3783",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[('Adult', 3783)]",
+    "name": "context is Adult in every row",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "record identifiers look like AC####",
+    "ok": true
+   },
+   {
+    "detail": "3783",
+    "name": "more than 500 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "record identifiers of this export are a subset of the summary records, within 5%",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 32,
+   "records": 120,
+   "rows": 3783
+  }
+ },
+ "clingen_actionability_adult_summary_flat": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "257",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[('Adult', 257)]",
+    "name": "context is Adult in every row",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "record identifiers look like AC####",
+    "ok": true
+   },
+   {
+    "detail": "Counter({'Gene-Condition': 255, 'Variant-Condition': 2})",
+    "name": "curation types are Gene-Condition or Variant-Condition",
+    "ok": true
+   },
+   {
+    "detail": "153",
+    "name": "more than 50 records",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 27,
+   "genes": 151,
+   "records": 153,
+   "rows": 257
+  }
+ },
+ "clingen_actionability_pediatric_assertions": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['docId', 'iri', 'curationType', 'latestSearchDate', 'lastUpdated', 'lastAuthor']",
+    "name": "has docId, context and geneOrVariant columns",
+    "ok": true
+   },
+   {
+    "detail": "3349",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[('Pediatric', 3349)]",
+    "name": "context is Pediatric in every row",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "record identifiers look like AC####",
+    "ok": true
+   },
+   {
+    "detail": "3349",
+    "name": "more than 500 rows",
+    "ok": true
+   },
+   {
+    "detail": "1",
+    "name": "record identifiers of this export are a subset of the summary records, within 5%",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 21,
+   "records": 132,
+   "rows": 3349
+  }
+ },
+ "clingen_actionability_pediatric_scoring": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['docId', 'iri', 'curationType', 'latestSearchDate', 'lastUpdated', 'lastAuthor']",
+    "name": "has docId, context and geneOrVariant columns",
+    "ok": true
+   },
+   {
+    "detail": "3515",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[('Pediatric', 3515)]",
+    "name": "context is Pediatric in every row",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "record identifiers look like AC####",
+    "ok": true
+   },
+   {
+    "detail": "3515",
+    "name": "more than 500 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "record identifiers of this export are a subset of the summary records, within 5%",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 32,
+   "records": 110,
+   "rows": 3515
+  }
+ },
+ "clingen_actionability_pediatric_summary_flat": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "199",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[('Pediatric', 199)]",
+    "name": "context is Pediatric in every row",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "record identifiers look like AC####",
+    "ok": true
+   },
+   {
+    "detail": "Counter({'Gene-Condition': 197, 'Variant-Condition': 2})",
+    "name": "curation types are Gene-Condition or Variant-Condition",
+    "ok": true
+   },
+   {
+    "detail": "131",
+    "name": "more than 50 records",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 27,
+   "genes": 134,
+   "records": 131,
+   "rows": 199
+  }
+ },
+ "clingen_erepo_variant_classifications": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "13571",
+    "name": "more than 10,000 classifications",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Uuid unique",
+    "ok": true
+   },
+   {
+    "detail": "12810/13571",
+    "name": "at least 90% of rows carry a numeric ClinVar Variation Id",
+    "ok": true
+   },
+   {
+    "detail": "13527/13571",
+    "name": "at least 90% of rows carry a ClinGen Allele Registry id (CA...)",
+    "ok": true
+   },
+   {
+    "detail": "{'Uncertain Significance': 4063, 'Pathogenic': 3630, 'Likely Pathogenic': 2903, 'Likely Benign': 1622, 'Benign': 1353}",
+    "name": "assertion values are ACMG/AMP classes (others reported)",
+    "ok": true
+   },
+   {
+    "detail": "13483/13571",
+    "name": "met evidence codes have ACMG/AMP code form in at least 95% of rows",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assertions": {
+    "Benign": 1353,
+    "Likely Benign": 1622,
+    "Likely Pathogenic": 2903,
+    "Pathogenic": 3630,
+    "Uncertain Significance": 4063
+   },
+   "expert_panels": 46,
+   "genes": 174,
+   "rows": 13571,
+   "with_allele_registry_id": 13527,
+   "with_clinvar_id": 12810
+  }
+ },
  "clingen_gene_curation_list": {
   "checks": [
    {
@@ -526,6 +882,148 @@
    "rows": 1330
   }
  },
+ "clinpgx_clinicalAnnotations": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['LICENSE.txt', 'CREATED_2025-07-05.txt', 'clinical_annotations.tsv', 'clinical_ann_alleles.tsv', 'clinical_ann_history.tsv', 'clinical_ann_evidence.tsv', 'README.pdf']",
+    "name": "archive has LICENSE.txt, a CREATED_ marker and the main table",
+    "ok": true
+   },
+   {
+    "detail": "This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of thi",
+    "name": "LICENSE.txt names Creative Commons Attribution-ShareAlike 4.0",
+    "ok": true
+   },
+   {
+    "detail": "5186",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "5186",
+    "name": "more than 5000 rows",
+    "ok": true
+   },
+   {
+    "detail": "['Clinical Annotation ID', 'Variant/Haplotypes', 'Gene', 'Level of Evidence', 'Level Override', 'Level Modifiers', 'Score', 'Phenotype Category']",
+    "name": "Clinical Annotation ID present in the header",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Clinical Annotation ID unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": [
+    "Clinical Annotation ID",
+    "Variant/Haplotypes",
+    "Gene",
+    "Level of Evidence",
+    "Level Override",
+    "Level Modifiers",
+    "Score",
+    "Phenotype Category",
+    "PMID Count",
+    "Evidence Count",
+    "Drug(s)",
+    "Phenotype(s)"
+   ],
+   "created": "2025-07-05",
+   "members": [
+    "LICENSE.txt",
+    "CREATED_2025-07-05.txt",
+    "clinical_annotations.tsv",
+    "clinical_ann_alleles.tsv",
+    "clinical_ann_history.tsv",
+    "clinical_ann_evidence.tsv",
+    "README.pdf"
+   ],
+   "n_members": 7,
+   "rows": 5186
+  }
+ },
+ "clinpgx_clinicalVariants": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['LICENSE.txt', 'CREATED_2026-10-05.txt', 'clinicalVariants.tsv', 'README.pdf']",
+    "name": "archive has LICENSE.txt, a CREATED_ marker and the main table",
+    "ok": true
+   },
+   {
+    "detail": "This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license.\nTo view",
+    "name": "LICENSE.txt names Creative Commons Attribution-ShareAlike 4.0",
+    "ok": true
+   },
+   {
+    "detail": "5192",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "5192",
+    "name": "more than 500 rows",
+    "ok": true
+   },
+   {
+    "detail": "['variant', 'gene', 'type', 'level of evidence', 'chemicals', 'phenotypes']",
+    "name": "variant present in the header",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": [
+    "variant",
+    "gene",
+    "type",
+    "level of evidence",
+    "chemicals",
+    "phenotypes"
+   ],
+   "created": "2026-10-05",
+   "members": [
+    "LICENSE.txt",
+    "CREATED_2026-10-05.txt",
+    "clinicalVariants.tsv",
+    "README.pdf"
+   ],
+   "n_members": 4,
+   "rows": 5192
+  }
+ },
  "clinpgx_drugLabels": {
   "checks": [
    {
@@ -559,6 +1057,82 @@
     "drugLabels.byGene.tsv"
    ],
    "n_members": 5
+  }
+ },
+ "clinpgx_genes": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['LICENSE.txt', 'CREATED_2026-10-05.txt', 'genes.tsv', 'README.pdf', 'VERSIONS.txt']",
+    "name": "archive has LICENSE.txt, a CREATED_ marker and the main table",
+    "ok": true
+   },
+   {
+    "detail": "This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license.\nTo view",
+    "name": "LICENSE.txt names Creative Commons Attribution-ShareAlike 4.0",
+    "ok": true
+   },
+   {
+    "detail": "25041",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "25041",
+    "name": "more than 20000 rows",
+    "ok": true
+   },
+   {
+    "detail": "['PharmGKB Accession Id', 'NCBI Gene ID', 'HGNC ID', 'Ensembl Id', 'Name', 'Symbol', 'Alternate Names', 'Alternate Symbols']",
+    "name": "PharmGKB Accession Id present in the header",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "PharmGKB Accession Id unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": [
+    "PharmGKB Accession Id",
+    "NCBI Gene ID",
+    "HGNC ID",
+    "Ensembl Id",
+    "Name",
+    "Symbol",
+    "Alternate Names",
+    "Alternate Symbols",
+    "Is VIP",
+    "Has Variant Annotation",
+    "Cross-references",
+    "Has CPIC Dosing Guideline"
+   ],
+   "created": "2026-10-05",
+   "members": [
+    "LICENSE.txt",
+    "CREATED_2026-10-05.txt",
+    "genes.tsv",
+    "README.pdf",
+    "VERSIONS.txt"
+   ],
+   "n_members": 5,
+   "rows": 25041
   }
  },
  "clinpgx_guidelineAnnotations": {
@@ -711,6 +1285,81 @@
    "n_members": 7
   }
  },
+ "clinpgx_variants": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "None",
+    "name": "zip CRC test",
+    "ok": true
+   },
+   {
+    "detail": "['LICENSE.txt', 'CREATED_2026-10-05.txt', 'variants.tsv', 'README.pdf', 'VERSIONS.txt']",
+    "name": "archive has LICENSE.txt, a CREATED_ marker and the main table",
+    "ok": true
+   },
+   {
+    "detail": "This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license.\nTo view",
+    "name": "LICENSE.txt names Creative Commons Attribution-ShareAlike 4.0",
+    "ok": true
+   },
+   {
+    "detail": "7692",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "7692",
+    "name": "more than 5000 rows",
+    "ok": true
+   },
+   {
+    "detail": "['Variant ID', 'Variant Name', 'Gene IDs', 'Gene Symbols', 'Location', 'Variant Annotation count', 'Clinical Annotation count', 'Level 1/2 Clinical Annotation count']",
+    "name": "Variant ID present in the header",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Variant ID unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": [
+    "Variant ID",
+    "Variant Name",
+    "Gene IDs",
+    "Gene Symbols",
+    "Location",
+    "Variant Annotation count",
+    "Clinical Annotation count",
+    "Level 1/2 Clinical Annotation count",
+    "Guideline Annotation count",
+    "Label Annotation count",
+    "Synonyms"
+   ],
+   "created": "2026-10-05",
+   "members": [
+    "LICENSE.txt",
+    "CREATED_2026-10-05.txt",
+    "variants.tsv",
+    "README.pdf",
+    "VERSIONS.txt"
+   ],
+   "n_members": 5,
+   "rows": 7692
+  }
+ },
  "clinvar_readme": {
   "checks": [
    {
@@ -752,6 +1401,124 @@
   ],
   "passed": true,
   "stats": {}
+ },
+ "clinvar_submission_summary": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['VariationID', 'ClinicalSignificance', 'DateLastEvaluated', 'Description', 'SubmittedPhenotypeInfo', 'ReportedPhenotypeInfo', 'ReviewStatus', 'CollectionMethod', 'OriginCounts', 'Submitter', 'SCV', 'SubmittedGeneSymbol', 'ExplanationOfInterpretation', 'SomaticClinicalImpact', 'Oncogenicity', 'Contr",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "SCV accessions have the SCV#########.# form",
+    "ok": true
+   },
+   {
+    "detail": "6853790",
+    "name": "more than 3,000,000 submissions",
+    "ok": true
+   },
+   {
+    "detail": "0/6360545 missing",
+    "name": "every SCV cited by the VCF aggregate classification is in submission_summary",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 6853790,
+   "scv": 6853784,
+   "variations": 4449053,
+   "vcf_scv_cited": 6360545,
+   "vcf_scv_missing": 0
+  }
+ },
+ "clinvar_variant_summary": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['AlleleID', 'Type', 'Name', 'GeneID', 'GeneSymbol', 'HGNC_ID', 'ClinicalSignificance', 'ClinSigSimple', 'LastEvaluated', 'RS# (dbSNP)']",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every row has one cell per column",
+    "ok": true
+   },
+   {
+    "detail": "{'GRCh37': 4675354, 'GRCh38': 4622326, 'na': 9535, 'NCBI36': 4771}",
+    "name": "assemblies are GRCh37, GRCh38 or na",
+    "ok": true
+   },
+   {
+    "detail": "4622326",
+    "name": "more than 1,000,000 GRCh38 rows",
+    "ok": true
+   },
+   {
+    "detail": "0/4599326 missing",
+    "name": "every VariationID of the GRCh38 VCF is in variant_summary",
+    "ok": true
+   },
+   {
+    "detail": "GRCh38 variants 4619909, VCF records 4599326",
+    "name": "VCF and variant_summary GRCh38 rows agree in number within 1%",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "assemblies": {
+    "GRCh37": 4675354,
+    "GRCh38": 4622326,
+    "NCBI36": 4771,
+    "na": 9535
+   },
+   "grch38_types": {
+    "Complex": 17,
+    "Deletion": 178271,
+    "Duplication": 76370,
+    "Indel": 21070,
+    "Insertion": 15960,
+    "Inversion": 1572,
+    "Microsatellite": 41317,
+    "Translocation": 28,
+    "Variation": 701,
+    "copy number gain": 7450,
+    "copy number loss": 7237,
+    "single nucleotide variant": 4272333
+   },
+   "grch38_variants": 4619909,
+   "rows": 9311986,
+   "vcf_ids_missing": 0,
+   "vcf_records": 4599326
+  }
  },
  "clinvar_vcf_grch38": {
   "checks": [
@@ -3403,6 +4170,50 @@
    "tissues": 68
   }
  },
+ "gwas_catalog_ancestries": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['STUDY ACCESSION', 'PUBMED ID', 'FIRST AUTHOR', 'DATE', 'INITIAL SAMPLE DESCRIPTION', 'REPLICATION SAMPLE DESCRIPTION', 'STAGE', 'NUMBER OF INDIVIDUALS', 'BROAD ANCESTRAL CATEGORY', 'COUNTRY OF ORIGIN', 'COUNTRY OF RECRUITMENT', 'ADDITIONAL ANCESTRY DESCRIPTION', 'ANCESTRY DESCRIPTOR', 'FOUNDER/GEN",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "300667",
+    "name": "more than 150,000 ancestry rows",
+    "ok": true
+   },
+   {
+    "detail": "{'initial': 263247, 'replication': 37420}",
+    "name": "stage is initial or replication",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "at least 99% of ancestry accessions are in the studies file",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "accessions_not_in_studies": 0,
+   "rows": 300667,
+   "stages": {
+    "initial": 263247,
+    "replication": 37420
+   },
+   "studies": 232186
+  }
+ },
  "gwas_catalog_associations": {
   "checks": [
    {
@@ -3440,6 +4251,82 @@
    ],
    "n_members": 1,
    "rows": 1203840
+  }
+ },
+ "gwas_catalog_efo_trait_mappings": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "required columns present",
+    "ok": true
+   },
+   {
+    "detail": "110339",
+    "name": "rows >= 50000",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "columns": 5,
+   "rows": 110339,
+   "sample_columns": [
+    "Disease trait",
+    "EFO term",
+    "EFO URI",
+    "Parent term",
+    "Parent URI"
+   ]
+  }
+ },
+ "gwas_catalog_studies": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['DATE ADDED TO CATALOG', 'PUBMED ID', 'FIRST AUTHOR', 'DATE', 'JOURNAL', 'LINK', 'STUDY', 'DISEASE/TRAIT', 'INITIAL SAMPLE SIZE', 'REPLICATION SAMPLE SIZE', 'PLATFORM [SNPS PASSING QC]', 'ASSOCIATION COUNT', 'MAPPED_TRAIT', 'MAPPED_TRAIT_URI', 'STUDY ACCESSION', 'GENOTYPING TECHNOLOGY', 'SUBMISSION",
+    "name": "documented columns present",
+    "ok": true
+   },
+   {
+    "detail": "232202",
+    "name": "more than 100,000 studies",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "accessions GCST<digits> and unique",
+    "ok": true
+   },
+   {
+    "detail": "{'no': 50614, 'yes': 181588}",
+    "name": "FULL SUMMARY STATISTICS is yes/no",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "pubmed_ids": 7884,
+   "studies": 232202,
+   "with_full_summary_statistics": 181588
   }
  },
  "hgsvc3_grch38_sv_insdel_sym_vcf": {
@@ -6338,6 +7225,366 @@
    "columns": 13,
    "files": 25,
    "rows": 7886762
+  }
+ },
+ "pgs_metadata_cohorts": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Cohort ID', 'Cohort Name', 'Previous/other/additional names']",
+    "name": "Cohort ID in the header",
+    "ok": true
+   },
+   {
+    "detail": "2566",
+    "name": "more than 2000 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Cohort ID unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 2566
+  }
+ },
+ "pgs_metadata_efo_traits": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Ontology Trait ID', 'Ontology Trait Label', 'Ontology Trait Description', 'Ontology URL']",
+    "name": "Ontology Trait ID in the header",
+    "ok": true
+   },
+   {
+    "detail": "820",
+    "name": "more than 700 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Ontology Trait ID unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 820
+  }
+ },
+ "pgs_metadata_evaluation_sample_sets": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['PGS Sample Set (PSS)', 'Polygenic Score (PGS) ID', 'Number of Individuals', 'Number of Cases', 'Number of Controls', 'Percent of Participants Who are Male']",
+    "name": "PGS Sample Set (PSS) in the header",
+    "ok": true
+   },
+   {
+    "detail": "11994",
+    "name": "more than 10000 rows",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 11994
+  }
+ },
+ "pgs_metadata_performance_metrics": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['PGS Performance Metric (PPM) ID', 'Evaluated Score', 'PGS Sample Set (PSS)', 'PGS Publication (PGP) ID', 'Reported Trait', 'Covariates Included in the Model']",
+    "name": "PGS Performance Metric (PPM) ID in the header",
+    "ok": true
+   },
+   {
+    "detail": "24048",
+    "name": "more than 20000 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "PGS Performance Metric (PPM) ID unique",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "every evaluated score is in the score list",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 24048,
+   "scores_with_performance": 6954
+  }
+ },
+ "pgs_metadata_publications": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['PGS Publication/Study (PGP) ID', 'First Author', 'Title', 'Journal Name', 'Publication Date', 'Release Date']",
+    "name": "PGS Publication/Study (PGP) ID in the header",
+    "ok": true
+   },
+   {
+    "detail": "850",
+    "name": "more than 800 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "PGS Publication/Study (PGP) ID unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 850
+  }
+ },
+ "pgs_metadata_score_development_samples": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Polygenic Score (PGS) ID', 'Stage of PGS Development', 'Number of Individuals', 'Number of Cases', 'Number of Controls', 'Percent of Participants Who are Male']",
+    "name": "Polygenic Score (PGS) ID in the header",
+    "ok": true
+   },
+   {
+    "detail": "15779",
+    "name": "more than 10000 rows",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "rows": 15779
+  }
+ },
+ "pgs_metadata_scores": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['Polygenic Score (PGS) ID', 'PGS Name', 'Reported Trait', 'Mapped Trait(s) (EFO label)', 'Mapped Trait(s) (EFO ID)', 'PGS Development Method']",
+    "name": "Polygenic Score (PGS) ID in the header",
+    "ok": true
+   },
+   {
+    "detail": "7029",
+    "name": "more than 7000 rows",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "Polygenic Score (PGS) ID unique",
+    "ok": true
+   },
+   {
+    "detail": "0",
+    "name": "score ids equal the score list",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "Number of Variants is a positive integer",
+    "ok": true
+   },
+   {
+    "detail": "{'NR': 374, 'GRCh37': 4058, 'hg19': 417, 'NCBI36': 11, 'hg38': 180, 'hg18': 3, 'GRCh38': 1982, 'NCBI35': 1, 'hg37': 3}",
+    "name": "Original Genome Build values are the documented ones",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "builds": {
+    "GRCh37": 4058,
+    "GRCh38": 1982,
+    "NCBI35": 1,
+    "NCBI36": 11,
+    "NR": 374,
+    "hg18": 3,
+    "hg19": 417,
+    "hg37": 3,
+    "hg38": 180
+   },
+   "licences": 10,
+   "rows": 7029,
+   "total_variants": 4546674118
+  }
+ },
+ "pgs_scores_list": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "size equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "['PGS000001', 'PGS000002', 'PGS000003']",
+    "name": "identifiers PGS######",
+    "ok": true
+   },
+   {
+    "detail": "7029",
+    "name": "more than 7,000 scores and unique",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "first": "PGS000001",
+   "last": "PGS020005",
+   "scores": 7029
+  }
+ },
+ "pgs_scoring_files_grch38": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "manifest table present",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "no score ended in an error",
+    "ok": true
+   },
+   {
+    "detail": "3467",
+    "name": "every row is stored or recorded as having no GRCh38 harmonised file",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every stored file exists and matches its recorded SHA-256",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every stored file matches the MD5 published beside it (recorded at download)",
+    "ok": true
+   },
+   {
+    "detail": "Counter({'GRCh38': 3467})",
+    "name": "every header declares harmonisation to GRCh38",
+    "ok": true
+   },
+   {
+    "detail": "13 differ: ['PGS000018', 'PGS000028', 'PGS000158', 'PGS002284', 'PGS002285']",
+    "name": "data lines equal the variant count in the file header and in the bulk metadata for at least 99% of files",
+    "ok": true
+   },
+   {
+    "detail": "{'A': 3455, 'B': 12}",
+    "name": "tier A and tier B counts equal the documented selection",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "tier A scores all have at most 100,000 variants",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "a systematic sample of 60 files has the harmonised columns effect_allele, effect_weight, hm_chr, hm_pos",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "bytes": 851785637,
+   "files_with_line_count_mismatch": 13,
+   "hmpos_position_matched": 13206398,
+   "hmpos_position_total": 13206536,
+   "scores_requested": 3467,
+   "scores_with_restrictive_licence_text": 23,
+   "stored": 3467,
+   "tier_counts": {
+    "A": 3455,
+    "B": 12
+   },
+   "variants_in_header": 44740169,
+   "without_grch38_file": 0
   }
  },
  "pharmvar_6_2_29": {

@@ -27,7 +27,8 @@ def file_sha256(path, chunk=1 << 22):
 
 def code_digest(adapter):
     src = inspect.getsourcefile(type(adapter))
-    return hashlib.sha256(open(src, 'rb').read()).hexdigest()[:16]
+    with open(src, 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest()[:16]
 
 
 def build_entity_variant(out):
@@ -38,7 +39,7 @@ def build_entity_variant(out):
         t = t.filter(pc.equal(t['mapping_status'], 'mapped'))
         keys.update(pc.unique(t['subject_id']).to_pylist())
     for p in glob.glob(os.path.join(out, 'haplotype_definition', '*.parquet')):
-        keys.update(pc.unique(pq.read_table(p, columns=['variant_key'])['variant_key']).to_pylist())
+        keys.update(k for k in pc.unique(pq.read_table(p, columns=['variant_key'])['variant_key']).to_pylist() if k)      # unresolved definition rows have no key
     rows = []
     for k in sorted(keys, key=lambda k: (parse_key(k)[0], parse_key(k)[1], k)):
         c, p, r, a = parse_key(k)
@@ -67,8 +68,17 @@ def build(out, adapters, reference, limit=None, clean=True):
         shutil.rmtree(out)
     os.makedirs(out, exist_ok=True)
     ctx = BuildContext(out, reference)
-    ran = []
+    ran, done = [], set()
     for a in adapters:
+        missing = [x for x in getattr(a, 'requires', ()) if x not in done]
+        if missing:
+            raise ValueError(f'{type(a).__name__} needs the output of {missing} first; list those adapters before it (a wrong order would silently leave its records unmapped)')
+        done.add(a.source_id)
+        if hasattr(a, 'prepare'):
+            a.prepare(ctx)
+    done = set()
+    for a in adapters:
+        done.add(a.source_id)
         stats = a.run(ctx, limit=limit) if limit else a.run(ctx)
         ran.append(dict(adapter=type(a).__name__, source_id=a.source_id, code_sha256_16=code_digest(a), stats=dict(sorted(ctx.st(a.source_id).c.items()))))
     ctx.adapter = None

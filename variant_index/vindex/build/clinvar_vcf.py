@@ -147,12 +147,14 @@ class ClinVarVcfAdapter:
                                            eaf=af, lineage_group=f'cohort:{cohort}', lineage_note='frequency copied into ClinVar from the named cohort', **common)
                         ctx.emit_evidence(row)
                 if subject:
+                    ctx.offer('clinvar_variation', vid, subject)
                     if 'RS' in info:
                         for rs in info['RS'].split('|'):
                             ctx.emit('xref', dict(namespace='dbsnp', identifier='rs' + rs, entity_level='variant', entity_id=subject, release_id=release, relation='clinvar_RS'), name='clinvar')
                     ctx.emit('xref', dict(namespace='clinvar_variation', identifier=vid, entity_level='variant', entity_id=subject, release_id=release, relation='vcf_id'), name='clinvar')
                     for vi in (info.get('CLNVI') or '').split('|'):
                         if vi.startswith('ClinGen:'):
+                            ctx.offer('clingen_allele_registry', vi.split(':', 1)[1], subject)
                             ctx.emit('xref', dict(namespace='clingen_allele_registry', identifier=vi.split(':', 1)[1], entity_level='variant', entity_id=subject, release_id=release, relation='CLNVI'), name='clinvar')
         st.inc('lines', ln if 'ln' in dir() else 0)
         return st.c

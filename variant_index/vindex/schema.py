@@ -79,11 +79,11 @@ ENTITY_EVENT = pa.schema([
 
 ENTITY_HAPLOTYPE = pa.schema([
     ('haplotype_id', S), ('system', S), ('gene_symbol', S), ('allele_name', S), ('is_reference', pa.bool_()), ('structural', pa.bool_()),
-    ('release_id', S), ('accession', S), ('function', S),
+    ('release_id', S), ('accession', S), ('function', S), ('allele_level', S),
 ])
 
 HAPLOTYPE_DEFINITION = pa.schema([
-    ('haplotype_id', S), ('variant_key', S), ('hgvs', S), ('release_id', S), ('definition_scope', S),
+    ('haplotype_id', S), ('variant_key', S), ('hgvs', S), ('release_id', S), ('definition_scope', S),   # scope: defining | tolerated (the allele may carry this alternative or the reference base) | unresolved:<reason>
 ])
 
 ENTITY_GENE = pa.schema([

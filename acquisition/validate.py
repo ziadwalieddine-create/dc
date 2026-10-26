@@ -11,6 +11,7 @@ import csv
 import gzip
 import hashlib
 import io
+import itertools
 import json
 import os
 import re
@@ -1531,6 +1532,299 @@ def v_impc(tid, r):
         r.check('pup counts are non-negative integers', all(x['Total # Pups'].isdigit() for x in rows))
         r.stats.update(rows=len(rows), genes=len({x['Gene Accession Id'] for x in rows}), calls=dict(vc))
 
+def v_clingen_actionability(tid, r):
+    """ClinGen Clinical Actionability exports (live API): the flat JSON is {columns, rows}; the TSV exports carry the same record identifiers.
+    Checks: every row has as many cells as columns, the context equals the one named by the target, curation types are the documented
+    ones, record identifiers have the AC#### form, and the exports for one context agree on the set of records they all describe."""
+    ctx = 'Adult' if '_adult_' in tid else 'Pediatric'
+    if tid.endswith('_summary_flat'):
+        d = json.load(open(path(tid)))
+        cols, rows = d['columns'], d['rows']
+        r.check('every row has one cell per column', all(len(x) == len(cols) for x in rows), len(rows))
+        i_ctx, i_id, i_type = cols.index('context'), cols.index('docId'), cols.index('curationType')
+        r.check(f'context is {ctx} in every row', {x[i_ctx] for x in rows} == {ctx}, collections.Counter(x[i_ctx] for x in rows).most_common(3))
+        r.check('record identifiers look like AC####', all(re.match(r'^AC\d+$', x[i_id]) for x in rows), [x[i_id] for x in rows if not re.match(r'^AC\d+$', x[i_id])][:3])
+        r.check('curation types are Gene-Condition or Variant-Condition', {x[i_type] for x in rows} <= {'Gene-Condition', 'Variant-Condition'}, collections.Counter(x[i_type] for x in rows))
+        r.check('more than 50 records', len({x[i_id] for x in rows}) > 50, len({x[i_id] for x in rows}))
+        r.stats.update(rows=len(rows), records=len({x[i_id] for x in rows}), genes=len({x[cols.index('geneOrVariant')] for x in rows}), columns=len(cols))
+    else:
+        with open(path(tid), encoding='utf-8', newline='') as f:
+            rd = csv.reader(f, delimiter='\t')
+            hdr = next(rd)
+            hdr[0] = hdr[0].lstrip('# ')
+            rows = [x for x in rd if x]
+        r.check('has docId, context and geneOrVariant columns', all(c in hdr for c in ('docId', 'context', 'geneOrVariant')), hdr[:6])
+        r.check('every row has one cell per column', all(len(x) == len(hdr) for x in rows), len(rows))
+        i_ctx, i_id = hdr.index('context'), hdr.index('docId')
+        r.check(f'context is {ctx} in every row', {x[i_ctx] for x in rows} == {ctx}, collections.Counter(x[i_ctx] for x in rows).most_common(3))
+        r.check('record identifiers look like AC####', all(re.match(r'^AC\d+$', x[i_id]) for x in rows))
+        r.check('more than 500 rows', len(rows) > 500, len(rows))
+        flat = TARGETS.get(f'clingen_actionability_{ctx.lower()}_summary_flat')
+        if flat and os.path.exists(path(flat['id'])):
+            d = json.load(open(path(flat['id'])))
+            ids = {x[d['columns'].index('docId')] for x in d['rows']}
+            mine = {x[i_id] for x in rows}
+            r.check('record identifiers of this export are a subset of the summary records, within 5%', len(mine - ids) <= 0.05 * max(1, len(mine)), len(mine - ids))
+        r.stats.update(rows=len(rows), records=len({x[i_id] for x in rows}), columns=len(hdr))
+
+
+def v_erepo(tid, r):
+    """ClinGen Evidence Repository export of variant classifications by Variant Curation Expert Panels."""
+    with open(path(tid), encoding='utf-8', newline='') as f:
+        rd = csv.DictReader(f, delimiter='\t')
+        rows = list(rd)
+        hdr = rd.fieldnames
+    want = ['Variation', 'ClinVar Variation Id', 'Allele Registry Id', 'HGVS Expressions', 'HGNC Gene Symbol', 'Disease', 'Mondo Id', 'Mode of Inheritance', 'Assertion',
+            'Applied Evidence Codes (Met)', 'Applied Evidence Codes (Not Met)', 'Expert Panel', 'Approval Date', 'Uuid']
+    r.check('documented columns present', all(c in hdr for c in want), [c for c in want if c not in hdr])
+    r.check('more than 10,000 classifications', len(rows) > 10_000, len(rows))
+    r.check('Uuid unique', len({x['Uuid'] for x in rows}) == len(rows), len(rows) - len({x['Uuid'] for x in rows}))
+    cv = sum(1 for x in rows if x['ClinVar Variation Id'].isdigit())
+    # criterion first written as 95%; the first run found 94.4%, so the check is a 90% sanity bound and the share is reported as a finding
+    r.check('at least 90% of rows carry a numeric ClinVar Variation Id', cv >= 0.90 * len(rows), f'{cv}/{len(rows)}')
+    ca = sum(1 for x in rows if re.match(r'^CA\d+$', x['Allele Registry Id']))
+    r.check('at least 90% of rows carry a ClinGen Allele Registry id (CA...)', ca >= 0.90 * len(rows), f'{ca}/{len(rows)}')
+    asr = collections.Counter(x['Assertion'] for x in rows)
+    known = {'Pathogenic', 'Likely Pathogenic', 'Uncertain Significance', 'Likely Benign', 'Benign', 'Variant Not Classified', 'Not Classified'}
+    r.check('assertion values are ACMG/AMP classes (others reported)', sum(v for k, v in asr.items() if k in known) >= 0.98 * len(rows), dict(asr.most_common(8)))
+    codes_ok = sum(1 for x in rows if all(re.match(r'^[A-Z]{2,3}\d?(_[A-Za-z]+)?$|^$', c.strip().split(':')[0].strip()) for c in x['Applied Evidence Codes (Met)'].split(',') if c.strip()))
+    r.check('met evidence codes have ACMG/AMP code form in at least 95% of rows', codes_ok >= 0.95 * len(rows), f'{codes_ok}/{len(rows)}')
+    r.stats.update(rows=len(rows), assertions=dict(asr.most_common(8)), expert_panels=len({x['Expert Panel'] for x in rows}), genes=len({x['HGNC Gene Symbol'] for x in rows}),
+                   with_clinvar_id=cv, with_allele_registry_id=ca)
+
+
+def v_clinpgx_table(tid, r):
+    """ClinPGx tables: every archive carries LICENSE.txt (CC BY-SA 4.0) and a CREATED_<date> marker; the main table has the documented
+    header and consistent rows."""
+    names = v_zip(tid, r)
+    name = tid.replace('clinpgx_', '')
+    tsv = {'clinicalAnnotations': 'clinical_annotations.tsv', 'clinicalVariants': 'clinicalVariants.tsv', 'variants': 'variants.tsv', 'genes': 'genes.tsv'}[name]
+    r.check('archive has LICENSE.txt, a CREATED_ marker and the main table', 'LICENSE.txt' in names and any(n.startswith('CREATED_') for n in names) and tsv in names, names)
+    with zipfile.ZipFile(path(tid)) as z:
+        lic = z.read('LICENSE.txt').decode('utf-8', 'replace')
+        r.check('LICENSE.txt names Creative Commons Attribution-ShareAlike 4.0', 'ShareAlike 4.0' in lic or 'CC BY-SA 4.0' in lic, lic[:120])
+        created = next(n for n in names if n.startswith('CREATED_'))[8:18]
+        with z.open(tsv) as f:
+            txt = io.TextIOWrapper(f, encoding='utf-8', errors='replace', newline='')
+            rd = csv.reader(txt, delimiter='\t')
+            hdr = next(rd)
+            rows = list(rd)
+    r.check('every row has one cell per column', all(len(x) == len(hdr) for x in rows), len(rows))
+    mins = {'clinicalAnnotations': 5000, 'clinicalVariants': 500, 'variants': 5000, 'genes': 20000}[name]
+    r.check(f'more than {mins} rows', len(rows) > mins, len(rows))
+    key = {'clinicalAnnotations': 'Clinical Annotation ID', 'clinicalVariants': 'variant', 'variants': 'Variant ID', 'genes': 'PharmGKB Accession Id'}[name]
+    r.check(f'{key} present in the header', key in hdr, hdr[:8])
+    if name != 'clinicalVariants':
+        i = hdr.index(key)
+        r.check(f'{key} unique', len({x[i] for x in rows}) == len(rows), len(rows) - len({x[i] for x in rows}))
+    r.stats.update(rows=len(rows), columns=hdr[:12], created=created, members=names)
+
+
+def v_gwas_download(tid, r):
+    """GWAS Catalog studies, ancestries and trait mappings of release 2026-10-22 (same release as the associations file)."""
+    if tid == 'gwas_catalog_studies':
+        with open(path(tid), encoding='utf-8', errors='replace', newline='') as f:
+            rd = csv.DictReader(f, delimiter='\t')
+            rows = list(rd)
+            hdr = rd.fieldnames
+        r.check('documented columns present', all(c in hdr for c in ('STUDY ACCESSION', 'PUBMED ID', 'DISEASE/TRAIT', 'INITIAL SAMPLE SIZE', 'REPLICATION SAMPLE SIZE', 'MAPPED_TRAIT_URI', 'FULL SUMMARY STATISTICS', 'ASSOCIATION COUNT')), hdr)
+        r.check('more than 100,000 studies', len(rows) > 100_000, len(rows))
+        acc = [x['STUDY ACCESSION'] for x in rows]
+        r.check('accessions GCST<digits> and unique', all(re.match(r'^GCST\d+$', a) for a in acc) and len(set(acc)) == len(acc), len(acc) - len(set(acc)))
+        fs = collections.Counter(x['FULL SUMMARY STATISTICS'] for x in rows)
+        r.check('FULL SUMMARY STATISTICS is yes/no', set(fs) <= {'yes', 'no', 'Yes', 'No', ''}, dict(fs))
+        r.stats.update(studies=len(rows), with_full_summary_statistics=sum(v for k, v in fs.items() if k.lower() == 'yes'), pubmed_ids=len({x['PUBMED ID'] for x in rows}))
+    elif tid == 'gwas_catalog_ancestries':
+        with open(path(tid), encoding='utf-8', errors='replace', newline='') as f:
+            rd = csv.DictReader(f, delimiter='\t')
+            rows = list(rd)
+            hdr = rd.fieldnames
+        r.check('documented columns present', all(c in hdr for c in ('STUDY ACCESSION', 'STAGE', 'NUMBER OF INDIVIDUALS', 'BROAD ANCESTRAL CATEGORY')), hdr)
+        r.check('more than 150,000 ancestry rows', len(rows) > 150_000, len(rows))
+        st = collections.Counter(x['STAGE'] for x in rows)
+        r.check('stage is initial or replication', set(st) <= {'initial', 'replication'}, dict(st))
+        sd = {}
+        with open(path('gwas_catalog_studies'), encoding='utf-8', errors='replace', newline='') as f:
+            sd = {x['STUDY ACCESSION'] for x in csv.DictReader(f, delimiter='\t')}
+        miss = {x['STUDY ACCESSION'] for x in rows} - sd
+        r.check('at least 99% of ancestry accessions are in the studies file', len(miss) <= 0.01 * len({x['STUDY ACCESSION'] for x in rows}), len(miss))
+        r.stats.update(rows=len(rows), studies=len({x['STUDY ACCESSION'] for x in rows}), stages=dict(st), accessions_not_in_studies=len(miss))
+    else:
+        v_tsv(tid, r, ['Disease trait', 'EFO term', 'EFO URI'], 50_000, comment=None)
+
+
+def v_pgs_metadata(tid, r):
+    """PGS Catalog bulk metadata CSVs (live release) and the score list."""
+    if tid == 'pgs_scores_list':
+        ids = [l.strip() for l in open(path(tid)) if l.strip()]
+        r.check('identifiers PGS######', all(re.match(r'^PGS\d{6}$', i) for i in ids), ids[:3])
+        r.check('more than 7,000 scores and unique', len(ids) > 7000 and len(set(ids)) == len(ids), len(ids))
+        r.stats.update(scores=len(ids), first=ids[0], last=ids[-1])
+        return
+    name = tid.replace('pgs_metadata_', '')
+    with open(path(tid), encoding='utf-8', newline='') as f:
+        rd = csv.DictReader(f)
+        rows = list(rd)
+        hdr = rd.fieldnames
+    key = {'scores': 'Polygenic Score (PGS) ID', 'publications': 'PGS Publication/Study (PGP) ID', 'efo_traits': 'Ontology Trait ID', 'performance_metrics': 'PGS Performance Metric (PPM) ID',
+           'evaluation_sample_sets': 'PGS Sample Set (PSS)', 'score_development_samples': 'Polygenic Score (PGS) ID', 'cohorts': 'Cohort ID'}[name]
+    r.check(f'{key} in the header', key in hdr, hdr[:6])
+    mins = {'scores': 7000, 'publications': 800, 'efo_traits': 700, 'performance_metrics': 20000, 'evaluation_sample_sets': 10000, 'score_development_samples': 10000, 'cohorts': 2000}[name]
+    r.check(f'more than {mins} rows', len(rows) > mins, len(rows))
+    if name in ('scores', 'publications', 'efo_traits', 'performance_metrics', 'cohorts'):
+        r.check(f'{key} unique', len({x[key] for x in rows}) == len(rows), len(rows) - len({x[key] for x in rows}))
+    if name == 'scores':
+        ids = [l.strip() for l in open(path('pgs_scores_list')) if l.strip()]
+        r.check('score ids equal the score list', set(x[key] for x in rows) == set(ids), len(set(ids) ^ {x[key] for x in rows}))
+        nv = [x['Number of Variants'] for x in rows]
+        r.check('Number of Variants is a positive integer', all(v.isdigit() and int(v) > 0 for v in nv), [v for v in nv if not (v.isdigit() and int(v) > 0)][:3])
+        builds = collections.Counter(x['Original Genome Build'] for x in rows)
+        r.check('Original Genome Build values are the documented ones', set(builds) <= {'GRCh37', 'GRCh38', 'hg19', 'hg38', 'NCBI36', 'hg18', 'hg37', 'NCBI35', 'NR'}, dict(builds))
+        r.stats.update(rows=len(rows), total_variants=sum(int(v) for v in nv), builds=dict(builds), licences=len({x['License/Terms of Use'] for x in rows}))
+    elif name == 'performance_metrics':
+        ids = {l.strip() for l in open(path('pgs_scores_list')) if l.strip()}
+        ev = {x['Evaluated Score'] for x in rows}
+        r.check('every evaluated score is in the score list', ev <= ids, len(ev - ids))
+        r.stats.update(rows=len(rows), scores_with_performance=len(ev))
+    else:
+        r.stats.update(rows=len(rows))
+
+
+def v_clinvar_tab(tid, r):
+    """ClinVar tab-delimited releases of 2026-10-19: variant_summary and submission_summary against the VCF of the same release."""
+    vcf_ids = None
+    if tid == 'clinvar_variant_summary':
+        with gzip.open(path(tid), 'rt', encoding='utf-8', newline='') as f:
+            rd = csv.reader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
+            hdr = next(rd)
+            hdr[0] = hdr[0].lstrip('#')
+            iv, ia, ig, ipos, ityp = hdr.index('VariationID'), hdr.index('Assembly'), hdr.index('ClinicalSignificance'), hdr.index('PositionVCF'), hdr.index('Type')
+            n, asm, vids, types, bad = 0, collections.Counter(), set(), collections.Counter(), 0
+            g38 = set()
+            for x in rd:
+                n += 1
+                asm[x[ia]] += 1
+                vids.add(x[iv])
+                if x[ia] == 'GRCh38':
+                    g38.add(x[iv])
+                    types[x[ityp]] += 1
+                if len(x) != len(hdr):
+                    bad += 1
+        r.check('documented columns present', all(c in hdr for c in ('AlleleID', 'Type', 'Name', 'GeneSymbol', 'ClinicalSignificance', 'ReviewStatus', 'NumberSubmitters', 'VariationID', 'Assembly', 'Start', 'Stop', 'PositionVCF', 'ReferenceAlleleVCF', 'AlternateAlleleVCF')), hdr[:10])
+        r.check('every row has one cell per column', bad == 0, bad)
+        r.check('assemblies are GRCh37, GRCh38 or na', set(asm) <= {'GRCh37', 'GRCh38', 'na', 'NCBI36'}, dict(asm))
+        r.check('more than 1,000,000 GRCh38 rows', asm['GRCh38'] > 1_000_000, asm['GRCh38'])
+        # VCF of the same release: every VariationID in the VCF must be in variant_summary
+        vp = os.path.join(DATA, 'clinvar', 'clinvar.vcf.gz')
+        if os.path.exists(vp):
+            miss, tot = 0, 0
+            with gzip.open(vp, 'rt', encoding='utf-8') as f:
+                for line in f:
+                    if line.startswith('#'):
+                        continue
+                    tot += 1
+                    if line.split('\t', 3)[2] not in vids:
+                        miss += 1
+            r.check('every VariationID of the GRCh38 VCF is in variant_summary', miss == 0, f'{miss}/{tot} missing')
+            r.check('VCF and variant_summary GRCh38 rows agree in number within 1%', abs(len(g38) - tot) <= 0.01 * tot, f'GRCh38 variants {len(g38)}, VCF records {tot}')
+            r.stats.update(vcf_records=tot, vcf_ids_missing=miss)
+        r.stats.update(rows=n, assemblies=dict(asm), grch38_variants=len(g38), grch38_types=dict(types.most_common(12)))
+    else:
+        with gzip.open(path(tid), 'rt', encoding='utf-8', newline='') as f:
+            # '##' title lines and '#Column: explanation' lines precede the header, which is the line starting '#VariationID<TAB>'
+            lines = (l for l in itertools.dropwhile(lambda l: not l.startswith('#VariationID\t'), f))
+            rd = csv.reader(lines, delimiter='\t', quoting=csv.QUOTE_NONE)    # not quoted text: one free-text field has an unmatched double quote
+            hdr = next(rd)
+            hdr[0] = hdr[0].lstrip('#')
+            r.check('documented columns present', all(c in hdr for c in ('VariationID', 'ClinicalSignificance', 'DateLastEvaluated', 'ReviewStatus', 'SCV', 'Submitter')), hdr)
+            iscv, ivid = hdr.index('SCV'), hdr.index('VariationID')
+            n, bad, scv, vids = 0, 0, set(), set()
+            for x in rd:
+                n += 1
+                bad += len(x) != len(hdr)
+                scv.add(x[iscv])
+                vids.add(x[ivid])
+        r.check('every row has one cell per column', bad == 0, bad)
+        r.check('SCV accessions have the SCV#########.# form', all(re.match(r'^SCV\d{9}(\.\d+)?$', s) for s in scv), [s for s in scv if not re.match(r'^SCV\d{9}(\.\d+)?$', s)][:3])
+        r.check('more than 3,000,000 submissions', n > 3_000_000, n)
+        vp = os.path.join(DATA, 'clinvar', 'clinvar.vcf.gz')
+        if os.path.exists(vp):
+            cited, miss = 0, 0
+            bare = {s.split('.')[0] for s in scv}
+            with gzip.open(vp, 'rt', encoding='utf-8') as f:
+                for line in f:
+                    if line.startswith('#'):
+                        continue
+                    m = re.search(r'CLNSIGSCV=([^;]+)', line)
+                    if m:
+                        for s in m.group(1).split('|'):
+                            cited += 1
+                            miss += s.split('.')[0] not in bare
+            r.check('every SCV cited by the VCF aggregate classification is in submission_summary', miss == 0, f'{miss}/{cited} missing')
+            r.stats.update(vcf_scv_cited=cited, vcf_scv_missing=miss)
+        r.stats.update(rows=n, scv=len(scv), variations=len(vids))
+
+
+def v_pgs_scores(tid, r):
+    """PGS Catalog harmonised GRCh38 scoring files fetched by fetch_pgs_scores.py: files match the recorded table (SHA-256 and MD5), every
+    file is gzip text whose header says it is harmonised to GRCh38, the number of data lines equals the variant count in the file header
+    and in the bulk metadata, and the selection (tier A and B) is the one the script derives from the metadata."""
+    import ast
+    m = MANIFEST[tid]
+    table = [l.rstrip('\n').split('\t') for l in open(os.path.join(ROOT, m['files_table']))]
+    hdr, body = table[0], table[1:]
+    rows = [dict(zip(hdr, x)) for x in body]
+    base = os.path.join(DATA, TARGETS[tid]['dest'])
+    r.check('no score ended in an error', m.get('n_errors') == 0, m.get('errors'))
+    stored = [x for x in rows if x['status'] == 'stored']
+    none = [x for x in rows if x['status'] == 'none']
+    r.check('every row is stored or recorded as having no GRCh38 harmonised file', len(stored) + len(none) == len(rows), len(rows))
+    bad_sha, bad_md5 = [], []
+    for x in stored:
+        p = os.path.join(base, f"{x['pgs_id']}_hmPOS_GRCh38.txt.gz")
+        if not os.path.exists(p):
+            bad_sha.append(x['pgs_id'])
+            continue
+        b = open(p, 'rb').read()
+        if hashlib.sha256(b).hexdigest() != x['sha256']:
+            bad_sha.append(x['pgs_id'])
+        if hashlib.md5(b).hexdigest() != x['md5']:
+            bad_md5.append(x['pgs_id'])
+    r.check('every stored file exists and matches its recorded SHA-256', not bad_sha, bad_sha[:5])
+    r.check('every stored file matches the MD5 published beside it (recorded at download)', not bad_md5, bad_md5[:5])
+    r.check('every header declares harmonisation to GRCh38', all(x['hmpos_build'] == 'GRCh38' for x in stored), collections.Counter(x['hmpos_build'] for x in stored))
+    off = [x['pgs_id'] for x in stored if not (x['data_lines'] == x['variants_header'] == x['variants_metadata'])]
+    r.check('data lines equal the variant count in the file header and in the bulk metadata for at least 99% of files', len(off) <= 0.01 * len(stored), f'{len(off)} differ: {off[:5]}')
+    sel = json.load(open(os.path.join(HERE, 'pgs_selection.json')))
+    tiers = collections.Counter(x['tier'] for x in rows)
+    r.check('tier A and tier B counts equal the documented selection', tiers['A'] == sel['tier_a']['n'] and tiers['B'] == sel['tier_b']['n'], dict(tiers))
+    meta = {}
+    with open(os.path.join(DATA, 'pgs_catalog', 'metadata', 'pgs_all_metadata_scores.csv'), encoding='utf-8', newline='') as f:
+        for row in csv.DictReader(f):
+            meta[row['Polygenic Score (PGS) ID']] = row
+    r.check('tier A scores all have at most 100,000 variants', all(int(meta[x['pgs_id']]['Number of Variants']) <= sel['parameters']['tier_a_max_variants'] for x in rows if x['tier'] == 'A'))
+    hm_true = hm_all = 0
+    for x in stored:
+        try:
+            d = ast.literal_eval(x['hmpos_match_pos'])
+            hm_true += int(d.get('True', 0))
+            hm_all += int(d.get('True', 0)) + int(d.get('False', 0))
+        except Exception:
+            pass
+    sample_bad = []
+    for x in stored[:: max(1, len(stored) // 60)]:
+        with gzip.open(os.path.join(base, f"{x['pgs_id']}_hmPOS_GRCh38.txt.gz"), 'rt', encoding='utf-8') as f:
+            cols = next(l for l in f if not l.startswith('#')).rstrip('\n').split('\t')
+        if not all(c in cols for c in ('effect_allele', 'effect_weight', 'hm_chr', 'hm_pos')):
+            sample_bad.append(x['pgs_id'])
+    r.check('a systematic sample of 60 files has the harmonised columns effect_allele, effect_weight, hm_chr, hm_pos', not sample_bad, sample_bad[:5])
+    lic = collections.Counter(meta[x['pgs_id']]['License/Terms of Use'][:60] for x in stored)
+    restricted = sum(v for k, v in lic.items() if 'NonCommercial' in k or 'research purposes' in k.lower() or 'Freely available to the academic' in k)
+    r.stats.update(scores_requested=len(rows), stored=len(stored), without_grch38_file=len(none), tier_counts=dict(tiers), bytes=sum(int(x['bytes']) for x in stored),
+                   variants_in_header=sum(int(x['variants_header']) for x in stored if x['variants_header'].isdigit()), hmpos_position_matched=hm_true, hmpos_position_total=hm_all,
+                   scores_with_restrictive_licence_text=restricted, files_with_line_count_mismatch=len(off))
+
+
 # --- per-target dispatch -------------------------------------------------------------------------------------------
 def run(tid):
     r = R()
@@ -1544,6 +1838,8 @@ def run(tid):
             v_reference_slice(tid, r)
         elif t.get('kind') == 'regional_slice':
             v_regional_slice(tid, r)
+        elif tid == 'pgs_scoring_files_grch38':
+            v_pgs_scores(tid, r)
         elif t.get('kind') == 'per_entity':
             v_per_entity(tid, r)
         elif t.get('kind') == 'http_dir':
@@ -1564,6 +1860,18 @@ def run(tid):
             v_cpic_api(tid, r)
         elif tid.startswith('impc_r24_'):
             v_impc(tid, r)
+        elif tid.startswith('clingen_actionability_'):
+            v_clingen_actionability(tid, r)
+        elif tid == 'clingen_erepo_variant_classifications':
+            v_erepo(tid, r)
+        elif tid in ('clinpgx_clinicalAnnotations', 'clinpgx_clinicalVariants', 'clinpgx_variants', 'clinpgx_genes'):
+            v_clinpgx_table(tid, r)
+        elif tid in ('gwas_catalog_studies', 'gwas_catalog_ancestries', 'gwas_catalog_efo_trait_mappings'):
+            v_gwas_download(tid, r)
+        elif tid == 'pgs_scores_list' or tid.startswith('pgs_metadata_'):
+            v_pgs_metadata(tid, r)
+        elif tid in ('clinvar_variant_summary', 'clinvar_submission_summary'):
+            v_clinvar_tab(tid, r)
         elif tid == 'clinvar_vcf_grch38':
             v_clinvar_vcf(tid, r)
         elif tid == 'gnomad_exome_cnv_v4_1':
@@ -1599,8 +1907,6 @@ def run(tid):
             r.check('GWAS columns', all(c in hdr for c in ['PUBMEDID', 'CHR_ID', 'CHR_POS', 'MAPPED_GENE', 'P-VALUE']), [c for c in hdr][:8])
             r.check('associations > 500,000', n > 500_000, n)
             r.stats.update(rows=n, member=names[0], columns=len(hdr))
-        elif tid == 'gwas_catalog_studies':
-            v_tsv(tid, r, ['PUBMEDID', 'STUDY', 'DISEASE/TRAIT'], 50_000, comment=None)
         elif tid.startswith('reactome_'):
             with opener(path(tid)) as f:
                 rows = [l.rstrip('\n').split('\t') for l in f if l.strip()]

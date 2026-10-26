@@ -81,10 +81,11 @@ class Index:
         m = pc.and_(pc.equal(t['chrom'], chrom), pc.and_(pc.less_equal(t['start'], end), pc.greater_equal(t['end'], start)))
         return t.filter(m).to_pylist()
 
-    def haplotypes(self, gene_symbol=None, system=None):
+    def haplotypes(self, gene_symbol=None, system=None, levels=None):
         t = self.table('entity_haplotype')
         rows = t.to_pylist()
-        return [r for r in rows if (gene_symbol is None or r['gene_symbol'] == gene_symbol) and (system is None or r['system'] == system)]
+        return [r for r in rows if (gene_symbol is None or r['gene_symbol'] == gene_symbol) and (system is None or r['system'] == system)
+                and (levels is None or r.get('allele_level') in levels)]
 
     def haplotype_definitions(self, haplotype_ids):
         t = self.table('haplotype_definition')

@@ -32,7 +32,7 @@ class TestClinVarSlice(unittest.TestCase):
     def setUpClass(cls):
         cls.ref = syn_reference()
         cls.out = tempfile.mkdtemp()
-        cls.man = runner.build(cls.out, [MiniClinVarAdapter(GeneMap(cls.ref, path='/nonexistent'))], cls.ref)
+        cls.man = runner.build(cls.out, [MiniClinVarAdapter(GeneMap(cls.ref, ot_dir='/nonexistent', mane_path='/nonexistent'))], cls.ref)
         cls.idx = Index.open(cls.out)
 
     @classmethod
@@ -97,10 +97,9 @@ class TestClinVarSlice(unittest.TestCase):
     def test_build_is_idempotent(self):
         out2 = tempfile.mkdtemp()
         try:
-            runner.build(out2, [MiniClinVarAdapter(GeneMap(self.ref, path='/nonexistent'))], self.ref)
-            a = json.load(open(os.path.join(self.out, 'table_digests.json')))
-            b = json.load(open(os.path.join(out2, 'table_digests.json')))
-            self.assertEqual(a, b)
+            runner.build(out2, [MiniClinVarAdapter(GeneMap(self.ref, ot_dir='/nonexistent', mane_path='/nonexistent'))], self.ref)
+            with open(os.path.join(self.out, 'table_digests.json')) as f1, open(os.path.join(out2, 'table_digests.json')) as f2:
+                self.assertEqual(json.load(f1), json.load(f2))
         finally:
             shutil.rmtree(out2, ignore_errors=True)
 
@@ -112,7 +111,8 @@ class TestClinVarSlice(unittest.TestCase):
                 ('1', 430, base(430), alt(430), 'PASS', 50, ['0/1:60:30:15,15']),
                 ('1', 600, base(600), alt(600), 'PASS', 50, ['0/1:60:30:15,15'])]       # not in the index
         p = os.path.join(tempfile.mkdtemp(), 's.vcf')
-        open(p, 'w').write(vcf_text(sorted(recs, key=lambda r: r[1])))
+        with open(p, 'w') as f:
+            f.write(vcf_text(sorted(recs, key=lambda r: r[1])))
         cs = read_vcf(p, self.ref)
         out = {o.call.key: o for o in interpret_calls(cs, self.idx, MatchContext(cs))}
         self.assertEqual(out[f'1:402:{base(402)}:{alt(402)}'].status, 'EXACT_MATCH')

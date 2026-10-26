@@ -2086,5 +2086,333 @@
    "perturbation_evidence",
    "natural_knockouts_dosage"
   ]
+ },
+ {
+  "id": "clingen_actionability_adult_summary_flat",
+  "source": "clingen",
+  "url": "https://actionability.clinicalgenome.org/ac/Adult/api/summ?flavor=flat",
+  "dest": "clingen/actionability/adult_summary_flat.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Clinical Actionability, adult context: one record per released gene-condition or variant report (flat JSON). Live API; the manifest pins size and SHA-256 of the copy fetched.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clingen_actionability_adult_assertions",
+  "source": "clingen",
+  "url": "https://actionability.clinicalgenome.org/ac/Adult/api/summ/assertion?format=tsv&assertionType=all",
+  "dest": "clingen/actionability/adult_assertions_all.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Clinical Actionability, adult context: all assertions (preliminary, consensus, suggested) for released reports, TSV.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clingen_actionability_adult_scoring",
+  "source": "clingen",
+  "url": "https://actionability.clinicalgenome.org/ac/Adult/api/summ/scoring?format=tsv&excludeNotScored=true",
+  "dest": "clingen/actionability/adult_scoring.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Clinical Actionability, adult context: severity, likelihood, effectiveness and nature-of-intervention scores per outcome and intervention, TSV.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clingen_actionability_pediatric_summary_flat",
+  "source": "clingen",
+  "url": "https://actionability.clinicalgenome.org/ac/Pediatric/api/summ?flavor=flat",
+  "dest": "clingen/actionability/pediatric_summary_flat.json",
+  "tier": "A",
+  "kind": "json",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Clinical Actionability, pediatric context: one record per released gene-condition or variant report (flat JSON). Live API; the manifest pins size and SHA-256 of the copy fetched.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clingen_actionability_pediatric_assertions",
+  "source": "clingen",
+  "url": "https://actionability.clinicalgenome.org/ac/Pediatric/api/summ/assertion?format=tsv&assertionType=all",
+  "dest": "clingen/actionability/pediatric_assertions_all.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Clinical Actionability, pediatric context: all assertions (preliminary, consensus, suggested) for released reports, TSV.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clingen_actionability_pediatric_scoring",
+  "source": "clingen",
+  "url": "https://actionability.clinicalgenome.org/ac/Pediatric/api/summ/scoring?format=tsv&excludeNotScored=true",
+  "dest": "clingen/actionability/pediatric_scoring.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Clinical Actionability, pediatric context: severity, likelihood, effectiveness and nature-of-intervention scores per outcome and intervention, TSV.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clingen_erepo_variant_classifications",
+  "source": "clingen",
+  "url": "https://erepo.clinicalgenome.org/evrepo/api/summary/classifications/download?type=csv",
+  "dest": "clingen/erepo_variant_classifications.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "ClinGen: all curated content is released under CC0 1.0 Universal (ClinGen Citing & Terms of Use page, verified live)",
+  "note": "ClinGen Evidence Repository: variant pathogenicity classifications by Variant Curation Expert Panels, with ClinVar variation id, Allele Registry id, HGVS expressions, gene, disease (MONDO), mode of inheritance, assertion, ACMG/AMP evidence codes met and not met, expert panel, dates. Live export. The endpoint serves tab-separated text for both type=csv and type=tsv (identical bytes); the file is stored as .tsv.",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clinpgx_clinicalAnnotations",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/clinicalAnnotations.zip",
+  "dest": "pharmgkb/clinicalAnnotations.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (ClinPGx download page, verified live earlier in this project)",
+  "note": "ClinPGx download: clinical annotations: variant-drug-phenotype associations with level of evidence. Live; the manifest pins size and SHA-256 and the Last-Modified date.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "clinpgx_clinicalVariants",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/clinicalVariants.zip",
+  "dest": "pharmgkb/clinicalVariants.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (ClinPGx download page, verified live earlier in this project)",
+  "note": "ClinPGx download: clinical variants: curated variant-gene-drug-phenotype records. Live; the manifest pins size and SHA-256 and the Last-Modified date.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "clinpgx_variants",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/variants.zip",
+  "dest": "pharmgkb/variants.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (ClinPGx download page, verified live earlier in this project)",
+  "note": "ClinPGx download: variants: identifiers, genes, locations and allele information. Live; the manifest pins size and SHA-256 and the Last-Modified date.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "clinpgx_genes",
+  "source": "pharmgkb",
+  "url": "https://api.clinpgx.org/v1/download/file/data/genes.zip",
+  "dest": "pharmgkb/genes.zip",
+  "tier": "A",
+  "kind": "zip",
+  "licence": "CC BY-SA 4.0 (ClinPGx download page, verified live earlier in this project)",
+  "note": "ClinPGx download: genes: identifiers, cross-references and pharmacogene flags. Live; the manifest pins size and SHA-256 and the Last-Modified date.",
+  "supports": [
+   "functional_haplotypes_pgx"
+  ]
+ },
+ {
+  "id": "gwas_catalog_studies",
+  "source": "gwas_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2026/10/22/gwas-catalog-download-studies-v1.0.3.1.tsv",
+  "dest": "gwas_catalog/gwas-catalog-download-studies-v1.0.3.1.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "GWAS Catalog data are open (EMBL-EBI terms of use); summary statistics CC0 unless stated (verified live)",
+  "note": "GWAS Catalog studies (release 2026-10-22, the same release as the associations file): accession, publication, disease/trait, initial and replication sample descriptions, cohort, genotyping technology, platform, summary-statistics availability.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "gwas_catalog_ancestries",
+  "source": "gwas_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2026/10/22/gwas-catalog-download-ancestries-v1.0.3.1.tsv",
+  "dest": "gwas_catalog/gwas-catalog-download-ancestries-v1.0.3.1.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "GWAS Catalog data are open (EMBL-EBI terms of use); summary statistics CC0 unless stated (verified live)",
+  "note": "GWAS Catalog ancestry records (release 2026-10-22): per study and stage the number of individuals, ancestry category, country of origin and recruitment.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "gwas_catalog_efo_trait_mappings",
+  "source": "gwas_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/releases/2026/10/22/gwas-efo-trait-mappings.tsv",
+  "dest": "gwas_catalog/gwas-efo-trait-mappings.tsv",
+  "tier": "A",
+  "kind": "tsv",
+  "licence": "GWAS Catalog data are open (EMBL-EBI terms of use); summary statistics CC0 unless stated (verified live)",
+  "note": "GWAS Catalog trait to EFO mappings (release 2026-10-22).",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_scores_list",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/pgs_scores_list.txt",
+  "dest": "pgs_catalog/pgs_scores_list.txt",
+  "tier": "A",
+  "kind": "txt",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog list of polygenic score identifiers.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_scores",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_scores.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_scores.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, score metadata: name, trait, development method, original genome build, number of variants, weight type, ancestry distributions, licence. Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_publications",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_publications.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_publications.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, publications. Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_efo_traits",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_efo_traits.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_efo_traits.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, EFO traits. Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_performance_metrics",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_performance_metrics.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_performance_metrics.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, performance metrics of scores in evaluation samples (AUROC, R2, HR, OR, beta with confidence intervals). Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_evaluation_sample_sets",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_evaluation_sample_sets.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_evaluation_sample_sets.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, evaluation sample sets (size, ancestry, cohort). Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_score_development_samples",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_score_development_samples.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_score_development_samples.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, score development samples. Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "pgs_metadata_cohorts",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/metadata/pgs_all_metadata_cohorts.csv",
+  "dest": "pgs_catalog/metadata/pgs_all_metadata_cohorts.csv",
+  "tier": "A",
+  "kind": "csv",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in the metadata (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog bulk metadata, cohorts. Live release; the manifest pins size, SHA-256 and Last-Modified.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
+ },
+ {
+  "id": "clinvar_variant_summary",
+  "source": "clinvar",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz",
+  "dest": "clinvar/variant_summary.txt.gz",
+  "tier": "A",
+  "kind": "txt.gz",
+  "licence": "NCBI public domain (submitters may assert rights); no restrictions on use (ClinVar data use statement, verified live)",
+  "note": "ClinVar variant_summary: one row per variant allele and assembly (GRCh37 and GRCh38), including copy-number and structural alleles with start/stop, aggregate germline classification, review status, number of submitters, origin, phenotype ids. Release of 2026-10-19.",
+  "md5_url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz.md5",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "clinvar_submission_summary",
+  "source": "clinvar",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/submission_summary.txt.gz",
+  "dest": "clinvar/submission_summary.txt.gz",
+  "tier": "A",
+  "kind": "txt.gz",
+  "licence": "NCBI public domain (submitters may assert rights); no restrictions on use (ClinVar data use statement, verified live)",
+  "note": "ClinVar submission_summary: one row per submission (SCV) with classification, date last evaluated, review status, method, submitter, origin, condition and a short comment. Release of 2026-10-19.",
+  "md5_url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/submission_summary.txt.gz.md5",
+  "supports": [
+   "clinical_interpretation"
+  ]
+ },
+ {
+  "id": "pgs_scoring_files_grch38",
+  "source": "pgs_catalog",
+  "url": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/scores/PGSxxxxxx/ScoringFiles/Harmonized/PGSxxxxxx_hmPOS_GRCh38.txt.gz",
+  "dest": "pgs_catalog/scores_grch38",
+  "tier": "A",
+  "kind": "per_entity",
+  "written_by": "fetch_pgs_scores.py",
+  "licence": "EMBL-EBI terms of use; each score carries its own licence statement in pgs_all_metadata_scores.csv (verified live); a minority are CC BY-NC-ND or research-only",
+  "note": "PGS Catalog harmonised GRCh38 scoring files for the documented selection in acquisition/pgs_selection.json: every score with at most 100,000 variants (tier A) and, for each of the 40 traits with most scores, the score with the largest evaluation sample among scores with at most 2,000,000 variants (tier B). MD5 of each file compared with the .md5 published beside it. Scores outside the selection stay listed in the metadata and can be fetched on demand with fetch_pgs_scores.py --ids.",
+  "supports": [
+   "association_finemapping_coloc"
+  ]
  }
 ]

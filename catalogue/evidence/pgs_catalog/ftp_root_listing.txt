@@ -1,0 +1,11 @@
+ 
+ Index of /pub/databases/spot/pgs 
+ Index of /pub/databases/spot/pgs 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ README.txt 2022-08-05 10:33 3.6K   
+ metadata/ 2023-03-14 08:54 -   
+ pgs_scores_list.txt 2026-10-23 10:29 69K   
+ release_date.txt 2023-08-04 18:10 10   
+ resources/ 2025-12-01 15:52 -   
+ scores/ 2026-10-23 10:37 -   

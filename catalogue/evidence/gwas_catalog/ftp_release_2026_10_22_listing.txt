@@ -1,0 +1,17 @@
+ 
+ Index of /pub/databases/gwas/releases/2026/10/22 
+ Index of /pub/databases/gwas/releases/2026/10/22 
+ Name Last modified Size Description 
+ Parent Directory   -   
+ gwas-catalog-ancestry.tsv 2026-10-22 11:40 50M   
+ gwas-catalog-associations-full.zip 2026-10-22 11:40 66M   
+ gwas-catalog-associations-split.zip 2026-10-22 11:40 64M   
+ gwas-catalog-associations_ontology-annotated-full.zip 2026-10-22 11:40 70M   
+ gwas-catalog-associations_ontology-annotated-split.zip 2026-10-22 11:40 68M   
+ gwas-catalog-download-ancestries-v1.0.3.1.tsv 2026-10-22 11:40 51M   
+ gwas-catalog-download-studies-v1.0.3.1.tsv 2026-10-22 11:40 124M   
+ gwas-catalog-studies-download-alternative-v1.0.2.1.tsv 2026-10-22 11:40 122M   
+ gwas-catalog-studies.tsv 2026-10-22 11:40 74M   
+ gwas-catalog-unpublished-ancestries-v1.0.3.1.tsv 2026-10-22 11:40 8.2M   
+ gwas-catalog-unpublished-studies-v1.0.3.1.tsv 2026-10-22 11:40 11M   
+ gwas-efo-trait-mappings.tsv 2026-10-22 11:40 19M   
