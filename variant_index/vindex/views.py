@@ -11,6 +11,7 @@ import json
 import os
 from dataclasses import dataclass
 
+import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
@@ -150,3 +151,33 @@ def pathway_view(rows, members):
                 e['genes'].add(g)
                 e['calls'].add(r['key'])
     return {p: dict(name=e['name'], n_genes=len(e['genes']), genes=sorted(e['genes']), n_calls=len(e['calls']), calls=sorted(e['calls'])) for p, e in sorted(out.items())}
+
+
+VIEW_COLUMNS = ('key', 'chrom', 'pos', 'ref', 'alt', 'vtype', 'gt', 'zygosity', 'phased', 'status', 'flags', 'qc_flags', 'gene_symbols', 'gene_ids', 'region_kinds', 'n_evidence', 'axes_json', 'evidence_ids')
+
+
+def write_views(results_dir, index, statuses=('EXACT_MATCH',)):
+    """Write views/<name>.parquet for every view, views/trait_view.json, views/pathway_view.json and views/views_manifest.json under the results directory.
+    Views only select and order rows of small_calls; every call stays in small_calls.parquet whether or not any view lists it."""
+    rows = list(read_calls(results_dir, statuses))
+    schema = pq.read_schema(os.path.join(results_dir, 'small_calls.parquet'))
+    vs = pa.schema([schema.field(c) for c in VIEW_COLUMNS])
+    out = os.path.join(results_dir, 'views')
+    os.makedirs(out, exist_ok=True)
+    manifest = dict(statuses=list(statuses), n_calls_considered=len(rows), views={})
+    for name, v in build_views(rows).items():
+        pq.write_table(pa.Table.from_pylist([{c: r.get(c) for c in VIEW_COLUMNS} for r in v['rows']], schema=vs), os.path.join(out, f'{name}.parquet'), compression='zstd')
+        manifest['views'][name] = dict(title=v['title'], ordering=v['ordering'], n_calls=len(v['rows']))
+    traits = trait_view(rows)
+    with open(os.path.join(out, 'trait_view.json'), 'w') as f:
+        json.dump(traits, f, indent=1, sort_keys=True)
+    genes = sorted({g for r in rows for g in (r.get('gene_ids') or ())})
+    members = index.filtered('gene_set_member', F('gene_id').isin(genes)).to_pylist() if genes else []
+    paths = pathway_view(rows, members)
+    with open(os.path.join(out, 'pathway_view.json'), 'w') as f:
+        json.dump(paths, f, indent=1, sort_keys=True)
+    manifest.update(n_traits=len(traits), n_pathways=len(paths),
+                    note='trait ids are the sources\' own and are not rolled up through an ontology; pathway membership annotates genes and is not evidence about any variant')
+    with open(os.path.join(out, 'views_manifest.json'), 'w') as f:
+        json.dump(manifest, f, indent=1, sort_keys=True)
+    return manifest

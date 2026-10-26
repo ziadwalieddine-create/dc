@@ -124,19 +124,28 @@ def _ancestry_assess(meta_dev, meta_eval, sample_group):
     return dict(status=status, sample_group=sample_group, development_share=dev_share, evaluation_share=ev_share, development=meta_dev, evaluation=meta_eval)
 
 
-def score(sf, ctx, reference, sample_ancestry=None, ancestry_meta=None, reference_distribution=None, autosomes_only=True):
-    reasons, per, tot, scored_abs, total_abs, s, scored = {}, [], 0, 0.0, 0.0, 0.0, 0
-    for w in sf.weights:
-        tot += 1
-        total_abs += abs(w.weight)
+def dosages(weights, ctx, reference, autosomes_only=True):
+    """Per-weight evidence: (row, chrom, pos, effect, other, weight, effect-allele dosage or None, basis or reason it could not be scored). A weight whose genotype is
+    unknown is None, never zero."""
+    per = []
+    for w in weights:
         d, why = _dosage(w, ctx, reference, autosomes_only)
         per.append((w.row, w.chrom, w.pos, w.effect, w.other, w.weight, d, why))
+    return per
+
+
+def finish(pgs_id, per, sample_ancestry=None, ancestry_meta=None, reference_distribution=None, keep_per_weight=True):
+    """Totals, missingness and the three gates (weight coverage, ancestry, calibration) from per-weight evidence, which may come from several chromosome passes."""
+    reasons, tot, scored_abs, total_abs, s, scored = {}, 0, 0.0, 0.0, 0.0, 0
+    for row, chrom, pos, effect, other, weight, d, why in per:
+        tot += 1
+        total_abs += abs(weight)
         if d is None:
             reasons[why] = reasons.get(why, 0) + 1
             continue
         scored += 1
-        scored_abs += abs(w.weight)
-        s += d * w.weight
+        scored_abs += abs(weight)
+        s += d * weight
     flags = []
     cov = scored_abs / total_abs if total_abs else 0.0
     if cov < 0.9:
@@ -151,7 +160,11 @@ def score(sf, ctx, reference, sample_ancestry=None, ancestry_meta=None, referenc
         cal = dict(status='calibrated_to_supplied_distribution', z=(s - mu) / sd if sd else None, reference=reference_distribution)
     else:
         flags.append('uncalibrated')
-    return PgsResult(sf.meta.get('pgs_id', ''), s, tot, scored, tot - scored, cov, dict(sorted(reasons.items())), anc, cal, tuple(flags), per)
+    return PgsResult(pgs_id, s, tot, scored, tot - scored, cov, dict(sorted(reasons.items())), anc, cal, tuple(flags), per if keep_per_weight else [])
+
+
+def score(sf, ctx, reference, sample_ancestry=None, ancestry_meta=None, reference_distribution=None, autosomes_only=True):
+    return finish(sf.meta.get('pgs_id', ''), dosages(sf.weights, ctx, reference, autosomes_only), sample_ancestry, ancestry_meta, reference_distribution)
 
 
 def _dosage(w, ctx, ref, autosomes_only):

@@ -791,6 +791,48 @@ def mini_reactome(out):
     return out
 
 
+def mini_pgs_meta(out):
+    """Mini PGS Catalog bulk metadata (real column names) and the acquisition manifest of the stored GRCh38 scoring files."""
+    os.makedirs(out, exist_ok=True)
+
+    def write(name, hdr, rows):
+        import csv
+        with open(os.path.join(out, name), 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(hdr)
+            w.writerows(rows)
+    sh = ['Polygenic Score (PGS) ID', 'PGS Name', 'Reported Trait', 'Mapped Trait(s) (EFO label)', 'Mapped Trait(s) (EFO ID)', 'PGS Development Method', 'PGS Development Details/Relevant Parameters',
+          'Original Genome Build', 'Number of Variants', 'Number of Interaction Terms', 'Type of Variant Weight', 'PGS Publication (PGP) ID', 'Publication (PMID)', 'Publication (doi)',
+          'Score and results match the original publication', 'Ancestry Distribution (%) - Source of Variant Associations (GWAS)', 'Ancestry Distribution (%) - Score Development/Training',
+          'Ancestry Distribution (%) - PGS Evaluation', 'FTP link', 'Release Date', 'License/Terms of Use']
+    row = lambda i, trait, efo, nvar, inter, wt, gw, dev, ev: [i, 'name' + i[-1], trait, trait.lower(), efo, 'method', 'details', 'hg19', nvar, inter, wt, 'PGP00000' + i[-1], '1000' + i[-1],
+                                                                '10.1/x', 'True', gw, dev, ev, 'https://ftp/' + i, '2020-01-01', 'cite appropriately']
+    write('pgs_all_metadata_scores.csv', sh, [row('PGS000001', 'Breast cancer', 'MONDO_0004989|EFO_1', 10, 0, 'NR', 'European:100', 'European:100', 'European:72.7|Not Reported:18.2|East Asian:9.1'),
+                                               row('PGS000002', 'Height', 'EFO_0004339', 5, 3, 'beta', 'European:100', '', 'European:100'),
+                                               row('PGS000003', 'Asthma', 'EFO_0000270', 9, 0, 'OR', '', '', ''), row('PGS000004', 'Gout', 'EFO_0004274', 4, 0, 'XYZ weights', 'East Asian:100', 'East Asian:100', 'East Asian:100')])
+    ph = ['PGS Performance Metric (PPM) ID', 'Evaluated Score', 'PGS Sample Set (PSS)', 'PGS Publication (PGP) ID', 'Reported Trait', 'Covariates Included in the Model', 'PGS Performance: Other Relevant Information',
+          'Publication (PMID)', 'Publication (doi)', 'Hazard Ratio (HR)', 'Odds Ratio (OR)', 'Beta', 'Area Under the Receiver-Operating Characteristic Curve (AUROC)', 'Concordance Statistic (C-index)', 'Other Metric(s)']
+    write('pgs_all_metadata_performance_metrics.csv', ph, [['PPM000001', 'PGS000001', 'PSS000001', 'PGP000001', 'All breast cancer', 'age, PCs', '', '10001', '10.1/x', '', '1.55 [1.52,1.58]', '', '', '0.622 [0.619,0.627]',
+                                                              'R2: 0.07 [0.05, 0.09]; unparsable text'],
+                                                             ['PPM000002', 'PGS000003', 'PSS000002', 'PGP000003', 'Asthma', '', '', '10003', '10.1/x', '', '', '', '0.7', '', '']])
+    eh = ['PGS Sample Set (PSS)', 'Polygenic Score (PGS) ID', 'Number of Individuals', 'Number of Cases', 'Number of Controls', 'Percent of Participants Who are Male', 'Sample Age', 'Broad Ancestry Category',
+          'Ancestry (e.g. French, Chinese)', 'Country of Recruitment', 'Additional Ancestry Description', 'Phenotype Definitions and Methods', 'Followup Time', 'GWAS Catalog Study ID (GCST...)',
+          'Source PubMed ID (PMID)', 'Source DOI', 'Cohort(s)', 'Additional Sample/Cohort Information']
+    write('pgs_all_metadata_evaluation_sample_sets.csv', eh, [['PSS000001', 'PGS000001', '67054', '33673.0', '33381.0', '0', '', 'European', '', 'UK', '', 'All breast cancer', '', '', '', '', 'ABC|DEF', ''],
+                                                                ['PSS000002', 'PGS000003', '500', '', '', '', '', 'African', '', 'Nigeria', '', 'Asthma', '', '', '', '', '', '']])
+    dh = ['Polygenic Score (PGS) ID', 'Stage of PGS Development', 'Number of Individuals', 'Number of Cases', 'Number of Controls', 'Percent of Participants Who are Male', 'Sample Age', 'Broad Ancestry Category',
+          'Ancestry (e.g. French, Chinese)', 'Country of Recruitment', 'Additional Ancestry Description', 'Phenotype Definitions and Methods', 'Followup Time', 'GWAS Catalog Study ID (GCST...)',
+          'Source PubMed ID (PMID)', 'Source DOI', 'Cohort(s)', 'Additional Sample/Cohort Information']
+    write('pgs_all_metadata_score_development_samples.csv', dh, [['PGS000001', 'Variant associations (GWAS)', '120000', '60000', '60000', '', '', 'European', '', '', '', '', '', 'GCST000001', '', '', '', ''],
+                                                                   ['PGS000001', 'Score development', '1000', '', '', '', '', 'European', '', '', '', '', '', '', '', '', '', '']])
+    with open(os.path.join(out, 'scoring_manifest.tsv'), 'w') as f:
+        f.write('pgs_id\ttier\tstatus\tbytes\tsha256\tmd5\thttp_status\thmpos_build\tgenome_build_header\tvariants_header\tdata_lines\thmpos_match_pos\tvariants_metadata\n'
+                'PGS000001\tA\tstored\t100\tabc\tdef\t200\tGRCh38\tNR\t10\t10\t{}\t10\n'
+                'PGS000003\tB\tstored\t100\tabd\tdef\t200\tGRCh38\tNR\t10\t9\t{}\t9\n'
+                'PGS999999\tB\tstored\t100\tabe\tdef\t200\tGRCh38\tNR\t1\t1\t{}\t1\n')
+    return out
+
+
 def write_all(out):
     """Write every mini source file into `out` (a temporary directory: synthetic VCF-like files are never committed)."""
     os.makedirs(out, exist_ok=True)
@@ -810,6 +852,7 @@ def write_all(out):
     write_all.vcv = mini_vcv(os.path.join(out, 'vcv'))
     mini_regions(os.path.join(out, 'regions'))
     mini_reactome(os.path.join(out, 'reactome'))
+    mini_pgs_meta(os.path.join(out, 'pgs_meta'))
     return out
 
 

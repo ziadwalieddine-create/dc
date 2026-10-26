@@ -229,6 +229,20 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertEqual({p: e['n_calls'] for p, e in paths.items()}, {'R-HSA-1': 2, 'R-HSA-2': 2})
         self.assertEqual(paths['R-HSA-1']['genes'], ['ENSG_G1'])
 
+    def test_written_views_list_rows_of_the_full_table_and_say_how_they_are_ordered(self):
+        out = os.path.join(self.work, 'viewres')
+        shutil.copytree(self.out, out)
+        m = views.write_views(out, Index.open(self.idx_dir))
+        self.assertEqual(m['n_calls_considered'], 3)
+        self.assertEqual(m['views']['clinical_effect']['n_calls'], 3)
+        self.assertTrue(all(v['ordering'] for v in m['views'].values()))
+        t = pq.read_table(os.path.join(out, 'views', 'clinical_effect.parquet')).to_pylist()
+        self.assertEqual(t[0]['key'], self.k('1', 402))
+        full = {r['key'] for r in pq.read_table(os.path.join(out, 'small_calls.parquet')).to_pylist()}
+        self.assertTrue({r['key'] for r in t} <= full and len(full) == 8)
+        with open(os.path.join(out, 'views', 'pathway_view.json')) as f:
+            self.assertEqual(sorted(json.load(f)), ['R-HSA-1', 'R-HSA-2'])
+
     def test_run_is_deterministic(self):
         out2 = os.path.join(self.work, 'res2')
         wgs.run_sample(self.vcf, self.idx_dir, out2, syn_reference(), repo_root=os.path.join(self.work, 'not_the_repo'))
