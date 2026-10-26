@@ -111,6 +111,15 @@ class TestSvInterpretation(unittest.TestCase):
         self.assertEqual(rel, {'G1': 'encompasses_gene', 'G2': 'partially_overlaps_gene', 'R1': 'partially_overlaps_region', 'R2': 'encompasses_region'})
         self.assertTrue(all(c['applies_as'].endswith('context_only') for c in out.context))
 
+    def test_a_homozygous_reference_structural_genotype_is_kept_but_never_matched(self):
+        class CS:
+            svs = [sv(1000, 1500, dosage=0), sv(1000, 1500, dosage=1)]
+        out = match_svs(CS, Index.from_tables(entity_event=schema.rows_to_table('entity_event', [event('A', 1000, 1500)])))
+        self.assertEqual(len(out), 2)                                                              # both records are accounted for
+        self.assertEqual((out[0].matches, out[0].context), ([], []))
+        self.assertIn('homozygous_reference', out[0].unresolved[0])
+        self.assertEqual([m.event_id for m in out[1].matches if m.equivalent], ['A'])               # the same record, carried, does match
+
     def test_dosage_unknown_is_reported(self):
         class CS:
             svs = [sv(1000, 1500, dosage=None)]

@@ -122,6 +122,9 @@ def match_svs(callset, index, policy=None, flank=10000):
     policy = policy or SvPolicy()
     out = []
     for sv in callset.svs:
+        if sv.dosage == 0:                      # a homozygous-reference genotype at a structural site (joint-called files): the record is kept, but the sample does not carry the allele
+            out.append(SvInterpretation(sv, [], [], ('genotype_is_homozygous_reference: the sample does not carry this structural allele',)))
+            continue
         if sv.svtype == 'BND':
             out.append(SvInterpretation(sv, [], [], ('breakend_records_are_not_matched; need paired breakpoint evidence',)))
             continue
