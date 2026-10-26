@@ -212,5 +212,28 @@ class TestMissingEvidenceText(unittest.TestCase):
         self.assertEqual(ms.missing_evidence(ms.Status('k', 'UNRESOLVED', ('x',), detail=dict(missing_evidence='phase'))), 'phase')
 
 
+class TestOverlappingCallsMatchesABruteForceScan(unittest.TestCase):
+    def test_random_spans_and_queries_agree_with_a_linear_scan(self):
+        import random
+        from vindex.match_small import MatchContext
+        from vindex.vcfio import CallSet
+        rnd = random.Random(5)
+
+        class C:                                                                                    # the three attributes the context reads
+            def __init__(self, i, pos, n):
+                self.key, self.chrom, self.pos, self.ref, self.dosage, self.orig = f'1:{pos}:{"A" * n}:G#{i}', '1', pos, 'A' * n, 1, ('1', pos, 'A' * n, 'G')
+                self.vtype, self.i = 'del' if n > 1 else 'snv', i
+
+        calls = [C(i, rnd.randint(1, 5000), rnd.choice([1, 1, 1, 2, 5, 40, 400])) for i in range(600)]
+        cs = CallSet(sample='S', path='x', assembly={})
+        cs.small = calls
+        ctx = MatchContext(cs)
+        for _ in range(500):
+            a = rnd.randint(1, 5200)
+            b = a + rnd.choice([0, 0, 1, 10, 300])
+            want = [c for c in calls if c.pos <= b and c.pos + len(c.ref) - 1 >= a]
+            self.assertEqual([c.i for c in ctx.overlapping_calls('1', a, b)], [c.i for c in want], (a, b))
+        self.assertEqual(ctx.overlapping_calls('2', 1, 10**6), [])
+
 if __name__ == '__main__':
     unittest.main()

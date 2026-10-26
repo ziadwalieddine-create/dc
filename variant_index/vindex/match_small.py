@@ -13,6 +13,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 
 from .callability import GvcfCallability, CompositeCallability
+from .intervals import IntervalStore
 from .normalise import parse_key, classify, atomise, Norm
 from . import summary as _summary
 
@@ -84,6 +85,7 @@ class MatchContext:
         self.callability = CompositeCallability([GvcfCallability(callset)] + list(extra_providers))
         self.by_key = defaultdict(list)
         self.by_span = defaultdict(list)       # (chrom) -> list of (start, end, call) for calls carrying an allele
+        self._span_stores = {}                 # chrom -> (IntervalStore over by_span[chrom], that list), built on first query
         self.mnv_parts = defaultdict(list)     # component SNV key -> [sample MNV calls containing it]
         for c in callset.small:
             self.by_key[c.key].append(c)
@@ -94,7 +96,14 @@ class MatchContext:
                         self.mnv_parts[p.key].append(c)
 
     def overlapping_calls(self, chrom, start, end):
-        return [c for s, e, c in self.by_span.get(chrom, ()) if s <= end and e >= start]
+        """Called alleles (dosage above zero) whose reference span overlaps start..end, in callset order. One interval store per chromosome, built on first use: a whole-genome
+        scorer asks this for every weight, and a scan of all calls per query made a chromosome cost hours."""
+        hit = self._span_stores.get(chrom)
+        if hit is None:
+            spans = self.by_span.get(chrom, [])
+            hit = self._span_stores[chrom] = (IntervalStore([a for a, _, _ in spans], [b for _, b, _ in spans]), spans)
+        store, spans = hit
+        return [spans[i][2] for i in store.overlapping(start, end)]
 
 
 def _best(calls):
