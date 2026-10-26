@@ -1,0 +1,236 @@
+"""Reports over a built index: coverage statistics, validation, the lifecycle of every acquisition target, a change log between builds, and the gap report.
+
+Nothing here is written by hand into the index: every number is read from the index tables, the acquisition manifest and the acquisition validation report, so a
+claim in a report can be re-derived by running the report again. Statuses follow one vocabulary:
+  listed      the target is named in acquisition/targets.json
+  acquired    the manifest holds a record for it with ok = true
+  verified    its acquisition validator passed (acquisition/validation_report.json)
+  mapped      at least one index row from its release resolved to an index entity (mapping_status = mapped)
+  integrated  the index holds rows from its release (mapped or retained as unmapped / ambiguous / rejected)
+A target can be acquired and verified yet not integrated; that is a gap, and it is listed as one.
+"""
+import json
+import os
+from collections import Counter
+
+import pyarrow as pa
+import pyarrow.compute as pc
+import pyarrow.dataset as pds
+import pyarrow.parquet as pq
+
+from . import SCHEMA_VERSION, schema
+from .build.common import REPO
+
+# Modules of the system and what is true of each now. 'external' means the input must come from a dedicated tool; 'not_acquired' means the data are not in the environment.
+MODULES = (
+    dict(name='allele normalisation, identity keys, multiallelic splitting', status='implemented', tests='test_normalise, test_vcfio, test_match_small'),
+    dict(name='small-variant matching with verified-reference and absence semantics', status='implemented', tests='test_match_small, test_build_clinvar, test_wgs'),
+    dict(name='structural / copy-number matching (type, breakpoints, dosage; no overlap-only equivalence)', status='implemented', tests='test_match_sv, test_wgs'),
+    dict(name='star-allele / haplotype calling from defining variants (CPIC, PharmVar)', status='implemented', tests='test_match_hap, test_build_pgx, test_wgs',
+         note='structural genes (CYP2D6, HLA, KIR ...) require a dedicated caller; its result can be supplied with --external-haplotypes'),
+    dict(name='repeat-expansion classification against STRchive thresholds', status='partial', tests='test_match_repeat, test_build_regions',
+         note='classifies the output of ExpansionHunter / TRGT; sizing a repeat from short reads is not attempted'),
+    dict(name='polygenic scores with weight-coverage, ancestry and calibration gates', status='implemented', tests='test_pgs, test_pgs_run, test_pgs_registry',
+         note='ancestry inference and reference score distributions are not part of the repository'),
+    dict(name='ClinVar aggregate, submission, structural and composite-record evidence', status='implemented', tests='test_build_clinvar, test_build_clinvar_vcv'),
+    dict(name='ClinGen, CPIC, PharmVar, ClinPGx, MaveDB, GWAS Catalog, Open Targets, gnomAD, DGV, HGSVC3, GIAB, STRchive, Reactome adapters', status='implemented', tests='test_build_*'),
+    dict(name='provenance verification', status='partial', tests='test_provenance',
+         note='digest recomputation has resolvers for the ClinVar VCF and VCV tables, GWAS Catalog, gnomAD, the Ensembl MaveDB file and the ClinGen ERepo export; other releases are linkage- and manifest-checked only'),
+    dict(name='transcript HGVS (c., n.) to genomic coordinate mapping', status='unimplemented', note='records that carry only transcript HGVS stay unmapped with the reason'),
+    dict(name='consequence annotation of called variants (VEP / bcftools csq)', status='unimplemented', note='the index stores source-stated consequences; none is computed for a sample'),
+    dict(name='GRCh37 -> GRCh38 lift-over of legacy ClinVar CNV records', status='unimplemented', note='those records keep their GRCh37 coordinates and are unmapped with the reason'),
+    dict(name='ontology roll-up of traits (EFO / MONDO ancestors)', status='unimplemented', note='trait views group by the sources\' own identifiers'),
+    dict(name='GWAS Catalog full summary statistics', status='not_acquired', note='the association table and study metadata are integrated; summary-statistics files are listed, not downloaded'),
+    dict(name='Open Targets colocalisation', status='not_acquired', note='credible sets, fine-mapping and L2G are integrated; the colocalisation datasets are not downloaded'),
+    dict(name='personal 30x GRCh38 SNP/indel, CNV and SV calls', status='unavailable_input', note='no personal call file exists in this environment; matching is verified on synthetic fixtures and, when run, on a public truth set'),
+)
+
+
+def _evidence_dataset(index_dir):
+    return pds.dataset(os.path.join(index_dir, 'evidence'), format='parquet', ignore_prefixes=[])
+
+
+def coverage(index_dir):
+    """Row counts of every table, and evidence counts by source, level, axis, kind, assertion and mapping status; unmapped reasons by source; distinct variants per axis."""
+    out = dict(tables={}, evidence={})
+    for name in schema.TABLES:
+        p = os.path.join(index_dir, name)
+        files = [os.path.join(dp, f) for dp, _, fs in os.walk(p) for f in fs if f.endswith('.parquet')] if os.path.isdir(p) else ([p + '.parquet'] if os.path.exists(p + '.parquet') else [])
+        if files:
+            out['tables'][name] = dict(files=len(files), rows=sum(pq.ParquetFile(f).metadata.num_rows for f in files))
+    if not os.path.isdir(os.path.join(index_dir, 'evidence')):
+        return out
+    ds = _evidence_dataset(index_dir)
+    cols = ['source_id', 'level', 'axis', 'evidence_kind', 'effect_assertion', 'mapping_status', 'mapping_reason']
+    counts = {c: Counter() for c in cols}
+    cross, reasons = Counter(), Counter()
+    for b in ds.to_batches(columns=cols):
+        t = pa.Table.from_batches([b])
+        for c in cols[:6]:
+            for v, n in zip(*[x.to_pylist() for x in pc.value_counts(t[c]).flatten()]):
+                counts[c][v] += n
+        for r in t.group_by(['source_id', 'axis']).aggregate([([], 'count_all')]).to_pylist():
+            cross[(r['source_id'], r['axis'])] += r['count_all']
+        for r in t.filter(pc.not_equal(t['mapping_status'], 'mapped')).group_by(['source_id', 'mapping_status', 'mapping_reason']).aggregate([([], 'count_all')]).to_pylist():
+            reasons[(r['source_id'], r['mapping_status'], r['mapping_reason'])] += r['count_all']
+    out['evidence'] = dict(total=sum(counts['source_id'].values()), **{c: dict(counts[c].most_common()) for c in cols[:6]},
+                           source_by_axis={f'{s}|{a}': n for (s, a), n in sorted(cross.items())},
+                           not_mapped={f'{s}|{m}|{r}': n for (s, m, r), n in sorted(reasons.items(), key=lambda kv: -kv[1])})
+    axes_variants = {}
+    vdir = os.path.join(index_dir, 'evidence', 'variant')
+    if os.path.isdir(vdir):
+        for chrom in sorted(os.listdir(vdir)):
+            t = pds.dataset(os.path.join(vdir, chrom), format='parquet', ignore_prefixes=[]).to_table(columns=['subject_id', 'axis', 'mapping_status'], filter=pc.field('mapping_status') == 'mapped')
+            for ax in set(t['axis'].to_pylist()):
+                sub = t.filter(pc.equal(t['axis'], ax))
+                axes_variants[ax] = axes_variants.get(ax, 0) + len(pc.unique(sub['subject_id']))
+        out['evidence']['variants_with_evidence_by_axis'] = axes_variants
+    return out
+
+
+def validate(index_dir, reference=None, sample_keys=50000):
+    """Checks that hold for every row: controlled vocabulary, mapped / unmapped consistency, key format, ranges. With a reference, the REF allele of a sample of keys
+    is read back from the FASTA. With DuckDB available, evidence ids are checked for uniqueness and mapped subjects for existence."""
+    res = dict(schema_version=SCHEMA_VERSION, checks={}, ok=True)
+
+    def check(name, bad, detail=None):
+        res['checks'][name] = dict(violations=bad, detail=detail)
+        if bad:
+            res['ok'] = False
+    if not os.path.isdir(os.path.join(index_dir, 'evidence')):
+        res['ok'] = False
+        res['checks']['evidence_table_present'] = dict(violations=1)
+        return res
+    ds = _evidence_dataset(index_dir)
+    vocab = dict(level=schema.LEVELS, axis=tuple(schema.AXES), evidence_kind=schema.EVIDENCE_KINDS, effect_assertion=tuple(schema.EFFECT_ASSERTIONS), mapping_status=tuple(schema.MAPPING_STATUS))
+    bad = Counter()
+    n = 0
+    for b in ds.to_batches():
+        t = pa.Table.from_batches([b])
+        n += t.num_rows
+        for col, allowed in vocab.items():
+            bad[f'{col}_outside_vocabulary'] += int(pc.sum(pc.invert(pc.is_in(t[col], value_set=pa.array(allowed, pa.string())))).as_py() or 0)
+        for col in ('evidence_id', 'source_id', 'release_id', 'accession', 'locator', 'raw_sha256', 'claim_type'):
+            bad[f'{col}_missing'] += t[col].null_count + int(pc.sum(pc.equal(t[col], '')).as_py() or 0)
+        mapped = pc.equal(t['mapping_status'], 'mapped')
+        bad['mapped_without_subject'] += int(pc.sum(pc.and_(mapped, pc.is_null(t['subject_id']))).as_py() or 0)
+        bad['not_mapped_with_subject'] += int(pc.sum(pc.and_(pc.invert(pc.equal(t['mapping_status'], 'ambiguous')), pc.and_(pc.invert(mapped), pc.is_valid(t['subject_id'])))).as_py() or 0)
+        bad['not_mapped_without_reason'] += int(pc.sum(pc.and_(pc.invert(mapped), pc.is_null(t['mapping_reason']))).as_py() or 0)
+        var_mapped = pc.and_(mapped, pc.equal(t['level'], 'variant'))
+        colons = pc.count_substring(pc.fill_null(t['subject_id'], ''), ':')
+        bad['variant_key_not_chrom_pos_ref_alt'] += int(pc.sum(pc.and_(var_mapped, pc.not_equal(colons, 3))).as_py() or 0)
+        pv, pip = t['p_value'], t['pip']
+        bad['p_value_outside_0_1'] += int(pc.sum(pc.or_(pc.less(pv, 0), pc.greater(pv, 1))).as_py() or 0)
+        bad['pip_outside_0_1'] += int(pc.sum(pc.or_(pc.less(pip, 0), pc.greater(pip, 1.0000001))).as_py() or 0)
+        bad['raw_sha256_not_64_hex'] += int(pc.sum(pc.invert(pc.match_substring_regex(pc.fill_null(t['raw_sha256'], ''), '^[0-9a-f]{64}$'))).as_py() or 0)
+    res['evidence_rows_checked'] = n
+    for k, v in sorted(bad.items()):
+        check(k, v)
+    try:
+        import duckdb
+        con = duckdb.connect()
+        ev = os.path.join(index_dir, 'evidence', '**', '*.parquet')
+        dup = con.execute(f"select count(*) - count(distinct evidence_id) from read_parquet('{ev}', union_by_name=true)").fetchone()[0]
+        check('evidence_id_not_unique', int(dup))
+        for level, table, col in (('variant', 'entity_variant', 'variant_key'), ('event', 'entity_event', 'event_id'), ('haplotype', 'entity_haplotype', 'haplotype_id')):
+            tp = os.path.join(index_dir, table)
+            has_table = os.path.isdir(tp) or os.path.exists(tp + '.parquet')
+            if os.path.isdir(os.path.join(index_dir, 'evidence', level)) and has_table:
+                tf = os.path.join(tp, '**', '*.parquet') if os.path.isdir(tp) else tp + '.parquet'
+                miss = con.execute(f"select count(*) from read_parquet('{os.path.join(index_dir, 'evidence', level, '**', '*.parquet')}', union_by_name=true) e where e.mapping_status = 'mapped' "
+                                   f"and e.subject_id not in (select {col} from read_parquet('{tf}', union_by_name=true))").fetchone()[0]
+                check(f'mapped_{level}_subject_not_an_entity', int(miss))
+    except ImportError:
+        res['checks']['duckdb_checks'] = dict(violations=0, detail='skipped: duckdb is not installed (evidence_id uniqueness and subject existence were not checked)')
+    if reference is not None:
+        vt = index_dir
+        p = os.path.join(vt, 'entity_variant')
+        if os.path.isdir(p):
+            keys = pds.dataset(p, format='parquet').to_table(columns=['variant_key', 'chrom', 'pos', 'ref']).to_pylist()
+            step = max(1, len(keys) // sample_keys)
+            wrong = [k['variant_key'] for k in keys[::step] if reference.contig(k['chrom']) and reference.check_ref(reference.contig(k['chrom']), k['pos'], k['ref'])[0] == 'mismatch']
+            check('entity_variant_ref_differs_from_reference', len(wrong), wrong[:5])
+            res['entity_variant_ref_checked'] = len(keys[::step])
+    return res
+
+
+def lifecycle(index_dir, targets_path=None, manifest_path=None, validation_path=None, catalogue_dir=None):
+    """One row per acquisition target with the five statuses and the evidence for each."""
+    targets_path = targets_path or os.path.join(REPO, 'acquisition', 'targets.json')
+    manifest_path = manifest_path or os.path.join(REPO, 'acquisition', 'manifest.jsonl')
+    validation_path = validation_path or os.path.join(REPO, 'acquisition', 'validation_report.json')
+    catalogue_dir = catalogue_dir or os.path.join(REPO, 'catalogue', 'sources')
+    with open(targets_path) as f:
+        targets = {t['id']: t for t in json.load(f)}
+    manifest = {}
+    if os.path.exists(manifest_path):
+        with open(manifest_path) as f:
+            manifest = {r['id']: r for r in (json.loads(l) for l in f if l.strip())}
+    valid = {}
+    if os.path.exists(validation_path):
+        with open(validation_path) as f:
+            valid = json.load(f)
+    catalogued = {os.path.splitext(x)[0] for x in os.listdir(catalogue_dir)} if os.path.isdir(catalogue_dir) else set()
+    rel_path = os.path.join(index_dir, 'source_release.parquet')
+    releases = pq.read_table(rel_path).to_pylist() if os.path.exists(rel_path) else []
+    rows_by_release = Counter()
+    mapped_by_release = Counter()
+    if os.path.isdir(os.path.join(index_dir, 'evidence')):
+        for b in _evidence_dataset(index_dir).to_batches(columns=['release_id', 'mapping_status']):
+            t = pa.Table.from_batches([b])
+            for r in t.group_by(['release_id', 'mapping_status']).aggregate([([], 'count_all')]).to_pylist():
+                rows_by_release[r['release_id']] += r['count_all']
+                if r['mapping_status'] == 'mapped':
+                    mapped_by_release[r['release_id']] += r['count_all']
+    by_target = {}
+    for r in releases:
+        by_target.setdefault(r['target_id'], []).append(r['release_id'])
+    rows = []
+    for tid, t in sorted(targets.items()):
+        m = manifest.get(tid)
+        v = valid.get(tid)
+        rids = by_target.get(tid, [])
+        ev = sum(rows_by_release[r] for r in rids)
+        mp = sum(mapped_by_release[r] for r in rids)
+        rows.append(dict(target_id=tid, source=t['source'], listed=True, source_in_catalogue=t['source'] in catalogued, acquired=bool(m and m.get('ok')), verified=bool(v and v.get('passed')),
+                         releases_in_index=rids, evidence_rows=ev, mapped_evidence_rows=mp, integrated=bool(rids), mapped=mp > 0, supports=t.get('supports')))
+    summary = Counter()
+    for r in rows:
+        for k in ('listed', 'acquired', 'verified', 'integrated', 'mapped'):
+            summary[k] += r[k]
+    return dict(targets=rows, summary=dict(summary, total=len(rows)), acquired_not_integrated=[r['target_id'] for r in rows if r['acquired'] and not r['integrated']])
+
+
+def change_log(prev_dir, cur_dir):
+    """What differs between two builds: schema version, releases added / removed / re-versioned, adapter code digests, table row counts."""
+    def load(d):
+        with open(os.path.join(d, 'index_manifest.json')) as f:
+            return json.load(f)
+    a, b = load(prev_dir), load(cur_dir)
+    ra, rb = set(a.get('releases', [])), set(b.get('releases', []))
+    base = lambda r: r.rsplit('@', 1)[0]
+    ver_a, ver_b = {base(r): r for r in ra}, {base(r): r for r in rb}
+    code_a = {x['adapter']: x['code_sha256_16'] for x in a.get('adapters', [])}
+    code_b = {x['adapter']: x['code_sha256_16'] for x in b.get('adapters', [])}
+    ta, tb = a.get('tables', {}), b.get('tables', {})
+    return dict(schema_version=dict(previous=a.get('schema_version'), current=b.get('schema_version')),
+                releases=dict(added=sorted(set(ver_b) - set(ver_a)), removed=sorted(set(ver_a) - set(ver_b)),
+                              reversioned={k: dict(previous=ver_a[k], current=ver_b[k]) for k in sorted(set(ver_a) & set(ver_b)) if ver_a[k] != ver_b[k]}),
+                adapters=dict(added=sorted(set(code_b) - set(code_a)), removed=sorted(set(code_a) - set(code_b)), code_changed=sorted(k for k in set(code_a) & set(code_b) if code_a[k] != code_b[k])),
+                tables={k: dict(previous=ta.get(k, {}).get('rows', 0), current=tb.get(k, {}).get('rows', 0), delta=tb.get(k, {}).get('rows', 0) - ta.get(k, {}).get('rows', 0))
+                        for k in sorted(set(ta) | set(tb)) if ta.get(k, {}).get('rows', 0) != tb.get(k, {}).get('rows', 0)},
+                problems=dict(previous=a.get('problems'), current=b.get('problems')))
+
+
+def gap_report(index_dir, life=None, cov=None):
+    life = life or lifecycle(index_dir)
+    cov = cov or coverage(index_dir)
+    nm = (cov.get('evidence') or {}).get('not_mapped', {})
+    by_source = {}
+    for k, n in nm.items():
+        s, status, reason = k.split('|', 2)
+        by_source.setdefault(s, {}).setdefault(status, {})[reason] = n
+    return dict(modules=[dict(m) for m in MODULES], acquired_not_integrated=life['acquired_not_integrated'],
+                targets_not_acquired=[r['target_id'] for r in life['targets'] if not r['acquired']], targets_not_verified=[r['target_id'] for r in life['targets'] if r['acquired'] and not r['verified']],
+                rows_kept_but_not_mapped={s: dict(total=sum(sum(v.values()) for v in d.values()), by_status={st: dict(sorted(v.items(), key=lambda kv: -kv[1])[:10]) for st, v in d.items()})
+                                          for s, d in sorted(by_source.items())})
