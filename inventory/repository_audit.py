@@ -35,6 +35,21 @@ HERE = os.path.join(ROOT, 'inventory')
 DATA = os.path.join(ROOT, 'data', 'external')
 
 
+def read_text(p, **kw):
+    with open(p, **kw) as f:
+        return f.read()
+
+
+def read_lines(p):
+    with open(p) as f:
+        return f.readlines()
+
+
+def read_csv(p):
+    with open(p, newline='') as f:
+        return list(csv.DictReader(f))
+
+
 def sh(*args, cwd=ROOT):
     r = subprocess.run(args, cwd=cwd, capture_output=True, text=True)
     return r.returncode, r.stdout.strip(), r.stderr.strip()
@@ -42,18 +57,18 @@ def sh(*args, cwd=ROOT):
 
 def jload(rel, default=None):
     p = os.path.join(ROOT, rel)
-    return json.load(open(p)) if os.path.exists(p) else default
+    return json.loads(read_text(p)) if os.path.exists(p) else default
 
 
 def jsonl(rel):
     p = os.path.join(ROOT, rel)
-    return [json.loads(x) for x in open(p) if x.strip()] if os.path.exists(p) else []
+    return [json.loads(x) for x in read_lines(p) if x.strip()] if os.path.exists(p) else []
 
 
 # ---- facts recomputed from the files ----------------------------------------------------------------------------------------------
 @functools.lru_cache(None)
 def mave_index():
-    return list(csv.DictReader(open(os.path.join(ROOT, 'scrape/mavedb-human/score_sets_index.csv'))))
+    return read_csv(os.path.join(ROOT, 'scrape/mavedb-human/score_sets_index.csv'))
 
 
 @functools.lru_cache(None)
@@ -155,7 +170,7 @@ def vindex_tests():
 
 
 def latest_audit_entry():
-    t = open(os.path.join(ROOT, 'AUDIT_LOG.md')).read()
+    t = read_text(os.path.join(ROOT, 'AUDIT_LOG.md'))
     parts = re.split(r'(?m)^## ', t)
     return parts[-1]
 
@@ -171,7 +186,7 @@ CLAIMS = [
     ('README.md', r'MaveDB: ([\d,]+) published score sets with a human target \(([\d,]+) by organism filter plus (\d+)',
      lambda: [len(mave_index()), mave_counts('selection')['organism_filter'], mave_counts('selection')['accession_target']]),
     ('README.md', r'the ([\d,]+) score and count tables', lambda: [len(mave_manifest())]),
-    ('README.md', r'an additive set of (\d+) superseded MaveDB score sets', lambda: [len(list(csv.DictReader(open(os.path.join(ROOT, 'acquisition/mavedb_superseded/superseded_index.csv')))))]),
+    ('README.md', r'an additive set of (\d+) superseded MaveDB score sets', lambda: [len(read_csv(os.path.join(ROOT, 'acquisition/mavedb_superseded/superseded_index.csv')))]),
     ('README.md', r'(\d+) tutorial slide decks', lambda: [len([x for k in jload('scrape/nhgri-1000-genomes/1000genomes.json')['tutorials'].values() for x in k['talks']])]),
     ('scrape/mavedb-human/README.md', r'([\d,]+) in total', lambda: [len(mave_index())]),
     ('scrape/mavedb-human/README.md', r'\| `organism_filter` \|.*?\| ([\d,]+) \|', lambda: [mave_counts('selection')['organism_filter']]),
@@ -212,7 +227,7 @@ def to_num(x):
 def claim_text(doc):
     if doc.startswith('latest:'):
         return latest_audit_entry()
-    return open(os.path.join(ROOT, doc)).read()
+    return read_text(os.path.join(ROOT, doc))
 
 
 def selftest_claims():
@@ -279,7 +294,7 @@ def documents():
     for p in out.splitlines():
         if p.startswith('catalogue/evidence/'):
             continue
-        t = open(os.path.join(ROOT, p), encoding='utf-8', errors='replace').read()
+        t = read_text(os.path.join(ROOT, p), encoding='utf-8', errors='replace')
         title = next((x[2:].strip() for x in t.splitlines() if x.startswith('# ')), '')
         _, d, _ = sh('git', 'log', '-1', '--format=%cs', '--', p)
         res.append(dict(path=p, title=title[:90], lines=t.count('\n'), bytes=len(t.encode()), last_commit=d))
@@ -291,7 +306,7 @@ def scripts():
     res = []
     for p in out.splitlines():
         full = os.path.join(ROOT, p)
-        src = open(full, encoding='utf-8', errors='replace').read()
+        src = read_text(full, encoding='utf-8', errors='replace')
         rec = dict(path=p, lines=src.count('\n'))
         if p.endswith('.py'):
             try:
@@ -314,10 +329,10 @@ def manifests():
     m = jsonl('acquisition/manifest.jsonl')
     res.append(dict(path='acquisition/manifest.jsonl', records=len(m), detail=f"{sum(1 for r in m if r.get('ok'))} ok"))
     for p in sorted(glob.glob(os.path.join(ROOT, 'acquisition/manifest_files/*.tsv'))):
-        res.append(dict(path=os.path.relpath(p, ROOT), records=sum(1 for _ in open(p)) - 1, detail='per-file table'))
+        res.append(dict(path=os.path.relpath(p, ROOT), records=len(read_lines(p)) - 1, detail='per-file table'))
     sm = jsonl('scrape/mavedb-human/scores_manifest.jsonl')
     res.append(dict(path='scrape/mavedb-human/scores_manifest.jsonl', records=len(sm), detail='sha256 and row count of each score and count table'))
-    res.append(dict(path='inventory/baseline_checksums.sha256', records=sum(1 for x in open(os.path.join(HERE, 'baseline_checksums.sha256')) if not x.startswith('#') and x.strip()), detail='sha256 of every tracked file under scrape/ at the baseline'))
+    res.append(dict(path='inventory/baseline_checksums.sha256', records=sum(1 for x in read_lines(os.path.join(HERE, 'baseline_checksums.sha256')) if not x.startswith('#') and x.strip()), detail='sha256 of every tracked file under scrape/ at the baseline'))
     res.append(dict(path='catalogue/evidence/evidence_index.jsonl', records=len(jsonl('catalogue/evidence/evidence_index.jsonl')), detail='append-only record of every probe (URL, time, status, sha256)'))
     return res
 
@@ -327,7 +342,7 @@ def index_targets():
     p = os.path.join(ROOT, 'data', 'index', 'index_manifest.json')
     if not os.path.exists(p):
         return None
-    return {r.split('/', 1)[1].rsplit('@', 1)[0] for r in json.load(open(p)).get('releases', []) if '/' in r}
+    return {r.split('/', 1)[1].rsplit('@', 1)[0] for r in json.loads(read_text(p)).get('releases', []) if '/' in r}
 
 
 def dataset_lifecycle():
@@ -433,8 +448,10 @@ def main():
     out = dict(generated_utc=datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), commit=sh('git', 'rev-parse', 'HEAD')[1], visibility=vis, checks=checks, claims=claims,
                branches=branches(), datasets=ds, dataset_summary=dict(listed=len(ds), **{k: sum(1 for d in ds if d[k]) for k in ('acquired', 'verified', 'mapped', 'integrated')}),
                manifests=manifests(), documents=documents(), scripts=scripts())
-    json.dump(out, open(os.path.join(HERE, 'REPOSITORY_AUDIT.json'), 'w'), indent=1)
-    open(os.path.join(HERE, 'REPOSITORY_AUDIT.md'), 'w').write(markdown(out))
+    with open(os.path.join(HERE, 'REPOSITORY_AUDIT.json'), 'w') as f:
+        json.dump(out, f, indent=1)
+    with open(os.path.join(HERE, 'REPOSITORY_AUDIT.md'), 'w') as f:
+        f.write(markdown(out))
     cl = collections.Counter(c['status'] for c in claims)
     bad = [c for c in checks if not c['ok']] + [c for c in claims if c['status'] == 'FAIL']
     print(f"checks: {sum(1 for c in checks if c['ok'])}/{len(checks)} pass | claims: {dict(cl)} | datasets: {out['dataset_summary']} | {vis}")

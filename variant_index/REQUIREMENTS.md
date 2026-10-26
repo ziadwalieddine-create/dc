@@ -40,7 +40,7 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 | Q5 | ClinGen gene-disease, dosage and actionability curations. | `variant_index/vindex/build/clingen.py` | `test_build_clingen` | **verified** |
 | Q6 | MaveDB scores and mappings. | `variant_index/vindex/build/mavedb.py`<br>`variant_index/vindex/build/hgvs.py` | `test_build_mavedb` | **verified** |
 | Q7 | ClinPGx/CPIC and PharmVar definitions. | `variant_index/vindex/build/pgx.py`<br>`variant_index/vindex/build/clinpgx.py` | `test_build_pgx`, `test_build_clinpgx` | **verified** |
-| Q8 | PGS Catalog harmonised GRCh38 scoring files. | `variant_index/vindex/pgs_registry.py`<br>`variant_index/vindex/pgs.py`<br>`variant_index/vindex/pgs_run.py` | `test_pgs_registry`, `test_pgs`, `test_pgs_run` | **partial** |
+| Q8 | PGS Catalog harmonised GRCh38 scoring files. | `variant_index/vindex/pgs_registry.py`<br>`variant_index/vindex/pgs.py`<br>`variant_index/vindex/pgs_run.py`<br>`variant_index/build_pgs_registry.py` | `test_pgs_registry`, `test_pgs`, `test_pgs_run` | **partial** |
 | Q9 | gnomAD frequencies and constraint, and versioned reference and transcript context. | `variant_index/vindex/build/gnomad.py`<br>`variant_index/vindex/build/events.py`<br>`variant_index/vindex/refgenome.py` | `test_build_gnomad`, `test_build_events` | **partial** |
 | Q10 | Verify access, coverage, licences, versions, schemas and storage needs before downloads. | `catalogue/build_catalogue.py`<br>`acquisition/validate.py` | - | **verified** |
 
@@ -69,7 +69,7 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 | ID | Clause | Implementation | Tests | Status |
 |---|---|---|---|---|
 | E1 | Link immutable source records to normalised entities. | `variant_index/vindex/provenance.py`<br>`variant_index/verify_index.py` | `test_provenance` | **partial** |
-| E2 | Deduplicate identities, retain evidence. | `variant_index/vindex/build/runner.py`<br>`variant_index/vindex/build/common.py` | `test_runner_guards`, `test_build_clinvar` | **verified** |
+| E2 | Deduplicate identities, retain evidence. | `variant_index/vindex/build/runner.py`<br>`variant_index/vindex/build/common.py`<br>`variant_index/vindex/build/genes.py` | `test_runner_guards`, `test_build_clinvar`, `test_genes` | **verified** |
 | E3 | Preserve unmapped records, contradictions, negative findings, uncertainty and lineage. | `variant_index/vindex/schema.py`<br>`variant_index/vindex/summary.py` | `test_summary`, `test_build_gwas`, `test_build_clinvar_vcv` | **verified** |
 | E4 | Shared studies across databases are not independent replication. | `variant_index/vindex/summary.py` | `test_summary`, `test_wgs` | **verified** |
 | E5 | Separate variant-, haplotype-, gene-, region-, assay- and study-level evidence; do not assign a gene's actionability to every variant. | `variant_index/vindex/schema.py`<br>`variant_index/vindex/wgs.py` | `test_wgs`, `test_summary` | **verified** |
@@ -100,8 +100,8 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 | ID | Clause | Implementation | Tests | Status |
 |---|---|---|---|---|
-| M1 | Use 30x GRCh38 SNP/indel, CNV and SV calls. | `variant_index/vindex/vcfio.py`<br>`variant_index/vindex/wgs.py`<br>`variant_index/match_wgs.py` | `test_vcfio`, `test_wgs`, `test_scale_paths`, `test_other_contigs` | **unavailable_input** |
-| M2 | Reuse established normalisation, PGx and PGS tools. | `variant_index/vindex/normalise.py`<br>`variant_index/vindex/crosscheck.py`<br>`variant_index/vindex/pgs.py` | `test_normalise`, `test_crosscheck`, `test_pgs` | **partial** |
+| M1 | Use 30x GRCh38 SNP/indel, CNV and SV calls. | `variant_index/vindex/vcfio.py`<br>`variant_index/vindex/wgs.py`<br>`variant_index/match_wgs.py`<br>`variant_index/vindex/index_reader.py`<br>`variant_index/vindex/intervals.py` | `test_vcfio`, `test_wgs`, `test_scale_paths`, `test_other_contigs`, `test_intervals` | **unavailable_input** |
+| M2 | Reuse established normalisation, PGx and PGS tools. | `variant_index/vindex/normalise.py`<br>`variant_index/vindex/crosscheck.py`<br>`variant_index/vindex/pgs.py`<br>`variant_index/crosscheck_bcftools.py` | `test_normalise`, `test_crosscheck`, `test_pgs` | **partial** |
 | M3 | Validate assembly and REF alleles. | `variant_index/vindex/refgenome.py`<br>`variant_index/vindex/vcfio.py` | `test_vcfio`, `test_wgs` | **verified** |
 | M4 | Preserve genotype, phase and quality when normalising and splitting multiallelics. | `variant_index/vindex/vcfio.py`<br>`variant_index/vindex/normalise.py` | `test_vcfio`, `test_crosscheck` | **verified** |
 | M5 | Match normalised CHROM:POS:REF:ALT, not rsIDs alone; preserve effect-allele orientation and reject unresolved strand mappings. | `variant_index/vindex/build/gwas.py`<br>`variant_index/vindex/build/alleles.py`<br>`variant_index/vindex/match_small.py` | `test_build_gwas`, `test_alleles`, `test_match_small` | **verified** |
@@ -140,12 +140,12 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 |---|---|---|---|---|
 | D1 | Reusable master index. | `variant_index/build_index.py`<br>`variant_index/vindex/build/runner.py`<br>`variant_index/SCHEMA.md` | `test_runner_guards`, `test_reports` | **verified** |
 | D2 | Evidence-linked, prioritised WGS matches. | `variant_index/vindex/wgs.py`<br>`variant_index/vindex/views.py` | `test_wgs` | **verified** |
-| D3 | Trait and pathway views. | `variant_index/vindex/views.py`<br>`variant_index/vindex/build/pathways.py` | `test_wgs`, `test_build_pathways` | **partial** |
+| D3 | Trait and pathway views. | `variant_index/vindex/views.py`<br>`variant_index/vindex/build/pathways.py`<br>`variant_index/vindex/build/regions.py` | `test_wgs`, `test_build_pathways`, `test_build_regions` | **partial** |
 | D4 | High-value unresolved loci with the exact missing evidence. | `variant_index/vindex/wgs.py`<br>`variant_index/vindex/views.py` | `test_wgs`, `test_other_contigs` | **verified** |
 | D5 | Manifests, coverage statistics, change log, validation and gap report. | `variant_index/vindex/reports.py`<br>`variant_index/make_reports.py` | `test_reports` | **verified** |
 | D6 | Use full PGS models separately, checking allele dosage, missingness and ancestry/calibration before interpretation. | `variant_index/vindex/pgs.py`<br>`variant_index/vindex/pgs_run.py`<br>`variant_index/score_pgs.py` | `test_pgs`, `test_pgs_run`, `test_pgs_registry` | **partial** |
-| D7 | First verify a source -> index -> matcher slice with adversarial fixtures: equivalent alleles, nonmatches, ambiguous phase, REF mismatches, missing calls and unequal overlapping SVs. | `variant_index/tests/fixtures/make_sources.py`<br>`variant_index/tests/fixtures/make_reference.py` | `test_wgs`, `test_match_small`, `test_match_sv`, `test_normalise`, `test_vcfio` | **verified** |
-| D8 | Check provenance, preservation and idempotence; revalidate after source or schema changes. | `variant_index/vindex/provenance.py`<br>`variant_index/vindex/reports.py`<br>`inventory/audit_existing.py` | `test_provenance`, `test_reports`, `test_runner_guards` | **verified** |
+| D7 | First verify a source -> index -> matcher slice with adversarial fixtures: equivalent alleles, nonmatches, ambiguous phase, REF mismatches, missing calls and unequal overlapping SVs. | `variant_index/tests/fixtures/make_sources.py`<br>`variant_index/tests/fixtures/make_reference.py`<br>`variant_index/fetch_public_testset.py` | `test_wgs`, `test_match_small`, `test_match_sv`, `test_normalise`, `test_vcfio` | **verified** |
+| D8 | Check provenance, preservation and idempotence; revalidate after source or schema changes. | `variant_index/vindex/provenance.py`<br>`variant_index/vindex/reports.py`<br>`inventory/audit_existing.py`<br>`variant_index/check_idempotence.py` | `test_provenance`, `test_reports`, `test_runner_guards`, `test_idempotence`, `test_crosscheck` | **verified** |
 | D9 | Execute available non-destructive work; mark unavailable inputs and unimplemented modules; report only verified work. | `variant_index/vindex/reports.py` | `test_reports` | **verified** |
 
 **D1.** build_index.py builds the Parquet index (13 tables, schema in SCHEMA.md) from the acquired sources into data/index, always from an empty directory, with per-table digests.
@@ -171,8 +171,8 @@ verified 32, partial 10, unavailable_input 1, blocked_external 1 (of 44 requirem
 | ID | Clause | Implementation | Tests | Status |
 |---|---|---|---|---|
 | S1 | Verify 'dc' privacy. Never commit personal genome files or sensitive third-party data. Private status does not waive licences. | `inventory/check_repo_policy.py` | - | **blocked_external** |
-| S2 | Declare this phase complete only after defined requirements and an adversarial gap audit pass. | `variant_index/requirements.json`<br>`variant_index/check_requirements.py` | `test_requirements` | **verified** |
+| S2 | Declare this phase complete only after defined requirements and an adversarial gap audit pass. | `variant_index/requirements.json`<br>`variant_index/check_requirements.py`<br>`inventory/gap_audit.py` | `test_requirements`, `test_gap_audit` | **verified** |
 
 **S1.** inventory/check_repo_policy.py checks the live visibility of the repository and scans tracked files for personal-genome file types and credential patterns; licences are carried per release. *Gap:* The live check reports the repository as public. The session's proxy refuses repository-settings writes, so only the owner can make it private. No personal genome file or sensitive third-party data is tracked.
 
-**S2.** This table defines the requirements; requirements.json is checked by tests (paths, test modules, statuses); the gap audit is recorded in AUDIT_LOG.md.
+**S2.** This table defines the requirements; requirements.json is checked by tests (paths, test modules, statuses, no orphan code or test); the executable gap audit (inventory/gap_audit.py, report in inventory/PHASE_AUDIT.md) attacks the work from outside: the map, the documentation, the audit-log numbers, the history for personal files, the built index (validation, provenance, idempotence, bcftools cross-checks) and the sample run (accounting, missing-evidence text).
