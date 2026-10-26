@@ -21,7 +21,7 @@ REPO = os.path.dirname(ROOT)
 DATA = os.path.join(REPO, 'data', 'external')
 OUT_DEFAULT = os.path.join(REPO, 'data', 'index')
 
-CHROMS = [str(i) for i in range(1, 23)] + ['X', 'Y', 'MT']
+CHROMS = list(schema.PRIMARY_CONTIGS)
 ALL = object()      # BuildContext.want(namespace) with no identifiers: every offered identifier is kept
 
 
@@ -170,8 +170,7 @@ class BuildContext:
         return self.sinks[key]
 
     def evidence_sink(self, level, chrom, source_id):
-        c = chrom if chrom in CHROMS else 'NA'      # not '_': Arrow dataset discovery silently skips paths that start with '_' or '.'
-        return self.sink(os.path.join('evidence', level, c, f'{source_id}.parquet'), 'evidence')
+        return self.sink(os.path.join('evidence', level, schema.partition_of(chrom), f'{source_id}.parquet'), 'evidence')
 
     def emit_evidence(self, row):
         """Validate and write one evidence row. Returns the row."""
@@ -179,6 +178,14 @@ class BuildContext:
             bad = schema.validate_evidence_row(row)
             if bad:
                 raise ValueError(f"invalid evidence row {row.get('source_id')}:{row.get('accession')}: {bad}")
+        if row['level'] == 'variant' and row['mapping_status'] == 'mapped':
+            c, p = row['subject_id'].split(':')[:2]
+            if row.get('chrom') in (None, ''):
+                row['chrom'] = c                                # the partition a matcher reads is the key's chromosome; a mapped row can never be filed anywhere else
+            elif row['chrom'] != c:
+                raise ValueError(f"mapped variant row {row.get('source_id')}:{row.get('accession')} has chrom {row['chrom']} but key {row['subject_id']}")
+            if row.get('pos') is None:
+                row['pos'] = int(p)
         self.evidence_sink(row['level'], row.get('chrom') or '', row['source_id']).add(row)
         self.st().inc(f"evidence:{row['level']}:{row['mapping_status']}")
         return row

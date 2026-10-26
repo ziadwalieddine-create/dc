@@ -96,14 +96,14 @@ class Index:
     # ---- evidence ---------------------------------------------------------------------------------------------------------------------
     def evidence_for_variants(self, keys):
         """{variant_key: [evidence row dicts]} for mapped variant-level rows. Reads one chromosome partition at a time."""
-        by_chrom = {}
+        by_part = {}
         for k in set(keys):
-            by_chrom.setdefault(k.split(':', 1)[0], []).append(k)
+            by_part.setdefault(schema.partition_of(k.split(':', 1)[0]), []).append(k)
         out = {}
-        for chrom, ks in sorted(by_chrom.items()):
+        for part, ks in sorted(by_part.items()):
             expr = pc.field('subject_id').isin(ks)
             if self.root is not None and 'evidence' not in self._t:
-                t = self.filtered('evidence', expr, sub=os.path.join('variant', chrom))
+                t = self.filtered('evidence', expr, sub=os.path.join('variant', part))
             else:
                 t = self.filtered('evidence', expr & (pc.field('level') == 'variant'))
             for r in t.to_pylist():

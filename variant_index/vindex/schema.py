@@ -17,6 +17,16 @@ import pyarrow as pa
 
 from . import SCHEMA_VERSION
 
+PRIMARY_CONTIGS = tuple([str(i) for i in range(1, 23)] + ['X', 'Y', 'MT'])
+OTHER_PARTITION = 'NA'          # not '_': Arrow dataset discovery silently skips paths that start with '_' or '.'
+
+
+def partition_of(chrom):
+    """Directory under evidence/<level>/ that holds the rows of a contig: the contig itself on the primary assembly, 'NA' for every other contig (alternate loci,
+    unlocalised and unplaced scaffolds, decoys). A row keeps its own chrom, so a reader that is asked for such a contig filters on subject_id or chrom inside 'NA'."""
+    return chrom if chrom in PRIMARY_CONTIGS else OTHER_PARTITION
+
+
 AXES = {
     'clinical_validity_actionability': 'Clinical classification, gene-disease validity, dosage sensitivity, clinical actionability and pharmacogenomic guidance, as asserted by curators or expert panels.',
     'empirical_functional_support': 'Measurements of the effect of the specific allele, or of a gene/region perturbation, in an assay: deep mutational scanning, MPRA, knockout and CRISPR screens, model-organism phenotypes.',

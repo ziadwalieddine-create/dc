@@ -215,14 +215,26 @@ def _ref_confident(qc, filt, gq, mdp):
     return (gq is None or gq >= qc.min_ref_gq) and (mdp is None or mdp >= qc.min_ref_dp) and not (qc.require_pass and filt not in ('PASS', '.'))
 
 
+OTHER_CONTIGS = '*other*'      # read_vcf(contigs=[OTHER_CONTIGS]): every record whose contig is not on the primary assembly, including contigs the reference does not know
+
+
+def _wanted(reference, contigs):
+    wanted, other = set(contigs), OTHER_CONTIGS in contigs
+
+    def test(name):
+        canon = reference.contig(name)
+        return (canon is not None and canon in wanted) or (other and not (canon is not None and reference.is_primary(canon)))
+    return test
+
+
 def _records(vf, reference, contigs):
-    """(running index, record) for the whole file, or only for the records on `contigs` (canonical names). An indexed file is fetched per contig; an
-    unindexed one is read through and filtered, so the result is the same either way."""
+    """(running index, record) for the whole file, or only for the records on `contigs` (canonical names, or OTHER_CONTIGS for everything off the primary
+    assembly). An indexed file is fetched per contig; an unindexed one is read through and filtered, so the result is the same either way."""
     if contigs is None:
         yield from enumerate(vf)
         return
-    wanted = set(contigs)
-    names = [c for c in vf.header.contigs if reference.contig(c) in wanted]
+    test = _wanted(reference, contigs)
+    names = [c for c in vf.header.contigs if test(c)]
     idx = 0
     try:
         for n in names:
@@ -235,7 +247,7 @@ def _records(vf, reference, contigs):
             raise
     vf.reset()
     for rec in vf:
-        if reference.contig(rec.chrom) in wanted:
+        if test(rec.chrom):
             yield idx, rec
             idx += 1
 

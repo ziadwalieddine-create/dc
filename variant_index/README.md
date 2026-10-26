@@ -21,3 +21,35 @@ Rules that the code and tests enforce:
 
 Run the tests (from `variant_index/tests`): `python3 -m unittest discover` with `pysam`, `pyarrow` installed; set `VINDEX_TOOLS_BIN` to a directory
 with `bcftools` and `plink2` to include the cross-checks against those tools (`environment.yml`).
+
+## Workflow
+
+```
+# 1. build the index from the acquired sources (data/external) into data/index; every build starts from an empty directory
+python3 variant_index/build_index.py                       # all adapters, in dependency order (--sources a,b to build a subset, --limit N for trials)
+
+# 2. check it
+python3 variant_index/verify_index.py                      # release linkage, manifest agreement, raw-record digests recomputed from the acquired files
+python3 variant_index/make_reports.py --markdown variant_index/BUILD_REPORT.md   # coverage, validation, target lifecycle, gap report (+ --previous OLD for a change log)
+
+# 3. match one sample (local files only; results must go under data/ or outside the repository)
+python3 variant_index/match_wgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE [--callable-bed HIGH_CONFIDENCE.bed] [--external-haplotypes calls.json]
+python3 variant_index/make_views.py --results data/results/SAMPLE        # priority lists, trait and pathway groupings (views over the complete tables)
+
+# 4. polygenic scores are separate models, never variant evidence
+python3 variant_index/build_pgs_registry.py                # every score in the catalogue, whether its GRCh38 file was acquired, and its gates
+python3 variant_index/score_pgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE/pgs --trait EFO_0004339 [--sample-ancestry European]
+
+# whole-genome scale test on a public callset (GIAB HG002 benchmark; not anyone's personal genome)
+python3 variant_index/fetch_public_testset.py
+```
+
+What each result table holds, and what every status means, is described in `vindex/wgs.py` and `SCHEMA.md`. A call with no index record stays in `small_calls` as
+`NO_INDEX_RECORD`; an indexed high-value allele the file cannot answer for is listed in `unresolved_loci` with the evidence that would settle it.
+
+## Privacy and licences
+
+- `data/` (public sources, the index, per-sample results) is git-ignored; `.gitignore` also blocks VCF / BAM / CRAM / FASTQ files anywhere in the tree. `match_wgs.py`
+  and `score_pgs.py` refuse an output directory inside the tracked tree.
+- A sample's calls are never sent anywhere: matching is a bulk local join against the index, never a per-variant query of an external service.
+- Source licences travel with each release (`source_release.licence`, the catalogue records). Private status of this repository does not waive them.

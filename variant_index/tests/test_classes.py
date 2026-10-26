@@ -13,6 +13,9 @@ class TestClassificationVocabulary(unittest.TestCase):
         'Uncertain_significance/Uncertain_risk_allele': 'uncertain', 'Pathogenic/Likely_risk_allele': 'effect', 'Uncertain_significance/VUS-high': 'uncertain', 'VUS-low': 'uncertain',
         'Pathogenic|other': 'effect', 'Conflicting_classifications_of_pathogenicity|other': 'conflicting', 'Benign|risk_factor': 'conflicting', 'Uncertain_significance|risk_factor': 'effect',
         'association_not_found': 'no_effect', 'Tier_IV_-_Benign/Likely_benign': 'no_effect', 'Tier_I_-_Strong': 'effect', 'Tier_III_-_Unknown': 'uncertain', 'Likely_oncogenic': 'effect',
+        # semicolon-joined lists as the 2026 VCV release writes them
+        'Pathogenic;_drug_response': 'effect', 'Pathogenic;_risk_factor': 'effect', 'Pathogenic;_protective;_risk_factor': 'effect', 'Pathogenic;_affects': 'effect', 'Pathogenic;_other': 'effect',
+        'Uncertain_significance;_pathogenic': 'effect', 'Benign;_risk_factor': 'conflicting', 'Pathogenic; drug response': 'effect',
         # assertions of no assertion
         'not_provided': 'not_applicable', 'other': 'not_applicable', 'no_classification_for_the_single_variant': 'not_applicable', 'no_classifications_from_unflagged_records': 'not_applicable', '': 'not_applicable',
         # labels as submitters spell them in the VCV release

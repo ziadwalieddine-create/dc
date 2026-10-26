@@ -9,6 +9,7 @@ claim in a report can be re-derived by running the report again. Statuses follow
   integrated  the index holds rows from its release (mapped or retained as unmapped / ambiguous / rejected)
 A target can be acquired and verified yet not integrated; that is a gap, and it is listed as one.
 """
+import glob
 import json
 import os
 from collections import Counter
@@ -142,15 +143,37 @@ def validate(index_dir, reference=None, sample_keys=50000):
                 check(f'mapped_{level}_subject_not_an_entity', int(miss))
     except ImportError:
         res['checks']['duckdb_checks'] = dict(violations=0, detail='skipped: duckdb is not installed (evidence_id uniqueness and subject existence were not checked)')
+    vdir = os.path.join(index_dir, 'evidence', 'variant')
+    if os.path.isdir(vdir):
+        misfiled = 0
+        for c in sorted(os.listdir(vdir)):
+            files = sorted(glob.glob(os.path.join(vdir, c, '*.parquet')))
+            if not files:
+                continue
+            t = pds.dataset(files, format='parquet').to_table(columns=['subject_id', 'mapping_status'], filter=pc.field('mapping_status') == 'mapped')
+            if t.num_rows:
+                first = pc.list_element(pc.split_pattern(t['subject_id'], ':'), 0)
+                if c == schema.OTHER_PARTITION:                      # alternate loci and scaffolds: the key's contig must be outside the primary set
+                    misfiled += int(pc.sum(pc.is_in(first, value_set=pa.array(schema.PRIMARY_CONTIGS))).as_py() or 0)
+                else:
+                    misfiled += int(pc.sum(pc.not_equal(first, c)).as_py() or 0)
+        check('mapped_variant_row_filed_under_another_chromosome', misfiled)
     if reference is not None:
-        vt = index_dir
-        p = os.path.join(vt, 'entity_variant')
-        if os.path.isdir(p):
-            keys = pds.dataset(p, format='parquet').to_table(columns=['variant_key', 'chrom', 'pos', 'ref']).to_pylist()
-            step = max(1, len(keys) // sample_keys)
-            wrong = [k['variant_key'] for k in keys[::step] if reference.contig(k['chrom']) and reference.check_ref(reference.contig(k['chrom']), k['pos'], k['ref'])[0] == 'mismatch']
+        p = os.path.join(index_dir, 'entity_variant')
+        files = sorted(glob.glob(os.path.join(p, '*.parquet'))) if os.path.isdir(p) else []
+        total = sum(pq.ParquetFile(f).metadata.num_rows for f in files)
+        if total:
+            step = max(1, total // sample_keys)
+            wrong, checked = [], 0
+            for f in files:
+                t = pq.read_table(f, columns=['variant_key', 'chrom', 'pos', 'ref'])
+                for k in t.take(list(range(0, t.num_rows, step))).to_pylist():
+                    checked += 1
+                    canon = reference.contig(k['chrom'])
+                    if canon and reference.check_ref(canon, k['pos'], k['ref'])[0] == 'mismatch':
+                        wrong.append(k['variant_key'])
             check('entity_variant_ref_differs_from_reference', len(wrong), wrong[:5])
-            res['entity_variant_ref_checked'] = len(keys[::step])
+            res['entity_variant_ref_checked'] = checked
     return res
 
 

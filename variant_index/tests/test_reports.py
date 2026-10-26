@@ -88,15 +88,26 @@ class TestReports(unittest.TestCase):
             self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'subject_id', fn)
         self.assertGreaterEqual(self.damaged(bad_key)['checks']['variant_key_not_chrom_pos_ref_alt']['violations'], 1)
 
+    def test_a_mapped_row_filed_under_the_wrong_chromosome_is_caught(self):
+        d = os.path.join(self.work, 'misfiled')
+        shutil.rmtree(d, ignore_errors=True)
+        shutil.copytree(self.idx, d)
+        src = os.path.join(d, 'evidence', 'variant', '1', 'clinvar.parquet')
+        os.makedirs(os.path.join(d, 'evidence', 'variant', '2'), exist_ok=True)
+        shutil.move(src, os.path.join(d, 'evidence', 'variant', '2', 'clinvar.parquet'))
+        v = reports.validate(d, syn_reference())
+        self.assertGreater(v['checks']['mapped_variant_row_filed_under_another_chromosome']['violations'], 0)
+        self.assertFalse(v['ok'])
+
     def test_duplicate_ids_and_orphan_subjects_are_caught(self):
         v = self.damaged(lambda d: self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'evidence_id', lambda xs: [xs[0]] + [xs[0]] + xs[2:]))
         self.assertEqual(v['checks']['evidence_id_not_unique']['violations'], 1)
-        v = self.damaged(lambda d: self.rewrite(d, 'entity_variant/entity_variant.parquet', 'variant_key', lambda xs: ['9:9:A:C'] + xs[1:]))
+        v = self.damaged(lambda d: self.rewrite(d, 'entity_variant/1.parquet', 'variant_key', lambda xs: ['9:9:A:C'] + xs[1:]))
         self.assertGreaterEqual(v['checks']['mapped_variant_subject_not_an_entity']['violations'], 1)
 
     def test_a_reference_allele_that_differs_from_the_fasta_is_caught(self):
         def corrupt(d):
-            self.rewrite(d, 'entity_variant/entity_variant.parquet', 'ref', lambda xs: ['A' if x != 'A' else 'C' for x in xs])
+            self.rewrite(d, 'entity_variant/1.parquet', 'ref', lambda xs: ['A' if x != 'A' else 'C' for x in xs])
         v = self.damaged(corrupt)
         self.assertGreater(v['checks']['entity_variant_ref_differs_from_reference']['violations'], 0)
 

@@ -15,6 +15,8 @@ import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
+from . import schema
+
 F = pc.field
 
 
@@ -42,11 +44,13 @@ HIGH_VALUE_RULES = (
 
 
 def high_value_keys(index, chrom, rules=HIGH_VALUE_RULES):
-    """{variant_key: {'rules': [names], 'evidence_ids': [...]}} for the mapped variant-level evidence of one chromosome that satisfies a rule."""
+    """{variant_key: {'rules': [names], 'evidence_ids': [...]}} for the mapped variant-level evidence of one contig (or, for schema.OTHER_PARTITION, of all contigs outside the primary assembly) that satisfies a rule."""
     out = {}
     for rule in rules:
         expr = rule.expr & (F('level') == 'variant') & (F('mapping_status') == 'mapped')
-        sub = os.path.join('variant', chrom)
+        if chrom != schema.OTHER_PARTITION:
+            expr = expr & (F('chrom') == chrom)                     # one contig; schema.OTHER_PARTITION asks for every alternate locus and scaffold at once
+        sub = os.path.join('variant', schema.partition_of(chrom))
         t = index.filtered('evidence', expr, sub=sub, columns=['subject_id', 'evidence_id'])
         for k, e in zip(t['subject_id'].to_pylist(), t['evidence_id'].to_pylist()):
             d = out.setdefault(k, dict(rules=[], evidence_ids=[]))

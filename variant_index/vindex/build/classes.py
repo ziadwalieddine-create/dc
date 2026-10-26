@@ -4,7 +4,7 @@ labels such as 'Likely Pathogenic', 'Pathogenic, low penetrance', 'Tier I - Stro
 effect_of() reduces a classification string to the five-valued effect_assertion of the index. The string itself is always kept in claim_value:
 the reduction exists for filtering and contradiction checks, never as a replacement for the label.
   * a qualifier after a comma ('Pathogenic, low penetrance') does not change the class it qualifies
-  * compound labels ('Benign/Likely benign', 'Uncertain significance/Uncertain risk allele') and '|'-joined lists are read token by token
+  * compound labels ('Benign/Likely benign', 'Uncertain significance/Uncertain risk allele', 'Pathogenic; drug response') and '|'-joined lists are read token by token
   * 'not provided', 'other' and the 'no classification' labels make no assertion about effect (not_applicable)
   * a label the table does not know is read as 'uncertain' and reported by unknown_tokens(), so vocabulary drift in a new release is counted, not hidden
 """
@@ -39,7 +39,7 @@ def stars(review_status):
 
 def tokens(sig):
     s = re.sub(r',_?low_penetrance', '', norm_key(sig))
-    parts = (re.sub(r'\(.*', '', p).strip('_') for p in re.split(r'[|/,]', s))
+    parts = (re.sub(r'\(.*', '', p).strip('_') for p in re.split(r'[|/,;]', s))
     return [p for p in parts if p]
 
 

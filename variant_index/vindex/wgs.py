@@ -29,14 +29,14 @@ from collections import Counter
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from . import SCHEMA_VERSION, views
+from . import SCHEMA_VERSION, schema, views
 from .callability import CallableRegionCallability
 from .index_reader import Index
 from .match_hap import NON_STAR_SYSTEMS, call_gene
 from .match_repeat import loci_from_index, match_repeats
 from .match_small import MatchContext, iter_interpretations, status_of, zygosity
 from .match_sv import match_svs
-from .vcfio import CallSet, QCPolicy, read_vcf
+from .vcfio import OTHER_CONTIGS, CallSet, QCPolicy, read_vcf
 
 S, LS, I32 = pa.string(), pa.list_(pa.string()), pa.int32()
 SCHEMAS = {
@@ -176,6 +176,9 @@ def genes_by_chrom(index):
     return out
 
 
+OTHER_PASS = 'other_contigs'      # label of the pass over every record off the primary assembly (alternate loci, unplaced scaffolds, decoys, contigs the reference does not know)
+
+
 def chromosome_order(reference, wanted=None):
     prim = [c for c in reference.lengths if reference.is_primary(c)]
     key = lambda c: (0, int(c)) if c.isdigit() else (1, {'X': 0, 'Y': 1, 'MT': 2}.get(c, 3))
@@ -198,15 +201,17 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
     placed = genes_by_chrom(index)
     loci = loci_from_index(index) if index.regions_by_kind(['strchive_locus']) else []
     order = chromosome_order(reference, contigs)
+    primary = set(chromosome_order(reference))
+    passes = [(c, [c]) for c in order] + ([(OTHER_PASS, [OTHER_CONTIGS])] if contigs is None else [])        # a whole-file run also reads what lies off the primary assembly
     bed = load_bed_intervals(callable_bed, reference) if callable_bed else None
-    for chrom in order:
-        cs = read_vcf(vcf, reference, sample, qc, contigs=[chrom])
+    for chrom, wanted in passes:
+        cs = read_vcf(vcf, reference, sample, qc, contigs=wanted)
         if assembly is None:
             assembly, sample_name = cs.assembly, cs.sample
             if not assembly.get('ok', True) and not allow_assembly_mismatch:
                 raise AssemblyMismatch(f'the VCF header does not match the reference ({assembly}); matching a different assembly would give wrong answers')
         counts['vcf_stats'].update({k: v for k, v in cs.stats.items() if isinstance(v, int)})
-        providers = [CallableRegionCallability(((chrom, a, b) for a, b in bed.get(chrom, ())), cs, 'callable_region')] if bed is not None else []
+        providers = [CallableRegionCallability(((c, a, b) for c, ivs in bed.items() if (c not in primary if chrom == OTHER_PASS else c == chrom) for a, b in ivs), cs, 'callable_region')] if bed is not None else []
         ctx = MatchContext(cs, providers)
         n_chrom = 0
         for o in iter_interpretations(cs, index, ctx):
@@ -251,12 +256,12 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
                                        flags=list(r.flags), missing=r.missing or None, inheritance=r.inheritance or None, disease=r.disease or None))
             counts['repeats'][r.status] += 1
         # index-centric: what does the sample say about the high-value indexed alleles on this chromosome?
-        for key, hv in sorted(views.high_value_keys(index, chrom, rules).items(), key=lambda kv: int(kv[0].split(':')[1])):
+        for key, hv in sorted(views.high_value_keys(index, schema.OTHER_PARTITION if chrom == OTHER_PASS else chrom, rules).items(), key=lambda kv: (kv[0].split(':')[0], int(kv[0].split(':')[1]))):
             st = status_of(ctx, key)
             for rn in hv['rules']:
                 counts['index_centric'][rn][st.status] += 1
             if st.status not in RESOLVED:
-                W['unresolved_loci'].add(dict(key=key, chrom=chrom, pos=int(key.split(':')[1]), status=st.status, reasons=list(st.reasons), rules=hv['rules'], evidence_ids=hv['evidence_ids'],
+                W['unresolved_loci'].add(dict(key=key, chrom=key.split(':')[0], pos=int(key.split(':')[1]), status=st.status, reasons=list(st.reasons), rules=hv['rules'], evidence_ids=hv['evidence_ids'],
                                               missing_evidence=(st.detail or {}).get('missing_evidence'), basis=st.basis, detail_json=jdump({k: v for k, v in (st.detail or {}).items() if k != 'missing_evidence'})))
         if progress:
             progress(chrom, counts['per_chromosome'][chrom])
@@ -279,7 +284,7 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
     manifest = dict(
         schema_version=SCHEMA_VERSION, finished_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), seconds=round(time.time() - t0, 1),
         input=dict(path=os.path.abspath(vcf), size_bytes=os.path.getsize(vcf), sha256=sha256_file(vcf) if hash_input else None, sample=sample_name, assembly=assembly,
-                   callable_bed=os.path.abspath(callable_bed) if callable_bed else None, contigs=order),
+                   callable_bed=os.path.abspath(callable_bed) if callable_bed else None, contigs=[c for c, _ in passes]),
         qc_policy=vars(qc), index=index_provenance(index_dir), code=code_version(repo_root),
         rows={n: w.n for n, w in W.items()},
         counts=dict(calls=counts['calls'], by_status=dict(counts['by_status']), by_vtype=dict(counts['by_vtype']), matched_by_axis=dict(counts['matched_by_axis']),

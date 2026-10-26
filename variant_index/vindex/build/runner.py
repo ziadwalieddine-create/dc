@@ -31,23 +31,40 @@ def code_digest(adapter):
         return hashlib.sha256(f.read()).hexdigest()[:16]
 
 
+def natural_chrom(c):
+    return (0, int(c), '') if c.isdigit() else (1, 0, c)
+
+
 def build_entity_variant(out):
-    """Unique normalised variant keys over all variant-level evidence and haplotype definitions -> entity_variant."""
-    keys = set()
-    for p in glob.glob(os.path.join(out, 'evidence', 'variant', '*', '*.parquet')):
-        t = pq.read_table(p, columns=['subject_id', 'mapping_status'])
-        t = t.filter(pc.equal(t['mapping_status'], 'mapped'))
-        keys.update(pc.unique(t['subject_id']).to_pylist())
+    """Unique normalised variant keys over all mapped variant-level evidence and all haplotype definitions -> entity_variant/<partition>.parquet, one partition at a time
+    (the keys of a whole index run to ten million and more; a chromosome's worth fits in memory, the whole set does not comfortably). The partition of a key is the
+    one its evidence rows are filed under (schema.partition_of): its chromosome on the primary assembly, 'NA' for alternate loci and unplaced scaffolds."""
+    hap = {}
     for p in glob.glob(os.path.join(out, 'haplotype_definition', '*.parquet')):
-        keys.update(k for k in pc.unique(pq.read_table(p, columns=['variant_key'])['variant_key']).to_pylist() if k)      # unresolved definition rows have no key
-    rows = []
-    for k in sorted(keys, key=lambda k: (parse_key(k)[0], parse_key(k)[1], k)):
-        c, p, r, a = parse_key(k)
-        rows.append(dict(variant_key=k, chrom=c, pos=p, ref=r, alt=a, vtype=classify(r, a)))
-    path = os.path.join(out, 'entity_variant', 'entity_variant.parquet')
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    pq.write_table(schema.rows_to_table('entity_variant', rows), path, compression='zstd')
-    return len(rows)
+        for k in pc.unique(pq.read_table(p, columns=['variant_key'])['variant_key']).to_pylist():
+            if k:                                                   # unresolved definition rows have no key
+                hap.setdefault(schema.partition_of(k.split(':', 1)[0]), set()).add(k)
+    ev_dir = os.path.join(out, 'evidence', 'variant')
+    parts = set(hap) | (set(os.listdir(ev_dir)) if os.path.isdir(ev_dir) else set())
+    target = os.path.join(out, 'entity_variant')
+    os.makedirs(target, exist_ok=True)
+    total = 0
+    for c in sorted(parts, key=natural_chrom):
+        keys = set(hap.get(c, ()))
+        for p in sorted(glob.glob(os.path.join(ev_dir, c, '*.parquet'))):
+            t = pq.read_table(p, columns=['subject_id', 'mapping_status'])
+            keys.update(pc.unique(t.filter(pc.equal(t['mapping_status'], 'mapped'))['subject_id']).to_pylist())
+        keys.discard(None)
+        rows = []
+        for k in sorted(keys, key=lambda k: (natural_chrom(k.split(':')[0]), int(k.split(':')[1]), k)):
+            ch, pos, r, a = parse_key(k)
+            rows.append(dict(variant_key=k, chrom=ch, pos=pos, ref=r, alt=a, vtype=classify(r, a)))
+        if rows:
+            pq.write_table(schema.rows_to_table('entity_variant', rows), os.path.join(target, f'{c}.parquet'), compression='zstd')
+            total += len(rows)
+    if not total:                                                   # keep an empty but valid table so readers see it
+        pq.write_table(schema.empty_table('entity_variant'), os.path.join(target, 'empty.parquet'), compression='zstd')
+    return total
 
 
 def table_inventory(out):
