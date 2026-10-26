@@ -74,7 +74,7 @@ ENTITY_EVENT = pa.schema([
     ('event_id', S), ('source_id', S), ('release_id', S), ('accession', S), ('event_type', S), ('chrom', S), ('start', pa.int32()), ('end', pa.int32()),
     ('start_ci_lo', pa.int32()), ('start_ci_hi', pa.int32()), ('end_ci_lo', pa.int32()), ('end_ci_hi', pa.int32()), ('svlen', pa.int32()),
     ('copy_number', pa.int32()), ('precise', pa.bool_()), ('population_af', pa.float64()), ('n_samples', pa.int32()), ('origin', S),
-    ('raw_type', S), ('assembly', S),
+    ('raw_type', S), ('assembly', S), ('extra_json', S),
 ])
 
 ENTITY_HAPLOTYPE = pa.schema([

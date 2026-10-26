@@ -33,18 +33,37 @@ def evidence_id(release_id, accession, subject_id, axis, claim_type, discriminat
     return hashlib.sha1(f'{release_id}|{accession}|{subject_id}|{axis}|{claim_type}|{discriminator}'.encode()).hexdigest()[:20]
 
 
+class Budget:
+    """Rows buffered across all sinks of one build. Evidence is partitioned by chromosome, so many sinks fill slowly and together hold far more than any one
+    of them; when the total reaches the limit every sink writes what it has (a row group per flush)."""
+
+    def __init__(self, limit=300_000):
+        self.limit, self.n, self.sinks = limit, 0, []
+
+    def flush_all(self):
+        for s in self.sinks:
+            s.flush()
+        self.n = 0
+
+
 class Sink:
     """Buffered Parquet writer for one output file."""
 
-    def __init__(self, path, table, chunk=200_000):
+    def __init__(self, path, table, chunk=200_000, budget=None):
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        self.path, self.table, self.chunk = path, table, chunk
+        self.path, self.table, self.chunk, self.budget = path, table, chunk, budget
         self.sch = schema.TABLES[table]
         self.buf, self.n = [], 0
         self.w = None
+        if budget is not None:
+            budget.sinks.append(self)
 
     def add(self, row):
         self.buf.append(row)
+        if self.budget is not None:
+            self.budget.n += 1
+            if self.budget.n >= self.budget.limit:
+                self.budget.flush_all()
         if len(self.buf) >= self.chunk:
             self.flush()
 
@@ -56,6 +75,8 @@ class Sink:
             self.w = pq.ParquetWriter(self.path, self.sch, compression='zstd')
         self.w.write_table(t)
         self.n += len(self.buf)
+        if self.budget is not None:
+            self.budget.n = max(0, self.budget.n - len(self.buf))
         self.buf = []
 
     def close(self):
@@ -80,6 +101,7 @@ class BuildContext:
         self.ref = reference
         self.validate_rows = validate_rows
         self.sinks = {}
+        self.budget = Budget()
         self.stats = {}
         self.releases = {}
         self.problems = []
@@ -134,7 +156,7 @@ class BuildContext:
     def sink(self, relpath, table):
         key = (relpath, table)
         if key not in self.sinks:
-            self.sinks[key] = Sink(os.path.join(self.out, relpath), table)
+            self.sinks[key] = Sink(os.path.join(self.out, relpath), table, budget=self.budget)
         return self.sinks[key]
 
     def evidence_sink(self, level, chrom, source_id):
@@ -167,6 +189,11 @@ def evidence_row(release_id, source_id, accession, locator, raw, level, subject_
     row.update(kw)
     row['evidence_id'] = evidence_id(release_id, accession, subject_id or row.get('unmapped_key') or '', axis, claim_type, discriminator)
     return row
+
+
+def retrieved(ctx, target):
+    """Version label for a file that carries no release number: the day it was fetched (from the acquisition manifest)."""
+    return 'retrieved-' + ((ctx.manifest.get(target) or {}).get('fetched_utc') or 'undated')[:10]
 
 
 def utc_now():

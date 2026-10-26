@@ -2414,5 +2414,34 @@
   "supports": [
    "association_finemapping_coloc"
   ]
+ },
+ {
+  "id": "mavedb_scores_genomic_mapped",
+  "source": "mavedb",
+  "url": null,
+  "dest": "mavedb/scores_genomic_mapped",
+  "tier": "A",
+  "kind": "per_entity",
+  "written_by": "extract_mavedb_scores.py",
+  "licence": "CC0 (CC0-licensed MaveDB records only)",
+  "note": "scores.csv of the 200 MaveDB score sets whose annotations.csv carries a post-mapped genomic HGVS (mavedb.post_mapped_hgvs_g), streamed byte for byte out of mavedb_zenodo_dump_v4 by acquisition/extract_mavedb_scores.py. Together with the annotations they give single-variant, nucleotide-level assay scores on GRCh38 (the Ensembl plugin file holds only protein-level assays and multi-variant constructs).",
+  "supports": [
+   "direct_experimental_variant_effects"
+  ]
+ },
+ {
+  "id": "clinvar_vcv_xml_weekly_2026_1018",
+  "source": "clinvar",
+  "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/weekly_release/ClinVarVCVRelease_2026-1018.xml.gz",
+  "dest": "clinvar/vcv",
+  "tier": "A",
+  "kind": "stream_derive",
+  "written_by": "stream_clinvar_vcv.py",
+  "licence": "NCBI public domain (submitters may assert rights); no restrictions on use (ClinVar data use statement, verified live)",
+  "note": "ClinVar full VCV weekly release (6.1 GB XML, 4,691,827 VariationArchive records, release date 2026-10-18), streamed without storing the XML: acquisition/stream_clinvar_vcv.py checks the stream's MD5 against the MD5 NCBI publishes and writes four Parquet tables (variation, allele_location with inner/outer extents, scv submission-level assertions, rcv) in resumable segments.",
+  "md5_url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/weekly_release/ClinVarVCVRelease_2026-1018.xml.gz.md5",
+  "supports": [
+   "clinical_interpretation"
+  ]
  }
 ]

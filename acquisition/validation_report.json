@@ -1567,6 +1567,72 @@
    "with_GENEINFO": 4598328
   }
  },
+ "clinvar_vcv_xml_weekly_2026_1018": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "1209901933 vs 1209901933",
+    "name": "total size of the derived table files equals manifest",
+    "ok": true
+   },
+   {
+    "detail": "('16ac3ef6f716220871ee87f59271d883', '16ac3ef6f716220871ee87f59271d883')",
+    "name": "stream MD5 equals the MD5 published beside the release",
+    "ok": true
+   },
+   {
+    "detail": "2026-10-18",
+    "name": "release date is the one in the file name (2026-10-18)",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every table file exists and matches its recorded SHA-256",
+    "ok": true
+   },
+   {
+    "detail": "({'variation': 4691827, 'allele_location': 9325450, 'scv': 7384826, 'rcv': 6343236}, {'allele_location': 9325450, 'rcv': 6343236, 'scv': 7384826, 'variation': 4691827})",
+    "name": "row counts equal the recorded counts",
+    "ok": true
+   },
+   {
+    "detail": "(4691827, 4691827)",
+    "name": "one variation row per record",
+    "ok": true
+   },
+   {
+    "detail": "(4691827, 4691827)",
+    "name": "VariationIDs are unique",
+    "ok": true
+   },
+   {
+    "detail": "(0, 0)",
+    "name": "every submission, allele location and RCV belongs to a variation in the release",
+    "ok": true
+   },
+   {
+    "detail": "0 of 4599326 missing",
+    "name": "at least 99.9% of the GRCh38 VCF VariationIDs are in the VCV release",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "records": 4691827,
+   "tables": {
+    "allele_location": 9325450,
+    "rcv": 6343236,
+    "scv": 7384826,
+    "variation": 4691827
+   },
+   "vcf_ids": 4599326,
+   "vcf_ids_missing_from_vcv": 0
+  }
+ },
  "cpic_api_allele": {
   "checks": [
    {
@@ -5066,6 +5132,61 @@
     "MANE Plus Clinical": 74,
     "MANE Select": 19363
    }
+  }
+ },
+ "mavedb_scores_genomic_mapped": {
+  "checks": [
+   {
+    "detail": "",
+    "name": "manifest record is ok",
+    "ok": true
+   },
+   {
+    "detail": "",
+    "name": "manifest table present",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "no score set was missing from the dump",
+    "ok": true
+   },
+   {
+    "detail": "(200, 200, 200)",
+    "name": "one file per recorded set",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every stored file matches the recorded SHA-256 (stored and member)",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "row counts equal the recorded counts",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "every file has an accession column and a primary score column (scores.score)",
+    "ok": true
+   },
+   {
+    "detail": "[]",
+    "name": "recorded mapped-annotation counts equal the annotation files",
+    "ok": true
+   },
+   {
+    "detail": "372,258 of 372,258",
+    "name": "at least 99% of genomically mapped annotation rows have a score row",
+    "ok": true
+   }
+  ],
+  "passed": true,
+  "stats": {
+   "genomically_mapped_variants": 372258,
+   "score_sets": 200,
+   "with_a_score_row": 372258
   }
  },
  "mavedb_zenodo_dump_v4": {

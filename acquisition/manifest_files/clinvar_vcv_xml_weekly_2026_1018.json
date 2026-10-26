@@ -1,0 +1,280 @@
+{
+ "tables": {
+  "variation": {
+   "part-0000.parquet": "135ae506ffbd9c730648228ec127b24c8cf81981bb546776a3e14a0528d4fe8e",
+   "part-0001.parquet": "ec754cc6fc4bcb38355edbf1502eb56941a185f1a119e37f077d351d15176fd1",
+   "part-0002.parquet": "c5a3375bd791e951a2e3373bd13fdce35b8e53a4eaa9f1b98830895b9cd2811d",
+   "part-0003.parquet": "81cf082977d7c8e8aa3d3e5c93177b48c6bbc96dab8c93ae644629f3de428887",
+   "part-0004.parquet": "07deac26f1024cef7bdc669a38b95a0d7457ff65933dca699a07282fc120c485",
+   "part-0005.parquet": "9e3c823455e29a0152025f5d16e6117c884005ab27c2d25e37902dc239bd680e",
+   "part-0006.parquet": "c0016dab607731692f1b8379a2e7994cbd78737ca0692dcf6c510543c349c350",
+   "part-0007.parquet": "eb6fa7dd2840b201a4d83c4484103c45963b186bf12bb0ca3a4d6d3d54a189f8",
+   "part-0008.parquet": "00929a793677a39371fe32e7911a516da1a8040c1248ee0714f4ab0fe4d2f14a",
+   "part-0009.parquet": "4eba0a9c07f57f5d74ef354250d642d2ba554b6c7c5e429c390933b5c7ce907a",
+   "part-0010.parquet": "672e54c73f35caf3eba1d5523ecc798358b1a56bfef76bab615f12f58350f1f2",
+   "part-0011.parquet": "a221261cfe2cb0a04321071909a78b69ea7d06d32d78ed05144bb8d53beacf50",
+   "part-0012.parquet": "4a3ac5217ca4fdacbd6880b39ccf7f016b09ac5f5dea91e848506c965cd9c8b2",
+   "part-0013.parquet": "9a2ea351645ce297062e7f78a9166b3c827dff410986a5c2ba0505dcb64946db",
+   "part-0014.parquet": "80e710d0f3694ca57ec4f8a84d96c618754f1bb2cbc968d8fc2d1d04d698e72b",
+   "part-0015.parquet": "3791d5fee7a5020b8106106d6e86bdd8d33302c41a14850ce2c78dc5029187c9",
+   "part-0016.parquet": "a6ac26bbd6609d237ddbcef830e0ddbe38ad98322dee6bf77d3c5a350693129e",
+   "part-0017.parquet": "ef230eae3fec1cdcff36ed8abdb851099b1cb5826ecbe9048fc8f01d3f8b5d92",
+   "part-0018.parquet": "d3ccc563d1fe92cbd2529797b9cdfb3c7750fde05ad941be9557e77b3f0c7fc8"
+  },
+  "allele_location": {
+   "part-0000.parquet": "340980ce5911448387ae0f4210b3b50c315dafe9f5c24e37817bb320c76a22f6",
+   "part-0001.parquet": "ad66f3c50b21c846c1cfc690939275bb016d196ddd2ea3e6764dac789b61116d",
+   "part-0002.parquet": "e77cfc8d38d8eb95fdcf4e421d12f41cb702f6f96ea352518965411bea28ddf7",
+   "part-0003.parquet": "e4232023f65306f9392f00466764fad2e30ff14fd8b3e7595ebe518321709e78",
+   "part-0004.parquet": "06547507f884c06f757d0ab3880b72217e335737c409f21239e9cac113c9d18b",
+   "part-0005.parquet": "cda9d5b982cbf5db16f097b31f7d0d42848278256db5bbe924e2d5ae7f5cf6df",
+   "part-0006.parquet": "ee86643c3baa473d9bab33039e1940a44fcd8638c3815c78285bbf07e763e5d5",
+   "part-0007.parquet": "38743aa8d1eb67354e8478e778da3e48d3f63db1a9f046b56ddd0b036bdb6b7d",
+   "part-0008.parquet": "94d588d438df728cfffa7dbe42fd3707245f2f9545b4aeef6508717aa8c25137",
+   "part-0009.parquet": "baa6ece2055990a3486afb9b9787d782ae52b571a9095011431039c0b0f51cf6",
+   "part-0010.parquet": "51f28bd80b4c01a29279ac87738676a0a0bae35f67775d23d5e888c70bc0b7b8",
+   "part-0011.parquet": "a63f4b1735ac325cd0beb5ac2b227ea741f3708c75f76dddcb308fdfe895fc9f",
+   "part-0012.parquet": "f97ee5fb34c7b0eef81dbfaa248352940ede832d05cd2605f773e767f75c9b17",
+   "part-0013.parquet": "88a9aa28dfa2f74e2013108004bb3c80068abe7610b086d62c1c65265ff15ad5",
+   "part-0014.parquet": "eae9bdfe43e12547f68266ce7cdff09cc4294cfe5f04ff74824e19d0f642e969",
+   "part-0015.parquet": "8c829c9bd1d6c2ddf4f654af0f029595d8c3387848a9fb78af9100a34fdb69d9",
+   "part-0016.parquet": "543fcc8e752c8556011bd910738c24692856ac3049a928948df746207333c4e0",
+   "part-0017.parquet": "b83832dffe6186f804dd19d266b8b27db02b2ebdacfa37b2c66ecede09918bc8",
+   "part-0018.parquet": "91c298fb563c3040a3c8dcb242e26ddaacbf182cc07cf329a344de894380d68e"
+  },
+  "scv": {
+   "part-0000.parquet": "28b9dc3ee1d301ed82916a5faa83a5a5eaa2096a2d11a39f35c6e9524cc4f107",
+   "part-0001.parquet": "03cfef0e561f9202c27c146c802d1bbc430408558b780a9f1e582a222e602190",
+   "part-0002.parquet": "ffbe10f9ac6394cf882403be61fbb72230134750e57e9effb15d98722514a973",
+   "part-0003.parquet": "fe124b26e6595c6d86e7b0394b3fc89c46ec089c314a2aa145b83e9596943001",
+   "part-0004.parquet": "704a192f7a67016ffc153636b354aca01f57a535943fdc70df1ffd0c5967de64",
+   "part-0005.parquet": "6be57d7fccb696947ad9f2dfdcfb2404762e9d6c73d2fbf47e9bd39871b26547",
+   "part-0006.parquet": "71d2180994aa6f7863d5836e1b8c7480fb0cf7878e1dc2ccb9e62a650cc7bc47",
+   "part-0007.parquet": "3c8584554642ccb17dc543e7e08885031df990e379f827f963bb3fd8b2ac952a",
+   "part-0008.parquet": "c864e83cd8e4975117003cb806d047258765bc7846fc7d74bbc798ceae1c353d",
+   "part-0009.parquet": "69f750d0cd610659444810bdc72b1b5032dd0328e17f6453ca767d2071346c89",
+   "part-0010.parquet": "cd2ea6b269b379d1721cf4b696dacb51666d307e4a55b7937625e6487a4193ac",
+   "part-0011.parquet": "bb489e119da2972448351c915734b6cf6678db11385413f4c5cccebf50e17372",
+   "part-0012.parquet": "5b570b300328c6c06cd0eb731941e1c6ce401df875e7716b44e8e0df2b75ba61",
+   "part-0013.parquet": "aa45def0c5eaf5ba4f742d11e209920253cf82565dfc7f3abc15f255509ca318",
+   "part-0014.parquet": "10dca5b47a717c0a656a44fedd13d04136f03bc518bbb12220cf4e8446e8530d",
+   "part-0015.parquet": "0af146051473ce10ba68a2452d8a6ab8ac593d1db2f71ac30a986a1486949e71",
+   "part-0016.parquet": "037837054d3a724c75d2addec68c9168f28e9ed0ee957c9636d9aaf4bfdf473a",
+   "part-0017.parquet": "04375a0c5982d3ce0a6f7e5d16a4d75c5eaf36e7d6a0302837e737dcb0bc11be",
+   "part-0018.parquet": "ed090a7ac509ca502008b07c6c058a76b46448fdc1d40e55ffebac00245b969e"
+  },
+  "rcv": {
+   "part-0000.parquet": "5b6a1b62ed67cc3485b9842f23b071fce7a86ad245c36acdaf8f184df54c604f",
+   "part-0001.parquet": "88e37fdd899d7b14473b49a1e17cb2dcfa67a4de2abbece241cfa2410fac11a2",
+   "part-0002.parquet": "560cfcef529462261f2a4d47eaaf8fe998d7c4697f2de0790b4d1bbe192cb55b",
+   "part-0003.parquet": "39072d92a93b3eb234c20f58f79fee0ac4be7d2e75375291f22c1c8ad9ff5d9e",
+   "part-0004.parquet": "9b279f4273c6861d2b31aaa1edea23f4f4e61d77a2c7cb882b04acd350b63df5",
+   "part-0005.parquet": "83732f9a4f06a4605a11d72cab7120a1bd89cf6717df4cd761101421d7ec6cd3",
+   "part-0006.parquet": "20bf386274348facb427de67432ae14671d456cd898664958237d04a3c8e5c67",
+   "part-0007.parquet": "b64cb3c69677a637fba3c29ad78a541db1fb352777932b0d2638af01cfda98de",
+   "part-0008.parquet": "8ae098b04706aa46bc58579156f1503ab0fdc55524163788b950a2e54db8f286",
+   "part-0009.parquet": "95efa5a42bcf861e168e13507e356c2e1060c11156e9eb374b5589f469881872",
+   "part-0010.parquet": "358f0ba3d65d43fd9ebdd4ccc15f496d4ae185548b5e83f90aa0bacf8ea82f82",
+   "part-0011.parquet": "9faacc23fdf9c09d5a0bd877da4e7e977bb703f7660d50dfe652b36225e96809",
+   "part-0012.parquet": "8e7085843db53d39a91f2e196229800d2e141d9494530e3b744a8eaf52ec3adb",
+   "part-0013.parquet": "389d0cd0f06c60a4c3a34f9dc258d06eee07668b3a09ac9d4602a4678bfb55dc",
+   "part-0014.parquet": "bfb7dcfe8fc342743005320498702216741e2b5a7559802d25310a522ed0a638",
+   "part-0015.parquet": "200a2d0e6ea1872a676fa182851aa3b7bfd7d9f4cc3bdc61122baced8bc6a7f7",
+   "part-0016.parquet": "a315d08f0344c42a07ac09e942ff376f44159968c44cffc602c8887559f78086",
+   "part-0017.parquet": "2ee4f44ab2d9e66b809613c07a87f44f9f756391727c1c3640f06eee2e627307",
+   "part-0018.parquet": "194af6c1e559a24ede4386b581a3f50a145b5928bbb606c2330d3610603e7a67"
+  }
+ },
+ "segments": [
+  {
+   "segment": 0,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 468209,
+    "scv": 310435,
+    "rcv": 262228
+   }
+  },
+  {
+   "segment": 1,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 499966,
+    "scv": 297180,
+    "rcv": 281802
+   }
+  },
+  {
+   "segment": 2,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 500147,
+    "scv": 253625,
+    "rcv": 253406
+   }
+  },
+  {
+   "segment": 3,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 500123,
+    "scv": 252883,
+    "rcv": 252660
+   }
+  },
+  {
+   "segment": 4,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 500124,
+    "scv": 251673,
+    "rcv": 251550
+   }
+  },
+  {
+   "segment": 5,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 498639,
+    "scv": 265619,
+    "rcv": 261249
+   }
+  },
+  {
+   "segment": 6,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 494548,
+    "scv": 287918,
+    "rcv": 265314
+   }
+  },
+  {
+   "segment": 7,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 499297,
+    "scv": 295249,
+    "rcv": 269474
+   }
+  },
+  {
+   "segment": 8,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 498183,
+    "scv": 329346,
+    "rcv": 308090
+   }
+  },
+  {
+   "segment": 9,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 499879,
+    "scv": 293014,
+    "rcv": 285658
+   }
+  },
+  {
+   "segment": 10,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 500070,
+    "scv": 286903,
+    "rcv": 276422
+   }
+  },
+  {
+   "segment": 11,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 498101,
+    "scv": 495388,
+    "rcv": 405169
+   }
+  },
+  {
+   "segment": 12,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 496551,
+    "scv": 503501,
+    "rcv": 435550
+   }
+  },
+  {
+   "segment": 13,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 497259,
+    "scv": 325885,
+    "rcv": 313190
+   }
+  },
+  {
+   "segment": 14,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 495540,
+    "scv": 346083,
+    "rcv": 311532
+   }
+  },
+  {
+   "segment": 15,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 499113,
+    "scv": 489092,
+    "rcv": 400585
+   }
+  },
+  {
+   "segment": 16,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 495407,
+    "scv": 963977,
+    "rcv": 627993
+   }
+  },
+  {
+   "segment": 17,
+   "records": 250000,
+   "rows": {
+    "variation": 250000,
+    "allele_location": 500474,
+    "scv": 688749,
+    "rcv": 542393
+   }
+  },
+  {
+   "segment": 18,
+   "records": 191827,
+   "rows": {
+    "variation": 191827,
+    "allele_location": 383820,
+    "scv": 448306,
+    "rcv": 338971
+   }
+  }
+ ]
+}

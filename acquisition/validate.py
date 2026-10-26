@@ -80,6 +80,9 @@ def v_manifest(tid, r):
     if m and os.path.exists(path(tid)):
         if m.get('kind') == 'per_entity':
             r.check('manifest table present', os.path.exists(os.path.join(ROOT, m['files_table'])))
+        elif m.get('kind') == 'stream_derive':
+            have = sum(os.path.getsize(os.path.join(path(tid), t, f)) for t in os.listdir(path(tid)) if os.path.isdir(os.path.join(path(tid), t)) for f in os.listdir(os.path.join(path(tid), t)) if f.endswith('.parquet'))
+            r.check('total size of the derived table files equals manifest', have == sum(v['bytes'] for v in m['tables'].values()), f'{have} vs {sum(v["bytes"] for v in m["tables"].values())}')
         elif m.get('kind') == 'http_dir':
             have = sum(os.path.getsize(os.path.join(path(tid), f)) for f in os.listdir(path(tid)) if f.endswith('.parquet'))
             r.check('total size of part files equals manifest', have == m['bytes'], f'{have} vs {m["bytes"]}')
@@ -1765,6 +1768,121 @@ def v_clinvar_tab(tid, r):
         r.stats.update(rows=n, scv=len(scv), variations=len(vids))
 
 
+def v_mavedb_scores(tid, r):
+    """scores.csv of the MaveDB score sets with genomic mappings (extract_mavedb_scores.py): every file matches its recorded SHA-256 and row count, its header
+    has the accession and score columns, every annotation row that carries a post-mapped genomic HGVS has a score row (accession join), and the set list is the
+    one derived from the annotation files."""
+    m = MANIFEST[tid]
+    table = [l.rstrip('\n').split('\t') for l in open(os.path.join(ROOT, m['files_table']))]
+    hdr, body = table[0], table[1:]
+    rows = [dict(zip(hdr, x)) for x in body]
+    base = os.path.join(DATA, TARGETS[tid]['dest'])
+    ann = os.path.join(DATA, 'mavedb', 'dump_v4_extract', 'mavedb-dump.2026062418131', 'csv')
+    r.check('no score set was missing from the dump', m.get('n_errors') == 0, m.get('errors'))
+    r.check('one file per recorded set', len(rows) == m.get('n_files') == len(os.listdir(base)), (len(rows), m.get('n_files'), len(os.listdir(base))))
+    bad_sha, bad_rows, bad_hdr, unjoined, total_g, total_joined = [], [], [], [], 0, 0
+    for x in rows:
+        p = os.path.join(base, x['urn'] + '.scores.csv.gz')
+        stored = open(p, 'rb').read() if os.path.exists(p) else b''
+        if hashlib.sha256(stored).hexdigest() != x['stored_sha256']:
+            bad_sha.append(x['urn'])
+            continue
+        text = gzip.decompress(stored)
+        if hashlib.sha256(text).hexdigest() != x['member_sha256']:
+            bad_sha.append(x['urn'])
+        rd = list(csv.DictReader(io.StringIO(text.decode('utf-8'))))
+        if len(rd) != int(x['score_rows']):
+            bad_rows.append(x['urn'])
+        if not rd or 'accession' not in rd[0] or not any(k in rd[0] for k in ('scores.score', 'score')):
+            bad_hdr.append(x['urn'])
+            continue
+        have = {q['accession'] for q in rd}
+        n_g = n_j = 0
+        with open(os.path.join(ann, x['urn'] + '.annotations.csv'), newline='', encoding='utf-8') as fh:
+            for q in csv.DictReader(fh):
+                if q.get('mavedb.post_mapped_hgvs_g', 'NA') not in ('NA', ''):
+                    n_g += 1
+                    n_j += q['accession'] in have
+        total_g += n_g
+        total_joined += n_j
+        if n_g != int(x['mapped_annotation_rows']):
+            unjoined.append(x['urn'])
+    r.check('every stored file matches the recorded SHA-256 (stored and member)', not bad_sha, bad_sha[:5])
+    r.check('row counts equal the recorded counts', not bad_rows, bad_rows[:5])
+    r.check('every file has an accession column and a primary score column (scores.score)', not bad_hdr, bad_hdr[:5])
+    r.check('recorded mapped-annotation counts equal the annotation files', not unjoined, unjoined[:5])
+    r.check('at least 99% of genomically mapped annotation rows have a score row', total_g > 0 and total_joined >= 0.99 * total_g, f'{total_joined:,} of {total_g:,}')
+    r.stats.update(score_sets=len(rows), genomically_mapped_variants=total_g, with_a_score_row=total_joined)
+
+
+def v_vcv_tables(tid, r):
+    """ClinVar full VCV release streamed into Parquet tables (stream_clinvar_vcv.py): the stream's MD5 equals the MD5 NCBI publishes, every table file matches the
+    SHA-256 recorded at the end of the run, row counts equal the recorded counts, VariationIDs are unique, every submission and allele location belongs to a
+    variation in the release, the release date is the one in the file name, and the GRCh38 VCF of the same week is a subset of the release."""
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+    m = MANIFEST[tid]
+    base = os.path.join(DATA, TARGETS[tid]['dest'])
+    r.check('stream MD5 equals the MD5 published beside the release', m.get('md5') == m.get('source_md5') and bool(m.get('md5')) and m.get('md5_verified_against_source'), (m.get('md5'), m.get('source_md5')))
+    r.check('release date is the one in the file name (2026-10-18)', m.get('release_date') == '2026-10-18', m.get('release_date'))
+    files = json.load(open(os.path.join(HERE, 'manifest_files', tid + '.json')))
+    bad, rows = [], {}
+    for t, parts in files['tables'].items():
+        n = 0
+        for name, sha in parts.items():
+            p = os.path.join(base, t, name)
+            if not os.path.exists(p) or file_sha256(p) != sha:
+                bad.append(f'{t}/{name}')
+                continue
+            n += pq.ParquetFile(p).metadata.num_rows
+        rows[t] = n
+    r.check('every table file exists and matches its recorded SHA-256', not bad, bad[:5])
+    r.check('row counts equal the recorded counts', all(rows.get(t) == v['rows'] for t, v in m['tables'].items()), (rows, {t: v['rows'] for t, v in m['tables'].items()}))
+    r.check('one variation row per record', rows.get('variation') == m.get('records'), (rows.get('variation'), m.get('records')))
+    ids = pa_unique_ids(base, 'variation', 'variation_id')
+    r.check('VariationIDs are unique', len(ids) == rows.get('variation'), (len(ids), rows.get('variation')))
+    orphan_scv = orphan_loc = 0
+    for t in ('scv', 'allele_location', 'rcv'):
+        for name in sorted(os.listdir(os.path.join(base, t))):
+            col = pq.read_table(os.path.join(base, t, name), columns=['variation_id'])['variation_id']
+            n_orphan = len(col) - pc.sum(pc.is_in(col, value_set=ids)).as_py()
+            if t == 'scv':
+                orphan_scv += n_orphan
+            else:
+                orphan_loc += n_orphan
+    r.check('every submission, allele location and RCV belongs to a variation in the release', orphan_scv == 0 and orphan_loc == 0, (orphan_scv, orphan_loc))
+    vcf_ids = set()
+    with gzip.open(os.path.join(DATA, 'clinvar', 'clinvar.vcf.gz'), 'rt', encoding='utf-8') as f:
+        for line in f:
+            if line[0] != '#':
+                vcf_ids.add(line.split('\t', 3)[2])
+    missing = [v for v in vcf_ids if v not in ids_set(ids)]
+    r.check('at least 99.9% of the GRCh38 VCF VariationIDs are in the VCV release', len(missing) <= 0.001 * len(vcf_ids), f'{len(missing)} of {len(vcf_ids)} missing')
+    r.stats.update(records=m.get('records'), tables=rows, vcf_ids=len(vcf_ids), vcf_ids_missing_from_vcv=len(missing))
+
+
+def file_sha256(p):
+    h = hashlib.sha256()
+    with open(p, 'rb') as f:
+        for b in iter(lambda: f.read(1 << 22), b''):
+            h.update(b)
+    return h.hexdigest()
+
+
+def pa_unique_ids(base, table, col):
+    import pyarrow as pa
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+    arrs = [pq.read_table(os.path.join(base, table, n), columns=[col])[col] for n in sorted(os.listdir(os.path.join(base, table)))]
+    return pc.unique(pa.chunked_array([c for a in arrs for c in a.chunks]))
+
+
+def ids_set(arr):
+    if not hasattr(ids_set, 'cache') or ids_set.cache[0] is not arr:
+        ids_set.cache = (arr, set(arr.to_pylist()))
+    return ids_set.cache[1]
+
+
 def v_pgs_scores(tid, r):
     """PGS Catalog harmonised GRCh38 scoring files fetched by fetch_pgs_scores.py: files match the recorded table (SHA-256 and MD5), every
     file is gzip text whose header says it is harmonised to GRCh38, the number of data lines equals the variant count in the file header
@@ -1840,6 +1958,10 @@ def run(tid):
             v_regional_slice(tid, r)
         elif tid == 'pgs_scoring_files_grch38':
             v_pgs_scores(tid, r)
+        elif tid == 'mavedb_scores_genomic_mapped':
+            v_mavedb_scores(tid, r)
+        elif tid == 'clinvar_vcv_xml_weekly_2026_1018':
+            v_vcv_tables(tid, r)
         elif t.get('kind') == 'per_entity':
             v_per_entity(tid, r)
         elif t.get('kind') == 'http_dir':

@@ -403,6 +403,191 @@ def mini_clinpgx(out):
     return dict(k705=f'1:705:{b705}:{a705}', k710c=f'1:710:{b710}:C', k710t=f'1:710:{b710}:T', kdel='1:705:GCC:G')
 
 
+def mini_mavedb(out):
+    """Mini MaveDB dump metadata (main.json) and a mini Ensembl VEP MaveDB plugin file (same columns, plus two sparse replicate columns)."""
+    import gzip
+    os.makedirs(out, exist_ok=True)
+    kw = [{'keyword': {'key': 'Phenotypic Assay Model System', 'label': 'Immortalized human cells'}}, {'keyword': {'key': 'Phenotypic Assay Mechanism', 'label': 'Loss of function'}},
+          {'keyword': {'key': 'Variant Library Creation Method', 'label': 'Endogenous locus library method'}}]
+    ext = [{'identifier': {'dbName': 'Ensembl', 'identifier': 'ENSG00000000001'}}]
+
+    def sset(n, **kw2):
+        d = {'urn': f'urn:mavedb:0000000{n}-a-1', 'title': f'Set {n}', 'numVariants': 10, 'supersedingScoreSet': None, 'mappingState': 'complete', 'publishedDate': '2024-01-01',
+             'primaryPublicationIdentifiers': [], 'targetGenes': [{'name': 'TESTG', 'category': 'protein_coding', 'mappedHgncName': 'TESTG', 'externalIdentifiers': ext}], 'scoreCalibrations': []}
+        d.update(kw2)
+        return d
+    cal = [{'urn': 'urn:mavedb:calibration-1', 'title': 'Test calibration', 'researchUseOnly': False, 'investigatorProvided': True, 'thresholdSources': [{'identifier': '99999'}],
+            'functionalClassifications': [
+                {'label': 'PS3 Moderate (2)', 'functionalClassification': 'abnormal', 'range': [None, 0.5], 'inclusiveLowerBound': False, 'inclusiveUpperBound': False,
+                 'acmgClassification': {'criterion': 'PS3', 'evidenceStrength': 'MODERATE', 'points': 2}},
+                {'label': 'BS3 Supporting (-1)', 'functionalClassification': 'normal', 'range': [1.5, None], 'inclusiveLowerBound': True, 'inclusiveUpperBound': False,
+                 'acmgClassification': {'criterion': 'BS3', 'evidenceStrength': 'SUPPORTING', 'points': -1}}]},
+           {'urn': 'urn:mavedb:calibration-2', 'title': 'Research calibration', 'researchUseOnly': True, 'investigatorProvided': False, 'thresholdSources': [],
+            'functionalClassifications': [{'label': 'abnormal below 1', 'functionalClassification': 'abnormal', 'range': [None, 1.0], 'inclusiveLowerBound': False, 'inclusiveUpperBound': True,
+                                           'acmgClassification': None}]}]
+    sets = [sset(1, scoreCalibrations=cal), sset(2, supersedingScoreSet='urn:mavedb:00000006-a-1'), sset(3), sset(4), sset(5, scoreCalibrations=cal)]
+    main = {'title': 'MaveDB public data', 'asOf': '2026-06-24T18:13:15+00:00', 'experimentSets': [{'urn': 'urn:mavedb:00000001', 'experiments': [
+        {'urn': 'urn:mavedb:00000001-a', 'keywords': kw, 'primaryPublicationIdentifiers': [{'identifier': '12345', 'dbName': 'PubMed'}], 'scoreSets': sets}]}]}
+    with open(os.path.join(out, 'main.json'), 'w') as f:
+        json.dump(main, f)
+    hdr = ['#chr', 'start', 'end', 'ref', 'alt', 'hgvs', 'urn', 'publish_date', 'refseq', 'pubmed', 'doi', 'url', 'accession', 'nt', 'splice', 'pro', 'score', 'sd', 'se', 'df', 'score_rep1', 'se_rep1']
+    wrong = 'A' if b('1', 440) != 'A' else 'C'
+
+    def row(urn_n, accn, chrom, start, ref, alt, hgvs, nt, pro, score, sd='', se='', rep=''):
+        urn = f'urn:mavedb:0000000{urn_n}-a-1'
+        return '\t'.join([chrom, str(start), str(start + len(ref) - 1), ref, alt, hgvs, urn, '2024-01-01', '', '12345', '', '', f'{urn}#{accn}', nt, '', pro, str(score), str(sd), str(se), '', rep, ''])
+    r402 = b('1', 402), alt('1', 402)
+    s500 = REF.fetch('1', 499, 501).upper()
+    rows = [row(1, 1, '1', 402, r402[0], r402[1], 'NC_000001.11:g.402' + r402[0] + '>' + r402[1], 'c.1' + r402[0] + '>' + r402[1], 'p.Val1Ile', 0.2, 0.1, 0.05, rep='0.3'),
+            row(1, 2, '1', 410, b('1', 410), alt('1', 410), 'NC_000001.11:g.410', 'c.9A>C', 'p.Ala3Pro', 1.8),
+            row(1, 3, '1', 420, b('1', 420), alt('1', 420), 'NC_000001.11:g.420', 'c.19A>C', 'p.Ala7Pro', 1.0),
+            row(1, 4, '1', 440, wrong, 'T' if wrong != 'T' else 'G', 'NC_000001.11:g.440', 'c.39A>C', 'p.Ala13Pro', 0.9),
+            row(1, 1, '1', 402, r402[0], r402[1], 'NC_000001.11:g.402', 'c.1' + r402[0] + '>' + r402[1], 'p.Val1Ile', 0.2),          # the same allele and accession again
+            row(3, 7, '1', 500, s500[:2], 'CC', 'NP_000001.1:p.Gly170Ala', '', 'p.Gly170Ala', -0.4),           # protein-level assay, candidate nucleotide allele (MNV)
+            row(3, 7, '1', 500, s500[:2], 'TT', 'NP_000001.1:p.Gly170Ala', '', 'p.Gly170Ala', -0.4),
+            row(2, 1, '1', 402, r402[0], r402[1], 'NC_000001.11:g.402', 'c.1' + r402[0] + '>' + r402[1], 'p.Val1Ile', 5.0),                       # superseded score set
+            '\t'.join(['11', '102114330', '102114330', 'ga4gh:VA.GZCxxxx', 'A', 'NC_000011.10:g.102114330G>A', 'urn:mavedb:00000004-a-1', '2024-01-01', '', '', '', '', 'urn:mavedb:00000004-a-1#9',
+                       'c.[1G>A;83C>G]', '', 'p.[Asp1Asn;Thr28Ser]', '-0.24', '', '', '', '', '', '']),
+            row(1, 5, '1', 430, b('1', 430), alt('1', 430), 'NC_000001.11:g.430', 'c.29A>C', 'p.Ala10Pro', 'NA'),
+            row(9, 1, '1', 430, b('1', 430), alt('1', 430), 'NC_000001.11:g.430', 'c.29A>C', 'p.Ala10Pro', 1.0)]
+    with gzip.open(os.path.join(out, 'MaveDB_variants.tsv.gz'), 'wt') as f:
+        f.write('\t'.join(hdr) + '\n' + '\n'.join(rows) + '\n')
+    # MaveDB's own genomic mapping: annotations.csv rows with post-mapped genomic HGVS, and the matching scores.csv.gz
+    os.makedirs(os.path.join(out, 'csv'), exist_ok=True)
+    os.makedirs(os.path.join(out, 'scores_genomic_mapped'), exist_ok=True)
+    ann_hdr = ['accession', 'hgvs_nt', 'hgvs_splice', 'hgvs_pro', 'mavedb.post_mapped_hgvs_g', 'mavedb.post_mapped_hgvs_p', 'mavedb.post_mapped_hgvs_c', 'mavedb.post_mapped_hgvs_at_assay_level',
+               'mavedb.post_mapped_vrs_digest', 'vep.vep_functional_consequence', 'gnomad.gnomad_af', 'clingen.clingen_allele_id']
+    u = 'urn:mavedb:00000005-a-1'
+    g = lambda pos, r_, a_: f'NC_SYN001.1:g.{pos}{r_}>{a_}'
+    ann = [[f'{u}#1', 'c.1G>A', 'NA', 'p.Val1Ile', g(402, r402[0], r402[1]), 'NA', 'NA', 'NA', 'digest1', 'missense_variant', 'NA', 'CA1'],
+           [f'{u}#2', 'c.2G>A', 'NA', 'NA', g(440, wrong, 'T' if wrong != 'T' else 'G'), 'NA', 'NA', 'NA', 'digest2', 'NA', 'NA', 'CA2'],
+           [f'{u}#3', 'c.[1G>A;9A>C]', 'NA', 'NA', f'NC_SYN001.1:g.[402{r402[0]}>{r402[1]};410{b("1", 410)}>{alt("1", 410)}]', 'NA', 'NA', 'NA', 'digest3', 'NA', 'NA', 'CA3'],
+           [f'{u}#4', 'NA', 'NA', 'p.Ala3Pro', 'NA', 'NP_000001.1:p.Ala3Pro', 'NA', 'NA', 'digest4', 'NA', 'NA', 'CA4'],
+           [f'{u}#5', 'c.5A>C', 'NA', 'NA', g(410, b('1', 410), alt('1', 410)), 'NA', 'NA', 'NA', 'digest5', 'NA', 'NA', 'CA5'],
+           [f'{u}#6', 'c.7del', 'NA', 'NA', 'NC_SYN001.1:g.706_707del', 'NA', 'NA', 'NA', 'digest6', 'NA', 'NA', 'CA6'],
+           [f'{u}#7', 'c.8=', 'NA', 'NA', 'NC_SYN001.1:g.705=', 'NA', 'NA', 'NA', 'digest7', 'NA', 'NA', 'CA7'],
+           [f'{u}#8', 'c.9A>C', 'NA', 'NA', g(420, b('1', 420), alt('1', 420)), 'NA', 'NA', 'NA', 'digest8', 'NA', 'NA', 'CA8']]
+    import csv as _csv
+    with open(os.path.join(out, 'csv', 'urn-mavedb-00000005-a-1.annotations.csv'), 'w', newline='') as f:
+        w = _csv.writer(f)
+        w.writerow(ann_hdr)
+        w.writerows(ann)
+    sc_rows = [[f'{u}#1', 'c.1G>A', 'NA', 'p.Val1Ile', 0.3, 0.1, 0.02], [f'{u}#2', 'c.2G>A', 'NA', 'NA', 0.9, 0.1, 0.02], [f'{u}#3', 'c.[1G>A;9A>C]', 'NA', 'NA', 0.2, 0.1, 0.02],
+               [f'{u}#4', 'NA', 'NA', 'p.Ala3Pro', 0.4, 0.1, 0.02], [f'{u}#6', 'c.7del', 'NA', 'NA', 1.7, 0.1, 0.02], [f'{u}#7', 'c.8=', 'NA', 'NA', 1.0, 0.1, 0.02],
+           [f'{u}#8', 'c.9A>C', 'NA', 'NA', 'NA', 0.1, 0.02]]
+    with gzip.open(os.path.join(out, 'scores_genomic_mapped', 'urn-mavedb-00000005-a-1.scores.csv.gz'), 'wt', newline='') as f:
+        w = _csv.writer(f)
+        w.writerow(['accession', 'hgvs_nt', 'hgvs_splice', 'hgvs_pro', 'scores.score', 'scores.sd', 'scores.se'])
+        w.writerows(sc_rows)
+    return dict(k402=f'1:402:{r402[0]}:{r402[1]}', k410=f'1:410:{b("1", 410)}:{alt("1", 410)}', kmnv1=f'1:500:{s500[:2]}:CC', kmnv2=f'1:500:{s500[:2]}:TT')
+
+
+def mini_opentargets(out):
+    """Mini Open Targets 26.09 genetics tables (biosample, study, l2g_prediction, credible_set) with the columns the adapter reads."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    for d in ('biosample', 'study', 'l2g_prediction', 'credible_set'):
+        os.makedirs(os.path.join(out, d), exist_ok=True)
+    pq.write_table(pa.table({'biosampleId': ['EFO_0005292', 'UBERON_0000948'], 'biosampleName': ['lymphoblastoid cell line', 'heart']}), os.path.join(out, 'biosample', 'part-0.parquet'))
+    st = [dict(studyId='GCST000001', geneId=None, projectId='GCST', studyType='gwas', traitFromSource='Test trait', traitFromSourceMappedIds=['EFO_0000001'], pubmedId='111', nSamples=1000, nCases=300,
+               cohorts=['TestCohort'], discoverySamples=[{'sampleSize': 1000, 'ancestry': 'European'}], ldPopulationStructure=[{'ldPopulation': 'nfe', 'relativeSampleSize': 1.0}], hasSumstats=True,
+               diseaseIds=['MONDO_0000001'], biosampleId=None),
+          dict(studyId='FINNGEN_R12_TEST', geneId=None, projectId='FINNGEN_R12', studyType='gwas', traitFromSource='Finnish trait', traitFromSourceMappedIds=['EFO_0000002'], pubmedId=None, nSamples=500,
+               nCases=None, cohorts=['FinnGen'], discoverySamples=[], ldPopulationStructure=[{'ldPopulation': 'fin', 'relativeSampleSize': 1.0}], hasSumstats=True, diseaseIds=[], biosampleId=None),
+          dict(studyId='GTEX_EQTL_X', geneId='ENSG_TESTG', projectId='GTEx-v10', studyType='eqtl', traitFromSource='ENSG_TESTG', traitFromSourceMappedIds=[], pubmedId=None, nSamples=300, nCases=None,
+               cohorts=['GTEx'], discoverySamples=[], ldPopulationStructure=[{'ldPopulation': 'nfe', 'relativeSampleSize': 1.0}], hasSumstats=False, diseaseIds=[], biosampleId='EFO_0005292')]
+    pq.write_table(pa.Table.from_pylist(st), os.path.join(out, 'study', 'part-0.parquet'))
+    wrong = 'A' if b('1', 440) != 'A' else 'C'
+    vid = lambda pos, r=None, a=None: f'1_{pos}_{r or b("1", pos)}_{a or alt("1", pos)}'
+
+    def member(variant, pip, beta=None, se=None, mant=None, exp=None, r2=None):
+        return dict(is95CredibleSet=pip >= 0.1, is99CredibleSet=True, logBF=3.0, posteriorProbability=pip, variantId=variant, pValueMantissa=mant, pValueExponent=exp, beta=beta, standardError=se, r2Overall=r2)
+
+    def cset(sl, study, lead, typ, members, method='SuSiE-inf', conf='SuSiE fine-mapped credible set with out-of-sample LD', idx=1):
+        return dict(studyLocusId=sl, studyId=study, variantId=lead, chromosome='1', position=int(lead.split('_')[1]), beta=0.5, standardError=0.1, pValueMantissa=1.0, pValueExponent=-9,
+                    effectAlleleFrequencyFromSource=0.25, finemappingMethod=method, credibleSetIndex=idx, credibleSetlog10BF=12.0, purityMeanR2=0.9, sampleSize=1000, confidence=conf, studyType=typ,
+                    isTransQtl=False, qualityControls=[], locus=members)
+    sets = [cset('SL1', 'GCST000001', vid(402), 'gwas', [member(vid(402), 0.8, 0.5, 0.1, 1.0, -9, 1.0), member(vid(410), 0.15, 0.4, 0.1, 2.0, -7, 0.8), member(vid(420), 0.05, 0.1, 0.1, 5.0, -3, 0.5),
+                                                          member(vid(440, wrong, 'T' if wrong != 'T' else 'G'), 0.3, 0.2, 0.1, 3.0, -5, 0.7), member(vid(430), 0.2, -0.3, 0.1, 1.0, -400, 0.6)]),
+            cset('SL2', 'GTEX_EQTL_X', vid(402), 'eqtl', [member(vid(402), 0.6, -0.8, 0.2, 4.0, -8, 1.0), member(vid(410), 0.4, -0.2, 0.2, 1.0, -4, 0.7)], method='SuSie', conf='SuSiE fine-mapped credible set with in-sample LD'),
+            cset('SL3', 'FINNGEN_R12_TEST', vid(450), 'gwas', [member(vid(450), 0.04), member(vid(460), 0.03)], method='PICS', conf='PICS fine-mapped credible set based on reported top hit')]
+    pq.write_table(pa.Table.from_pylist(sets), os.path.join(out, 'credible_set', 'part-0.parquet'))
+    l2g = [dict(studyLocusId='SL1', geneId='ENSG_TESTG', score=0.9, features=[], shapBaseValue=0.1), dict(studyLocusId='SL1', geneId='ENSG_OTHER', score=0.3, features=[], shapBaseValue=0.1),
+           dict(studyLocusId='SL3', geneId='ENSG_UNKNOWN', score=0.6, features=[], shapBaseValue=0.1)]
+    pq.write_table(pa.Table.from_pylist(l2g), os.path.join(out, 'l2g_prediction', 'part-0.parquet'))
+    return dict(k402=f'1:402:{b("1", 402)}:{alt("1", 402)}', k410=f'1:410:{b("1", 410)}:{alt("1", 410)}', k430=f'1:430:{b("1", 430)}:{alt("1", 430)}')
+
+
+def mini_opentargets_gene(out):
+    """Mini Open Targets 26.09 gene-level tables: target_essentiality, evidence_impc, evidence_crispr, evidence_crispr_screen, evidence_gene_burden."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    for d in ('target_essentiality', 'evidence_impc', 'evidence_crispr', 'evidence_crispr_screen', 'evidence_gene_burden'):
+        os.makedirs(os.path.join(out, d), exist_ok=True)
+    scr = lambda *effects: [{'depmapId': f'ACH-{i}', 'cellLineName': f'L{i}', 'diseaseFromSource': 'x', 'diseaseCellLineId': None, 'mutation': None, 'geneEffect': e, 'expression': 1.0} for i, e in enumerate(effects)]
+    ess = [dict(targetId='ENSG_TESTG', isEssential=True, depMapEssentiality=[{'tissueId': 'UBERON_1', 'tissueName': 'lung', 'screens': scr(-1.5, -1.2, -0.3, -1.1)},
+                                                                           {'tissueId': 'UBERON_2', 'tissueName': 'skin of body', 'screens': scr(-1.3, -1.4)}]),
+           dict(targetId='ENSG_TESTH', isEssential=False, depMapEssentiality=[{'tissueId': 'UBERON_1', 'tissueName': 'lung', 'screens': scr(0.1, 0.2, -0.2)}])]
+    pq.write_table(pa.Table.from_pylist(ess), os.path.join(out, 'target_essentiality', 'part-0.parquet'))
+
+    def impc(gene, comp, bg, disease, score, phenos, model='MGI:1'):
+        return dict(targetId=gene, biologicalModelAllelicComposition=comp, biologicalModelGeneticBackground=bg, biologicalModelId=model, diseaseId=disease, diseaseFromSource=disease, resourceScore=score,
+                    diseaseModelAssociatedModelPhenotypes=[{'id': f'MP:{i}', 'label': lab} for i, lab in enumerate(phenos)], literature=['111'], directionOnTrait='risk')
+    rows = [impc('ENSG_TESTG', 'Testg<tm1A>/Testg<tm1A>', 'involves: C57BL/6J', 'MONDO_1', 40.0, ['short limbs', 'abnormal skull']),
+            impc('ENSG_TESTG', 'Testg<tm1A>/Testg<tm1A>', 'involves: C57BL/6J', 'MONDO_2', 55.0, ['short limbs', 'embryonic lethality']),
+            impc('ENSG_TESTG', 'Testg<tm1A>/Testg<+>', 'involves: C57BL/6J', 'MONDO_1', 20.0, ['small ears'], model='MGI:2'),
+            impc('ENSG_UNKNOWN', 'H4c1<em1(IMPC)Ccpcz> hom early', 'C57BL/6N', 'MONDO_3', 30.0, ['abnormal gait'], model='IMPC:3')]
+    pq.write_table(pa.Table.from_pylist(rows), os.path.join(out, 'evidence_impc', 'part-0.parquet'))
+    cr = [dict(id='c1', targetId='ENSG_TESTG', diseaseId='EFO_1', diseaseFromSource='Test cancer', resourceScore=0.01, literature=['222'], datasourceId='crispr', publicationDate='2020-01-01',
+               diseaseCellLines=[{'id': 'ACH-1', 'name': 'CELL1', 'tissue': 'lung', 'tissueId': 'UBERON_1'}], targetFromSourceId='TESTG', targetFromSource='TESTG', diseaseFromSourceMappedId='EFO_1', score=1.0)]
+    pq.write_table(pa.Table.from_pylist(cr), os.path.join(out, 'evidence_crispr', 'part-0.parquet'))
+    cs = [dict(id='s1', targetId='ENSG_TESTH', studyId='STUDY1', projectId='crispr_brain', crisprScreenLibrary='Genome-wide CRISPRi-v2', contrast='neuron', cellType='Glutamatergic Neuron', geneticBackground='iPSC',
+               studyOverview='Description', diseaseId='MONDO_1', diseaseFromSource='ageing', literature=['333'], log2FoldChangeValue=4.5, resourceScore=0.005, statisticalTestTail='upper tail', datasourceId='crispr_screen')]
+    pq.write_table(pa.Table.from_pylist(cs), os.path.join(out, 'evidence_crispr_screen', 'part-0.parquet'))
+    gb = [dict(id='b1', targetId='ENSG_TESTG', diseaseId='EFO_2', diseaseFromSource='Test trait', oddsRatio=3.2, oddsRatioConfidenceIntervalLower=2.0, oddsRatioConfidenceIntervalUpper=5.1, beta=None,
+               betaConfidenceIntervalLower=None, betaConfidenceIntervalUpper=None, pValueMantissa=2.0, pValueExponent=-9, ancestry='European', studySampleSize=400000, studyCases=1200, allelicRequirements=['monoallelic'],
+               projectId='Genebass', cohortId='UKB', statisticalMethod='SKAT-O', releaseVersion='r1', studyCasesWithQualifyingVariants=30, sex=['male', 'female'], directionOnTrait='risk'),
+          dict(id='b2', targetId='ENSG_TESTH', diseaseId='EFO_3', diseaseFromSource='Another trait', oddsRatio=None, oddsRatioConfidenceIntervalLower=None, oddsRatioConfidenceIntervalUpper=None, beta=-0.2,
+               betaConfidenceIntervalLower=-0.4, betaConfidenceIntervalUpper=-0.1, pValueMantissa=0.5, pValueExponent=-1, ancestry='European', studySampleSize=400000, studyCases=None, allelicRequirements=[],
+               projectId='Genebass', cohortId='UKB', statisticalMethod='burden', releaseVersion='r1', studyCasesWithQualifyingVariants=None, sex=[], directionOnTrait='protect')]
+    pq.write_table(pa.Table.from_pylist(gb), os.path.join(out, 'evidence_gene_burden', 'part-0.parquet'))
+
+
+def mini_events(out):
+    """Mini versions of the gnomAD SV, gnomAD CNV, DGV and HGSVC3 event files (real layouts, GRCh38-style chr names on the synthetic contigs)."""
+    import gzip
+    os.makedirs(out, exist_ok=True)
+    hdr8 = '#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO'
+    sv = [('chr1', 1000, 'gnomAD-SV_v3_DEL_chr1_aaa', '<DEL>', 'PASS', 'ALGORITHMS=manta,depth;CHR2=chr1;END=2000;EVIDENCE=PE,RD;SVLEN=1000;SVTYPE=DEL;AN=2000;AC=40;AF=0.02;N_BI_GENOS=1000;N_HOMALT=2;AF_afr=0.05;AF_nfe=0.01;PREDICTED_LOF=GENEA'),
+          ('chr1', 1500, 'gnomAD-SV_v3_DUP_chr1_bbb', '<DUP>', 'HIGH_NCR', 'ALGORITHMS=depth;CHR2=chr1;END=2500;SVLEN=1000;SVTYPE=DUP;AN=2000;AC=4;AF=0.002;N_BI_GENOS=1000;LOW_CONFIDENCE_REPETITIVE_LARGE_DUP'),
+          ('chr1', 100, 'gnomAD-SV_v3_BND_chr1_ccc', '<BND>', 'UNRESOLVED', 'ALGORITHMS=manta;CHR2=chr2;END=100;END2=900;SVLEN=-1;SVTYPE=BND;AN=2000;AC=100;AF=0.05;N_BI_GENOS=1000'),
+          ('chr1', 2000, 'gnomAD-SV_v3_CNV_chr1_ddd', '<CNV>', 'PASS', 'ALGORITHMS=depth;CHR2=chr1;END=2400;MULTIALLELIC;SVLEN=400;SVTYPE=CNV;CN_NUMBER=900;CN_NONREF_FREQ=0.3;CN_FREQ=0.1,0.6,0.3'),
+          ('chrUn_gl000220', 5, 'gnomAD-SV_v3_INS_chrUn_eee', '<INS>', 'PASS', 'ALGORITHMS=melt;END=5;SVLEN=300;SVTYPE=INS;AN=100;AC=1;AF=0.01;N_BI_GENOS=50'),
+          ('chr2', 300, 'gnomAD-SV_v3_INS_chr2_fff', '<INS>', 'PASS', 'ALGORITHMS=melt;END=300;SVLEN=300;SVTYPE=INS;AN=100;AC=1;AF=0.01;N_BI_GENOS=50')]
+    with gzip.open(os.path.join(out, 'gnomad.v4.1.sv.sites.vcf.gz'), 'wt') as f:
+        f.write('##fileformat=VCFv4.2\n' + hdr8 + '\n' + ''.join('\t'.join([c, str(p_), i, 'N', a, '.', fl, inf]) + '\n' for c, p_, i, a, fl, inf in sv))
+    cnv = [('chr1', 700, 'variant_is_1_1__DEL', '<DEL>', 'PASS', 'END=900;SVLEN=200;SVTYPE=DEL;POSMIN=690;POSMAX=700;ENDMIN=900;ENDMAX=910;Genes=GENEA;N_EXN_VAR=2;SC=3;SN=1000;SF=0.003;SF_nfe=0.004'),
+           ('chr1', 700, 'variant_is_1_2__DUP', '<DUP>', 'PASS', 'END=950;SVLEN=250;SVTYPE=DUP;POSMIN=700;POSMAX=700;ENDMIN=950;ENDMAX=950;Genes=GENEA;SC=1;SN=1000;SF=0.001')]
+    with gzip.open(os.path.join(out, 'gnomad.v4.1.cnv.all.vcf.gz'), 'wt') as f:
+        f.write('##fileformat=VCFv4.2\n' + hdr8 + '\n' + ''.join('\t'.join([c, str(p_), i, 'N', a, '.', fl, inf]) + '\n' for c, p_, i, a, fl, inf in cnv))
+    dh = ['variantaccession', 'chr', 'start', 'end', 'varianttype', 'variantsubtype', 'reference', 'pubmedid', 'method', 'platform', 'mergedvariants', 'supportingvariants', 'mergedorsample', 'frequency',
+          'samplesize', 'observedgains', 'observedlosses', 'cohortdescription', 'genes', 'samples']
+    dr = [['nsv1', '1', '1000', '2000', 'CNV', 'deletion', 'Study_A', '111', 'Sequencing', '', '', 'nssv1', 'M', '', '3202', '0', '5', '', '', ''],
+          ['nsv2', '1', '1100', '2100', 'CNV', 'gain', 'Study_B', '222', 'Oligo aCGH', '', '', '', 'M', '0.5', '100', '2', '0', '', '', ''],
+          ['nssv9', '1', '1000', '2000', 'CNV', 'deletion', 'Study_A', '111', 'Sequencing', '', '', '', 'S', '', '', '', '', '', '', 'HG0001'],
+          ['nsv3', '2', '10', '50', 'OTHER', 'unusual thing', 'Study_C', '333', 'PCR', '', '', '', 'M', '', '10', '', '', '', '', ''],
+          ['nsv4', '1', '500', '300', 'CNV', 'duplication', 'Study_D', '444', 'Sequencing', '', '', '', 'M', '', '10', '', '', '', '', '']]
+    with open(os.path.join(out, 'GRCh38_hg38_variants_2025-12-01.txt'), 'w') as f:
+        f.write('\t'.join(dh) + '\n' + ''.join('\t'.join(r) + '\n' for r in dr))
+    hv = '#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tH1\tH2\tH3'
+    ins = [('chr1', 1200, 'chr1-1200-DEL-300', 'DEL', -300, 'ID=chr1-1200-DEL-300;SVTYPE=DEL;SVLEN=-300', ['0|1', '0|0', '1|.']),
+           ('chr1', 1300, 'chr1-1300-INS-150', 'INS', 150, 'ID=chr1-1300-INS-150;SVTYPE=INS;SVLEN=150', ['.|.', '.|.', '.|.'])]
+    with gzip.open(os.path.join(out, 'hgsvc3_insdel.vcf.gz'), 'wt') as f:
+        f.write('##fileformat=VCFv4.2\n' + hv + '\n' + ''.join('\t'.join([c, str(p_), i, 'N', f'<{t}>', '.', '.', inf, 'GT'] + g) + '\n' for c, p_, i, t, l, inf, g in ins))
+    with gzip.open(os.path.join(out, 'hgsvc3_inv.vcf.gz'), 'wt') as f:
+        f.write('##fileformat=VCFv4.2\n' + hv + '\n' + '\t'.join(['chr1', '600', 'chr1-600-INV-200', 'N', '<INV>', '.', '.', 'ID=chr1-600-INV-200;SVTYPE=INV;SVLEN=200', 'GT', '1|1', '0|0', '0|1']) + '\n')
+
+
 def write_all(out):
     """Write every mini source file into `out` (a temporary directory: synthetic VCF-like files are never committed)."""
     os.makedirs(out, exist_ok=True)
@@ -414,6 +599,10 @@ def write_all(out):
     mini_assembly_report(os.path.join(out, 'assembly_report.txt'))
     mini_pharmvar(os.path.join(out, 'pharmvar-test.zip'))
     write_all.clinpgx = mini_clinpgx(os.path.join(out, 'pharmgkb'))
+    write_all.mavedb = mini_mavedb(os.path.join(out, 'mavedb'))
+    write_all.opentargets = mini_opentargets(os.path.join(out, 'opentargets'))
+    mini_opentargets_gene(os.path.join(out, 'opentargets'))
+    mini_events(os.path.join(out, 'events'))
     return out
 
 

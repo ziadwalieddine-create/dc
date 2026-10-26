@@ -23,7 +23,7 @@ from vindex.refgenome import Reference                            # noqa: E402
 FASTA = os.path.join(DATA, 'reference_sequence', 'Homo_sapiens.GRCh38.dna.toplevel.fa.gz')
 REPORT = os.path.join(DATA, 'refseq', 'GCF_000001405.40_GRCh38.p14_assembly_report.txt')
 
-ORDER = ['genes', 'clinvar', 'clingen_erepo', 'clingen_gene_region', 'gwas', 'cpic', 'pharmvar', 'clinpgx']
+ORDER = ['genes', 'clinvar', 'clingen_erepo', 'clingen_gene_region', 'gwas', 'cpic', 'pharmvar', 'clinpgx', 'mavedb', 'opentargets_genetics', 'opentargets_gene', 'gnomad_sv', 'gnomad_cnv', 'dgv', 'hgsvc3']
 
 
 def make_adapters(names, ref):
@@ -34,6 +34,10 @@ def make_adapters(names, ref):
     from vindex.build.alleles import OtVariantIndex
     from vindex.build.pgx import CpicAdapter, PharmVarAdapter
     from vindex.build.clinpgx import ClinPgxAdapter
+    from vindex.build.mavedb import MaveDbAdapter
+    from vindex.build.opentargets_genetics import OpenTargetsGeneticsAdapter
+    from vindex.build.opentargets_gene import OpenTargetsGeneAdapter
+    from vindex.build.events import GnomadSvAdapter, GnomadCnvAdapter, DgvAdapter, Hgsvc3Adapter
     genes = GeneMap(ref)
     factories = {
         'genes': lambda: GeneAdapter(genes),
@@ -44,6 +48,13 @@ def make_adapters(names, ref):
         'cpic': lambda: CpicAdapter(genes),
         'pharmvar': lambda: PharmVarAdapter(),
         'clinpgx': lambda: ClinPgxAdapter(genes),
+        'mavedb': lambda: MaveDbAdapter(genes),
+        'opentargets_genetics': lambda: OpenTargetsGeneticsAdapter(genes),
+        'opentargets_gene': lambda: OpenTargetsGeneAdapter(genes),
+        'gnomad_sv': lambda: GnomadSvAdapter(),
+        'gnomad_cnv': lambda: GnomadCnvAdapter(),
+        'dgv': lambda: DgvAdapter(),
+        'hgsvc3': lambda: Hgsvc3Adapter(),
     }
     unknown = [n for n in names if n not in factories]
     if unknown:
