@@ -5,6 +5,7 @@ intervals. Reads go through Arrow datasets with filters (a chromosome, a set of 
 interval structure that is built on first use and dropped when the caller moves on to other chromosomes (calls arrive in VCF order). Tables passed
 in memory (tests, small indexes) are filtered the same way, so both give the same answers.
 """
+import json
 import os
 from collections import OrderedDict
 
@@ -13,10 +14,14 @@ import pyarrow.compute as pc
 import pyarrow.dataset as pds
 import pyarrow.parquet as pq
 
-from . import schema
+from . import SCHEMA_VERSION, schema
 from .intervals import IntervalStore
 
 KEEP_CHROMS = 3         # per-chromosome structures kept per table
+
+
+class SchemaMismatch(RuntimeError):
+    pass
 
 
 class _Overlaps:
@@ -52,7 +57,17 @@ class Index:
         self._mnv = None
 
     @classmethod
-    def open(cls, root):
+    def open(cls, root, allow_schema_mismatch=False):
+        """An index on disk. Its manifest must name the schema version of this code: tables written under another version could be read with the wrong meaning, so a mismatch
+        stops the reader (rebuild the index, or pass allow_schema_mismatch to inspect it knowingly)."""
+        mp = os.path.join(root, 'index_manifest.json')
+        if not allow_schema_mismatch:
+            if not os.path.exists(mp):
+                raise SchemaMismatch(f'{root} has no index_manifest.json; it was not written by build_index.py')
+            with open(mp) as f:
+                built = json.load(f).get('schema_version')
+            if built != SCHEMA_VERSION:
+                raise SchemaMismatch(f'{root} was built with schema {built}, this code reads schema {SCHEMA_VERSION}; rebuild it with build_index.py')
         return cls(root=root)
 
     @classmethod

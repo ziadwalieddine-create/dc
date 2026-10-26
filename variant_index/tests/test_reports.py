@@ -180,6 +180,23 @@ class TestReports(unittest.TestCase):
         self.assertIn('passed', text)
         self.assertIn('| `' + rels[0] + '` |', text)
 
+    def test_an_index_built_under_another_schema_version_is_refused_unless_knowingly_opened(self):
+        from vindex.index_reader import Index, SchemaMismatch
+        other = os.path.join(self.work, 'idx_other_schema')
+        shutil.copytree(self.idx, other)
+        with open(os.path.join(other, 'index_manifest.json')) as f:
+            m = json.load(f)
+        m['schema_version'] = '0.0.1'
+        with open(os.path.join(other, 'index_manifest.json'), 'w') as f:
+            json.dump(m, f)
+        with self.assertRaises(SchemaMismatch):
+            Index.open(other)
+        self.assertGreater(Index.open(other, allow_schema_mismatch=True).table('entity_gene').num_rows, 0)
+        os.remove(os.path.join(other, 'index_manifest.json'))
+        with self.assertRaises(SchemaMismatch):
+            Index.open(other)
+        Index.open(self.idx)                                                                         # the matching index opens
+
     def test_the_module_registry_names_what_is_not_implemented(self):
         status = {m['name']: m['status'] for m in reports.MODULES}
         self.assertEqual(status['personal 30x GRCh38 SNP/indel, CNV and SV calls'], 'unavailable_input')
