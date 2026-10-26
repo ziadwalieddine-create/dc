@@ -34,7 +34,7 @@ from .callability import CallableRegionCallability
 from .index_reader import Index
 from .match_hap import NON_STAR_SYSTEMS, call_gene
 from .match_repeat import loci_from_index, match_repeats, unindexed_repeats
-from .match_small import MatchContext, iter_interpretations, status_of, zygosity
+from .match_small import MatchContext, iter_interpretations, missing_evidence, status_of, zygosity
 from .match_sv import match_svs
 from .vcfio import OTHER_CONTIGS, CallSet, QCPolicy, read_vcf
 
@@ -264,7 +264,7 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
                 counts['index_centric'][rn][st.status] += 1
             if st.status not in RESOLVED:
                 W['unresolved_loci'].add(dict(key=key, chrom=key.split(':')[0], pos=int(key.split(':')[1]), status=st.status, reasons=list(st.reasons), rules=hv['rules'], evidence_ids=hv['evidence_ids'],
-                                              missing_evidence=(st.detail or {}).get('missing_evidence'), basis=st.basis, detail_json=jdump({k: v for k, v in (st.detail or {}).items() if k != 'missing_evidence'})))
+                                              missing_evidence=missing_evidence(st), basis=st.basis, detail_json=jdump({k: v for k, v in (st.detail or {}).items() if k != 'missing_evidence'})))
         if progress:
             progress(chrom, counts['per_chromosome'][chrom])
         del cs, ctx

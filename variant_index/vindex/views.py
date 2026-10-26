@@ -9,6 +9,7 @@ axes, and a call that fails a filter stays in the full call table. The ordering 
 """
 import json
 import os
+from collections import Counter
 from dataclasses import dataclass
 
 import pyarrow as pa
@@ -160,6 +161,93 @@ def pathway_view(rows, members):
 VIEW_COLUMNS = ('key', 'chrom', 'pos', 'ref', 'alt', 'vtype', 'gt', 'zygosity', 'phased', 'status', 'flags', 'qc_flags', 'gene_symbols', 'gene_ids', 'region_kinds', 'n_evidence', 'axes_json', 'evidence_ids')
 
 
+AXIS_SHORT = {'clinical_validity_actionability': 'clinical', 'empirical_functional_support': 'functional', 'mechanistic_confidence': 'mechanism', 'effect_magnitude_direction': 'effect size',
+              'association_replication': 'association', 'fine_mapping_probability': 'fine-mapping', 'applicability_context': 'context'}
+
+
+def describe(row):
+    """One line per call: what each axis holds, in counts and descriptors of that axis alone (nothing is added up across axes)."""
+    parts = []
+    for ax, d in sorted((row['axes'] or {}).items()):
+        bits = ', '.join(f'{n} {k}' for k, n in (d.get('assertions') or {}).items())
+        extra = []
+        if d.get('max_review_stars') is not None and (ax == CLIN or d['max_review_stars'] > 0):
+            extra.append(f"review stars up to {d['max_review_stars']}")
+        if d.get('min_p_value') is not None:
+            extra.append(f"min p {d['min_p_value']:.1e}")
+        if d.get('max_pip') is not None:
+            extra.append(f"max PIP {d['max_pip']:.2f}")
+        if d.get('conflict'):
+            extra.append('conflicting assertions')
+        parts.append(f"{AXIS_SHORT.get(ax, ax)}: {bits} ({d.get('n_independent', 0)} lineage{'s' if d.get('n_independent', 0) != 1 else ''})" + (f" [{'; '.join(extra)}]" if extra else ''))
+    return ' | '.join(parts) or 'no variant-level evidence'
+
+
+def render_report(results_dir, top=25):
+    """report.md: what the run found, in the order the tables are produced. Views list the first `top` rows of their ordering; the full views are in views/*.parquet and
+    every call is in small_calls.parquet. Written next to the results it summarises, so a sample's report stays where the sample's data are."""
+    def load(name):
+        p = os.path.join(results_dir, name)
+        return pq.read_table(p).to_pylist() if os.path.exists(p) else []
+    with open(os.path.join(results_dir, 'run_manifest.json')) as f:
+        run = json.load(f)
+    with open(os.path.join(results_dir, 'views', 'views_manifest.json')) as f:
+        vm = json.load(f)
+    c = run['counts']
+    L = ['# Sample report', '',
+         f"Run finished {run['finished_utc']} in {run['seconds']} s; sample `{run['input']['sample']}`, input `{os.path.basename(run['input']['path'])}` (sha256 {str(run['input'].get('sha256'))[:16] or 'not computed'}), "
+         f"index schema {run['index'].get('schema_version')}, code {str((run.get('code') or {}).get('commit'))[:8]}. Assembly check: {json.dumps(run['input']['assembly'].get('ok'))}.", '',
+         '## What was called and what the index said', '',
+         f"{c['calls']:,} small-variant alleles with dosage above zero. Match status: " + ', '.join(f'{k} {v:,}' for k, v in sorted(c['by_status'].items(), key=lambda kv: -kv[1])) + '.',
+         '`NO_INDEX_RECORD` means the index holds no record of the allele: that is absence from the index, not evidence of no effect. `FILTERED_CALL` is listed but its presence is not asserted. '
+         f"{c['difficult_region_calls']:,} calls lie in GIAB difficult regions (flagged, not removed).", '',
+         f"Structural calls: {sum(c['structural'].values()):,} ({', '.join(f'{k} {v}' for k, v in sorted(c['structural'].items())) or 'none'}); " +
+         f"repeat genotypes: {', '.join(f'{k} {v}' for k, v in sorted(c['repeat_status'].items())) or 'none'}; star-allele genes: {', '.join(f'{k} {v}' for k, v in sorted(c['haplotype_status'].items())) or 'none'}.", '']
+    rej = load('rejected_calls.parquet')
+    if rej:
+        L += ['Alleles the reader refused: ' + ', '.join(f'{k} {v}' for k, v in sorted(Counter(r['reason'] for r in rej).items())) + ' (listed in rejected_calls.parquet).', '']
+    L += ['## High-value indexed alleles and what the sample says about them', '', '| Rule | ' + ' | '.join(sorted({k for v in c['high_value_rules'].values() for k in v})) + ' |', '|---|' + '---|' * len({k for v in c['high_value_rules'].values() for k in v})]
+    cols = sorted({k for v in c['high_value_rules'].values() for k in v})
+    for name, v in c['high_value_rules'].items():
+        L.append(f"| `{name}` | " + ' | '.join(str(v.get(k, 0)) for k in cols) + ' |')
+    L += ['', 'The rules are listed in run_manifest.json with their wording; they select rows, they do not rank them.', '']
+    un = load('unresolved_loci.parquet')
+    L += [f'## Unresolved high-value loci: {len(un):,}', '']
+    if un:
+        by = Counter((r['status'], tuple(r['reasons'] or ())) for r in un)
+        L += ['| Status | Reasons | Loci |', '|---|---|---|'] + [f"| {st} | {', '.join(rs)} | {n:,} |" for (st, rs), n in sorted(by.items(), key=lambda kv: -kv[1])]
+        L += ['', f'The first {min(top, len(un))} by position, with the exact evidence that would settle each:', '', '| Locus | Status | Rules | Missing evidence |', '|---|---|---|---|']
+        for r in sorted(un, key=lambda r: (r['chrom'], r['pos'], r['key']))[:top]:
+            L.append(f"| `{r['key']}` | {r['status']} | {', '.join(r['rules'] or ())} | {(r['missing_evidence'] or ', '.join(r['reasons'] or ())).replace('|', '/')} |")
+        L.append('')
+    L += ['## Views', '', f"Calls considered: {vm['n_calls_considered']:,} (statuses {', '.join(vm['statuses'])}). A view selects and orders rows of small_calls.parquet; no view hides a call and none combines axes into one number.", '']
+    for name, v in vm['views'].items():
+        L += [f"### {v['title']} ({v['n_calls']:,})", '', f"Ordering: {v['ordering']}.", '']
+        rows = pq.read_table(os.path.join(results_dir, 'views', f'{name}.parquet')).to_pylist()[:top]
+        for r in rows:
+            r['axes'] = json.loads(r['axes_json']) if r.get('axes_json') else {}
+            L.append(f"- `{r['key']}` {', '.join(r['gene_symbols'] or ()) or 'no gene'}, {r['zygosity'] if 'zygosity' in r and r['zygosity'] else r['gt']}"
+                     f"{' (' + ', '.join(r['flags']) + ')' if r.get('flags') else ''}: {describe(r)}")
+        if not rows:
+            L.append('- none')
+        L.append('')
+    with open(os.path.join(results_dir, 'views', 'trait_view.json')) as f:
+        traits = json.load(f)
+    L += [f'### Traits named by effect-asserting evidence ({len(traits):,})', '', 'Identifiers are the sources\' own; no ontology roll-up is applied. The ten with the most calls:', '']
+    for cid, e in sorted(traits.items(), key=lambda kv: (-kv[1]['n_calls'], kv[0]))[:10]:
+        L.append(f"- `{cid}` {'; '.join(e['texts'][:2])}: {e['n_calls']} call(s) on {', '.join(e['axes'])}")
+    with open(os.path.join(results_dir, 'views', 'pathway_view.json')) as f:
+        paths = json.load(f)
+    L += ['', f'### Pathways through the genes of matched calls ({len(paths):,})', '', 'Membership annotates genes; it is not evidence about any variant. The ten with the most calls:', '']
+    for pid, e in sorted(paths.items(), key=lambda kv: (-kv[1]['n_calls'], kv[0]))[:10]:
+        L.append(f"- `{pid}` {e['name']}: {e['n_calls']} call(s), {e['n_genes']} gene(s)")
+    L.append('')
+    text = '\n'.join(L)
+    with open(os.path.join(results_dir, 'report.md'), 'w') as f:
+        f.write(text)
+    return text
+
+
 def write_views(results_dir, index, statuses=('EXACT_MATCH',)):
     """Write views/<name>.parquet for every view, views/trait_view.json, views/pathway_view.json and views/views_manifest.json under the results directory.
     Views only select and order rows of small_calls; every call stays in small_calls.parquet whether or not any view lists it."""
@@ -184,4 +272,6 @@ def write_views(results_dir, index, statuses=('EXACT_MATCH',)):
                     note='trait ids are the sources\' own and are not rolled up through an ontology; pathway membership annotates genes and is not evidence about any variant')
     with open(os.path.join(out, 'views_manifest.json'), 'w') as f:
         json.dump(manifest, f, indent=1, sort_keys=True)
+    if os.path.exists(os.path.join(results_dir, 'run_manifest.json')):
+        render_report(results_dir)
     return manifest

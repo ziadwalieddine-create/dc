@@ -186,6 +186,8 @@ class TestWholeGenomeRun(unittest.TestCase):
         un = {r['key']: r for r in self.t('unresolved_loci')}
         self.assertEqual({k.split(':')[1]: r['status'] for k, r in un.items()}, {'730': 'ABSENT_FROM_CALLSET', '750': 'NO_CALL', '1050': 'UNRESOLVED'})
         self.assertTrue(all(r['rules'] == ['clinvar_pathogenic_reviewed'] for r in un.values()))
+        self.assertTrue(all((r['missing_evidence'] or '').strip() for r in un.values()))           # every unresolved locus says what would settle it
+        self.assertIn('genotype at this site', un[self.k('1', 750)]['missing_evidence'])
         absent = next(r for r in un.values() if r['pos'] == 730)
         self.assertIn('reference block', absent['missing_evidence'])
         inside_sv = next(r for r in un.values() if r['pos'] == 1050)
@@ -258,6 +260,14 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertTrue({r['key'] for r in t} <= full and len(full) == 8)
         with open(os.path.join(out, 'views', 'pathway_view.json')) as f:
             self.assertEqual(sorted(json.load(f)), ['R-HSA-1', 'R-HSA-2'])
+        with open(os.path.join(out, 'report.md')) as f:
+            rep = f.read()
+        self.assertIn(self.k('1', 402), rep)                                                        # the three-star pathogenic call heads the clinical list
+        self.assertIn('Ordering: review stars (highest first)', rep)
+        self.assertIn('absence from the index, not evidence of no effect', rep)
+        self.assertIn('| `1:750:', rep)                                                              # an unresolved locus with its missing evidence
+        self.assertIn('NO_CALL', rep)
+        self.assertIn('lineage', rep)
 
     def test_run_is_deterministic(self):
         out2 = os.path.join(self.work, 'res2')

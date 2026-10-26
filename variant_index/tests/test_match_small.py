@@ -186,5 +186,31 @@ class TestPhaseAndMnv(Base):
         self.assertEqual(out[0].mnv_context[0][1].status, 'UNRESOLVED')
 
 
+
+class TestMissingEvidenceText(unittest.TestCase):
+    def test_every_unresolved_status_the_matcher_can_build_states_what_would_settle_it(self):
+        """Read the matcher's source: each Status(..., 'UNRESOLVED' | 'NO_CALL', reasons) either carries missing_evidence in its detail or has its reason in MISSING_BY_REASON."""
+        import ast
+        import vindex.match_small as ms
+        with open(ms.__file__) as f:
+            tree = ast.parse(f.read())
+        seen = []
+        for n in ast.walk(tree):
+            if isinstance(n, ast.Call) and getattr(n.func, 'id', None) == 'Status' and len(n.args) >= 3 and isinstance(n.args[1], ast.Constant) and n.args[1].value in ('UNRESOLVED', 'NO_CALL'):
+                reasons = [e.value for e in getattr(n.args[2], 'elts', []) if isinstance(e, ast.Constant)]
+                detail = next((k.value for k in n.keywords if k.arg == 'detail'), None)
+                has_own = detail is not None and any(k.arg == 'missing_evidence' for k in getattr(detail, 'keywords', []))
+                seen.append((tuple(reasons), has_own))
+        self.assertGreaterEqual(len(seen), 8)
+        for reasons, has_own in seen:
+            self.assertTrue(has_own or any(r in ms.MISSING_BY_REASON for r in reasons), reasons)
+
+    def test_resolved_statuses_need_no_text_and_filtered_calls_name_their_flags(self):
+        import vindex.match_small as ms
+        self.assertEqual(ms.missing_evidence(ms.Status('k', 'EXACT_MATCH')), '')
+        self.assertIn('GQ<20', ms.missing_evidence(ms.Status('k', 'FILTERED_CALL', ('GQ<20',))))
+        self.assertEqual(ms.missing_evidence(ms.Status('k', 'UNRESOLVED', ('x',), detail=dict(missing_evidence='phase'))), 'phase')
+
+
 if __name__ == '__main__':
     unittest.main()

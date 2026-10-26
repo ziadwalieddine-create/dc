@@ -29,6 +29,33 @@ class Status:
     detail: dict = field(default_factory=dict)
 
 
+# What would settle a locus that the sample cannot answer for, by the reason the matcher gives. A status that states its own missing_evidence in `detail` keeps it.
+MISSING_BY_REASON = {
+    'duplicate_records_disagree': 'one consistent genotype for this allele: the file holds several records for it with different dosages',
+    'genotype_incomplete': 'a complete genotype at this site (one allele of the genotype is missing): re-calling, or targeted reads',
+    'site_without_genotype': 'a genotype at this site: the file has a record there without a usable genotype; re-calling, or targeted reads',
+    'some_mnv_components_present_others_unknown': 'reference or call evidence at the remaining component positions of the multi-nucleotide allele',
+    'components_have_different_ploidy': 'component calls with one consistent ploidy',
+    'overlapping_call_fails_quality': 'a call at the overlapping site that passes the quality policy, or read-level evidence, so that the indexed allele can be placed',
+    'reference_confidence_below_policy': 'reference block with GQ/depth above the policy, or reads',
+}
+
+
+def missing_evidence(st):
+    """The exact evidence that would settle an unresolved status, as text; empty for a status that is resolved."""
+    d = (st.detail or {}).get('missing_evidence')
+    if d:
+        return d
+    for r in st.reasons or ():
+        if r in MISSING_BY_REASON:
+            return MISSING_BY_REASON[r]
+    if st.status == 'FILTERED_CALL':
+        return f"a call that passes the quality policy (flags: {', '.join(st.reasons or ()) or 'none recorded'}) or read-level confirmation"
+    if st.status in ('NO_CALL', 'UNRESOLVED', 'ABSENT_FROM_CALLSET'):
+        return 'evidence that settles: ' + (', '.join(st.reasons or ()) or st.status.lower())
+    return ''
+
+
 @dataclass
 class CallInterpretation:
     call: object
