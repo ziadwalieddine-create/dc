@@ -15,7 +15,6 @@ A locus without a threshold keeps the locus row only: a measured length there is
 published; alleles between the two are intermediate and are never called pathogenic from the thresholds alone. match_repeat.loci_from_index rebuilds the
 locus dictionaries from these rows.
 """
-import csv
 import gzip
 import json
 import os

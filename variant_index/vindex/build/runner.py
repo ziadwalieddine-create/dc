@@ -5,11 +5,8 @@ import inspect
 import json
 import os
 import shutil
-import sys
 
-import pyarrow as pa
 import pyarrow.compute as pc
-import pyarrow.dataset as pds
 import pyarrow.parquet as pq
 
 from .. import SCHEMA_VERSION, schema

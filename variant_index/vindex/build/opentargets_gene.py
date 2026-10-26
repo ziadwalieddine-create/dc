@@ -18,7 +18,6 @@ import re
 from collections import Counter
 
 import pyarrow as pa
-import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
 from .common import evidence_row

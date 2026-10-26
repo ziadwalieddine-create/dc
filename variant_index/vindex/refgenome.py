@@ -5,9 +5,6 @@ names for scaffolds). VCFs name contigs in other styles (UCSC 'chr1', 'chrM', 'c
 accessions). Primary chromosomes are mapped by rule; every other name is mapped through the NCBI assembly report, never
 by guessing. A contig that cannot be mapped is reported, not dropped.
 """
-import csv
-import os
-import re
 
 import pysam
 

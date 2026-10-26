@@ -17,7 +17,7 @@ import sys
 from dataclasses import dataclass, field
 
 from .match_small import status_of
-from .normalise import normalise, parse_key
+from .normalise import normalise
 
 COMP = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
 PALINDROMIC = {frozenset('AT'), frozenset('CG')}

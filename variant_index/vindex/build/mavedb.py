@@ -24,7 +24,6 @@ import gzip
 import hashlib
 import json
 import os
-import re
 
 from ..normalise import normalise, parse_key
 from .common import DATA, evidence_row, retrieved

@@ -11,7 +11,6 @@ import hashlib
 import json
 import os
 
-import pyarrow as pa
 import pyarrow.parquet as pq
 
 from .. import schema

@@ -9,7 +9,6 @@ import json
 import os
 from collections import OrderedDict
 
-import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.dataset as pds
 import pyarrow.parquet as pq

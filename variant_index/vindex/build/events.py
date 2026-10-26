@@ -16,7 +16,6 @@ annotations stay in extra_json. Intervals are 1-based, inclusive.
 Events from different resources are not merged: two resources describing the same event give two events, and the matcher reports whichever are
 equivalent to a call. Counting both as independent replication would be wrong, so event frequencies are context, not evidence rows.
 """
-import csv
 import gzip
 import json
 import os

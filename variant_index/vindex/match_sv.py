@@ -10,7 +10,7 @@ Everything else that overlaps is returned with its metrics under a non-equivalen
 type_mismatch, dosage_mismatch) so a reviewer can see why it was refused. Gene and region evidence reaches a structural call only
 through containment/overlap context rows, which are labelled as gene- or region-level and never counted as variant-level matches.
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 LOSS_TYPES = {'DEL', 'CNV_LOSS'}
 GAIN_TYPES = {'DUP', 'CNV_GAIN'}

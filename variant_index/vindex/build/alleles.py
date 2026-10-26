@@ -11,7 +11,7 @@ alleles known at the site from an external allele source (Open Targets variant i
 """
 import glob
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 COMP = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
 MINOR, MAJOR = 0.4, 0.6

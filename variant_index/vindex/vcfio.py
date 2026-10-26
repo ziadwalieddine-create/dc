@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 
 import pysam
 
-from .normalise import normalise, atomise
+from .normalise import normalise
 
 SV_SYMBOLIC = re.compile(r'^<([A-Z]+)(?::([A-Za-z0-9:_]+))?>$')
 
