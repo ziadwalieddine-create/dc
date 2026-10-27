@@ -37,6 +37,15 @@ def md(cov, val, life, gaps, change, manifest):
     if lin:
         L += ['## Shared lineage', '', f"{lin['groups']:,} lineage groups; {lin['shared_between_sources']:,} are written by more than one source. Rows of one group descend from one study or record and count once in the independence tally.", '',
               '| Sources | Groups both write |', '|---|---:|'] + [f"| {k.replace('|', ' and ')} | {v:,} |" for k, v in list(lin['source_pairs'].items())[:25]] + ['']
+    xc = cov.get('xref_coherence')
+    if xc:
+        L += ['## dbSNP identifiers placed at more than one site', '', f"{xc['identifiers']:,} dbSNP identifiers are cross-referenced to variants; {xc['multi_position']:,} resolve to more than one position "
+              f"({xc['multi_position_across_sources']:,} placed differently by different sources, {xc['multi_position_within_one_source']:,} within one source). Sources reach an rsID by different routes, "
+              "so a disagreement is a mapping error, a merged identifier or a locus that exists twice (the pseudoautosomal regions); it is counted here, not judged.", '']
+        if xc['source_pairs']:
+            L += ['| Sources that place an identifier differently | Identifiers |', '|---|---:|'] + [f"| {k.replace('|', ' and ')} | {v:,} |" for k, v in list(xc['source_pairs'].items())[:25]] + ['']
+        if xc['examples']:
+            L += ['Examples: ' + '; '.join(f"`{e['identifier']}` " + ', '.join(f'{r} at {l}' for r, l in e['placed'].items()) for e in xc['examples'][:5]), '']
     if val:
         L += ['## Validation', '', f"**{'passed' if val['ok'] else 'FAILED'}**; {val.get('evidence_rows_checked', 0):,} evidence rows checked, {val.get('entity_variant_ref_checked', 0):,} variant REF alleles read back from the reference.", '',
               '| Check | Violations |', '|---|---:|'] + [f"| {k} | {c['violations']} |" for k, c in val['checks'].items()] + ['']

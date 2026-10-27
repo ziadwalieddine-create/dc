@@ -97,6 +97,7 @@ def coverage(index_dir):
                 axes_variants[ax] = axes_variants.get(ax, 0) + len(pc.unique(sub['subject_id']))
         out['evidence']['variants_with_evidence_by_axis'] = axes_variants
     out['lineage'] = lineage_sharing(index_dir)
+    out['xref_coherence'] = xref_coherence(index_dir)
     return out
 
 
@@ -123,6 +124,38 @@ def lineage_sharing(index_dir):
     finally:
         shutil.rmtree(spill, ignore_errors=True)
     return dict(groups=groups, shared_between_sources=shared, source_pairs={f'{a}|{b}': n for a, b, n in rows})
+
+
+def xref_coherence(index_dir):
+    """dbSNP identifiers that the index resolves to variants at more than one position, and which sources (xref relations) disagree. Sources reach an rsID by different routes
+    (ClinVar's RS field, the GWAS Catalog's mapped SNP, PharmVar and ClinPGx variant names), so two sources placing one identifier at two sites is a mapping error, a merged
+    identifier or a locus that exists twice (the pseudoautosomal regions): it is counted, not judged. None when duckdb is not installed."""
+    try:
+        import duckdb
+    except ImportError:
+        return None
+    files = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(os.path.join(index_dir, 'xref')) for f in fs if f.endswith('.parquet'))
+    out = dict(identifiers=0, multi_position=0, multi_position_across_sources=0, multi_position_within_one_source=0, source_pairs={}, examples=[])
+    if not files:
+        return out
+    con = duckdb.connect()
+    try:
+        con.execute(f"create view placed as select distinct identifier, relation, split_part(entity_id, ':', 1) || ':' || split_part(entity_id, ':', 2) as locus "
+                    f"from read_parquet({files!r}) where namespace = 'dbsnp' and entity_level = 'variant'")
+        out['identifiers'] = con.execute('select count(distinct identifier) from placed').fetchone()[0]
+        con.execute('create table multi as select identifier, count(distinct locus) as loci, count(distinct relation) as relations from placed group by 1 having count(distinct locus) > 1')
+        out['multi_position'] = con.execute('select count(*) from multi').fetchone()[0]
+        con.execute('create table across as select distinct a.identifier from placed a join placed b on a.identifier = b.identifier and a.relation < b.relation and a.locus <> b.locus')
+        out['multi_position_across_sources'] = con.execute('select count(*) from across').fetchone()[0]
+        out['multi_position_within_one_source'] = out['multi_position'] - con.execute('select count(*) from multi join (select distinct identifier from placed '
+                                                                                       'group by 1 having count(distinct relation) > 1) using (identifier)').fetchone()[0]
+        out['source_pairs'] = {f'{a}|{b}': n for a, b, n in con.execute('select a.relation, b.relation, count(distinct a.identifier) as n from placed a join placed b on a.identifier = b.identifier '
+                                                                         'and a.relation < b.relation and a.locus <> b.locus group by 1, 2 order by 3 desc').fetchall()}
+        for ident, in con.execute('select identifier from across order by identifier limit 10').fetchall():
+            out['examples'].append(dict(identifier=ident, placed={r: l for r, l in con.execute('select relation, string_agg(locus, \',\') from placed where identifier = ? group by 1', [ident]).fetchall()}))
+    finally:
+        con.close()
+    return out
 
 
 # Text that a source uses for "no value". As a value in these columns it is a placeholder that was kept instead of dropped (found on the real index: '.' as a condition, 'NR' as

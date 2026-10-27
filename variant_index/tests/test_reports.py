@@ -10,7 +10,7 @@ import pyarrow.parquet as pq
 
 from helpers import syn_reference
 from test_wgs import build_index
-from vindex import reports
+from vindex import reports, schema
 
 
 class TestReports(unittest.TestCase):
@@ -60,6 +60,25 @@ class TestReports(unittest.TestCase):
         lin = reports.lineage_sharing(d)
         self.assertEqual(lin['shared_between_sources'], 1)
         self.assertEqual(lin['source_pairs'], {'clinvar|cpic': 1, 'clinvar|strchive': 1, 'cpic|strchive': 1})
+
+    def test_dbsnp_identifiers_placed_at_two_sites_are_counted_with_the_sources_that_disagree(self):
+        x = self.cov['xref_coherence']
+        self.assertGreater(x['identifiers'], 0)
+        self.assertEqual((x['multi_position'], x['multi_position_across_sources'], x['source_pairs']), (0, 0, {}))              # the fixture sources agree on every rsID
+        d = os.path.join(self.work, 'xrefs')
+        shutil.copytree(self.idx, d)
+        def row(rs, key, relation):
+            return dict(namespace='dbsnp', identifier=rs, entity_level='variant', entity_id=key, release_id='r', relation=relation)
+        rows = [row('rs900', '1:100:A:G', 'clinvar_RS'), row('rs900', '1:100:A:T', 'gwas_catalog_snps'),                       # one site, two alleles: not a disagreement
+                row('rs901', '1:100:A:G', 'clinvar_RS'), row('rs901', '2:555:C:T', 'gwas_catalog_snps'),                       # two sources, two sites
+                row('rs902', '3:7:A:G', 'clinvar_RS'), row('rs902', '3:9:A:G', 'clinvar_RS'),                                   # one source, two sites
+                row('rs903', '4:1:A:G', 'pharmvar_rsID'), row('rs903', '5:1:A:G', 'clinvar_RS'), row('rs903', '4:1:A:C', 'gwas_catalog_snps')]
+        pq.write_table(pa.Table.from_pylist(rows, schema=schema.XREF), os.path.join(d, 'xref', 'zz_disagree.parquet'))
+        x2 = reports.xref_coherence(d)
+        self.assertEqual((x2['identifiers'] - x['identifiers'], x2['multi_position'], x2['multi_position_across_sources'], x2['multi_position_within_one_source']), (4, 3, 2, 1))
+        self.assertEqual(x2['source_pairs'], {'clinvar_RS|gwas_catalog_snps': 2, 'clinvar_RS|pharmvar_rsID': 1})                  # PharmVar and the GWAS Catalog agree on rs903
+        self.assertEqual([e['identifier'] for e in x2['examples']], ['rs901', 'rs903'])
+        self.assertEqual(x2['examples'][0]['placed'], {'clinvar_RS': '1:100', 'gwas_catalog_snps': '2:555'})
 
     def test_rows_kept_but_not_mapped_carry_their_reasons(self):
         nm = self.cov['evidence']['not_mapped']
@@ -236,7 +255,7 @@ class TestReports(unittest.TestCase):
         with open(os.path.join(self.idx, 'index_manifest.json')) as f:
             manifest = json.load(f)
         text = make_reports.md(cov, reports.validate(self.idx, syn_reference()), life, gaps, None, manifest)
-        for section in ('## Table sizes', '## Evidence rows', '## Validation', '## Target lifecycle', 'Listed but not acquired', '`not_downloaded`', '## Records kept but not mapped, by source', '## Modules and gaps'):
+        for section in ('## Table sizes', '## Evidence rows', '## dbSNP identifiers placed at more than one site', '## Validation', '## Target lifecycle', 'Listed but not acquired', '`not_downloaded`', '## Records kept but not mapped, by source', '## Modules and gaps'):
             self.assertIn(section, text)
         self.assertIn('passed', text)
         self.assertIn('| `' + rels[0] + '` |', text)
