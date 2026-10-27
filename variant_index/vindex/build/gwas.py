@@ -93,7 +93,7 @@ def parse_effect(or_beta, ci_text):
     v = num(or_beta)
     if v is None:
         return None, None, None, None, None, None
-    t = (ci_text or '').strip()
+    t = re.sub(r'(?<=\d)\u00b7(?=\d)', '.', re.sub(r'[\u2010-\u2015\u2212]', '-', (ci_text or '').strip()))      # unicode hyphens and dashes are the minus and range separator, a middle dot is a decimal point
     m = BRACKETED.match(t) or LOOSE.match(t)
     lo = hi = None
     unit = t
@@ -105,7 +105,7 @@ def parse_effect(or_beta, ci_text):
     if 'decrease' in low or 'increase' in low:
         sign = -1.0 if 'decrease' in low else 1.0
         lo, hi = signed_interval(lo, hi, sign)
-        unit = re.sub(r'\s+', ' ', re.sub(r'\s*\b(?:increase|decrease)\b', '', unit, flags=re.I)).strip() or None
+        unit = text_or_none(re.sub(r'\s+', ' ', re.sub(r'\s*\b(?:increase|decrease)\b', '', unit, flags=re.I)))
         return 'beta', sign * abs(v), lo, hi, unit, 'decreases' if sign < 0 else 'increases'
     if v > 0:
         lo, hi = signed_interval(lo, hi, 1.0)

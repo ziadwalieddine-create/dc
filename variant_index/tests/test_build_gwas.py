@@ -212,6 +212,11 @@ class TestGwas(unittest.TestCase):
         v = parse_effect('0.3', '[-0.5--0.1] unit increase')                                                       # the strict notation still reads a negative range
         self.assertEqual((v[2], v[3]), (-0.5, -0.1))
         self.assertIsNone(parse_effect('1.5', 'kg/m2')[2])                                                              # text that merely starts with a letter is a unit, not an interval
+        for ci, lo, hi in (('[1.18\u20101.34]', 1.18, 1.34), ('[1\u00b700\u20131\u00b723]', 1.0, 1.23), ('[2\u00b731-4\u00b755]', 2.31, 4.55)):          # a hyphen of another kind, a middle dot as the decimal point
+            v = parse_effect('1.5', ci)
+            self.assertEqual((v[0], v[2], v[3], v[4]), ('odds_ratio', lo, hi, None), ci)
+        self.assertIsNone(parse_effect('13.6', 'NR NR decrease')[4])                                                   # the unit that is itself 'NR' is no unit
+        self.assertEqual(parse_effect('13.6', '[NR] 1,000/\u03bcL decrease')[4], '1,000/\u03bcL')
 
     def test_a_blank_trait_and_a_cohort_of_nr_are_missing_values_not_text(self):
         # real file: 2,395 studies had the cohort 'NR' and a few associations a blank DISEASE/TRAIT, kept as '' in condition_text
