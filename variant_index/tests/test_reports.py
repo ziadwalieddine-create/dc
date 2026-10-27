@@ -20,6 +20,7 @@ class TestReports(unittest.TestCase):
         cls.idx = os.path.join(cls.work, 'idx')
         build_index(cls.idx)
         cls.cov = reports.coverage(cls.idx)
+        cls.clean = reports.validate(cls.idx, syn_reference())
 
     @classmethod
     def tearDownClass(cls):
@@ -107,6 +108,44 @@ class TestReports(unittest.TestCase):
         vals = t[col].to_pylist()
         vals = fn(vals)
         pq.write_table(t.set_column(t.schema.get_field_index(col), col, pa.array(vals, t.schema.field(col).type)), f)
+
+    def add_rows(self, d, table, rows):
+        os.makedirs(os.path.join(d, table), exist_ok=True)
+        pq.write_table(schema.rows_to_table(table, rows), os.path.join(d, table, 'zz_added.parquet'))
+
+    def test_dangling_references_between_tables_are_counted(self):
+        def mutate(d):
+            self.add_rows(d, 'xref', [dict(namespace='dbsnp', identifier='rs1', entity_level=level, entity_id=f'{level}:nowhere', release_id='r', relation='x')
+                                      for level in ('variant', 'event', 'haplotype', 'gene')])
+            self.add_rows(d, 'haplotype_definition', [dict(haplotype_id='nowhere', variant_key='1:1:A:C', hgvs=None, release_id='r', definition_scope='defining')])
+            self.add_rows(d, 'variant_gene', [dict(variant_key='1:99999:A:C', gene_id='ENSG_NOT_HELD', relation='overlaps', consequence=None, release_id='r')])
+            self.add_rows(d, 'gene_set_member', [dict(set_id='s', source_id='reactome', kind='pathway', name='p', gene_id='ENSG_NOT_HELD', release_id='r')])
+        v = self.damaged(mutate)
+        for name in ('xref_variant_not_an_entity', 'xref_event_not_an_entity', 'xref_haplotype_not_an_entity', 'xref_gene_not_an_entity', 'haplotype_definition_haplotype_not_an_entity',
+                     'variant_gene_variant_not_an_entity'):
+            self.assertEqual(v['checks'][name]['violations'], 1, name)
+        self.assertFalse(v['ok'])
+        self.assertEqual(v['informational']['variant_gene_gene_not_in_the_gene_table'] - self.clean['informational']['variant_gene_gene_not_in_the_gene_table'], 1)
+        self.assertEqual(v['informational']['gene_set_member_gene_not_in_the_gene_table'] - self.clean['informational']['gene_set_member_gene_not_in_the_gene_table'], 1)
+        for name in ('variant_gene_gene_not_in_the_gene_table', 'gene_set_member_gene_not_in_the_gene_table'):
+            self.assertNotIn(name, v['checks'])                                                            # reported, not failing
+
+    def test_entity_invariants_and_marker_text_in_entity_attributes_are_caught(self):
+        def mutate(d):
+            self.add_rows(d, 'entity_study', [dict(study_id='GCST1', source_id='gwas_catalog', lineage_group='l', study_type='gwas', pubmed='1', trait_ids=None, trait_text='NR', n_total=100, n_cases=200,
+                                                   ancestry='NR', cohorts=None, biosample=None, has_sumstats=False, release_id='r'),
+                                              dict(study_id='GCST2', source_id='gwas_catalog', lineage_group='l', study_type='gwas', pubmed='1', trait_ids=None, trait_text='x', n_total=0, n_cases=None,
+                                                   ancestry='', cohorts=None, biosample=None, has_sumstats=False, release_id='r')])
+            self.add_rows(d, 'entity_event', [dict(event_id='e_bad', source_id='x', release_id='r', accession='a', event_type='DEL', chrom='1', start=500, end=100, population_af=1.5, copy_number=-1)])
+            self.add_rows(d, 'entity_gene', [dict(gene_id='ENSG_BAD', symbol='B', hgnc_id='', chrom='1', start=900, end=100, strand='?', mane_select='', biotype='protein_coding', release_id='r')])
+            self.add_rows(d, 'entity_variant', [dict(variant_key='1:0:A:C', chrom='1', pos=0, ref='A', alt='C', vtype='snv'), dict(variant_key='1:5:A:G', chrom='1', pos=5, ref='A', alt='C', vtype='snv')])
+        v = self.damaged(mutate)
+        expected = {'entity_study_cases_exceed_total': 1, 'entity_study_total_not_positive': 1, 'entity_study_ancestry_is_a_missing_value_marker': 1, 'entity_study_trait_text_is_a_missing_value_marker': 1,
+                    'entity_event_start_after_end': 1, 'entity_event_frequency_outside_0_1': 1, 'entity_event_negative_copy_number': 1, 'entity_gene_start_after_end': 1,
+                    'entity_gene_strand_not_plus_or_minus': 1, 'entity_variant_position_not_positive': 1, 'entity_variant_key_differs_from_its_parts': 1}
+        got = {k: v['checks'][k]['violations'] for k in expected}
+        self.assertEqual(got, expected)
+        self.assertEqual(v['checks']['entity_gene_hgnc_id_is_a_missing_value_marker']['violations'], 0)          # an empty string is an empty attribute, not a marker
 
     def test_vocabulary_range_and_format_violations_are_caught(self):
         v = self.damaged(lambda d: self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'effect_assertion', lambda xs: ['bogus'] + xs[1:]))

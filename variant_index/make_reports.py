@@ -49,6 +49,9 @@ def md(cov, val, life, gaps, change, manifest):
     if val:
         L += ['## Validation', '', f"**{'passed' if val['ok'] else 'FAILED'}**; {val.get('evidence_rows_checked', 0):,} evidence rows checked, {val.get('entity_variant_ref_checked', 0):,} variant REF alleles read back from the reference.", '',
               '| Check | Violations |', '|---|---:|'] + [f"| {k} | {c['violations']} |" for k, c in val['checks'].items()] + ['']
+        if val.get('informational'):
+            L += ['Counted but not failing the validation (a source names a gene that the gene table does not hold: the row is kept, the gene has no symbol):', '', '| Count | Rows |', '|---|---:|'] + \
+                 [f'| {k} | {v:,} |' for k, v in val['informational'].items()] + ['']
     s = life['summary']
     L += ['## Target lifecycle', '', f"{s['total']} targets: listed {s['listed']}, acquired {s['acquired']}, verified {s['verified']}, mapped {s['mapped']}, integrated {s['integrated']}.", '']
     L += ['Acquired but not integrated:', ''] + [f'- `{t}`' for t in life['acquired_not_integrated']] + ['']

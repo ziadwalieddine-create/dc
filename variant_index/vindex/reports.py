@@ -166,15 +166,89 @@ FLOAT_COLUMNS = ('claim_num', 'beta', 'se', 'ci_low', 'ci_high', 'odds_ratio', '
 INTERVAL_TOLERANCE = 0.001           # share of rows with an interval whose estimate may lie outside it: rounding and typing errors in the sources themselves
 
 
+# (table, column) pairs of entity tables whose string cells must not hold a marker text for "no value" (an empty string is allowed in an entity attribute)
+ENTITY_MARKER_COLUMNS = (('entity_study', 'ancestry'), ('entity_study', 'cohorts'), ('entity_study', 'biosample'), ('entity_study', 'trait_text'), ('entity_assay', 'target_gene'),
+                         ('entity_assay', 'model_system'), ('entity_assay', 'tissue_or_cell'), ('entity_assay', 'perturbation'), ('entity_assay', 'dose_context'), ('entity_assay', 'readout'),
+                         ('entity_assay', 'score_direction'), ('entity_haplotype', 'function'), ('entity_haplotype', 'allele_level'), ('entity_gene', 'hgnc_id'), ('entity_gene', 'strand'),
+                         ('entity_gene', 'mane_select'), ('entity_gene', 'biotype'), ('entity_region', 'name'), ('entity_event', 'origin'), ('entity_event', 'raw_type'),
+                         ('variant_gene', 'consequence'), ('gene_set_member', 'name'))
+
+
+def _table_files(index_dir, name):
+    p = os.path.join(index_dir, name)
+    files = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(p) for f in fs if f.endswith('.parquet')) if os.path.isdir(p) else ([p + '.parquet'] if os.path.exists(p + '.parquet') else [])
+    return files
+
+
+def entity_checks(index_dir, check, note):
+    """Referential integrity between the tables and invariants of the entity tables (DuckDB). `check(name, violations, detail)` records one result that can fail the validation; `note(name,
+    count)` records a count that is reported but does not fail it (gene ids that a source names and the gene table does not hold: the row is kept, the gene just has no symbol). A cross-
+    reference that points at nothing silently breaks every lookup that follows it, so each is counted: xref and variant_gene rows, haplotype definitions, pathway members, GWAS study accessions."""
+    import duckdb
+    spill = tempfile.mkdtemp(prefix='vindex_duckdb_')
+    con = duckdb.connect()
+    try:
+        con.execute(f"PRAGMA temp_directory='{spill}'")
+        con.execute("SET memory_limit='8GB'")
+        have = {}
+        for name in ('entity_variant', 'entity_event', 'entity_haplotype', 'entity_gene', 'entity_region', 'entity_study', 'entity_assay', 'xref', 'variant_gene', 'haplotype_definition', 'gene_set_member'):
+            files = _table_files(index_dir, name)
+            if files:
+                con.execute(f'create view {name} as select * from read_parquet({files!r}, union_by_name=true)')
+                have[name] = True
+        one = lambda sql: int(con.execute(sql).fetchone()[0] or 0)
+        if 'xref' in have:
+            for level, table, col in (('variant', 'entity_variant', 'variant_key'), ('event', 'entity_event', 'event_id'), ('haplotype', 'entity_haplotype', 'haplotype_id'), ('gene', 'entity_gene', 'gene_id')):
+                if table in have:
+                    check(f'xref_{level}_not_an_entity', one(f"select count(*) from xref where entity_level = '{level}' and entity_id not in (select {col} from {table})"))
+        for table, ref_table, ref_col, col, name, hard in (('variant_gene', 'entity_variant', 'variant_key', 'variant_key', 'variant_gene_variant_not_an_entity', True),
+                                                            ('haplotype_definition', 'entity_haplotype', 'haplotype_id', 'haplotype_id', 'haplotype_definition_haplotype_not_an_entity', True),
+                                                            ('variant_gene', 'entity_gene', 'gene_id', 'gene_id', 'variant_gene_gene_not_in_the_gene_table', False),
+                                                            ('gene_set_member', 'entity_gene', 'gene_id', 'gene_id', 'gene_set_member_gene_not_in_the_gene_table', False)):
+            if table in have and ref_table in have:
+                n = one(f'select count(*) from {table} where {col} not in (select {ref_col} from {ref_table})')
+                check(name, n) if hard else note(name, n)
+        if 'entity_study' in have and os.path.isdir(os.path.join(index_dir, 'evidence')):
+            ev = os.path.join(index_dir, 'evidence', '**', 'gwas_catalog.parquet')
+            if glob.glob(ev, recursive=True):
+                check('gwas_evidence_study_not_an_entity', one(f"select count(*) from (select distinct split_part(accession, ':', 1) as study from read_parquet('{ev}', union_by_name=true)) "
+                                                               f"where study not in (select study_id from entity_study)"))
+        if 'entity_event' in have:
+            check('entity_event_start_after_end', one('select count(*) from entity_event where start > "end"'))
+            check('entity_event_frequency_outside_0_1', one('select count(*) from entity_event where population_af < 0 or population_af > 1'))
+            check('entity_event_negative_copy_number', one('select count(*) from entity_event where copy_number < 0'))
+        if 'entity_study' in have:
+            check('entity_study_cases_exceed_total', one('select count(*) from entity_study where n_cases > n_total'))
+            check('entity_study_total_not_positive', one('select count(*) from entity_study where n_total <= 0'))
+        for table in ('entity_gene', 'entity_region'):
+            if table in have:
+                check(f'{table}_start_after_end', one(f'select count(*) from {table} where start > "end"'))
+        if 'entity_gene' in have:
+            check('entity_gene_strand_not_plus_or_minus', one("select count(*) from entity_gene where strand is not null and strand not in ('+', '-')"))
+        if 'entity_variant' in have:
+            check('entity_variant_position_not_positive', one('select count(*) from entity_variant where pos < 1'))
+            check('entity_variant_key_differs_from_its_parts', one("select count(*) from entity_variant where variant_key <> chrom || ':' || cast(pos as varchar) || ':' || ref || ':' || alt"))
+        markers = ', '.join(f"'{m}'" for m in MISSING_VALUE_MARKERS if m)                 # an empty string in an entity attribute reads as "empty"; a marker text does not
+        for table, col in ENTITY_MARKER_COLUMNS:
+            if table in have and col in {r[0] for r in con.execute(f'describe {table}').fetchall()}:
+                check(f'{table}_{col}_is_a_missing_value_marker', one(f'select count(*) from {table} where {col} in ({markers})'))
+    finally:
+        con.close()
+        shutil.rmtree(spill, ignore_errors=True)
+
+
 def validate(index_dir, reference=None, sample_keys=50000):
     """Checks that hold for every row: controlled vocabulary, mapped / unmapped consistency, key format, ranges. With a reference, the REF allele of a sample of keys
     is read back from the FASTA. With DuckDB available, evidence ids are checked for uniqueness and mapped subjects for existence."""
-    res = dict(schema_version=SCHEMA_VERSION, checks={}, ok=True)
+    res = dict(schema_version=SCHEMA_VERSION, checks={}, informational={}, ok=True)
 
     def check(name, bad, detail=None):
         res['checks'][name] = dict(violations=bad, detail=detail)
         if bad:
             res['ok'] = False
+
+    def note(name, count):
+        res['informational'][name] = count
     if not os.path.isdir(os.path.join(index_dir, 'evidence')):
         res['ok'] = False
         res['checks']['evidence_table_present'] = dict(violations=1)
@@ -246,6 +320,8 @@ def validate(index_dir, reference=None, sample_keys=50000):
                 miss = con.execute(f"select count(*) from read_parquet('{os.path.join(index_dir, 'evidence', level, '**', '*.parquet')}', union_by_name=true) e where e.mapping_status = 'mapped' "
                                    f"and e.subject_id not in (select {col} from read_parquet('{tf}', union_by_name=true))").fetchone()[0]
                 check(f'mapped_{level}_subject_not_an_entity', int(miss))
+        con.close()
+        entity_checks(index_dir, check, note)
     except ImportError:
         res['checks']['duckdb_checks'] = dict(violations=0, detail='skipped: duckdb is not installed (evidence_id uniqueness and subject existence were not checked)')
     finally:
