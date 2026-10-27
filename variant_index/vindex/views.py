@@ -304,7 +304,9 @@ def render_report(results_dir, top=25):
         for r in sorted(un, key=lambda r: (r['chrom'], r['pos'], r['key']))[:top]:
             L.append(f"| `{r['key']}` | {r['status']} | {', '.join(r['rules'] or ())} | {(r['missing_evidence'] or ', '.join(r['reasons'] or ())).replace('|', '/')} |")
         L.append('')
-    L += ['## Views', '', f"Calls considered: {vm['n_calls_considered']:,} (statuses {', '.join(vm['statuses'])}). A view selects and orders rows of small_calls.parquet; no view hides a call and none combines axes into one number.", '']
+    L += ['## Views', '', f"Calls considered: {vm['n_calls_considered']:,} (statuses {', '.join(vm['statuses'])}). A view selects and orders rows of small_calls.parquet; no view hides a call and none combines axes into one number. "
+         "Evidence is attached to the site of the call: how many copies of a row's effect allele the sample carries (none, for a row about the reference allele and a homozygous alternate call) "
+         "is in evidence_links.parquet (effect_allele_dosage), not in the views.", '']
     for name, v in vm['views'].items():
         L += [f"### {v['title']} ({v['n_calls']:,})", '', f"Ordering: {v['ordering']}.", '']
         rows = pq.read_table(os.path.join(results_dir, 'views', f'{name}.parquet')).to_pylist()[:top]
