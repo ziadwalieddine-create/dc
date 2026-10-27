@@ -649,7 +649,7 @@
       "id": "D8",
       "section": "DELIVER",
       "clause": "Check provenance, preservation and idempotence; revalidate after source or schema changes.",
-      "how": "verify_index.py (provenance, with a resolver for every source), audit_existing.py --check (preservation), table digests compared across two builds that ran in separate processes (idempotence; the manifest records the digest of the build code), crosscheck_bcftools.py (ClinVar rows and sample calls against bcftools), verify_known_loci.py (facts established outside the index: an rsID's position, the direction of an association, a classification, a star allele's defining variant, a curated gene or region assertion), reports.change_log between builds and reports.validate after every build.",
+      "how": "verify_index.py (provenance, with a resolver for every source), audit_existing.py --check (preservation), table digests compared across two builds that ran in separate processes (idempotence; the manifest records the digest of the build code), crosscheck_bcftools.py (ClinVar rows and sample calls against bcftools), compare_runs.py (two matcher runs of one input with different hash seeds, table by table), verify_known_loci.py (facts established outside the index: an rsID's position, the direction of an association, a classification, a star allele's defining variant, a curated gene or region assertion), reports.change_log between builds and reports.validate after every build.",
       "code": [
         "variant_index/vindex/provenance.py",
         "variant_index/vindex/reports.py",
@@ -657,7 +657,8 @@
         "variant_index/check_idempotence.py",
         "variant_index/verify_known_loci.py",
         "variant_index/vindex/known_loci.py",
-        "variant_index/known_loci.json"
+        "variant_index/known_loci.json",
+        "variant_index/compare_runs.py"
       ],
       "tests": [
         "test_provenance",
@@ -667,7 +668,8 @@
         "test_crosscheck",
         "test_resolvers",
         "test_genes",
-        "test_known_loci"
+        "test_known_loci",
+        "test_compare_runs"
       ],
       "status": "verified"
     },

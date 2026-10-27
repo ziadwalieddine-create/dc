@@ -46,8 +46,9 @@ class TestGapAudit(unittest.TestCase):
         try:
             ga.CHECKS[:] = [(n, f) for n, f in saved if n.startswith(('the built index passed validation', 'provenance:', 'a sample run agrees with bcftools', 'ClinVar-derived rows',
                                                                       'every unresolved high-value locus', 'the sample run accounts', 'the sample run was made by committed code',
-                                                                      'every release that holds evidence rows', 'lineage keys are shared'))]
-            self.assertEqual(len(ga.CHECKS), 9)
+                                                                      'every release that holds evidence rows', 'lineage keys are shared', 'facts established outside the index',
+                                                                      'the structural run on real calls', 'two matcher runs of one input'))]
+            self.assertEqual(len(ga.CHECKS), 12)
             res = ga.run(self.args())
         finally:
             ga.CHECKS[:] = saved

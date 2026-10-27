@@ -309,6 +309,15 @@ def _clinvar_fields(a):
     return f"{t['vcf_records']:,} records, {t['vcf_classifications']:,} classifications, {t['mapped']:,} keys equal to bcftools norm"
 
 
+@check('facts established outside the index (rsID positions, effect-allele orientation, classifications, star-allele definitions, curated assertions, retained unmapped rows) read back from it')
+def _known_loci(a):
+    v = jload(need(os.path.join(a.index, 'reports', 'known_loci.json')))
+    if not v['ok']:
+        bad = [f"{l['id']}/{c['id']}: {c['status']} {c['observed']}" for l in v['loci'] for c in l['checks'] if c['status'] != 'PASS']
+        raise AssertionError('; '.join(bad)[:900])
+    return f"{v['n_loci']} loci, {v['totals']['PASS']} checks, all pass"
+
+
 @check('a sample run agrees with bcftools on its calls and on the ClinVar evidence of those calls')
 def _crosscheck(a):
     v = jload(need(os.path.join(a.results, 'crosscheck.json')))
@@ -372,6 +381,34 @@ def _run_provenance(a):
         if not recorded or recorded != sha(os.path.join(a.index, name)):
             raise AssertionError(f'{name} of the index is not the one the run used')
     return f"commit {code['commit'][:10]}, {len(files)} modules unchanged, index manifests identical"
+
+
+@check('the structural run on real calls (HG002 genotypes of the public HGSVC3 callset) accounts for every record and carries the summary of what it refused')
+def _structural_run(a):
+    can_import('pyarrow')
+    import pyarrow.parquet as pq
+    run_dir = a.results + '_sv'
+    m = jload(need(os.path.join(run_dir, 'run_manifest.json')))
+    v = m['counts']['vcf']
+    n = m['rows']['sv_calls']
+    if n + m['rows']['rejected_calls'] != v.get('records', 0) or n != sum(m['counts']['structural'].values()):
+        raise AssertionError(f"records {v.get('records')}, structural rows {n}, rejected rows {m['rows']['rejected_calls']}, structural counts {m['counts']['structural']}")
+    if m['code'].get('uncommitted_changes_in_variant_index') or m.get('code_changed_during_run') is not False:
+        raise AssertionError('the structural run was made from a tree with uncommitted changes, or the tree changed during the run')
+    t = pq.read_table(os.path.join(run_dir, 'sv_calls.parquet'), columns=['refused_summary_json', 'refused_json'])
+    missing = sum(1 for x in t['refused_summary_json'].to_pylist() if x is None)
+    biggest = max(len(x or '') for x in t['refused_json'].to_pylist())
+    if missing or biggest > 100_000:
+        raise AssertionError(f'{missing} calls without a refusal summary; the largest refused_json has {biggest:,} characters')
+    return f"{n:,} structural calls in {m['seconds']:.0f} s; largest refusal list {biggest:,} characters"
+
+
+@check('two matcher runs of one input with different hash seeds give identical result tables and manifests')
+def _matcher_idempotence(a):
+    v = jload(need(os.path.join(os.path.dirname(a.results), 'matcher_idempotence.json')))
+    if not v['identical']:
+        raise AssertionError(json.dumps({k: v[k] for k in ('tables_differ', 'only_in_a', 'only_in_b', 'manifest_fields_differ')})[:600])
+    return f"{v['tables']} tables identical"
 
 
 def run(a):

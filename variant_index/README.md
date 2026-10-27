@@ -41,6 +41,7 @@ python3 inventory/gap_audit.py                             # executable adversar
 python3 variant_index/match_wgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE [--callable-bed HIGH_CONFIDENCE.bed] [--external-haplotypes calls.json]
 python3 variant_index/make_views.py --results data/results/SAMPLE        # priority lists, trait and pathway groupings, report.md (views over the complete tables)
 python3 variant_index/crosscheck_bcftools.py --vcf SAMPLE.vcf.gz --results data/results/SAMPLE   # the calls and the ClinVar evidence of those calls, recomputed with bcftools norm and compared
+python3 variant_index/compare_runs.py RUN_A RUN_B           # two runs of one input (different hash seeds or days): every result table byte-identical, manifests equal apart from the clock
 
 # 4. polygenic scores are separate models, never variant evidence
 python3 variant_index/build_pgs_registry.py                # every score in the catalogue, whether its GRCh38 file was acquired, and its gates
