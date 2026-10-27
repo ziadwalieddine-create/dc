@@ -48,23 +48,25 @@
   {
    "id": "tcf7l2_rs7903146_t2d",
    "title": "TCF7L2 rs7903146: the T allele raises type 2 diabetes risk",
-   "basis": "The strongest common-variant association with type 2 diabetes (odds ratio about 1.4 per T allele), replicated in every ancestry studied.",
+   "basis": "The strongest common-variant association with type 2 diabetes (odds ratio about 1.4 per T allele), replicated in every ancestry studied. Fine-mapping places a posterior inclusion probability of about 1 on this variant for type 2 diabetes.",
    "rsid": "rs7903146",
    "key": "10:112998590:C:T",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "type (2|ii) diabetes"}, "not_regex": {"condition_text": "gestational|nephropathy|retinopathy|adjusted|response|age at"}, "risk_allele": "T", "other_allele": "C", "min_rows": 5, "min_fraction": 0.9}
+    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "type (2|ii) diabetes"}, "not_regex": {"condition_text": "gestational|nephropathy|retinopathy|adjusted|response|age at|onset"}, "risk_allele": "T", "other_allele": "C", "min_rows": 5, "min_fraction": 0.9},
+    {"id": "fine_mapping_puts_almost_all_probability_on_it", "type": "evidence", "where": {"source_id": "opentargets", "axis": "fine_mapping_probability"}, "regex": {"condition_text": "type 2 diabetes"}, "bounds": {"pip": [0.9, 1.0]}, "min_rows": 1}
    ]
   },
   {
    "id": "apoe_rs429358_alzheimer",
    "title": "APOE rs429358: the C allele (the epsilon-4 allele) raises Alzheimer's disease risk",
-   "basis": "The largest common genetic risk factor for late-onset Alzheimer's disease (about 3-fold per allele); the epsilon-4 allele is rs429358 C together with rs7412 C.",
+   "basis": "The largest common genetic risk factor for late-onset Alzheimer's disease (about 3-fold per allele); the epsilon-4 allele is rs429358 C together with rs7412 C. Fine-mapping places a posterior inclusion probability of about 1 on this variant for Alzheimer's disease.",
    "rsid": "rs429358",
    "key": "19:44908684:T:C",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "alzheimer"}, "not_regex": {"condition_text": "biomarker|cerebrospinal|csf|age at|onset|survival|tau|amyloid|neuro|atrophy|volume|cognitive"}, "risk_allele": "C", "other_allele": "T", "min_rows": 3, "min_fraction": 0.9}
+    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "alzheimer"}, "not_regex": {"condition_text": "biomarker|cerebrospinal|csf|age at|onset|survival|tau|amyloid|neuro|atrophy|volume|cognitive"}, "risk_allele": "C", "other_allele": "T", "min_rows": 3, "min_fraction": 0.9},
+    {"id": "fine_mapping_puts_almost_all_probability_on_it", "type": "evidence", "where": {"source_id": "opentargets", "axis": "fine_mapping_probability"}, "regex": {"condition_text": "alzheimer"}, "bounds": {"pip": [0.9, 1.0]}, "min_rows": 1}
    ]
   },
   {
