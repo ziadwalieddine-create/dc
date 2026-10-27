@@ -16,6 +16,14 @@ from test_wgs import b, alt, build_index, combined_clinvar_vcf, sample_vcf
 from vindex import crosscheck, wgs
 
 
+class TestConditionIdentifiers(unittest.TestCase):
+    def test_the_identifiers_of_a_disease_database_field_are_read_the_way_the_index_writes_them(self):
+        self.assertEqual(crosscheck._ids('MONDO:MONDO:0014152,MedGen:C3809288,OMIM:615373'), ['MONDO:0014152', 'MedGen:C3809288', 'OMIM:615373'])
+        self.assertEqual(crosscheck._ids('Human_Phenotype_Ontology:HP:0001250|MedGen:C0000001,HP:HP:0001250'), ['HP:0001250', 'MedGen:C0000001'])
+        self.assertEqual(crosscheck._ids('.|MedGen:C1, .|'), ['MedGen:C1'])
+        self.assertEqual(crosscheck._ids('.'), [])
+
+
 @unittest.skipUnless(find_tool('bcftools'), 'bcftools not available (set VINDEX_TOOLS_BIN)')
 class TestCrosscheck(unittest.TestCase):
     @classmethod

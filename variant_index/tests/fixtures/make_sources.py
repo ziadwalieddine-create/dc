@@ -95,7 +95,7 @@ def mini_clingen(out):
     for ctxn, C in (('adult', 'Adult'), ('pediatric', 'Pediatric')):
         with open(os.path.join(out, 'actionability', f'{ctxn}_assertions_all.tsv'), 'w') as f:
             f.write(ah + '\n' + f'AC1\t/AC1\tGene-Condition\tx\tx\tx\t{C}\thttps://x\t1.0.0\tBRCA1\t113705\tBreast cancer\t114480\tMONDO_0007254\t\tA\t\tStrong Actionability\tComplete\tReleased\tComplete\n'
-                    f'AC2\t/AC2\tVariant-Condition\tx\tx\tx\t{C}\thttps://x\t1.0.0\tNM_000059.4(BRCA2):c.1A>G\t600185\tHBOC\t604370\t\t\tA\t\tAssertion Pending\tComplete\tReleased\tComplete\n')
+                    f'AC2\t/AC2\tVariant-Condition\tx\tx\tx\t{C}\thttps://x\t1.0.0\tNM_000059.4(BRCA2):c.1A>G\t600185\tHBOC\t604370\t0007254\t\tA\t\tAssertion Pending\tComplete\tReleased\tComplete\n')
         with open(os.path.join(out, 'actionability', f'{ctxn}_scoring.tsv'), 'w') as f:
             f.write(sh + '\n' + f'AC1\t/AC1\tGene-Condition\tx\tx\tx\t{C}\thttps://x\t1.0.0\tx\tBRCA1\t113705\tBreast cancer\t114480\tReleased\tComplete\tComplete\tComplete\tcancer\tGroupA\tsurveillance\tGroupA\tA\t2\t3C\t3\t2B\t2\t3C\t3\t2B\t2N\n')
 
@@ -175,6 +175,11 @@ def mini_gwas(out):
     r15 = C(p15)
     cases['no_alt_known'] = dict(pos=p15, ref=r15)
     rows.append(gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p15), 'STRONGEST SNP-RISK ALLELE': f'rs111-{next(x for x in "ACGT" if x != r15)}', 'SNPS': 'rs111'}))
+    p16 = 480
+    r16 = C(p16)
+    a16 = next(x for x in 'ACGT' if x not in (r16, comp[r16]))
+    cases['rsid_of_another_variant'] = dict(pos=p16, ref=r16, alt=a16)                    # the Catalog's rs112 sits at a position where the variant index knows another variant (rs999), e.g. an indel and a SNV
+    rows.append(gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p16), 'STRONGEST SNP-RISK ALLELE': f'rs112-{r16}', 'SNPS': 'rs112', 'OR or BETA': '1.3', '95% CI (TEXT)': '[1.1-1.5]', 'CONTEXT': 'inframe_insertion'}))
     rows.append(gwas_row(**{'STRONGEST SNP-RISK ALLELE': 'chr1:99999999999-C', 'SNPS': 'chr1:99999999999', 'OR or BETA': '1.4', '95% CI (TEXT)': '[1.2-1.6]',
                             'DISEASE/TRAIT': '', 'MAPPED_TRAIT': ''}))                  # impossible position (a real catalogue typo) on a record whose trait is blank
     with zipfile.ZipFile(os.path.join(out, 'gwas-catalog-associations_ontology-annotated-full.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
@@ -496,7 +501,7 @@ def mini_opentargets(out):
     for d in ('biosample', 'study', 'l2g_prediction', 'credible_set'):
         os.makedirs(os.path.join(out, d), exist_ok=True)
     pq.write_table(pa.table({'biosampleId': ['EFO_0005292', 'UBERON_0000948'], 'biosampleName': ['lymphoblastoid cell line', 'heart']}), os.path.join(out, 'biosample', 'part-0.parquet'))
-    st = [dict(studyId='GCST000001', geneId=None, projectId='GCST', studyType='gwas', traitFromSource='Test trait', traitFromSourceMappedIds=['EFO_0000001'], pubmedId='111', nSamples=1000, nCases=300,
+    st = [dict(studyId='GCST000001', geneId=None, projectId='GCST', studyType='gwas', traitFromSource='Test trait', traitFromSourceMappedIds=['EFO_0000001', 'gastric adenocarcinoma'], pubmedId='111', nSamples=1000, nCases=300,
                cohorts=['TestCohort'], discoverySamples=[{'sampleSize': 1000, 'ancestry': 'European'}], ldPopulationStructure=[{'ldPopulation': 'nfe', 'relativeSampleSize': 1.0}], hasSumstats=True,
                diseaseIds=['MONDO_0000001'], biosampleId=None),
           dict(studyId='FINNGEN_R12_TEST', geneId=None, projectId='FINNGEN_R12', studyType='gwas', traitFromSource='Finnish trait', traitFromSourceMappedIds=['EFO_0000002'], pubmedId=None, nSamples=500,
@@ -556,7 +561,14 @@ def mini_opentargets_gene(out):
                projectId='Genebass', cohortId='UKB', statisticalMethod='SKAT-O', releaseVersion='r1', studyCasesWithQualifyingVariants=30, sex=['male', 'female'], directionOnTrait='risk'),
           dict(id='b2', targetId='ENSG_TESTH', diseaseId='EFO_3', diseaseFromSource='Another trait', oddsRatio=None, oddsRatioConfidenceIntervalLower=None, oddsRatioConfidenceIntervalUpper=None, beta=-0.2,
                betaConfidenceIntervalLower=-0.4, betaConfidenceIntervalUpper=-0.1, pValueMantissa=0.5, pValueExponent=-1, ancestry='European', studySampleSize=400000, studyCases=None, allelicRequirements=[],
-               projectId='Genebass', cohortId='UKB', statisticalMethod='burden', releaseVersion='r1', studyCasesWithQualifyingVariants=None, sex=[], directionOnTrait='protect')]
+               projectId='Genebass', cohortId='UKB', statisticalMethod='burden', releaseVersion='r1', studyCasesWithQualifyingVariants=None, sex=[], directionOnTrait='protect'),
+          # no case carries a qualifying variant: the odds ratio is 0, which is no estimate; the project is not stated
+          dict(id='b3', targetId='ENSG_TESTG', diseaseId='MONDO_4', diseaseFromSource='Gout', oddsRatio=0.0, oddsRatioConfidenceIntervalLower=0.0, oddsRatioConfidenceIntervalUpper=1.5, beta=None,
+               betaConfidenceIntervalLower=None, betaConfidenceIntervalUpper=None, pValueMantissa=4.359, pValueExponent=-12, ancestry='EUR', studySampleSize=169189, studyCases=5979, allelicRequirements=['dominant'],
+               projectId=None, cohortId='INTERVAL', statisticalMethod='flexdmg', releaseVersion='r1', studyCasesWithQualifyingVariants=0, sex=[], directionOnTrait='protect'),
+          dict(id='b4', targetId='ENSG_TESTH', diseaseId='EFO_5', diseaseFromSource='Edge', oddsRatio=float('inf'), oddsRatioConfidenceIntervalLower=1.0, oddsRatioConfidenceIntervalUpper=float('inf'), beta=None,
+               betaConfidenceIntervalLower=None, betaConfidenceIntervalUpper=None, pValueMantissa=0.5, pValueExponent=-1, ancestry='EUR', studySampleSize=1000, studyCases=10, allelicRequirements=[],
+               projectId='Genebass', cohortId=None, statisticalMethod='burden', releaseVersion='r1', studyCasesWithQualifyingVariants=1, sex=[], directionOnTrait='risk')]
     pq.write_table(pa.Table.from_pylist(gb), os.path.join(out, 'evidence_gene_burden', 'part-0.parquet'))
 
 

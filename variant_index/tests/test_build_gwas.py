@@ -43,7 +43,8 @@ def variants():
              ('1', c['palindromic_unresolved']['pos']): [(c['palindromic_unresolved']['alt'], ('rs105',))],
              ('1', c['unknown_allele']['pos']): [(c['unknown_allele']['alt'], ('rs106',))],
              ('1', c['chr_verified']['pos']): [(c['chr_verified']['alt'], ())],
-             ('1', c['merged_rsid_p_zero']['pos']): [(c['merged_rsid_p_zero']['alt'], ('rs110',))]}
+             ('1', c['merged_rsid_p_zero']['pos']): [(c['merged_rsid_p_zero']['alt'], ('rs110',))],
+             ('1', c['rsid_of_another_variant']['pos']): [(c['rsid_of_another_variant']['alt'], ('rs999',))]}
     pr = c['palindromic_resolved']
     freqs = {f"1_{pr['pos']}_{pr['ref']}_{pr['alt']}": [0.2, 0.25]}
     return StubVariants(known, freqs)
@@ -73,11 +74,23 @@ class TestGwas(unittest.TestCase):
 
     def test_every_record_is_kept_once_as_an_association_row(self):
         st = self.man['adapters'][0]['stats']
-        self.assertEqual(st['records'], 17)
-        self.assertEqual(len(self.assoc()), 17)
+        self.assertEqual(st['records'], 18)
+        self.assertEqual(len(self.assoc()), 18)
         reasons = {r['mapping_reason'] for r in self.assoc() if r['mapping_status'] != 'mapped'}
         self.assertEqual(reasons, {'strand_unresolved_palindromic', 'interaction_between_variants', 'multi_variant_record', 'non_rsid_identifier_or_hla_or_amino_acid', 'author_position_assembly_unverified',
                                    'indel_notation_in_author_identifier', 'multi_base_risk_allele', 'no_position_in_catalog', 'no_alternate_allele_known', 'position_beyond_contig_length'})
+
+    def test_an_rsid_is_never_given_the_alternate_allele_of_another_variant_at_its_position(self):
+        # found by the known-locus check of CFTR F508del: the Catalog's rs113993960 (a three-base deletion, given at one position) was mapped to a SNV T>G that Open Targets lists under
+        # another rsID at that position, and the xref table then said rs113993960 was that SNV; 650 rows of the real file were mapped this way
+        c = CASES['rsid_of_another_variant']
+        r = self.assoc(unmapped_key='rs112')
+        self.assertEqual(len(r), 1)
+        self.assertEqual((r[0]['mapping_status'], r[0]['mapping_reason'], r[0]['subject_id']), ('unmapped', 'no_alternate_allele_known', None))
+        self.assertEqual((r[0]['chrom'], r[0]['pos']), ('1', c['pos']))                                                                # still findable by position
+        self.assertEqual([x for x in self.idx.table('xref').to_pylist() if x['identifier'] == 'rs112'], [])
+        self.assertEqual([x for x in self.ev if x['subject_id'] == f"1:{c['pos']}:{c['ref']}:{c['alt']}"], [])                         # nothing is attached to the other variant
+        self.assertFalse([x for x in self.ev if 'rsid_not_listed_at_position' in (x['extra_json'] or '')])
 
     def test_an_impossible_position_is_kept_as_unmapped_not_coerced(self):
         r = self.assoc(unmapped_key='chr1:99999999999')

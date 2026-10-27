@@ -217,7 +217,17 @@ def _origin(v):
 
 
 def _ids(disdb):
-    return sorted({x for grp in disdb.split('|') for x in grp.split(',') if x and x != '.'})
+    """The condition identifiers of a CLNDISDB / ONCDISDB / SCIDISDB value as the index writes them: PREFIX:LOCAL. ClinVar's VCF repeats the prefix of some identifiers (MONDO:MONDO:0014152)
+    and spells the Human Phenotype Ontology out (Human_Phenotype_Ontology:HP:0001250). This restates the rule of vindex.build.common.curie on purpose, so that a mistake in one of the two is
+    seen by the comparison."""
+    out = set()
+    for grp in disdb.split('|'):
+        for x in grp.split(','):
+            x = x.strip()
+            if x and x != '.':
+                x = re.sub(r'^Human_Phenotype_Ontology:', '', x)
+                out.add(re.sub(r'^([^:]+):\1:', r'\1:', x))
+    return sorted(out)
 
 
 def clinvar_fields(index_dir, vcf, reference, contigs=None, bcftools=None, examples=10):

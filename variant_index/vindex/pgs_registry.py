@@ -163,6 +163,12 @@ def build_registry(meta_dir, scoring_manifest, out_dir):
     return manifest
 
 
+def models_for_trait(models, trait):
+    """Ids of the acquired scores mapped to an ontology term. EFO_0004339 and EFO:0004339 are one term: the PGS Catalog writes the first, the index and its views the second."""
+    key = (trait or '').strip().replace(':', '_', 1)
+    return sorted(i for i, m in models.items() if m.get('scoring_file') == 'acquired' and any((x or '').strip().replace(':', '_', 1) == key for x in m.get('efo_ids') or ()))
+
+
 def ancestry_meta(model_row):
     """The structure vindex.pgs.score expects for its ancestry gate: development and evaluation distributions as 'group:pct|group:pct' text."""
     return dict(development=model_row.get('ancestry_development'), evaluation=model_row.get('ancestry_evaluation'))

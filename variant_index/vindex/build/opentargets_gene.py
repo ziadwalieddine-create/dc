@@ -13,6 +13,7 @@ A gene knockout or burden of qualifying variants says nothing about one particul
 """
 import glob
 import json
+import math
 import os
 import re
 from collections import Counter
@@ -24,6 +25,21 @@ from .common import evidence_row
 from .opentargets_genetics import OT
 
 ALLELE = re.compile(r'^(?P<g1>[^<]+)<(?P<a1>[^>]*)>/(?P<g2>[^<]+)<(?P<a2>[^>]*)>$')
+
+
+def positive_ratio(x):
+    """A ratio estimate (odds ratio) as a number, only when it is positive and finite. Zero (no case carries a qualifying variant), a negative value, infinity and NaN are not estimates
+    of a ratio: the caller keeps what the source wrote in extra_json and stores nothing in the ratio column."""
+    try:
+        v = float(x)
+    except (TypeError, ValueError):
+        return None
+    return v if math.isfinite(v) and v > 0 else None
+
+
+def finite_or_text(x):
+    """A number as it is, or text for NaN and infinity, which JSON cannot hold."""
+    return x if not isinstance(x, float) or math.isfinite(x) else str(x)
 
 
 def zygosity(composition):
@@ -180,12 +196,22 @@ class OpenTargetsGeneAdapter:
                     v = r['pValueMantissa'] * 10.0 ** r['pValueExponent']
                     pv = v if 1e-300 < v <= 1 else None
                 eff = 'effect' if pv is not None and pv < 0.05 else 'uncertain'
+                reported = r.get('oddsRatio')
+                ratio = positive_ratio(reported)
+                extra = dict(cohort=r.get('cohortId'), release=r.get('releaseVersion'), cases_with_qualifying_variants=r.get('studyCasesWithQualifyingVariants'),
+                             statistical_method=r.get('statisticalMethod'), sex=r.get('sex'), direction_on_trait=r.get('directionOnTrait'),
+                             scope='burden of qualifying variants in the gene, not an effect of one allele')
+                if reported is not None and ratio is None:                  # e.g. 0 when no case carries a qualifying variant: not an estimate, and its interval describes nothing
+                    extra.update(odds_ratio_reported=finite_or_text(reported), odds_ratio_not_stored='not a positive finite number',
+                                 odds_ratio_interval_reported=[finite_or_text(r.get('oddsRatioConfidenceIntervalLower')), finite_or_text(r.get('oddsRatioConfidenceIntervalUpper'))])
+                    ci_low = ci_high = None
+                elif reported is not None:
+                    ci_low, ci_high = r.get('oddsRatioConfidenceIntervalLower'), r.get('oddsRatioConfidenceIntervalUpper')
+                else:
+                    ci_low, ci_high = r.get('betaConfidenceIntervalLower'), r.get('betaConfidenceIntervalUpper')
                 self.emit(ctx, rel, st, f"burden:{r['id']}", f"evidence_gene_burden/{os.path.basename(f)}#{i}", json.dumps({k: r[k] for k in ('id', 'targetId', 'diseaseId', 'oddsRatio', 'beta', 'pValueMantissa', 'pValueExponent')}, sort_keys=True, default=str),
                           r['targetId'], 'association_replication', 'statistical_association', 'gene_burden_association', r.get('diseaseFromSource') or r.get('diseaseId') or 'trait', eff,
-                          odds_ratio=r.get('oddsRatio'), beta=r.get('beta'), ci_low=r.get('oddsRatioConfidenceIntervalLower') if r.get('oddsRatio') is not None else r.get('betaConfidenceIntervalLower'),
-                          ci_high=r.get('oddsRatioConfidenceIntervalUpper') if r.get('oddsRatio') is not None else r.get('betaConfidenceIntervalUpper'), p_value=pv, ancestry=r.get('ancestry'),
+                          odds_ratio=ratio, beta=r.get('beta'), ci_low=ci_low, ci_high=ci_high, p_value=pv, ancestry=r.get('ancestry'),
                           sample_size=r.get('studySampleSize'), n_cases=r.get('studyCases'), inheritance=', '.join(r.get('allelicRequirements') or []) or None, condition_ids=[r['diseaseId']] if r.get('diseaseId') else None,
-                          condition_text=r.get('diseaseFromSource'), curator=r.get('projectId'), lineage_group=f"burden_cohort:{r.get('projectId')}:{r.get('cohortId')}", discriminator=r['id'],
-                          review_status=r.get('statisticalMethod'), extra=dict(cohort=r.get('cohortId'), release=r.get('releaseVersion'), cases_with_qualifying_variants=r.get('studyCasesWithQualifyingVariants'),
-                                                                              statistical_method=r.get('statisticalMethod'), sex=r.get('sex'), direction_on_trait=r.get('directionOnTrait'),
-                                                                              scope='burden of qualifying variants in the gene, not an effect of one allele'))
+                          condition_text=r.get('diseaseFromSource'), curator=r.get('projectId'), lineage_group=f"burden_cohort:{r.get('projectId') or 'unspecified'}:{r.get('cohortId') or 'unspecified'}", discriminator=r['id'],
+                          review_status=r.get('statisticalMethod'), extra=extra)

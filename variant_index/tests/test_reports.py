@@ -212,6 +212,16 @@ class TestReports(unittest.TestCase):
         v = self.damaged(lambda d: (self.rewrite(d, p, 'ci_low', lambda xs: [3.0] + xs[1:]), self.rewrite(d, p, 'ci_high', lambda xs: [2.0] + xs[1:])))
         self.assertEqual(v['checks']['ci_low_above_ci_high']['violations'], 1)                                 # 1,746 inverted betas
 
+    def test_identifiers_and_dates_have_one_spelling_and_a_damaged_one_is_caught(self):
+        # found by reading the shapes of the real index: Open Targets wrote MONDO_0005393, ClinVar's VCF MONDO:MONDO:0010178 and Human_Phenotype_Ontology:HP:0001250, ClinGen dates in three formats
+        clean = reports.validate(self.idx, syn_reference())
+        self.assertEqual((clean['checks']['condition_id_not_prefix_colon_local']['violations'], clean['checks']['evaluated_not_an_iso_date']['violations']), (0, 0))
+        p = 'evidence/variant/1/clinvar.parquet'
+        v = self.damaged(lambda d: self.rewrite(d, p, 'condition_ids', lambda xs: [['MONDO_0001', 'MONDO:MONDO:2', 'Human_Phenotype_Ontology:HP:3', 'OMIM:4', 'MedGen:C5']] + xs[1:]))
+        self.assertEqual(v['checks']['condition_id_not_prefix_colon_local']['violations'], 3)
+        v = self.damaged(lambda d: self.rewrite(d, p, 'evaluated', lambda xs: ['Mon, 05 Jun 2023 12:00:00 -0400', '2023-06-05T10:00:00Z'] + xs[2:]))
+        self.assertEqual(v['checks']['evaluated_not_an_iso_date']['violations'], 2)
+
     def test_an_estimate_beside_an_interval_that_does_not_contain_it_is_caught_but_a_rounding_slip_is_not(self):
         p = 'evidence/variant/1/clinvar.parquet'
 

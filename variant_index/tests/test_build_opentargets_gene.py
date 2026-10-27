@@ -71,7 +71,7 @@ class TestGeneEvidence(unittest.TestCase):
         self.assertEqual(hom['perturbation'], 'mouse allele Testg<tm1A>/Testg<tm1A> (homozygous)')
         self.assertEqual((hom['claim_value'].split('; ')[0], extra['n_phenotypes'], extra['source_rows']), ('short limbs', 3, 2))
         self.assertEqual([p['n'] for p in extra['phenotype_counts']][:1], [2])
-        self.assertEqual(hom['condition_ids'], ['MONDO_1', 'MONDO_2'])
+        self.assertEqual(hom['condition_ids'], ['MONDO:1', 'MONDO:2'])
         self.assertIn('not a negative result', extra['note'])
         het = [r for r in self.rows(claim_type='mouse_model_phenotypes') if r['inheritance'] == 'heterozygous'][0]
         self.assertEqual(het['lineage_group'], 'mgi_model:MGI:2')
@@ -95,6 +95,27 @@ class TestGeneEvidence(unittest.TestCase):
         self.assertIn('not an effect of one allele', json.loads(a['extra_json'])['scope'])
         b = self.rows(accession='burden:b2')[0]
         self.assertEqual((b['beta'], b['ci_low'], b['effect_assertion']), (-0.2, -0.4, 'uncertain'))
+
+    def test_a_ratio_that_is_not_an_estimate_is_kept_as_reported_and_not_stored(self):
+        # found by validating the standalone build on the real file: an AstraZeneca burden row with 0 cases carrying a qualifying variant has an odds ratio of exactly 0
+        from vindex.build.opentargets_gene import positive_ratio, finite_or_text
+        self.assertEqual([positive_ratio(x) for x in (2.5, 0.01, 0.0, -1.0, float('inf'), float('nan'), None, 'x')], [2.5, 0.01, None, None, None, None, None, None])
+        self.assertEqual((finite_or_text(0.0), finite_or_text(float('inf')), finite_or_text(float('nan'))), (0.0, 'inf', 'nan'))
+        for acc, reported in (('burden:b3', 0.0), ('burden:b4', 'inf')):
+            r = self.rows(accession=acc)[0]
+            extra = json.loads(r['extra_json'])
+            self.assertEqual((r['odds_ratio'], r['ci_low'], r['ci_high'], r['beta']), (None, None, None, None), acc)
+            self.assertEqual((extra['odds_ratio_reported'], extra['odds_ratio_not_stored']), (reported, 'not a positive finite number'))
+        b3 = self.rows(accession='burden:b3')[0]
+        self.assertEqual((b3['effect_assertion'], json.loads(b3['extra_json'])['odds_ratio_interval_reported'], json.loads(b3['extra_json'])['cases_with_qualifying_variants']), ('effect', [0.0, 1.5], 0))
+        self.assertAlmostEqual(b3['p_value'], 4.359e-12)                                                                         # the evidence the row does carry is kept
+        ok = self.rows(accession='burden:b1')[0]
+        self.assertNotIn('odds_ratio_reported', json.loads(ok['extra_json']))
+
+    def test_a_missing_project_or_cohort_is_unspecified_in_the_lineage_key_not_the_text_none(self):
+        got = {a: self.rows(accession=a)[0]['lineage_group'] for a in ('burden:b1', 'burden:b3', 'burden:b4')}
+        self.assertEqual(got, {'burden:b1': 'burden_cohort:Genebass:UKB', 'burden:b3': 'burden_cohort:unspecified:INTERVAL', 'burden:b4': 'burden_cohort:Genebass:unspecified'})
+        self.assertFalse([r for r in self.ev if 'None' in (r['lineage_group'] or '')])
 
     def test_ids_unique_and_rebuild_idempotent(self):
         ids = [r['evidence_id'] for r in self.ev]

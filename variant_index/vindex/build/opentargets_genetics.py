@@ -21,7 +21,7 @@ import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
 from ..normalise import normalise
-from .common import DATA, evidence_row
+from .common import DATA, evidence_row, split_identifiers
 
 OT = os.path.join(DATA, 'opentargets', '26.09')
 SET_COLS = ['studyLocusId', 'studyId', 'variantId', 'chromosome', 'position', 'beta', 'standardError', 'pValueMantissa', 'pValueExponent', 'effectAlleleFrequencyFromSource', 'finemappingMethod',
@@ -205,7 +205,7 @@ class OpenTargetsGeneticsAdapter:
             return
         qtl = s['studyType'] != 'gwas'
         ctx.emit('entity_study', dict(study_id=sid, source_id='opentargets', lineage_group=self.lineage(s), study_type=s['studyType'], pubmed=s.get('pubmedId'),
-                                      trait_ids=(s.get('traitFromSourceMappedIds') or []) + (s.get('diseaseIds') or []) or None, trait_text=s.get('traitFromSource'), n_total=s.get('nSamples'),
+                                      trait_ids=split_identifiers((s.get('traitFromSourceMappedIds') or []) + (s.get('diseaseIds') or []))[0] or None, trait_text=s.get('traitFromSource'), n_total=s.get('nSamples'),
                                       n_cases=s.get('nCases'), ancestry=ancestry_of(s)[0], cohorts=', '.join(c for c in (s.get('cohorts') or []) if c and c.strip().upper() not in NOT_REPORTED) or None,
                                       biosample=(biosample.get(s.get('biosampleId')) or s.get('biosampleId')) if qtl else None, has_sumstats=s.get('hasSumstats'), release_id=rel_st), name='opentargets')
         st.inc('studies')

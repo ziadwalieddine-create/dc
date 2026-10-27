@@ -8,7 +8,7 @@ import pyarrow.parquet as pq
 
 from helpers import syn_reference
 from vindex.build import runner
-from vindex.build.common import REPO, evidence_row
+from vindex.build.common import REPO, curie, curies, evidence_row, iso_date, split_identifiers
 
 
 class Emitter:
@@ -32,6 +32,64 @@ class DerivedTargetAdapter:
         ctx.adapter = self
         ctx.register_release('mavedb', 'mavedb_scores_genomic_mapped', 'x')
         return {}
+
+
+class TestOntologyIdentifiersHaveOneSpelling(unittest.TestCase):
+    """Found by reading the identifiers of the final adapters side by side: Open Targets wrote MONDO_0005393, the GWAS Catalog's URIs gave EFO:0000384 and ClinVar's VCF MONDO:MONDO:0010178 and
+    Human_Phenotype_Ontology:HP:0001250, so one disease was several entries in every grouping and two sources could not contradict each other."""
+
+    def test_the_spellings_the_sources_use_become_prefix_colon_local(self):
+        for written, spelled in (('MONDO_0005393', 'MONDO:0005393'), ('Orphanet_199', 'Orphanet:199'), ('EFO_0004339', 'EFO:0004339'), ('MONDO:MONDO:0010178', 'MONDO:0010178'),
+                                 ('HP:HP:0002282', 'HP:0002282'), ('Human_Phenotype_Ontology:HP:0001250', 'HP:0001250'), ('GO_0000050', 'GO:0000050'), (' EFO_1 ', 'EFO:1'), ('OMIM: 612621', 'OMIM:612621'), (' OMIM:   612621 ', 'OMIM:612621'), ('Human_Phenotype_Ontology: HP:0001250', 'HP:0001250')):
+            self.assertEqual(curie(written), spelled, written)
+
+    def test_an_identifier_that_has_the_form_is_not_touched(self):
+        for same in ('EFO:0000384', 'MedGen:C0403814', 'OMIM:277180', 'Orphanet:48', 'MeSH:D012345', 'RxNorm:1048', 'ClinGen:CA000001', 'HP:0000118', 'pharmgkb:PA123', 'ENSG00000141510',
+                     'OMIM phenotypic series:PS156200', 'HP:gait ataxia', 'HP:0002836 Bladder exstrophy', 'HP: gait ataxia'):         # a name after a prefix is the submitter's, not a spelling
+            self.assertEqual(curie(same), same)
+        self.assertEqual((curie(None), curie(''), curie(7)), (None, '', 7))
+
+    def test_a_list_keeps_its_order_and_loses_its_repeats(self):
+        self.assertEqual(curies(['MONDO:MONDO:1', 'OMIM:2', 'MONDO_1', 'MONDO:1']), ['MONDO:1', 'OMIM:2'])
+        self.assertEqual((curies(None), curies([]), curies(['', None])), (None, [], []))
+
+    def test_text_typed_where_the_source_has_identifiers_is_split_off(self):
+        self.assertEqual(split_identifiers(['EFO_1', 'gastric adenocarcinoma', 'MONDO:MONDO:2', 'EFO:1']), (['EFO:1', 'MONDO:2'], ['gastric adenocarcinoma']))
+        self.assertEqual((split_identifiers(None), split_identifiers([])), (([], []), ([], [])))
+
+    def test_such_text_stays_in_extra_json_beside_what_the_adapter_wrote(self):
+        mk = lambda **kw: evidence_row('r', 'opentargets', 'a', 'l', 'raw', 'gene', None, 'ax', 'k', 'c', 'v', 'effect', **kw)
+        row = mk(condition_ids=['EFO_1', 'gastric adenocarcinoma'], extra_json=json.dumps({'lead_key': '1:2:A:C'}))
+        self.assertEqual(row['condition_ids'], ['EFO:1'])
+        self.assertEqual(json.loads(row['extra_json']), {'lead_key': '1:2:A:C', 'condition_ids_not_identifiers': ['gastric adenocarcinoma']})
+        self.assertEqual(json.loads(mk(condition_ids=['stomach cancer'])['extra_json']), {'condition_ids_not_identifiers': ['stomach cancer']})
+        self.assertEqual(mk(condition_ids=['stomach cancer'])['condition_ids'], [])
+        clean = mk(condition_ids=['EFO_1'], extra_json=json.dumps({'k': 1}))
+        self.assertEqual(clean['extra_json'], json.dumps({'k': 1}))                                                  # a row with only identifiers keeps its extra_json byte for byte
+        self.assertNotIn('extra_json', mk(condition_ids=['EFO_1']))
+
+    def test_every_evidence_row_is_written_with_the_one_spelling(self):
+        row = evidence_row('r', 'clinvar', 'a', 'l', 'raw', 'variant', None, 'ax', 'k', 'c', 'v', 'effect', condition_ids=['MONDO:MONDO:0010178', 'MedGen:C0403814', 'MONDO_0005393'])
+        self.assertEqual(row['condition_ids'], ['MONDO:0010178', 'MedGen:C0403814', 'MONDO:0005393'])
+        self.assertNotIn('condition_ids', evidence_row('r', 's', 'a', 'l', 'raw', 'variant', None, 'ax', 'k', 'c', 'v', 'effect'))                       # nothing is invented for a row without conditions
+        self.assertEqual(evidence_row('r', 's', 'a', 'l', 'raw', 'variant', None, 'ax', 'k', 'c', 'v', 'effect', condition_ids=[])['condition_ids'], [])
+
+
+class TestDatesHaveOneSpelling(unittest.TestCase):
+    def test_the_formats_the_sources_use_become_iso_dates(self):
+        for written, spelled in (('2023-05-18', '2023-05-18'), ('2023-05-18T16:00:00.000Z', '2023-05-18'), ('2023-05-18T16:00:00', '2023-05-18'), ('2021-01-05-12:30', '2021-01-05'),
+                                 ('Mon, 05 Jun 2023 12:00:00 -0400', '2023-06-05'), ('Tue, 31 Oct 2023 23:30:00 -0500', '2023-10-31'), ('Oct 29, 2025', '2025-10-29'), (' 2024-02-29 ', '2024-02-29')):
+            self.assertEqual(iso_date(written), spelled, written)
+
+    def test_text_that_is_not_a_date_is_left_alone(self):
+        for same in ('2023-13-45', '2023-02-30', 'not evaluated', 'daily export 2026-10-25', '', 'Mon, 99 Foo 2023 12:00:00 -0400'):
+            self.assertEqual(iso_date(same), same)
+        self.assertEqual((iso_date(None), iso_date(5)), (None, 5))
+
+    def test_every_evidence_row_is_written_with_an_iso_date(self):
+        row = evidence_row('r', 'clingen', 'a', 'l', 'raw', 'gene', None, 'ax', 'k', 'c', 'v', 'effect', evaluated='Mon, 05 Jun 2023 12:00:00 -0400')
+        self.assertEqual(row['evaluated'], '2023-06-05')
+        self.assertNotIn('evaluated', evidence_row('r', 's', 'a', 'l', 'raw', 'variant', None, 'ax', 'k', 'c', 'v', 'effect'))
 
 
 class TestGuards(unittest.TestCase):
@@ -102,8 +160,8 @@ class Rows:
     """Emits mapped variant-level rows with a chosen chrom column, to exercise the filing guard and the streaming entity_variant build."""
     requires = ()
 
-    def __init__(self, source_id, specs, haplotype_keys=(), link_keys=()):
-        self.source_id, self.specs, self.haplotype_keys, self.link_keys = source_id, specs, haplotype_keys, link_keys
+    def __init__(self, source_id, specs, haplotype_keys=(), link_keys=(), xref_keys=()):
+        self.source_id, self.specs, self.haplotype_keys, self.link_keys, self.xref_keys = source_id, specs, haplotype_keys, link_keys, xref_keys
 
     def run(self, ctx, limit=None):
         ctx.adapter = self
@@ -117,6 +175,9 @@ class Rows:
             ctx.emit('haplotype_definition', dict(haplotype_id='H1', variant_key=k, release_id=rel, definition_scope='defining'))
         for k in self.link_keys:
             ctx.emit('variant_gene', dict(variant_key=k, gene_id='ENSG1', relation='ot_l2g_lead_variant', consequence=None, release_id=rel))
+        for i, k in enumerate(self.xref_keys):
+            ctx.emit('xref', dict(namespace='dbsnp', identifier=f'rs{i + 1}', entity_level='variant', entity_id=k, release_id=rel, relation='clinpgx_variant_name'))
+        ctx.emit('xref', dict(namespace='hgnc', identifier='HGNC:1', entity_level='gene', entity_id='ENSG1', release_id=rel, relation='x'))             # a gene identifier names no variant
         return {}
 
 
@@ -151,6 +212,11 @@ class TestEntityVariantStreaming(unittest.TestCase):
         # real data: 41,504 Open Targets lead variants were linked to genes (L2G) without being entities, so the link pointed at nothing
         out, _ = self.build([('1:20:G:T', '1')], link_keys=('1:20:G:T', '12:44:C:A', 'X:9:A:G'))
         self.assertEqual(self.keys_by_file(out), {'1.parquet': ['1:20:G:T'], '12.parquet': ['12:44:C:A'], 'X.parquet': ['X:9:A:G']})
+
+    def test_a_variant_that_only_an_identifier_names_is_an_entity_too(self):
+        # real data: 398 ClinPGx variants had a dbSNP name resolved to a key but no annotation, so 796 xref rows pointed at nothing in entity_variant
+        out, _ = self.build([('1:20:G:T', '1')], xref_keys=('1:20:G:T', '10:103209821:A:T', 'X:9373808:C:G'))
+        self.assertEqual(self.keys_by_file(out), {'1.parquet': ['1:20:G:T'], '10.parquet': ['10:103209821:A:T'], 'X.parquet': ['X:9373808:C:G']})
 
     def test_an_index_without_variants_keeps_an_empty_valid_table(self):
         out, _ = self.build([])

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Score a sample with PGS Catalog models, one chromosome at a time, with the registry's gates beside every result.
 
-    python3 variant_index/score_pgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE/pgs (--pgs PGS000001,PGS000002 | --trait EFO_0004339)
+    python3 variant_index/score_pgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE/pgs (--pgs PGS000001,PGS000002 | --trait EFO:0004339)
                                        [--sample-ancestry European] [--reference-distributions dist.json] [--callable-bed BED] [--per-weight]
 
 --trait selects the acquired scores whose mapped EFO ids include the given id. --reference-distributions is {pgs_id: {ancestry group: {"mean": m, "sd": s}}} computed
@@ -19,6 +19,7 @@ sys.path.insert(0, HERE)
 
 from vindex import pgs_run                                         # noqa: E402
 from vindex.build.common import DATA, REPO                          # noqa: E402
+from vindex.pgs_registry import models_for_trait                  # noqa: E402
 from vindex.refgenome import Reference                              # noqa: E402
 from vindex.vcfio import QCPolicy                                    # noqa: E402
 
@@ -48,7 +49,7 @@ def main(argv=None):
     models = {r['pgs_id']: r for r in pq.read_table(os.path.join(a.registry, 'pgs_model.parquet')).to_pylist()}
     ids = [x for x in (a.pgs or '').split(',') if x]
     if a.trait:
-        ids += sorted(i for i, m in models.items() if a.trait in (m['efo_ids'] or []) and m['scoring_file'] == 'acquired')
+        ids += models_for_trait(models, a.trait)
     ids = sorted(set(ids))
     if not ids:
         raise SystemExit('no scores selected: give --pgs or a --trait that matches acquired scores')

@@ -221,7 +221,7 @@
       "id": "E2",
       "section": "EVIDENCE",
       "clause": "Deduplicate identities, retain evidence.",
-      "how": "Variants have one normalised key; xref carries rsIDs and database identifiers; evidence ids are deterministic hashes, so a record seen twice is one row. One NCBI Gene id resolves to one gene whichever of its ClinVar symbols a record carries (GeneMap.learn_ncbi_symbols); an unresolvable gene keeps its own namespaced identifier.",
+      "how": "Variants have one normalised key; xref carries rsIDs and database identifiers; evidence ids are deterministic hashes, so a record seen twice is one row. One NCBI Gene id resolves to one gene whichever of its ClinVar symbols a record carries (GeneMap.learn_ncbi_symbols); an unresolvable gene keeps its own namespaced identifier. Ontology and database identifiers have one spelling, PREFIX:LOCAL (build.common.curie: Open Targets' MONDO_0005393, ClinVar's MONDO:MONDO:0010178 and Human_Phenotype_Ontology:HP:0001250 become MONDO:0005393, MONDO:0010178 and HP:0001250; ClinVar's 'OMIM: 612621' loses its space and the ClinGen actionability export's bare MONDO number gets its prefix; a name typed among the identifiers, as in one Open Targets study, leaves condition_ids and is kept in extra_json as condition_ids_not_identifiers), evaluation dates are ISO dates, an rsID is never given the alternate allele of another variant at its position (the Catalog's rows are unmapped, not attached to the neighbour), and every variant that an identifier, a link, a definition or a row names is an entity; reports.validate checks the spellings and the references on every build.",
       "code": [
         "variant_index/vindex/build/runner.py",
         "variant_index/vindex/build/common.py",
@@ -230,7 +230,9 @@
       "tests": [
         "test_runner_guards",
         "test_build_clinvar",
-        "test_genes"
+        "test_genes",
+        "test_build_clingen",
+        "test_build_opentargets"
       ],
       "status": "verified"
     },

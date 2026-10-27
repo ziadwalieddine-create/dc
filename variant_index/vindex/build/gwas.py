@@ -238,10 +238,8 @@ class GwasCatalogAdapter:
     def cands(self, k, canon, ctx):
         base = self.refbase(ctx, canon, k[2])
         c = self.variants.snv_alts(k[1], k[2], base)
-        if k[3]:
-            with_rs = [x for x in c if k[3] in x[1]]
-            if with_rs:
-                return with_rs
+        if k[3]:                                                      # an rsID is stated: only the alleles that carry it; those of other variants at the same position are not its alternates
+            return [x for x in c if k[3] in x[1]]
         return c
 
     def emit(self, ctx, rel, study, ln, r, raw, k, afs, st):
@@ -279,8 +277,6 @@ class GwasCatalogAdapter:
                     if res.status == 'mapped':
                         subject, mapping = f'{canon}:{pos}:{base}:{res.alt}', 'mapped'
                         eff_allele, other_allele = res.effect, res.other
-                        if kind == 'rs' and cands and not any(rs in c[1] for c in cands):
-                            flags = flags + ('rsid_not_listed_at_position',)
                     else:
                         mapping = {'ambiguous': 'ambiguous', 'rejected': 'rejected'}.get(res.status, 'unmapped')
                         reason = res.reason

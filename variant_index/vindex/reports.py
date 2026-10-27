@@ -12,6 +12,7 @@ A target can be acquired and verified yet not integrated; that is a gap, and it 
 import glob
 import json
 import os
+import re
 import shutil
 import tempfile
 from collections import Counter
@@ -300,6 +301,12 @@ def validate(index_dir, reference=None, sample_keys=50000):
             bad[f'{col}_not_finite'] += int(pc.sum(pc.fill_null(pc.or_(pc.is_nan(t[col]), pc.is_inf(t[col])), False)).as_py() or 0)
         bad['eaf_outside_0_1'] += int(pc.sum(pc.fill_null(pc.or_(pc.less(t['eaf'], 0), pc.greater(t['eaf'], 1)), False)).as_py() or 0)
         bad['standard_error_not_positive'] += int(pc.sum(pc.fill_null(pc.less_equal(t['se'], 0), False)).as_py() or 0)
+        bad['condition_id_not_prefix_colon_local'] += 0
+        for item in pc.value_counts(pc.list_flatten(t['condition_ids'])).to_pylist():                  # one spelling, PREFIX:LOCAL, whatever the source wrote (build.common.curie)
+            c = item['values']
+            if c and (':' not in c or c.startswith('Human_Phenotype_Ontology:') or re.match(r'^([^:]+):\1:', c)):
+                bad['condition_id_not_prefix_colon_local'] += item['counts']
+        bad['evaluated_not_an_iso_date'] += int(pc.sum(pc.fill_null(pc.and_(pc.is_valid(t['evaluated']), pc.invert(pc.match_substring_regex(t['evaluated'], r'^\d{4}-\d{2}-\d{2}$'))), False)).as_py() or 0)
         bad['odds_ratio_not_positive'] += int(pc.sum(pc.fill_null(pc.less_equal(t['odds_ratio'], 0), False)).as_py() or 0)
         bad['ci_low_above_ci_high'] += int(pc.sum(pc.fill_null(pc.greater(t['ci_low'], t['ci_high']), False)).as_py() or 0)
         est = pc.coalesce(t['beta'], t['odds_ratio'])

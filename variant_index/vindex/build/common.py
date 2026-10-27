@@ -7,9 +7,11 @@ Determinism: rows are written in source order, ids are hashes of source identity
 timestamp enters a data file; `index_manifest.json` holds the timestamps and the content digests.
 """
 import datetime
+import email.utils
 import hashlib
 import json
 import os
+import re
 
 import pyarrow.parquet as pq
 
@@ -26,6 +28,64 @@ ALL = object()      # BuildContext.want(namespace) with no identifiers: every of
 
 def sha256_text(s):
     return hashlib.sha256(s.encode('utf-8') if isinstance(s, str) else s).hexdigest()
+
+
+_DUPLICATED_PREFIX = re.compile(r'^([A-Za-z0-9.]+):\1:')
+_UNDERSCORE_PREFIX = re.compile(r'^([A-Za-z][A-Za-z0-9.]*)_(?=[A-Za-z0-9])')
+_SPACE_AFTER_PREFIX = re.compile(r'^([A-Za-z][A-Za-z0-9._]*):\s+(\S+)$')       # 'OMIM: 612621' (ClinVar); a name after a prefix ('HP:gait ataxia') is left as written
+
+
+def curie(x):
+    """One spelling for an ontology or database identifier, PREFIX:LOCAL. The sources disagree: Open Targets writes MONDO_0005393 and Orphanet_199, ClinVar's VCF repeats the prefix
+    (MONDO:MONDO:0010178) and spells the Human Phenotype Ontology out (Human_Phenotype_Ontology:HP:0001250), the GWAS Catalog's URIs end in EFO_0004339. Left as written, one disease is
+    several entries in every grouping and a contradiction between two sources goes unseen. Identifiers that already have the form are returned as they are."""
+    if not isinstance(x, str):
+        return x
+    s = re.sub(r'^Human_Phenotype_Ontology:\s*', '', x.strip())
+    s = _DUPLICATED_PREFIX.sub(r'\1:', s)
+    s = _SPACE_AFTER_PREFIX.sub(r'\1:\2', s)
+    if ':' not in s:
+        s = _UNDERSCORE_PREFIX.sub(r'\1:', s)
+    return s
+
+
+def curies(ids):
+    """curie() of every identifier, in order and without repeats; None stays None."""
+    if ids is None:
+        return None
+    return list(dict.fromkeys(c for c in (curie(i) for i in ids) if c))
+
+
+def split_identifiers(ids):
+    """curies(ids) as (PREFIX:LOCAL identifiers, values that are not identifiers). A source can type a name where it has identifiers (Open Targets lists 'gastric adenocarcinoma' among
+    the EFO and MONDO ids of one FinnGen study); such a value is not grouped as an identifier, and evidence_row keeps it in extra_json."""
+    cs = curies(ids) or []
+    return [c for c in cs if ':' in c], [c for c in cs if ':' not in c]
+
+
+_ISO_PREFIX = re.compile(r'^(\d{4})-(\d{2})-(\d{2})(?:$|[T\s-])')
+
+
+def iso_date(x):
+    """The date of an evaluation as YYYY-MM-DD. The sources write it as 2023-05-18, 2023-05-18T16:00:00.000Z, 'Mon, 05 Jun 2023 12:00:00 -0400' (ClinGen actionability) and, in 21 ClinVar
+    records, 2021-01-05-12:30. The date is the one written, in the zone written. Text that is not read as a date stays as it is, so nothing is invented."""
+    if not isinstance(x, str):
+        return x
+    s = x.strip()
+    m = _ISO_PREFIX.match(s)
+    try:
+        if m:
+            return datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3))).isoformat()
+        if re.match(r'^[A-Za-z]{3},\s', s):
+            return email.utils.parsedate_to_datetime(s).date().isoformat()
+        for fmt in ('%b %d, %Y', '%B %d, %Y'):
+            try:
+                return datetime.datetime.strptime(s, fmt).date().isoformat()
+            except ValueError:
+                pass
+    except (ValueError, TypeError, OverflowError):
+        pass
+    return x
 
 
 def evidence_id(release_id, accession, subject_id, axis, claim_type, discriminator=''):
@@ -205,6 +265,16 @@ def evidence_row(release_id, source_id, accession, locator, raw, level, subject_
                subject_id=subject_id, axis=axis, evidence_kind=kind, claim_type=claim_type, claim_value=claim_value, effect_assertion=effect_assertion,
                mapping_status=mapping_status, mapping_reason=mapping_reason)
     row.update(kw)
+    if row.get('condition_ids') is not None:
+        row['condition_ids'], words = split_identifiers(row['condition_ids'])
+        if words:
+            extra = json.loads(row['extra_json']) if row.get('extra_json') else {}
+            if not isinstance(extra, dict):
+                extra = {'extra': extra}
+            extra['condition_ids_not_identifiers'] = words
+            row['extra_json'] = json.dumps(extra, sort_keys=True)
+    if row.get('evaluated') is not None:
+        row['evaluated'] = iso_date(row['evaluated'])
     row['evidence_id'] = evidence_id(release_id, accession, subject_id or row.get('unmapped_key') or '', axis, claim_type, discriminator)
     return row
 

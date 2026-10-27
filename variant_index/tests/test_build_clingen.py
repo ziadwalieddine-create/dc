@@ -9,7 +9,7 @@ import pyarrow.compute as pc
 from helpers import syn_reference, FIXTURES
 from vindex.build import runner
 from vindex.build.clinvar_vcf import ClinVarVcfAdapter
-from vindex.build.clingen import ClinGenErepoAdapter, ClinGenGeneRegionAdapter
+from vindex.build.clingen import ClinGenErepoAdapter, ClinGenGeneRegionAdapter, mondo_id
 from vindex.index_reader import Index
 
 sys.path.insert(0, FIXTURES)
@@ -115,6 +115,12 @@ class TestClinGen(unittest.TestCase):
         self.assertEqual([(r['subject_id'], r['claim_value'], r['effect_assertion']) for r in gene], [('ENSG_BRCA1', 'Strong Actionability', 'effect')])
         self.assertEqual([(r['subject_id'], r['mapping_status'], r['unmapped_key']) for r in var], [(None, 'unmapped', 'NM_000059.4(BRCA2):c.1A>G')])
         self.assertTrue(self.rows(claim_type='clinical_actionability_scoring_pediatric'))
+
+    def test_the_actionability_mondo_column_is_spelled_like_every_other_condition_id(self):
+        # the export gives the number alone ('0007254'), the fixture's gene row the older MONDO_0007254; both are MONDO:0007254, as in the gene-disease and variant tables
+        a = self.rows(claim_type='clinical_actionability_assertion_adult')
+        self.assertEqual({r['level']: r['condition_ids'] for r in a}, {'gene': ['MONDO:0007254'], 'variant': ['MONDO:0007254']})
+        self.assertEqual([mondo_id(x) for x in ('0016248', ' 0007947 ', 'MONDO_0007254', 'MONDO:0007254', '', None)], ['MONDO:0016248', 'MONDO:0007947', 'MONDO_0007254', 'MONDO:0007254', '', ''])
 
     def test_gene_evidence_is_never_returned_as_variant_evidence(self):
         self.assertFalse([r for r in self.ev if r['level'] == 'variant' and r['claim_type'] in ('gene_disease_validity', 'haploinsufficiency_score', 'triplosensitivity_score')])

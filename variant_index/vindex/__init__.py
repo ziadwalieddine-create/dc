@@ -5,7 +5,7 @@ Modules:
   refgenome   reference FASTA access, contig naming, assembly validation
   normalise   allele normalisation (left-aligned, parsimonious), atomisation, identity keys
   vcfio       sample VCF/gVCF reading: multiallelic splitting that keeps genotype, phase and quality
-  callability reference-confidence providers (gVCF blocks, callable-region BED, read pileup)
+  callability reference-confidence providers (gVCF blocks, callable-region BED; read-level evidence is not implemented)
   schema      table schemas and controlled vocabulary of the index
 """
 SCHEMA_VERSION = '0.4.0'

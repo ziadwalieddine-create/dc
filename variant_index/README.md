@@ -45,7 +45,7 @@ python3 variant_index/compare_runs.py RUN_A RUN_B           # two runs of one in
 
 # 4. polygenic scores are separate models, never variant evidence
 python3 variant_index/build_pgs_registry.py                # every score in the catalogue, whether its GRCh38 file was acquired, and its gates
-python3 variant_index/score_pgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE/pgs --trait EFO_0004339 [--sample-ancestry European]
+python3 variant_index/score_pgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE/pgs --trait EFO:0004339 [--sample-ancestry European]
 
 # whole-genome scale test on a public callset (GIAB HG002 benchmark; not anyone's personal genome)
 python3 variant_index/fetch_public_testset.py

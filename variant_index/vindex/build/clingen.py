@@ -47,6 +47,12 @@ def split_codes(s):
     return [c.strip() for c in re.split(r'[,;]', s or '') if c.strip()]
 
 
+def mondo_id(value):
+    """The actionability tables give the MONDO column as the number alone (Marfan syndrome is '0007947'); evidence_row spells a MONDO_ form the same way."""
+    value = (value or '').strip()
+    return f'MONDO:{value}' if value.isdigit() else value
+
+
 def resolve_variants(ctx, cv_id, ca_id):
     keys = ctx.found.get(('clinvar_variation', cv_id)) or ctx.found.get(('clingen_allele_registry', ca_id))
     return sorted(set(keys)) if keys else None
@@ -263,7 +269,7 @@ class ClinGenGeneRegionAdapter:
                     subj = r['geneOrVariant']
                     variant_level = r['curationType'] != 'Gene-Condition'
                     g, how = (None, 'variant_curation') if variant_level else self.genes.resolve(symbol=subj)
-                    common = dict(condition_ids=[x for x in (f"MONDO:{r['mondo'].split('_')[-1]}" if r.get('mondo', '').startswith('MONDO') else r.get('mondo'),) if x], condition_text=r['disease'],
+                    common = dict(condition_ids=[x for x in (mondo_id(r.get('mondo')),) if x], condition_text=r['disease'],
                                   curator=r.get('scorer') or 'ClinGen Actionability Working Group', evaluated=r.get('releaseDate') or r.get('lastUpdated'),
                                   lineage_group=f"clingen_actionability:{r['docId']}", extra_json=json.dumps({k: v for k, v in r.items() if v and k not in ('disease',)}, sort_keys=True))
                     acc = f"{context}:{r['docId']}:{kind}:{ln}"

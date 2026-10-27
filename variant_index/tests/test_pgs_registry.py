@@ -32,6 +32,19 @@ class TestParsing(unittest.TestCase):
         self.assertEqual(reg.ancestry('garbage|European:50'), {'European': 50.0})
 
 
+class TestTraitSelection(unittest.TestCase):
+    models = {'PGS1': dict(efo_ids=['MONDO_0004989', 'EFO_1'], scoring_file='acquired'), 'PGS2': dict(efo_ids=['EFO_0004339'], scoring_file='acquired'),
+              'PGS3': dict(efo_ids=['EFO_0004339'], scoring_file='listed_not_acquired'), 'PGS4': dict(efo_ids=None, scoring_file='acquired')}
+
+    def test_a_trait_is_found_in_either_spelling_and_only_among_acquired_scores(self):
+        # the PGS Catalog writes EFO_0004339, the index and its views EFO:0004339
+        for trait in ('EFO_0004339', 'EFO:0004339', ' EFO:0004339 '):
+            self.assertEqual(reg.models_for_trait(self.models, trait), ['PGS2'], trait)
+        self.assertEqual(reg.models_for_trait(self.models, 'MONDO:0004989'), ['PGS1'])
+        self.assertEqual(reg.models_for_trait(self.models, 'EFO:9'), [])
+        self.assertEqual(reg.models_for_trait(self.models, ''), [])
+
+
 class TestRegistry(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

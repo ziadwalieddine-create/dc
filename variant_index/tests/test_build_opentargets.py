@@ -85,12 +85,23 @@ class TestOpenTargets(unittest.TestCase):
         self.assertAlmostEqual(r['p_value'], 1e-9)
         self.assertEqual((r['lineage_group'], r['sample_size'], r['n_cases'], r['ancestry']), ('pmid:111', 1000, 300, 'European'))                  # the label holds the name only; the size travels in extra_json
         self.assertEqual((json.loads(r['extra_json'])['ancestry_sizes'], json.loads(r['extra_json'])['ancestry_basis']), ({'European': 1000}, 'discovery_samples'))
-        self.assertEqual(r['condition_ids'], ['EFO_0000001', 'MONDO_0000001'])
+        self.assertEqual(r['condition_ids'], ['EFO:0000001', 'MONDO:0000001'])                              # Open Targets writes MONDO_0000001; the index spells every ontology id PREFIX:LOCAL
         extra = json.loads(r['extra_json'])
         self.assertEqual((extra['is_lead'], extra['method'], extra['beta_reference']), (True, 'SuSiE-inf', 'alternate allele of the variant id'))
         non_lead = self.rows(accession='SL1', subject_id=KEYS['k410'])[0]
         self.assertIsNone(non_lead['eaf'])
         self.assertFalse(json.loads(non_lead['extra_json'])['is_lead'])
+
+    def test_a_name_typed_among_the_identifiers_is_not_grouped_as_one_but_is_kept(self):
+        # found in the full build: a FinnGen study lists 'gastric adenocarcinoma' among its EFO and MONDO ids
+        r = self.rows(accession='SL1', subject_id=KEYS['k402'])[0]
+        self.assertEqual(json.loads(r['extra_json'])['condition_ids_not_identifiers'], ['gastric adenocarcinoma'])
+        l2g = [x for x in self.rows(claim_type='l2g_score') if x['accession'] == 'SL1'][0]
+        self.assertEqual((l2g['condition_ids'], json.loads(l2g['extra_json'])['condition_ids_not_identifiers']), (['EFO:0000001'], ['gastric adenocarcinoma']))
+        stu = {x['study_id']: x for x in self.idx.table('entity_study').to_pylist() if x['source_id'] == 'opentargets'}
+        self.assertEqual(stu['GCST000001']['trait_ids'], ['EFO:0000001', 'MONDO:0000001'])
+        self.assertFalse([x for x in self.ev if x['condition_ids'] and any(':' not in c for c in x['condition_ids'])])
+        self.assertNotIn('condition_ids_not_identifiers', json.loads(self.rows(accession='SL2', subject_id=KEYS['k402'])[0]['extra_json']))
 
     def test_member_below_threshold_is_not_integrated_and_a_rejected_allele_is_kept_as_rejected(self):
         self.assertEqual([r for r in self.rows(accession='SL1') if r['unmapped_key'] and r['unmapped_key'].startswith('1_420_')], [])

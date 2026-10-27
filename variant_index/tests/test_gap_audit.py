@@ -141,6 +141,10 @@ class TestGapAudit(unittest.TestCase):
         ga = self.ga
         if subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ga.ROOT, capture_output=True).returncode:
             self.skipTest('not a git checkout')
+        paths = ['variant_index/vindex/build'] + ['variant_index/vindex/' + f for f in ga.BUILD_CODE_FIXED]
+        r = subprocess.run(['git', 'status', '--porcelain', '--'] + paths, cwd=ga.ROOT, capture_output=True, text=True)
+        if r.stdout.strip():
+            self.skipTest('the build modules have uncommitted changes, so their digest is in no commit yet')
         here = runner.build_code()['sha256_16']
         work = tempfile.mkdtemp()
         saved_root, saved_find = ga.ROOT, ga.commit_with_build_code

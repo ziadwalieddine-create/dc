@@ -46,10 +46,10 @@ def natural_chrom(c):
 
 
 def build_entity_variant(out):
-    """Unique normalised variant keys over all mapped variant-level evidence, all haplotype definitions and all variant-to-gene links -> entity_variant/<partition>.parquet, one
-    partition at a time (the keys of a whole index run to ten million and more; a chromosome's worth fits in memory, the whole set does not comfortably). A table that names a
-    variant by key must find it here, so a variant that only a definition or a link mentions (an Open Targets lead variant with no credible-set member of its own) is an
-    entity too. The partition of a key is the one its evidence rows are filed under (schema.partition_of): its chromosome on the primary assembly, 'NA' for alternate loci and
+    """Unique normalised variant keys over all mapped variant-level evidence, all haplotype definitions, all variant-to-gene links and all identifiers that resolve to a variant
+    -> entity_variant/<partition>.parquet, one partition at a time (the keys of a whole index run to ten million and more; a chromosome's worth fits in memory, the whole set does
+    not comfortably). A table that names a variant by key must find it here, so a variant that only a definition, a link or an identifier mentions (an Open Targets lead variant
+    with no credible-set member of its own; a ClinPGx variant whose dbSNP name was resolved but which has no annotation) is an entity too. The partition of a key is the one its evidence rows are filed under (schema.partition_of): its chromosome on the primary assembly, 'NA' for alternate loci and
     unplaced scaffolds."""
     hap = {}
     for table in ('haplotype_definition', 'variant_gene'):
@@ -57,6 +57,11 @@ def build_entity_variant(out):
             for k in pc.unique(pq.read_table(p, columns=['variant_key'])['variant_key']).to_pylist():
                 if k:                                               # unresolved definition rows have no key
                     hap.setdefault(schema.partition_of(k.split(':', 1)[0]), set()).add(k)
+    for p in glob.glob(os.path.join(out, 'xref', '*.parquet')):
+        t = pq.read_table(p, columns=['entity_level', 'entity_id'])
+        for k in pc.unique(t.filter(pc.equal(t['entity_level'], 'variant'))['entity_id']).to_pylist():
+            if k:
+                hap.setdefault(schema.partition_of(k.split(':', 1)[0]), set()).add(k)
     ev_dir = os.path.join(out, 'evidence', 'variant')
     parts = set(hap) | (set(os.listdir(ev_dir)) if os.path.isdir(ev_dir) else set())
     target = os.path.join(out, 'entity_variant')
