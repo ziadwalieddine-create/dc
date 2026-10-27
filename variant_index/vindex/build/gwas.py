@@ -75,24 +75,37 @@ def efo_ids(uris):
     return out
 
 
+def text_or_none(x):
+    """The Catalog's text, with its not-reported markers (blank, 'NR', 'NA') as None: a placeholder is not a trait, a cohort or a unit."""
+    t = (x or '').strip()
+    return None if t.upper() in NOT_REPORTED else t
+
+
+NUMBER = r'[-+\u2212]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?'
+# The interval as the Catalog writes it: normally '[lo-hi] unit', but also '[lo, hi]', '[lo\u2013hi]', 'lo-hi unit' and a closing brace; an upper bound of infinity is not a number
+BRACKETED = re.compile(r'^\[\s*([-+]?[0-9.eE+-]+?)\s*-\s*([-+]?[0-9.eE+-]+)\s*\]\s*(.*)$')
+LOOSE = re.compile(rf'^[\[(]?\s*({NUMBER})\s*(?:-|\u2013|\u2014|\u2212|,|;)\s*({NUMBER}|\u221e|inf(?:inity)?)\s*[\])}}]?\s*(.*)$', re.I)
+
+
 def parse_effect(or_beta, ci_text):
-    """('beta' | 'odds_ratio' | None, signed value, ci_low, ci_high, unit text, direction). Beta is recognised by an 'increase'/'decrease' unit in
-    the 95% CI text, as the Catalog writes it; the number for a decrease is stored negative; an odds ratio has no unit text."""
+    """('beta' | 'odds_ratio' | None, signed value, ci_low, ci_high, unit, direction). Beta is recognised by an 'increase'/'decrease' unit in the 95% CI text, as the Catalog
+    writes it; the number for a decrease is stored negative and the direction word is taken out of the unit (it is the direction column); an odds ratio has no unit text."""
     v = num(or_beta)
     if v is None:
         return None, None, None, None, None, None
     t = (ci_text or '').strip()
-    m = re.match(r'^\[\s*([-+]?[0-9.eE+-]+?)\s*-\s*([-+]?[0-9.eE+-]+)\s*\]\s*(.*)$', t)
+    m = BRACKETED.match(t) or LOOSE.match(t)
     lo = hi = None
     unit = t
     if m:
-        lo, hi, unit = num(m.group(1)), num(m.group(2)), m.group(3).strip()
+        lo, hi, unit = num(m.group(1).replace('\u2212', '-')), num(m.group(2).replace('\u2212', '-')), m.group(3).strip()
     unit = re.sub(r'^\[?NR\]?(?=\s|$)\s*', '', unit).strip()          # 'NR' stands for the interval that was not reported; the unit that follows it is kept
     unit = None if unit.upper() in NOT_REPORTED else unit
     low = (unit or '').lower()
     if 'decrease' in low or 'increase' in low:
         sign = -1.0 if 'decrease' in low else 1.0
         lo, hi = signed_interval(lo, hi, sign)
+        unit = re.sub(r'\s+', ' ', re.sub(r'\s*\b(?:increase|decrease)\b', '', unit, flags=re.I)).strip() or None
         return 'beta', sign * abs(v), lo, hi, unit, 'decreases' if sign < 0 else 'increases'
     if v > 0:
         lo, hi = signed_interval(lo, hi, 1.0)
@@ -114,7 +127,7 @@ class GwasCatalogAdapter:
         study = {}
         with open(os.path.join(self.root, 'gwas-catalog-download-studies-v1.0.3.1.tsv'), encoding='utf-8', errors='replace', newline='') as f:
             for r in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
-                study[r['STUDY ACCESSION']] = dict(pubmed=r['PUBMED ID'], trait=r['DISEASE/TRAIT'], mapped_trait=r['MAPPED_TRAIT'], uris=r['MAPPED_TRAIT_URI'], cohort=r['COHORT'],
+                study[r['STUDY ACCESSION']] = dict(pubmed=r['PUBMED ID'], trait=text_or_none(r['DISEASE/TRAIT']), mapped_trait=r['MAPPED_TRAIT'], uris=r['MAPPED_TRAIT_URI'], cohort=text_or_none(r['COHORT']),
                                                    full=r['FULL SUMMARY STATISTICS'].lower() == 'yes', initial=r['INITIAL SAMPLE SIZE'], n_init=0, n_cases=0, anc=set(), anc_all=set())
         with open(os.path.join(self.root, 'gwas-catalog-download-ancestries-v1.0.3.1.tsv'), encoding='utf-8', errors='replace', newline='') as f:
             for r in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
@@ -241,7 +254,7 @@ class GwasCatalogAdapter:
             st.inc('risk_allele_frequency_outside_0_1')
         p = num(r['P-VALUE'])
         common = dict(lineage_group=lineage_of(r['PUBMEDID'], r['STUDY ACCESSION']), lineage_note=f"GWAS Catalog study {r['STUDY ACCESSION']}; PMID {r['PUBMEDID']}; cohort {s.get('cohort') or 'not stated'}; other databases that derive from this paper are not independent replication",
-                      condition_ids=efo_ids(r['MAPPED_TRAIT_URI']), condition_text=r['DISEASE/TRAIT'], gene_ids=[g.strip() for g in re.split(r'[;,]', r['SNP_GENE_IDS']) if g.strip().startswith('ENSG')] or None,
+                      condition_ids=efo_ids(r['MAPPED_TRAIT_URI']), condition_text=text_or_none(r['DISEASE/TRAIT']), gene_ids=[g.strip() for g in re.split(r'[;,]', r['SNP_GENE_IDS']) if g.strip().startswith('ENSG')] or None,
                       sample_size=s.get('n_init') or None, n_cases=s.get('n_cases') or None, ancestry='; '.join(sorted(s.get('anc', ()))) or None, origin='germline')
         subject, mapping, reason, flags, eff_allele, other_allele = None, 'unmapped', None, (), None, None
         unmapped_key = r['SNPS'] or r['STRONGEST SNP-RISK ALLELE']
@@ -284,7 +297,7 @@ class GwasCatalogAdapter:
         if raf_reported is not None:
             extra['risk_allele_frequency_reported'] = raf_reported
         ctx.emit_evidence(evidence_row(rel, 'gwas_catalog', acc, f'L{ln}', raw, 'variant', subject, 'association_replication', 'statistical_association', 'gwas_association',
-                                       r['MAPPED_TRAIT'] or r['DISEASE/TRAIT'], ev_assert, mapping, reason, discriminator=f'L{ln}', p_value=p, eaf=raf, effect_allele=eff_allele, other_allele=other_allele,
+                                       text_or_none(r['MAPPED_TRAIT']) or text_or_none(r['DISEASE/TRAIT']), ev_assert, mapping, reason, discriminator=f'L{ln}', p_value=p, eaf=raf, effect_allele=eff_allele, other_allele=other_allele,
                                        extra_json=json.dumps(extra, sort_keys=True), **c0, **common))
         kind_e, val, lo, hi, unit, direction = parse_effect(r['OR or BETA'], r['95% CI (TEXT)'])
         if kind_e:

@@ -126,6 +126,17 @@ def snapshot(ctx, target):
     return 'api-' + (m.get('fetched_utc') or 'undated')[:10]
 
 
+# CPIC writes the strength of an allele-function finding and the classification of a recommendation in several spellings ('limited' and 'Limited', 'Definitve'); one label each
+EVIDENCE_LEVELS = {'definitive': 'Definitive', 'definitve': 'Definitive', 'strong': 'Strong', 'moderate': 'Moderate', 'limited': 'Limited', 'inadequate': 'Inadequate',
+                   'inadequate evidence': 'Inadequate evidence', 'no evidence': 'No Evidence', 'optional': 'Optional', 'no recommendation': 'No Recommendation'}
+
+
+def evidence_level(x):
+    """The CPIC label with one spelling, None for blank and 'n/a' (CPIC's 'not applicable'); a label this table does not know is kept as written."""
+    t = (x or '').strip()
+    return None if t.lower() in ('', 'n/a') else EVIDENCE_LEVELS.get(t.lower(), t)
+
+
 class CpicAdapter:
     source_id = 'cpic'
     targets = ['cpic_api_allele', 'cpic_api_allele_definition', 'cpic_api_allele_location_value', 'cpic_api_sequence_location', 'cpic_api_recommendation', 'cpic_genes', 'cpic_guidelines']
@@ -211,7 +222,7 @@ class CpicAdapter:
                              citations=f.get('citations'), frequency=f.get('frequency'), inferred_frequency=f.get('inferredfrequency'))
                 ctx.emit_evidence(evidence_row(rel_fun, 'cpic', f"{gene}:{name}:{f['id']}", f"allele:{f['id']}", json.dumps(f, sort_keys=True, ensure_ascii=False), 'haplotype', hid,
                                                'effect_magnitude_direction', 'curated_expert_classification', 'allele_functional_status', fs, FUNC_EFFECT.get(low, 'not_applicable'),
-                                               direction=FUNC_DIRECTION.get(low), claim_num=avn, review_status=f.get('strength'), curator='CPIC',
+                                               direction=FUNC_DIRECTION.get(low), claim_num=avn, review_status=evidence_level(f.get('strength')), curator='CPIC',
                                                lineage_group=f'cpic_allele:{gene}:{name}', gene_ids=[entity_id(self.genes, symbol=gene)], origin='germline', extra_json=json.dumps(extra, sort_keys=True, default=str)))
                 st.inc('allele_function_rows')
         for r in self.load('recommendation'):
@@ -224,14 +235,14 @@ class CpicAdapter:
                 extra = json.dumps(dict(gene_specific=specific, combination_genes=genes, drug_recommendation=r.get('drugrecommendation'), population=r.get('population'),
                                         comments=r.get('comments'), dosing_information=r.get('dosinginformation'), alternate_drug_available=r.get('alternatedrugavailable'),
                                         other_prescribing_guidance=r.get('otherprescribingguidance'), guideline=g_info.get('name')), sort_keys=True, ensure_ascii=False)
-                kw = dict(curator='CPIC', lineage_group=f"cpic_guideline:{r['guidelineid']}", condition_ids=[r['drugid']], condition_text=g_info.get('name'), extra_json=extra, review_status=None if (r.get('classification') or '').strip().lower() in ('', 'n/a') else r.get('classification'))
+                kw = dict(curator='CPIC', lineage_group=f"cpic_guideline:{r['guidelineid']}", condition_ids=[r['drugid']], condition_text=g_info.get('name'), extra_json=extra, review_status=evidence_level(r.get('classification')))
                 common = (rel_rec, 'cpic', f"rec:{r['id']}:{g}", f"rec:{r['id']}", raw)
                 if gid:
                     ctx.emit_evidence(evidence_row(*common, 'gene', gid, 'clinical_validity_actionability', 'curated_expert_classification', 'cpic_drug_recommendation',
-                                                   r.get('classification') or 'unclassified', 'not_applicable', 'mapped', None, discriminator=g, **kw))
+                                                   evidence_level(r.get('classification')) or 'unclassified', 'not_applicable', 'mapped', None, discriminator=g, **kw))
                 else:
                     ctx.emit_evidence(evidence_row(*common, 'gene', None, 'clinical_validity_actionability', 'curated_expert_classification', 'cpic_drug_recommendation',
-                                                   r.get('classification') or 'unclassified', 'not_applicable', 'unmapped', 'gene_symbol_not_in_gene_map', discriminator=g, unmapped_key=g or None, **kw))
+                                                   evidence_level(r.get('classification')) or 'unclassified', 'not_applicable', 'unmapped', 'gene_symbol_not_in_gene_map', discriminator=g, unmapped_key=g or None, **kw))
                 st.inc('recommendation_rows')
         return st.c
 

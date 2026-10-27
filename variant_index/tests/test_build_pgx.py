@@ -145,10 +145,20 @@ class TestPgxAdapters(unittest.TestCase):
         self.assertEqual(self.stats['CpicAdapter']['allele_function_rows'], 10)
         self.assertEqual(self.stats['CpicAdapter']['allele_rows_without_function'], 5)      # TESTH *5 and *6, NOCHR *1 and *2, MTG *1
 
+    def test_one_spelling_per_evidence_level(self):
+        # real data: 'limited' (173) beside 'Limited' (245), 'strong', 'moderate', 'No evidence' beside 'No Evidence', and 'Definitve' (5) for 'Definitive'
+        from vindex.build.pgx import evidence_level
+        for raw, want in (('limited', 'Limited'), ('Limited', 'Limited'), ('strong', 'Strong'), ('moderate', 'Moderate'), ('No evidence', 'No Evidence'), ('No Evidence', 'No Evidence'),
+                          ('Definitve', 'Definitive'), ('Definitive', 'Definitive'), ('Inadequate evidence', 'Inadequate evidence'), ('Inadequate', 'Inadequate'), ('Optional', 'Optional'),
+                          ('No Recommendation', 'No Recommendation'), (' strong ', 'Strong'), ('Brand new label', 'Brand new label'), ('n/a', None), ('N/A', None), ('', None), (None, None)):
+            self.assertEqual(evidence_level(raw), want, raw)
+
     def test_recommendations_stay_at_gene_level_and_unmapped_genes_are_kept(self):
         rec = [r for r in self.idx.table('evidence').to_pylist() if r['claim_type'] == 'cpic_drug_recommendation']
         self.assertEqual(len(rec), 5)               # rec 1: one gene; rec 2: two genes; rec 3: one gene that is not in the gene map; rec 4: one gene, classification n/a
         self.assertEqual({r['accession'].split(':')[1]: r['review_status'] for r in rec}, {'1': 'Strong', '2': 'Optional', '3': 'Moderate', '4': None})      # 'n/a' is no review status
+        self.assertEqual({r['accession'].split(':')[1]: r['claim_value'] for r in rec}, {'1': 'Strong', '2': 'Optional', '3': 'Moderate', '4': 'unclassified'})   # ... and no classification: not the text 'n/a'
+        self.assertEqual(json.loads([r for r in rec if r['accession'].startswith('rec:4:')][0]['extra_json'])['comments'], 'n/a')                          # the source's own wording stays in the record
         self.assertTrue(all(r['level'] == 'gene' and r['effect_assertion'] == 'not_applicable' for r in rec))
         two = [r for r in rec if r['accession'].startswith('rec:2:')]
         self.assertEqual(sorted(r['subject_id'] for r in two), ['ENSG_TESTG', 'ENSG_TESTH'])

@@ -187,6 +187,19 @@ class TestClinPgx(unittest.TestCase):
         extra = json.loads(r['extra_json'])
         self.assertEqual((extra['interval_start_reported'], extra['interval_stop_reported'], extra['interval_not_stored']), ('9.0', '2.0', 'start above stop'))
 
+    def test_a_ratio_that_is_not_positive_and_a_p_value_printed_as_zero_are_kept_as_text_with_a_flag(self):
+        # real file: nine odds ratios were zero or negative (a beta typed into the ratio column) and eighteen p-values were printed as '= 0.000'
+        r = self.one('variant_annotation:2004:params:3006')
+        self.assertEqual((r['odds_ratio'], r['score'], r['claim_num'], r['ci_low'], r['ci_high']), (None, None, None, None, None))
+        extra = json.loads(r['extra_json'])
+        self.assertEqual((extra['ratio_reported'], extra['ratio_not_stored'], extra['interval_not_stored']), ('-2.3', 'not positive', 'its ratio is not positive'))
+        self.assertEqual((extra['interval_start_reported'], extra['interval_stop_reported']), ('-4.0', '-1.0'))
+        self.assertEqual((r['p_value'], extra['p_reported_as_zero']), (0.0, True))                                    # kept, and flagged: the true value is below the printed precision
+        z = self.one('variant_annotation:2004:params:3007')
+        self.assertEqual((z['score'], z['score_unit'], z['claim_num'], z['p_value']), (None, None, None, 0.01))        # a zero hazard ratio is not stored either
+        self.assertEqual(json.loads(z['extra_json'])['ratio_not_stored'], 'not positive')
+        self.assertNotIn('p_reported_as_zero', json.loads(self.one('variant_annotation:2004:params:3005')['extra_json']))
+
     def test_negative_finding_is_kept_and_shares_the_paper_lineage(self):
         r = self.one('variant_annotation:2002')
         self.assertEqual((r['effect_assertion'], r['lineage_group']), ('no_effect', 'pmid:111'))

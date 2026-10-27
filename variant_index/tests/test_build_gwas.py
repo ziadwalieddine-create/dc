@@ -102,7 +102,7 @@ class TestGwas(unittest.TestCase):
         plus = eff[f"1:{c['plus_alt']['pos']}:{c['plus_alt']['ref']}:{c['plus_alt']['alt']}"]
         self.assertEqual((plus['odds_ratio'], plus['ci_low'], plus['ci_high'], plus['direction'], plus['axis']), (1.25, 1.1, 1.4, 'increases', 'effect_magnitude_direction'))
         ref = eff[f"1:{c['ref_effect']['pos']}:{c['ref_effect']['ref']}:{c['ref_effect']['alt']}"]
-        self.assertEqual((ref['beta'], ref['direction'], ref['score_unit']), (-0.04, 'decreases', 'unit decrease'))      # a decrease is stored with a negative sign
+        self.assertEqual((ref['beta'], ref['direction'], ref['score_unit']), (-0.04, 'decreases', 'unit'))               # a decrease is stored with a negative sign; the unit is not 'unit decrease'
         self.assertEqual((ref['ci_low'], ref['ci_high']), (-0.06, -0.02))                                              # ... and so is its interval ([0.02-0.06] in the file)
         self.assertEqual(plus['lineage_group'], 'pmid:1')                                                              # PMID 1 of the fixture's association rows
         pair = [r for r in self.by_pos(c['plus_alt']['pos']) if r['claim_type'] in ('gwas_association', 'gwas_effect_size')]
@@ -188,10 +188,61 @@ class TestGwas(unittest.TestCase):
         # real file: 2,097 odds ratios carried the unit 'NR' and 34,838 rows the ancestry 'NR'
         self.assertEqual(parse_effect('1.2', 'NR'), ('odds_ratio', 1.2, None, None, None, 'increases'))
         self.assertIsNone(parse_effect('1.2', '[NR]')[4])
-        self.assertEqual(parse_effect('13.6', 'NR unit decrease')[4], 'unit decrease')                       # the unit after the missing interval is kept
-        self.assertEqual(parse_effect('13.6', '[NR] mmol/L decrease')[4], 'mmol/L decrease')
-        self.assertEqual(parse_effect('1.1', 'NRF2 activity increase')[4], 'NRF2 activity increase')        # only the token NR is the marker
+        self.assertEqual(parse_effect('13.6', 'NR unit decrease')[4], 'unit')                                # the unit after the missing interval is kept (without its direction word)
+        self.assertEqual(parse_effect('13.6', '[NR] mmol/L decrease')[4], 'mmol/L')
+        self.assertEqual(parse_effect('1.1', 'NRF2 activity increase')[4], 'NRF2 activity')                  # only the token NR is the marker
         self.assertIsNone(parse_effect('1.2', '[1.1-1.4]')[4])
+
+    def test_the_direction_word_is_the_direction_column_not_part_of_the_unit(self):
+        # real file: 1,625 distinct units before the words were taken out ('unit increase' on 426,732 rows and 'unit decrease' on 411,273)
+        for ci, unit, direction in (('[0.02-0.043] kg/m2 increase', 'kg/m2', 'increases'), ('[0.34 - 0.46] kg/m2 increase (adults)', 'kg/m2 (adults)', 'increases'),
+                                    ('[0.1-0.2] mmol/L decrease', 'mmol/L', 'decreases'), ('unit increase', 'unit', 'increases'), ('SD unit decrease', 'SD unit', 'decreases'),
+                                    ('[0.09-0.11] standard deviation unit per year increase', 'standard deviation unit per year', 'increases'), ('increase', None, 'increases')):
+            v = parse_effect('0.1', ci)
+            self.assertEqual((v[0], v[4], v[5]), ('beta', unit, direction), ci)
+
+    def test_intervals_in_the_other_notations_of_the_catalogue_are_read_as_intervals(self):
+        # real file: 1,474 rows had an interval typed without brackets, with a comma, an en dash, a unicode minus or a closing brace, and kept it as their 'unit'
+        for ci, lo, hi in (('[0.980, 0.990]', 0.98, 0.99), ('1.04-1.08', 1.04, 1.08), ('[1.48\u20131.75]', 1.48, 1.75), ('[1.17023-1.33871}', 1.17023, 1.33871), ('(1.2-1.9)', 1.2, 1.9),
+                           ('[0.18\u22120.22]', 0.18, 0.22), ('[12.5-\u221e]', 12.5, None)):
+            v = parse_effect('1.5', ci)
+            self.assertEqual((v[0], v[2], v[3], v[4]), ('odds_ratio', lo, hi, None), ci)
+        v = parse_effect('0.3', '0.18-0.45 unit increase')
+        self.assertEqual((v[0], v[2], v[3], v[4]), ('beta', 0.18, 0.45, 'unit'))
+        v = parse_effect('0.3', '[-0.5--0.1] unit increase')                                                       # the strict notation still reads a negative range
+        self.assertEqual((v[2], v[3]), (-0.5, -0.1))
+        self.assertIsNone(parse_effect('1.5', 'kg/m2')[2])                                                              # text that merely starts with a letter is a unit, not an interval
+
+    def test_a_blank_trait_and_a_cohort_of_nr_are_missing_values_not_text(self):
+        # real file: 2,395 studies had the cohort 'NR' and a few associations a blank DISEASE/TRAIT, kept as '' in condition_text
+        from vindex.build.gwas import text_or_none
+        self.assertEqual([text_or_none(x) for x in ('', ' ', 'NR', 'nr', 'NA', '-', None, 'UK Biobank', ' Type 2 diabetes ')], [None] * 7 + ['UK Biobank', 'Type 2 diabetes'])
+        d = tempfile.mkdtemp()
+        try:
+            with open(os.path.join(d, 'gwas-catalog-download-studies-v1.0.3.1.tsv'), 'w') as f:
+                f.write('STUDY ACCESSION\tPUBMED ID\tDISEASE/TRAIT\tMAPPED_TRAIT\tMAPPED_TRAIT_URI\tCOHORT\tFULL SUMMARY STATISTICS\tINITIAL SAMPLE SIZE\n'
+                        'GCST9\t1\t\tt\t\tNR\tno\tx\nGCST8\t2\tType 2 diabetes\tt\t\tUKB\tno\ty\n')
+            with open(os.path.join(d, 'gwas-catalog-download-ancestries-v1.0.3.1.tsv'), 'w') as f:
+                f.write('STUDY ACCESSION\tBROAD ANCESTRAL CATEGORY\tSTAGE\tNUMBER OF INDIVIDUALS\tNUMBER OF CASES\n')
+            rows = []
+
+            class Ctx:
+                def emit(self, table, row, name=None):
+                    rows.append(row)
+
+            class St:
+                def inc(self, k, n=1):
+                    pass
+            GwasCatalogAdapter(None, None, root=d).studies(Ctx(), 'rel_s', 'rel_a', St())
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        by = {r['study_id']: r for r in rows}
+        self.assertEqual((by['GCST9']['cohorts'], by['GCST9']['trait_text']), (None, None))
+        self.assertEqual((by['GCST8']['cohorts'], by['GCST8']['trait_text']), ('UKB', 'Type 2 diabetes'))
+        blank = self.assoc(unmapped_key='chr1:99999999999')[0]                                                         # the fixture record whose DISEASE/TRAIT and MAPPED_TRAIT are blank
+        self.assertEqual((blank['condition_text'], blank['claim_value']), (None, None))
+        self.assertEqual({r['condition_text'] for r in self.ev if r['unmapped_key'] == 'chr1:99999999999'}, {None})
+        self.assertFalse([r for r in self.ev if r['condition_text'] == ''])
 
     def test_impossible_cells_are_not_taken_as_measurements(self):
         import zipfile

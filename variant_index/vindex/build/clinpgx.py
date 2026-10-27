@@ -421,10 +421,19 @@ class ClinPgxAdapter:
                     ci_note = dict(interval_start_reported=p['Confidence Interval Start'], interval_stop_reported=p['Confidence Interval Stop'], interval_not_stored='start above stop')
                     ci_lo = ci_hi = None
                     st.inc('ratio_rows_with_inverted_interval')
-                eff_kw = dict(odds_ratio=ratio if p['Ratio Stat Type'] == 'OR' else None, ci_low=ci_lo, ci_high=ci_hi, p_value=pv,
-                              score=None if p['Ratio Stat Type'] == 'OR' else ratio, score_unit=None if p['Ratio Stat Type'] == 'OR' else p['Ratio Stat Type'],
+                positive = ratio > 0
+                if not positive:                                                           # an odds, hazard or risk ratio cannot be zero or negative (a beta typed into the ratio column): kept as text only
+                    ci_note = dict(ci_note, ratio_reported=p['Ratio Stat'], ratio_not_stored='not positive')
+                    if ci_lo is not None or ci_hi is not None:
+                        ci_note.update(interval_start_reported=p['Confidence Interval Start'], interval_stop_reported=p['Confidence Interval Stop'], interval_not_stored='its ratio is not positive')
+                    ci_lo = ci_hi = None
+                    st.inc('ratio_rows_not_positive')
+                if pv == 0:                                                                # '= 0.000' is a p-value below the precision the authors printed, not zero
+                    ci_note = dict(ci_note, p_reported_as_zero=True)
+                eff_kw = dict(odds_ratio=ratio if (p['Ratio Stat Type'] == 'OR' and positive) else None, ci_low=ci_lo, ci_high=ci_hi, p_value=pv,
+                              score=None if (p['Ratio Stat Type'] == 'OR' or not positive) else ratio, score_unit=None if (p['Ratio Stat Type'] == 'OR' or not positive) else p['Ratio Stat Type'],
                               ancestry=p['Biogeographical Groups'] if p['Biogeographical Groups'] not in ('', 'Unknown') else None, curator='ClinPGx', gene_ids=self.gene_ids(genes),
-                              sample_size=int((cases or 0) + (controls or 0)) or None, n_cases=int(cases) if cases is not None else None, claim_num=ratio, origin='germline',
+                              sample_size=int((cases or 0) + (controls or 0)) or None, n_cases=int(cases) if cases is not None else None, claim_num=ratio if positive else None, origin='germline',
                               condition_text=row_kw['condition_text'], lineage_group=f'pmid:{pmid}', lineage_note='a PubMed-indexed study; the same paper may be cited by other databases')
                 self.emit(ctx, rel, f"variant_annotation:{vid}:params:{p['Study Parameters ID']}", f'study_parameters.tsv#L{ln2}', raw2, s, 'effect_magnitude_direction', 'statistical_association',
                           'ratio_statistic:' + p['Ratio Stat Type'], f"{p['Ratio Stat Type']} {ratio:g}", effect,

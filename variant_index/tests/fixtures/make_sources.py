@@ -175,7 +175,8 @@ def mini_gwas(out):
     r15 = C(p15)
     cases['no_alt_known'] = dict(pos=p15, ref=r15)
     rows.append(gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p15), 'STRONGEST SNP-RISK ALLELE': f'rs111-{next(x for x in "ACGT" if x != r15)}', 'SNPS': 'rs111'}))
-    rows.append(gwas_row(**{'STRONGEST SNP-RISK ALLELE': 'chr1:99999999999-C', 'SNPS': 'chr1:99999999999', 'OR or BETA': '1.4', '95% CI (TEXT)': '[1.2-1.6]'}))      # impossible position (a real catalogue typo)
+    rows.append(gwas_row(**{'STRONGEST SNP-RISK ALLELE': 'chr1:99999999999-C', 'SNPS': 'chr1:99999999999', 'OR or BETA': '1.4', '95% CI (TEXT)': '[1.2-1.6]',
+                            'DISEASE/TRAIT': '', 'MAPPED_TRAIT': ''}))                  # impossible position (a real catalogue typo) on a record whose trait is blank
     with zipfile.ZipFile(os.path.join(out, 'gwas-catalog-associations_ontology-annotated-full.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
         z.writestr('gwas-catalog-download-associations-alt-full.tsv', '\t'.join(GWAS_COLS) + '\n' + '\n'.join(rows) + '\n')
     sh = ['DATE ADDED TO CATALOG', 'PUBMED ID', 'FIRST AUTHOR', 'DATE', 'JOURNAL', 'LINK', 'STUDY', 'DISEASE/TRAIT', 'INITIAL SAMPLE SIZE', 'REPLICATION SAMPLE SIZE', 'PLATFORM [SNPS PASSING QC]',
@@ -391,7 +392,10 @@ def mini_clinpgx(out):
               P(3003, 2002, **{'Study Cases': 30, 'Study Controls': 40, 'P Value': '= 0.4', 'Ratio Stat Type': 'Unknown', 'Ratio Stat': '', 'Biogeographical Groups': 'Unknown'}),
               P(3004, 2101, **{'Study Cases': 10, 'Study Controls': 12, 'P Value': '= 1E-5', 'Ratio Stat Type': 'OR', 'Ratio Stat': 0.4, 'Biogeographical Groups': 'African American/Afro-Caribbean'}),
               P(3005, 2004, **{'Study Cases': 8, 'Study Controls': 9, 'P Value': '= 0.2', 'Ratio Stat Type': 'OR', 'Ratio Stat': 3.0, 'Confidence Interval Start': 9.0, 'Confidence Interval Stop': 2.0,
-                               'Biogeographical Groups': 'European'})]               # start above stop, as in six real rows
+                               'Biogeographical Groups': 'European'}),               # start above stop, as in six real rows
+              P(3006, 2004, **{'Study Cases': 20, 'Study Controls': 25, 'P Value': '= 0.000', 'Ratio Stat Type': 'OR', 'Ratio Stat': -2.3, 'Confidence Interval Start': -4.0, 'Confidence Interval Stop': -1.0,
+                               'Biogeographical Groups': 'European'}),               # a beta typed into the ratio column and a p-value printed as 0.000, as in nine and eighteen real rows
+              P(3007, 2004, **{'Study Cases': 20, 'Study Controls': 25, 'P Value': '= 0.01', 'Ratio Stat Type': 'HR', 'Ratio Stat': 0, 'Biogeographical Groups': 'European'})]
     zip_('variantAnnotations', '2026-10-05', {'var_drug_ann.tsv': _tsv(VAR_DRUG_HDR, drug), 'var_pheno_ann.tsv': _tsv(VAR_PHENO_HDR, pheno), 'var_fa_ann.tsv': _tsv(VAR_FA_HDR, fa),
                                                'study_parameters.tsv': _tsv(STUDY_HDR, params)})
     g1 = {'citations': [], 'guideline': {'objCls': 'GuidelineAnnotation', 'id': 'PA1000', 'name': 'Annotation of CPIC Guideline for testdrug and TESTG', 'source': 'CPIC', 'recommendation': True,
