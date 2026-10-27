@@ -251,12 +251,15 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
         for rj in cs.rejected + cs.unplaced:
             W['rejected_calls'].add(dict(chrom=rj.contig, pos=rj.pos, ref=rj.ref, alt=rj.alt, reason=rj.reason, detail=rj.detail, rec_index=rj.rec_index))
         # structural and copy-number calls
-        for si in match_svs(cs, index):
+        interpreted = match_svs(cs, index)
+        eq_ids = sorted({m.event_id for si in interpreted for m in si.matches if m.equivalent})
+        event_evidence = index.evidence_for('event', eq_ids) if eq_ids else {}                   # one read for the chromosome: a read per call scans the event evidence 25,000 times
+        for si in interpreted:
             sv = si.sv
             cid = f'sv:{sv.chrom}:{sv.start}-{sv.end}:{sv.svtype}:{sv.rec_index}'
             eq = [m for m in si.matches if m.equivalent]
             refused = [dict(event_id=m.event_id, relation=m.relation, reasons=list(m.reasons), metrics=m.metrics) for m in si.matches if not m.equivalent]
-            ev_rows = [r for rs in index.evidence_for('event', [m.event_id for m in eq]).values() for r in rs] if eq else []
+            ev_rows = [r for m in eq for r in event_evidence.get(m.event_id, ())]
             for r in link_rows(cid, 'sv', ev_rows, 'equivalent_event'):
                 W['evidence_links'].add(r)
             W['sv_calls'].add(dict(call_id=cid, chrom=sv.chrom, start=sv.start, end=sv.end, svtype=sv.svtype, svlen=_i(sv.svlen), cn=_i(sv.cn), gt=sv.gt, dosage=_i(sv.dosage), precise=bool(sv.precise),
