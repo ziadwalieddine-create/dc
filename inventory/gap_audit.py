@@ -280,7 +280,8 @@ def _clinvar_fields(a):
     v = jload(need(os.path.join(a.index, 'reports', 'clinvar_fields.json')))
     if not v['ok']:
         raise AssertionError(json.dumps(v['totals']) + ' ' + json.dumps(v['examples'])[:300])
-    return f"{v['totals']['vcf_records_with_classification']:,} records"
+    t = v['totals']
+    return f"{t['vcf_records']:,} records, {t['vcf_classifications']:,} classifications, {t['mapped']:,} keys equal to bcftools norm"
 
 
 @check('a sample run agrees with bcftools on its calls and on the ClinVar evidence of those calls')

@@ -1,5 +1,6 @@
 """The cross-check recomputes calls and evidence matches with bcftools only. It must agree with a clean run and must be able to fail."""
 import glob
+import gzip
 import os
 import shutil
 import tempfile
@@ -41,6 +42,27 @@ class TestCrosscheck(unittest.TestCase):
             f.write('\n'.join(head + ['\t'.join(r) for r in body]) + '\n')
         pysam.tabix_index(cv, preset='vcf', force=True)
         cls.cv = cv + '.gz'
+        with gzip.open(cls.cv, 'rt') as f:
+            lines = f.read().rstrip('\n').split('\n')
+        old = []
+        for l in lines:
+            if l.startswith('##INFO=<ID=ONC') or l.startswith('##INFO=<ID=SCI'):
+                continue
+            if not l.startswith('#'):
+                c = l.split('\t')
+                c[7] = ';'.join(kv for kv in c[7].split(';') if not kv.startswith(('ONC', 'SCI')))
+                l = '\t'.join(c)
+            old.append(l)
+        cls.cv_chr = os.path.join(cls.work, 'cv_chr.vcf')                                      # the same records under UCSC-style contig names, in a header that defines no contigs
+        with open(cls.cv_chr, 'w') as f:
+            f.write('\n'.join(l if l.startswith('#') else 'chr' + l for l in lines) + '\n')
+        pysam.tabix_index(cls.cv_chr, preset='vcf', force=True)
+        cls.cv_chr += '.gz'
+        cls.cv_old = os.path.join(cls.work, 'cv_old.vcf')
+        with open(cls.cv_old, 'w') as f:
+            f.write('\n'.join(old) + '\n')
+        pysam.tabix_index(cls.cv_old, preset='vcf', force=True)
+        cls.cv_old += '.gz'
 
     @classmethod
     def tearDownClass(cls):
@@ -103,44 +125,90 @@ class TestCrosscheck(unittest.TestCase):
     def fields(self, idx=None):
         return crosscheck.clinvar_fields(idx or self.idx, self.cv, self.ref)
 
-    def tampered_index(self, name, change):
+    def tampered_index(self, name, change, partition='1'):
         d = os.path.join(self.work, name)
         shutil.copytree(self.idx, d)
-        path = [p for p in sorted(glob.glob(os.path.join(d, 'evidence', 'variant', '1', 'clinvar.parquet')))][0]
+        path = os.path.join(d, 'evidence', 'variant', partition, 'clinvar.parquet')
         t = pq.read_table(path)
-        rows = t.to_pylist()
-        victim = next(i for i, r in enumerate(rows) if r['claim_type'] == 'germline_classification' and r['locator'].startswith('L') and r['accession'].startswith('VariationID:1001|'))
-        rows = change(rows, victim)
+        rows = change(t.to_pylist())
         pq.write_table(pa.Table.from_pylist(rows, schema=t.schema), path)
         return d
+
+    @staticmethod
+    def pick(rows, variation, claim_type='germline_classification'):
+        return next(i for i, r in enumerate(rows) if r['claim_type'] == claim_type and r['locator'].startswith('L') and r['accession'].startswith(f'VariationID:{variation}|'))
 
     def test_every_clinvar_vcf_row_of_the_index_equals_the_file(self):
         r = self.fields()
         self.assertTrue(r['ok'], r['examples'])
         t = r['totals']
-        self.assertGreaterEqual(t['vcf_records_with_classification'], 10)
-        self.assertEqual(t['vcf_records_with_classification'], t['index_rows'])
+        self.assertGreaterEqual(t['vcf_classifications'], 10)
+        self.assertGreater(t['index_rows'], t['vcf_classifications'])                       # the frequencies and the record without a classification are rows too
+        self.assertEqual((t['vcf_records_without_classification'] > 0, t['mapped'] > 0, t['unmapped_consistent'] > 0), (True, True, True))
+        self.assertEqual(r['unmapped_by_reason'].get('ref_mismatch'), 1)                    # the record bcftools drops under --check-ref x is the one the index refused
 
-    def test_a_changed_label_a_deleted_row_and_an_invented_row_are_each_reported(self):
-        def relabel(rows, i):
-            rows[i]['claim_value'] = 'Benign'
-            rows[i]['review_status'] = 'no_assertion_criteria_provided'
-            rows[i]['condition_text'] = 'something else'
-            return rows
-        r = self.fields(self.tampered_index('idx_relabelled', relabel))
-        self.assertFalse(r['ok'])
-        self.assertEqual((r['totals']['claim_value_differs'], r['totals']['review_status_differs'], r['totals']['condition_text_differs']), (1, 1, 1))
+    def test_each_field_is_compared_and_a_change_to_one_is_reported_as_that_one(self):
+        def germline(i, edit):
+            def change(rows):
+                edit(rows[self.pick(rows, i)])
+                return rows
+            return change
+
+        def frequency(edit):
+            def change(rows):
+                edit(next(r for r in rows if r['claim_type'] == 'population_allele_frequency' and r['claim_value'] == 'ExAC'))
+                return rows
+            return change
+        ghost = f'1:403:{b("1", 403)}:{alt("1", 403)}'
+        cases = {
+            'claim_value_differs': germline(1001, lambda r: r.update(claim_value='Benign')),
+            'review_status_differs': germline(1001, lambda r: r.update(review_status='no_assertion_criteria_provided')),
+            'condition_text_differs': germline(1001, lambda r: r.update(condition_text='.')),                  # the real defect: the VCF's marker for no condition kept as a condition
+            'condition_ids_differ': germline(1001, lambda r: r.update(condition_ids=[])),
+            'n_submitters_differs': germline(1001, lambda r: r.update(n_submitters=5)),
+            'review_stars_differ': germline(1001, lambda r: r.update(review_stars=None)),                       # the real defect: statuses the star table lacked
+            'origin_differs': germline(1001, lambda r: r.update(origin='somatic')),
+            'gene_count_differs': germline(1001, lambda r: r.update(gene_ids=[])),
+            'extra_json_differs': germline(1001, lambda r: r.update(extra_json='{}')),
+            'key_differs': germline(1001, lambda r: r.update(subject_id=ghost)),
+            'unmapped_but_bcftools_accepts': germline(1001, lambda r: r.update(mapping_status='unmapped', mapping_reason='contig_unmapped')),
+            'mapped_but_bcftools_rejects': germline(1008, lambda r: r.update(mapping_status='mapped', mapping_reason=None, subject_id=ghost)),
+            'frequency_differs': frequency(lambda r: r.update(score=0.5)),
+            'missing_in_index': lambda rows: [r for i, r in enumerate(rows) if i != self.pick(rows, 1001)],
+            'extra_in_index': lambda rows: rows + [dict(rows[self.pick(rows, 1001)], accession='VariationID:777|AlleleID:888')],
+        }
+        for counter, change in cases.items():
+            with self.subTest(counter):
+                r = self.fields(self.tampered_index('t_' + counter, change))
+                self.assertFalse(r['ok'])
+                self.assertEqual({k: v for k, v in r['totals'].items() if k in crosscheck.DIFFERENCES and v}, {counter: 1}, r['examples'])
+
+    def test_the_example_names_the_record_and_the_claim_type(self):
+        r = self.fields(self.tampered_index('t_examples', lambda rows: [dict(x, claim_value='Benign') if i == self.pick(rows, 1001) else x for i, x in enumerate(rows)]))
         self.assertEqual(r['examples']['claim_value_differs'], ['VariationID:1001|AlleleID:2001'])
+        r = self.fields(self.tampered_index('t_examples2', lambda rows: [x for i, x in enumerate(rows) if i != self.pick(rows, 1010, 'oncogenicity_classification')]))
+        self.assertEqual(r['examples']['missing_in_index'], ['oncogenicity_classification:VariationID:1010|AlleleID:2010'])
 
-        r = self.fields(self.tampered_index('idx_deleted', lambda rows, i: rows[:i] + rows[i + 1:]))
-        self.assertEqual((r['totals']['missing_in_index'], r['examples']['missing_in_index']), (1, ['VariationID:1001|AlleleID:2001']))
+    def test_one_ncbi_gene_id_must_map_to_one_gene_entity(self):
+        def split(rows):
+            rows[self.pick(rows, 1001)]['gene_ids'] = ['ENSG_ELSEWHERE']                              # GENEA:1001 is also on VariationID 1002 and 1003
+            return rows
+        r = self.fields(self.tampered_index('t_genes', split))
+        self.assertEqual(r['totals']['gene_id_inconsistent'], 1)
+        self.assertTrue(r['examples']['gene_id_inconsistent'][0].startswith('NCBI Gene 1001'))
 
-        def invent(rows, i):
-            extra = dict(rows[i])
-            extra['accession'] = 'VariationID:777|AlleleID:888'
-            return rows + [extra]
-        r = self.fields(self.tampered_index('idx_invented', invent))
-        self.assertEqual((r['totals']['extra_in_index'], r['examples']['extra_in_index']), (1, ['VariationID:777|AlleleID:888']))
+    def test_records_on_a_contig_the_file_names_differently_are_renamed_before_normalising(self):
+        # found on the real file: its records on RefSeq-named contigs failed because the header defines no contig and bcftools annotate --rename-chrs needs one
+        r = crosscheck.clinvar_fields(self.idx, self.cv_chr, self.ref)
+        base = self.fields()
+        self.assertTrue(r['ok'], r['examples'])
+        self.assertEqual({k: v for k, v in r['totals'].items() if k != 'vcf_records'}, {k: v for k, v in base['totals'].items() if k != 'vcf_records'})
+        self.assertGreater(r['totals']['mapped'], 0)
+
+    def test_a_file_whose_header_lacks_the_somatic_tags_reads_them_as_absent(self):
+        r = crosscheck.clinvar_fields(self.idx, self.cv_old, self.ref)                       # a ClinVar release older than the oncogenicity and somatic-impact tags
+        self.assertEqual({k: v for k, v in r['totals'].items() if k in crosscheck.DIFFERENCES and v}, {'extra_in_index': 2, 'missing_in_index': 1})       # ONC and SCI rows; the record that now has no classification
+        self.assertEqual(sorted(r['examples']['extra_in_index']), ['oncogenicity_classification:VariationID:1010|AlleleID:2010', 'somatic_clinical_impact:VariationID:1010|AlleleID:2010'])
 
 
 if __name__ == '__main__':
