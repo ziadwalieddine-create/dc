@@ -6,7 +6,8 @@ chromosome. Everything the sample's file says is accounted for in the output tab
   small_calls         one row per called SNV / indel allele (dosage > 0): normalised key, genotype, phase, quality, QC flags, match status, flags (difficult
                       region, multiallelic split), the per-axis summary of the variant-level evidence that matched, evidence ids, genes, region kinds.
                       A call with no index record is kept and says NO_INDEX_RECORD: absence from the index is not absence of effect.
-  evidence_links      call -> evidence row, with the axis, source, assertion and lineage group of the row (the rows themselves stay in the index)
+  evidence_links      call -> evidence row, with the axis, source, assertion and lineage group of the row (the rows themselves stay in the index) and, for a small call, the effect
+                      allele the row states and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call)
   gene_context        gene-level evidence for the genes that matched calls sit in, labelled gene_level_context_only: a gene's classification is never copied
                       onto the variants inside it
   sv_calls            every structural / copy-number call with equivalent events, the refused near-misses that matter (breakpoints, dosage, or covering at least half of the call; the
@@ -47,7 +48,7 @@ SCHEMAS = {
                               ('status', S), ('flags', LS), ('multiallelic', pa.bool_()), ('n_evidence', I32), ('axes_json', S), ('evidence_ids', LS), ('gene_ids', LS), ('gene_symbols', LS),
                               ('region_kinds', LS), ('mnv_json', S)]),
     'evidence_links': pa.schema([('call_id', S), ('call_kind', S), ('evidence_id', S), ('level', S), ('axis', S), ('source_id', S), ('claim_type', S), ('effect_assertion', S), ('lineage_group', S),
-                                 ('relation', S)]),
+                                 ('relation', S), ('effect_allele', S), ('other_allele', S), ('effect_allele_dosage', I32), ('effect_allele_basis', S)]),
     'gene_context': pa.schema([('gene_id', S), ('symbol', S), ('n_matched_calls', I32), ('evidence_id', S), ('axis', S), ('source_id', S), ('claim_type', S), ('claim_value', S),
                                ('effect_assertion', S), ('lineage_group', S), ('applies_as', S)]),
     'sv_calls': pa.schema([('call_id', S), ('chrom', S), ('start', I32), ('end', I32), ('svtype', S), ('svlen', I32), ('cn', I32), ('gt', S), ('dosage', I32), ('precise', pa.bool_()),
@@ -189,9 +190,35 @@ def small_row(o):
                 mnv_json=jdump([dict(mnv=k, status=s.status, reasons=list(s.reasons)) for k, s in o.mnv_context]))
 
 
-def link_rows(call_id, kind, rows, relation):
-    return [dict(call_id=call_id, call_kind=kind, evidence_id=r['evidence_id'], level=r['level'], axis=r['axis'], source_id=r['source_id'], claim_type=r['claim_type'],
-                 effect_assertion=r['effect_assertion'], lineage_group=r['lineage_group'], relation=relation) for r in rows]
+def effect_allele_state(call, effect):
+    """(copies of the stated effect allele that the sample carries at the call's site, basis). An association or a PGx annotation is about one allele of a site: when that is the
+    reference allele the sample is linked through its alternate call and carries the effect allele on the chromosomes without it, so the link says how many. Defined for the
+    single-base alleles of a single-nucleotide key only, and not while a haplotype of the genotype is missing (the copies could be more than are called)."""
+    if not effect:
+        return None, 'effect_allele_not_stated'
+    if call is None or call.vtype != 'snv' or len(effect) != 1:
+        return None, 'effect_allele_defined_for_single_nucleotide_keys_only'
+    if effect not in (call.ref, call.alt):
+        return None, 'effect_allele_is_neither_allele_of_the_key'
+    if call.missing:
+        return None, 'genotype_incomplete'
+    if effect == call.alt:
+        return call.dosage, 'alternate_allele_dosage'
+    return call.ref_copies, 'reference_allele_copies'
+
+
+def link_rows(call_id, kind, rows, relation, call=None):
+    out = []
+    for r in rows:
+        effect, other = r.get('effect_allele'), r.get('other_allele')
+        if kind == 'small':
+            copies, basis = effect_allele_state(call, effect)
+        else:
+            copies, basis = None, 'not_applicable'
+        out.append(dict(call_id=call_id, call_kind=kind, evidence_id=r['evidence_id'], level=r['level'], axis=r['axis'], source_id=r['source_id'], claim_type=r['claim_type'],
+                        effect_assertion=r['effect_assertion'], lineage_group=r['lineage_group'], relation=relation, effect_allele=effect, other_allele=other,
+                        effect_allele_dosage=_i(copies), effect_allele_basis=basis))
+    return out
 
 
 def genes_by_chrom(index):
@@ -251,7 +278,7 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
         for o in iter_interpretations(cs, index, ctx):
             row = small_row(o)
             W['small_calls'].add(row)
-            for r in link_rows(o.call.key, 'small', o.evidence, 'exact_variant'):
+            for r in link_rows(o.call.key, 'small', o.evidence, 'exact_variant', o.call):
                 W['evidence_links'].add(r)
             n_chrom += 1
             counts['by_status'][o.status] += 1

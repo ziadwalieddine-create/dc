@@ -430,16 +430,18 @@
       "id": "M5",
       "section": "MATCH",
       "clause": "Match normalised CHROM:POS:REF:ALT, not rsIDs alone; preserve effect-allele orientation and reject unresolved strand mappings.",
-      "how": "Matching is by key only. GWAS rows whose strand cannot be resolved (palindromic or multiallelic sites) are rejected with the reason; effect and other alleles are stored with the row.",
+      "how": "Matching is by key only. GWAS rows whose strand cannot be resolved (palindromic or multiallelic sites) are rejected with the reason; effect and other alleles are stored with the row, and each link from a call to a row states the effect allele and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call, so the copies are the reference copies of the genotype, not ploidy minus dosage).",
       "code": [
         "variant_index/vindex/build/gwas.py",
         "variant_index/vindex/build/alleles.py",
-        "variant_index/vindex/match_small.py"
+        "variant_index/vindex/match_small.py",
+        "variant_index/vindex/wgs.py"
       ],
       "tests": [
         "test_build_gwas",
         "test_alleles",
-        "test_match_small"
+        "test_match_small",
+        "test_effect_alleles"
       ],
       "status": "verified"
     },
