@@ -153,6 +153,25 @@ class TestHaplotypeRegionAndAssay(unittest.TestCase):
         self.assertEqual(status(index(assays=[dict(assay, target_gene='BRCA1')]), check, key=None), 'PASS')                      # an adapter that stores the symbol itself is found too
 
 
+class TestUnmappedEvidence(unittest.TestCase):
+    check = dict(id='u', type='unmapped_evidence', chrom='6', unmapped_key='rs3135388', where={'source_id': 'gwas_catalog', 'mapping_status': 'unmapped', 'mapping_reason': 'no_alternate_allele_known'}, min_rows=2)
+
+    def row(self, status='unmapped', reason='no_alternate_allele_known', key='rs3135388', n=0):
+        return evidence_row('rel', 'gwas_catalog', f'GCST{n}:{key}:ms', f'L{n}', f'raw{n}', 'variant', None, 'association_replication', 'statistical_association', 'gwas_association', 'multiple sclerosis',
+                            'effect', status, reason, unmapped_key=key, chrom='6')
+
+    def test_rows_kept_without_a_variant_are_found_under_the_authors_identifier(self):
+        self.assertEqual(status(index([self.row(n=1), self.row(n=2), self.row(n=3, key='rs999')]), self.check, key=None), 'PASS')
+        self.assertEqual(status(index([self.row(n=1)]), self.check, key=None), 'FAIL')                                       # one kept row where two were expected
+        self.assertEqual(status(index([self.row(n=1), self.row(n=2, status='rejected', reason='strand_unresolved_palindromic')]), self.check, key=None), 'FAIL')
+        self.assertEqual(status(index([self.row(n=3, key='rs999')]), self.check, key=None), 'ABSENT')                          # nothing is kept under that identifier: the row was dropped
+
+    def test_the_report_says_what_became_of_the_rows(self):
+        res = known_loci.run(index([self.row(n=1), self.row(n=2, status='rejected', reason='strand_unresolved_palindromic')]), spec(self.check, key=None))['loci'][0]['checks'][0]
+        self.assertIn('1 unmapped: no_alternate_allele_known', res['observed'])
+        self.assertIn('1 rejected: strand_unresolved_palindromic', res['observed'])
+
+
 class TestSpec(unittest.TestCase):
     def test_a_spec_that_cannot_run_is_rejected_rather_than_passed(self):
         for bad, text in ((dict(loci=[dict(id='a', title='t', basis='b', key=KEY, checks=[dict(id='x', type='nonsense')])]), 'unknown check type'),
@@ -163,6 +182,7 @@ class TestSpec(unittest.TestCase):
                           (dict(loci=[dict(id='a', title='t', basis='', key=KEY, checks=[dict(id='x', type='evidence')])]), 'no basis'),
                           (dict(loci=[dict(id='a', title='t', basis='b', key=KEY, checks=[])]), 'no checks'),
                           (dict(loci=[dict(id='a', title='t', basis='b', key=KEY, checks=[dict(type='evidence')])]), 'without an id'),
+                          (dict(loci=[dict(id='a', title='t', basis='b', checks=[dict(id='x', type='unmapped_evidence', chrom='6')])]), 'needs chrom and unmapped_key'),
                           (dict(loci=[dict(id='a', title='t', basis='b', key=KEY, checks=[dict(id='x', type='evidence')])] * 2), 'repeated')):
             with self.subTest(text):
                 with self.assertRaises(ValueError) as cm:

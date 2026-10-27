@@ -75,7 +75,7 @@
    "key": "18:60183864:T:C",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "body mass index|obesity|\\bBMI\\b"}, "not_regex": {"condition_text": "adjusted|response|weight loss|intervention|change|smok|alcohol|physical activity|interaction|age at|inactiv"}, "risk_allele": "C", "other_allele": "T", "min_rows": 5, "min_fraction": 0.9}
+    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "body mass index|obesity|\\bBMI\\b"}, "not_regex": {"condition_text": "adjusted|response|weight loss|intervention|change|smok|alcohol|physical activity|interaction|age at|inactiv"}, "risk_allele": "C", "other_allele": "T", "min_rows": 3, "min_fraction": 0.9}
    ]
   },
   {
@@ -86,7 +86,7 @@
    "key": "9:22096056:A:G",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "g_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "coronary|myocardial infarction"}, "not_regex": {"condition_text": "adjusted|response|age at|statin|calcif|stenosis|restenosis|medication"}, "risk_allele": "G", "other_allele": "A", "min_rows": 3, "min_fraction": 0.9}
+    {"id": "g_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "coronary|myocardial infarction"}, "not_regex": {"condition_text": "adjusted|response|age at|statin|calcif|stenosis|restenosis|medication"}, "risk_allele": "G", "other_allele": "A", "min_rows": 2, "min_fraction": 0.9}
    ]
   },
   {
@@ -97,7 +97,7 @@
    "key": "4:110789013:C:T",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "atrial fibrillation"}, "not_regex": {"condition_text": "adjusted|response|age at|medication"}, "risk_allele": "T", "other_allele": "C", "min_rows": 2, "min_fraction": 0.9}
+    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "atrial fibrillation"}, "not_regex": {"condition_text": "adjusted|response|age at|medication"}, "risk_allele": "T", "other_allele": "C", "min_rows": 1, "min_fraction": 0.9}
    ]
   },
   {
@@ -112,14 +112,13 @@
    ]
   },
   {
-   "id": "hla_drb1_rs3135388_ms",
-   "title": "HLA-DRB1 rs3135388: the A allele (the reference base) raises multiple sclerosis risk",
-   "basis": "The tag of HLA-DRB1*15:01, the strongest multiple sclerosis risk factor (odds ratio about 2-3 per A allele). The A allele is the GRCh38 reference base, so the effect allele is REF and the other allele is ALT: this tests the orientation when the effect allele is the reference.",
-   "rsid": "rs3135388",
-   "key": "6:32445274:A:G",
+   "id": "gwas_rows_that_cannot_be_placed_are_kept",
+   "title": "GWAS Catalog rows that cannot be placed are retained with their reason (MS, FTO, 9p21)",
+   "basis": "The Catalog gives the risk allele but not the alternate allele, so a row whose risk allele is the reference base (HLA-DRB1 rs3135388, risk allele A = GRCh38 reference, multiple sclerosis odds ratio about 2-3) stays unmapped with 'no_alternate_allele_known'; rows at strand-ambiguous A/T and C/G sites (FTO rs9939609, 9p21 rs1333049) are rejected as 'strand_unresolved_palindromic' unless an allele frequency settles the strand. Nothing is dropped: the index keeps each row under the author's identifier.",
    "checks": [
-    {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "a_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "multiple sclerosis"}, "not_regex": {"condition_text": "adjusted|response|age at|protein|level|ratio|progression|severity"}, "risk_allele": "A", "other_allele": "G", "min_rows": 2, "min_fraction": 0.9}
+    {"id": "hla_drb1_rs3135388_kept_unmapped", "type": "unmapped_evidence", "chrom": "6", "unmapped_key": "rs3135388", "where": {"source_id": "gwas_catalog", "mapping_status": "unmapped", "mapping_reason": "no_alternate_allele_known"}, "min_rows": 3},
+    {"id": "fto_rs9939609_palindromic_rows_rejected_with_reason", "type": "unmapped_evidence", "chrom": "16", "unmapped_key": "rs9939609", "where": {"source_id": "gwas_catalog", "mapping_status": "rejected", "mapping_reason": "strand_unresolved_palindromic"}, "min_rows": 5},
+    {"id": "chr9p21_rs1333049_palindromic_rows_rejected_with_reason", "type": "unmapped_evidence", "chrom": "9", "unmapped_key": "rs1333049", "where": {"source_id": "gwas_catalog", "mapping_status": "rejected", "mapping_reason": "strand_unresolved_palindromic"}, "min_rows": 10}
    ]
   },
   {

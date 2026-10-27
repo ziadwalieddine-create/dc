@@ -13,6 +13,8 @@ A spec is a list of loci; each locus has a public fact (`basis`) and checks:
                    whose effect allele is `other_allele` must lower it, in at least `min_fraction` of the rows that carry an effect size
   haplotype_allele the star allele (or named allele) exists for the gene, and its definition includes the stated variant key
   region_evidence  a region of the stated kind overlaps the interval and carries evidence satisfying `where` / `regex`
+  unmapped_evidence at least `min_rows` evidence rows that the index kept without a variant (mapping status and reason in `where`) under the author's identifier (`unmapped_key`) on
+                   the chromosome's partition: records that cannot be placed are retained with their reason, never dropped
   assay_exists     at least `min_rows` assays (MaveDB score sets and other assays) target the gene (found by its symbol through the gene table: assays name their target by gene id)
 
 A selection can also use `not_regex` (rows matching any of these patterns are excluded) and `list_any` ({column: values}: the list column holds at least one of the values).
@@ -20,6 +22,7 @@ A selection can also use `not_regex` (rows matching any of these patterns are ex
 A check is PASS, FAIL (the index contradicts the fact) or ABSENT (the index holds nothing about the subject: a gap, not a contradiction). Nothing here edits the index.
 """
 import json
+import os
 import re
 
 import pyarrow.compute as pc
@@ -178,6 +181,23 @@ def check_region_evidence(index, locus, check):
     return _result(check, 'PASS' if len(hits) >= check.get('min_rows', 1) else 'FAIL', f'{len(regions)} overlapping region(s), {len(hits)} of {len(rows)} evidence rows match')
 
 
+def check_unmapped_evidence(index, locus, check):
+    from . import schema
+    part = schema.partition_of(check['chrom'])
+    rows = index.filtered('evidence', pc.field('unmapped_key') == check['unmapped_key'], sub=os.path.join('variant', part)).to_pylist()
+    if not rows:
+        return _result(check, 'ABSENT', f"no evidence row is kept under {check['unmapped_key']!r} on chromosome {check['chrom']}")
+    hits = select(rows, check)
+    states = describe_states(rows)
+    return _result(check, 'PASS' if len(hits) >= check.get('min_rows', 1) else 'FAIL', f'{len(hits)} matching row(s) of {len(rows)} kept under the identifier ({states})')
+
+
+def describe_states(rows):
+    from collections import Counter
+    c = Counter((r['mapping_status'], r.get('mapping_reason')) for r in rows)
+    return '; '.join(f'{n} {st}{": " + why if why else ""}' for (st, why), n in sorted(c.items(), key=lambda kv: -kv[1]))
+
+
 def check_assay_exists(index, locus, check):
     symbol = check['gene_symbol']
     ids = {g['gene_id'] for g in index.filtered('entity_gene', pc.field('symbol') == symbol).to_pylist()}               # assays name their target by gene id
@@ -189,7 +209,7 @@ def check_assay_exists(index, locus, check):
 
 
 CHECKS = {'xref_key': check_xref_key, 'evidence': check_evidence, 'orientation': check_orientation, 'haplotype_allele': check_haplotype_allele,
-          'region_evidence': check_region_evidence, 'assay_exists': check_assay_exists}
+          'region_evidence': check_region_evidence, 'assay_exists': check_assay_exists, 'unmapped_evidence': check_unmapped_evidence}
 
 
 def validate_spec(spec):
@@ -218,6 +238,8 @@ def validate_spec(spec):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a region check needs chrom, start and end")
             if c.get('type') == 'haplotype_allele' and not (c.get('gene_symbol') and c.get('allele_regex')):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a haplotype check needs gene_symbol and allele_regex")
+            if c.get('type') == 'unmapped_evidence' and not (c.get('chrom') and c.get('unmapped_key')):
+                problems.append(f"{locus.get('id')}/{c.get('id')}: an unmapped-evidence check needs chrom and unmapped_key")
             if c.get('type') == 'assay_exists' and not c.get('gene_symbol'):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: an assay check needs a gene_symbol")
             if not c.get('id'):
