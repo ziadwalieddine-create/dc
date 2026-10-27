@@ -179,7 +179,7 @@ DUCKDB_THREADS = int(os.environ.get('VINDEX_DUCKDB_THREADS', '2'))
 # (table, column) pairs of entity tables whose string cells must not hold a marker text for "no value" (an empty string is allowed in an entity attribute)
 ENTITY_MARKER_COLUMNS = (('entity_study', 'ancestry'), ('entity_study', 'cohorts'), ('entity_study', 'biosample'), ('entity_study', 'trait_text'), ('entity_assay', 'target_gene'),
                          ('entity_assay', 'model_system'), ('entity_assay', 'tissue_or_cell'), ('entity_assay', 'perturbation'), ('entity_assay', 'dose_context'), ('entity_assay', 'readout'),
-                         ('entity_assay', 'score_direction'), ('entity_haplotype', 'function'), ('entity_haplotype', 'allele_level'), ('entity_gene', 'hgnc_id'), ('entity_gene', 'strand'),
+                         ('entity_assay', 'score_direction'), ('entity_haplotype', 'function'), ('entity_haplotype', 'allele_level'), ('entity_gene', 'hgnc_id'),
                          ('entity_gene', 'mane_select'), ('entity_gene', 'biotype'), ('entity_region', 'name'), ('entity_event', 'origin'), ('entity_event', 'raw_type'),
                          ('variant_gene', 'consequence'), ('gene_set_member', 'name'))
 
@@ -279,6 +279,7 @@ def validate(index_dir, reference=None, sample_keys=50000):
             bad[f'{col}_not_finite'] += int(pc.sum(pc.fill_null(pc.or_(pc.is_nan(t[col]), pc.is_inf(t[col])), False)).as_py() or 0)
         bad['eaf_outside_0_1'] += int(pc.sum(pc.fill_null(pc.or_(pc.less(t['eaf'], 0), pc.greater(t['eaf'], 1)), False)).as_py() or 0)
         bad['standard_error_not_positive'] += int(pc.sum(pc.fill_null(pc.less_equal(t['se'], 0), False)).as_py() or 0)
+        bad['odds_ratio_not_positive'] += int(pc.sum(pc.fill_null(pc.less_equal(t['odds_ratio'], 0), False)).as_py() or 0)
         bad['ci_low_above_ci_high'] += int(pc.sum(pc.fill_null(pc.greater(t['ci_low'], t['ci_high']), False)).as_py() or 0)
         est = pc.coalesce(t['beta'], t['odds_ratio'])
         both = pc.and_(pc.and_(pc.is_valid(est), pc.is_valid(t['ci_low'])), pc.is_valid(t['ci_high']))

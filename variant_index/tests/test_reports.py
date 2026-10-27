@@ -130,6 +130,14 @@ class TestReports(unittest.TestCase):
         for name in ('variant_gene_gene_not_in_the_gene_table', 'gene_set_member_gene_not_in_the_gene_table'):
             self.assertNotIn(name, v['checks'])                                                            # reported, not failing
 
+    def test_the_minus_strand_is_not_a_missing_value_marker(self):
+        # '-' is in the marker list for text columns; for a gene's strand it is a value (38,990 real genes)
+        def mutate(d):
+            self.add_rows(d, 'entity_gene', [dict(gene_id='ENSG_MINUS', symbol='M', hgnc_id=None, chrom='1', start=1, end=9, strand='-', mane_select=None, biotype='protein_coding', release_id='r')])
+        v = self.damaged(mutate)
+        self.assertNotIn('entity_gene_strand_is_a_missing_value_marker', v['checks'])
+        self.assertEqual(v['checks']['entity_gene_strand_not_plus_or_minus']['violations'], 0)
+
     def test_entity_invariants_and_marker_text_in_entity_attributes_are_caught(self):
         def mutate(d):
             self.add_rows(d, 'entity_study', [dict(study_id='GCST1', source_id='gwas_catalog', lineage_group='l', study_type='gwas', pubmed='1', trait_ids=None, trait_text='NR', n_total=100, n_cases=200,
@@ -169,6 +177,8 @@ class TestReports(unittest.TestCase):
         self.assertEqual(v['checks']['eaf_outside_0_1']['violations'], 1)                                      # 74 Catalog cells above 1
         v = self.damaged(lambda d: self.rewrite(d, p, 'se', lambda xs: [0.0] + xs[1:]))
         self.assertEqual(v['checks']['standard_error_not_positive']['violations'], 1)                          # MaveDB se = 0
+        v = self.damaged(lambda d: self.rewrite(d, p, 'odds_ratio', lambda xs: [-2.3, 0.0] + xs[2:]))
+        self.assertEqual(v['checks']['odds_ratio_not_positive']['violations'], 2)                              # nine ClinPGx 'odds ratios' were zero or negative
         v = self.damaged(lambda d: self.rewrite(d, p, 'beta', lambda xs: [float('nan')] + xs[1:]))
         self.assertEqual(v['checks']['beta_not_finite']['violations'], 1)                                      # float('nan') and float('inf') parse
         v = self.damaged(lambda d: (self.rewrite(d, p, 'ci_low', lambda xs: [3.0] + xs[1:]), self.rewrite(d, p, 'ci_high', lambda xs: [2.0] + xs[1:])))
