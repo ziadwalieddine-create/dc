@@ -69,6 +69,7 @@ class GvcfCallability:
 
     def __init__(self, callset):
         self.conf, self.low, self.nocall, self.site, self.spandel, self.sv = (IntervalSet() for _ in range(6))
+        self._union = None            # confident and low-confidence blocks as one set, built on first use
         for b in callset.refblocks:
             (self.conf if b.confident else self.low).add(b.chrom, b.start, b.end)
         for n in callset.nocalls:
@@ -99,12 +100,14 @@ class GvcfCallability:
         return 'unknown', 'no_block'
 
     def _union_covers(self, chrom, start, end):
-        both = IntervalSet()
-        for src in (self.conf, self.low):
-            for c, iv in src._raw.items():
-                for s, e in iv:
-                    both.add(c, s, e)
-        return both.covers(chrom, start, end)
+        if self._union is None:        # once: a gVCF holds millions of blocks, and an indel next to a low-confidence block asks this for every such site
+            both = IntervalSet()
+            for src in (self.conf, self.low):
+                for c, iv in src._raw.items():
+                    for s, e in iv:
+                        both.add(c, s, e)
+            self._union = both
+        return self._union.covers(chrom, start, end)
 
 
 class CallableRegionCallability:

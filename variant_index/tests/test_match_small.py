@@ -100,6 +100,20 @@ class TestMissingAndReference(Base):
         self.assertIn('reference_confidence_below_policy', st.reasons)
         self.assertEqual(status_of(ctx, key(600)).status, 'ABSENT_FROM_CALLSET')
 
+    def test_an_indel_across_a_confident_and_a_low_confidence_block_is_low_confidence_and_the_union_is_built_once(self):
+        recs = [('1', 300, 'C', '<NON_REF>', 'PASS', 0, ['0/0:50:30:30,0'], 'END=349', '.', 'GT:GQ:DP:AD'),
+                ('1', 350, 'A', '<NON_REF>', 'PASS', 0, ['0/0:10:30:30,0'], 'END=399', '.', 'GT:GQ:DP:AD')]
+        ctx = self.ctx(self.read(recs))
+        span = self.ref.fetch('1', 347, 352)                                    # positions 348-352: 348 and 349 are in the confident block, 350-352 in the low-confidence one
+        st = status_of(ctx, f'1:348:{span}:{span[0]}')
+        self.assertEqual((st.status, st.reasons), ('UNRESOLVED', ('reference_confidence_below_policy',)))
+        gvcf = ctx.callability.providers[0]
+        built = gvcf._union
+        self.assertIsNotNone(built)
+        self.assertEqual(status_of(ctx, f'1:349:{self.ref.fetch("1", 348, 352)}:{self.b(349)}').status, 'UNRESOLVED')
+        self.assertIs(gvcf._union, built, 'the union of the blocks is built once, not for every site that asks')
+        self.assertEqual(status_of(ctx, f'1:340:{self.ref.fetch("1", 339, 343)}:{self.b(340)}').status, 'VERIFIED_REFERENCE')
+
     def test_variant_only_vcf_never_proves_reference(self):
         cs = self.read([('1', 402, self.b(402), self.alt(402), 'PASS', 50, ['0/1:50:30:15,15'])])
         st = status_of(self.ctx(cs), f'1:350:{self.b(350)}:{self.alt(350)}')
