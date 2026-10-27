@@ -151,6 +151,13 @@ class TestReports(unittest.TestCase):
         self.assertEqual(v['informational']['gwas_rows_whose_allele_was_complemented'], 3)                                     # rows 2, 3 and 4 differ from the reported letter
         self.assertNotIn('gwas_effect_allele_neither_the_reported_allele_nor_its_complement', self.clean['checks'])             # an index without Catalog rows does not run it
 
+    def test_an_empty_entity_variant_file_is_skipped_by_the_reference_read_back(self):
+        def mutate(d):
+            self.add_rows(d, 'entity_variant', [])                                                  # a file with a schema and no rows beside the real ones
+        v = self.damaged(mutate)
+        self.assertEqual(v['checks']['entity_variant_ref_differs_from_reference']['violations'], 0)
+        self.assertGreater(v['entity_variant_ref_checked'], 0)
+
     def test_the_minus_strand_is_not_a_missing_value_marker(self):
         # '-' is in the marker list for text columns; for a gene's strand it is a value (38,990 real genes)
         def mutate(d):

@@ -383,7 +383,9 @@ def validate(index_dir, reference=None, sample_keys=50000):
             wrong, checked = [], 0
             for f in files:
                 t = pq.read_table(f, columns=['variant_key', 'chrom', 'pos', 'ref'])
-                for k in t.take(list(range(0, t.num_rows, step))).to_pylist():
+                if not t.num_rows:                                          # an empty file (an index with no variants of a kind) has nothing to sample
+                    continue
+                for k in t.take(pa.array(range(0, t.num_rows, step), pa.int64())).to_pylist():
                     checked += 1
                     canon = reference.contig(k['chrom'])
                     if canon and reference.check_ref(canon, k['pos'], k['ref'])[0] == 'mismatch':
