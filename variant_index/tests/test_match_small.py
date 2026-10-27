@@ -114,6 +114,21 @@ class TestMissingAndReference(Base):
         self.assertIs(gvcf._union, built, 'the union of the blocks is built once, not for every site that asks')
         self.assertEqual(status_of(ctx, f'1:340:{self.ref.fetch("1", 339, 343)}:{self.b(340)}').status, 'VERIFIED_REFERENCE')
 
+    def test_a_record_the_reader_refused_is_a_record_at_the_site_so_reference_is_not_verified_there(self):
+        wrong = next(x for x in 'ACGT' if x not in (self.b(350), self.alt(350)))
+        recs = [('1', 300, 'C', '<NON_REF>', 'PASS', 0, ['0/0:50:30:30,0'], 'END=399', '.', 'GT:GQ:DP:AD'),
+                ('1', 350, wrong, self.alt(350), 'PASS', 50, ['0/1:60:30:15,15'])]                                  # REF disagrees with the reference, inside a confident block
+        cs = self.read(recs)
+        self.assertEqual([(r.reason, r.pos) for r in cs.rejected], [('ref_mismatch', 350)])
+        ctx = self.ctx(cs)
+        st = status_of(ctx, f'1:350:{self.b(350)}:{self.alt(350)}')
+        self.assertEqual((st.status, st.reasons, st.basis), ('NO_CALL', ('site_without_genotype',), 'record_refused_by_the_reader'))
+        self.assertEqual(status_of(ctx, f'1:351:{self.b(351)}:{self.alt(351)}').status, 'VERIFIED_REFERENCE', 'the neighbouring site is unaffected')
+        cs2 = self.read(recs[1:])                                                                                   # the same record in a variant-only file with a callable region
+        ctx2 = self.ctx(cs2, CallableRegionCallability([('1', 300, 400)], cs2))
+        self.assertEqual(status_of(ctx2, f'1:350:{self.b(350)}:{self.alt(350)}').status, 'NO_CALL')
+        self.assertEqual(status_of(ctx2, f'1:351:{self.b(351)}:{self.alt(351)}').status, 'VERIFIED_REFERENCE')
+
     def test_variant_only_vcf_never_proves_reference(self):
         cs = self.read([('1', 402, self.b(402), self.alt(402), 'PASS', 50, ['0/1:50:30:15,15'])])
         st = status_of(self.ctx(cs), f'1:350:{self.b(350)}:{self.alt(350)}')

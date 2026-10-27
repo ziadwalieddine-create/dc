@@ -396,7 +396,7 @@
         "test_pgs"
       ],
       "status": "partial",
-      "gap": "The star-allele caller is this repository's own implementation of the published definitions; structural genes (CYP2D6, HLA, KIR) need a dedicated caller (Cyrius, Aldy, StellarPGx, PharmCAT) whose result is supplied with --external-haplotypes. None is installed here."
+      "gap": "The star-allele caller is this repository's own implementation of the published definitions; structural genes (CYP2D6, HLA, KIR) need a dedicated caller (Cyrius, Aldy, StellarPGx, PharmCAT) whose result is supplied with --external-haplotypes. None is installed here. A cross-check of the star-allele calls against PharmCAT (bioconda pharmcat3 3.4.0, MPL-2.0) was prepared and not run: the environment's permission policy did not allow the downloaded tool to be executed, so the star-allele logic is verified against the published definitions by tests and known-locus checks, not against another caller."
     },
     {
       "id": "M3",
@@ -432,13 +432,15 @@
       "id": "M5",
       "section": "MATCH",
       "clause": "Match normalised CHROM:POS:REF:ALT, not rsIDs alone; preserve effect-allele orientation and reject unresolved strand mappings.",
-      "how": "Matching is by key only. GWAS rows whose strand cannot be resolved (palindromic or multiallelic sites) are rejected with the reason; effect and other alleles are stored with the row, and each link from a call to a row states the effect allele and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call, so the copies are the reference copies of the genotype, not ploidy minus dosage). A site whose genotype is a verified reference (gVCF block or callable region) is linked to the rows whose effect allele is the reference allele of a single-nucleotide key (call_kind verified_reference; two copies on an autosome, none stated on X, Y and the mitochondrion, where the providers do not record the ploidy); every such site is counted in the run manifest by what the sample says about it, and a site the sample cannot answer for, or at which another allele is called, has no link.",
+      "how": "Matching is by key only. GWAS rows whose strand cannot be resolved (palindromic or multiallelic sites) are rejected with the reason; effect and other alleles are stored with the row, and each link from a call to a row states the effect allele and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call, so the copies are the reference copies of the genotype, not ploidy minus dosage). A site whose genotype is a verified reference (gVCF block or callable region) is linked to the rows whose effect allele is the reference allele of a single-nucleotide key (call_kind verified_reference; two copies on an autosome, none stated on X, Y and the mitochondrion, where the providers do not record the ploidy); every such site is counted in the run manifest by what the sample says about it, and a site the sample cannot answer for, or at which another allele is called, has no link. A record the reader refused (REF disagrees with the reference) is a record at its site, so reference is not verified there; crosscheck_bcftools.py --reference-sites recomputes the verified sites from the index, the callable-region BED and bcftools and compares them with the links.",
       "code": [
         "variant_index/vindex/build/gwas.py",
         "variant_index/vindex/build/alleles.py",
         "variant_index/vindex/match_small.py",
         "variant_index/vindex/wgs.py",
-        "variant_index/vindex/index_reader.py"
+        "variant_index/vindex/index_reader.py",
+        "variant_index/vindex/crosscheck.py",
+        "variant_index/vindex/callability.py"
       ],
       "tests": [
         "test_build_gwas",

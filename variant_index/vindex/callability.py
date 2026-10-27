@@ -8,7 +8,7 @@ Each provider answers `status(chrom, start, end)` for a span with one of:
   reference_confident      the whole span has positive reference evidence (basis says which)
   reference_low_confidence reference evidence exists but fails the GQ/depth policy somewhere in the span
   variant_site             a variant record overlaps the span (the caller then looks at which alleles)
-  no_call                  a record or block overlaps the span without a usable genotype
+  no_call                  a record or block overlaps the span without a usable genotype, or the file holds a record there that the reader refused (its REF disagrees with the reference)
   deleted_by_upstream      a spanning-deletion allele covers the span
   structural_overlap       a called structural variant (deletion, duplication) overlaps the span
   unknown                  no evidence either way
@@ -70,6 +70,7 @@ class GvcfCallability:
     def __init__(self, callset):
         self.conf, self.low, self.nocall, self.site, self.spandel, self.sv = (IntervalSet() for _ in range(6))
         self._union = None            # confident and low-confidence blocks as one set, built on first use
+        self.refused = IntervalSet()   # records the reader refused (the REF disagrees with the reference, an N in REF): something was called there that cannot be read
         for b in callset.refblocks:
             (self.conf if b.confident else self.low).add(b.chrom, b.start, b.end)
         for n in callset.nocalls:
@@ -78,6 +79,9 @@ class GvcfCallability:
             if c.dosage > 0 or c.other_alt > 0:
                 o = c.orig
                 self.site.add(c.chrom, min(c.pos, o[1]), max(c.pos + len(c.ref) - 1, o[1] + len(o[2]) - 1))
+        for rj in callset.rejected:
+            if rj.canon:
+                self.refused.add(rj.canon, rj.pos, rj.pos + len(rj.ref) - 1)
         for d in callset.spandels:
             self.spandel.add(d.chrom, d.pos, d.end)
         for v in callset.svs:
@@ -91,6 +95,8 @@ class GvcfCallability:
             return 'structural_overlap', 'called_structural_variant'
         if self.nocall.overlaps(chrom, start, end):
             return 'no_call', 'no_call_record'
+        if self.refused.overlaps(chrom, start, end):
+            return 'no_call', 'record_refused_by_the_reader'      # reference is not verified where the file holds a record that could not be read
         if self.site.overlaps(chrom, start, end):
             return 'variant_site', 'variant_record'
         if self.conf.covers(chrom, start, end):

@@ -69,6 +69,7 @@ class Rejected:
     alt: str
     rec_index: int
     detail: str = ''
+    canon: str = ''        # the contig as the reference names it, where the record was placed on one
 
 
 @dataclass
@@ -343,7 +344,7 @@ def read_vcf(path, reference, sample=None, qc=None, contigs=None):
             n = normalise(reference, canon, rec.pos, rec.ref, alt)
             if not n.ok:
                 st['rejected'] += 1
-                cs.rejected.append(Rejected(n.status, rec.chrom, rec.pos, rec.ref, alt, idx, n.detail))
+                cs.rejected.append(Rejected(n.status, rec.chrom, rec.pos, rec.ref, alt, idx, n.detail, canon))
                 continue
             f2 = list(flags) + ([] if called else ['partial_no_call'])
             call = SmallCall(n.key, n.chrom, n.pos, n.ref, n.alt, n.vtype, _gt_string(gt, phased), tuple(gt), ploidy, phased, phase_set,

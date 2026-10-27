@@ -12,7 +12,7 @@ import pyarrow.parquet as pq
 import pysam
 
 from helpers import syn_reference, vcf_text, FIXTURES, SYN_CONTIGS
-from vindex import schema, wgs
+from vindex import crosscheck, schema, wgs
 from vindex.build import runner
 from vindex.build.common import evidence_row
 from vindex.index_reader import Index
@@ -165,6 +165,54 @@ class TestVerifiedReferenceGenotypes(unittest.TestCase):
         wgs.run_sample(self.vcf + '.gz', self.idx, out, self.ref, callable_bed=self.bed, repo_root=os.path.join(self.work, 'not_the_repo'))
         again = pq.read_table(os.path.join(out, 'evidence_links.parquet')).to_pylist()
         self.assertEqual(again, self.links)
+
+
+@unittest.skipUnless(crosscheck.find_bcftools(), 'bcftools is not available (set VINDEX_TOOLS_BIN)')
+class TestTheVerifiedSitesAreRecomputedWithBcftools(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.t = TestVerifiedReferenceGenotypes
+        cls.t.setUpClass()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.t.tearDownClass()
+
+    def check(self, bed=None, results=None):
+        return crosscheck.reference_sites(self.t.vcf + '.gz', results or self.t.out, self.t.idx, bed or self.t.bed, self.t.ref)
+
+    def test_the_sites_the_run_verified_are_the_sites_bcftools_leaves_unblocked_inside_the_region(self):
+        rep = self.check()
+        self.assertTrue(rep['ok'], rep)
+        # 8 indexed sites carry a row about the reference allele on a single-nucleotide key (200, 210, 220, 240, 250, 260, X:100 and 230's row is about the alternate allele: not one)
+        self.assertEqual((rep['candidates'], rep['in_callable_region'], rep['blocked_by_a_record'], rep['expected'], rep['matcher']), (7, 6, 3, 3, 3))
+        self.assertEqual(rep['per_contig']['1'], dict(candidates=6, callable=5, blocked=3, expected=2, matcher=2))
+
+    def test_a_disagreement_is_reported_in_both_directions(self):
+        narrower = os.path.join(self.t.work, 'narrower.bed')
+        with open(narrower, 'w') as f:
+            f.write('1\t214\t265\nX\t89\t110\n')                      # site 200 is no longer inside the region the check reads
+        rep = self.check(bed=narrower)
+        self.assertFalse(rep['ok'])
+        self.assertEqual((rep['only_matcher'], rep['only_expected']), (1, 0))
+        self.assertEqual(rep['examples']['only_matcher'], [key('1', 200)])
+        wider = os.path.join(self.t.work, 'wider.bed')
+        with open(wider, 'w') as f:
+            f.write('1\t194\t300\nX\t89\t110\n')                      # the check reads 210 as inside, the run did not
+        rep = self.check(bed=wider)
+        self.assertEqual((rep['only_matcher'], rep['only_expected']), (0, 1))
+        self.assertEqual(rep['examples']['only_expected'], [key('1', 210)])
+
+    def test_a_link_the_matcher_should_not_have_made_is_found(self):
+        forged = os.path.join(self.t.work, 'forged')
+        shutil.copytree(self.t.out, forged)
+        t = pq.read_table(os.path.join(forged, 'evidence_links.parquet'))
+        row = [r for r in t.to_pylist() if r['call_kind'] == 'small'][0]                     # the link of a called site (240), presented as a verified reference
+        row.update(call_kind='verified_reference', relation='verified_reference_genotype:forged')
+        pq.write_table(pa.Table.from_pylist(t.to_pylist() + [row], schema=t.schema), os.path.join(forged, 'evidence_links.parquet'))
+        rep = self.check(results=forged)
+        self.assertFalse(rep['ok'])
+        self.assertEqual(rep['examples']['only_matcher'], [row['call_id']])
 
 
 class TestTheRowsThatAreAboutTheReferenceAllele(unittest.TestCase):

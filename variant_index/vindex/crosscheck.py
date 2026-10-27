@@ -11,6 +11,7 @@ A key present on one side only is reported with its explanation: a bcftools-only
 reference) is explained; anything else is a difference. Nothing here is sent anywhere: the sample VCF is read by a local bcftools process, and only counts and
 example keys from the comparison are written to the report.
 """
+import bisect
 import json
 import os
 import re
@@ -19,6 +20,7 @@ import subprocess
 import tempfile
 
 import pyarrow.compute as pc
+import pyarrow.dataset as pds
 import pyarrow.parquet as pq
 
 PLAIN_ALLELE = re.compile(r'^[ACGTN]+$')
@@ -172,6 +174,104 @@ def crosscheck(vcf, results, reference, evidence_vcf=None, evidence_source='clin
             examples=dict(only_bcftools_unexplained=unexplained_b[:examples], only_matcher=only_m[:examples], evidence_only_bcftools=ev_unexplained[:examples], evidence_only_matcher=ev_only_m[:examples]),
             per_contig=per)
         report['ok'] = not unexplained_b and not only_m and not ev_unexplained and not ev_only_m
+        return report
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+# ---- the sites at which a run verified a reference genotype, recomputed with bcftools and a plain reading of the callable-region BED -----------------------------------------
+
+def _merged(intervals):
+    """([starts], [ends]) of closed integer intervals, merged where they overlap or touch."""
+    out = []
+    for a, b in sorted(intervals):
+        if out and a <= out[-1][1] + 1:
+            out[-1][1] = max(out[-1][1], b)
+        else:
+            out.append([a, b])
+    return [a for a, _ in out], [b for _, b in out]
+
+
+def _covers(merged, pos):
+    starts, ends = merged
+    i = bisect.bisect_right(starts, pos) - 1
+    return i >= 0 and ends[i] >= pos
+
+
+NO_ALTERNATE_GT = re.compile(r'^0([/|]0)*$')
+
+
+def reference_sites(vcf, results, index_dir, callable_bed, reference, contigs=None, sample=None, bcftools=None, examples=10):
+    """The sites at which a run linked a verified reference genotype to evidence about the reference allele, recomputed without the matcher:
+
+      candidates   the indexed single-nucleotide keys with a mapped variant-level row whose effect allele is the reference allele (read from the evidence files, restated here)
+      callable     those inside the callable-region BED (read here; BED is 0-based half open)
+      blocked      those the sample's file has a record at: any record of the VCF that is not a homozygous-reference genotype (bcftools query, so a no-call, a filtered call, a deletion that
+                   spans the site, a symbolic allele all count), and the span of every allele the sample carries after bcftools norm (a left-aligned indel reaches further than its record)
+      expected     callable and not blocked -> must equal the call_ids of evidence_links with call_kind verified_reference
+
+    A run that verified its reference by gVCF blocks instead of a callable region is not covered: the blocks are the records the matcher itself reads."""
+    bcf = bcftools or find_bcftools()
+    if not bcf:
+        raise RuntimeError('bcftools not found (set VINDEX_TOOLS_BIN or put it on PATH)')
+    from .wgs import chromosome_order
+    order = chromosome_order(reference, contigs)
+    beds = {}
+    with open(callable_bed) as f:
+        for line in f:
+            if line.strip() and not line.startswith(('#', 'track', 'browser')):
+                c, a, b = line.split('\t')[:3]
+                canon = reference.contig(c)
+                if canon:
+                    beds.setdefault(canon, []).append((int(a) + 1, int(b)))
+    tmp = tempfile.mkdtemp(prefix='crosscheck_')
+    try:
+        norm = Normaliser(bcf, reference, tmp)
+        run_sample = sample
+        if not run_sample:
+            first = subprocess.run([bcf, 'query', '-l', vcf], capture_output=True, text=True, check=True).stdout.split('\n')[0]
+            run_sample = first or None
+        matcher = {}
+        for k in read_column(results, 'evidence_links', 'call_id', where=[('call_kind', 'verified_reference')]):
+            matcher.setdefault(k.split(':', 1)[0], set()).add(k)
+        per, only_expected, only_matcher = {}, [], []
+        n_candidates = n_callable = n_blocked = n_expected = 0
+        for canon in order:
+            cand = set()
+            d = os.path.join(index_dir, 'evidence', 'variant', canon)
+            if os.path.isdir(d):
+                t = pds.dataset(d, format='parquet', ignore_prefixes=[]).to_table(columns=['subject_id', 'effect_allele'], filter=pc.field('effect_allele').is_valid() & (pc.field('mapping_status') == 'mapped'))
+                for sid, eff in zip(t['subject_id'].to_pylist(), t['effect_allele'].to_pylist()):
+                    parts = (sid or '').split(':')
+                    if len(parts) == 4 and len(parts[2]) == 1 and len(parts[3]) == 1 and eff == parts[2]:
+                        cand.add(sid)
+            mask = _merged(beds.get(canon, ()))
+            inside = {k for k in cand if _covers(mask, int(k.split(':')[1]))}
+            spans = []
+            for name in (n for n in norm.contig_names(vcf) if reference.contig(n) == canon):
+                stages = [[bcf, 'view', '-r', name] + (['-s', run_sample] if run_sample else []) + [norm.indexed(vcf)], [bcf, 'query', '-f', '%POS\t%REF\t%END\t[%GT]\n']]
+                for line in _chain(stages):
+                    pos, ref_, end, gt = line.rstrip('\n').split('\t')
+                    if NO_ALTERNATE_GT.match(gt):
+                        continue
+                    last = int(end) if end.isdigit() else int(pos) + len(ref_) - 1
+                    spans.append((int(pos), max(last, int(pos) + len(ref_) - 1)))
+                for key in norm.keys(vcf, canon, sample=run_sample, carried_only=True):
+                    _, p_, r_, _a = key.split(':')
+                    spans.append((int(p_), int(p_) + len(r_) - 1))
+            hit = _merged(spans)
+            blocked = {k for k in inside if _covers(hit, int(k.split(':')[1]))}
+            expected = inside - blocked
+            here = matcher.get(canon, set())
+            only_expected += sorted(expected - here)
+            only_matcher += sorted(here - expected)
+            n_candidates, n_callable, n_blocked, n_expected = n_candidates + len(cand), n_callable + len(inside), n_blocked + len(blocked), n_expected + len(expected)
+            per[canon] = dict(candidates=len(cand), callable=len(inside), blocked=len(blocked), expected=len(expected), matcher=len(here))
+        report = dict(contigs=order, sample=run_sample, bcftools=subprocess.run([bcf, '--version'], capture_output=True, text=True).stdout.split('\n')[0],
+                      candidates=n_candidates, in_callable_region=n_callable, blocked_by_a_record=n_blocked, expected=n_expected, matcher=sum(v['matcher'] for v in per.values()),
+                      matcher_on_contigs_not_compared=sum(len(v) for c, v in matcher.items() if c not in set(order)), only_expected=len(only_expected), only_matcher=len(only_matcher),
+                      examples=dict(only_expected=only_expected[:examples], only_matcher=only_matcher[:examples]), per_contig=per)
+        report['ok'] = not only_expected and not only_matcher
         return report
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
