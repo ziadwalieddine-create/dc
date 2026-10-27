@@ -126,6 +126,7 @@ class TestOpenTargets(unittest.TestCase):
         self.assertEqual(sorted(stu), ['FINNGEN_R12_TEST', 'GCST000001', 'GTEX_EQTL_X'])
         self.assertEqual((stu['GCST000001']['pubmed'], stu['GCST000001']['n_total'], stu['GCST000001']['ancestry']), ('111', 1000, 'European'))
         self.assertEqual(stu['GTEX_EQTL_X']['biosample'], 'lymphoblastoid cell line')
+        self.assertEqual((stu['GCST000001']['cohorts'], stu['FINNGEN_R12_TEST']['cohorts'], stu['GTEX_EQTL_X']['cohorts']), ('TestCohort', 'FinnGen', None))     # the Catalog's 'NR' is no cohort
         self.assertEqual(stu['FINNGEN_R12_TEST']['lineage_group'], 'ot_project:FINNGEN_R12:FINNGEN_R12_TEST')
 
     def test_studies_described_by_another_source_are_not_duplicated(self):

@@ -500,9 +500,9 @@ def mini_opentargets(out):
                cohorts=['TestCohort'], discoverySamples=[{'sampleSize': 1000, 'ancestry': 'European'}], ldPopulationStructure=[{'ldPopulation': 'nfe', 'relativeSampleSize': 1.0}], hasSumstats=True,
                diseaseIds=['MONDO_0000001'], biosampleId=None),
           dict(studyId='FINNGEN_R12_TEST', geneId=None, projectId='FINNGEN_R12', studyType='gwas', traitFromSource='Finnish trait', traitFromSourceMappedIds=['EFO_0000002'], pubmedId=None, nSamples=500,
-               nCases=None, cohorts=['FinnGen'], discoverySamples=[], ldPopulationStructure=[{'ldPopulation': 'fin', 'relativeSampleSize': 1.0}], hasSumstats=True, diseaseIds=[], biosampleId=None),
+               nCases=None, cohorts=['FinnGen', 'NR'], discoverySamples=[], ldPopulationStructure=[{'ldPopulation': 'fin', 'relativeSampleSize': 1.0}], hasSumstats=True, diseaseIds=[], biosampleId=None),
           dict(studyId='GTEX_EQTL_X', geneId='ENSG_TESTG', projectId='GTEx-v10', studyType='eqtl', traitFromSource='ENSG_TESTG', traitFromSourceMappedIds=[], pubmedId=None, nSamples=300, nCases=None,
-               cohorts=['GTEx'], discoverySamples=[], ldPopulationStructure=[{'ldPopulation': 'nfe', 'relativeSampleSize': 1.0}], hasSumstats=False, diseaseIds=[], biosampleId='EFO_0005292')]
+               cohorts=['NR'], discoverySamples=[], ldPopulationStructure=[{'ldPopulation': 'nfe', 'relativeSampleSize': 1.0}], hasSumstats=False, diseaseIds=[], biosampleId='EFO_0005292')]
     pq.write_table(pa.Table.from_pylist(st), os.path.join(out, 'study', 'part-0.parquet'))
     wrong = 'A' if b('1', 440) != 'A' else 'C'
     vid = lambda pos, r=None, a=None: f'1_{pos}_{r or b("1", pos)}_{a or alt("1", pos)}'
