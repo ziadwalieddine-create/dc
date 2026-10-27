@@ -39,7 +39,7 @@
       "id": "A3",
       "section": "AUDIT",
       "clause": "Distinguish listed, acquired, verified, mapped and integrated.",
-      "how": "reports.lifecycle derives the five statuses of every acquisition target from targets.json, the manifest, the validation report and the built index (a target is integrated only if the index holds a release of it); inventory/repository_audit.py derives the same stages for the repository audit.",
+      "how": "reports.lifecycle derives the five statuses of every acquisition target from targets.json, the manifest, the validation report and the built index (a target is integrated only if the index holds a release of it, and mapped only if one of its evidence rows is mapped to a normalised entity); inventory/repository_audit.py derives the same stages for the repository audit, where a target is also mapped when a passing join test used it (the targets the index does not hold have no evidence rows to count).",
       "code": [
         "variant_index/vindex/reports.py",
         "inventory/repository_audit.py"

@@ -27,7 +27,7 @@ verified 30, partial 12, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 **A2.** inventory/audit_existing.py --check compares every tracked file under scrape/ with the baseline checksums; check_repo_policy.py checks sizes, file types and credentials. Nothing under scrape/ was changed in this phase, no history was rewritten (decision: no rewrite), and the MaveDB score tables stay on their own branch.
 
-**A3.** reports.lifecycle derives the five statuses of every acquisition target from targets.json, the manifest, the validation report and the built index (a target is integrated only if the index holds a release of it); inventory/repository_audit.py derives the same stages for the repository audit.
+**A3.** reports.lifecycle derives the five statuses of every acquisition target from targets.json, the manifest, the validation report and the built index (a target is integrated only if the index holds a release of it, and mapped only if one of its evidence rows is mapped to a normalised entity); inventory/repository_audit.py derives the same stages for the repository audit, where a target is also mapped when a passing join test used it (the targets the index does not hold have no evidence rows to count).
 
 ## Acquire
 

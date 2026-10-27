@@ -8,7 +8,8 @@ Dataset lifecycle (one row per acquisition target), each stage computed from fil
   listed      the target is in acquisition/targets.json
   acquired    the manifest says ok AND the file or directory is present in data/external/ with the recorded size
   verified    the validator's checks passed (acquisition/validation_report.json)
-  mapped      at least one passing compatibility test exercised it (acquisition/compat_report.json)
+  mapped      at least one passing compatibility test exercised it (acquisition/compat_report.json), or the built index holds an evidence row from it that is mapped to a normalised
+              entity (the lifecycle report of the index, data/index/reports/lifecycle.json: a target that was integrated is mapped even if no join test names it)
   integrated  the built index (data/index/index_manifest.json) holds a release of the target, so its records are queryable as evidence or entities with provenance;
               without a built index in the checkout no target is reported integrated
 
@@ -349,8 +350,17 @@ def index_targets():
     return {r.split('/', 1)[1].rsplit('@', 1)[0] for r in json.loads(read_text(p)).get('releases', []) if '/' in r}
 
 
+def index_lifecycle():
+    """target id -> row of the index's own lifecycle report (make_reports.py), or {} when this checkout holds no report."""
+    p = os.path.join(ROOT, 'data', 'index', 'reports', 'lifecycle.json')
+    if not os.path.exists(p):
+        return {}
+    return {r['target_id']: r for r in json.loads(read_text(p)).get('targets', [])}
+
+
 def dataset_lifecycle():
     in_index = index_targets()
+    by_index = index_lifecycle()
     comp_targets = collections.defaultdict(list)
     for sid, d in compat().get('sources', {}).items():
         for t in d['tests']:
@@ -385,7 +395,7 @@ def dataset_lifecycle():
             why = 'manifest record not ok'
         v = validation().get(tid)
         res.append(dict(id=tid, source=t['source'], tier=t.get('tier'), kind=t.get('kind'), supports=t.get('supports', []), listed=True, acquired=bool(acquired), acquired_detail=why if not acquired else '',
-                        verified=bool(v and v['passed']), mapped=bool(comp_targets.get(tid)), integrated=bool(in_index and tid in in_index), bytes=m.get('bytes')))
+                        verified=bool(v and v['passed']), mapped=bool(comp_targets.get(tid)) or bool(by_index.get(tid, {}).get('mapped')), integrated=bool(in_index and tid in in_index), bytes=m.get('bytes')))
     return res
 
 
@@ -429,7 +439,7 @@ def markdown(a):
         L.append(f"| `{b['branch']}` | `{b['tip']}` | {b['date']} | {b['tracked_files']} | +{b['ahead_of_main']} / -{b['behind_main']} | {b['subject']} |")
     s = a['dataset_summary']
     L += ['', '## Datasets (acquisition targets)', '',
-          f"{s['listed']} listed · {s['acquired']} acquired (manifest ok and the file present with the recorded size) · {s['verified']} verified (validator passed) · {s['mapped']} mapped (a passing join or consistency test used it) · {s['integrated']} integrated "
+          f"{s['listed']} listed · {s['acquired']} acquired (manifest ok and the file present with the recorded size) · {s['verified']} verified (validator passed) · {s['mapped']} mapped (a passing join or consistency test used it, or the built index holds an evidence row of it mapped to a normalised entity) · {s['integrated']} integrated "
           '(the built index holds a release of the target; `data/index` is git-ignored, so a checkout without it reports none).', '',
           '| Target | Source record | Tier | Listed | Acquired | Verified | Mapped | Integrated | Size |', '|---|---|---|---|---|---|---|---|---|']
     for d in a['datasets']:
