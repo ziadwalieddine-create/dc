@@ -142,6 +142,38 @@ def trait_view(rows):
     return {c: dict(texts=sorted(e['texts'])[:5], axes=sorted(e['axes']), n_calls=len(e['calls']), calls=sorted(e['calls'])) for c, e in sorted(out.items())}
 
 
+def ontology_terms(path=None):
+    """{term id: dict(name, ancestors, areas)} from the Open Targets disease/phenotype ontology table (EFO, MONDO, HP, Orphanet, OBA, GO terms with their ancestors and therapeutic
+    areas), keyed as the sources write the id (EFO:0004339). None when the table is not acquired."""
+    import glob
+    from .build.common import DATA
+    files = sorted(glob.glob(os.path.join(path or os.path.join(DATA, 'opentargets', '26.09', 'disease'), '*.parquet')))
+    if not files:
+        return None
+    out = {}
+    for f in files:
+        for r in pq.read_table(f, columns=['id', 'name', 'ancestors', 'therapeuticAreas']).to_pylist():
+            out[r['id'].replace('_', ':', 1)] = dict(name=r['name'], ancestors=[a.replace('_', ':', 1) for a in r['ancestors'] or ()], areas=[a.replace('_', ':', 1) for a in r['therapeuticAreas'] or ()])
+    return out
+
+
+def trait_rollup(traits, ontology):
+    """Roll the traits of trait_view up through an ontology: by therapeutic area, and the ancestors of each trait. A trait whose id is not in the ontology (MedGen, OMIM, MeSH
+    and a few retired terms) keeps its own entry and is listed as not rolled up; a trait in several areas is counted in each. The call lists are those of trait_view, unchanged."""
+    areas, unmapped = {}, []
+    for cid, e in traits.items():
+        t = ontology.get(cid)
+        if t is None:
+            unmapped.append(cid)
+            continue
+        for a in t['areas'] or [cid]:
+            g = areas.setdefault(a, dict(name=(ontology.get(a) or {}).get('name') or a, traits=set(), calls=set()))
+            g['traits'].add(cid)
+            g['calls'].update(e['calls'])
+    return dict(by_therapeutic_area={a: dict(name=g['name'], n_traits=len(g['traits']), n_calls=len(g['calls']), calls=sorted(g['calls'])) for a, g in sorted(areas.items())},
+                ancestors={cid: ontology[cid]['ancestors'] for cid in sorted(traits) if cid in ontology}, not_rolled_up=sorted(unmapped))
+
+
 def pathway_view(rows, members):
     """Group matches by pathway through the genes they sit in. members: iterable of gene_set_member rows. A gene's pathway membership is an annotation of the
     gene; the matched variant's own evidence is unchanged and the pathway carries no evidence of its own."""
@@ -233,9 +265,16 @@ def render_report(results_dir, top=25):
         L.append('')
     with open(os.path.join(results_dir, 'views', 'trait_view.json')) as f:
         traits = json.load(f)
-    L += [f'### Traits named by effect-asserting evidence ({len(traits):,})', '', 'Identifiers are the sources\' own; no ontology roll-up is applied. The ten with the most calls:', '']
+    L += [f'### Traits named by effect-asserting evidence ({len(traits):,})', '', 'Identifiers are the sources\' own. The ten with the most calls:', '']
     for cid, e in sorted(traits.items(), key=lambda kv: (-kv[1]['n_calls'], kv[0]))[:10]:
         L.append(f"- `{cid}` {'; '.join(e['texts'][:2])}: {e['n_calls']} call(s) on {', '.join(e['axes'])}")
+    rp = os.path.join(results_dir, 'views', 'trait_rollup.json')
+    if os.path.exists(rp):
+        with open(rp) as f:
+            roll = json.load(f)
+        L += ['', f"Rolled up through the Open Targets ontology table into {len(roll['by_therapeutic_area'])} therapeutic areas ({len(roll['not_rolled_up'])} trait id(s) are not in the table and stay as listed). "
+              'A trait in several areas is counted in each, so the rows do not add up to the number of traits:', '', '| Area | Traits | Calls |', '|---|---:|---:|']
+        L += [f"| {g['name']} | {g['n_traits']:,} | {g['n_calls']:,} |" for _a, g in sorted(roll['by_therapeutic_area'].items(), key=lambda kv: (-kv[1]['n_calls'], kv[0]))[:15]]
     with open(os.path.join(results_dir, 'views', 'pathway_view.json')) as f:
         paths = json.load(f)
     L += ['', f'### Pathways through the genes of matched calls ({len(paths):,})', '', 'Membership annotates genes; it is not evidence about any variant. The ten with the most calls:', '']
@@ -284,7 +323,7 @@ def write_catalogue_views(index, out_dir, rules=HIGH_VALUE_RULES):
     return manifest
 
 
-def write_views(results_dir, index, statuses=('EXACT_MATCH',)):
+def write_views(results_dir, index, statuses=('EXACT_MATCH',), ontology_dir=None):
     """Write views/<name>.parquet for every view, views/trait_view.json, views/pathway_view.json and views/views_manifest.json under the results directory.
     Views only select and order rows of small_calls; every call stays in small_calls.parquet whether or not any view lists it."""
     rows = list(read_calls(results_dir, statuses))
@@ -304,8 +343,15 @@ def write_views(results_dir, index, statuses=('EXACT_MATCH',)):
     paths = pathway_view(rows, members)
     with open(os.path.join(out, 'pathway_view.json'), 'w') as f:
         json.dump(paths, f, indent=1, sort_keys=True)
-    manifest.update(n_traits=len(traits), n_pathways=len(paths),
-                    note='trait ids are the sources\' own and are not rolled up through an ontology; pathway membership annotates genes and is not evidence about any variant')
+    ontology = ontology_terms(ontology_dir)
+    manifest.update(n_traits=len(traits), n_pathways=len(paths))
+    if ontology:
+        roll = trait_rollup(traits, ontology)
+        with open(os.path.join(out, 'trait_rollup.json'), 'w') as f:
+            json.dump(roll, f, indent=1, sort_keys=True)
+        manifest.update(n_therapeutic_areas=len(roll['by_therapeutic_area']), n_traits_not_rolled_up=len(roll['not_rolled_up']))
+    manifest['note'] = ('trait ids are the sources\' own; trait_rollup.json groups them through the Open Targets ontology table (ancestors and therapeutic areas) and lists the ids it does not know; '
+                        'pathway membership annotates genes and is not evidence about any variant')
     with open(os.path.join(out, 'views_manifest.json'), 'w') as f:
         json.dump(manifest, f, indent=1, sort_keys=True)
     if os.path.exists(os.path.join(results_dir, 'run_manifest.json')):

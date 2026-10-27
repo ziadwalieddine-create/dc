@@ -266,6 +266,31 @@ def _provenance(a):
     return f"{n:,} sampled records re-derived their digests across {len(v['digests'])} releases; {len(v['no_resolver'])} release(s) without a resolver are listed, not counted"
 
 
+@check('every release that holds evidence rows has a resolver, and the sampled records of all of them re-derived their digests')
+def _every_release_resolved(a):
+    v = jload(need(os.path.join(a.index, 'provenance_report.json')))
+    if v['no_resolver']:
+        raise AssertionError(f"releases without a resolver: {[r['target_id'] for r in v['no_resolver']]}")
+    bad = {d['target_id']: (d['n_mismatched'], d['n_unresolved']) for d in v['digests'].values() if d['n_mismatched'] or d['n_unresolved']}
+    if bad:
+        raise AssertionError(f'mismatched or unresolved records: {bad}')
+    return f"{len(v['digests'])} releases, {sum(d['sampled'] for d in v['digests'].values()):,} records"
+
+
+@check('lineage keys are shared between databases that describe the same study (the GWAS Catalog and Open Targets count a paper once)')
+def _lineage(a):
+    cov = jload(need(os.path.join(a.index, 'reports', 'coverage.json')))
+    lin = cov.get('lineage')
+    if not lin:
+        raise Skip('coverage.json has no lineage section (duckdb was not available when it was made)')
+    pair = lin['source_pairs'].get('gwas_catalog|opentargets', 0)
+    if pair < 1000:
+        raise AssertionError(f'only {pair} lineage groups are written by both the GWAS Catalog and Open Targets (4,328 papers were found in both before the keys were unified)')
+    if not lin['source_pairs'].get('clingen|clinvar'):
+        raise AssertionError('no lineage group is shared by ClinGen and ClinVar')
+    return f"{lin['shared_between_sources']:,} of {lin['groups']:,} groups are written by more than one source; GWAS Catalog and Open Targets share {pair:,}"
+
+
 @check('two builds from the same inputs with different hash seeds are byte-identical')
 def _idempotence(a):
     p = need(os.path.join(ROOT, 'data', 'idempotence', 'idempotence.json'))

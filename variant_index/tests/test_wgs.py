@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 
+import pyarrow as pa
 import pysam
 import pyarrow.parquet as pq
 
@@ -269,6 +270,38 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertIn('| `1:750:', rep)                                                              # an unresolved locus with its missing evidence
         self.assertIn('NO_CALL', rep)
         self.assertIn('lineage', rep)
+
+    def ontology(self):
+        d = os.path.join(self.work, 'ontology')
+        os.makedirs(d, exist_ok=True)
+        rows = [dict(id='EFO_0000001', name='trait one', ancestors=['EFO_0000100', 'EFO_0000200'], therapeuticAreas=['EFO_0000200']),
+                dict(id='MONDO_0000002', name='trait two', ancestors=['EFO_0000100', 'EFO_0000200', 'EFO_0000300'], therapeuticAreas=['EFO_0000200', 'EFO_0000300']),
+                dict(id='EFO_0000200', name='area A', ancestors=['EFO_0000100'], therapeuticAreas=[]), dict(id='EFO_0000300', name='area B', ancestors=[], therapeuticAreas=[])]
+        pq.write_table(pa.Table.from_pylist(rows, schema=pa.schema([('id', pa.string()), ('name', pa.string()), ('ancestors', pa.list_(pa.string())), ('therapeuticAreas', pa.list_(pa.string()))])),
+                       os.path.join(d, 'part-0.parquet'))
+        return d
+
+    def test_traits_roll_up_through_the_ontology_and_unknown_ids_are_listed_not_dropped(self):
+        rows = [dict(key='1:1:A:C', axes={'association_replication': dict(condition_ids_effect=['EFO:0000001', 'MedGen:C0001'], condition_texts_effect=['trait one'])}),
+                dict(key='1:2:A:C', axes={'clinical_validity_actionability': dict(condition_ids_effect=['MONDO:0000002'], condition_texts_effect=['trait two'])})]
+        onto = views.ontology_terms(self.ontology())
+        self.assertEqual(onto['EFO:0000001']['ancestors'], ['EFO:0000100', 'EFO:0000200'])                       # keyed as the sources write the id
+        roll = views.trait_rollup(views.trait_view(rows), onto)
+        a = roll['by_therapeutic_area']
+        self.assertEqual({k: (v['name'], v['n_traits'], v['n_calls']) for k, v in a.items()}, {'EFO:0000200': ('area A', 2, 2), 'EFO:0000300': ('area B', 1, 1)})      # a trait in two areas counts in each
+        self.assertEqual(roll['not_rolled_up'], ['MedGen:C0001'])
+        self.assertEqual(roll['ancestors']['MONDO:0000002'], ['EFO:0000100', 'EFO:0000200', 'EFO:0000300'])
+        self.assertIsNone(views.ontology_terms(os.path.join(self.work, 'nowhere')))
+
+    def test_written_views_include_the_rollup_when_the_ontology_is_acquired(self):
+        out = os.path.join(self.work, 'rollres')
+        shutil.copytree(self.out, out)
+        m = views.write_views(out, Index.open(self.idx_dir), ontology_dir=self.ontology())
+        roll_path = os.path.join(out, 'views', 'trait_rollup.json')
+        self.assertTrue(os.path.exists(roll_path))
+        self.assertIn('n_therapeutic_areas', m)
+        m = views.write_views(out, Index.open(self.idx_dir), ontology_dir=os.path.join(self.work, 'nowhere'))
+        self.assertNotIn('n_therapeutic_areas', m)
 
     def test_the_report_says_when_the_code_that_made_the_run_had_uncommitted_changes(self):
         out = os.path.join(self.work, 'dirtyres')
