@@ -9,7 +9,8 @@ chromosome. Everything the sample's file says is accounted for in the output tab
   evidence_links      call -> evidence row, with the axis, source, assertion and lineage group of the row (the rows themselves stay in the index)
   gene_context        gene-level evidence for the genes that matched calls sit in, labelled gene_level_context_only: a gene's classification is never copied
                       onto the variants inside it
-  sv_calls            every structural / copy-number call with equivalent events, refused near-misses (type, breakpoints, dosage) and context
+  sv_calls            every structural / copy-number call with equivalent events, the refused near-misses that matter (breakpoints, dosage, or covering at least half of the call; the
+                      others are counted by relation in refused_summary_json) and context
   haplotype_calls     star-allele / haplotype calls per gene with the evidence they need and the alleles that could not be evaluated
   repeat_calls        repeat-expansion loci: genotyped only when a repeat genotyper reported them; repeat genotypes at loci the index does not know are kept as NO_INDEX_RECORD
   unresolved_loci     high-value indexed variants the sample cannot answer for (absent from a variant-only file, no-call, filtered, inside a structural call...),
@@ -50,7 +51,7 @@ SCHEMAS = {
     'gene_context': pa.schema([('gene_id', S), ('symbol', S), ('n_matched_calls', I32), ('evidence_id', S), ('axis', S), ('source_id', S), ('claim_type', S), ('claim_value', S),
                                ('effect_assertion', S), ('lineage_group', S), ('applies_as', S)]),
     'sv_calls': pa.schema([('call_id', S), ('chrom', S), ('start', I32), ('end', I32), ('svtype', S), ('svlen', I32), ('cn', I32), ('gt', S), ('dosage', I32), ('precise', pa.bool_()),
-                           ('qc_pass', pa.bool_()), ('filter', S), ('n_equivalent', I32), ('equivalent_event_ids', LS), ('refused_json', S), ('context_json', S), ('unresolved', LS),
+                           ('qc_pass', pa.bool_()), ('filter', S), ('n_equivalent', I32), ('equivalent_event_ids', LS), ('refused_json', S), ('refused_summary_json', S), ('context_json', S), ('unresolved', LS),
                            ('event_evidence_ids', LS)]),
     'haplotype_calls': pa.schema([('gene', S), ('system', S), ('status', S), ('diplotypes_json', S), ('basis', S), ('missing_json', S), ('flags', LS), ('unevaluable_json', S),
                                   ('position_states_json', S)]),
@@ -159,6 +160,23 @@ def check_output_location(out_dir, repo_root):
         raise ValueError(f'{out_dir} is inside the repository outside data/; personal results must go under data/ (git-ignored) or outside the repository')
 
 
+MAX_REFUSED_LISTED = 25
+ALWAYS_LISTED = ('partial_overlap', 'dosage_mismatch', 'dosage_unresolved', 'unsupported')
+
+
+def refused_near_misses(matches):
+    """(listed, summary) for the events a structural call overlapped but is not equivalent to. Every refusal is counted by relation in the summary; the list holds the ones a reviewer
+    needs to see with their metrics: refusals for breakpoints, dosage or an unsupported record, and any event that covers at least half of the call whatever its type, the best
+    MAX_REFUSED_LISTED by reciprocal overlap. An event of another type that merely sits inside the search window (an insertion beside a deletion) is counted, not listed: a window of
+    10 kb holds hundreds of them and the list ran to a megabyte per call."""
+    refused = [m for m in matches if not m.equivalent]
+    wanted = [m for m in refused if m.relation in ALWAYS_LISTED or (m.metrics.get('reciprocal_overlap') or 0) >= 0.5]
+    wanted.sort(key=lambda m: (-(m.metrics.get('reciprocal_overlap') or 0), m.event_id))
+    listed = [dict(event_id=m.event_id, relation=m.relation, reasons=list(m.reasons), metrics=m.metrics) for m in wanted[:MAX_REFUSED_LISTED]]
+    by_relation = Counter(m.relation for m in refused)
+    return listed, dict(total=len(refused), listed=len(listed), by_relation=dict(sorted(by_relation.items())))
+
+
 def small_row(o):
     c = o.call
     ev = sorted(r['evidence_id'] for r in o.evidence)
@@ -258,12 +276,12 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
             sv = si.sv
             cid = f'sv:{sv.chrom}:{sv.start}-{sv.end}:{sv.svtype}:{sv.rec_index}'
             eq = [m for m in si.matches if m.equivalent]
-            refused = [dict(event_id=m.event_id, relation=m.relation, reasons=list(m.reasons), metrics=m.metrics) for m in si.matches if not m.equivalent]
+            refused, refused_summary = refused_near_misses(si.matches)
             ev_rows = [r for m in eq for r in event_evidence.get(m.event_id, ())]
             for r in link_rows(cid, 'sv', ev_rows, 'equivalent_event'):
                 W['evidence_links'].add(r)
             W['sv_calls'].add(dict(call_id=cid, chrom=sv.chrom, start=sv.start, end=sv.end, svtype=sv.svtype, svlen=_i(sv.svlen), cn=_i(sv.cn), gt=sv.gt, dosage=_i(sv.dosage), precise=bool(sv.precise),
-                                   qc_pass=bool(sv.qc_pass), filter=sv.filter, n_equivalent=len(eq), equivalent_event_ids=[m.event_id for m in eq] or None, refused_json=jdump(refused),
+                                   qc_pass=bool(sv.qc_pass), filter=sv.filter, n_equivalent=len(eq), equivalent_event_ids=[m.event_id for m in eq] or None, refused_json=jdump(refused), refused_summary_json=jdump(refused_summary),
                                    context_json=jdump(si.context), unresolved=list(si.unresolved) or None, event_evidence_ids=sorted(r['evidence_id'] for r in ev_rows) or None))
             counts['sv'][('equivalent' if eq else 'no_equivalent_event')] += 1
         # star-allele / haplotype calls for the genes on this chromosome

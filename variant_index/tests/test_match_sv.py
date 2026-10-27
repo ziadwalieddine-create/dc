@@ -127,5 +127,28 @@ class TestSvInterpretation(unittest.TestCase):
         self.assertIn('dosage unknown', out.unresolved[0])
 
 
+class TestRefusedNearMisses(unittest.TestCase):
+    """A 10 kb window holds hundreds of events of other types (an insertion beside a deletion): they are counted, and only the refusals that need a reviewer are listed."""
+
+    def match(self, relation, event_id, ro=0.1, equivalent=False):
+        from vindex.match_sv import SvMatch
+        return SvMatch(event_id, relation, dict(reciprocal_overlap=ro), (relation,), equivalent)
+
+    def test_other_types_nearby_are_counted_not_listed_and_the_rest_is_kept_with_its_metrics(self):
+        from vindex.wgs import refused_near_misses, MAX_REFUSED_LISTED
+        ms = [self.match('equivalent_breakpoints', 'E0', 0.99, True), self.match('type_mismatch', 'T1', 0.05), self.match('type_mismatch', 'T2', 0.8),                     # a different type that covers the call is listed
+              self.match('overlap_only', 'O1', 0.2), self.match('partial_overlap', 'P1', 0.6), self.match('dosage_mismatch', 'D1', 0.95), self.match('dosage_unresolved', 'D2', 0.9),
+              self.match('unsupported', 'U1', 0.0)]
+        listed, summary = refused_near_misses(ms)
+        self.assertEqual([x['event_id'] for x in listed], ['D1', 'D2', 'T2', 'P1', 'U1'])                  # by reciprocal overlap; the equivalent event is not a refusal
+        self.assertEqual(summary, dict(total=7, listed=5, by_relation=dict(dosage_mismatch=1, dosage_unresolved=1, overlap_only=1, partial_overlap=1, type_mismatch=2, unsupported=1)))
+        self.assertEqual(listed[0]['metrics'], dict(reciprocal_overlap=0.95))
+        many = [self.match('partial_overlap', f'P{i:03d}', 0.5 + i / 1000) for i in range(100)]
+        listed, summary = refused_near_misses(many)
+        self.assertEqual((len(listed), summary['total'], summary['listed']), (MAX_REFUSED_LISTED, 100, MAX_REFUSED_LISTED))
+        self.assertEqual(listed[0]['event_id'], 'P099')                                                                  # the best overlaps are the ones kept
+        self.assertEqual(refused_near_misses([]), ([], dict(total=0, listed=0, by_relation={})))
+
+
 if __name__ == '__main__':
     unittest.main()
