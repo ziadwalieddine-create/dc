@@ -342,6 +342,8 @@ def _idempotence(a):
 @check('the index was built by committed code: its build-code digest is that of the build modules at a commit of this history')
 def _index_code_committed(a):
     m = jload(need(os.path.join(a.index, 'index_manifest.json')))
+    if sh('git', 'rev-parse', '--verify', 'HEAD')[0]:
+        raise Skip('needs the git history of this repository')
     want = (m.get('build_code') or {}).get('sha256_16')
     if not want:
         raise AssertionError('the index manifest records no build_code (built by older code); rebuild the index')
