@@ -215,6 +215,35 @@ def describe(row):
     return ' | '.join(parts) or 'no variant-level evidence'
 
 
+def structural_section(results_dir, load, top=25):
+    """Report lines for the structural and copy-number calls: how many were called, how many have an equivalent event in the index, how many encompass a gene, and the calls whose
+    equivalent events carry evidence (listed with the evidence's source, claim type and assertion). Frequencies of the events (gnomAD-SV, DGV, HGSVC3) are context, not evidence."""
+    p = os.path.join(results_dir, 'sv_calls.parquet')
+    if not os.path.exists(p):
+        return []
+    sv = pq.read_table(p, columns=['call_id', 'chrom', 'start', 'end', 'svtype', 'gt', 'dosage', 'n_equivalent', 'equivalent_event_ids', 'context_json', 'event_evidence_ids']).to_pylist()
+    if not sv:
+        return []
+    by_type = Counter(r['svtype'] for r in sv)
+    genes = sum(1 for r in sv if any(c.get('relation') == 'encompasses_gene' for c in json.loads(r['context_json'] or '[]')))
+    with_event = sum(1 for r in sv if r['n_equivalent'])
+    with_evidence = [r for r in sv if r['event_evidence_ids']]
+    L = ['## Structural and copy-number calls', '', f"{len(sv):,} calls ({', '.join(f'{k} {v:,}' for k, v in sorted(by_type.items()))}); {with_event:,} have at least one equivalent event in the index (same type, breakpoints "
+         f"within the stated tolerance, dosage consistent) and {genes:,} encompass at least one whole gene. Overlap alone is never equivalence: refused near-misses are in sv_calls.parquet with their metrics. "
+         f"{len(with_evidence):,} call(s) have an equivalent event that carries evidence of its own (the frequency of a gnomAD-SV, DGV or HGSVC3 event is context, not evidence).", '']
+    if with_evidence:
+        links = {}
+        for r in load('evidence_links.parquet'):
+            if r.get('call_kind') == 'sv':
+                links.setdefault(r['call_id'], []).append(r)
+        L += [f'The first {min(top, len(with_evidence))} by position:', '', '| Call | Type | Genotype | Equivalent events | Evidence of those events |', '|---|---|---|---:|---|']
+        for r in sorted(with_evidence, key=lambda r: (r['chrom'], r['start'], r['call_id']))[:top]:
+            ev = Counter(f"{x['source_id']}: {x['claim_type']} ({x['effect_assertion']})" for x in links.get(r['call_id'], ()))
+            L.append(f"| `{r['call_id']}` | {r['svtype']} | {r['gt']} | {r['n_equivalent']} | " + '; '.join(f'{k} x{n}' if n > 1 else k for k, n in sorted(ev.items())).replace('|', '/') + ' |')
+        L.append('')
+    return L
+
+
 def render_report(results_dir, top=25):
     """report.md: what the run found, in the order the tables are produced. Views list the first `top` rows of their ordering; the full views are in views/*.parquet and
     every call is in small_calls.parquet. Written next to the results it summarises, so a sample's report stays where the sample's data are."""
@@ -238,6 +267,7 @@ def render_report(results_dir, top=25):
     rej = load('rejected_calls.parquet')
     if rej:
         L += ['Alleles the reader refused: ' + ', '.join(f'{k} {v}' for k, v in sorted(Counter(r['reason'] for r in rej).items())) + ' (listed in rejected_calls.parquet).', '']
+    L += structural_section(results_dir, load, top)
     L += ['## High-value indexed alleles and what the sample says about them', '', '| Rule | ' + ' | '.join(sorted({k for v in c['high_value_rules'].values() for k in v})) + ' |', '|---|' + '---|' * len({k for v in c['high_value_rules'].values() for k in v})]
     cols = sorted({k for v in c['high_value_rules'].values() for k in v})
     for name, v in c['high_value_rules'].items():

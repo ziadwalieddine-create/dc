@@ -303,6 +303,18 @@ class TestWholeGenomeRun(unittest.TestCase):
         m = views.write_views(out, Index.open(self.idx_dir), ontology_dir=os.path.join(self.work, 'nowhere'))
         self.assertNotIn('n_therapeutic_areas', m)
 
+    def test_the_report_has_a_structural_section_with_the_evidence_of_equivalent_events(self):
+        views.write_views(self.out, Index.open(self.idx_dir))
+        with open(os.path.join(self.out, 'report.md')) as f:
+            text = f.read()
+        self.assertIn('## Structural and copy-number calls', text)
+        calls = self.t('sv_calls')
+        self.assertIn(f'{len(calls):,} calls (', text)
+        self.assertIn('Overlap alone is never equivalence', text)
+        with_evidence = [r for r in calls if r['event_evidence_ids']]
+        if with_evidence:                                                                                 # every call that carries evidence is listed with the evidence's source
+            self.assertIn(with_evidence[0]['call_id'], text)
+
     def test_the_report_says_when_the_code_that_made_the_run_had_uncommitted_changes(self):
         out = os.path.join(self.work, 'dirtyres')
         shutil.copytree(self.out, out)
