@@ -33,6 +33,10 @@ def md(cov, val, life, gaps, change, manifest):
         L += ['| Axis | Rows | Distinct variants with mapped evidence |', '|---|---:|---:|'] + [f"| {k} | {v:,} | {ev.get('variants_with_evidence_by_axis', {}).get(k, 0):,} |" for k, v in ev['axis'].items()] + ['']
         L += ['| Mapping status | Rows |', '|---|---:|'] + [f'| {k} | {v:,} |' for k, v in ev['mapping_status'].items()] + ['']
         L += ['Retained but not mapped (largest reasons):', '', '| Source | Status | Reason | Rows |', '|---|---|---|---:|'] + [f"| {k.split('|')[0]} | {k.split('|')[1]} | {k.split('|')[2]} | {v:,} |" for k, v in list(ev['not_mapped'].items())[:25]] + ['']
+    lin = cov.get('lineage')
+    if lin:
+        L += ['## Shared lineage', '', f"{lin['groups']:,} lineage groups; {lin['shared_between_sources']:,} are written by more than one source. Rows of one group descend from one study or record and count once in the independence tally.", '',
+              '| Sources | Groups both write |', '|---|---:|'] + [f"| {k.replace('|', ' and ')} | {v:,} |" for k, v in list(lin['source_pairs'].items())[:25]] + ['']
     if val:
         L += ['## Validation', '', f"**{'passed' if val['ok'] else 'FAILED'}**; {val.get('evidence_rows_checked', 0):,} evidence rows checked, {val.get('entity_variant_ref_checked', 0):,} variant REF alleles read back from the reference.", '',
               '| Check | Violations |', '|---|---:|'] + [f"| {k} | {c['violations']} |" for k, c in val['checks'].items()] + ['']

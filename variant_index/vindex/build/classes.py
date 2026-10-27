@@ -12,7 +12,9 @@ import re
 
 STARS = {'practice_guideline': 4, 'reviewed_by_expert_panel': 3, 'criteria_provided,_multiple_submitters,_no_conflicts': 2, 'criteria_provided,_single_submitter': 1,
          'criteria_provided,_conflicting_classifications': 1, 'criteria_provided,_conflicting_interpretations': 1, 'no_assertion_criteria_provided': 0,
-         'no_classification_provided': 0, 'no_classification_for_the_single_variant': 0, 'no_assertion_provided': 0, 'flagged_submission': 0}
+         'no_classification_provided': 0, 'no_classification_for_the_single_variant': 0, 'no_assertion_provided': 0, 'flagged_submission': 0,
+         'no_classifications_from_unflagged_records': 0,                       # every submission flagged: no star
+         'criteria_provided,_multiple_submitters': 2}                        # somatic clinical impact: conflicts do not arise, so the label has no ',_no_conflicts'
 
 EFFECT = {
     'pathogenic': 'effect', 'likely_pathogenic': 'effect', 'benign': 'no_effect', 'likely_benign': 'no_effect', 'uncertain_significance': 'uncertain',
@@ -26,6 +28,25 @@ EFFECT = {
     'conflicting_classifications_of_pathogenicity': 'conflicting', 'conflicting_classifications_of_oncogenicity': 'conflicting', 'conflicting_classification_of_pathogenicity': 'conflicting',
     'conflicting_interpretations_of_pathogenicity': 'conflicting', 'conflicting_data_from_submitters': 'conflicting',
 }
+
+
+def review_label(rev):
+    """ClinVar review status in the spelling of the VCV tables (spaces). The VCF writes underscores; one status is one value in the index, whichever file it came from."""
+    return (rev or '').replace('_', ' ')
+
+
+# Mode-of-inheritance codes (ClinGen gene-disease validity, STRchive) as the HPO-style labels ClinGen's other tables use. Only a code that means one thing is expanded.
+INHERITANCE_CODES = {'AD': 'Autosomal dominant inheritance', 'AR': 'Autosomal recessive inheritance', 'XL': 'X-linked inheritance', 'SD': 'Semidominant inheritance',
+                     'MT': 'Mitochondrial inheritance', 'UD': 'Undetermined mode of inheritance', 'XD': 'X-linked inheritance (dominant (HP:0001423))',
+                     'XR': 'X-linked inheritance (recessive (HP:0001419))'}
+
+
+def inheritance_label(value):
+    """The label for a code or comma-separated codes; a value that contains anything else is returned as the source wrote it."""
+    if not value:
+        return None
+    codes = [c.strip() for c in value.split(',')]
+    return '; '.join(INHERITANCE_CODES[c] for c in codes) if all(c in INHERITANCE_CODES for c in codes) else value
 
 
 def norm_key(s):

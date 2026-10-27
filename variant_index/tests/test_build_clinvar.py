@@ -158,5 +158,68 @@ class TestClinVarSlice(unittest.TestCase):
         self.assertEqual(out[f'1:600:{base(600)}:{alt(600)}'].evidence, [])
 
 
+class TestClinVarPlaceholders(unittest.TestCase):
+    """CLNDN=. is how ClinVar writes a record that names no condition: the lone '.' is the file's marker for no value, not a condition text. A bit of ORIGIN the
+    header does not define must stay visible. (Found by comparing the index with the file as read by bcftools: 80 of 4,356,442 real rows carried the '.'.)"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ref = syn_reference()
+        cls.out = tempfile.mkdtemp()
+        vcf = os.path.join(cls.out, 'placeholders.vcf')
+        rows = [(402, 1, dict(CLNDN='.', CLNDISDB='.', ORIGIN='1025')),
+                (410, 2, dict(CLNDN='Cond_A|.', CLNDISDB='MedGen:C0000001|.', ORIGIN='1073741825')),
+                (420, 3, dict(CLNDN='Test_syndrome', CLNDISDB='MedGen:C0000001,OMIM:100001', ORIGIN='0')),
+                (430, 4, dict(CLNDN='Somatic_x', CLNDISDB='MedGen:C0000002', ORIGIN='3')),
+                (440, 5, dict(CLNDN='Dual', CLNDISDB='MedGen:C0000003', ORIGIN='1', ONC='Oncogenic', ONCREVSTAT='criteria_provided,_single_submitter', CLNSIGSCV='SCV000000051|SCV000000052')),
+                (450, 6, dict(CLNDN='Odd', CLNDISDB='MedGen:C0000004', ORIGIN='1', CLNREVSTAT='a_status_clinvar_has_not_used'))]
+        with open(vcf, 'w') as f:
+            f.write('##fileformat=VCFv4.1\n##fileDate=2026-02-02\n#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\n')
+            for pos, vid, info in rows:
+                info = {**dict(ALLELEID=5000 + vid, CLNREVSTAT='criteria_provided,_single_submitter', CLNSIG='Pathogenic', CLNSIGSCV=f'SCV{vid:09d}'), **info}
+                f.write('\t'.join(['1', str(pos), str(vid), make_sources.b('1', pos), make_sources.alt('1', pos), '.', '.', ';'.join(f'{k}={v}' for k, v in info.items())]) + '\n')
+
+        class Adapter(ClinVarVcfAdapter):
+            def run(self, ctx, limit=None):
+                return super().run(ctx, path=vcf, limit=limit)
+        cls.man = runner.build(os.path.join(cls.out, 'idx'), [Adapter(GeneMap(cls.ref, ot_dir='/nonexistent', mane_path='/nonexistent'))], cls.ref)
+        cls.all = Index.open(os.path.join(cls.out, 'idx')).table('evidence').to_pylist()
+        cls.rows = {r['accession'].split('|')[0].split(':')[1]: r for r in cls.all if r['claim_type'] == 'germline_classification'}
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.out, ignore_errors=True)
+
+    def test_a_lone_dot_is_no_condition_but_a_dot_inside_a_list_keeps_its_place(self):
+        self.assertIsNone(self.rows['1']['condition_text'])
+        self.assertEqual(self.rows['1']['condition_ids'], [])
+        self.assertEqual(self.rows['2']['condition_text'], 'Cond A|.')                    # positions in CLNDN and CLNDISDB stay aligned
+        self.assertEqual(self.rows['2']['condition_ids'], ['MedGen:C0000001'])
+        self.assertEqual(self.rows['3']['condition_text'], 'Test syndrome')
+        self.assertEqual(self.rows['3']['condition_ids'], ['MedGen:C0000001', 'OMIM:100001'])
+
+    def test_the_review_status_is_spelled_as_the_vcv_tables_spell_it(self):
+        # the VCF writes criteria_provided,_single_submitter; the VCV tables write criteria provided, single submitter: one status, one value in the index
+        self.assertEqual({r['review_status'] for r in self.rows.values() if r['accession'].split(':')[1].startswith(('1|', '2|', '3|'))}, {'criteria provided, single submitter'})
+        self.assertEqual(self.rows['3']['review_stars'], 1)
+
+    def test_a_row_counts_the_submissions_of_its_own_classification_only(self):
+        onc = next(r for r in self.all if r['claim_type'] == 'oncogenicity_classification' and r['accession'].startswith('VariationID:5|'))
+        self.assertIsNone(onc['n_submitters'])                                                 # no ONCSCV: the two germline SCVs are not its submissions
+        self.assertEqual(self.rows['5']['n_submitters'], 2)
+
+    def test_an_unknown_review_status_is_counted_in_the_build_manifest(self):
+        st = self.man['adapters'][0]['stats']
+        self.assertEqual(st.get('unrecognised_review_status:a_status_clinvar_has_not_used'), 1)
+        self.assertIsNone(self.rows['6']['review_stars'])
+        self.assertEqual([k for k in st if k.startswith('unrecognised_review_status:')], ['unrecognised_review_status:a_status_clinvar_has_not_used'])
+
+    def test_origin_bits_are_named_and_an_undefined_bit_stays_visible(self):
+        self.assertEqual(self.rows['1']['origin'], 'germline+unrecognised_bit_1024')
+        self.assertEqual(self.rows['2']['origin'], 'germline+other')
+        self.assertEqual(self.rows['3']['origin'], 'unknown')
+        self.assertEqual(self.rows['4']['origin'], 'germline+somatic')
+
+
 if __name__ == '__main__':
     unittest.main()

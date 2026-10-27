@@ -29,12 +29,17 @@ with `bcftools` and `plink2` to include the cross-checks against those tools (`e
 python3 variant_index/build_index.py                       # all adapters, in dependency order (--sources a,b to build a subset, --limit N for trials)
 
 # 2. check it
-python3 variant_index/verify_index.py                      # release linkage, manifest agreement, raw-record digests recomputed from the acquired files
-python3 variant_index/make_reports.py --markdown variant_index/BUILD_REPORT.md   # coverage, validation, target lifecycle, gap report (+ --previous OLD for a change log)
+python3 variant_index/verify_index.py                      # release linkage, manifest agreement, raw-record digests recomputed from the acquired files (vindex/resolvers.py holds one rule per source)
+python3 variant_index/make_reports.py --markdown variant_index/BUILD_REPORT.md   # coverage, validation, target lifecycle, shared lineage, gap report (+ --previous OLD for a change log)
+python3 variant_index/crosscheck_bcftools.py --clinvar-fields --out data/index/reports/clinvar_fields.json   # every ClinVar-VCF row of the index against the VCF read by bcftools (fields and normalised key)
+python3 variant_index/check_idempotence.py --limit 30000   # two builds in separate processes with different hash seeds; files, digests and the code that built them must be identical
+python3 variant_index/check_requirements.py                # every clause of the project goal mapped to code, tests and a status (REQUIREMENTS.md)
+python3 inventory/gap_audit.py                             # executable adversarial audit of the above (PHASE_AUDIT.md)
 
 # 3. match one sample (local files only; results must go under data/ or outside the repository)
 python3 variant_index/match_wgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE [--callable-bed HIGH_CONFIDENCE.bed] [--external-haplotypes calls.json]
-python3 variant_index/make_views.py --results data/results/SAMPLE        # priority lists, trait and pathway groupings (views over the complete tables)
+python3 variant_index/make_views.py --results data/results/SAMPLE        # priority lists, trait and pathway groupings, report.md (views over the complete tables)
+python3 variant_index/crosscheck_bcftools.py --vcf SAMPLE.vcf.gz --results data/results/SAMPLE   # the calls and the ClinVar evidence of those calls, recomputed with bcftools norm and compared
 
 # 4. polygenic scores are separate models, never variant evidence
 python3 variant_index/build_pgs_registry.py                # every score in the catalogue, whether its GRCh38 file was acquired, and its gates

@@ -2423,6 +2423,7 @@
   "tier": "A",
   "kind": "per_entity",
   "written_by": "extract_mavedb_scores.py",
+  "derived_from": "mavedb_zenodo_dump_v4",
   "licence": "CC0 (CC0-licensed MaveDB records only)",
   "note": "scores.csv of the 200 MaveDB score sets whose annotations.csv carries a post-mapped genomic HGVS (mavedb.post_mapped_hgvs_g), streamed byte for byte out of mavedb_zenodo_dump_v4 by acquisition/extract_mavedb_scores.py. Together with the annotations they give single-variant, nucleotide-level assay scores on GRCh38 (the Ensembl plugin file holds only protein-level assays and multi-variant constructs).",
   "supports": [

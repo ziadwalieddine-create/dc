@@ -21,7 +21,7 @@ import pyarrow.compute as pc
 import pyarrow.dataset as pds
 import pyarrow.parquet as pq
 
-from . import schema
+from . import resolvers, schema
 from .build.clinvar_vcv import canon as vcv_canon
 from .build.common import DATA, REPO
 
@@ -114,6 +114,30 @@ RESOLVERS = {
     'clingen_erepo_variant_classifications': 'split',
     'gwas_catalog_associations': 'gwas',
     'clinvar_vcv_xml_weekly_2026_1018': 'parquet',     # canonical JSON of one row of a stream-derived Parquet table
+    # the rules of the other adapters, each in vindex.resolvers (a string is a line rule above, a function is a resolver)
+    'clingen_gene_validity': resolvers.clingen_csv_records,
+    'clingen_gene_curation_list': 'iter_raw',
+    'clingen_region_curation_list': 'iter_raw',
+    'clingen_actionability_adult_assertions': 'iter_raw',
+    'clingen_actionability_adult_scoring': 'iter_raw',
+    'clingen_actionability_pediatric_assertions': 'iter_raw',
+    'clingen_actionability_pediatric_scoring': 'iter_raw',
+    'cpic_api_allele': resolvers.json_array('allele'),
+    'cpic_api_recommendation': resolvers.json_array('rec'),
+    'clinpgx_summaryAnnotations': resolvers.zip_members,
+    'clinpgx_variantAnnotations': resolvers.zip_members,
+    'clinpgx_drugLabels': resolvers.zip_members,
+    'clinpgx_guidelineAnnotations': resolvers.zip_members,
+    'opentargets_26_09_credible_set': resolvers.ot_credible_set,
+    'opentargets_26_09_l2g_prediction': resolvers.ot_l2g,
+    'opentargets_26_09_evidence_crispr': resolvers.ot_row_fields(('id', 'targetId', 'diseaseId', 'resourceScore')),
+    'opentargets_26_09_evidence_crispr_screen': resolvers.ot_row_fields(('id', 'targetId', 'studyId', 'log2FoldChangeValue', 'resourceScore')),
+    'opentargets_26_09_evidence_gene_burden': resolvers.ot_row_fields(('id', 'targetId', 'diseaseId', 'oddsRatio', 'beta', 'pValueMantissa', 'pValueExponent')),
+    'opentargets_26_09_target_essentiality': resolvers.ot_target_essentiality,
+    'mavedb_scores_genomic_mapped': resolvers.mavedb_native,
+    'strchive_hg38_general': 'iter_raw',
+    'strchive_hg38_stranger_json': resolvers.strchive_stranger,
+    'opentargets_26_09_evidence_impc': resolvers.ot_impc_summary,
 }
 
 
@@ -150,8 +174,9 @@ def check_releases(releases, manifest, targets, data_root, rehash=False, rehash_
             issues.append(dict(release_id=rid, issue='manifest_record_without_sha256'))
         if r.get('sha256') != m.get('sha256'):
             issues.append(dict(release_id=rid, issue='release_digest_differs_from_manifest'))
+        parent = targets.get(t.get('derived_from'), {})                # a target extracted from another acquired file is retrieved from that file's URL
         for fld in ('url', 'licence'):
-            if not (r.get(fld) or m.get(fld) or t.get(fld)):
+            if not (r.get(fld) or m.get(fld) or t.get(fld) or (fld == 'url' and parent.get('url'))):
                 issues.append(dict(release_id=rid, issue=f'no_{fld}'))
         path = os.path.join(data_root, m.get('dest') or t.get('dest') or '')
         if not os.path.exists(path):
@@ -188,6 +213,33 @@ def sample_rows(index_dir, release_id, k, seed):
     return sorted(keep, key=lambda r: r['evidence_id']), n
 
 
+def verify_release(index_dir, rid, tid, base, sample=500, seed=0):
+    """Open the sampled source records of one release and compare the SHA-256 of their text with the digest in the row. None: the release has no evidence rows; no_resolver: no rule
+    recovers its records; else the digest result."""
+    kind = RESOLVERS.get(tid)
+    rows, total = sample_rows(index_dir, rid, sample, seed)
+    if not total:
+        return None
+    if kind is None:
+        return dict(target_id=tid, no_resolver=True, evidence_rows=total)
+    locators = [r['locator'] for r in rows]
+    if callable(kind):
+        got = kind(base, locators) if os.path.exists(base) else {}
+    else:
+        got = resolve_parquet_rows(base, locators) if kind == 'parquet' else (resolve_lines(kind, base, locators) if os.path.exists(base) else {})
+    verified, bad, missing = 0, [], []
+    for r in rows:
+        text = got.get(r['locator'])
+        if text is None:
+            missing.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
+        elif sha256_text(text) == r['raw_sha256']:
+            verified += 1
+        else:
+            bad.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
+    return dict(target_id=tid, resolver=kind if isinstance(kind, str) else kind.__name__, evidence_rows=total, sampled=len(rows), verified=verified, mismatched=bad[:20], n_mismatched=len(bad),
+                unresolved=missing[:20], n_unresolved=len(missing))
+
+
 def verify_index(index_dir, sample=500, seed=0, data_root=None, paths=None, rehash=False, manifest_path=None, targets_path=None):
     """Run the three checks. paths: {target_id: file or directory} overrides where a resolver finds the acquired source (tests, relocated data)."""
     data_root = data_root or DATA
@@ -215,25 +267,13 @@ def verify_index(index_dir, sample=500, seed=0, data_root=None, paths=None, reha
                   release_issues=check_releases(releases, manifest, targets, data_root, rehash), digests={}, no_resolver=[])
     for rid, rel in sorted(releases.items()):
         tid = rel['target_id']
-        kind = RESOLVERS.get(tid)
-        rows, total = sample_rows(index_dir, rid, sample, seed)
-        if not total:
-            continue                                            # a release that only feeds entity tables has no evidence rows to re-open
-        if kind is None:
-            report['no_resolver'].append(dict(release_id=rid, target_id=tid, evidence_rows=total))
-            continue
         base = paths.get(tid) or os.path.join(data_root, (targets.get(tid) or manifest.get(tid) or {}).get('dest', ''))
-        got = resolve_parquet_rows(base, [r['locator'] for r in rows]) if kind == 'parquet' else (resolve_lines(kind, base, [r['locator'] for r in rows]) if os.path.exists(base) else {})
-        verified, bad, missing = 0, [], []
-        for r in rows:
-            text = got.get(r['locator'])
-            if text is None:
-                missing.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
-            elif sha256_text(text) == r['raw_sha256']:
-                verified += 1
-            else:
-                bad.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
-        report['digests'][rid] = dict(target_id=tid, resolver=kind, evidence_rows=total, sampled=len(rows), verified=verified, mismatched=bad[:20], n_mismatched=len(bad),
-                                      unresolved=missing[:20], n_unresolved=len(missing))
+        d = verify_release(index_dir, rid, tid, base, sample, seed)
+        if d is None:
+            continue                                            # a release that only feeds entity tables has no evidence rows to re-open
+        if d.get('no_resolver'):
+            report['no_resolver'].append(dict(release_id=rid, target_id=tid, evidence_rows=d['evidence_rows']))
+            continue
+        report['digests'][rid] = d
     report['ok'] = (not orphans and not report['release_issues'] and all(d['n_mismatched'] == 0 and d['n_unresolved'] == 0 for d in report['digests'].values()))
     return report

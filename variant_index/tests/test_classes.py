@@ -1,7 +1,7 @@
 import unittest
 
 from helpers import ROOT  # noqa: F401  (puts the package on the path)
-from vindex.build.classes import effect_of, stars, unknown_tokens
+from vindex.build.classes import effect_of, inheritance_label, review_label, stars, unknown_tokens
 
 
 class TestClassificationVocabulary(unittest.TestCase):
@@ -35,12 +35,29 @@ class TestClassificationVocabulary(unittest.TestCase):
         self.assertEqual(effect_of('Pathogenic|Totally new label'), 'effect')
         self.assertEqual(unknown_tokens('Pathogenic|Totally new label'), ['totally_new_label'])
 
+    def test_one_review_status_is_one_value_whichever_file_wrote_it(self):
+        self.assertEqual(review_label('criteria_provided,_single_submitter'), 'criteria provided, single submitter')                  # the VCF's spelling becomes the VCV tables'
+        self.assertEqual(review_label('criteria provided, single submitter'), 'criteria provided, single submitter')
+        self.assertEqual(review_label(None), '')
+
+    def test_inheritance_codes_become_the_labels_the_other_rows_use_and_unknown_text_is_kept(self):
+        self.assertEqual(inheritance_label('AD'), 'Autosomal dominant inheritance')
+        self.assertEqual(inheritance_label('AD,AR'), 'Autosomal dominant inheritance; Autosomal recessive inheritance')
+        self.assertEqual(inheritance_label('XR'), 'X-linked inheritance (recessive (HP:0001419))')
+        self.assertEqual(inheritance_label('Autosomal recessive inheritance'), 'Autosomal recessive inheritance')            # already a label
+        self.assertEqual(inheritance_label('AD,something new'), 'AD,something new')                                          # one unknown token: nothing is guessed
+        self.assertEqual(inheritance_label('dominant'), 'dominant')                                                           # Open Targets' allelic requirements are not ClinGen codes
+        self.assertIsNone(inheritance_label(''))
+        self.assertIsNone(inheritance_label(None))
+
     def test_review_status_stars_read_both_spellings(self):
         self.assertEqual(stars('criteria_provided,_single_submitter'), 1)
         self.assertEqual(stars('criteria provided, single submitter'), 1)
         self.assertEqual(stars('reviewed by expert panel'), 3)
         self.assertEqual(stars('practice guideline'), 4)
         self.assertEqual(stars('flagged submission'), 0)
+        self.assertEqual(stars('no_classifications_from_unflagged_records'), 0)                 # in the real file for 140 records
+        self.assertEqual(stars('criteria_provided,_multiple_submitters'), 2)                    # in the real file for somatic clinical impact (9 records)
         self.assertIsNone(stars('a status that does not exist'))
         self.assertIsNone(stars(None))
 

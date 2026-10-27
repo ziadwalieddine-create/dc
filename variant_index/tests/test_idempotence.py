@@ -1,4 +1,5 @@
 import glob
+import json
 import os
 import shutil
 import subprocess
@@ -30,6 +31,20 @@ class TestIdempotence(unittest.TestCase):
         self.assertGreater(r['files'], 10)
         self.assertEqual((r['only_in_first'], r['only_in_second'], r['digest_differs']), ([], [], []))
         self.assertTrue(r['releases_equal'] and r['problems_equal'] and r['adapter_code_equal'] and r['rows_equal'])
+
+    def test_the_manifest_records_the_code_that_built_it_and_a_changed_helper_is_noticed(self):
+        with open(os.path.join(self.a, 'index_manifest.json')) as f:
+            m = json.load(f)
+        self.assertEqual(sorted(m['build_code']), ['files', 'sha256_16'])
+        self.assertGreater(m['build_code']['files'], 10)
+        other = os.path.join(self.work, 'edited')
+        shutil.copytree(self.b, other)
+        m['build_code']['sha256_16'] = 'f' * 16                                              # e.g. classes.py edited between two builds: no adapter file differs
+        with open(os.path.join(other, 'index_manifest.json'), 'w') as f:
+            json.dump(m, f)
+        r = ci.compare(self.a, other)
+        self.assertFalse(r['adapter_code_equal'])
+        self.assertEqual((r['only_in_first'], r['only_in_second'], r['digest_differs']), ([], [], []))
 
     def test_builds_in_separate_processes_with_different_hash_seeds_are_identical(self):
         dirs = []

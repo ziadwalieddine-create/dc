@@ -103,9 +103,20 @@ class TestGwas(unittest.TestCase):
         self.assertEqual((plus['odds_ratio'], plus['ci_low'], plus['ci_high'], plus['direction'], plus['axis']), (1.25, 1.1, 1.4, 'increases', 'effect_magnitude_direction'))
         ref = eff[f"1:{c['ref_effect']['pos']}:{c['ref_effect']['ref']}:{c['ref_effect']['alt']}"]
         self.assertEqual((ref['beta'], ref['direction'], ref['score_unit']), (-0.04, 'decreases', 'unit decrease'))      # a decrease is stored with a negative sign
-        self.assertEqual(plus['lineage_group'], 'gwas_study:GCST000001')
+        self.assertEqual((ref['ci_low'], ref['ci_high']), (-0.06, -0.02))                                              # ... and so is its interval ([0.02-0.06] in the file)
+        self.assertEqual(plus['lineage_group'], 'pmid:1')                                                              # PMID 1 of the fixture's association rows
         pair = [r for r in self.by_pos(c['plus_alt']['pos']) if r['claim_type'] in ('gwas_association', 'gwas_effect_size')]
         self.assertEqual(len({r['lineage_group'] for r in pair}), 1)                                                     # one measurement, not two independent ones
+
+    def test_a_paper_has_one_lineage_whichever_database_describes_it(self):
+        # real data: 4,328 of the 4,385 publications behind Open Targets' GWAS credible sets are also in the Catalog; under the Catalog's study accession their rows counted as independent
+        from vindex.build.gwas import lineage_of
+        from vindex.build.opentargets_genetics import OpenTargetsGeneticsAdapter
+        ot = OpenTargetsGeneticsAdapter(None).lineage(dict(studyType='gwas', pubmedId='33139745', projectId='GCST', studyId='GCST90012345'))
+        self.assertEqual(lineage_of('33139745', 'GCST90012345'), ot)
+        self.assertEqual(lineage_of('33139745', 'GCST90012346'), ot)                              # a second Catalog study of the same paper: the same lineage (never more independent)
+        self.assertEqual(lineage_of('', 'GCST9'), 'gwas_study:GCST9')                              # no PubMed id: the accession is all there is
+        self.assertEqual(lineage_of('NR', 'GCST9'), 'gwas_study:GCST9')
 
     def test_unknown_effect_allele_maps_to_the_site_without_direction(self):
         c = CASES['unknown_allele']
@@ -134,13 +145,115 @@ class TestGwas(unittest.TestCase):
 
     def test_studies_become_entities(self):
         st = self.idx.table('entity_study').to_pylist()
-        self.assertEqual([(s['study_id'], s['n_total'], s['n_cases'], s['has_sumstats'], s['lineage_group']) for s in st], [('GCST000001', 1500, 400, True, 'gwas_study:GCST000001')])
+        self.assertEqual([(s['study_id'], s['n_total'], s['n_cases'], s['has_sumstats'], s['lineage_group']) for s in st], [('GCST000001', 1500, 400, True, 'pmid:1')])
 
     def test_effect_parsing(self):
         self.assertEqual(parse_effect('1.25', '[1.1-1.4]')[:5], ('odds_ratio', 1.25, 1.1, 1.4, None))
         self.assertEqual(parse_effect('0.5', '[0.4-0.6] mmol/L decrease')[:2], ('beta', -0.5))
         self.assertEqual(parse_effect('13.6', 'NR unit decrease')[:2], ('beta', -13.6))
         self.assertEqual(parse_effect('', '')[0], None)
+        self.assertIsNone(parse_effect('nan', '[1.1-1.4]')[0])                                                    # float() reads 'nan' and 'inf'; the real file has such cells
+        self.assertIsNone(parse_effect('inf', '')[0])
+
+    def test_the_interval_of_a_beta_contains_the_signed_beta(self):
+        # real file: for 393,000 decreases the interval was left as the bounds of the magnitude, so a beta of -0.032 sat beside [0.018, 0.046]
+        v = parse_effect('0.032', '[0.018-0.046] unit decrease')
+        self.assertEqual((v[0], v[1], v[2], v[3]), ('beta', -0.032, -0.046, -0.018))
+        v = parse_effect('0.0687', '[-0.05--0.087] unit decrease')                                                     # bounds already signed, in the order they were typed
+        self.assertEqual((v[1], v[2], v[3]), (-0.0687, -0.087, -0.05))
+        v = parse_effect('0.02', '[0.01-0.03] unit increase')
+        self.assertEqual((v[1], v[2], v[3]), (0.02, 0.01, 0.03))
+        v = parse_effect('0.02', '[-0.01-0.05] unit increase')                                                         # an interval that includes zero stays as it is
+        self.assertEqual((v[1], v[2], v[3]), (0.02, -0.01, 0.05))
+        v = parse_effect('1.5', '[1.8-1.2]')                                                                          # an odds ratio interval typed in the wrong order is sorted
+        self.assertEqual((v[0], v[2], v[3]), ('odds_ratio', 1.2, 1.8))
+        for value, text in (('0.032', '[0.018-0.046] unit decrease'), ('0.0687', '[-0.05--0.087] unit decrease'), ('0.02', '[0.01-0.03] unit increase')):
+            kind, b, lo, hi = parse_effect(value, text)[:4]
+            self.assertTrue(lo <= b <= hi, (value, text, lo, b, hi))
+
+    def test_the_row_says_why_it_is_a_beta_or_an_odds_ratio(self):
+        from vindex.build.gwas import effect_type_basis
+        self.assertEqual(effect_type_basis('beta', '[0.1-0.2] unit increase'), 'unit_in_interval_text')
+        self.assertEqual(effect_type_basis('odds_ratio', '[1.1-1.4]'), 'interval_text_without_unit')
+        self.assertEqual(effect_type_basis('odds_ratio', ''), 'assumed_odds_ratio_no_interval_text')
+        eff = [r for r in self.ev if r['claim_type'] == 'gwas_effect_size' and r['subject_id']]
+        self.assertTrue(all(json.loads(r['extra_json'])['effect_type_basis'] for r in eff))
+
+    def test_a_frequency_outside_zero_to_one_is_not_a_frequency(self):
+        from vindex.build.gwas import frequency
+        self.assertEqual((frequency('0.25'), frequency('0'), frequency('1')), (0.25, 0.0, 1.0))
+        self.assertEqual((frequency('36'), frequency('-0.1'), frequency('NR'), frequency(''), frequency('nan')), (None,) * 5)
+
+    def test_not_reported_is_the_absence_of_a_unit_or_a_category_not_a_value(self):
+        # real file: 2,097 odds ratios carried the unit 'NR' and 34,838 rows the ancestry 'NR'
+        self.assertEqual(parse_effect('1.2', 'NR'), ('odds_ratio', 1.2, None, None, None, 'increases'))
+        self.assertIsNone(parse_effect('1.2', '[NR]')[4])
+        self.assertEqual(parse_effect('13.6', 'NR unit decrease')[4], 'unit decrease')                       # the unit after the missing interval is kept
+        self.assertEqual(parse_effect('13.6', '[NR] mmol/L decrease')[4], 'mmol/L decrease')
+        self.assertEqual(parse_effect('1.1', 'NRF2 activity increase')[4], 'NRF2 activity increase')        # only the token NR is the marker
+        self.assertIsNone(parse_effect('1.2', '[1.1-1.4]')[4])
+
+    def test_impossible_cells_are_not_taken_as_measurements(self):
+        import zipfile
+        c = CASES
+        d = tempfile.mkdtemp()
+        try:
+            p1, p2, p3 = c['plus_alt'], c['ref_effect'], c['minus_strand']
+            rows = [make_sources.gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p1['pos']), 'STRONGEST SNP-RISK ALLELE': f"rs101-{p1['alt']}", 'SNPS': 'rs101', 'RISK ALLELE FREQUENCY': '36', 'OR or BETA': '1.25', '95% CI (TEXT)': '[1.1-1.4]'}),
+                    make_sources.gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p2['pos']), 'STRONGEST SNP-RISK ALLELE': f"rs102-{p2['ref']}", 'SNPS': 'rs102', 'OR or BETA': 'nan', '95% CI (TEXT)': '[0.02-0.06] unit decrease'}),
+                    make_sources.gwas_row(**{'CHR_ID': '1', 'CHR_POS': str(p3['pos']), 'STRONGEST SNP-RISK ALLELE': f"rs103-{COMP[p3['alt']]}", 'SNPS': 'rs103', 'RISK ALLELE FREQUENCY': '0.3', 'OR or BETA': '0.04', '95% CI (TEXT)': '[0.02-0.06] unit decrease'})]
+            zp = os.path.join(d, 'assoc.zip')
+            with zipfile.ZipFile(zp, 'w') as z:
+                z.writestr('gwas-catalog-associations.tsv', '\t'.join(make_sources.GWAS_COLS) + '\n' + '\n'.join(rows) + '\n')
+
+            class Genes:
+                rows = []
+            out = os.path.join(d, 'idx')
+            man = runner.build(out, [GwasCatalogAdapter(Genes(), variants(), root=SOURCES, assoc_zip=zp)], self.ref)
+            ev = Index.open(out).table('evidence').to_pylist()
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        a1 = [r for r in ev if r['claim_type'] == 'gwas_association' and r['pos'] == c['plus_alt']['pos']][0]
+        self.assertEqual((a1['mapping_status'], a1['eaf']), ('mapped', None))                        # 36 is not a frequency: kept out of eaf, and not used to settle a strand
+        self.assertEqual(json.loads(a1['extra_json'])['risk_allele_frequency_reported'], '36')
+        self.assertEqual(man['adapters'][0]['stats']['risk_allele_frequency_outside_0_1'], 1)
+        self.assertEqual([r for r in ev if r['claim_type'] == 'gwas_effect_size' and r['pos'] == c['ref_effect']['pos']], [])      # 'nan' is no effect size; the association row stays
+        self.assertEqual(len([r for r in ev if r['claim_type'] == 'gwas_association' and r['pos'] == c['ref_effect']['pos']]), 1)
+        e3 = [r for r in ev if r['claim_type'] == 'gwas_effect_size' and r['pos'] == c['minus_strand']['pos']][0]
+        self.assertEqual((e3['beta'], e3['ci_low'], e3['ci_high']), (-0.04, -0.06, -0.02))
+
+    def test_a_study_whose_ancestry_is_not_reported_has_no_ancestry_but_keeps_its_sample_size(self):
+        d = tempfile.mkdtemp()
+        try:
+            with open(os.path.join(d, 'gwas-catalog-download-studies-v1.0.3.1.tsv'), 'w') as f:
+                f.write('STUDY ACCESSION\tPUBMED ID\tDISEASE/TRAIT\tMAPPED_TRAIT\tMAPPED_TRAIT_URI\tCOHORT\tFULL SUMMARY STATISTICS\tINITIAL SAMPLE SIZE\n'
+                        'GCST9\t1\tt\tt\t\t\tno\tx\nGCST8\t2\tt\tt\t\t\tno\ty\nGCST7\t3\tt\tt\t\t\tno\tz\n')
+            with open(os.path.join(d, 'gwas-catalog-download-ancestries-v1.0.3.1.tsv'), 'w') as f:
+                f.write('STUDY ACCESSION\tBROAD ANCESTRAL CATEGORY\tSTAGE\tNUMBER OF INDIVIDUALS\tNUMBER OF CASES\n'
+                        'GCST9\tNR\tinitial\t1000\t\nGCST8\tNR\tinitial\t200\t\nGCST8\tEuropean\tinitial\t300\t\nGCST7\tAfrican\treplication\t50\t\n')
+
+            class Ctx:
+                def __init__(self):
+                    self.rows = []
+
+                def emit(self, table, row, name=None):
+                    self.rows.append(row)
+
+            class St:
+                def __init__(self):
+                    self.c = {}
+
+                def inc(self, k, n=1):
+                    self.c[k] = self.c.get(k, 0) + n
+            ctx, st = Ctx(), St()
+            GwasCatalogAdapter(None, None, root=d).studies(ctx, 'rel_s', 'rel_a', st)
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        by = {r['study_id']: r for r in ctx.rows}
+        self.assertEqual((by['GCST9']['ancestry'], by['GCST9']['n_total']), (None, 1000))
+        self.assertEqual((by['GCST8']['ancestry'], by['GCST8']['n_total']), ('European', 500))               # a partly reported study keeps the categories it reported
+        self.assertEqual((by['GCST7']['ancestry'], by['GCST7']['n_total']), (None, None))                    # replication-stage rows do not describe the initial sample
+        self.assertEqual(st.c['ancestry_rows_with_category_not_reported'], 2)
         self.assertEqual(efo_ids('http://www.ebi.ac.uk/efo/EFO_0007660, http://purl.obolibrary.org/obo/MONDO_0004989'), ['EFO:0007660', 'MONDO:0004989'])
 
 

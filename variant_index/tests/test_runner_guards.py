@@ -1,4 +1,5 @@
 import glob
+import json
 import os
 import tempfile
 import unittest
@@ -7,7 +8,7 @@ import pyarrow.parquet as pq
 
 from helpers import syn_reference
 from vindex.build import runner
-from vindex.build.common import evidence_row
+from vindex.build.common import REPO, evidence_row
 
 
 class Emitter:
@@ -23,7 +24,29 @@ class Emitter:
         return {}
 
 
+class DerivedTargetAdapter:
+    requires = ()
+    source_id = 'mavedb'
+
+    def run(self, ctx, limit=None):
+        ctx.adapter = self
+        ctx.register_release('mavedb', 'mavedb_scores_genomic_mapped', 'x')
+        return {}
+
+
 class TestGuards(unittest.TestCase):
+    def test_a_release_of_a_derived_target_carries_the_url_of_the_file_it_was_extracted_from(self):
+        # the provenance verifier found this release without any URL: its target is written from another acquired file and has none of its own
+        out = tempfile.mkdtemp()
+        runner.build(out, [DerivedTargetAdapter()], syn_reference())
+        (rel,) = pq.read_table(os.path.join(out, 'source_release.parquet')).to_pylist()
+        with open(os.path.join(REPO, 'acquisition', 'targets.json')) as f:
+            targets = {t['id']: t for t in json.load(f)}
+        t = targets['mavedb_scores_genomic_mapped']
+        self.assertIsNone(t['url'])
+        self.assertEqual(rel['url'], targets[t['derived_from']]['url'])
+        self.assertTrue(rel['url'].startswith('https://'))
+
     def test_unknown_source_id_is_reported(self):
         man = runner.build(tempfile.mkdtemp(), [Emitter('typo', 'clinvr')], syn_reference())
         self.assertTrue(any("'clinvr'" in p and 'not a catalogue source' in p for p in man['problems']), man['problems'])

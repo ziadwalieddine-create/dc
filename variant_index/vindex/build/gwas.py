@@ -11,6 +11,7 @@ association accession in this file, so the accession is study + SNP string + tra
 import csv
 import io
 import json
+import math
 import os
 import re
 import zipfile
@@ -22,13 +23,47 @@ GW = os.path.join(DATA, 'gwas_catalog')
 RS_ALLELE = re.compile(r'^(rs\d+)-([ACGT]+|\?)$')
 CHR_ALLELE = re.compile(r'^chr([0-9XYM]+):(\d+)-([ACGT?]+)$')
 GENOME_WIDE = 5e-8
+NOT_REPORTED = {'', 'NR', 'NA', 'N/A', '.', '-'}               # the Catalog writes 'NR' where a value was not reported: that is the absence of a value, not a value
 
 
 def num(x):
+    """A finite number, or None. float() also reads 'nan', 'inf' and 'infinity': the real file has such cells, and they are not measurements."""
     try:
-        return float(x)
+        v = float(x)
     except (TypeError, ValueError):
         return None
+    return v if math.isfinite(v) else None
+
+
+def effect_type_basis(kind, ci_text):
+    """Why a value is called a beta or an odds ratio: the Catalog writes the unit of a beta in the interval text and writes no unit for an odds ratio. A positive value with no interval
+    text at all (12,039 real rows) is assumed to be an odds ratio, and the row says so."""
+    if kind == 'beta':
+        return 'unit_in_interval_text'
+    return 'interval_text_without_unit' if (ci_text or '').strip() else 'assumed_odds_ratio_no_interval_text'
+
+
+def lineage_of(pubmed, accession):
+    """One lineage per publication. Open Targets, ClinPGx and the gene-evidence adapters key a paper as pmid:<id>; the Catalog's own study accession would make the same paper's
+    associations and the fine-mapping built on them (98.7% of the Open Targets GWAS publications are in the Catalog) count as independent replication. Several Catalog studies of one
+    paper count once, which can understate independent samples but never overstates them. A study without a PubMed id keeps its accession."""
+    p = (pubmed or '').strip()
+    return f'pmid:{p}' if p.isdigit() else f'gwas_study:{accession}'
+
+
+def frequency(x):
+    """An allele frequency: a finite number in [0, 1], else None. (The real file has 74 cells above 1.)"""
+    v = num(x)
+    return v if v is not None and 0 <= v <= 1 else None
+
+
+def signed_interval(lo, hi, sign):
+    """The interval of a beta that contains the signed beta. The Catalog writes the bounds of the magnitude and puts 'increase' or 'decrease' in the text, so a decrease of 0.032 reads
+    [0.018-0.046]; some entries write the bounds already signed, in either order ([-0.05--0.087]). Bounds that straddle zero are taken as they are, sorted."""
+    if lo is None or hi is None:
+        return lo, hi
+    a, b = min(lo, hi), max(lo, hi)
+    return (-b, -a) if sign < 0 and a >= 0 else (a, b)
 
 
 def efo_ids(uris):
@@ -52,15 +87,17 @@ def parse_effect(or_beta, ci_text):
     unit = t
     if m:
         lo, hi, unit = num(m.group(1)), num(m.group(2)), m.group(3).strip()
-    elif t.startswith('[NR]'):
-        unit = t[4:].strip()
-    low = unit.lower()
+    unit = re.sub(r'^\[?NR\]?(?=\s|$)\s*', '', unit).strip()          # 'NR' stands for the interval that was not reported; the unit that follows it is kept
+    unit = None if unit.upper() in NOT_REPORTED else unit
+    low = (unit or '').lower()
     if 'decrease' in low or 'increase' in low:
         sign = -1.0 if 'decrease' in low else 1.0
+        lo, hi = signed_interval(lo, hi, sign)
         return 'beta', sign * abs(v), lo, hi, unit, 'decreases' if sign < 0 else 'increases'
     if v > 0:
-        return 'odds_ratio', v, lo, hi, unit or None, 'increases' if v > 1 else ('decreases' if v < 1 else None)
-    return None, v, lo, hi, unit or None, None
+        lo, hi = signed_interval(lo, hi, 1.0)
+        return 'odds_ratio', v, lo, hi, unit, 'increases' if v > 1 else ('decreases' if v < 1 else None)
+    return None, v, lo, hi, unit, None
 
 
 class GwasCatalogAdapter:
@@ -86,9 +123,14 @@ class GwasCatalogAdapter:
                     st.inc('ancestry_rows_without_study')
                     continue
                 cat = r['BROAD ANCESTRAL CATEGORY'].strip()
-                s['anc_all'].add(cat)
+                if cat.upper() in NOT_REPORTED:
+                    st.inc('ancestry_rows_with_category_not_reported')
+                    cat = None
+                if cat:
+                    s['anc_all'].add(cat)
                 if r['STAGE'] == 'initial':
-                    s['anc'].add(cat)
+                    if cat:
+                        s['anc'].add(cat)
                     n = num(r['NUMBER OF INDIVIDUALS'])
                     if n:
                         s['n_init'] += int(n)
@@ -96,8 +138,8 @@ class GwasCatalogAdapter:
                     if c:
                         s['n_cases'] += int(c)
         for acc, s in sorted(study.items()):
-            ctx.emit('entity_study', dict(study_id=acc, source_id='gwas_catalog', lineage_group=f'gwas_study:{acc}', study_type='gwas', pubmed=s['pubmed'], trait_ids=efo_ids(s['uris']),
-                                          trait_text=s['trait'], n_total=s['n_init'] or None, n_cases=s['n_cases'] or None, ancestry='; '.join(sorted(s['anc'])), cohorts=s['cohort'],
+            ctx.emit('entity_study', dict(study_id=acc, source_id='gwas_catalog', lineage_group=lineage_of(s['pubmed'], acc), study_type='gwas', pubmed=s['pubmed'], trait_ids=efo_ids(s['uris']),
+                                          trait_text=s['trait'], n_total=s['n_init'] or None, n_cases=s['n_cases'] or None, ancestry='; '.join(sorted(s['anc'])) or None, cohorts=s['cohort'],
                                           biosample=None, has_sumstats=s['full'], release_id=rel_studies), name='gwas_catalog')
             st.inc('studies')
         return study
@@ -162,8 +204,8 @@ class GwasCatalogAdapter:
                 if not canon:
                     continue
                 cands = self.cands(k, canon, ctx)
-                res = resolve_snv(self.refbase(ctx, canon, k[2]), k[4], num(r['RISK ALLELE FREQUENCY']), {c[0] for c in cands}, None)
-                if res.status == 'rejected' and num(r['RISK ALLELE FREQUENCY']) is not None and len(cands) == 1:
+                res = resolve_snv(self.refbase(ctx, canon, k[2]), k[4], frequency(r['RISK ALLELE FREQUENCY']), {c[0] for c in cands}, None)
+                if res.status == 'rejected' and frequency(r['RISK ALLELE FREQUENCY']) is not None and len(cands) == 1:
                     want.add(cands[0][2])
             if limit and ln - 1 >= limit:
                 break
@@ -192,9 +234,13 @@ class GwasCatalogAdapter:
     def emit(self, ctx, rel, study, ln, r, raw, k, afs, st):
         kind, chrom, pos, rs, risk = k
         s = study.get(r['STUDY ACCESSION'], {})
-        raf = num(r['RISK ALLELE FREQUENCY'])
+        raf = frequency(r['RISK ALLELE FREQUENCY'])
+        raf_reported = None
+        if raf is None and num(r['RISK ALLELE FREQUENCY']) is not None:           # percentages and typing errors: not a frequency, and no evidence for a strand
+            raf_reported = r['RISK ALLELE FREQUENCY']
+            st.inc('risk_allele_frequency_outside_0_1')
         p = num(r['P-VALUE'])
-        common = dict(lineage_group=f"gwas_study:{r['STUDY ACCESSION']}", lineage_note=f"GWAS Catalog study; PMID {r['PUBMEDID']}; cohort {s.get('cohort') or 'not stated'}; other databases that derive from this study are not independent replication",
+        common = dict(lineage_group=lineage_of(r['PUBMEDID'], r['STUDY ACCESSION']), lineage_note=f"GWAS Catalog study {r['STUDY ACCESSION']}; PMID {r['PUBMEDID']}; cohort {s.get('cohort') or 'not stated'}; other databases that derive from this paper are not independent replication",
                       condition_ids=efo_ids(r['MAPPED_TRAIT_URI']), condition_text=r['DISEASE/TRAIT'], gene_ids=[g.strip() for g in re.split(r'[;,]', r['SNP_GENE_IDS']) if g.strip().startswith('ENSG')] or None,
                       sample_size=s.get('n_init') or None, n_cases=s.get('n_cases') or None, ancestry='; '.join(sorted(s.get('anc', ()))) or None, origin='germline')
         subject, mapping, reason, flags, eff_allele, other_allele = None, 'unmapped', None, (), None, None
@@ -235,6 +281,8 @@ class GwasCatalogAdapter:
                      replication=r['REPLICATION SAMPLE SIZE'], initial=r['INITIAL SAMPLE SIZE'], platform=r['PLATFORM [SNPS PASSING QC]'], pubmed=r['PUBMEDID'])
         if p == 0:
             extra['p_reported_as_zero'] = True
+        if raf_reported is not None:
+            extra['risk_allele_frequency_reported'] = raf_reported
         ctx.emit_evidence(evidence_row(rel, 'gwas_catalog', acc, f'L{ln}', raw, 'variant', subject, 'association_replication', 'statistical_association', 'gwas_association',
                                        r['MAPPED_TRAIT'] or r['DISEASE/TRAIT'], ev_assert, mapping, reason, discriminator=f'L{ln}', p_value=p, eaf=raf, effect_allele=eff_allele, other_allele=other_allele,
                                        extra_json=json.dumps(extra, sort_keys=True), **c0, **common))
@@ -245,7 +293,7 @@ class GwasCatalogAdapter:
                                            kind_e, ev_assert, mapping, reason, discriminator=f'L{ln}:effect', p_value=p, eaf=raf, effect_allele=eff_allele, other_allele=other_allele,
                                            beta=val if kind_e == 'beta' else None, odds_ratio=val if kind_e == 'odds_ratio' else None, ci_low=lo, ci_high=hi, score_unit=unit,
                                            direction=direction if effect_known else None, extra_json=json.dumps(dict(raw_value=r['OR or BETA'], ci_text=r['95% CI (TEXT)'], direction_reported=direction,
-                                           direction_attributed_to_allele=effect_known), sort_keys=True), **c0, **common))
+                                           direction_attributed_to_allele=effect_known, effect_type_basis=effect_type_basis(kind_e, r['95% CI (TEXT)'])), sort_keys=True), **c0, **common))
         if subject:
             for g in common['gene_ids'] or ():
                 ctx.emit('variant_gene', dict(variant_key=subject, gene_id=g, relation='gwas_catalog_snp_gene', consequence=r['CONTEXT'].split(';')[0].strip(), release_id=rel), name='gwas_catalog')

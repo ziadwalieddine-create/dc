@@ -74,6 +74,12 @@ def num(s):
     return v if v == v and abs(v) != float('inf') else None
 
 
+def std_error(x):
+    """A standard error is positive. Some score sets write 0.0 for every variant, which says that no error estimate was given; the raw value stays in extra_json."""
+    v = num(x)
+    return v if v is not None and v > 0 else None
+
+
 def short_hash(*parts):
     return int.from_bytes(hashlib.blake2b('|'.join(parts).encode(), digest_size=8).digest(), 'big')
 
@@ -210,7 +216,7 @@ class MaveDbAdapter:
                 self_reason = reason or ('protein_level_assay_allele_inferred_from_genetic_code' if not allele_level else None)
                 ctx.emit_evidence(evidence_row(rel, 'mavedb', accession, f'MaveDB_variants.tsv.gz#L{ln}', raw, 'variant', key, 'empirical_functional_support', 'direct_experimental', claim_type,
                                                f'{score:.6g}', 'not_applicable', mapping, self_reason if mapping != 'mapped' or not allele_level else None, discriminator=key or f'{chrom}:{start}:{ref}:{alt}',
-                                               claim_num=score, score=score, score_unit=f'mavedb_score:{urn}', se=num(se), extra_json=json.dumps(extra, sort_keys=True, ensure_ascii=False), **common))
+                                               claim_num=score, score=score, score_unit=f'mavedb_score:{urn}', se=std_error(se), extra_json=json.dumps(extra, sort_keys=True, ensure_ascii=False), **common))
                 st.inc(f'score_rows:{"allele" if allele_level else "protein"}:{mapping}')
                 if key and s['ensg'] and (key, s['ensg']) not in vg_seen:
                     vg_seen.add((key, s['ensg']))
@@ -294,7 +300,7 @@ class MaveDbAdapter:
                     if key:
                         common['chrom'], common['pos'] = parse_key(key)[:2]
                     ctx.emit_evidence(evidence_row(rel, 'mavedb', acc, f'{stem}.annotations.csv#L{ln}', raw, 'variant', key, 'empirical_functional_support', 'direct_experimental', 'mavedb_variant_score',
-                                                   f'{score:.6g}', 'not_applicable', mapping, reason, discriminator=key or g, claim_num=score, score=score, score_unit=f'mavedb_score:{urn}', se=num(sc[1].get('scores.se', sc[1].get('se'))),
+                                                   f'{score:.6g}', 'not_applicable', mapping, reason, discriminator=key or g, claim_num=score, score=score, score_unit=f'mavedb_score:{urn}', se=std_error(sc[1].get('scores.se', sc[1].get('se'))),
                                                    extra_json=json.dumps(extra, sort_keys=True, ensure_ascii=False), **common))
                     st.inc(f'score_rows:native:{mapping}')
                     if key and s['ensg'] and (key, s['ensg']) not in vg_seen:

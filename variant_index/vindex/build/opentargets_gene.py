@@ -46,6 +46,12 @@ def p_ok(v):
     return v if v is not None and 0 <= v <= 1 else None
 
 
+def impc_locator(gene, composition, background):
+    """The summary of one mouse model is built from every IMPC row with this target, allelic composition and genetic background, so the locator names the group: a verifier
+    can recompute the summary from the rows of the files that the key selects."""
+    return 'evidence_impc#' + json.dumps([gene, composition, background])
+
+
 class OpenTargetsGeneAdapter:
     source_id = 'opentargets'
     targets = ['opentargets_26_09_target_essentiality', 'opentargets_26_09_evidence_impc', 'opentargets_26_09_evidence_crispr', 'opentargets_26_09_evidence_crispr_screen',
@@ -135,7 +141,7 @@ class OpenTargetsGeneAdapter:
             z = zygosity(comp)
             top = [f'{lab}' for (_i, lab), _n in m['phenos'].most_common(5)]
             raw = json.dumps(dict(targetId=gene, composition=comp, background=bg, rows=m['rows'], diseases=sorted(m['diseases'])), sort_keys=True)
-            self.emit(ctx, rel, st, f"impc:{gene}:{comp}:{bg}", 'evidence_impc/*.parquet', raw, gene, 'empirical_functional_support', 'perturbation_experimental', 'mouse_model_phenotypes',
+            self.emit(ctx, rel, st, f"impc:{gene}:{comp}:{bg}", impc_locator(gene, comp, bg), raw, gene, 'empirical_functional_support', 'perturbation_experimental', 'mouse_model_phenotypes',
                       '; '.join(top) or 'no phenotype terms', 'effect', perturbation=f'mouse allele {comp} ({z})', model_system=f'mouse {bg}'.strip(), curator='IMPC / MGI via Open Targets',
                       condition_ids=sorted(m['diseases'])[:50] or None, inheritance=z, lineage_group=f"mgi_model:{sorted(m['model_ids'])[0] if m['model_ids'] else comp}",
                       lineage_note='a mouse model counts once however many human diseases it is matched to', discriminator=f'{comp}|{bg}',

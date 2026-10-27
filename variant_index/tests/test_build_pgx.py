@@ -147,7 +147,8 @@ class TestPgxAdapters(unittest.TestCase):
 
     def test_recommendations_stay_at_gene_level_and_unmapped_genes_are_kept(self):
         rec = [r for r in self.idx.table('evidence').to_pylist() if r['claim_type'] == 'cpic_drug_recommendation']
-        self.assertEqual(len(rec), 4)               # rec 1: one gene; rec 2: two genes; rec 3: one gene that is not in the gene map
+        self.assertEqual(len(rec), 5)               # rec 1: one gene; rec 2: two genes; rec 3: one gene that is not in the gene map; rec 4: one gene, classification n/a
+        self.assertEqual({r['accession'].split(':')[1]: r['review_status'] for r in rec}, {'1': 'Strong', '2': 'Optional', '3': 'Moderate', '4': None})      # 'n/a' is no review status
         self.assertTrue(all(r['level'] == 'gene' and r['effect_assertion'] == 'not_applicable' for r in rec))
         two = [r for r in rec if r['accession'].startswith('rec:2:')]
         self.assertEqual(sorted(r['subject_id'] for r in two), ['ENSG_TESTG', 'ENSG_TESTH'])

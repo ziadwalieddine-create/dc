@@ -16,6 +16,7 @@ import json
 import os
 import re
 
+from .classes import inheritance_label
 from .common import DATA, evidence_row
 from .genes import entity_id
 
@@ -102,9 +103,9 @@ class ClinGenErepoAdapter:
                 c, p, _, _ = key.split(':')
                 chrom, pos = c, int(p)
             unmapped_key = None if key else (f"ClinVar:{r['ClinVar Variation Id']}" if r['ClinVar Variation Id'] else (f"CA:{r['Allele Registry Id']}" if r['Allele Registry Id'] else r['Variation']))
-            common = dict(chrom=chrom, pos=pos, unmapped_key=unmapped_key, condition_ids=mondo, condition_text=r['Disease'], inheritance=r['Mode of Inheritance'] or None,
+            common = dict(chrom=chrom, pos=pos, unmapped_key=unmapped_key, condition_ids=mondo, condition_text=r['Disease'], inheritance=inheritance_label(r['Mode of Inheritance']),
                           curator=r['Expert Panel'], evaluated=r['Approval Date'] or None, assertion_criteria=r['Guideline'] or None, gene_ids=[entity_id(self.genes, symbol=r['HGNC Gene Symbol'])] if r['HGNC Gene Symbol'] else None,
-                          lineage_group=f"clingen_erepo:{r['Uuid']}", lineage_note=RS_TAIL, origin='germline')
+                          lineage_group=f"clinvar:variation:{r['ClinVar Variation Id']}" if r['ClinVar Variation Id'] else f"clingen_erepo:{r['Uuid']}", lineage_note=RS_TAIL, origin='germline')
             met, notmet = split_codes(r['Applied Evidence Codes (Met)']), split_codes(r['Applied Evidence Codes (Not Met)'])
             extra = json.dumps(dict(met=met, not_met=notmet, pubmed=r['PubMed Articles'], link=r['Evidence Repo Link'], retracted=r['Retracted'], published=r['Published Date'],
                                     summary=(r['Summary of interpretation'] or '')[:1500]), sort_keys=True)
@@ -175,7 +176,7 @@ class ClinGenGeneRegionAdapter:
             acc = re.sub(r'.*/', '', r['ONLINE REPORT']) or f"{r['GENE SYMBOL']}|{r['DISEASE ID (MONDO)']}"
             ctx.emit_evidence(self.gene_row(ctx, rel, acc, f'L{ln}', raw, g, 'clinical_validity_actionability', 'gene_disease_validity', r['CLASSIFICATION'],
                                             VALIDITY_EFFECT.get(r['CLASSIFICATION'], 'uncertain'), how, condition_ids=[r['DISEASE ID (MONDO)']], condition_text=r['DISEASE LABEL'],
-                                            inheritance=r['MOI'], curator=r['GCEP'], evaluated=r['CLASSIFICATION DATE'], assertion_criteria=r['SOP'],
+                                            inheritance=inheritance_label(r['MOI']), curator=r['GCEP'], evaluated=r['CLASSIFICATION DATE'], assertion_criteria=r['SOP'],
                                             lineage_group=f'clingen_validity:{acc}', extra_json=json.dumps(dict(symbol=r['GENE SYMBOL'], report=r['ONLINE REPORT']))))
 
     def _dosage_rows(self, ctx, st, rel, level, subject, accession_base, locator, raw, row, name):

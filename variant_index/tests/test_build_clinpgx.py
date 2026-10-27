@@ -181,6 +181,12 @@ class TestClinPgx(unittest.TestCase):
         self.assertEqual(self.rows('variant_annotation:2002:params:3003'), [])                                    # no usable ratio: no effect-size row
         self.assertEqual(self.one('variant_annotation:2101:params:3004')['odds_ratio'], 0.4)
 
+    def test_an_interval_whose_start_is_above_its_stop_is_kept_as_text_not_stored_as_bounds(self):
+        r = self.one('variant_annotation:2004:params:3005')
+        self.assertEqual((r['odds_ratio'], r['ci_low'], r['ci_high']), (3.0, None, None))
+        extra = json.loads(r['extra_json'])
+        self.assertEqual((extra['interval_start_reported'], extra['interval_stop_reported'], extra['interval_not_stored']), ('9.0', '2.0', 'start above stop'))
+
     def test_negative_finding_is_kept_and_shares_the_paper_lineage(self):
         r = self.one('variant_annotation:2002')
         self.assertEqual((r['effect_assertion'], r['lineage_group']), ('no_effect', 'pmid:111'))

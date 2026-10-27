@@ -51,6 +51,13 @@ class GeneMap:
                     if not self.by_hgnc.get(r['HGNC_ID']):
                         self.by_hgnc[r['HGNC_ID']] = g
         self.rows = list(self.by_ensg.values())
+        self.ncbi_symbols = {}                # NCBI Gene id -> the symbols a source pairs with it (ClinVar names one gene under its old and its new symbol)
+
+    def learn_ncbi_symbols(self, pairs):
+        """Record (NCBI Gene id, symbol) pairs before any record is resolved, so that the resolution of a gene does not depend on which of its symbols a record happens to carry."""
+        for ncbi, symbol in pairs:
+            if ncbi and symbol:
+                self.ncbi_symbols.setdefault(str(ncbi), set()).add(symbol)
 
     def from_ncbi(self, ncbi_id):
         g = self.by_ncbi.get(str(ncbi_id))
@@ -69,13 +76,22 @@ class GeneMap:
         return next(iter(p)) if p and len(p) == 1 else None
 
     def resolve(self, hgnc=None, symbol=None, ncbi=None):
-        """(gene_id or None, how). HGNC id first, then NCBI Gene id, then symbol."""
-        for key, fn in (('hgnc', self.from_hgnc), ('ncbi', self.from_ncbi), ('symbol', self.from_symbol)):
-            v = {'hgnc': hgnc, 'ncbi': ncbi, 'symbol': symbol}[key]
+        """(gene_id or None, how). HGNC id first, then NCBI Gene id, then symbol. When a source names one NCBI Gene id under several symbols, the symbols are taken together and every
+        record of that gene resolves alike: to the gene the symbols agree on, else to none (the NCBI Gene id is the identity, the symbols are labels)."""
+        for key, fn in (('hgnc', self.from_hgnc), ('ncbi', self.from_ncbi)):
+            v = {'hgnc': hgnc, 'ncbi': ncbi}[key]
             if v:
                 g = fn(v)
                 if g:
                     return g, key
+        symbols = self.ncbi_symbols.get(str(ncbi)) if ncbi else None
+        if symbols and len(symbols) > 1:
+            found = {self.from_symbol(s) for s in symbols} - {None}
+            return (next(iter(found)), 'ncbi_symbols') if len(found) == 1 else (None, 'unresolved')
+        if symbol:
+            g = self.from_symbol(symbol)
+            if g:
+                return g, 'symbol'
         return None, 'unresolved'
 
 
@@ -112,4 +128,5 @@ class GeneAdapter:
             if g['ncbi']:
                 ctx.emit('xref', dict(namespace='ncbi_gene', identifier=g['ncbi'], entity_level='gene', entity_id=g['gene_id'], release_id=rel, relation='mane_summary'), name='genes')
             st.inc('genes')
+        st.inc('ncbi_gene_ids_with_several_symbols', sum(1 for v in self.genes.ncbi_symbols.values() if len(v) > 1))
         return st.c

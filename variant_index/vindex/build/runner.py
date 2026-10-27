@@ -28,6 +28,19 @@ def code_digest(adapter):
         return hashlib.sha256(f.read()).hexdigest()[:16]
 
 
+def build_code():
+    """Digest of the code that determines the content of an index: every module of vindex.build plus the normaliser, the reference reader and the schema. The digest of an adapter's
+    own source file is not enough: a helper they share (the star table, the gene map) changes the rows without changing any adapter file."""
+    pkg = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    files = sorted(glob.glob(os.path.join(pkg, 'build', '*.py'))) + [os.path.join(pkg, f) for f in ('__init__.py', 'normalise.py', 'refgenome.py', 'schema.py')]
+    h = hashlib.sha256()
+    for p in files:
+        h.update(os.path.relpath(p, pkg).encode() + b'\0')
+        with open(p, 'rb') as f:
+            h.update(hashlib.sha256(f.read()).digest())
+    return dict(sha256_16=h.hexdigest()[:16], files=len(files))
+
+
 def natural_chrom(c):
     return (0, int(c), '') if c.isdigit() else (1, 0, c)
 
@@ -104,6 +117,7 @@ def build(out, adapters, reference, limit=None, clean=True):
     if clean and os.path.isdir(out):
         shutil.rmtree(out)
     os.makedirs(out, exist_ok=True)
+    code = build_code()                                              # read before the first adapter runs: the digest is of the code that built the index, not of the files as they are at the end
     ctx = BuildContext(out, reference)
     ran, done = [], set()
     for a in adapters:
@@ -129,7 +143,7 @@ def build(out, adapters, reference, limit=None, clean=True):
     n_var = build_entity_variant(out)
     inv = table_inventory(out)
     man = dict(schema_version=SCHEMA_VERSION, built_utc=utc_now(), reference=dict(path=os.path.relpath(reference.path, REPO) if reference.path.startswith(REPO) else reference.path,
-               name=reference.name), limit=limit, adapters=ran, releases=sorted(ctx.releases), problems=ctx.problems, entity_variants=n_var,
+               name=reference.name), limit=limit, build_code=code, adapters=ran, releases=sorted(ctx.releases), problems=ctx.problems, entity_variants=n_var,
                tables={k: dict(files=v['files'], rows=v['rows']) for k, v in inv.items()})
     with open(os.path.join(out, 'index_manifest.json'), 'w') as f:
         json.dump(man, f, indent=1, sort_keys=True)

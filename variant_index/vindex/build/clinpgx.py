@@ -416,7 +416,12 @@ class ClinPgxAdapter:
                     continue
                 pv, ptxt = parse_p(p['P Value'])
                 cases, controls = num(p['Study Cases']), num(p['Study Controls'])
-                eff_kw = dict(odds_ratio=ratio if p['Ratio Stat Type'] == 'OR' else None, ci_low=num(p['Confidence Interval Start']), ci_high=num(p['Confidence Interval Stop']), p_value=pv,
+                ci_lo, ci_hi, ci_note = num(p['Confidence Interval Start']), num(p['Confidence Interval Stop']), {}
+                if ci_lo is not None and ci_hi is not None and ci_lo > ci_hi:            # a start above the stop is a typing error in the source, not an interval: kept as text, not stored as bounds
+                    ci_note = dict(interval_start_reported=p['Confidence Interval Start'], interval_stop_reported=p['Confidence Interval Stop'], interval_not_stored='start above stop')
+                    ci_lo = ci_hi = None
+                    st.inc('ratio_rows_with_inverted_interval')
+                eff_kw = dict(odds_ratio=ratio if p['Ratio Stat Type'] == 'OR' else None, ci_low=ci_lo, ci_high=ci_hi, p_value=pv,
                               score=None if p['Ratio Stat Type'] == 'OR' else ratio, score_unit=None if p['Ratio Stat Type'] == 'OR' else p['Ratio Stat Type'],
                               ancestry=p['Biogeographical Groups'] if p['Biogeographical Groups'] not in ('', 'Unknown') else None, curator='ClinPGx', gene_ids=self.gene_ids(genes),
                               sample_size=int((cases or 0) + (controls or 0)) or None, n_cases=int(cases) if cases is not None else None, claim_num=ratio, origin='germline',
@@ -426,7 +431,7 @@ class ClinPgxAdapter:
                           extra=dict(p_value_text=ptxt, study_type=p['Study Type'], characteristics=p['Characteristics'], characteristics_type=p['Characteristics Type'],
                                      frequency_in_cases=p['Frequency In Cases'], frequency_in_controls=p['Frequency In Controls'], allele_of_frequency_cases=p['Allele Of Frequency In Cases'],
                                      allele_of_frequency_controls=p['Allele Of Frequency In Controls'], study_controls=p['Study Controls'], comparison=group['comparison'], alleles=group['alleles'],
-                                     reference_unit='genotype_comparison_not_alt_allele'), **eff_kw)
+                                     reference_unit='genotype_comparison_not_alt_allele', **ci_note), **eff_kw)
                 st.inc('ratio_rows')
 
     def of_interest(self, ctx, subjects, alleles_text, genes):

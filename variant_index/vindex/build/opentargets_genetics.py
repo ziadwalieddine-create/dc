@@ -42,11 +42,22 @@ def split_variant_id(vid):
     return parts if len(parts) == 4 and parts[1].isdigit() else None
 
 
-def ancestry_text(st):
-    d = [f"{x['ancestry']}:{x['sampleSize']}" for x in (st.get('discoverySamples') or ()) if x.get('ancestry')]
-    if d:
-        return '; '.join(d)
-    return '; '.join(f"{x['ldPopulation']}:{x['relativeSampleSize']:.2f}" for x in (st.get('ldPopulationStructure') or ()) if x.get('ldPopulation')) or None
+NOT_REPORTED = {'', 'NR', 'NA', 'N/A'}              # the Catalog's marker for a category that was not reported, which Open Targets carries over as an ancestry
+
+
+def ancestry_of(st):
+    """(names, sizes, basis) of a study. The names are the reported ancestries of the discovery samples (sizes added up per ancestry, the not-reported ones included in the sizes); a study
+    that reports none falls back to the LD populations its credible sets were built on, with their relative sizes. The label holds names only, so that 'European' is one value whichever
+    study states it; the sizes travel in extra_json."""
+    sizes = {}
+    for x in st.get('discoverySamples') or ():
+        if x.get('ancestry'):
+            sizes[x['ancestry']] = sizes.get(x['ancestry'], 0) + (x.get('sampleSize') or 0)
+    reported = sorted(a for a in sizes if a.strip().upper() not in NOT_REPORTED)
+    if reported:
+        return '; '.join(reported), sizes, 'discovery_samples'
+    ld = {x['ldPopulation']: round(x['relativeSampleSize'], 3) for x in (st.get('ldPopulationStructure') or ()) if x.get('ldPopulation')}
+    return ('; '.join(sorted(ld)) or None), (ld or sizes), ('ld_population_structure' if ld else 'discovery_samples')
 
 
 class OpenTargetsGeneticsAdapter:
@@ -140,7 +151,8 @@ class OpenTargetsGeneticsAdapter:
                 parts = split_variant_id(m['variantId']) or ['', '', '', '']
                 condition = (s.get('traitFromSource') or '') if not qtl else f"{s['studyType']} of {s.get('geneId') or ''} in {bio or s.get('biosampleId') or 'unspecified biosample'}"
                 raw = json.dumps(dict(studyLocusId=row['studyLocusId'], member=m), sort_keys=True, default=str)
-                extra = dict(study_id=row['studyId'], project=s['projectId'], study_type=s['studyType'], credible_set_index=row['credibleSetIndex'], method=row['finemappingMethod'], confidence=row['confidence'],
+                anc, anc_sizes, anc_basis = ancestry_of(s)
+                extra = dict(study_id=row['studyId'], project=s['projectId'], study_type=s['studyType'], ancestry_sizes=anc_sizes or None, ancestry_basis=anc_basis if anc else None, credible_set_index=row['credibleSetIndex'], method=row['finemappingMethod'], confidence=row['confidence'],
                              lead_variant=row['variantId'], is_lead=is_lead, is95=m.get('is95CredibleSet'), is99=m.get('is99CredibleSet'), log_bf=m.get('logBF'), r2_to_lead=m.get('r2Overall'),
                              set_log10_bf=row['credibleSetlog10BF'], set_purity_mean_r2=row['purityMeanR2'], quality_controls=row['qualityControls'], trans_qtl=row['isTransQtl'],
                              p_text=None if pv is not None or m.get('pValueMantissa') is None else f"{m['pValueMantissa']}e{m['pValueExponent']}", beta_reference='alternate allele of the variant id')
@@ -148,7 +160,7 @@ class OpenTargetsGeneticsAdapter:
                                                'statistical_association', 'qtl_fine_mapping_pip' if qtl else 'gwas_fine_mapping_pip', f"{m['posteriorProbability']:.4g}", 'not_applicable', mapping, reason,
                                                discriminator=m['variantId'], claim_num=m['posteriorProbability'], pip=m['posteriorProbability'], beta=m.get('beta'), se=m.get('standardError'), p_value=pv,
                                                effect_allele=parts[3] or None, other_allele=parts[2] or None, eaf=row['effectAlleleFrequencyFromSource'] if is_lead else None,
-                                               sample_size=row['sampleSize'] or s.get('nSamples'), n_cases=s.get('nCases'), ancestry=ancestry_text(s), tissue=bio, condition_ids=(s.get('traitFromSourceMappedIds') or []) + (s.get('diseaseIds') or []) or None,
+                                               sample_size=row['sampleSize'] or s.get('nSamples'), n_cases=s.get('nCases'), ancestry=anc, tissue=bio, condition_ids=(s.get('traitFromSourceMappedIds') or []) + (s.get('diseaseIds') or []) or None,
                                                condition_text=condition or None, gene_ids=[s['geneId']] if qtl and s.get('geneId') else None, origin='germline', review_status=f"{row['finemappingMethod']}; {row['confidence']}",
                                                curator='Open Targets Genetics', lineage_group=self.lineage(s), lineage_note='credible sets of one study / project share samples', unmapped_key=None if key else m['variantId'],
                                                chrom=n.chrom if key else None, pos=n.pos if key else None, extra_json=json.dumps(extra, sort_keys=True, default=str)))
@@ -194,6 +206,6 @@ class OpenTargetsGeneticsAdapter:
         qtl = s['studyType'] != 'gwas'
         ctx.emit('entity_study', dict(study_id=sid, source_id='opentargets', lineage_group=self.lineage(s), study_type=s['studyType'], pubmed=s.get('pubmedId'),
                                       trait_ids=(s.get('traitFromSourceMappedIds') or []) + (s.get('diseaseIds') or []) or None, trait_text=s.get('traitFromSource'), n_total=s.get('nSamples'),
-                                      n_cases=s.get('nCases'), ancestry=ancestry_text(s), cohorts=', '.join(s.get('cohorts') or []) or None,
+                                      n_cases=s.get('nCases'), ancestry=ancestry_of(s)[0], cohorts=', '.join(s.get('cohorts') or []) or None,
                                       biosample=(biosample.get(s.get('biosampleId')) or s.get('biosampleId')) if qtl else None, has_sumstats=s.get('hasSumstats'), release_id=rel_st), name='opentargets')
         st.inc('studies')

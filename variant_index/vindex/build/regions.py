@@ -19,6 +19,7 @@ import gzip
 import json
 import os
 
+from .classes import inheritance_label
 from .common import DATA, evidence_row, retrieved
 
 GIAB = os.path.join(DATA, 'giab', 'v3.6', 'GRCh38')
@@ -130,7 +131,7 @@ class StrchiveAdapter:
                 ctx.emit('entity_region', dict(region_id=rid, kind='strchive_locus', chrom=canon, start=int(r['start']) + 1, end=int(r['stop']), name=lid, gene_ids=[gene] if gene else None, release_id=rel_g),
                          name='strchive')
                 lineage = dict(lineage_group=f'strchive:{lid}', lineage_note='one curated STRchive locus; its rows describe one locus, they are not independent studies')
-                common = dict(chrom=canon, pos=int(r['start']) + 1, end=int(r['stop']), gene_ids=[gene] if gene else None, curator='STRchive', inheritance=r['inheritance'] or None, **lineage)
+                common = dict(chrom=canon, pos=int(r['start']) + 1, end=int(r['stop']), gene_ids=[gene] if gene else None, curator='STRchive', inheritance=inheritance_label(r['inheritance']), **lineage)
                 extra = dict(reference_motif=r['reference_motif_reference_orientation'], pathogenic_motif=r['pathogenic_motif_reference_orientation'], bed_pathogenic_min=r['pathogenic_min'],
                              locus_structure=j and j['LocusStructure'], display_ru=j and j['DisplayRU'], variant_type=j and j['VariantType'], reference_region=j and j['ReferenceRegion'],
                              pathologic_region=j and j.get('PathologicRegion'), trgt_motifs=tg and tg['motifs'], trgt_structure=tg and tg['struc'])

@@ -36,6 +36,31 @@ class TestReports(unittest.TestCase):
         self.assertIn('clinical_validity_actionability', ev['axis'])
         self.assertGreater(ev['variants_with_evidence_by_axis']['clinical_validity_actionability'], 3)
 
+    def test_lineage_groups_shared_between_sources_are_counted(self):
+        # the fixture index has no group two sources write: the figure is 0 here and the pairs are empty ...
+        lin = self.cov['lineage']
+        self.assertGreater(lin['groups'], 5)
+        self.assertEqual((lin['shared_between_sources'], lin['source_pairs']), (0, {}))
+        # ... and a group written by two sources is found, with the pair that shares it
+        d = os.path.join(self.work, 'shared')
+        shutil.copytree(self.idx, d)
+        for src, group in (('cpic', 'clinvar:variation:1001'), ('strchive', 'clinvar:variation:1001')):
+            for p in glob.glob(os.path.join(d, 'evidence', '*', '*', f'{src}.parquet')):
+                t = pq.read_table(p)
+                rows = t.to_pylist()
+                rows[0]['lineage_group'] = group
+                pq.write_table(pa.Table.from_pylist(rows, schema=t.schema), p)
+                break
+        for p in glob.glob(os.path.join(d, 'evidence', '*', '*', 'clinvar.parquet')):
+            t = pq.read_table(p)
+            rows = t.to_pylist()
+            rows[0]['lineage_group'] = 'clinvar:variation:1001'
+            pq.write_table(pa.Table.from_pylist(rows, schema=t.schema), p)
+            break
+        lin = reports.lineage_sharing(d)
+        self.assertEqual(lin['shared_between_sources'], 1)
+        self.assertEqual(lin['source_pairs'], {'clinvar|cpic': 1, 'clinvar|strchive': 1, 'cpic|strchive': 1})
+
     def test_rows_kept_but_not_mapped_carry_their_reasons(self):
         nm = self.cov['evidence']['not_mapped']
         self.assertTrue(any(k.startswith('clinvar|unmapped|only_grch37_location_no_liftover_performed') for k in nm))
@@ -72,6 +97,37 @@ class TestReports(unittest.TestCase):
         self.assertEqual(v['checks']['p_value_outside_0_1']['violations'], 1)
         v = self.damaged(lambda d: self.rewrite(d, 'evidence/variant/1/clinvar.parquet', 'raw_sha256', lambda xs: ['xyz'] + xs[1:]))
         self.assertEqual(v['checks']['raw_sha256_not_64_hex']['violations'], 1)
+
+    def test_a_missing_value_marker_kept_as_a_value_and_impossible_numbers_are_caught(self):
+        # each of these was found on the real index by comparing it with its sources
+        p = 'evidence/variant/1/clinvar.parquet'
+        v = self.damaged(lambda d: self.rewrite(d, p, 'condition_text', lambda xs: ['.'] + xs[1:]))
+        self.assertEqual(v['checks']['condition_text_is_a_missing_value_marker']['violations'], 1)             # CLNDN=. kept as a condition
+        v = self.damaged(lambda d: self.rewrite(d, p, 'ancestry', lambda xs: ['NR'] + xs[1:]))
+        self.assertEqual(v['checks']['ancestry_is_a_missing_value_marker']['violations'], 1)                   # 'not reported' kept as an ancestry
+        v = self.damaged(lambda d: self.rewrite(d, p, 'review_status', lambda xs: ['n/a'] + xs[1:]))
+        self.assertEqual(v['checks']['review_status_is_a_missing_value_marker']['violations'], 1)
+        v = self.damaged(lambda d: self.rewrite(d, p, 'eaf', lambda xs: [1.5] + xs[1:]))
+        self.assertEqual(v['checks']['eaf_outside_0_1']['violations'], 1)                                      # 74 Catalog cells above 1
+        v = self.damaged(lambda d: self.rewrite(d, p, 'se', lambda xs: [0.0] + xs[1:]))
+        self.assertEqual(v['checks']['standard_error_not_positive']['violations'], 1)                          # MaveDB se = 0
+        v = self.damaged(lambda d: self.rewrite(d, p, 'beta', lambda xs: [float('nan')] + xs[1:]))
+        self.assertEqual(v['checks']['beta_not_finite']['violations'], 1)                                      # float('nan') and float('inf') parse
+        v = self.damaged(lambda d: (self.rewrite(d, p, 'ci_low', lambda xs: [3.0] + xs[1:]), self.rewrite(d, p, 'ci_high', lambda xs: [2.0] + xs[1:])))
+        self.assertEqual(v['checks']['ci_low_above_ci_high']['violations'], 1)                                 # 1,746 inverted betas
+
+    def test_an_estimate_beside_an_interval_that_does_not_contain_it_is_caught_but_a_rounding_slip_is_not(self):
+        p = 'evidence/variant/1/clinvar.parquet'
+
+        def set_rows(d, beta, lo, hi, n):
+            for col, val in (('beta', beta), ('ci_low', lo), ('ci_high', hi)):
+                self.rewrite(d, p, col, lambda xs, val=val: [val] * n + xs[n:])
+        v = self.damaged(lambda d: set_rows(d, -0.032, 0.018, 0.046, 3))                                       # the signed beta beside the bounds of its magnitude
+        c = v['checks']['estimate_outside_its_interval']
+        self.assertEqual(c['violations'], 3)
+        self.assertEqual(c['detail']['outside'], 3)
+        v = self.damaged(lambda d: set_rows(d, 0.0321, 0.018, 0.032, 3))                                       # within the 1% slack of the interval's width
+        self.assertEqual(v['checks']['estimate_outside_its_interval']['violations'], 0)
 
     def test_mapped_rows_need_a_subject_and_a_wellformed_key(self):
         def drop_subject(d):
@@ -156,6 +212,11 @@ class TestReports(unittest.TestCase):
         self.assertEqual(c['releases']['removed'], ['reactome/reactome_ensembl2reactome'])
         self.assertEqual(c['releases']['reversioned']['clinvar/clinvar_vcf_grch38'], dict(previous='clinvar/clinvar_vcf_grch38@2026-01-01', current='clinvar/clinvar_vcf_grch38@2099-01-01'))
         self.assertEqual(c['adapters']['code_changed'], [m['adapters'][0]['adapter']])
+        self.assertFalse(c['build_code']['changed'])
+        m['build_code'] = dict(m['build_code'], sha256_16='0' * 16)                         # a shared helper changed, no adapter file did
+        with open(os.path.join(other, 'index_manifest.json'), 'w') as f:
+            json.dump(m, f)
+        self.assertTrue(reports.change_log(self.idx, other)['build_code']['changed'])
         self.assertEqual(c['tables']['evidence']['delta'], 5)
         self.assertEqual(reports.change_log(self.idx, self.idx)['tables'], {})
 

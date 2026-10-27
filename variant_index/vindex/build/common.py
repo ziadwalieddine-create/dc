@@ -154,8 +154,10 @@ class BuildContext:
         t = self.targets.get(target_id, {})
         rid = f'{source_id}/{target_id}@{version}'
         if rid not in self.releases:
+            # a target written from another acquired file carries no URL of its own: the retrieval URL is that of the file it was extracted from
+            url = t.get('url') or m.get('url') or self.targets.get(t.get('derived_from'), {}).get('url') or ''
             self.releases[rid] = dict(release_id=rid, source_id=source_id, target_id=target_id, version=version, file=file or t.get('dest', ''),
-                                      size_bytes=m.get('bytes'), sha256=m.get('sha256'), url=t.get('url', m.get('url', '')),
+                                      size_bytes=m.get('bytes'), sha256=m.get('sha256'), url=url,
                                       retrieved_utc=m.get('fetched_utc'), licence=t.get('licence', ''), licence_class='', manifest_line=None)
             if not m:
                 self.problems.append(f'no manifest record for target {target_id}')

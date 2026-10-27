@@ -76,6 +76,13 @@ class TestMaveDb(unittest.TestCase):
         self.assertEqual((extra['sd'], extra['assay_hgvs_nt'], extra['other_score_columns']), (0.1, 'c.1' + KEYS['k402'].split(':')[2] + '>' + KEYS['k402'].split(':')[3], {'score_rep1': '0.3'}))
         self.assertEqual(len(self.rows(claim_type='mavedb_variant_score', subject_id=KEYS['k402'], accession='urn:mavedb:00000001-a-1#1')), 1)         # the repeated row did not become a second row
 
+    def test_a_standard_error_of_zero_is_no_estimate_and_the_raw_value_is_kept(self):
+        # real data: 3,517 rows of score sets 101-a-1, 102-0-1 and a few others carried se = 0.0
+        r = self.rows(claim_type='mavedb_variant_score', subject_id=KEYS['k410'], accession='urn:mavedb:00000001-a-1#2')[0]
+        self.assertIsNone(r['se'])
+        self.assertEqual(json.loads(r['extra_json'])['se'], 0.0)
+        self.assertEqual(self.rows(claim_type='mavedb_variant_score', subject_id=KEYS['k402'])[0]['se'], 0.05)
+
     def test_calibrations_are_separate_interpretation_rows(self):
         cal = self.rows(claim_type='mavedb_calibrated_class', subject_id=KEYS['k402'])
         by = {r['curator']: r for r in cal}

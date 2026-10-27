@@ -270,6 +270,19 @@ class TestWholeGenomeRun(unittest.TestCase):
         self.assertIn('NO_CALL', rep)
         self.assertIn('lineage', rep)
 
+    def test_the_report_says_when_the_code_that_made_the_run_had_uncommitted_changes(self):
+        out = os.path.join(self.work, 'dirtyres')
+        shutil.copytree(self.out, out)
+        with open(os.path.join(out, 'run_manifest.json')) as f:
+            man = json.load(f)
+        for dirty, expected in ((True, 'code abc12345 plus uncommitted changes in variant_index/.'), (False, 'code abc12345.')):
+            man['code'] = dict(commit='abc1234567890', uncommitted_changes_in_variant_index=dirty)
+            with open(os.path.join(out, 'run_manifest.json'), 'w') as f:
+                json.dump(man, f)
+            views.write_views(out, Index.open(self.idx_dir))
+            with open(os.path.join(out, 'report.md')) as f:
+                self.assertIn(expected, f.read())
+
     def test_the_catalogue_view_lists_the_high_value_variants_without_a_sample(self):
         out = os.path.join(self.work, 'catview')
         m = views.write_catalogue_views(Index.open(self.idx_dir), out)

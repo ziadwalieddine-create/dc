@@ -83,12 +83,18 @@ class TestClinGen(unittest.TestCase):
         self.assertEqual((crit[('ERepo:uuid-1', 'acmg_criterion:PS4')]['claim_value'], crit[('ERepo:uuid-1', 'acmg_criterion:PS4')]['effect_assertion']), ('not_met', 'not_applicable'))
         self.assertEqual(crit[('ERepo:uuid-2', 'acmg_criterion:BP4')]['effect_assertion'], 'no_effect')
         self.assertEqual(len({r['lineage_group'] for r in self.ev if r['accession'] == 'ERepo:uuid-1'}), 1)   # components of one classification are not independent
+        # an expert-panel classification that ClinVar carries is the same assertion as the ClinVar record of that variation, so it shares the lineage of the ClinVar rows
+        lin = {r['accession']: r['lineage_group'] for r in self.ev if r['claim_type'] == 'vcep_classification'}
+        self.assertEqual((lin['ERepo:uuid-1'], lin['ERepo:uuid-3']), ('clinvar:variation:1001', 'clinvar:variation:99999'))
+        self.assertEqual(lin['ERepo:uuid-5'], 'clingen_erepo:uuid-5')                                          # no ClinVar variation id: its own lineage
 
     def test_gene_and_region_evidence_stay_on_genes_and_regions(self):
         v = self.rows(claim_type='gene_disease_validity')
         self.assertEqual({(r['accession'], r['mapping_status']) for r in v}, {('CGGV:assertion_1', 'mapped'), ('CGGV:assertion_2', 'unmapped'), ('CGGV:assertion_3', 'mapped')})
         self.assertEqual({r['claim_value']: r['effect_assertion'] for r in v}, {'Definitive': 'effect', 'Limited': 'uncertain', 'Disputed': 'conflicting'})
         self.assertTrue(all(r['level'] == 'gene' for r in v))
+        self.assertEqual({r['accession']: r['inheritance'] for r in v}, {'CGGV:assertion_1': 'Autosomal dominant inheritance', 'CGGV:assertion_2': 'Autosomal recessive inheritance',
+                                                                         'CGGV:assertion_3': 'Autosomal dominant inheritance'})        # the file's codes AD and AR, spelled as the ERepo rows spell them
         hi = self.rows(claim_type='haploinsufficiency_score', level='gene')
         self.assertEqual(sorted((r['subject_id'] or r['unmapped_key'], r['claim_num'], r['effect_assertion']) for r in hi), [('ENSG_BRCA1', 3.0, 'effect'), ('NOSUCHGENE', 30.0, 'no_effect')])
         reg = [r for r in self.ev if r['level'] == 'region']

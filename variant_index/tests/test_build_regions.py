@@ -91,7 +91,7 @@ class TestStrchive(unittest.TestCase):
         self.assertEqual(set(c), {'strchive_disease_locus', 'repeat_normal_max', 'repeat_pathologic_min'})
         self.assertEqual((c['repeat_normal_max']['claim_num'], c['repeat_normal_max']['effect_assertion'], c['repeat_normal_max']['score_unit']), (35.0, 'no_effect', 'repeat_units_of_CAG'))
         self.assertEqual((c['repeat_pathologic_min']['claim_num'], c['repeat_pathologic_min']['effect_assertion']), (40.0, 'effect'))
-        self.assertEqual((c['strchive_disease_locus']['condition_text'], c['strchive_disease_locus']['inheritance'], c['strchive_disease_locus']['level']), ('Test disease one', 'AD', 'region'))
+        self.assertEqual((c['strchive_disease_locus']['condition_text'], c['strchive_disease_locus']['inheritance'], c['strchive_disease_locus']['level']), ('Test disease one', 'Autosomal dominant inheritance', 'region'))        # STRchive's code AD, spelled as ClinGen's other rows spell it
         self.assertTrue(all(r['lineage_group'] == 'strchive:TEST1_GENEA' for r in c.values()))
 
     def test_a_missing_threshold_is_missing_not_zero(self):
@@ -110,7 +110,7 @@ class TestStrchive(unittest.TestCase):
     def test_loci_round_trip_into_the_repeat_matcher(self):
         loci = {L['locus_id']: L for L in loci_from_index(self.idx)}
         self.assertEqual(set(loci), {'TEST1_GENEA', 'TEST2_GENEB', 'TEST3_MULTI', 'TEST5_NOJSON'})
-        self.assertEqual((loci['TEST1_GENEA']['normal_max'], loci['TEST1_GENEA']['pathologic_min'], loci['TEST1_GENEA']['gene'], loci['TEST1_GENEA']['inheritance']), (35, 40, 'GENEA', 'AD'))
+        self.assertEqual((loci['TEST1_GENEA']['normal_max'], loci['TEST1_GENEA']['pathologic_min'], loci['TEST1_GENEA']['gene'], loci['TEST1_GENEA']['inheritance']), (35, 40, 'GENEA', 'Autosomal dominant inheritance'))
         self.assertEqual((loci['TEST2_GENEB']['normal_max'], loci['TEST2_GENEB']['pathologic_min']), (20, None))
         self.assertEqual((loci['TEST5_NOJSON']['normal_max'], loci['TEST5_NOJSON']['pathologic_min']), (None, None))
 

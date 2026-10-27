@@ -36,6 +36,17 @@ class TestHelpers(unittest.TestCase):
         self.assertIsNone(split_variant_id(None))
 
 
+class TestAncestry(unittest.TestCase):
+    def test_the_label_holds_reported_names_only_and_the_sizes_travel_separately(self):
+        from vindex.build.opentargets_genetics import ancestry_of
+        names, sizes, basis = ancestry_of(dict(discoverySamples=[dict(ancestry='European', sampleSize=100), dict(ancestry='European', sampleSize=50), dict(ancestry='NR', sampleSize=7)]))
+        self.assertEqual((names, sizes, basis), ('European', {'European': 150, 'NR': 7}, 'discovery_samples'))               # 'NR' is no ancestry; its size is kept
+        names, sizes, basis = ancestry_of(dict(discoverySamples=[dict(ancestry='NR', sampleSize=7)], ldPopulationStructure=[dict(ldPopulation='nfe', relativeSampleSize=0.8), dict(ldPopulation='afr', relativeSampleSize=0.2)]))
+        self.assertEqual((names, basis), ('afr; nfe', 'ld_population_structure'))                                              # nothing reported: the LD populations, labelled as such
+        self.assertEqual(ancestry_of(dict(discoverySamples=[dict(ancestry='NR', sampleSize=7)])), (None, {'NR': 7}, 'discovery_samples'))
+        self.assertEqual(ancestry_of(dict()), (None, {}, 'discovery_samples'))
+
+
 class TestOpenTargets(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -64,7 +75,8 @@ class TestOpenTargets(unittest.TestCase):
         self.assertEqual((r['level'], r['axis'], r['evidence_kind'], r['claim_type'], r['effect_assertion']), ('variant', 'fine_mapping_probability', 'statistical_association', 'gwas_fine_mapping_pip', 'not_applicable'))
         self.assertEqual((r['pip'], r['beta'], r['se'], r['effect_allele'], r['other_allele'], r['eaf']), (0.8, 0.5, 0.1, KEYS['k402'].split(':')[3], KEYS['k402'].split(':')[2], 0.25))
         self.assertAlmostEqual(r['p_value'], 1e-9)
-        self.assertEqual((r['lineage_group'], r['sample_size'], r['n_cases'], r['ancestry']), ('pmid:111', 1000, 300, 'European:1000'))
+        self.assertEqual((r['lineage_group'], r['sample_size'], r['n_cases'], r['ancestry']), ('pmid:111', 1000, 300, 'European'))                  # the label holds the name only; the size travels in extra_json
+        self.assertEqual((json.loads(r['extra_json'])['ancestry_sizes'], json.loads(r['extra_json'])['ancestry_basis']), ({'European': 1000}, 'discovery_samples'))
         self.assertEqual(r['condition_ids'], ['EFO_0000001', 'MONDO_0000001'])
         extra = json.loads(r['extra_json'])
         self.assertEqual((extra['is_lead'], extra['method'], extra['beta_reference']), (True, 'SuSiE-inf', 'alternate allele of the variant id'))
@@ -104,7 +116,7 @@ class TestOpenTargets(unittest.TestCase):
     def test_study_entities_for_studies_with_integrated_rows(self):
         stu = {r['study_id']: r for r in self.idx.table('entity_study').to_pylist() if r['source_id'] == 'opentargets'}
         self.assertEqual(sorted(stu), ['FINNGEN_R12_TEST', 'GCST000001', 'GTEX_EQTL_X'])
-        self.assertEqual((stu['GCST000001']['pubmed'], stu['GCST000001']['n_total'], stu['GCST000001']['ancestry']), ('111', 1000, 'European:1000'))
+        self.assertEqual((stu['GCST000001']['pubmed'], stu['GCST000001']['n_total'], stu['GCST000001']['ancestry']), ('111', 1000, 'European'))
         self.assertEqual(stu['GTEX_EQTL_X']['biosample'], 'lymphoblastoid cell line')
         self.assertEqual(stu['FINNGEN_R12_TEST']['lineage_group'], 'ot_project:FINNGEN_R12:FINNGEN_R12_TEST')
 

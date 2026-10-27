@@ -43,6 +43,10 @@ def make_adapters(names, ref):
     from vindex.build.events import GnomadSvAdapter, GnomadCnvAdapter, DgvAdapter, Hgsvc3Adapter
     from vindex.build.gnomad import GnomadConstraintAdapter, GnomadLofCurationAdapter, GnomadFrequencyAdapter
     genes = GeneMap(ref)
+    if {'clinvar', 'clinvar_vcv'} & set(names):
+        from vindex.build import clinvar_vcf, clinvar_vcv
+        import itertools
+        genes.learn_ncbi_symbols(itertools.chain(clinvar_vcf.gene_pairs() if 'clinvar' in names else (), clinvar_vcv.gene_pairs() if 'clinvar_vcv' in names else ()))
     factories = {
         'genes': lambda: GeneAdapter(genes),
         'clinvar': lambda: ClinVarVcfAdapter(genes),

@@ -11,7 +11,8 @@ Design rules (they are tested):
   * Seven parallel axes; no composite score and no ordinal tier. A priority list is a view (a query) over this table.
   * Negative, null, uncertain and conflicting assertions are rows like any other (effect_assertion). Missing evidence is the absence
     of a row and means 'not assessed here', never 'no effect'.
-  * Evidence rows that share a lineage_group descend from one underlying study or dataset and are not independent replication.
+  * Evidence rows that share a lineage_group descend from one underlying study or dataset and are not independent replication. A key is shared across databases where they
+    describe the same thing (pmid:<PubMed id>, clinvar:variation:<VariationID>); see 'Lineage keys' in SCHEMA.md.
 """
 import pyarrow as pa
 
@@ -205,6 +206,12 @@ def schema_markdown():
           f'contig itself for {", ".join(PRIMARY_CONTIGS)} and `{OTHER_PARTITION}` for every other contig (alternate loci, unlocalised and unplaced scaffolds, decoys) and for rows that carry no placement. '
           'A row keeps its own `chrom`, so a reader that wants one alternate locus filters on `subject_id` or `chrom` inside the `NA` partition. A mapped variant row is always filed under the partition '
           'of its key\'s contig (the builder refuses anything else and the validator checks it).']
+    L += ['', '## Lineage keys', '',
+          'Rows that share a `lineage_group` descend from one study or record and count once in the independence tally. A key is shared across databases where they describe the same thing: '
+          '`pmid:<PubMed id>` (a paper, whichever of the GWAS Catalog, Open Targets, ClinPGx, MaveDB or ClinVar observations describes it; several GWAS Catalog studies of one paper count once), '
+          '`clinvar:variation:<VariationID>` (the ClinVar aggregate, its submissions and the ClinGen expert-panel classification of that variation) and `gwas_study:<accession>` (a GWAS Catalog study with no '
+          'PubMed id). Where no other database describes the same record the key is the source\'s own (`cpic_guideline:`, `clinpgx_guideline:`, `strchive:`, `gnomad_v4.1_joint`, ...). Two sources that '
+          'describe one record under different keys are not linked (the CPIC guidelines and ClinPGx\'s annotations of them); `make_reports.py` lists the groups that more than one source writes.']
     L += ['', '## Tables']
     for name, sch in TABLES.items():
         L += ['', f'### `{name}`', '', '| Column | Type |', '|---|---|'] + [f'| `{f.name}` | {f.type} |' for f in sch]

@@ -272,7 +272,7 @@ def mini_cpic(out):
                                                     otherprescribingguidance=False)
     with open(g('recommendation'), 'w') as f:
         json.dump([rec(1, 'RxNorm:1', 'Strong', {'TESTG': 'Poor Metabolizer'}), rec(2, 'RxNorm:1', 'Optional', {'TESTG': 'Normal Metabolizer', 'TESTH': 'Poor Metabolizer'}),
-                   rec(3, 'RxNorm:2', 'Moderate', {'UNKNOWNGENE': 'Poor Metabolizer'})], f)
+                   rec(3, 'RxNorm:2', 'Moderate', {'UNKNOWNGENE': 'Poor Metabolizer'}), rec(4, 'RxNorm:1', 'n/a', {'TESTG': 'Indeterminate'})], f)      # CPIC writes n/a where no classification applies
     return dict(b705=b705, a705=a705, b710=b710, a710=a710, b402=b402, a402=a402)
 
 
@@ -389,7 +389,9 @@ def mini_clinpgx(out):
                                'Confidence Interval Stop': 5.7, 'Biogeographical Groups': 'European'}),
               P(3002, 2001, **{'Study Cases': 50, 'Study Controls': 60, 'P Value': '< 0.001', 'Ratio Stat Type': 'HR', 'Ratio Stat': 1.8, 'Biogeographical Groups': 'East Asian'}),
               P(3003, 2002, **{'Study Cases': 30, 'Study Controls': 40, 'P Value': '= 0.4', 'Ratio Stat Type': 'Unknown', 'Ratio Stat': '', 'Biogeographical Groups': 'Unknown'}),
-              P(3004, 2101, **{'Study Cases': 10, 'Study Controls': 12, 'P Value': '= 1E-5', 'Ratio Stat Type': 'OR', 'Ratio Stat': 0.4, 'Biogeographical Groups': 'African American/Afro-Caribbean'})]
+              P(3004, 2101, **{'Study Cases': 10, 'Study Controls': 12, 'P Value': '= 1E-5', 'Ratio Stat Type': 'OR', 'Ratio Stat': 0.4, 'Biogeographical Groups': 'African American/Afro-Caribbean'}),
+              P(3005, 2004, **{'Study Cases': 8, 'Study Controls': 9, 'P Value': '= 0.2', 'Ratio Stat Type': 'OR', 'Ratio Stat': 3.0, 'Confidence Interval Start': 9.0, 'Confidence Interval Stop': 2.0,
+                               'Biogeographical Groups': 'European'})]               # start above stop, as in six real rows
     zip_('variantAnnotations', '2026-10-05', {'var_drug_ann.tsv': _tsv(VAR_DRUG_HDR, drug), 'var_pheno_ann.tsv': _tsv(VAR_PHENO_HDR, pheno), 'var_fa_ann.tsv': _tsv(VAR_FA_HDR, fa),
                                                'study_parameters.tsv': _tsv(STUDY_HDR, params)})
     g1 = {'citations': [], 'guideline': {'objCls': 'GuidelineAnnotation', 'id': 'PA1000', 'name': 'Annotation of CPIC Guideline for testdrug and TESTG', 'source': 'CPIC', 'recommendation': True,
@@ -440,7 +442,7 @@ def mini_mavedb(out):
     r402 = b('1', 402), alt('1', 402)
     s500 = REF.fetch('1', 499, 501).upper()
     rows = [row(1, 1, '1', 402, r402[0], r402[1], 'NC_000001.11:g.402' + r402[0] + '>' + r402[1], 'c.1' + r402[0] + '>' + r402[1], 'p.Val1Ile', 0.2, 0.1, 0.05, rep='0.3'),
-            row(1, 2, '1', 410, b('1', 410), alt('1', 410), 'NC_000001.11:g.410', 'c.9A>C', 'p.Ala3Pro', 1.8),
+            row(1, 2, '1', 410, b('1', 410), alt('1', 410), 'NC_000001.11:g.410', 'c.9A>C', 'p.Ala3Pro', 1.8, se=0),                  # some real score sets write se = 0 for every variant
             row(1, 3, '1', 420, b('1', 420), alt('1', 420), 'NC_000001.11:g.420', 'c.19A>C', 'p.Ala7Pro', 1.0),
             row(1, 4, '1', 440, wrong, 'T' if wrong != 'T' else 'G', 'NC_000001.11:g.440', 'c.39A>C', 'p.Ala13Pro', 0.9),
             row(1, 1, '1', 402, r402[0], r402[1], 'NC_000001.11:g.402', 'c.1' + r402[0] + '>' + r402[1], 'p.Val1Ile', 0.2),          # the same allele and accession again

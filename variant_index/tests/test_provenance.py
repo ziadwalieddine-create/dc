@@ -200,5 +200,24 @@ class TestProvenance(unittest.TestCase):
         self.assertNotIn('gnomad_v4_1_joint_regional', {d['target_id'] for d in r['digests'].values()})
 
 
+class TestDerivedTargets(unittest.TestCase):
+    """A target written from another acquired file has no URL of its own; its retrieval URL is that of the file it was extracted from."""
+
+    def issues(self, targets):
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, 'derived'), 'w') as f:
+                f.write('x')
+            rel = {'mavedb/derived@v1': dict(release_id='mavedb/derived@v1', target_id='derived', sha256='a' * 64, url='', licence='CC0')}
+            manifest = {'derived': dict(sha256='a' * 64, bytes=1, dest='derived')}
+            return [i['issue'] for i in provenance.check_releases(rel, manifest, targets, d)]
+
+    def test_the_url_comes_from_the_parent_and_only_from_a_parent_that_has_one(self):
+        parent = {'parent': dict(url='https://example.org/dump.tar.gz')}
+        self.assertEqual(self.issues({'derived': dict(licence='CC0', derived_from='parent'), **parent}), [])
+        self.assertEqual(self.issues({'derived': dict(licence='CC0'), **parent}), ['no_url'])                      # nothing says where it came from
+        self.assertEqual(self.issues({'derived': dict(licence='CC0', derived_from='missing')}), ['no_url'])        # the parent is not a target
+        self.assertEqual(self.issues({'derived': dict(licence='CC0', derived_from='parent'), 'parent': dict(url=None)}), ['no_url'])
+
+
 if __name__ == '__main__':
     unittest.main()

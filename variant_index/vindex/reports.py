@@ -95,7 +95,41 @@ def coverage(index_dir):
                 sub = t.filter(pc.equal(t['axis'], ax))
                 axes_variants[ax] = axes_variants.get(ax, 0) + len(pc.unique(sub['subject_id']))
         out['evidence']['variants_with_evidence_by_axis'] = axes_variants
+    out['lineage'] = lineage_sharing(index_dir)
     return out
+
+
+def lineage_sharing(index_dir):
+    """Lineage groups, and how many of them are written by more than one source. A group two databases share is one study or record seen through both: it counts once in the
+    independence tally. None when duckdb is not installed."""
+    try:
+        import duckdb
+    except ImportError:
+        return None
+    files = sorted(glob.glob(os.path.join(index_dir, 'evidence', '*', '*', '*.parquet')))
+    if not files:
+        return dict(groups=0, shared_between_sources=0, source_pairs={})
+    spill = tempfile.mkdtemp(prefix='vindex_duckdb_')
+    try:
+        con = duckdb.connect()
+        con.execute(f"PRAGMA temp_directory='{spill}'")
+        con.execute("SET memory_limit='4GB'")
+        con.execute(f"create view pairs as select distinct lineage_group, source_id from read_parquet({files!r}) where lineage_group is not null")
+        groups = con.execute("select count(distinct lineage_group) from pairs").fetchone()[0]
+        shared = con.execute("select count(*) from (select lineage_group from pairs group by 1 having count(*) > 1)").fetchone()[0]
+        rows = con.execute("select a.source_id, b.source_id, count(*) from pairs a join pairs b on a.lineage_group = b.lineage_group and a.source_id < b.source_id group by 1, 2 order by 3 desc").fetchall()
+        con.close()
+    finally:
+        shutil.rmtree(spill, ignore_errors=True)
+    return dict(groups=groups, shared_between_sources=shared, source_pairs={f'{a}|{b}': n for a, b, n in rows})
+
+
+# Text that a source uses for "no value". As a value in these columns it is a placeholder that was kept instead of dropped (found on the real index: '.' as a condition, 'NR' as
+# an ancestry and as a unit, 'n/a' as a review status). 'unknown' and 'not provided' are not here: ClinVar and the Catalog use them as real categories.
+MISSING_VALUE_MARKERS = ('', '.', '-', '--', '?', 'NR', 'NA', 'N/A', 'n/a', 'NaN', 'nan', 'None', 'none', 'null', 'NULL')
+MARKER_COLUMNS = ('condition_text', 'ancestry', 'score_unit', 'review_status', 'tissue', 'cell_type', 'model_system', 'inheritance', 'penetrance', 'curator', 'assertion_criteria', 'dose', 'perturbation')
+FLOAT_COLUMNS = ('claim_num', 'beta', 'se', 'ci_low', 'ci_high', 'odds_ratio', 'p_value', 'pip', 'score', 'eaf')
+INTERVAL_TOLERANCE = 0.001           # share of rows with an interval whose estimate may lie outside it: rounding and typing errors in the sources themselves
 
 
 def validate(index_dir, reference=None, sample_keys=50000):
@@ -115,9 +149,24 @@ def validate(index_dir, reference=None, sample_keys=50000):
     vocab = dict(level=schema.LEVELS, axis=tuple(schema.AXES), evidence_kind=schema.EVIDENCE_KINDS, effect_assertion=tuple(schema.EFFECT_ASSERTIONS), mapping_status=tuple(schema.MAPPING_STATUS))
     bad = Counter()
     n = 0
+    with_interval = outside_interval = 0
+    marker_set = pa.array(MISSING_VALUE_MARKERS, pa.string())
     for b in ds.to_batches():
         t = pa.Table.from_batches([b])
         n += t.num_rows
+        for col in MARKER_COLUMNS:
+            bad[f'{col}_is_a_missing_value_marker'] += int(pc.sum(pc.fill_null(pc.is_in(t[col], value_set=marker_set), False)).as_py() or 0)
+        for col in FLOAT_COLUMNS:
+            bad[f'{col}_not_finite'] += int(pc.sum(pc.fill_null(pc.or_(pc.is_nan(t[col]), pc.is_inf(t[col])), False)).as_py() or 0)
+        bad['eaf_outside_0_1'] += int(pc.sum(pc.fill_null(pc.or_(pc.less(t['eaf'], 0), pc.greater(t['eaf'], 1)), False)).as_py() or 0)
+        bad['standard_error_not_positive'] += int(pc.sum(pc.fill_null(pc.less_equal(t['se'], 0), False)).as_py() or 0)
+        bad['ci_low_above_ci_high'] += int(pc.sum(pc.fill_null(pc.greater(t['ci_low'], t['ci_high']), False)).as_py() or 0)
+        est = pc.coalesce(t['beta'], t['odds_ratio'])
+        both = pc.and_(pc.and_(pc.is_valid(est), pc.is_valid(t['ci_low'])), pc.is_valid(t['ci_high']))
+        slack = pc.add(pc.multiply(pc.subtract(t['ci_high'], t['ci_low']), 0.01), 1e-9)
+        away = pc.or_(pc.less(est, pc.subtract(t['ci_low'], slack)), pc.greater(est, pc.add(t['ci_high'], slack)))
+        with_interval += int(pc.sum(both).as_py() or 0)
+        outside_interval += int(pc.sum(pc.and_(both, pc.fill_null(away, False))).as_py() or 0)
         for col, allowed in vocab.items():
             bad[f'{col}_outside_vocabulary'] += int(pc.sum(pc.invert(pc.is_in(t[col], value_set=pa.array(allowed, pa.string())))).as_py() or 0)
         for col in ('evidence_id', 'source_id', 'release_id', 'accession', 'locator', 'raw_sha256', 'claim_type'):
@@ -143,6 +192,9 @@ def validate(index_dir, reference=None, sample_keys=50000):
     res['evidence_rows_checked'] = n
     for k, v in sorted(bad.items()):
         check(k, v)
+    # an estimate beside an interval that does not contain it (a signed beta next to the bounds of its magnitude, for one) is a defect; a handful in the sources' own data is not
+    check('estimate_outside_its_interval', max(0, outside_interval - int(INTERVAL_TOLERANCE * with_interval)),
+          dict(rows_with_estimate_and_interval=with_interval, outside=outside_interval, tolerated=int(INTERVAL_TOLERANCE * with_interval)))
     spill = tempfile.mkdtemp(prefix='vindex_duckdb_')                  # DuckDB spills to its working directory by default; keep that out of the repository
     try:
         import duckdb
@@ -261,6 +313,7 @@ def change_log(prev_dir, cur_dir):
                 releases=dict(added=sorted(set(ver_b) - set(ver_a)), removed=sorted(set(ver_a) - set(ver_b)),
                               reversioned={k: dict(previous=ver_a[k], current=ver_b[k]) for k in sorted(set(ver_a) & set(ver_b)) if ver_a[k] != ver_b[k]}),
                 adapters=dict(added=sorted(set(code_b) - set(code_a)), removed=sorted(set(code_a) - set(code_b)), code_changed=sorted(k for k in set(code_a) & set(code_b) if code_a[k] != code_b[k])),
+                build_code=dict(previous=a.get('build_code'), current=b.get('build_code'), changed=a.get('build_code') != b.get('build_code')),
                 tables={k: dict(previous=ta.get(k, {}).get('rows', 0), current=tb.get(k, {}).get('rows', 0), delta=tb.get(k, {}).get('rows', 0) - ta.get(k, {}).get('rows', 0))
                         for k in sorted(set(ta) | set(tb)) if ta.get(k, {}).get('rows', 0) != tb.get(k, {}).get('rows', 0)},
                 problems=dict(previous=a.get('problems'), current=b.get('problems')))

@@ -51,7 +51,7 @@ def compare(a_dir, b_dir, rehash=False):
                 only_in_first=sorted(f for t, f in ka - kb), only_in_second=sorted(f for t, f in kb - ka),
                 digest_differs=sorted(f for (t, f) in ka & kb if files_a[(t, f)] != files_b[(t, f)]),
                 releases_equal=ma['releases'] == mb['releases'], problems_equal=ma['problems'] == mb['problems'],
-                adapter_code_equal={x['adapter']: x['code_sha256_16'] for x in ma['adapters']} == {x['adapter']: x['code_sha256_16'] for x in mb['adapters']},
+                adapter_code_equal={x['adapter']: x['code_sha256_16'] for x in ma['adapters']} == {x['adapter']: x['code_sha256_16'] for x in mb['adapters']} and ma.get('build_code') == mb.get('build_code'),
                 rows_equal={k: v['rows'] for k, v in ma['tables'].items()} == {k: v['rows'] for k, v in mb['tables'].items()})
 
 

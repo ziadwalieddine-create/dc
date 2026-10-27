@@ -224,7 +224,7 @@ class CpicAdapter:
                 extra = json.dumps(dict(gene_specific=specific, combination_genes=genes, drug_recommendation=r.get('drugrecommendation'), population=r.get('population'),
                                         comments=r.get('comments'), dosing_information=r.get('dosinginformation'), alternate_drug_available=r.get('alternatedrugavailable'),
                                         other_prescribing_guidance=r.get('otherprescribingguidance'), guideline=g_info.get('name')), sort_keys=True, ensure_ascii=False)
-                kw = dict(curator='CPIC', lineage_group=f"cpic_guideline:{r['guidelineid']}", condition_ids=[r['drugid']], condition_text=g_info.get('name'), extra_json=extra, review_status=r.get('classification'))
+                kw = dict(curator='CPIC', lineage_group=f"cpic_guideline:{r['guidelineid']}", condition_ids=[r['drugid']], condition_text=g_info.get('name'), extra_json=extra, review_status=None if (r.get('classification') or '').strip().lower() in ('', 'n/a') else r.get('classification'))
                 common = (rel_rec, 'cpic', f"rec:{r['id']}:{g}", f"rec:{r['id']}", raw)
                 if gid:
                     ctx.emit_evidence(evidence_row(*common, 'gene', gid, 'clinical_validity_actionability', 'curated_expert_classification', 'cpic_drug_recommendation',

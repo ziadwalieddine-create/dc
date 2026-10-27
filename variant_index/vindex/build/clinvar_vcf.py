@@ -14,7 +14,7 @@ import os
 from ..normalise import normalise
 from .common import DATA, evidence_row
 from .genes import entity_id
-from .classes import effect_of, stars, unknown_tokens, STARS   # noqa: F401  (effect_of/STARS stay importable from here)
+from .classes import effect_of, review_label, stars, unknown_tokens, STARS   # noqa: F401  (effect_of/STARS stay importable from here)
 
 
 def parse_info(s):
@@ -34,14 +34,43 @@ def cond_ids(dis):
     return sorted(set(ids))
 
 
+ORIGIN_BITS = ((1, 'germline'), (2, 'somatic'), (4, 'inherited'), (8, 'paternal'), (16, 'maternal'), (32, 'de_novo'), (64, 'biparental'),
+               (128, 'uniparental'), (256, 'not_tested'), (512, 'tested_inconclusive'), (1073741824, 'other'))
+
+
 def origin_of(code):
+    """The ORIGIN bit sum as names. A bit the file header does not define stays visible as unrecognised_bit_<value>, not dropped."""
     try:
         v = int(code)
     except (TypeError, ValueError):
         return 'unknown'
-    names = [n for bit, n in ((1, 'germline'), (2, 'somatic'), (4, 'inherited'), (8, 'paternal'), (16, 'maternal'), (32, 'de_novo'), (64, 'biparental'),
-                              (128, 'uniparental'), (256, 'not_tested'), (512, 'tested_inconclusive')) if v & bit]
+    names = [n for bit, n in ORIGIN_BITS if v & bit]
+    rest = v & ~sum(bit for bit, _ in ORIGIN_BITS)
+    names += [f'unrecognised_bit_{1 << i}' for i in range(rest.bit_length()) if rest >> i & 1]
     return '+'.join(names) if names else 'unknown'
+
+
+def text_or_none(v):
+    """A VCF INFO string; the lone '.' is the file's marker for 'no value', not a value."""
+    return None if v in (None, '', '.') else v
+
+
+def gene_pairs(path=None):
+    """(NCBI Gene id, symbol) for every GENEINFO entry of the file: one pass over the INFO column, before any record is resolved."""
+    path = path or os.path.join(DATA, 'clinvar', 'clinvar.vcf.gz')
+    opener = gzip.open if path.endswith('.gz') else open
+    with opener(path, 'rt', encoding='utf-8') as f:
+        for line in f:
+            if line.startswith('#'):
+                continue
+            info = line.rstrip('\n').split('\t', 8)[7]
+            i = info.find('GENEINFO=')
+            if i < 0:
+                continue
+            for gi in info[i + 9:].split(';', 1)[0].split('|'):
+                sym, _, nid = gi.partition(':')
+                if nid:
+                    yield nid, sym
 
 
 class ClinVarVcfAdapter:
@@ -105,12 +134,14 @@ class ClinVarVcfAdapter:
                         st.inc(f'unrecognised_classification:{t}')
                     pre = {'CLNSIG': 'CLN', 'ONC': 'ONC', 'SCI': 'SCI'}[tag]
                     rev = info.get(pre + 'REVSTAT', '')
-                    scv = (info.get(pre + 'SCV') or info.get('CLNSIGSCV') or '') if tag != 'CLNSIG' else info.get('CLNSIGSCV', '')
-                    dn = info.get(pre + 'DN' if tag != 'CLNSIG' else 'CLNDN', '')
+                    if stars(rev) is None:
+                        st.inc(f'unrecognised_review_status:{rev or "absent"}')
+                    scv = info.get('CLNSIGSCV' if tag == 'CLNSIG' else pre + 'SCV', '')            # a row counts the submissions of its own classification only
+                    dn = text_or_none(info.get(pre + 'DN' if tag != 'CLNSIG' else 'CLNDN'))
                     dis = info.get(pre + 'DISDB' if tag != 'CLNSIG' else 'CLNDISDB', '')
                     row = evidence_row(release, 'clinvar', acc, locator, raw, 'variant', subject, 'clinical_validity_actionability', 'curated_expert_classification',
-                                       ctype, sig, effect_of(sig), mapping, reason, review_status=rev, review_stars=stars(rev), n_submitters=len([x for x in scv.split('|') if x]) or None,
-                                       condition_ids=cond_ids(dis), condition_text=dn.replace('_', ' '), lineage_group=lineage,
+                                       ctype, sig, effect_of(sig), mapping, reason, review_status=review_label(rev) or None, review_stars=stars(rev), n_submitters=len([x for x in scv.split('|') if x]) or None,
+                                       condition_ids=cond_ids(dis), condition_text=dn.replace('_', ' ') if dn else None, lineage_group=lineage,
                                        lineage_note='aggregate of ClinVar submissions (SCV); submitters may share cohorts', extra_json=json.dumps(extra, sort_keys=True), **{**common, **({'origin': origin_override} if origin_override else {})})
                     ctx.emit_evidence(row)
                 if not any(info.get(t) for t in ('CLNSIG', 'ONC', 'SCI')):

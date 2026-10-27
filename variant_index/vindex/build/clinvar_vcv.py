@@ -56,6 +56,16 @@ def num(s):
         return None
 
 
+def gene_pairs(root=None):
+    """(NCBI Gene id, symbol) for every gene the variation table names ('SYMBOL:NCBI id|...'), before any record is resolved."""
+    for f in sorted(glob.glob(os.path.join(root or VCV, 'variation', '*.parquet'))):
+        for text in pq.read_table(f, columns=['genes'])['genes'].to_pylist():
+            for tok in (text or '').split('|'):
+                sym, _, nid = tok.partition(':')
+                if nid:
+                    yield nid, sym
+
+
 def canon(row):
     """Canonical text of one complete source row: what raw_sha256 digests, so a verifier can recompute it from the locator."""
     return json.dumps(row, sort_keys=True, ensure_ascii=False, default=str)
