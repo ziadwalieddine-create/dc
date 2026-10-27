@@ -133,6 +133,19 @@ class TestHaplotypeRegionAndAssay(unittest.TestCase):
         self.assertEqual(status(index(haplotypes=[self.hap()], definitions=[dict(definition, variant_key='10:101:A:G')]), check), 'FAIL')
         self.assertEqual(status(index(haplotypes=[self.hap('*3')], definitions=[definition]), check), 'ABSENT')
 
+    def test_an_allele_defined_by_a_repeat_count_is_kept_as_unevaluable_and_nothing_else_passes_for_it(self):
+        check = dict(id='u', type='haplotype_unevaluable', gene_symbol='UGT1A1', allele_regex=r'^\*28$', reason='repeat_length_notation')
+        hap = dict(self.hap('*28'), gene_symbol='UGT1A1')
+        kept = dict(haplotype_id='h1', variant_key=None, hgvs='g.233760235TA[6]; g.233760235TA[7]', release_id='rel', definition_scope='unresolved:repeat_length_notation')
+        self.assertEqual(status(index(haplotypes=[hap], definitions=[kept]), check), 'PASS')
+        self.assertEqual(status(index(haplotypes=[hap], definitions=[kept]), dict(check, reason=None)), 'PASS')                             # any reason
+        self.assertEqual(status(index(haplotypes=[hap], definitions=[dict(kept, definition_scope='unresolved:other_reason')]), check), 'FAIL')
+        self.assertEqual(status(index(haplotypes=[hap], definitions=[dict(kept, variant_key=KEY, definition_scope='defining')]), check), 'FAIL')    # turned into a variant that does not define it
+        self.assertEqual(status(index(haplotypes=[hap], definitions=[]), check), 'FAIL')                                                  # allele kept, its definition dropped
+        self.assertEqual(status(index(haplotypes=[dict(hap, allele_name='*1')], definitions=[kept]), check), 'ABSENT')
+        bad = known_loci.validate_spec(spec(dict(id='u', type='haplotype_unevaluable', gene_symbol='UGT1A1')))
+        self.assertTrue(any('needs gene_symbol and allele_regex' in p for p in bad))
+
     def test_region_evidence_needs_overlap_kind_and_matching_rows(self):
         region = dict(region_id='r1', kind='clingen_dosage_region', chrom='22', start=100, end=500, name='x', gene_ids=None, release_id='rel')
         row = ev('clingen', 'r', 'haploinsufficiency_score', 'Sufficient evidence', subject='r1', level='region', axis='clinical_validity_actionability', claim_num=3.0)

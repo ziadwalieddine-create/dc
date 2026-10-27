@@ -368,6 +368,11 @@ def _known_loci(a):
     if not v['ok']:
         bad = [f"{l['id']}/{c['id']}: {c['status']} {c['observed']}" for l in v['loci'] for c in l['checks'] if c['status'] != 'PASS']
         raise AssertionError('; '.join(bad)[:900])
+    spec = jload(os.path.join(VI, 'known_loci.json'))
+    wanted = {(l['id'], c['id']) for l in spec['loci'] for c in l['checks']}
+    ran = {(l['id'], c['id']) for l in v['loci'] for c in l['checks']}
+    if wanted != ran:
+        raise AssertionError(f"the report was made from another version of known_loci.json ({len(wanted - ran)} checks of the spec are not in it, {len(ran - wanted)} checks of it are not in the spec); run verify_known_loci.py again")
     return f"{v['n_loci']} loci, {v['totals']['PASS']} checks, all pass"
 
 

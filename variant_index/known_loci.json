@@ -24,6 +24,17 @@
    ]
   },
   {
+   "id": "cftr_f508del",
+   "title": "CFTR rs113993960 (c.1521_1523delCTT, p.Phe508del)",
+   "basis": "The most common cystic fibrosis allele; a three-base deletion that has to be written as the left-anchored deletion ClinVar uses (ATCT to A at 117559590), and pathogenic in ClinVar with a practice-guideline review status. A test of indel normalisation as much as of the classification.",
+   "rsid": "rs113993960",
+   "key": "7:117559590:ATCT:A",
+   "checks": [
+    {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
+    {"id": "clinvar_pathogenic", "type": "evidence", "where": {"source_id": "clinvar", "axis": "clinical_validity_actionability"}, "regex": {"claim_value": "^pathogenic"}, "min_rows": 1}
+   ]
+  },
+  {
    "id": "serpina1_piz",
    "title": "SERPINA1 rs28929474 (the Z allele, p.Glu366Lys; legacy Glu342Lys)",
    "basis": "The common alpha-1 antitrypsin deficiency allele; pathogenic in ClinVar.",
@@ -168,6 +179,14 @@
    ]
   },
   {
+   "id": "ugt1a1_star28_repeat",
+   "title": "UGT1A1*28 (the promoter TA repeat, rs3064744 / rs8175347)",
+   "basis": "CPIC defines UGT1A1*28 by the number of TA repeats in the promoter (written g.233760235TA[7] and the neighbouring counts). A repeat count cannot be evaluated against single-base and indel records, so the index has to keep the allele and its definition as unresolved with that reason: neither dropped nor turned into a variant that does not define it.",
+   "checks": [
+    {"id": "kept_as_unevaluable_repeat_count", "type": "haplotype_unevaluable", "gene_symbol": "UGT1A1", "allele_regex": "^(?:UGT1A1)?\\*28$", "reason": "repeat_length_notation"}
+   ]
+  },
+  {
    "id": "vkorc1_rs9923231_warfarin",
    "title": "VKORC1 rs9923231 (-1639G>A) and warfarin dose",
    "basis": "The promoter variant that explains the largest share of warfarin dose variance; a CPIC guideline variant and a ClinPGx clinical annotation.",
@@ -176,6 +195,14 @@
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
     {"id": "pharmacogenomic_annotation_names_warfarin", "type": "evidence", "where": {"source_id": "pharmgkb"}, "text_regex": "warfarin", "min_rows": 1}
+   ]
+  },
+  {
+   "id": "tp53_gene_disease",
+   "title": "TP53 and Li-Fraumeni syndrome",
+   "basis": "ClinGen's gene-disease validity classification for TP53 and Li-Fraumeni syndrome is Definitive (Hereditary Cancer Gene Curation Expert Panel, 2024). This is gene-level evidence; it is not attached to any variant.",
+   "checks": [
+    {"id": "clingen_definitive", "type": "evidence", "subject": "gene", "gene_symbol": "TP53", "where": {"source_id": "clingen", "claim_type": "gene_disease_validity"}, "regex": {"claim_value": "^definitive$", "condition_text": "li-fraumeni"}, "min_rows": 1}
    ]
   },
   {
@@ -192,6 +219,14 @@
    "basis": "ClinGen's gene-disease validity classification for MYBPC3 and hypertrophic cardiomyopathy is Definitive.",
    "checks": [
     {"id": "clingen_definitive", "type": "evidence", "subject": "gene", "gene_symbol": "MYBPC3", "where": {"source_id": "clingen", "claim_type": "gene_disease_validity"}, "regex": {"claim_value": "^definitive$", "condition_text": "hypertrophic cardiomyopathy"}, "min_rows": 1}
+   ]
+  },
+  {
+   "id": "scn1a_haploinsufficiency",
+   "title": "SCN1A haploinsufficiency (Dravet syndrome)",
+   "basis": "ClinGen dosage sensitivity curation scores SCN1A haploinsufficiency 3 (sufficient evidence for dosage pathogenicity): loss-of-function variants and deletions of one copy cause Dravet syndrome. Gene-level evidence; it says nothing about any single missense allele.",
+   "checks": [
+    {"id": "haploinsufficiency_score_3", "type": "evidence", "subject": "gene", "gene_symbol": "SCN1A", "where": {"source_id": "clingen", "claim_type": "haploinsufficiency_score"}, "bounds": {"claim_num": [3, 3]}, "min_rows": 1}
    ]
   },
   {

@@ -12,6 +12,9 @@ A spec is a list of loci; each locus has a public fact (`basis`) and checks:
   orientation      the effect-allele orientation of association rows: rows whose effect allele is `risk_allele` must raise the risk (odds ratio above 1, or beta above 0) and rows
                    whose effect allele is `other_allele` must lower it, in at least `min_fraction` of the rows that carry an effect size
   haplotype_allele the star allele (or named allele) exists for the gene, and its definition includes the stated variant key
+  haplotype_unevaluable
+                   the allele exists for the gene and the index keeps it as a definition that cannot be evaluated against a callset (`definition_scope` unresolved:<reason>, for
+                   example a repeat-count notation), never silently dropped and never turned into a variant that does not define it
   region_evidence  a region of the stated kind overlaps the interval and carries evidence satisfying `where` / `regex`
   unmapped_evidence at least `min_rows` evidence rows that the index kept without a variant (mapping status and reason in `where`) under the author's identifier (`unmapped_key`) on
                    the chromosome's partition: records that cannot be placed are retained with their reason, never dropped
@@ -171,6 +174,24 @@ def check_haplotype_allele(index, locus, check):
     return _result(check, 'FAIL', f"alleles {names[:6]} of {check['gene_symbol']} exist but none is defined by {locus['key']}")
 
 
+def check_haplotype_unevaluable(index, locus, check):
+    haps = [h for h in index.haplotypes(gene_symbol=check['gene_symbol']) if re.search(check['allele_regex'], h.get('allele_name') or '', re.I)]
+    if not haps:
+        return _result(check, 'ABSENT', f"no allele of {check['gene_symbol']} matches {check['allele_regex']!r}")
+    defs = index.haplotype_definitions([h['haplotype_id'] for h in haps])
+    want = check.get('reason')
+    found = {}
+    for h in haps:
+        for d in defs.get(h['haplotype_id'], ()):
+            scope = d.get('definition_scope') or ''
+            if scope.startswith('unresolved:') and (not want or scope == 'unresolved:' + want):
+                found.setdefault(h['allele_name'], set()).add(scope)
+    if found:
+        return _result(check, 'PASS', '; '.join(f"{name}: {', '.join(sorted(scopes))}" for name, scopes in sorted(found.items())))
+    scopes = sorted({d.get('definition_scope') for h in haps for d in defs.get(h['haplotype_id'], ())})
+    return _result(check, 'FAIL', f"alleles {sorted({h['allele_name'] for h in haps})[:6]} of {check['gene_symbol']} exist but no definition is kept as unresolved{' for ' + want if want else ''} (scopes: {scopes[:6]})")
+
+
 def check_region_evidence(index, locus, check):
     regions = index.regions_overlapping(check['chrom'], check['start'], check['end'], check.get('kinds'))
     if not regions:
@@ -209,7 +230,7 @@ def check_assay_exists(index, locus, check):
 
 
 CHECKS = {'xref_key': check_xref_key, 'evidence': check_evidence, 'orientation': check_orientation, 'haplotype_allele': check_haplotype_allele,
-          'region_evidence': check_region_evidence, 'assay_exists': check_assay_exists, 'unmapped_evidence': check_unmapped_evidence}
+          'haplotype_unevaluable': check_haplotype_unevaluable, 'region_evidence': check_region_evidence, 'assay_exists': check_assay_exists, 'unmapped_evidence': check_unmapped_evidence}
 
 
 def validate_spec(spec):
@@ -236,7 +257,7 @@ def validate_spec(spec):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a gene check needs a gene_symbol")
             if c.get('type') == 'region_evidence' and not all(k in c for k in ('chrom', 'start', 'end')):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a region check needs chrom, start and end")
-            if c.get('type') == 'haplotype_allele' and not (c.get('gene_symbol') and c.get('allele_regex')):
+            if c.get('type') in ('haplotype_allele', 'haplotype_unevaluable') and not (c.get('gene_symbol') and c.get('allele_regex')):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a haplotype check needs gene_symbol and allele_regex")
             if c.get('type') == 'unmapped_evidence' and not (c.get('chrom') and c.get('unmapped_key')):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: an unmapped-evidence check needs chrom and unmapped_key")
