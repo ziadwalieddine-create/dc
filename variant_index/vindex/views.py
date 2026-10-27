@@ -228,7 +228,7 @@ def render_report(results_dir, top=25):
     c = run['counts']
     L = ['# Sample report', '',
          f"Run finished {run['finished_utc']} in {run['seconds']} s; sample `{run['input']['sample']}`, input `{os.path.basename(run['input']['path'])}` (sha256 {str(run['input'].get('sha256'))[:16] or 'not computed'}), "
-         f"index schema {run['index'].get('schema_version')}, code {str((run.get('code') or {}).get('commit'))[:8]}{' plus uncommitted changes in variant_index/' if (run.get('code') or {}).get('uncommitted_changes_in_variant_index') else ''}. Assembly check: {json.dumps(run['input']['assembly'].get('ok'))}.", '',
+         f"index schema {run['index'].get('schema_version')}, code {str((run.get('code') or {}).get('commit'))[:8]}{' plus uncommitted changes in variant_index/' if (run.get('code') or {}).get('uncommitted_changes_in_variant_index') else ''}{' (files under variant_index/ changed while the run was in progress)' if run.get('code_changed_during_run') else ''}. Assembly check: {json.dumps(run['input']['assembly'].get('ok'))}.", '',
          '## What was called and what the index said', '',
          f"{c['calls']:,} small-variant alleles with dosage above zero. Match status: " + ', '.join(f'{k} {v:,}' for k, v in sorted(c['by_status'].items(), key=lambda kv: -kv[1])) + '.',
          '`NO_INDEX_RECORD` means the index holds no record of the allele: that is absence from the index, not evidence of no effect. `FILTERED_CALL` is listed but its presence is not asserted. '

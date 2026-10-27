@@ -316,6 +316,26 @@ class TestWholeGenomeRun(unittest.TestCase):
             with open(os.path.join(out, 'report.md')) as f:
                 self.assertIn(expected, f.read())
 
+    def test_the_code_version_is_taken_when_the_run_starts_and_a_change_during_the_run_is_recorded(self):
+        states = iter([dict(commit='aaaa', uncommitted_changes_in_variant_index=False), dict(commit='aaaa', uncommitted_changes_in_variant_index=True)])
+        real, wgs.code_version = wgs.code_version, lambda repo_root: next(states)
+        try:
+            out = os.path.join(self.work, 'codeatstart')
+            man = wgs.run_sample(self.vcf, self.idx_dir, out, syn_reference(), repo_root=os.path.join(self.work, 'not_the_repo'))
+        finally:
+            wgs.code_version = real
+        self.assertEqual(man['code'], dict(commit='aaaa', uncommitted_changes_in_variant_index=False))
+        self.assertTrue(man['code_changed_during_run'])
+        self.assertFalse(self.man['code_changed_during_run'])
+        here = os.path.join(os.path.dirname(os.path.abspath(wgs.__file__)), '..')
+        self.assertEqual(self.man['code_files']['vindex/wgs.py'], wgs.sha256_file(os.path.join(here, 'vindex', 'wgs.py')))
+        for module in ('vindex/match_small.py', 'vindex/vcfio.py', 'vindex/normalise.py', 'vindex/index_reader.py'):
+            self.assertIn(module, self.man['code_files'])
+        self.assertFalse([k for k in self.man['code_files'] if k.startswith('tests/')])
+        views.write_views(out, Index.open(self.idx_dir))
+        with open(os.path.join(out, 'report.md')) as f:
+            self.assertIn('changed while the run was in progress', f.read())
+
     def test_the_catalogue_view_lists_the_high_value_variants_without_a_sample(self):
         out = os.path.join(self.work, 'catview')
         m = views.write_catalogue_views(Index.open(self.idx_dir), out)

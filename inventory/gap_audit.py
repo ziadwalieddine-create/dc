@@ -345,6 +345,35 @@ def _accounting(a):
     return f"{v.get('records', 0):,} records read; {m['counts']['calls']:,} small calls ({partial} read alleles carry no copy), {rows['sv_calls']:,} structural, {rows['rejected_calls']:,} rejected"
 
 
+@check('the sample run was made by committed code that has not changed since, against the index that is on disk now')
+def _run_provenance(a):
+    import hashlib
+    m = jload(need(os.path.join(a.results, 'run_manifest.json')))
+    code = m.get('code') or {}
+    if not code.get('commit'):
+        raise AssertionError('the run manifest names no commit')
+    if sh('git', 'cat-file', '-e', code['commit'] + '^{commit}')[0] != 0:
+        raise AssertionError(f"commit {code['commit'][:10]} of the run is not in this repository")
+    if code.get('uncommitted_changes_in_variant_index'):
+        raise AssertionError('the run was made with uncommitted changes in variant_index/')
+    if m.get('code_changed_during_run') is not False:
+        raise AssertionError(f"code_changed_during_run is {m.get('code_changed_during_run')!r}: files under variant_index/ changed during the run, or the manifest predates the field")
+    def sha(p):
+        with open(p, 'rb') as f:
+            return hashlib.sha256(f.read()).hexdigest()
+    files = m.get('code_files') or {}
+    if not files:
+        raise AssertionError('the run manifest holds no per-module digests; rerun the sample')
+    changed = sorted(k for k, d in files.items() if not os.path.exists(os.path.join(VI, k)) or sha(os.path.join(VI, k)) != d)
+    if changed:
+        raise AssertionError(f'{len(changed)} module(s) changed since the run (rerun the sample): {changed[:6]}')
+    for name in ('index_manifest.json', 'table_digests.json'):
+        recorded = (m.get('index') or {}).get(name + '_sha256')
+        if not recorded or recorded != sha(os.path.join(a.index, name)):
+            raise AssertionError(f'{name} of the index is not the one the run used')
+    return f"commit {code['commit'][:10]}, {len(files)} modules unchanged, index manifests identical"
+
+
 def run(a):
     out = []
     for name, fn in CHECKS:

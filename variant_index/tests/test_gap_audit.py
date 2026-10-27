@@ -45,8 +45,9 @@ class TestGapAudit(unittest.TestCase):
         saved = list(ga.CHECKS)
         try:
             ga.CHECKS[:] = [(n, f) for n, f in saved if n.startswith(('the built index passed validation', 'provenance:', 'a sample run agrees with bcftools', 'ClinVar-derived rows',
-                                                                      'every unresolved high-value locus', 'the sample run accounts'))]
-            self.assertEqual(len(ga.CHECKS), 6)
+                                                                      'every unresolved high-value locus', 'the sample run accounts', 'the sample run was made by committed code',
+                                                                      'every release that holds evidence rows', 'lineage keys are shared'))]
+            self.assertEqual(len(ga.CHECKS), 9)
             res = ga.run(self.args())
         finally:
             ga.CHECKS[:] = saved
@@ -69,6 +70,53 @@ class TestGapAudit(unittest.TestCase):
                 fn(self.args())
         finally:
             cr.load = real
+
+    def test_a_run_made_by_code_that_has_changed_or_against_another_index_is_a_failure(self):
+        import hashlib
+        import json
+        import shutil
+        import subprocess
+        import tempfile
+        ga = self.ga
+        fn = next(f for n, f in ga.CHECKS if n.startswith('the sample run was made by committed code'))
+        head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ga.ROOT, capture_output=True, text=True).stdout.strip()
+        if not head:
+            self.skipTest('not a git checkout')
+        work = tempfile.mkdtemp()
+        try:
+            idx, res = os.path.join(work, 'index'), os.path.join(work, 'results')
+            os.makedirs(idx)
+            os.makedirs(res)
+            sha = lambda b: hashlib.sha256(b).hexdigest()
+            for name in ('index_manifest.json', 'table_digests.json'):
+                with open(os.path.join(idx, name), 'w') as f:
+                    f.write('{}')
+            with open(os.path.join(ga.VI, 'vindex', 'wgs.py'), 'rb') as f:
+                wgs_sha = sha(f.read())
+            good = dict(code=dict(commit=head, uncommitted_changes_in_variant_index=False), code_changed_during_run=False, code_files={'vindex/wgs.py': wgs_sha},
+                        index={'index_manifest.json_sha256': sha(b'{}'), 'table_digests.json_sha256': sha(b'{}')})
+
+            def run(**change):
+                m = json.loads(json.dumps(good))
+                m.update(change)
+                with open(os.path.join(res, 'run_manifest.json'), 'w') as f:
+                    json.dump(m, f)
+                return fn(argparse.Namespace(index=idx, results=res, no_tests=True))
+            self.assertIn('1 modules unchanged', run())
+            for change, text in ((dict(code=dict(commit='0' * 40, uncommitted_changes_in_variant_index=False)), 'not in this repository'),
+                                 (dict(code=dict(commit=head, uncommitted_changes_in_variant_index=True)), 'uncommitted changes'),
+                                 (dict(code_changed_during_run=True), 'changed during the run'),
+                                 (dict(code_changed_during_run=None), 'changed during the run'),
+                                 (dict(code_files={}), 'no per-module digests'),
+                                 (dict(code_files={'vindex/wgs.py': '0' * 64}), 'vindex/wgs.py'),
+                                 (dict(code_files={'vindex/no_longer_exists.py': wgs_sha}), 'vindex/no_longer_exists.py'),
+                                 (dict(index={'index_manifest.json_sha256': '0' * 64, 'table_digests.json_sha256': sha(b'{}')}), 'index_manifest.json of the index')):
+                with self.subTest(text):
+                    with self.assertRaises(AssertionError) as cm:
+                        run(**change)
+                    self.assertIn(text, str(cm.exception))
+        finally:
+            shutil.rmtree(work, ignore_errors=True)
 
     def test_the_markdown_report_counts_every_outcome(self):
         ga = self.ga

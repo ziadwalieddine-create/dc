@@ -15,7 +15,7 @@ chromosome. Everything the sample's file says is accounted for in the output tab
   unresolved_loci     high-value indexed variants the sample cannot answer for (absent from a variant-only file, no-call, filtered, inside a structural call...),
                       each with the exact evidence that would settle it
   rejected_calls      alleles the reader refused (REF mismatch, unmapped contig...) with the reason
-  run_manifest.json   input digest, assembly check, index digests, counts, versions
+  run_manifest.json   input digest, assembly check, index digests, counts, versions, the commit and the SHA-256 of every module that produced the tables
 
 Personal calls are read from a local path and written to a local directory; nothing is transmitted and nothing here is meant to be committed.
 """
@@ -23,6 +23,7 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 import time
 from collections import Counter
 
@@ -136,6 +137,20 @@ def code_version(repo_root):
         return dict(commit=None, uncommitted_changes_in_variant_index=None)
 
 
+def loaded_code():
+    """{path relative to variant_index/: SHA-256} of the source of every vindex module (and the entry script) loaded in this process: the code that makes a run's tables, so a later
+    audit can tell whether any of it has changed since."""
+    root = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
+    out = {}
+    for mod in list(sys.modules.values()):
+        f = getattr(mod, '__file__', None)
+        if f and f.endswith('.py') and os.path.realpath(f).startswith(root + os.sep):
+            rel = os.path.relpath(os.path.realpath(f), root)
+            if not rel.startswith('tests' + os.sep):                                                # the tests of a unit-test process are not the matcher
+                out[rel] = sha256_file(f)
+    return dict(sorted(out.items()))
+
+
 def check_output_location(out_dir, repo_root):
     """Personal results are written under <repo>/data (git-ignored) or outside the repository, never inside the tracked tree."""
     out, repo = os.path.realpath(out_dir), os.path.realpath(repo_root)
@@ -191,6 +206,7 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
     check_output_location(out_dir, repo_root)
     os.makedirs(out_dir, exist_ok=True)
     t0 = time.time()
+    code, files_at_start = code_version(repo_root), loaded_code()                                   # the code is loaded now: the tree at the end of a long run may differ
     qc = qc or QCPolicy()
     index = Index.open(index_dir)
     W = {n: TableWriter(os.path.join(out_dir, f'{n}.parquet'), s) for n, s in SCHEMAS.items()}
@@ -283,11 +299,13 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
                                            applies_as='gene_level_context_only'))
     for w in W.values():
         w.close()
+    files_at_end = loaded_code()
+    changed = code_version(repo_root) != code or any(files_at_end.get(k) != v for k, v in files_at_start.items())
     manifest = dict(
         schema_version=SCHEMA_VERSION, finished_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), seconds=round(time.time() - t0, 1),
         input=dict(path=os.path.abspath(vcf), size_bytes=os.path.getsize(vcf), sha256=sha256_file(vcf) if hash_input else None, sample=sample_name, assembly=assembly,
                    callable_bed=os.path.abspath(callable_bed) if callable_bed else None, contigs=[c for c, _ in passes]),
-        qc_policy=vars(qc), index=index_provenance(index_dir), code=code_version(repo_root),
+        qc_policy=vars(qc), index=index_provenance(index_dir), code=code, code_files=files_at_end, code_changed_during_run=changed,
         rows={n: w.n for n, w in W.items()},
         counts=dict(calls=counts['calls'], by_status=dict(counts['by_status']), by_vtype=dict(counts['by_vtype']), matched_by_axis=dict(counts['matched_by_axis']),
                     matched_by_source=dict(counts['matched_by_source']), difficult_region_calls=counts['difficult_region_calls'], vcf=dict(counts['vcf_stats']),
