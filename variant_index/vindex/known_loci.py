@@ -13,7 +13,7 @@ A spec is a list of loci; each locus has a public fact (`basis`) and checks:
                    whose effect allele is `other_allele` must lower it, in at least `min_fraction` of the rows that carry an effect size
   haplotype_allele the star allele (or named allele) exists for the gene, and its definition includes the stated variant key
   region_evidence  a region of the stated kind overlaps the interval and carries evidence satisfying `where` / `regex`
-  assay_exists     at least `min_rows` assays (MaveDB score sets and other assays) target the gene
+  assay_exists     at least `min_rows` assays (MaveDB score sets and other assays) target the gene (found by its symbol through the gene table: assays name their target by gene id)
 
 A selection can also use `not_regex` (rows matching any of these patterns are excluded) and `list_any` ({column: values}: the list column holds at least one of the values).
 
@@ -67,7 +67,11 @@ def _result(check, status, observed, **extra):
 
 
 def _rsid_keys(index, rsid):
-    rows = index.filtered('xref', (pc.field('namespace') == 'dbsnp') & (pc.field('identifier') == rsid)).to_pylist()
+    cache = getattr(index, '_known_loci_xref', None)
+    if cache is not None and rsid in cache:
+        rows = cache[rsid]
+    else:
+        rows = index.filtered('xref', (pc.field('namespace') == 'dbsnp') & (pc.field('identifier') == rsid)).to_pylist()
     return rows, sorted({r['entity_id'] for r in rows if r['entity_level'] == 'variant'})
 
 
@@ -86,6 +90,9 @@ def check_xref_key(index, locus, check):
 
 
 def _variant_rows(index, key):
+    cache = getattr(index, '_known_loci_rows', None)
+    if cache is not None and key in cache:
+        return cache[key]
     return index.evidence_for_variants([key]).get(key, [])
 
 
@@ -172,10 +179,12 @@ def check_region_evidence(index, locus, check):
 
 
 def check_assay_exists(index, locus, check):
-    assays = [a for a in index.table('entity_assay').to_pylist() if re.search(check['target_gene_regex'], a.get('target_gene') or '', re.I)]
+    symbol = check['gene_symbol']
+    ids = {g['gene_id'] for g in index.filtered('entity_gene', pc.field('symbol') == symbol).to_pylist()}               # assays name their target by gene id
+    assays = [a for a in index.table('entity_assay').to_pylist() if a.get('target_gene') in ids or a.get('target_gene') == symbol]
     sources = sorted({a['source_id'] for a in assays})
     if not assays:
-        return _result(check, 'ABSENT', f"no assay targets {check['target_gene_regex']!r}")
+        return _result(check, 'ABSENT', f'no assay targets {symbol} ({len(ids)} gene id(s) carry that symbol)')
     return _result(check, 'PASS' if len(assays) >= check.get('min_rows', 1) else 'FAIL', f'{len(assays)} assay(s) from {", ".join(sources)}')
 
 
@@ -209,8 +218,8 @@ def validate_spec(spec):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a region check needs chrom, start and end")
             if c.get('type') == 'haplotype_allele' and not (c.get('gene_symbol') and c.get('allele_regex')):
                 problems.append(f"{locus.get('id')}/{c.get('id')}: a haplotype check needs gene_symbol and allele_regex")
-            if c.get('type') == 'assay_exists' and not c.get('target_gene_regex'):
-                problems.append(f"{locus.get('id')}/{c.get('id')}: an assay check needs target_gene_regex")
+            if c.get('type') == 'assay_exists' and not c.get('gene_symbol'):
+                problems.append(f"{locus.get('id')}/{c.get('id')}: an assay check needs a gene_symbol")
             if not c.get('id'):
                 problems.append(f"{locus.get('id')}: a check without an id")
             if c.get('type') == 'orientation' and not (c.get('risk_allele') and c.get('other_allele') and locus.get('key')):
@@ -220,18 +229,34 @@ def validate_spec(spec):
     return problems
 
 
+def _prefetch(index, spec):
+    """One read of the xref table and one of each chromosome partition for all the loci of the spec, instead of one scan per check (the index is tens of millions of rows)."""
+    rsids = sorted({l['rsid'] for l in spec['loci'] if l.get('rsid')})
+    keys = sorted({l['key'] for l in spec['loci'] if l.get('key')})
+    index._known_loci_xref = {rs: [] for rs in rsids}
+    if rsids:
+        for r in index.filtered('xref', (pc.field('namespace') == 'dbsnp') & pc.field('identifier').isin(rsids)).to_pylist():
+            index._known_loci_xref[r['identifier']].append(r)
+    found = index.evidence_for_variants(keys) if keys else {}
+    index._known_loci_rows = {k: found.get(k, []) for k in keys}
+
+
 def run(index, spec):
     problems = validate_spec(spec)
     if problems:
         raise ValueError('invalid known-locus spec: ' + '; '.join(problems))
     loci, totals = [], dict(PASS=0, FAIL=0, ABSENT=0)
-    for locus in spec['loci']:
-        results = []
-        for c in locus['checks']:
-            r = CHECKS[c['type']](index, locus, c)
-            totals[r['status']] += 1
-            results.append(r)
-        loci.append(dict(id=locus['id'], title=locus['title'], basis=locus['basis'], key=locus.get('key'), rsid=locus.get('rsid'), checks=results))
+    _prefetch(index, spec)
+    try:
+        for locus in spec['loci']:
+            results = []
+            for c in locus['checks']:
+                r = CHECKS[c['type']](index, locus, c)
+                totals[r['status']] += 1
+                results.append(r)
+            loci.append(dict(id=locus['id'], title=locus['title'], basis=locus['basis'], key=locus.get('key'), rsid=locus.get('rsid'), checks=results))
+    finally:
+        index._known_loci_xref = index._known_loci_rows = None
     return dict(ok=totals['FAIL'] == 0 and totals['ABSENT'] == 0, totals=totals, n_loci=len(loci), loci=loci)
 
 

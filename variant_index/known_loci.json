@@ -37,12 +37,12 @@
   {
    "id": "f5_leiden",
    "title": "F5 rs6025 (factor V Leiden, p.Arg534Gln; legacy Arg506Gln)",
-   "basis": "The common inherited thrombophilia allele; ClinVar records it as pathogenic (activated protein C resistance).",
+   "basis": "The common inherited thrombophilia allele at chr1:169,549,811 C>T (GRCh38). Its aggregate ClinVar classification is drug response (expert panel), not pathogenic, so only the position is a fact checked here; a first version of this spec expected 'pathogenic' and was corrected against the ClinVar VCF.",
    "rsid": "rs6025",
    "key": "1:169549811:C:T",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "clinvar_pathogenic", "type": "evidence", "where": {"source_id": "clinvar", "axis": "clinical_validity_actionability"}, "regex": {"claim_value": "pathogenic"}, "min_rows": 1}
+    {"id": "clinvar_records_the_allele", "type": "evidence", "where": {"source_id": "clinvar", "axis": "clinical_validity_actionability"}, "min_rows": 1}
    ]
   },
   {
@@ -53,8 +53,7 @@
    "key": "10:112998590:C:T",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "type (2|ii) diabetes"},
-     "not_regex": {"condition_text": "gestational|nephropathy|retinopathy|adjusted|response|age at"}, "risk_allele": "T", "other_allele": "C", "min_rows": 5, "min_fraction": 0.9}
+    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "type (2|ii) diabetes"}, "not_regex": {"condition_text": "gestational|nephropathy|retinopathy|adjusted|response|age at"}, "risk_allele": "T", "other_allele": "C", "min_rows": 5, "min_fraction": 0.9}
    ]
   },
   {
@@ -65,32 +64,73 @@
    "key": "19:44908684:T:C",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "alzheimer"},
-     "not_regex": {"condition_text": "biomarker|cerebrospinal|csf|age at|onset|survival|tau|amyloid|neuro|atrophy|volume|cognitive"}, "risk_allele": "C", "other_allele": "T", "min_rows": 3, "min_fraction": 0.9}
+    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "alzheimer"}, "not_regex": {"condition_text": "biomarker|cerebrospinal|csf|age at|onset|survival|tau|amyloid|neuro|atrophy|volume|cognitive"}, "risk_allele": "C", "other_allele": "T", "min_rows": 3, "min_fraction": 0.9}
    ]
   },
   {
-   "id": "fto_rs9939609_bmi",
-   "title": "FTO rs9939609: the A allele raises body mass index",
-   "basis": "The first obesity locus found by genome-wide association (about +0.4 kg/m2 per A allele).",
-   "rsid": "rs9939609",
-   "key": "16:53786615:T:A",
+   "id": "mc4r_rs17782313_bmi",
+   "title": "MC4R rs17782313: the C allele raises body mass index",
+   "basis": "A first-wave obesity locus near MC4R (about +0.05 SD of BMI per C allele); T/C is not a strand-ambiguous SNP, so the Catalog rows can be placed on the forward strand.",
+   "rsid": "rs17782313",
+   "key": "18:60183864:T:C",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "a_allele_raises_bmi", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "body mass index|obesity|\\bBMI\\b"},
-     "not_regex": {"condition_text": "adjusted|response|weight loss|intervention|change|smok|alcohol|physical activity|interaction|age at"}, "risk_allele": "A", "other_allele": "T", "min_rows": 5, "min_fraction": 0.9}
+    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "body mass index|obesity|\\bBMI\\b"}, "not_regex": {"condition_text": "adjusted|response|weight loss|intervention|change|smok|alcohol|physical activity|interaction|age at|inactiv"}, "risk_allele": "C", "other_allele": "T", "min_rows": 5, "min_fraction": 0.9}
    ]
   },
   {
-   "id": "chr9p21_rs1333049_cad",
-   "title": "9p21 rs1333049: the C allele raises coronary artery disease risk",
-   "basis": "The 9p21 locus is the most replicated common-variant locus for coronary artery disease; the C allele of rs1333049 is the risk allele.",
-   "rsid": "rs1333049",
-   "key": "9:22125503:G:C",
+   "id": "chr9p21_rs10757274_cad",
+   "title": "9p21 rs10757274: the G allele raises coronary artery disease risk",
+   "basis": "The 9p21 locus is the most replicated common-variant locus for coronary artery disease (odds ratio about 1.2-1.4 per G allele of rs10757274).",
+   "rsid": "rs10757274",
+   "key": "9:22096056:A:G",
    "checks": [
     {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
-    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "coronary|myocardial infarction"},
-     "not_regex": {"condition_text": "adjusted|response|age at|statin|calcif|stenosis|restenosis"}, "risk_allele": "C", "other_allele": "G", "min_rows": 3, "min_fraction": 0.9}
+    {"id": "g_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "coronary|myocardial infarction"}, "not_regex": {"condition_text": "adjusted|response|age at|statin|calcif|stenosis|restenosis|medication"}, "risk_allele": "G", "other_allele": "A", "min_rows": 3, "min_fraction": 0.9}
+   ]
+  },
+  {
+   "id": "pitx2_rs2200733_af",
+   "title": "4q25 rs2200733: the T allele raises atrial fibrillation risk",
+   "basis": "The strongest common-variant association with atrial fibrillation (odds ratio about 1.7 per T allele) near PITX2.",
+   "rsid": "rs2200733",
+   "key": "4:110789013:C:T",
+   "checks": [
+    {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
+    {"id": "t_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "atrial fibrillation"}, "not_regex": {"condition_text": "adjusted|response|age at|medication"}, "risk_allele": "T", "other_allele": "C", "min_rows": 2, "min_fraction": 0.9}
+   ]
+  },
+  {
+   "id": "chr8q24_rs6983267_cancer",
+   "title": "8q24 rs6983267: the G allele raises prostate and colorectal cancer risk",
+   "basis": "A replicated 8q24 risk locus for prostate and colorectal cancer (odds ratio about 1.2 per G allele); G/T is not strand-ambiguous.",
+   "rsid": "rs6983267",
+   "key": "8:127401060:G:T",
+   "checks": [
+    {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
+    {"id": "g_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "prostate cancer|colorectal cancer"}, "not_regex": {"condition_text": "adjusted|response|age at|survival|aggressive|medication"}, "risk_allele": "G", "other_allele": "T", "min_rows": 5, "min_fraction": 0.9}
+   ]
+  },
+  {
+   "id": "hla_drb1_rs3135388_ms",
+   "title": "HLA-DRB1 rs3135388: the A allele (the reference base) raises multiple sclerosis risk",
+   "basis": "The tag of HLA-DRB1*15:01, the strongest multiple sclerosis risk factor (odds ratio about 2-3 per A allele). The A allele is the GRCh38 reference base, so the effect allele is REF and the other allele is ALT: this tests the orientation when the effect allele is the reference.",
+   "rsid": "rs3135388",
+   "key": "6:32445274:A:G",
+   "checks": [
+    {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
+    {"id": "a_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "multiple sclerosis"}, "not_regex": {"condition_text": "adjusted|response|age at|protein|level|ratio|progression|severity"}, "risk_allele": "A", "other_allele": "G", "min_rows": 2, "min_fraction": 0.9}
+   ]
+  },
+  {
+   "id": "fto_rs1421085_obesity",
+   "title": "FTO rs1421085: the C allele raises body mass index and obesity risk",
+   "basis": "A lead variant of the FTO obesity locus (odds ratio about 1.4 per C allele for obesity); T/C is not strand-ambiguous. rs9939609, the better-known FTO variant, is A/T and strand-ambiguous: the index keeps its Catalog rows as rejected unless an allele frequency resolves the strand.",
+   "rsid": "rs1421085",
+   "key": "16:53767042:T:C",
+   "checks": [
+    {"id": "rsid_resolves_to_the_key", "type": "xref_key"},
+    {"id": "c_allele_raises_risk", "type": "orientation", "where": {"source_id": "gwas_catalog", "claim_type": "gwas_effect_size"}, "regex": {"condition_text": "body mass index|obesity|\\bBMI\\b"}, "not_regex": {"condition_text": "adjusted|response|weight loss|intervention|change|smok|alcohol|physical activity|interaction|age at"}, "risk_allele": "C", "other_allele": "T", "min_rows": 5, "min_fraction": 0.9}
    ]
   },
   {
@@ -140,9 +180,9 @@
   {
    "id": "brca1_gene_disease",
    "title": "BRCA1 and hereditary breast and ovarian cancer",
-   "basis": "ClinGen's gene-disease validity classification for BRCA1 and hereditary breast-ovarian cancer is Definitive. This is gene-level evidence; it is not attached to any variant.",
+   "basis": "ClinGen's gene-disease validity classification for BRCA1 and hereditary cancer predisposition (hereditary breast-ovarian cancer) is Definitive; the current ClinGen export labels the disease 'BRCA1-related cancer predisposition'. This is gene-level evidence; it is not attached to any variant.",
    "checks": [
-    {"id": "clingen_definitive", "type": "evidence", "subject": "gene", "gene_symbol": "BRCA1", "where": {"source_id": "clingen", "claim_type": "gene_disease_validity"}, "regex": {"claim_value": "^definitive$", "condition_text": "breast|ovarian"}, "min_rows": 1}
+    {"id": "clingen_definitive", "type": "evidence", "subject": "gene", "gene_symbol": "BRCA1", "where": {"source_id": "clingen", "claim_type": "gene_disease_validity"}, "regex": {"claim_value": "^definitive$", "condition_text": "cancer predisposition|breast|ovarian"}, "min_rows": 1}
    ]
   },
   {
@@ -166,8 +206,7 @@
    "title": "HTT CAG repeat (Huntington disease)",
    "basis": "The HTT exon 1 CAG repeat lies at chr4:3,074,876-3,074,933 (GRCh38); STRchive curates it as a pathogenic repeat locus for Huntington disease.",
    "checks": [
-    {"id": "strchive_locus_with_disease", "type": "region_evidence", "chrom": "4", "start": 3074880, "end": 3074930, "kinds": ["strchive_locus"], "where": {"claim_type": "strchive_disease_locus"},
-     "regex": {"claim_value": "huntington"}, "min_rows": 1}
+    {"id": "strchive_locus_with_disease", "type": "region_evidence", "chrom": "4", "start": 3074880, "end": 3074930, "kinds": ["strchive_locus"], "where": {"claim_type": "strchive_disease_locus"}, "regex": {"claim_value": "huntington"}, "min_rows": 1}
    ]
   },
   {
@@ -175,8 +214,7 @@
    "title": "FMR1 CGG repeat (fragile X syndrome)",
    "basis": "The FMR1 5' UTR CGG repeat lies at chrX:147,912,050-147,912,110 (GRCh38); STRchive curates it as a pathogenic repeat locus for fragile X syndrome.",
    "checks": [
-    {"id": "strchive_locus_with_disease", "type": "region_evidence", "chrom": "X", "start": 147912060, "end": 147912100, "kinds": ["strchive_locus"], "where": {"claim_type": "strchive_disease_locus"},
-     "regex": {"claim_value": "fragile|fmr1"}, "min_rows": 1}
+    {"id": "strchive_locus_with_disease", "type": "region_evidence", "chrom": "X", "start": 147912060, "end": 147912100, "kinds": ["strchive_locus"], "where": {"claim_type": "strchive_disease_locus"}, "regex": {"claim_value": "fragile|fmr1"}, "min_rows": 1}
    ]
   },
   {
@@ -184,8 +222,7 @@
    "title": "22q11.2 recurrent deletion (DiGeorge / velocardiofacial) region",
    "basis": "ClinGen dosage sensitivity curation: haploinsufficiency of the recurrent 22q11.2 region (which includes TBX1) has sufficient evidence for dosage pathogenicity (score 3).",
    "checks": [
-    {"id": "haploinsufficiency_score_3", "type": "region_evidence", "chrom": "22", "start": 19750000, "end": 19760000, "kinds": ["clingen_dosage_region", "clingen_recurrent_cnv"],
-     "where": {"source_id": "clingen", "claim_type": "haploinsufficiency_score"}, "bounds": {"claim_num": [3, 3]}, "min_rows": 1}
+    {"id": "haploinsufficiency_score_3", "type": "region_evidence", "chrom": "22", "start": 19750000, "end": 19760000, "kinds": ["clingen_dosage_region", "clingen_recurrent_cnv"], "where": {"source_id": "clingen", "claim_type": "haploinsufficiency_score"}, "bounds": {"claim_num": [3, 3]}, "min_rows": 1}
    ]
   },
   {
@@ -193,9 +230,9 @@
    "title": "MaveDB multiplexed assays of BRCA1, PTEN and TP53",
    "basis": "MaveDB holds published saturation-style assays for BRCA1, PTEN and TP53 (among the first deposited in the database).",
    "checks": [
-    {"id": "brca1_assay", "type": "assay_exists", "target_gene_regex": "^BRCA1$", "min_rows": 1},
-    {"id": "pten_assay", "type": "assay_exists", "target_gene_regex": "^PTEN$", "min_rows": 1},
-    {"id": "tp53_assay", "type": "assay_exists", "target_gene_regex": "^TP53$", "min_rows": 1}
+    {"id": "brca1_assay", "type": "assay_exists", "gene_symbol": "BRCA1", "min_rows": 1},
+    {"id": "pten_assay", "type": "assay_exists", "gene_symbol": "PTEN", "min_rows": 1},
+    {"id": "tp53_assay", "type": "assay_exists", "gene_symbol": "TP53", "min_rows": 1}
    ]
   }
  ]

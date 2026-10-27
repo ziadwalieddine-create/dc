@@ -142,12 +142,15 @@ class TestHaplotypeRegionAndAssay(unittest.TestCase):
         self.assertEqual(status(index([row], regions=[dict(region, start=1000, end=2000)]), check), 'ABSENT')
         self.assertEqual(status(index([row], regions=[dict(region, kind='strchive_locus')]), check), 'ABSENT')
 
-    def test_assays_are_found_by_their_target_gene(self):
-        assay = dict(assay_id='m1', source_id='mavedb', kind='dms', target_gene='BRCA1', model_system='HAP1', tissue_or_cell=None, perturbation=None, dose_context=None, readout='x',
+    def test_assays_are_found_by_the_gene_id_their_target_symbol_resolves_to(self):
+        gene = dict(gene_id='ENSG1', symbol='BRCA1', hgnc_id='', chrom='17', start=1, end=2, strand='-', mane_select='', biotype='protein_coding', release_id='rel')
+        assay = dict(assay_id='m1', source_id='mavedb', kind='dms', target_gene='ENSG1', model_system='HAP1', tissue_or_cell=None, perturbation=None, dose_context=None, readout='x',
                      score_direction=None, lineage_group='l', release_id='rel')
-        check = dict(id='a', type='assay_exists', target_gene_regex='^BRCA1$', min_rows=1)
-        self.assertEqual(status(index(assays=[assay]), check, key=None), 'PASS')
-        self.assertEqual(status(index(assays=[dict(assay, target_gene='PTEN')]), check, key=None), 'ABSENT')
+        check = dict(id='a', type='assay_exists', gene_symbol='BRCA1', min_rows=1)
+        self.assertEqual(status(index(assays=[assay], genes=[gene]), check, key=None), 'PASS')
+        self.assertEqual(status(index(assays=[dict(assay, target_gene='ENSG2')], genes=[gene]), check, key=None), 'ABSENT')
+        self.assertEqual(status(index(assays=[assay], genes=[dict(gene, symbol='OTHER')]), check, key=None), 'ABSENT')           # the symbol does not resolve to the assay's gene
+        self.assertEqual(status(index(assays=[dict(assay, target_gene='BRCA1')]), check, key=None), 'PASS')                      # an adapter that stores the symbol itself is found too
 
 
 class TestSpec(unittest.TestCase):
