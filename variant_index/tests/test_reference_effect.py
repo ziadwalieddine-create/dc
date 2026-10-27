@@ -1,4 +1,4 @@
-"""Evidence whose effect allele is the reference allele (about half of the GWAS Catalog's associations) is reached by a sample through a verified reference genotype as well as through an
+"""Evidence whose effect allele is the reference allele (a GWAS risk allele is often the reference allele) is reached by a sample through a verified reference genotype as well as through an
 alternate call. Without that the effect of such an allele would be reported for the people who carry the alternate allele and never for the people who carry two copies of the effect allele."""
 import os
 import shutil
