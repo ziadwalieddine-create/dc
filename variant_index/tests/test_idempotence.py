@@ -37,6 +37,7 @@ class TestIdempotence(unittest.TestCase):
             m = json.load(f)
         self.assertEqual(sorted(m['build_code']), ['files', 'sha256_16'])
         self.assertGreater(m['build_code']['files'], 10)
+        self.assertEqual(ci.compare(self.a, self.b)['build_code'], m['build_code'])                          # the report names the code it examined, so an audit can tie it to an index
         other = os.path.join(self.work, 'edited')
         shutil.copytree(self.b, other)
         m['build_code']['sha256_16'] = 'f' * 16                                              # e.g. classes.py edited between two builds: no adapter file differs

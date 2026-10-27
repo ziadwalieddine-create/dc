@@ -47,7 +47,7 @@ def compare(a_dir, b_dir, rehash=False):
     gone_a = {k for k, h in files_a.items() if h is None}
     gone_b = {k for k, h in files_b.items() if h is None}
     ka, kb = set(files_a) - gone_a, set(files_b) - gone_b
-    return dict(files=len(files_a), rehashed=rehash,
+    return dict(files=len(files_a), rehashed=rehash, build_code=ma.get('build_code'),
                 only_in_first=sorted(f for t, f in ka - kb), only_in_second=sorted(f for t, f in kb - ka),
                 digest_differs=sorted(f for (t, f) in ka & kb if files_a[(t, f)] != files_b[(t, f)]),
                 releases_equal=ma['releases'] == mb['releases'], problems_equal=ma['problems'] == mb['problems'],

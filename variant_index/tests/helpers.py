@@ -1,14 +1,31 @@
 """Shared test helpers: synthetic reference, VCF writer, bcftools discovery."""
+import atexit
 import os
 import shutil
 import subprocess
 import sys
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..'))
 sys.path.insert(0, ROOT)
 
 from vindex.refgenome import Reference  # noqa: E402
+
+# Test modules build indexes and source trees in directories made with tempfile.mkdtemp() at import time and keep them for the whole run, so no single test can remove them. Every
+# directory made while the tests run is removed when the interpreter exits (a full run used to leave about 20 MB in /tmp, which adds up on a small disk).
+_MADE_DIRS = []
+_mkdtemp = tempfile.mkdtemp
+
+
+def _tracked_mkdtemp(*args, **kwargs):
+    d = _mkdtemp(*args, **kwargs)
+    _MADE_DIRS.append(d)
+    return d
+
+
+tempfile.mkdtemp = _tracked_mkdtemp
+atexit.register(lambda: [shutil.rmtree(d, ignore_errors=True) for d in _MADE_DIRS])
 
 FIXTURES = os.path.join(HERE, 'fixtures')
 SYN_FASTA = os.path.join(FIXTURES, 'syn38.fa')

@@ -291,13 +291,66 @@ def _lineage(a):
     return f"{lin['shared_between_sources']:,} of {lin['groups']:,} groups are written by more than one source; GWAS Catalog and Open Targets share {pair:,}"
 
 
-@check('two builds from the same inputs with different hash seeds are byte-identical')
+BUILD_CODE_FIXED = ('__init__.py', 'normalise.py', 'refgenome.py', 'schema.py')
+
+
+def build_code_at(commit):
+    """(digest, number of files) of the build modules as committed at `commit`, computed the way vindex.build.runner.build_code computes it for the files on disk; None when a file is absent."""
+    import hashlib
+    pkg = 'variant_index/vindex'
+    rc, out, _ = sh('git', 'ls-tree', '--name-only', commit, pkg + '/build/')
+    if rc:
+        return None
+    rels = sorted(os.path.relpath(x, pkg) for x in out.splitlines() if x.endswith('.py')) + list(BUILD_CODE_FIXED)
+    h = hashlib.sha256()
+    for rel in rels:
+        r = subprocess.run(['git', 'show', f'{commit}:{pkg}/{rel}'], cwd=ROOT, capture_output=True)
+        if r.returncode:
+            return None
+        h.update(rel.encode() + b'\0')
+        h.update(hashlib.sha256(r.stdout).digest())
+    return h.hexdigest()[:16], len(rels)
+
+
+def commit_with_build_code(want, max_commits=None):
+    """The newest commit whose build modules have the digest `want` (HEAD first, then the commits that touched them), or None."""
+    paths = ['variant_index/vindex/build'] + ['variant_index/vindex/' + f for f in BUILD_CODE_FIXED]
+    rc, out, _ = sh('git', 'log', '--format=%H', '--', *paths)
+    candidates = ['HEAD'] + (out.splitlines() if rc == 0 else [])
+    for c in candidates[:max_commits]:
+        got = build_code_at(c)
+        if got and got[0] == want:
+            return c, got[1]
+    return None
+
+
+@check('two builds from the same inputs with different hash seeds are byte-identical, and they ran the code that built the index')
 def _idempotence(a):
     p = need(os.path.join(ROOT, 'data', 'idempotence', 'idempotence.json'))
     v = jload(p)
     if not v['identical']:
         raise AssertionError(json.dumps({k: v[k] for k in ('only_in_first', 'only_in_second', 'digest_differs')})[:600])
-    return f"{v['files']} files, limit {v['limit']} records per adapter"
+    examined = (v.get('build_code') or {}).get('sha256_16')
+    if not examined:
+        raise AssertionError('the idempotence report does not name the build code it examined (it predates that field); run check_idempotence.py again')
+    built_by = (jload(need(os.path.join(a.index, 'index_manifest.json'))).get('build_code') or {}).get('sha256_16')
+    if examined != built_by:
+        raise AssertionError(f'the idempotence check examined build code {examined} but the index was built by {built_by}; run check_idempotence.py again')
+    return f"{v['files']} files, limit {v['limit']} records per adapter, build code {built_by}"
+
+
+@check('the index was built by committed code: its build-code digest is that of the build modules at a commit of this history')
+def _index_code_committed(a):
+    m = jload(need(os.path.join(a.index, 'index_manifest.json')))
+    want = (m.get('build_code') or {}).get('sha256_16')
+    if not want:
+        raise AssertionError('the index manifest records no build_code (built by older code); rebuild the index')
+    found = commit_with_build_code(want)
+    if not found:
+        raise AssertionError(f'no commit of this history has the build modules with digest {want}: the index was built from uncommitted or unknown code')
+    commit, n = found
+    head = build_code_at('HEAD')
+    return f"commit {commit[:10] if commit != 'HEAD' else 'HEAD'} ({n} files)" + ('; HEAD has the same build modules' if head and head[0] == want else '; the build modules differ at HEAD')
 
 
 @check('ClinVar-derived rows of the index equal the ClinVar VCF as read by bcftools')

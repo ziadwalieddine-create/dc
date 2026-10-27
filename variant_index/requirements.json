@@ -79,7 +79,7 @@
       "id": "Q3",
       "section": "ACQUIRE",
       "clause": "Open Targets Platform variants, studies, credible sets, fine-mapping and colocalisation.",
-      "how": "Variant index, studies, credible sets (with posterior inclusion probabilities) and locus-to-gene scores are acquired and integrated; gene-level evidence (IMPC, constraint-like tables) is integrated separately.",
+      "how": "Studies, credible sets (with posterior inclusion probabilities) and locus-to-gene scores are acquired and integrated; gene-level evidence (IMPC, essentiality, CRISPR screens, gene burden) is integrated separately. The variant table is acquired and is used as the allele and frequency source that settles the orientation of GWAS Catalog effect alleles (alleles.py).",
       "code": [
         "variant_index/vindex/build/opentargets_genetics.py",
         "variant_index/vindex/build/opentargets_gene.py",
@@ -91,7 +91,7 @@
         "test_alleles"
       ],
       "status": "partial",
-      "gap": "The colocalisation datasets (15.4 GiB) are not downloaded."
+      "gap": "The colocalisation datasets (15.4 GiB) are not downloaded. The variant table's own annotations (7.9 million variants: consequences, predictor scores, population frequencies; 1.97 GB) are acquired and join-tested but no adapter writes them into the index, so the lifecycle report lists the target as not integrated."
     },
     {
       "id": "Q4",
@@ -505,7 +505,7 @@
       "id": "M10",
       "section": "MATCH",
       "clause": "Absence from a variant-only VCF never establishes reference genotype; resolve using gVCF/reference calls or targeted reads as needed.",
-      "how": "Reference is established only by gVCF blocks, a declared callable-region mask (with the all-variants assumption recorded in the basis) or read pileup; otherwise the locus is ABSENT_FROM_CALLSET with the exact missing evidence.",
+      "how": "Reference is established only by gVCF blocks or a declared callable-region mask (with the all-variants assumption recorded in the basis); otherwise the locus is ABSENT_FROM_CALLSET, NO_CALL or UNRESOLVED with the exact missing evidence, which names the gVCF block, the mask or read-level evidence that would settle it.",
       "code": [
         "variant_index/vindex/callability.py",
         "variant_index/vindex/match_small.py"
@@ -514,7 +514,8 @@
         "test_match_small",
         "test_wgs"
       ],
-      "status": "verified"
+      "status": "partial",
+      "gap": "No read-level resolver exists: reads (BAM / CRAM) cannot be pileup-checked or re-genotyped at a no-call, filtered or absent locus, because no reads exist in this environment and no read-level caller is part of the repository. Such loci stay unresolved with the evidence that would settle them."
     },
     {
       "id": "M11",
@@ -649,7 +650,7 @@
       "id": "D8",
       "section": "DELIVER",
       "clause": "Check provenance, preservation and idempotence; revalidate after source or schema changes.",
-      "how": "verify_index.py (provenance, with a resolver for every source), audit_existing.py --check (preservation), table digests compared across two builds that ran in separate processes (idempotence; the manifest records the digest of the build code), crosscheck_bcftools.py (ClinVar rows and sample calls against bcftools), compare_runs.py (two matcher runs of one input with different hash seeds, table by table), verify_known_loci.py (facts established outside the index: an rsID's position, the direction of an association, a classification, a star allele's defining variant, a curated gene or region assertion), reports.change_log between builds and reports.validate after every build.",
+      "how": "verify_index.py (provenance, with a resolver for every source), audit_existing.py --check (preservation), table digests compared across two builds that ran in separate processes (idempotence; the manifest records the digest of the build code), crosscheck_bcftools.py (ClinVar rows and sample calls against bcftools), compare_runs.py (two matcher runs of one input with different hash seeds, table by table), verify_known_loci.py (facts established outside the index: an rsID's position, the direction of an association, a classification, a star allele's defining variant, a curated gene or region assertion), reports.change_log between builds and reports.validate after every build; gap_audit.py ties the index to the commit whose build modules have the digest its manifest records and the idempotence report to that digest.",
       "code": [
         "variant_index/vindex/provenance.py",
         "variant_index/vindex/reports.py",

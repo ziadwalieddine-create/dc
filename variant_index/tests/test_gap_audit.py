@@ -47,8 +47,8 @@ class TestGapAudit(unittest.TestCase):
             ga.CHECKS[:] = [(n, f) for n, f in saved if n.startswith(('the built index passed validation', 'provenance:', 'a sample run agrees with bcftools', 'ClinVar-derived rows',
                                                                       'every unresolved high-value locus', 'the sample run accounts', 'the sample run was made by committed code',
                                                                       'every release that holds evidence rows', 'lineage keys are shared', 'facts established outside the index',
-                                                                      'the structural run on real calls', 'two matcher runs of one input'))]
-            self.assertEqual(len(ga.CHECKS), 12)
+                                                                      'the structural run on real calls', 'two matcher runs of one input', 'the index was built by committed code'))]
+            self.assertEqual(len(ga.CHECKS), 13)
             res = ga.run(self.args())
         finally:
             ga.CHECKS[:] = saved
@@ -117,6 +117,72 @@ class TestGapAudit(unittest.TestCase):
                         run(**change)
                     self.assertIn(text, str(cm.exception))
         finally:
+            shutil.rmtree(work, ignore_errors=True)
+
+    def test_the_digest_of_committed_build_modules_is_the_digest_the_runner_computes(self):
+        import subprocess
+        from vindex.build import runner
+        ga = self.ga
+        paths = ['variant_index/vindex/build'] + ['variant_index/vindex/' + f for f in ga.BUILD_CODE_FIXED]
+        r = subprocess.run(['git', 'status', '--porcelain', '--'] + paths, cwd=ga.ROOT, capture_output=True, text=True)
+        if r.returncode or r.stdout.strip():
+            self.skipTest('not a git checkout, or the build modules have uncommitted changes')
+        want = runner.build_code()
+        self.assertEqual(ga.build_code_at('HEAD'), (want['sha256_16'], want['files']))
+        self.assertEqual(ga.commit_with_build_code(want['sha256_16']), ('HEAD', want['files']))
+        self.assertIsNone(ga.build_code_at('0' * 40))
+
+    def test_an_index_built_by_code_that_is_in_no_commit_is_a_failure_and_the_idempotence_check_must_have_examined_the_same_code(self):
+        import json
+        import shutil
+        import subprocess
+        import tempfile
+        from vindex.build import runner
+        ga = self.ga
+        if subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ga.ROOT, capture_output=True).returncode:
+            self.skipTest('not a git checkout')
+        here = runner.build_code()['sha256_16']
+        work = tempfile.mkdtemp()
+        saved_root, saved_find = ga.ROOT, ga.commit_with_build_code
+        try:
+            idx = os.path.join(work, 'index')
+            os.makedirs(idx)
+            os.makedirs(os.path.join(work, 'data', 'idempotence'))
+
+            def write_manifest(code):
+                with open(os.path.join(idx, 'index_manifest.json'), 'w') as f:
+                    json.dump(dict(build_code=code) if code else {}, f)
+
+            def write_report(**kw):
+                with open(os.path.join(work, 'data', 'idempotence', 'idempotence.json'), 'w') as f:
+                    json.dump(dict(identical=True, files=3, limit=10, **kw), f)
+            committed = next(f for n, f in ga.CHECKS if n.startswith('the index was built by committed code'))
+            idem = next(f for n, f in ga.CHECKS if n.startswith('two builds from the same inputs'))
+            a = argparse.Namespace(index=idx, results=None, no_tests=True)
+            ga.commit_with_build_code = lambda want, max_commits=None: saved_find(want, max_commits=3)          # a search of the whole history is not needed to see a miss
+            write_manifest(None)
+            with self.assertRaises(AssertionError) as cm:
+                committed(a)
+            self.assertIn('records no build_code', str(cm.exception))
+            write_manifest(dict(sha256_16='f' * 16, files=24))
+            with self.assertRaises(AssertionError) as cm:
+                committed(a)
+            self.assertIn('uncommitted or unknown code', str(cm.exception))
+            write_manifest(dict(sha256_16=here, files=24))
+            self.assertIn('commit', committed(a))
+            ga.ROOT = work
+            write_report()
+            with self.assertRaises(AssertionError) as cm:
+                idem(a)
+            self.assertIn('predates that field', str(cm.exception))
+            write_report(build_code=dict(sha256_16='f' * 16, files=24))
+            with self.assertRaises(AssertionError) as cm:
+                idem(a)
+            self.assertIn('examined build code', str(cm.exception))
+            write_report(build_code=dict(sha256_16=here, files=24))
+            self.assertIn(here, idem(a))
+        finally:
+            ga.ROOT, ga.commit_with_build_code = saved_root, saved_find
             shutil.rmtree(work, ignore_errors=True)
 
     def test_the_markdown_report_counts_every_outcome(self):
