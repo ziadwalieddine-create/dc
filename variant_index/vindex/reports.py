@@ -115,7 +115,8 @@ def lineage_sharing(index_dir):
     try:
         con = duckdb.connect()
         con.execute(f"PRAGMA temp_directory='{spill}'")
-        con.execute("SET memory_limit='4GB'")
+        con.execute(f"SET memory_limit='{DUCKDB_MEMORY}'")
+        con.execute(f'SET threads={DUCKDB_THREADS}')
         con.execute(f"create view pairs as select distinct lineage_group, source_id from read_parquet({files!r}) where lineage_group is not null")
         groups = con.execute("select count(distinct lineage_group) from pairs").fetchone()[0]
         shared = con.execute("select count(*) from (select lineage_group from pairs group by 1 having count(*) > 1)").fetchone()[0]
@@ -138,8 +139,12 @@ def xref_coherence(index_dir):
     out = dict(identifiers=0, multi_position=0, multi_position_across_sources=0, multi_position_within_one_source=0, source_pairs={}, examples=[])
     if not files:
         return out
+    spill = tempfile.mkdtemp(prefix='vindex_duckdb_')
     con = duckdb.connect()
     try:
+        con.execute(f"PRAGMA temp_directory='{spill}'")
+        con.execute(f"SET memory_limit='{DUCKDB_MEMORY}'")
+        con.execute(f'SET threads={DUCKDB_THREADS}')
         con.execute(f"create view placed as select distinct identifier, relation, split_part(entity_id, ':', 1) || ':' || split_part(entity_id, ':', 2) as locus "
                     f"from read_parquet({files!r}) where namespace = 'dbsnp' and entity_level = 'variant'")
         out['identifiers'] = con.execute('select count(distinct identifier) from placed').fetchone()[0]
@@ -155,6 +160,7 @@ def xref_coherence(index_dir):
             out['examples'].append(dict(identifier=ident, placed={r: l for r, l in con.execute('select relation, string_agg(locus, \',\') from placed where identifier = ? group by 1', [ident]).fetchall()}))
     finally:
         con.close()
+        shutil.rmtree(spill, ignore_errors=True)
     return out
 
 
@@ -165,6 +171,10 @@ MARKER_COLUMNS = ('condition_text', 'ancestry', 'score_unit', 'review_status', '
 FLOAT_COLUMNS = ('claim_num', 'beta', 'se', 'ci_low', 'ci_high', 'odds_ratio', 'p_value', 'pip', 'score', 'eaf')
 INTERVAL_TOLERANCE = 0.001           # share of rows with an interval whose estimate may lie outside it: rounding and typing errors in the sources themselves
 
+
+# Reports must be able to run beside a whole-genome match (about 7 GB) on a 16 GB machine: DuckDB spills to disk beyond this instead of growing.
+DUCKDB_MEMORY = os.environ.get('VINDEX_DUCKDB_MEMORY', '4GB')
+DUCKDB_THREADS = int(os.environ.get('VINDEX_DUCKDB_THREADS', '2'))
 
 # (table, column) pairs of entity tables whose string cells must not hold a marker text for "no value" (an empty string is allowed in an entity attribute)
 ENTITY_MARKER_COLUMNS = (('entity_study', 'ancestry'), ('entity_study', 'cohorts'), ('entity_study', 'biosample'), ('entity_study', 'trait_text'), ('entity_assay', 'target_gene'),
@@ -189,7 +199,8 @@ def entity_checks(index_dir, check, note):
     con = duckdb.connect()
     try:
         con.execute(f"PRAGMA temp_directory='{spill}'")
-        con.execute("SET memory_limit='8GB'")
+        con.execute(f"SET memory_limit='{DUCKDB_MEMORY}'")
+        con.execute(f'SET threads={DUCKDB_THREADS}')
         have = {}
         for name in ('entity_variant', 'entity_event', 'entity_haplotype', 'entity_gene', 'entity_region', 'entity_study', 'entity_assay', 'xref', 'variant_gene', 'haplotype_definition', 'gene_set_member'):
             files = _table_files(index_dir, name)
@@ -308,7 +319,8 @@ def validate(index_dir, reference=None, sample_keys=50000):
         import duckdb
         con = duckdb.connect()
         con.execute(f"PRAGMA temp_directory='{spill}'")
-        con.execute("SET memory_limit='8GB'")
+        con.execute(f"SET memory_limit='{DUCKDB_MEMORY}'")
+        con.execute(f'SET threads={DUCKDB_THREADS}')
         ev = os.path.join(index_dir, 'evidence', '**', '*.parquet')
         dup = con.execute(f"select count(*) - count(distinct evidence_id) from read_parquet('{ev}', union_by_name=true)").fetchone()[0]
         check('evidence_id_not_unique', int(dup))
