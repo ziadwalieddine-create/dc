@@ -56,7 +56,7 @@ def ancestry_of(st):
     reported = sorted(a for a in sizes if a.strip().upper() not in NOT_REPORTED)
     if reported:
         return '; '.join(reported), sizes, 'discovery_samples'
-    ld = {x['ldPopulation']: round(x['relativeSampleSize'], 3) for x in (st.get('ldPopulationStructure') or ()) if x.get('ldPopulation')}
+    ld = {x['ldPopulation']: (round(x['relativeSampleSize'], 3) if x.get('relativeSampleSize') is not None else None) for x in (st.get('ldPopulationStructure') or ()) if x.get('ldPopulation')}
     return ('; '.join(sorted(ld)) or None), (ld or sizes), ('ld_population_structure' if ld else 'discovery_samples')
 
 

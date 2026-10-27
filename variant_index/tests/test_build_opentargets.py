@@ -46,6 +46,14 @@ class TestAncestry(unittest.TestCase):
         self.assertEqual(ancestry_of(dict(discoverySamples=[dict(ancestry='NR', sampleSize=7)])), (None, {'NR': 7}, 'discovery_samples'))
         self.assertEqual(ancestry_of(dict()), (None, {}, 'discovery_samples'))
 
+    def test_a_missing_relative_size_or_sample_size_is_kept_as_missing_not_a_crash(self):
+        # found by the full build: an LD population without a relative sample size (the fallback is reached for studies whose only reported ancestry is 'NR')
+        from vindex.build.opentargets_genetics import ancestry_of
+        names, sizes, basis = ancestry_of(dict(discoverySamples=[dict(ancestry='NR', sampleSize=None)], ldPopulationStructure=[dict(ldPopulation='nfe', relativeSampleSize=None), dict(ldPopulation='afr', relativeSampleSize=0.25)]))
+        self.assertEqual((names, sizes, basis), ('afr; nfe', {'nfe': None, 'afr': 0.25}, 'ld_population_structure'))
+        self.assertEqual(ancestry_of(dict(discoverySamples=[dict(ancestry='African', sampleSize=None)])), ('African', {'African': 0}, 'discovery_samples'))
+        self.assertEqual(ancestry_of(dict(discoverySamples=None, ldPopulationStructure=[dict(ldPopulation=None, relativeSampleSize=None)])), (None, {}, 'discovery_samples'))
+
 
 class TestOpenTargets(unittest.TestCase):
     @classmethod
