@@ -32,6 +32,7 @@ python3 variant_index/build_index.py                       # all adapters, in de
 python3 variant_index/verify_index.py                      # release linkage, manifest agreement, raw-record digests recomputed from the acquired files (vindex/resolvers.py holds one rule per source)
 python3 variant_index/make_reports.py --markdown variant_index/BUILD_REPORT.md   # coverage, validation, target lifecycle, shared lineage, gap report (+ --previous OLD for a change log)
 python3 variant_index/crosscheck_bcftools.py --clinvar-fields --out data/index/reports/clinvar_fields.json   # every ClinVar-VCF row of the index against the VCF read by bcftools (fields and normalised key)
+python3 variant_index/verify_known_loci.py                 # facts established outside the index (an rsID's position, the direction of an association, a classification, a star allele's defining variant, curated gene and region assertions) read back from it
 python3 variant_index/check_idempotence.py --limit 30000   # two builds in separate processes with different hash seeds; files, digests and the code that built them must be identical
 python3 variant_index/check_requirements.py                # every clause of the project goal mapped to code, tests and a status (REQUIREMENTS.md)
 python3 inventory/gap_audit.py                             # executable adversarial audit of the above (PHASE_AUDIT.md)
