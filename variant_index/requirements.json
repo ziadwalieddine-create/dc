@@ -204,22 +204,24 @@
       "id": "E1",
       "section": "EVIDENCE",
       "clause": "Link immutable source records to normalised entities.",
-      "how": "Every evidence row carries release_id, accession, locator and the SHA-256 of the raw record text. provenance.verify_index re-opens the acquired files, recomputes the digests of a deterministic sample per release and checks release linkage and manifest agreement.",
+      "how": "Every evidence row carries release_id, accession, locator and the SHA-256 of the raw record text. provenance.verify_index re-opens the acquired files, recomputes the digests of a deterministic sample of rows per release with one rule per source (vindex/resolvers.py), and checks release linkage and manifest agreement.",
       "code": [
         "variant_index/vindex/provenance.py",
-        "variant_index/verify_index.py"
+        "variant_index/verify_index.py",
+        "variant_index/vindex/resolvers.py"
       ],
       "tests": [
-        "test_provenance"
+        "test_provenance",
+        "test_resolvers"
       ],
       "status": "partial",
-      "gap": "Digest recomputation has resolvers for the ClinVar VCF and VCV tables, GWAS Catalog, gnomAD and the Ensembl MaveDB file and the ClinGen export; releases without a resolver are listed as such, not counted as verified."
+      "gap": "The digests are recomputed for a sample of 500 rows per release, not for every row. Entity rows (genes, studies, regions, events, haplotypes) carry the release of their source but not a per-row digest."
     },
     {
       "id": "E2",
       "section": "EVIDENCE",
       "clause": "Deduplicate identities, retain evidence.",
-      "how": "Variants have one normalised key; xref carries rsIDs and database identifiers; evidence ids are deterministic hashes, so a record seen twice is one row.",
+      "how": "Variants have one normalised key; xref carries rsIDs and database identifiers; evidence ids are deterministic hashes, so a record seen twice is one row. One NCBI Gene id resolves to one gene whichever of its ClinVar symbols a record carries (GeneMap.learn_ncbi_symbols); an unresolvable gene keeps its own namespaced identifier.",
       "code": [
         "variant_index/vindex/build/runner.py",
         "variant_index/vindex/build/common.py",
@@ -252,15 +254,22 @@
       "id": "E4",
       "section": "EVIDENCE",
       "clause": "Shared studies across databases are not independent replication.",
-      "how": "Rows that descend from one study share a lineage_group (for example pmid:<PMID> across GWAS Catalog, Open Targets and ClinVar); the per-axis summary counts independent lineages, not rows.",
+      "how": "Rows that descend from one study share a lineage_group: pmid:<PMID> across the GWAS Catalog, Open Targets, ClinPGx and MaveDB; clinvar:variation:<id> across the ClinVar aggregate, its submissions and the ClinGen expert-panel classification of that variation. The per-axis summary counts independent lineages, not rows, and reports.lineage_sharing lists the groups that more than one source writes.",
       "code": [
-        "variant_index/vindex/summary.py"
+        "variant_index/vindex/summary.py",
+        "variant_index/vindex/build/gwas.py",
+        "variant_index/vindex/build/clingen.py",
+        "variant_index/vindex/reports.py"
       ],
       "tests": [
         "test_summary",
-        "test_wgs"
+        "test_wgs",
+        "test_build_gwas",
+        "test_build_clingen",
+        "test_reports"
       ],
-      "status": "verified"
+      "status": "partial",
+      "gap": "Two sources that describe one record under different keys are not linked: the CPIC guidelines and ClinPGx's annotations of them (their identifiers are different ClinPGx objects), and a ClinGen classification whose file row names no ClinVar variation id. Their rows count as independent."
     },
     {
       "id": "E5",
@@ -296,7 +305,7 @@
       "id": "E7",
       "section": "EVIDENCE",
       "clause": "Retain effect alleles, beta/OR, units, uncertainty, p-values, sample metadata, inheritance, penetrance, germline/somatic context and review status when supplied.",
-      "how": "Dedicated evidence columns (effect_allele, other_allele, beta, odds_ratio, score_unit, se, ci_low, ci_high, p_value, pip, eaf, sample_size, n_cases, ancestry, inheritance, penetrance, origin, review_status, review_stars, n_submitters); source fields without a column go to extra_json.",
+      "how": "Dedicated evidence columns (effect_allele, other_allele, beta, odds_ratio, score_unit, se, ci_low, ci_high, p_value, pip, eaf, sample_size, n_cases, ancestry, inheritance, penetrance, origin, review_status, review_stars, n_submitters); source fields without a column go to extra_json. A source's marker for no value (., NR, n/a) is not kept as a value, a signed beta carries a signed interval, and non-finite numbers, frequencies outside [0,1] and non-positive standard errors are not stored as measurements; reports.validate checks all of these on every build.",
       "code": [
         "variant_index/vindex/schema.py"
       ],
@@ -304,7 +313,11 @@
         "test_build_gwas",
         "test_build_clinvar",
         "test_build_clinvar_vcv",
-        "test_build_clingen"
+        "test_build_clingen",
+        "test_reports",
+        "test_classes",
+        "test_build_mavedb",
+        "test_build_pgx"
       ],
       "status": "verified"
     },
@@ -585,7 +598,7 @@
       "id": "D5",
       "section": "DELIVER",
       "clause": "Manifests, coverage statistics, change log, validation and gap report.",
-      "how": "index_manifest.json and table_digests.json (build), reports.coverage / validate / lifecycle / change_log / gap_report through make_reports.py, run_manifest.json (per sample).",
+      "how": "index_manifest.json and table_digests.json (build, with the digest of the code that built it), reports.coverage / validate / lifecycle / change_log / gap_report through make_reports.py (coverage includes the lineage groups shared between sources; validate includes value-level checks), run_manifest.json (per sample).",
       "code": [
         "variant_index/vindex/reports.py",
         "variant_index/make_reports.py"
@@ -636,7 +649,7 @@
       "id": "D8",
       "section": "DELIVER",
       "clause": "Check provenance, preservation and idempotence; revalidate after source or schema changes.",
-      "how": "verify_index.py (provenance), audit_existing.py --check (preservation), table digests compared across two builds (idempotence), reports.change_log between builds and reports.validate after every build.",
+      "how": "verify_index.py (provenance, with a resolver for every source), audit_existing.py --check (preservation), table digests compared across two builds that ran in separate processes (idempotence; the manifest records the digest of the build code), crosscheck_bcftools.py (ClinVar rows and sample calls against bcftools), reports.change_log between builds and reports.validate after every build.",
       "code": [
         "variant_index/vindex/provenance.py",
         "variant_index/vindex/reports.py",
@@ -648,7 +661,9 @@
         "test_reports",
         "test_runner_guards",
         "test_idempotence",
-        "test_crosscheck"
+        "test_crosscheck",
+        "test_resolvers",
+        "test_genes"
       ],
       "status": "verified"
     },
@@ -658,10 +673,12 @@
       "clause": "Execute available non-destructive work; mark unavailable inputs and unimplemented modules; report only verified work.",
       "how": "reports.MODULES states implemented / partial / unimplemented / not_acquired / unavailable_input for every module and the gap report prints it; STATUS.md is written from test and run results.",
       "code": [
-        "variant_index/vindex/reports.py"
+        "variant_index/vindex/reports.py",
+        "variant_index/make_status.py"
       ],
       "tests": [
-        "test_reports"
+        "test_reports",
+        "test_make_status"
       ],
       "status": "verified"
     },
