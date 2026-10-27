@@ -248,6 +248,25 @@ def entity_checks(index_dir, check, note):
         shutil.rmtree(spill, ignore_errors=True)
 
 
+COMPLEMENT_SQL = "case {x} when 'A' then 'T' when 'T' then 'A' when 'C' then 'G' when 'G' then 'C' end"
+
+
+def gwas_allele_checks(con, index_dir, check, note):
+    """A GWAS Catalog row gives the risk allele as the authors wrote it, on whichever strand. The stored effect allele must be that allele, or its complement (a row reported on the
+    minus strand, or a palindromic site settled by an allele frequency). Anything else means the strand logic changed an allele it should have kept."""
+    files = sorted(glob.glob(os.path.join(index_dir, 'evidence', 'variant', '*', 'gwas_catalog.parquet')))
+    if not files:
+        return
+    con.execute(f"create view gwas_alleles as select split_part(subject_id, ':', 3) as ref, split_part(subject_id, ':', 4) as alt, effect_allele, other_allele, "
+                f"upper(regexp_extract(json_extract_string(extra_json, '$.risk_allele_reported'), '([^-]*)$', 1)) as reported, json_extract_string(extra_json, '$.flags') as flags "
+                f"from read_parquet({files!r}, union_by_name=true) where mapping_status = 'mapped' and effect_allele is not null and claim_type in ('gwas_association', 'gwas_effect_size')")
+    snv = "length(ref) = 1 and length(alt) = 1 and length(reported) = 1"
+    comp = COMPLEMENT_SQL.format(x='reported')
+    check('gwas_effect_allele_neither_the_reported_allele_nor_its_complement', int(con.execute(f"select count(*) from gwas_alleles where {snv} and effect_allele <> reported and effect_allele <> {comp}").fetchone()[0]))
+    check('gwas_other_allele_is_not_the_other_base_of_the_site', int(con.execute(f"select count(*) from gwas_alleles where {snv} and other_allele is not null and not ((effect_allele = ref and other_allele = alt) or (effect_allele = alt and other_allele = ref))").fetchone()[0]))
+    note('gwas_rows_whose_allele_was_complemented', int(con.execute(f"select count(*) from gwas_alleles where {snv} and effect_allele <> reported").fetchone()[0]))
+
+
 def validate(index_dir, reference=None, sample_keys=50000):
     """Checks that hold for every row: controlled vocabulary, mapped / unmapped consistency, key format, ranges. With a reference, the REF allele of a sample of keys
     is read back from the FASTA. With DuckDB available, evidence ids are checked for uniqueness and mapped subjects for existence."""
@@ -333,6 +352,7 @@ def validate(index_dir, reference=None, sample_keys=50000):
                 miss = con.execute(f"select count(*) from read_parquet('{os.path.join(index_dir, 'evidence', level, '**', '*.parquet')}', union_by_name=true) e where e.mapping_status = 'mapped' "
                                    f"and e.subject_id not in (select {col} from read_parquet('{tf}', union_by_name=true))").fetchone()[0]
                 check(f'mapped_{level}_subject_not_an_entity', int(miss))
+        gwas_allele_checks(con, index_dir, check, note)
         con.close()
         entity_checks(index_dir, check, note)
     except ImportError:

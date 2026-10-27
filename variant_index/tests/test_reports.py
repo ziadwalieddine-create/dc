@@ -130,6 +130,27 @@ class TestReports(unittest.TestCase):
         for name in ('variant_gene_gene_not_in_the_gene_table', 'gene_set_member_gene_not_in_the_gene_table'):
             self.assertNotIn(name, v['checks'])                                                            # reported, not failing
 
+    def test_a_gwas_effect_allele_must_be_the_reported_allele_or_its_complement(self):
+        from vindex.build.common import evidence_row
+
+        def row(n, key, effect, other, reported, flags=None):
+            return evidence_row('r', 'gwas_catalog', f'GCST{n}:rs{n}:t', f'L{n}', f'raw{n}', 'variant', key, 'association_replication', 'statistical_association', 'gwas_association', 't', 'effect',
+                                chrom='1', pos=int(key.split(':')[1]), effect_allele=effect, other_allele=other, extra_json=json.dumps(dict(risk_allele_reported=f'rs{n}-{reported}', flags=flags or [])))
+
+        def mutate(d):
+            rows = [row(1, '1:100:A:G', 'G', 'A', 'G'),                                    # as reported
+                    row(2, '1:200:A:G', 'G', 'A', 'C', ['allele_reported_on_minus_strand']),     # reported on the minus strand: the complement
+                    row(3, '1:300:A:T', 'T', 'A', 'A', ['strand_resolved_by_frequency']),        # a palindromic site settled by frequency: the complement of what was written
+                    row(4, '1:400:A:G', 'A', 'G', 'G'),                                    # neither the reported allele nor its complement: the logic changed an allele
+                    row(5, '1:500:A:G', 'G', 'T', 'G')]                                    # an other allele that is not the other base of the site
+            os.makedirs(os.path.join(d, 'evidence', 'variant', '1'), exist_ok=True)
+            pq.write_table(schema.rows_to_table('evidence', rows), os.path.join(d, 'evidence', 'variant', '1', 'gwas_catalog.parquet'))
+        v = self.damaged(mutate)
+        self.assertEqual(v['checks']['gwas_effect_allele_neither_the_reported_allele_nor_its_complement']['violations'], 1)
+        self.assertEqual(v['checks']['gwas_other_allele_is_not_the_other_base_of_the_site']['violations'], 1)
+        self.assertEqual(v['informational']['gwas_rows_whose_allele_was_complemented'], 3)                                     # rows 2, 3 and 4 differ from the reported letter
+        self.assertNotIn('gwas_effect_allele_neither_the_reported_allele_nor_its_complement', self.clean['checks'])             # an index without Catalog rows does not run it
+
     def test_the_minus_strand_is_not_a_missing_value_marker(self):
         # '-' is in the marker list for text columns; for a gene's strand it is a value (38,990 real genes)
         def mutate(d):
