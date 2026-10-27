@@ -371,7 +371,8 @@
         "test_wgs",
         "test_scale_paths",
         "test_other_contigs",
-        "test_intervals"
+        "test_intervals",
+        "test_odd_records"
       ],
       "status": "unavailable_input",
       "gap": "No personal 30x callset exists in this environment. The pipeline is verified on synthetic fixtures and on the public GIAB HG002 benchmark callset (not anyone's personal genome)."

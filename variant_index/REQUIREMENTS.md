@@ -100,7 +100,7 @@ verified 30, partial 12, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 | ID | Clause | Implementation | Tests | Status |
 |---|---|---|---|---|
-| M1 | Use 30x GRCh38 SNP/indel, CNV and SV calls. | `variant_index/vindex/vcfio.py`<br>`variant_index/vindex/wgs.py`<br>`variant_index/match_wgs.py`<br>`variant_index/vindex/index_reader.py`<br>`variant_index/vindex/intervals.py` | `test_vcfio`, `test_wgs`, `test_scale_paths`, `test_other_contigs`, `test_intervals` | **unavailable_input** |
+| M1 | Use 30x GRCh38 SNP/indel, CNV and SV calls. | `variant_index/vindex/vcfio.py`<br>`variant_index/vindex/wgs.py`<br>`variant_index/match_wgs.py`<br>`variant_index/vindex/index_reader.py`<br>`variant_index/vindex/intervals.py` | `test_vcfio`, `test_wgs`, `test_scale_paths`, `test_other_contigs`, `test_intervals`, `test_odd_records` | **unavailable_input** |
 | M2 | Reuse established normalisation, PGx and PGS tools. | `variant_index/vindex/normalise.py`<br>`variant_index/vindex/crosscheck.py`<br>`variant_index/vindex/pgs.py`<br>`variant_index/crosscheck_bcftools.py` | `test_normalise`, `test_crosscheck`, `test_pgs` | **partial** |
 | M3 | Validate assembly and REF alleles. | `variant_index/vindex/refgenome.py`<br>`variant_index/vindex/vcfio.py` | `test_vcfio`, `test_wgs` | **verified** |
 | M4 | Preserve genotype, phase and quality when normalising and splitting multiallelics. | `variant_index/vindex/vcfio.py`<br>`variant_index/vindex/normalise.py` | `test_vcfio`, `test_crosscheck` | **verified** |

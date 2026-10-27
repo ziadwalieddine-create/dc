@@ -227,7 +227,8 @@ def to_num(x):
 def claim_text(doc):
     if doc.startswith('latest:'):
         return latest_audit_entry()
-    return read_text(os.path.join(ROOT, doc))
+    p = os.path.join(ROOT, doc)
+    return read_text(p) if os.path.exists(p) else None
 
 
 def selftest_claims():
@@ -235,7 +236,7 @@ def selftest_claims():
     survivors = []
     for doc, rx, fn in CLAIMS:
         text = claim_text(doc)
-        m = re.search(rx, text, re.S | re.M)
+        m = re.search(rx, text, re.S | re.M) if text is not None else None
         if not m:
             continue
         a, b = m.span(1)
@@ -255,8 +256,11 @@ def check_claims():
     out = []
     for doc, rx, fn in CLAIMS:
         text = claim_text(doc)
-        m = re.search(rx, text, re.S | re.M)
+        m = re.search(rx, text, re.S | re.M) if text is not None else None
         rec = dict(doc=doc, pattern=rx)
+        if text is None:
+            out.append(dict(rec, status='FAIL', detail='the document does not exist'))
+            continue
         if not m:
             out.append(dict(rec, status='FAIL', detail='the text is no longer in the document'))
             continue
