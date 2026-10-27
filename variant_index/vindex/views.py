@@ -244,6 +244,27 @@ def structural_section(results_dir, load, top=25):
     return L
 
 
+def reference_allele_section(results_dir, counts):
+    """Report lines for the evidence whose effect allele is the reference allele: the indexed sites it concerns by what the sample says about them, and the links made at the
+    sites whose genotype is a verified reference. A variant-only file without a callable-region mask or reference blocks verifies none: every such site is then absent from the callset."""
+    sites = counts.get('reference_allele_effect_sites')
+    if not sites:
+        return []
+    t = pq.read_table(os.path.join(results_dir, 'evidence_links.parquet'), columns=['call_kind', 'call_id', 'source_id', 'effect_assertion'], filters=[('call_kind', '=', 'verified_reference')])
+    by = Counter(zip(t['source_id'].to_pylist(), t['effect_assertion'].to_pylist()))
+    L = ['## Evidence about the reference allele', '',
+         f"{sum(sites.values()):,} indexed single-nucleotide sites have evidence whose effect allele is the reference allele. A sample reaches such a row through an alternate call (its links state the "
+         "copies of the effect allele) or through a verified reference genotype (a gVCF reference block, or a callable-region mask with its stated assumption). What the sample says about those sites: "
+         + ', '.join(f'{k} {v:,}' for k, v in sorted(sites.items(), key=lambda kv: (-kv[1], kv[0]))) + '.', '',
+         f"{len(set(t['call_id'].to_pylist())):,} verified-reference sites are linked to {t.num_rows:,} rows (call_kind `verified_reference` in evidence_links.parquet; two copies of the effect allele on an "
+         "autosome, none stated elsewhere). A site the sample cannot answer for (absent from a variant-only file, no-call, filtered, inside a structural call, another allele called there) has no link; "
+         "it is listed as unresolved only when a high-value rule selects it.", '']
+    if by:
+        L += ['| Source | Assertion | Links |', '|---|---|---:|'] + [f'| {s} | {a} | {n:,} |' for (s, a), n in sorted(by.items(), key=lambda kv: (-kv[1], kv[0]))]
+        L.append('')
+    return L
+
+
 def render_report(results_dir, top=25):
     """report.md: what the run found, in the order the tables are produced. Views list the first `top` rows of their ordering; the full views are in views/*.parquet and
     every call is in small_calls.parquet. Written next to the results it summarises, so a sample's report stays where the sample's data are."""
@@ -273,6 +294,7 @@ def render_report(results_dir, top=25):
     for name, v in c['high_value_rules'].items():
         L.append(f"| `{name}` | " + ' | '.join(str(v.get(k, 0)) for k in cols) + ' |')
     L += ['', 'The rules are listed in run_manifest.json with their wording; they select rows, they do not rank them.', '']
+    L += reference_allele_section(results_dir, c)
     un = load('unresolved_loci.parquet')
     L += [f'## Unresolved high-value loci: {len(un):,}', '']
     if un:

@@ -131,6 +131,27 @@ class Index:
             rows.sort(key=lambda r: r['evidence_id'])
         return out
 
+    def reference_allele_effect_rows(self, partition):
+        """{variant_key: [evidence row dicts]} for the mapped variant-level rows of one partition whose stated effect allele is the reference allele of their single-nucleotide key: the
+        rows that a sample reaches through a verified reference genotype, not through an alternate call. Only the columns of an evidence link are read."""
+        cols = ['subject_id', 'evidence_id', 'level', 'axis', 'source_id', 'claim_type', 'effect_assertion', 'lineage_group', 'effect_allele', 'other_allele']
+        expr = pc.field('effect_allele').is_valid() & (pc.field('mapping_status') == 'mapped')
+        if self.root is not None and 'evidence' not in self._t:
+            t = self.filtered('evidence', expr, sub=os.path.join('variant', partition), columns=cols)
+        else:
+            t = self.filtered('evidence', expr & (pc.field('level') == 'variant'), columns=cols)
+        out = {}
+        for r in t.to_pylist():
+            parts = (r['subject_id'] or '').split(':')
+            if len(parts) != 4:
+                continue
+            chrom, _, ref, alt = parts
+            if schema.partition_of(chrom) == partition and len(ref) == 1 and len(alt) == 1 and r['effect_allele'] == ref:
+                out.setdefault(r['subject_id'], []).append(r)
+        for rows in out.values():
+            rows.sort(key=lambda r: r['evidence_id'])
+        return out
+
     def evidence_for(self, level, ids):
         ids = list(set(ids))
         if not ids:

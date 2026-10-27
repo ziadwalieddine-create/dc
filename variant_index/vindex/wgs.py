@@ -7,7 +7,10 @@ chromosome. Everything the sample's file says is accounted for in the output tab
                       region, multiallelic split), the per-axis summary of the variant-level evidence that matched, evidence ids, genes, region kinds.
                       A call with no index record is kept and says NO_INDEX_RECORD: absence from the index is not absence of effect.
   evidence_links      call -> evidence row, with the axis, source, assertion and lineage group of the row (the rows themselves stay in the index) and, for a small call, the effect
-                      allele the row states and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call)
+                      allele the row states and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call).
+                      A site whose genotype is a verified reference (call_kind verified_reference, call_id the indexed key, relation naming how the reference was verified) is linked
+                      to the rows whose effect allele is the reference allele: the sample carries two copies of it on an autosome, and none is stated for the sex chromosomes and
+                      the mitochondrion, where a verified reference does not record its ploidy
   gene_context        gene-level evidence for the genes that matched calls sit in, labelled gene_level_context_only: a gene's classification is never copied
                       onto the variants inside it
   sv_calls            every structural / copy-number call with equivalent events, the refused near-misses that matter (breakpoints, dosage, or covering at least half of the call; the
@@ -221,6 +224,26 @@ def link_rows(call_id, kind, rows, relation, call=None):
     return out
 
 
+AUTOSOMES = frozenset(schema.PRIMARY_CONTIGS) - {'X', 'Y', 'MT'}
+
+
+def reference_effect_copies(chrom):
+    """(copies of the reference allele that a sample carries at a site whose genotype is a verified reference, basis). A reference block or a callable region says that no haplotype
+    carries an alternate allele; how many haplotypes there are is the ploidy, which neither provider records. On an autosome it is two (a copy-number change is a structural call,
+    and a site inside one is unresolved, not a verified reference); on X, Y and the mitochondrion it depends on the sex and the cell, so no number is given."""
+    if chrom in AUTOSOMES:
+        return 2, 'reference_genotype_diploid_autosome'
+    return None, 'ploidy_of_a_verified_reference_not_recorded_outside_the_autosomes'
+
+
+def reference_link_rows(key, rows, reference_basis):
+    """Links from a site whose genotype is a verified reference to the evidence rows whose effect allele is the reference allele (Index.reference_allele_effect_rows)."""
+    copies, basis = reference_effect_copies(key.split(':', 1)[0])
+    return [dict(call_id=key, call_kind='verified_reference', evidence_id=r['evidence_id'], level=r['level'], axis=r['axis'], source_id=r['source_id'], claim_type=r['claim_type'],
+                 effect_assertion=r['effect_assertion'], lineage_group=r['lineage_group'], relation=f'verified_reference_genotype:{reference_basis}', effect_allele=r['effect_allele'],
+                 other_allele=r['other_allele'], effect_allele_dosage=copies, effect_allele_basis=basis) for r in rows]
+
+
 def genes_by_chrom(index):
     """{chromosome: [gene symbols]} for the star-allele systems in the index, placed by the chromosome of their defining variants; '' for genes with none."""
     haps = [h for h in index.haplotypes() if h['system'] not in NON_STAR_SYSTEMS and h.get('gene_symbol')]
@@ -256,7 +279,7 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
     index = Index.open(index_dir)
     W = {n: TableWriter(os.path.join(out_dir, f'{n}.parquet'), s) for n, s in SCHEMAS.items()}
     counts = dict(by_status=Counter(), by_vtype=Counter(), matched_by_axis=Counter(), matched_by_source=Counter(), difficult_region_calls=0, calls=0, per_chromosome={}, vcf_stats=Counter(),
-                  index_centric={r.name: Counter() for r in rules}, sv=Counter(), haplotypes=Counter(), repeats=Counter())
+                  index_centric={r.name: Counter() for r in rules}, sv=Counter(), haplotypes=Counter(), repeats=Counter(), reference_effect_sites=Counter())
     gene_hits = Counter()
     assembly, sample_name = None, sample
     placed = genes_by_chrom(index)
@@ -329,6 +352,14 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
             if st.status not in RESOLVED:
                 W['unresolved_loci'].add(dict(key=key, chrom=key.split(':')[0], pos=int(key.split(':')[1]), status=st.status, reasons=list(st.reasons), rules=hv['rules'], evidence_ids=hv['evidence_ids'],
                                               missing_evidence=missing_evidence(st), basis=st.basis, detail_json=jdump({k: v for k, v in (st.detail or {}).items() if k != 'missing_evidence'})))
+        # evidence about the reference allele: a sample with no alternate call at the site reaches it only through a verified reference genotype
+        part = schema.OTHER_PARTITION if chrom == OTHER_PASS else chrom
+        for key, rows in sorted(index.reference_allele_effect_rows(part).items(), key=lambda kv: (kv[0].split(':')[0], int(kv[0].split(':')[1]), kv[0])):
+            st = status_of(ctx, key)
+            counts['reference_effect_sites'][st.status] += 1
+            if st.status == 'VERIFIED_REFERENCE':
+                for r in reference_link_rows(key, rows, st.basis):
+                    W['evidence_links'].add(r)
         if progress:
             progress(chrom, counts['per_chromosome'][chrom])
         del cs, ctx
@@ -358,7 +389,7 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
         counts=dict(calls=counts['calls'], by_status=dict(counts['by_status']), by_vtype=dict(counts['by_vtype']), matched_by_axis=dict(counts['matched_by_axis']),
                     matched_by_source=dict(counts['matched_by_source']), difficult_region_calls=counts['difficult_region_calls'], vcf=dict(counts['vcf_stats']),
                     per_chromosome=counts['per_chromosome'], structural=dict(counts['sv']), haplotype_status=dict(counts['haplotypes']), repeat_status=dict(counts['repeats']),
-                    high_value_rules={n: dict(c) for n, c in counts['index_centric'].items()}),
+                    high_value_rules={n: dict(c) for n, c in counts['index_centric'].items()}, reference_allele_effect_sites=dict(counts['reference_effect_sites'])),
         rules={r.name: r.description for r in rules})
     with open(os.path.join(out_dir, 'run_manifest.json'), 'w') as f:
         json.dump(manifest, f, indent=1, sort_keys=True, default=str)

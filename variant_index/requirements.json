@@ -432,18 +432,20 @@
       "id": "M5",
       "section": "MATCH",
       "clause": "Match normalised CHROM:POS:REF:ALT, not rsIDs alone; preserve effect-allele orientation and reject unresolved strand mappings.",
-      "how": "Matching is by key only. GWAS rows whose strand cannot be resolved (palindromic or multiallelic sites) are rejected with the reason; effect and other alleles are stored with the row, and each link from a call to a row states the effect allele and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call, so the copies are the reference copies of the genotype, not ploidy minus dosage).",
+      "how": "Matching is by key only. GWAS rows whose strand cannot be resolved (palindromic or multiallelic sites) are rejected with the reason; effect and other alleles are stored with the row, and each link from a call to a row states the effect allele and how many copies of it the sample carries (a row about the reference allele reaches the sample through its alternate call, so the copies are the reference copies of the genotype, not ploidy minus dosage). A site whose genotype is a verified reference (gVCF block or callable region) is linked to the rows whose effect allele is the reference allele of a single-nucleotide key (call_kind verified_reference; two copies on an autosome, none stated on X, Y and the mitochondrion, where the providers do not record the ploidy); every such site is counted in the run manifest by what the sample says about it, and a site the sample cannot answer for, or at which another allele is called, has no link.",
       "code": [
         "variant_index/vindex/build/gwas.py",
         "variant_index/vindex/build/alleles.py",
         "variant_index/vindex/match_small.py",
-        "variant_index/vindex/wgs.py"
+        "variant_index/vindex/wgs.py",
+        "variant_index/vindex/index_reader.py"
       ],
       "tests": [
         "test_build_gwas",
         "test_alleles",
         "test_match_small",
-        "test_effect_alleles"
+        "test_effect_alleles",
+        "test_reference_effect"
       ],
       "status": "verified"
     },
