@@ -51,6 +51,16 @@ python3 variant_index/score_pgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE
 python3 variant_index/fetch_public_testset.py
 ```
 
+Reading the index from Python (the tables are Parquet; `Index` reads one chromosome partition at a time, so a query by key never loads the whole evidence table):
+
+```python
+import sys; sys.path.insert(0, 'variant_index')
+from vindex.index_reader import Index
+idx = Index.open('data/index')                                   # refuses an index written under another schema version
+idx.evidence_for_variants(['1:1000:A:G'])                         # {normalised key: [evidence rows]}; each row says what it asserts, on which axis, from which source record
+idx.table('entity_gene')                                          # any other table of SCHEMA.md
+```
+
 What each result table holds, and what every status means, is described in `vindex/wgs.py` and `SCHEMA.md`. A call with no index record stays in `small_calls` as
 `NO_INDEX_RECORD`; an indexed high-value allele the file cannot answer for is listed in `unresolved_loci` with the evidence that would settle it.
 
