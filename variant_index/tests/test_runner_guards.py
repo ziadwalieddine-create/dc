@@ -102,8 +102,8 @@ class Rows:
     """Emits mapped variant-level rows with a chosen chrom column, to exercise the filing guard and the streaming entity_variant build."""
     requires = ()
 
-    def __init__(self, source_id, specs, haplotype_keys=()):
-        self.source_id, self.specs, self.haplotype_keys = source_id, specs, haplotype_keys
+    def __init__(self, source_id, specs, haplotype_keys=(), link_keys=()):
+        self.source_id, self.specs, self.haplotype_keys, self.link_keys = source_id, specs, haplotype_keys, link_keys
 
     def run(self, ctx, limit=None):
         ctx.adapter = self
@@ -115,6 +115,8 @@ class Rows:
             ctx.emit_evidence(row)
         for k in self.haplotype_keys:
             ctx.emit('haplotype_definition', dict(haplotype_id='H1', variant_key=k, release_id=rel, definition_scope='defining'))
+        for k in self.link_keys:
+            ctx.emit('variant_gene', dict(variant_key=k, gene_id='ENSG1', relation='ot_l2g_lead_variant', consequence=None, release_id=rel))
         return {}
 
 
@@ -144,6 +146,11 @@ class TestEntityVariantStreaming(unittest.TestCase):
     def test_haplotype_definition_keys_without_variant_evidence_still_become_entities(self):
         out, _ = self.build([('1:20:G:T', '1')], haplotype_keys=('7:9:A:G',))
         self.assertEqual(self.keys_by_file(out), {'1.parquet': ['1:20:G:T'], '7.parquet': ['7:9:A:G']})
+
+    def test_a_variant_that_only_a_gene_link_names_is_an_entity_too(self):
+        # real data: 41,504 Open Targets lead variants were linked to genes (L2G) without being entities, so the link pointed at nothing
+        out, _ = self.build([('1:20:G:T', '1')], link_keys=('1:20:G:T', '12:44:C:A', 'X:9:A:G'))
+        self.assertEqual(self.keys_by_file(out), {'1.parquet': ['1:20:G:T'], '12.parquet': ['12:44:C:A'], 'X.parquet': ['X:9:A:G']})
 
     def test_an_index_without_variants_keeps_an_empty_valid_table(self):
         out, _ = self.build([])
