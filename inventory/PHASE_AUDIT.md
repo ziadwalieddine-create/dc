@@ -1,6 +1,6 @@
 # Phase gap audit
 
-Generated 2026-10-28T02:09:40Z by `inventory/gap_audit.py` (regenerate rather than edit). 28 pass, 0 fail, 0 skipped, 1 blocked.
+Generated 2026-10-28T02:41:12Z by `inventory/gap_audit.py` (regenerate rather than edit). 28 pass, 0 fail, 0 skipped, 1 blocked.
 
 PASS means the check ran and held. SKIP means an input this checkout does not hold was needed, so the check proves nothing here. BLOCKED means only a person outside the session can settle it.
 
@@ -13,7 +13,7 @@ PASS means the check ran and held. SKIP means an input this checkout does not ho
 | variant_index unit tests pass (including resource-warning errors) | **PASS** | 482 tests OK |
 | acquisition helper tests pass | **PASS** | Ran 17 tests |
 | every number the READMEs and the latest audit-log entry quote is recomputed and agrees | **PASS** | 35 pass, 0 skipped (data absent) |
-| scripts and files that the documentation tells a reader to run or open exist | **PASS** | 22 documents |
+| scripts and files that the documentation tells a reader to run or open exist | **PASS** | 25 documents |
 | catalogue records validate and every acquisition target is claimed by a source record | **PASS** | 54 source records valid; 173 acquisition targets; 277 evidence probes |
 | statements in the catalogue are traceable to stored evidence | **PASS** | 0 of 1254 text items contain tokens found in no stored evidence; 1 further items sit in fields the record lists as unverified |
 | NHGRI, Ensembl, 1000 Genomes and MaveDB assets are unchanged apart from documented exceptions | **PASS** | baseline files: 97 / missing: 0 / changed: 0 / documented exceptions: 1 / added: 0 |

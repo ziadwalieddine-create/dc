@@ -25,7 +25,7 @@ Run 1,374 s (commit `0e4dad0`, clean tree, code unchanged during the run). 4,095
 
 Checks of this run: bcftools recomputes the calls (4,095,610 on both sides, 0 differences) and the ClinVar evidence of the calls (45,260 keys on both sides, 0 differences); the verified-reference sites are recomputed from the index, the callable-region BED and bcftools (86,877 candidate sites, 82,003 inside the region, 44,363 with a record of the sample, 37,640 expected, 37,640 linked, 0 on either side only); two runs with hash seeds 1 and 777 on chromosomes 21 and 22 give byte-identical tables (8 tables) and equal manifests.
 
-Views over the 360,956 exact matches (`views/`, `report.md`): association 111,804; clinical effect 402; fine-mapped 272,320; functional effect 117; pharmacogenomic 1; conflicting evidence 1,133; several axes assert an effect 94,848. 10,306 traits named by effect-asserting evidence roll up into 25 therapeutic areas (363 identifiers are not in the ontology table); 2,266 pathways.
+Views over the 360,956 exact matches (the sample's `views/` directory and its report, `data/results/<sample>/report.md`): association 111,804; clinical effect 402; fine-mapped 272,320; functional effect 117; pharmacogenomic 1; conflicting evidence 1,133; several axes assert an effect 94,848. 10,306 traits named by effect-asserting evidence roll up into 25 therapeutic areas (363 identifiers are not in the ontology table); 2,266 pathways.
 
 ## Structural and copy-number calls, polygenic scores, alternate contigs
 

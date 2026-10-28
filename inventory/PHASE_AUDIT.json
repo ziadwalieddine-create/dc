@@ -37,7 +37,7 @@
  {
   "check": "scripts and files that the documentation tells a reader to run or open exist",
   "status": "PASS",
-  "detail": "22 documents"
+  "detail": "25 documents"
  },
  {
   "check": "catalogue records validate and every acquisition target is claimed by a source record",
