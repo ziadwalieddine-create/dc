@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check an index's provenance: release linkage, release records against the acquisition manifest, and raw-record digests recomputed from the acquired files.
 
-    python3 variant_index/verify_index.py [--index data/index] [--sample 500] [--rehash] [--out provenance_report.json]
+    python3 variant_index/verify_index.py [--index data/index] [--sample 50000] [--rehash] [--out provenance_report.json]
 
 Exit status 0 only when nothing is orphaned, every release record matches the manifest and every sampled record re-derives its stored digest. Releases without a
 resolver are listed (they are not counted as verified). --rehash also recomputes the SHA-256 of every acquired file up to 3 GB.
@@ -21,7 +21,7 @@ from vindex.build.common import OUT_DEFAULT                          # noqa: E40
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--index', default=OUT_DEFAULT)
-    ap.add_argument('--sample', type=int, default=500)
+    ap.add_argument('--sample', type=int, default=50000)
     ap.add_argument('--seed', type=int, default=0)
     ap.add_argument('--rehash', action='store_true')
     ap.add_argument('--out', help='write the report here (default: <index>/provenance_report.json)')

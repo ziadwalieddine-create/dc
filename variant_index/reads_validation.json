@@ -1,0 +1,981 @@
+{
+ "note": "Rates of vindex/reads.py against the GIAB HG002 GRCh38 v4.2.1 benchmark on public Illumina reads (Novoalign, 60x), by depth (fraction of the fragments kept). Positives are benchmark SNVs and indels in the confident regions; negatives are random alleles at random positions in them. Produced by validate_reads.py; see its docstring for what it does not show.",
+ "policy": {
+  "clip_slack": 2,
+  "flank": 2,
+  "max_allele_length": 50,
+  "max_clipped_fraction": 0.2,
+  "max_low_mapq_fraction": 0.25,
+  "max_reads": 100000,
+  "max_window": 140,
+  "min_alt_fraction": 0.2,
+  "min_alt_reads": 3,
+  "min_baseq": 20,
+  "min_depth": 10,
+  "min_mapq": 20
+ },
+ "reads_module_sha256": "c8280310c1ebdb4f492358011e9c08c8bb24e805e04125a3d201575effbf1354",
+ "runs": {
+  "full": {
+   "alternate_fraction_at_positives": {
+    "truth_alt_het": {
+     "median": 0.476,
+     "n": 799,
+     "q10": 0.367,
+     "q90": 0.578
+    },
+    "truth_alt_hom": {
+     "median": 1.0,
+     "n": 397,
+     "q10": 0.971,
+     "q90": 1.0
+    }
+   },
+   "by_truth": {
+    "truth_absent": {
+     "READS_INSUFFICIENT": 4,
+     "READS_REFERENCE_ONLY": 996
+    },
+    "truth_alt_het": {
+     "READS_ALTERNATE_PRESENT": 781,
+     "READS_AMBIGUOUS": 4,
+     "READS_INSUFFICIENT": 5,
+     "READS_OTHER_ALLELE_PRESENT": 9,
+     "READS_REFERENCE_ONLY": 1
+    },
+    "truth_alt_hom": {
+     "READS_ALTERNATE_PRESENT": 390,
+     "READS_INSUFFICIENT": 4,
+     "READS_OTHER_ALLELE_PRESENT": 6
+    }
+   },
+   "fraction": 1.0,
+   "indels_by_window_length": {
+    "truth_absent del": {
+     "window 8-12 bases": {
+      "READS_REFERENCE_ONLY": 53
+     },
+     "window <= 7 bases": {
+      "READS_REFERENCE_ONLY": 145
+     },
+     "window > 12 bases": {
+      "READS_INSUFFICIENT": 1,
+      "READS_REFERENCE_ONLY": 1
+     }
+    },
+    "truth_absent ins": {
+     "window 8-12 bases": {
+      "READS_REFERENCE_ONLY": 35
+     },
+     "window <= 7 bases": {
+      "READS_INSUFFICIENT": 1,
+      "READS_REFERENCE_ONLY": 163
+     },
+     "window > 12 bases": {
+      "READS_REFERENCE_ONLY": 1
+     }
+    },
+    "truth_alt_het del": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 54,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 28
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 113,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 2,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_het ins": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 42,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 1,
+      "READS_REFERENCE_ONLY": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 25,
+      "READS_OTHER_ALLELE_PRESENT": 4
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 121,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     }
+    },
+    "truth_alt_hom del": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 14,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 12,
+      "READS_INSUFFICIENT": 1
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 70,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_hom ins": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 26
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 26,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 43,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     }
+    }
+   },
+   "informative_fragments_at_snvs": {
+    "truth_absent": {
+     "median": 61,
+     "n": 600,
+     "q10": 46,
+     "q90": 78
+    },
+    "truth_alt_het": {
+     "median": 59,
+     "n": 400,
+     "q10": 43,
+     "q90": 75
+    },
+    "truth_alt_hom": {
+     "median": 56,
+     "n": 200,
+     "q10": 41,
+     "q90": 76
+    }
+   },
+   "rates": {
+    "truth_absent": {
+     "abstains": {
+      "ci95": [
+       0.0016,
+       0.0102
+      ],
+      "n": 4,
+      "rate": 0.004
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "claims": 996,
+      "n": 0,
+      "rate": 0.0
+     },
+     "loci": 1000,
+     "states": {
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0016,
+        0.0102
+       ],
+       "n": 4,
+       "rate": 0.004
+      },
+      "READS_REFERENCE_ONLY": {
+       "ci95": [
+        0.9898,
+        0.9984
+       ],
+       "n": 996,
+       "rate": 0.996
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.9898,
+       0.9984
+      ],
+      "n": 996,
+      "rate": 0.996
+     }
+    },
+    "truth_alt_het": {
+     "abstains": {
+      "ci95": [
+       0.0059,
+       0.0212
+      ],
+      "n": 9,
+      "rate": 0.0112
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.0069,
+       0.0231
+      ],
+      "claims": 791,
+      "n": 10,
+      "rate": 0.0126
+     },
+     "loci": 800,
+     "states": {
+      "READS_ALTERNATE_PRESENT": {
+       "ci95": [
+        0.9632,
+        0.9847
+       ],
+       "n": 781,
+       "rate": 0.9762
+      },
+      "READS_AMBIGUOUS": {
+       "ci95": [
+        0.0019,
+        0.0128
+       ],
+       "n": 4,
+       "rate": 0.005
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0027,
+        0.0145
+       ],
+       "n": 5,
+       "rate": 0.0063
+      },
+      "READS_OTHER_ALLELE_PRESENT": {
+       "ci95": [
+        0.0059,
+        0.0212
+       ],
+       "n": 9,
+       "rate": 0.0112
+      },
+      "READS_REFERENCE_ONLY": {
+       "ci95": [
+        0.0002,
+        0.007
+       ],
+       "n": 1,
+       "rate": 0.0013
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.9632,
+       0.9847
+      ],
+      "n": 781,
+      "rate": 0.9762
+     }
+    },
+    "truth_alt_hom": {
+     "abstains": {
+      "ci95": [
+       0.0039,
+       0.0254
+      ],
+      "n": 4,
+      "rate": 0.01
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.007,
+       0.0327
+      ],
+      "claims": 396,
+      "n": 6,
+      "rate": 0.0152
+     },
+     "loci": 400,
+     "states": {
+      "READS_ALTERNATE_PRESENT": {
+       "ci95": [
+        0.9546,
+        0.9864
+       ],
+       "n": 390,
+       "rate": 0.975
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0039,
+        0.0254
+       ],
+       "n": 4,
+       "rate": 0.01
+      },
+      "READS_OTHER_ALLELE_PRESENT": {
+       "ci95": [
+        0.0069,
+        0.0323
+       ],
+       "n": 6,
+       "rate": 0.015
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.9546,
+       0.9864
+      ],
+      "n": 390,
+      "rate": 0.975
+     }
+    }
+   },
+   "reads": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.60x.1.bam",
+   "seconds": 634.1,
+   "seed": 20261028
+  },
+  "half": {
+   "alternate_fraction_at_positives": {
+    "truth_alt_het": {
+     "median": 0.476,
+     "n": 798,
+     "q10": 0.333,
+     "q90": 0.625
+    },
+    "truth_alt_hom": {
+     "median": 1.0,
+     "n": 397,
+     "q10": 0.962,
+     "q90": 1.0
+    }
+   },
+   "by_truth": {
+    "truth_absent": {
+     "READS_AMBIGUOUS": 1,
+     "READS_INSUFFICIENT": 5,
+     "READS_REFERENCE_ONLY": 994
+    },
+    "truth_alt_het": {
+     "READS_ALTERNATE_PRESENT": 769,
+     "READS_AMBIGUOUS": 5,
+     "READS_INSUFFICIENT": 16,
+     "READS_OTHER_ALLELE_PRESENT": 9,
+     "READS_REFERENCE_ONLY": 1
+    },
+    "truth_alt_hom": {
+     "READS_ALTERNATE_PRESENT": 387,
+     "READS_INSUFFICIENT": 7,
+     "READS_OTHER_ALLELE_PRESENT": 6
+    }
+   },
+   "fraction": 0.5,
+   "indels_by_window_length": {
+    "truth_absent del": {
+     "window 8-12 bases": {
+      "READS_REFERENCE_ONLY": 53
+     },
+     "window <= 7 bases": {
+      "READS_REFERENCE_ONLY": 145
+     },
+     "window > 12 bases": {
+      "READS_INSUFFICIENT": 1,
+      "READS_REFERENCE_ONLY": 1
+     }
+    },
+    "truth_absent ins": {
+     "window 8-12 bases": {
+      "READS_REFERENCE_ONLY": 35
+     },
+     "window <= 7 bases": {
+      "READS_INSUFFICIENT": 2,
+      "READS_REFERENCE_ONLY": 162
+     },
+     "window > 12 bases": {
+      "READS_REFERENCE_ONLY": 1
+     }
+    },
+    "truth_alt_het del": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 54,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 28
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 107,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 8,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_het ins": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 42,
+      "READS_INSUFFICIENT": 2,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 24,
+      "READS_AMBIGUOUS": 1,
+      "READS_OTHER_ALLELE_PRESENT": 4
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 117,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 5,
+      "READS_OTHER_ALLELE_PRESENT": 1,
+      "READS_REFERENCE_ONLY": 1
+     }
+    },
+    "truth_alt_hom del": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 14,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 12,
+      "READS_INSUFFICIENT": 1
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 67,
+      "READS_INSUFFICIENT": 4,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_hom ins": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 26
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 26,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 43,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     }
+    }
+   },
+   "informative_fragments_at_snvs": {
+    "truth_absent": {
+     "median": 31,
+     "n": 600,
+     "q10": 22,
+     "q90": 41
+    },
+    "truth_alt_het": {
+     "median": 29,
+     "n": 400,
+     "q10": 20,
+     "q90": 39
+    },
+    "truth_alt_hom": {
+     "median": 28,
+     "n": 200,
+     "q10": 18,
+     "q90": 40
+    }
+   },
+   "rates": {
+    "truth_absent": {
+     "abstains": {
+      "ci95": [
+       0.0028,
+       0.013
+      ],
+      "n": 6,
+      "rate": 0.006
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "claims": 994,
+      "n": 0,
+      "rate": 0.0
+     },
+     "loci": 1000,
+     "states": {
+      "READS_AMBIGUOUS": {
+       "ci95": [
+        0.0002,
+        0.0056
+       ],
+       "n": 1,
+       "rate": 0.001
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0021,
+        0.0117
+       ],
+       "n": 5,
+       "rate": 0.005
+      },
+      "READS_REFERENCE_ONLY": {
+       "ci95": [
+        0.987,
+        0.9972
+       ],
+       "n": 994,
+       "rate": 0.994
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.987,
+       0.9972
+      ],
+      "n": 994,
+      "rate": 0.994
+     }
+    },
+    "truth_alt_het": {
+     "abstains": {
+      "ci95": [
+       0.0172,
+       0.0398
+      ],
+      "n": 21,
+      "rate": 0.0262
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.007,
+       0.0235
+      ],
+      "claims": 779,
+      "n": 10,
+      "rate": 0.0128
+     },
+     "loci": 800,
+     "states": {
+      "READS_ALTERNATE_PRESENT": {
+       "ci95": [
+        0.9455,
+        0.9726
+       ],
+       "n": 769,
+       "rate": 0.9613
+      },
+      "READS_AMBIGUOUS": {
+       "ci95": [
+        0.0027,
+        0.0145
+       ],
+       "n": 5,
+       "rate": 0.0063
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0123,
+        0.0322
+       ],
+       "n": 16,
+       "rate": 0.02
+      },
+      "READS_OTHER_ALLELE_PRESENT": {
+       "ci95": [
+        0.0059,
+        0.0212
+       ],
+       "n": 9,
+       "rate": 0.0112
+      },
+      "READS_REFERENCE_ONLY": {
+       "ci95": [
+        0.0002,
+        0.007
+       ],
+       "n": 1,
+       "rate": 0.0013
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.9455,
+       0.9726
+      ],
+      "n": 769,
+      "rate": 0.9613
+     }
+    },
+    "truth_alt_hom": {
+     "abstains": {
+      "ci95": [
+       0.0085,
+       0.0357
+      ],
+      "n": 7,
+      "rate": 0.0175
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.007,
+       0.0329
+      ],
+      "claims": 393,
+      "n": 6,
+      "rate": 0.0153
+     },
+     "loci": 400,
+     "states": {
+      "READS_ALTERNATE_PRESENT": {
+       "ci95": [
+        0.9452,
+        0.9809
+       ],
+       "n": 387,
+       "rate": 0.9675
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0085,
+        0.0357
+       ],
+       "n": 7,
+       "rate": 0.0175
+      },
+      "READS_OTHER_ALLELE_PRESENT": {
+       "ci95": [
+        0.0069,
+        0.0323
+       ],
+       "n": 6,
+       "rate": 0.015
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.9452,
+       0.9809
+      ],
+      "n": 387,
+      "rate": 0.9675
+     }
+    }
+   },
+   "reads": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.60x.1.bam",
+   "seconds": 542.7,
+   "seed": 20261028
+  },
+  "quarter": {
+   "alternate_fraction_at_positives": {
+    "truth_alt_het": {
+     "median": 0.471,
+     "n": 795,
+     "q10": 0.25,
+     "q90": 0.667
+    },
+    "truth_alt_hom": {
+     "median": 1.0,
+     "n": 394,
+     "q10": 1.0,
+     "q90": 1.0
+    }
+   },
+   "by_truth": {
+    "truth_absent": {
+     "READS_INSUFFICIENT": 105,
+     "READS_REFERENCE_ONLY": 895
+    },
+    "truth_alt_het": {
+     "READS_ALTERNATE_PRESENT": 696,
+     "READS_AMBIGUOUS": 18,
+     "READS_INSUFFICIENT": 79,
+     "READS_OTHER_ALLELE_PRESENT": 7
+    },
+    "truth_alt_hom": {
+     "READS_ALTERNATE_PRESENT": 379,
+     "READS_INSUFFICIENT": 15,
+     "READS_OTHER_ALLELE_PRESENT": 6
+    }
+   },
+   "fraction": 0.25,
+   "indels_by_window_length": {
+    "truth_absent del": {
+     "window 8-12 bases": {
+      "READS_INSUFFICIENT": 5,
+      "READS_REFERENCE_ONLY": 48
+     },
+     "window <= 7 bases": {
+      "READS_INSUFFICIENT": 25,
+      "READS_REFERENCE_ONLY": 120
+     },
+     "window > 12 bases": {
+      "READS_INSUFFICIENT": 2
+     }
+    },
+    "truth_absent ins": {
+     "window 8-12 bases": {
+      "READS_INSUFFICIENT": 6,
+      "READS_REFERENCE_ONLY": 29
+     },
+     "window <= 7 bases": {
+      "READS_INSUFFICIENT": 21,
+      "READS_REFERENCE_ONLY": 143
+     },
+     "window > 12 bases": {
+      "READS_REFERENCE_ONLY": 1
+     }
+    },
+    "truth_alt_het del": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 49,
+      "READS_INSUFFICIENT": 5,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 28
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 89,
+      "READS_AMBIGUOUS": 3,
+      "READS_INSUFFICIENT": 24,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_het ins": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 36,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 9
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 23,
+      "READS_AMBIGUOUS": 1,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 4
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 95,
+      "READS_AMBIGUOUS": 6,
+      "READS_INSUFFICIENT": 23,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_hom del": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 14,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 12,
+      "READS_INSUFFICIENT": 1
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 65,
+      "READS_INSUFFICIENT": 6,
+      "READS_OTHER_ALLELE_PRESENT": 1
+     }
+    },
+    "truth_alt_hom ins": {
+     "window 8-12 bases": {
+      "READS_ALTERNATE_PRESENT": 26
+     },
+     "window <= 7 bases": {
+      "READS_ALTERNATE_PRESENT": 26,
+      "READS_INSUFFICIENT": 1,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     },
+     "window > 12 bases": {
+      "READS_ALTERNATE_PRESENT": 38,
+      "READS_INSUFFICIENT": 5,
+      "READS_OTHER_ALLELE_PRESENT": 2
+     }
+    }
+   },
+   "informative_fragments_at_snvs": {
+    "truth_absent": {
+     "median": 15,
+     "n": 600,
+     "q10": 10,
+     "q90": 21
+    },
+    "truth_alt_het": {
+     "median": 15,
+     "n": 400,
+     "q10": 8,
+     "q90": 21
+    },
+    "truth_alt_hom": {
+     "median": 14,
+     "n": 200,
+     "q10": 8,
+     "q90": 21
+    }
+   },
+   "rates": {
+    "truth_absent": {
+     "abstains": {
+      "ci95": [
+       0.0875,
+       0.1255
+      ],
+      "n": 105,
+      "rate": 0.105
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.0,
+       0.0043
+      ],
+      "claims": 895,
+      "n": 0,
+      "rate": 0.0
+     },
+     "loci": 1000,
+     "states": {
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0875,
+        0.1255
+       ],
+       "n": 105,
+       "rate": 0.105
+      },
+      "READS_REFERENCE_ONLY": {
+       "ci95": [
+        0.8745,
+        0.9125
+       ],
+       "n": 895,
+       "rate": 0.895
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.8745,
+       0.9125
+      ],
+      "n": 895,
+      "rate": 0.895
+     }
+    },
+    "truth_alt_het": {
+     "abstains": {
+      "ci95": [
+       0.1004,
+       0.1457
+      ],
+      "n": 97,
+      "rate": 0.1212
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.0048,
+       0.0204
+      ],
+      "claims": 703,
+      "n": 7,
+      "rate": 0.01
+     },
+     "loci": 800,
+     "states": {
+      "READS_ALTERNATE_PRESENT": {
+       "ci95": [
+        0.8449,
+        0.8915
+       ],
+       "n": 696,
+       "rate": 0.87
+      },
+      "READS_AMBIGUOUS": {
+       "ci95": [
+        0.0143,
+        0.0353
+       ],
+       "n": 18,
+       "rate": 0.0225
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.08,
+        0.1214
+       ],
+       "n": 79,
+       "rate": 0.0988
+      },
+      "READS_OTHER_ALLELE_PRESENT": {
+       "ci95": [
+        0.0042,
+        0.018
+       ],
+       "n": 7,
+       "rate": 0.0088
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.8449,
+       0.8915
+      ],
+      "n": 696,
+      "rate": 0.87
+     }
+    },
+    "truth_alt_hom": {
+     "abstains": {
+      "ci95": [
+       0.0229,
+       0.0609
+      ],
+      "n": 15,
+      "rate": 0.0375
+     },
+     "contradicts_the_truth_among_claims": {
+      "ci95": [
+       0.0072,
+       0.0336
+      ],
+      "claims": 385,
+      "n": 6,
+      "rate": 0.0156
+     },
+     "loci": 400,
+     "states": {
+      "READS_ALTERNATE_PRESENT": {
+       "ci95": [
+        0.9211,
+        0.9654
+       ],
+       "n": 379,
+       "rate": 0.9475
+      },
+      "READS_INSUFFICIENT": {
+       "ci95": [
+        0.0229,
+        0.0609
+       ],
+       "n": 15,
+       "rate": 0.0375
+      },
+      "READS_OTHER_ALLELE_PRESENT": {
+       "ci95": [
+        0.0069,
+        0.0323
+       ],
+       "n": 6,
+       "rate": 0.015
+      }
+     },
+     "states_the_truth": {
+      "ci95": [
+       0.9211,
+       0.9654
+      ],
+      "n": 379,
+      "rate": 0.9475
+     }
+    }
+   },
+   "reads": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.60x.1.bam",
+   "seconds": 522.0,
+   "seed": 20261028
+  }
+ }
+}

@@ -514,17 +514,21 @@
       "id": "M10",
       "section": "MATCH",
       "clause": "Absence from a variant-only VCF never establishes reference genotype; resolve using gVCF/reference calls or targeted reads as needed.",
-      "how": "Reference is established only by gVCF blocks or a declared callable-region mask (with the all-variants assumption recorded in the basis); otherwise the locus is ABSENT_FROM_CALLSET, NO_CALL or UNRESOLVED with the exact missing evidence, which names the gVCF block, the mask or read-level evidence that would settle it.",
+      "how": "Reference is established only by gVCF blocks or a declared callable-region mask (with the all-variants assumption recorded in the basis); otherwise the locus is ABSENT_FROM_CALLSET, NO_CALL or UNRESOLVED with the exact missing evidence. With aligned reads (match_wgs.py --reads) the small variants a callset leaves open are also asked of the reads (vindex/reads.py): the fragments that carry the reference, the indexed alternate or another sequence over a window are counted after stated filters (mapping and base quality, flagged duplicates, one count per fragment), and the locus gets a read state beside the matcher status, never over it, with whether that settles the open question (the presence of the indexed allele, not its copy number or phase). The absence of alternate fragments is read as reference only at depth and when no caveat applies (soft-clipped reads ending at the site, a deletion over it, disagreeing mates, low-mapping-quality reads that dominate or look like the alternate). Checked on synthetic alignments (indel placements an aligner can choose, filters, caveats, CRAM, assembly refusal; a mutation check of the module) and on public HG002 reads against the GIAB benchmark (1,200 benchmark alleles and 1,000 random absent ones, at 60x, 30x and 15x; validate_reads.py, reads_validation.json).",
       "code": [
         "variant_index/vindex/callability.py",
-        "variant_index/vindex/match_small.py"
+        "variant_index/vindex/match_small.py",
+        "variant_index/vindex/reads.py",
+        "variant_index/validate_reads.py"
       ],
       "tests": [
         "test_match_small",
-        "test_wgs"
+        "test_wgs",
+        "test_reads",
+        "test_reads_run"
       ],
       "status": "partial",
-      "gap": "No read-level resolver exists: reads (BAM / CRAM) cannot be pileup-checked or re-genotyped at a no-call, filtered or absent locus, because no reads exist in this environment and no read-level caller is part of the repository. Such loci stay unresolved with the evidence that would settle them."
+      "gap": "No personal reads exist in this environment, so no personal locus has been settled by reads. The resolver tests the presence of the indexed allele; it is not a genotyper (no zygosity, copy number, phase or contamination model), it does not change the matcher status or the verified-reference links, it is tuned for short reads, and structural, copy-number and repeat-length loci are not asked of reads. Against the benchmark at 60x: 97.6% of 800 heterozygous and 97.5% of 400 homozygous benchmark alleles read as carried, 0 of 1,000 absent alleles read as carried, 16 of 1,187 claims at the benchmark alleles contradict it (a read haplotype that differs from the indexed allele because another variant lies beside it, or an insertion no read of the alignment shows); at 30x 96.1% and 96.8%, at 15x 87.0% and 94.8% (more abstentions). The benchmark covers its confident regions only, where reads are easier to place than elsewhere."
     },
     {
       "id": "M11",
@@ -575,7 +579,7 @@
       "id": "D3",
       "section": "DELIVER",
       "clause": "Trait and pathway views.",
-      "how": "views.trait_view groups matched evidence by the sources' condition identifiers (every one spelled PREFIX:LOCAL by the build) and views.trait_rollup rolls the traits up through the Open Targets disease and phenotype ontology table (ancestors and therapeutic areas; a trait in several areas is counted in each); pathway_view groups by Reactome gene-set membership; all three are annotation over the complete tables and none changes or combines evidence.",
+      "how": "views.trait_view groups matched evidence by the sources' condition identifiers (every one spelled PREFIX:LOCAL by the build) and views.trait_rollup rolls the traits up through the Open Targets disease and phenotype ontology table (ancestors and therapeutic areas; a trait in several areas is counted in each). An id the table does not hold is placed through the terms that list it as a cross-reference (a MedGen concept through the UMLS cross-reference, OMIM, MeSH, Orphanet; the prefix is part of the match) or that replace it when it is a retired term; the mapping is kept (cross_referenced: the terms, how, whether it is many-to-one, in which case the trait is counted in the areas of every term) and a cross-reference groups without asserting that two concepts are the same. pathway_view groups by Reactome gene-set membership; all three are annotation over the complete tables and none changes or combines evidence.",
       "code": [
         "variant_index/vindex/views.py",
         "variant_index/vindex/build/pathways.py",
@@ -583,11 +587,12 @@
       ],
       "tests": [
         "test_wgs",
+        "test_rollup",
         "test_build_pathways",
         "test_build_regions"
       ],
       "status": "partial",
-      "gap": "Trait identifiers that the Open Targets ontology table does not hold (MedGen, OMIM, MeSH, GeneReviews, ClinVar's Gene ids and a few retired terms) are listed as not rolled up and stay as the sources wrote them (363 of 10,306 traits in the HG002 run); no mapping between ontologies is made (a MedGen disease is not matched to its MONDO term)."
+      "gap": "Trait identifiers that no term of the Open Targets ontology table holds, lists as a cross-reference or replaces (MedGen concepts and OMIM ids the table does not list, retired EFO, MONDO and HP terms without a replacement, GeneReviews) are listed as not rolled up and stay as the sources wrote them: 203 of the 10,306 traits of the HG002 run (81 MedGen, 36 EFO, 28 HP, 27 OMIM, 21 MONDO, 4 Orphanet, 3 MeSH, 2 GeneReviews, 1 PATO); another 160 are placed through a cross-reference or a retired-term link (8 of them to more than one term), 9,943 through their own term. No other ontology mapping is made (a MedGen disease is not matched to a MONDO term by name)."
     },
     {
       "id": "D4",

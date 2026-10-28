@@ -386,6 +386,40 @@ def _crosscheck(a):
     return f"{v['calls']['matcher']:,} calls; {v['evidence']['matcher']:,} with ClinVar evidence"
 
 
+READS_BOUNDS = dict(false_alternate_among_absent=0.01, states_the_truth_at_positives=0.95)
+
+
+@check('the read-evidence resolver was checked on real reads of a benchmark sample with the code as it is now, and its rates are inside the stated bounds')
+def _reads_validation(a):
+    import hashlib
+    rec = jload(need(os.path.join(VI, 'reads_validation.json')))
+    with open(os.path.join(VI, 'vindex', 'reads.py'), 'rb') as f:
+        current = hashlib.sha256(f.read()).hexdigest()
+    if rec.get('reads_module_sha256') != current:
+        raise AssertionError('vindex/reads.py has changed since the validation record was made: run validate_reads.py again and merge the runs into reads_validation.json')
+    if not rec.get('runs') or 'full' not in rec['runs']:
+        raise AssertionError('the record holds no run at full depth')
+    problems = []
+    for label, run in sorted(rec['runs'].items()):
+        for truth, c in run['by_truth'].items():
+            if c.get('ERROR'):
+                problems.append(f"{label}: {c['ERROR']} loci of {truth} could not be read")
+        absent, n = run['rates']['truth_absent'], run['rates']['truth_absent']['loci']
+        false_alt = run['by_truth']['truth_absent'].get('READS_ALTERNATE_PRESENT', 0)
+        if n < 500 or false_alt / n > READS_BOUNDS['false_alternate_among_absent']:
+            problems.append(f"{label}: {false_alt} of {n} loci absent from the benchmark were read as carrying the allele (bound {READS_BOUNDS['false_alternate_among_absent']:.0%}, and at least 500 loci)")
+        for truth in ('truth_alt_het', 'truth_alt_hom'):
+            r = run['rates'][truth]
+            # the bound on how often the reads state the truth is for 30x and deeper (a 15x run abstains more and is reported); the bound on false claims is for every depth
+            if r['loci'] < 300 or (run['fraction'] >= 0.5 and r['states_the_truth']['rate'] < READS_BOUNDS['states_the_truth_at_positives']):
+                problems.append(f"{label}: {truth} states the truth at {r['states_the_truth']['rate']:.1%} of {r['loci']} loci (bound {READS_BOUNDS['states_the_truth_at_positives']:.0%} at half depth and above, and at least 300 loci)")
+    if problems:
+        raise AssertionError('; '.join(problems))
+    full = rec['runs']['full']['rates']
+    return (f"{', '.join(sorted(rec['runs']))}: at full depth {full['truth_alt_het']['states_the_truth']['rate']:.1%} of heterozygous and {full['truth_alt_hom']['states_the_truth']['rate']:.1%} of homozygous "
+            f"benchmark alleles read as carried, {rec['runs']['full']['by_truth']['truth_absent'].get('READS_ALTERNATE_PRESENT', 0)} of {full['truth_absent']['loci']:,} absent ones read as carried")
+
+
 @check('every unresolved high-value locus of the sample run states the evidence that would settle it')
 def _missing_evidence(a):
     can_import('pyarrow')

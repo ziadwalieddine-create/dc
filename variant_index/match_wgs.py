@@ -3,9 +3,15 @@
 
     python3 variant_index/match_wgs.py --vcf SAMPLE.vcf.gz --out data/results/SAMPLE [--index data/index] [--sample NAME]
                                        [--callable-bed HIGH_CONFIDENCE.bed] [--contigs 1,2,X] [--min-gq 20 --min-dp 10] [--external-haplotypes calls.json]
+                                       [--reads SAMPLE.cram [--reads-index SAMPLE.cram.crai] [--read-min-mapq 20 --read-min-baseq 20 --read-min-depth 10 --read-min-alt-reads 3 --read-min-alt-fraction 0.2]]
 
 The VCF/gVCF is read from the path given and never copied, uploaded or queried against an external service. Results go to --out, which must lie under
 data/ (git-ignored) or outside the repository. An indexed VCF (tabix) is read contig by contig; an unindexed one is read through once per contig.
+
+--reads names the sample's aligned reads (an indexed BAM or CRAM on GRCh38; a CRAM is decoded against --fasta). They are asked only about the high-value loci the calls leave
+unresolved, never about the calls themselves, and the answer is written beside the matcher's status in unresolved_loci (read_* columns), not over it. See vindex/reads.py for what
+a read counts as and for what the result does not claim (it is not a genotype). Personal reads are read from a local path; an alignment read over HTTPS (public data) needs
+--reads-index, because without it the index would be downloaded into the current directory.
 
 What the tables contain is described in vindex/wgs.py. Views over the matches (priority lists, trait and pathway groupings) are made by
 variant_index/make_views.py from the tables written here.
@@ -21,6 +27,7 @@ sys.path.insert(0, HERE)
 
 from vindex import wgs                                            # noqa: E402
 from vindex.build.common import DATA, OUT_DEFAULT                 # noqa: E402
+from vindex.reads import ReadPolicy                               # noqa: E402
 from vindex.refgenome import Reference                            # noqa: E402
 from vindex.vcfio import QCPolicy                                 # noqa: E402
 
@@ -39,6 +46,13 @@ def main(argv=None):
     ap.add_argument('--external-haplotypes', help='JSON {gene: [allele1, allele2]} from a dedicated caller (Cyrius, Aldy, StellarPGx, PharmCAT) for structural genes')
     ap.add_argument('--min-gq', type=int, default=20)
     ap.add_argument('--min-dp', type=int, default=10)
+    ap.add_argument('--reads', help='indexed BAM/CRAM of the sample, GRCh38: read evidence for the high-value loci the calls leave unresolved')
+    ap.add_argument('--reads-index', help='the index of --reads when it is not beside it (BAI / CRAI)')
+    ap.add_argument('--read-min-mapq', type=int, default=ReadPolicy.min_mapq)
+    ap.add_argument('--read-min-baseq', type=int, default=ReadPolicy.min_baseq)
+    ap.add_argument('--read-min-depth', type=int, default=ReadPolicy.min_depth, help='informative fragments needed before the absence of an allele is read as reference')
+    ap.add_argument('--read-min-alt-reads', type=int, default=ReadPolicy.min_alt_reads)
+    ap.add_argument('--read-min-alt-fraction', type=float, default=ReadPolicy.min_alt_fraction)
     ap.add_argument('--no-require-pass', action='store_true')
     ap.add_argument('--no-hash', action='store_true', help='skip the SHA-256 of the input file')
     ap.add_argument('--allow-assembly-mismatch', action='store_true')
@@ -53,11 +67,12 @@ def main(argv=None):
             ext = json.load(f)
     t0 = time.time()
     log = lambda c, n: print(f'  chr{c}: {n["small_calls"]} calls, {n["svs"]} SV, {n["records"]} records ({time.time() - t0:.0f}s)', flush=True)
+    policy = ReadPolicy(min_mapq=a.read_min_mapq, min_baseq=a.read_min_baseq, min_depth=a.read_min_depth, min_alt_reads=a.read_min_alt_reads, min_alt_fraction=a.read_min_alt_fraction)
     man = wgs.run_sample(a.vcf, a.index, a.out, ref, sample=a.sample, qc=qc, contigs=a.contigs.split(',') if a.contigs else None, callable_bed=a.callable_bed, hash_input=not a.no_hash,
-                         external_haplotypes=ext, allow_assembly_mismatch=a.allow_assembly_mismatch, progress=log)
+                         external_haplotypes=ext, allow_assembly_mismatch=a.allow_assembly_mismatch, progress=log, reads=a.reads, read_policy=policy, reads_index=a.reads_index)
     c = man['counts']
     print(json.dumps(dict(out=a.out, seconds=man['seconds'], calls=c['calls'], by_status=c['by_status'], rows=man['rows'], structural=c['structural'], haplotype_status=c['haplotype_status'],
-                          high_value_rules=c['high_value_rules']), indent=1))
+                          high_value_rules=c['high_value_rules'], reads=c['reads']), indent=1))
     return 0
 
 

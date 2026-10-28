@@ -1,8 +1,9 @@
 """Reference-confidence providers: what the input can say about positions where it holds no variant record.
 
 A variant-only VCF says nothing about a position it does not list. A genotype of 'reference' needs positive evidence: a gVCF
-reference block with adequate GQ and depth, or a callable-region mask for a caller that emits every variant inside it. Reads would also do, but no provider
-of read-level evidence is implemented here: a position that only reads could settle stays unresolved, and the match says so.
+reference block with adequate GQ and depth, or a callable-region mask for a caller that emits every variant inside it. Reads can also answer for a locus, but not through
+this interface: vindex/reads.py counts the fragments that carry an indexed allele and the matcher writes that beside the status of the locus (it never changes it), so a position that
+only reads could settle stays unresolved here, and the match says what the reads showed.
 Each provider answers `status(chrom, start, end)` for a span with one of:
 
   reference_confident      the whole span has positive reference evidence (basis says which)

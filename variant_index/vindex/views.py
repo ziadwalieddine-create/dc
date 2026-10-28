@@ -142,9 +142,14 @@ def trait_view(rows):
     return {c: dict(texts=sorted(e['texts'])[:5], axes=sorted(e['axes']), n_calls=len(e['calls']), calls=sorted(e['calls'])) for c, e in sorted(out.items())}
 
 
+# The prefix of a source's trait id (upper-case) -> the prefixes under which the ontology table lists the same concept as a cross-reference: a MedGen concept id is a UMLS CUI.
+XREF_PREFIXES = {'MEDGEN': ('UMLS',), 'MESH': ('MESH',), 'OMIM': ('OMIM', 'OMIMPS'), 'ORPHANET': ('ORPHANET',), 'HP': ('HP',), 'NCIT': ('NCIT',), 'DOID': ('DOID',)}
+
+
 def ontology_terms(path=None):
-    """{term id: dict(name, ancestors, areas)} from the Open Targets disease/phenotype ontology table (EFO, MONDO, HP, Orphanet, OBA, GO terms with their ancestors and therapeutic
-    areas), keyed as the sources write the id (EFO:0004339). None when the table is not acquired."""
+    """{term id: dict(name, ancestors, areas, xrefs, replaces)} from the Open Targets disease/phenotype ontology table (EFO, MONDO, HP, Orphanet, OBA, GO terms with their ancestors and
+    therapeutic areas), keyed as the sources write the id (EFO:0004339). `xrefs` are the cross-references the table lists for the term (UMLS:C0011860, OMIM:125853, upper-cased) and
+    `replaces` the retired terms it replaces (EFO:0001360). None when the table is not acquired."""
     import glob
     from .build.common import DATA
     files = sorted(glob.glob(os.path.join(path or os.path.join(DATA, 'opentargets', '26.09', 'disease'), '*.parquet')))
@@ -152,26 +157,67 @@ def ontology_terms(path=None):
         return None
     out = {}
     for f in files:
-        for r in pq.read_table(f, columns=['id', 'name', 'ancestors', 'therapeuticAreas']).to_pylist():
-            out[r['id'].replace('_', ':', 1)] = dict(name=r['name'], ancestors=[a.replace('_', ':', 1) for a in r['ancestors'] or ()], areas=[a.replace('_', ':', 1) for a in r['therapeuticAreas'] or ()])
+        columns = [c for c in ('id', 'name', 'ancestors', 'therapeuticAreas', 'dbXRefs', 'obsoleteTerms') if c in pq.ParquetFile(f).schema_arrow.names]
+        for r in pq.read_table(f, columns=columns).to_pylist():
+            out[r['id'].replace('_', ':', 1)] = dict(name=r['name'], ancestors=[a.replace('_', ':', 1) for a in r['ancestors'] or ()], areas=[a.replace('_', ':', 1) for a in r['therapeuticAreas'] or ()],
+                                                     xrefs=sorted({x.upper() for x in r.get('dbXRefs') or ()}), replaces=[x.replace('_', ':', 1) for x in r.get('obsoleteTerms') or ()])
     return out
 
 
+def trait_crosswalk(ontology):
+    """(by cross-reference, by retired term): {PREFIX:local id: {term ids}} and {retired term id: {term ids that replace it}}, built from the xrefs and replaces of ontology_terms."""
+    by_xref, by_retired = {}, {}
+    for tid, t in ontology.items():
+        for x in t.get('xrefs') or ():
+            by_xref.setdefault(x, set()).add(tid)
+        for o in t.get('replaces') or ():
+            by_retired.setdefault(o, set()).add(tid)
+    return by_xref, by_retired
+
+
+def cross_reference(cid, by_xref, by_retired):
+    """(terms, how) for a trait id the ontology does not hold itself: the terms whose cross-references list it under the prefixes it can carry (XREF_PREFIXES; the prefix is part of the
+    match, so OMIM:100100 never matches Orphanet:100100), and the terms that replace it when it is a retired term. Several terms is a many-to-one cross-reference, which the caller reports."""
+    prefix, _, local = cid.partition(':')
+    terms, how = set(), set()
+    if cid in by_retired:
+        terms |= by_retired[cid]
+        how.add('replaces_a_retired_term')
+    for p in XREF_PREFIXES.get(prefix.upper(), (prefix.upper(),)):
+        hit = by_xref.get(f'{p}:{local}'.upper())
+        if hit:
+            terms |= hit
+            how.add('dbXRef')
+    return sorted(terms), sorted(how)
+
+
 def trait_rollup(traits, ontology):
-    """Roll the traits of trait_view up through an ontology: by therapeutic area, and the ancestors of each trait. A trait whose id is not in the ontology (MedGen, OMIM, MeSH
-    and a few retired terms) keeps its own entry and is listed as not rolled up; a trait in several areas is counted in each. The call lists are those of trait_view, unchanged."""
-    areas, unmapped = {}, []
+    """Roll the traits of trait_view up through an ontology: by therapeutic area, and the ancestors of each trait. A trait the ontology holds is rolled up through its own term. A trait it
+    does not hold (MedGen, OMIM, MeSH, retired EFO / MONDO / HP / Orphanet terms) is rolled up through the terms that list it as a cross-reference or replace it, when there are any,
+    and the mapping is kept under `cross_referenced` with how and whether it is many-to-one: a cross-reference groups, it is not an assertion that the concepts are the same. A trait that
+    maps to nothing keeps its own entry and is listed as not rolled up; a trait in several areas is counted in each. The call lists are those of trait_view, unchanged."""
+    by_xref, by_retired = trait_crosswalk(ontology)
+    areas, unmapped, crossed = {}, [], {}
     for cid, e in traits.items():
         t = ontology.get(cid)
-        if t is None:
-            unmapped.append(cid)
-            continue
-        for a in t['areas'] or [cid]:
-            g = areas.setdefault(a, dict(name=(ontology.get(a) or {}).get('name') or a, traits=set(), calls=set()))
+        if t is not None:
+            terms = [cid]
+        else:
+            terms, how = cross_reference(cid, by_xref, by_retired)
+            if not terms:
+                unmapped.append(cid)
+                continue
+            crossed[cid] = dict(terms=terms, how=how, many_to_one=len(terms) > 1)
+        for a in {a for x in terms for a in (ontology[x]['areas'] or [x])}:
+            g = areas.setdefault(a, dict(name=(ontology.get(a) or {}).get('name') or a, traits=set(), crossed=set(), calls=set()))
             g['traits'].add(cid)
+            if cid in crossed:
+                g['crossed'].add(cid)
             g['calls'].update(e['calls'])
-    return dict(by_therapeutic_area={a: dict(name=g['name'], n_traits=len(g['traits']), n_calls=len(g['calls']), calls=sorted(g['calls'])) for a, g in sorted(areas.items())},
-                ancestors={cid: ontology[cid]['ancestors'] for cid in sorted(traits) if cid in ontology}, not_rolled_up=sorted(unmapped))
+    return dict(by_therapeutic_area={a: dict(name=g['name'], n_traits=len(g['traits']), n_traits_cross_referenced=len(g['crossed']), n_calls=len(g['calls']), calls=sorted(g['calls']))
+                                     for a, g in sorted(areas.items())},
+                ancestors={cid: sorted({a for x in (crossed[cid]['terms'] if cid in crossed else [cid]) for a in ontology[x]['ancestors']}) for cid in sorted(traits) if cid in ontology or cid in crossed},
+                cross_referenced=dict(sorted(crossed.items())), not_rolled_up=sorted(unmapped))
 
 
 def pathway_view(rows, members):
@@ -265,6 +311,31 @@ def reference_allele_section(results_dir, counts):
     return L
 
 
+def read_evidence_section(un, counts):
+    """Report lines for what aligned reads say about the unresolved loci: by the matcher's status and the state of the reads, and what they settle. Empty for a run without reads. The
+    matcher's status is never changed by the reads (vindex/reads.py); the states mean fragments that carry the indexed allele, not a genotype."""
+    rc = (counts or {}).get('reads')
+    if not rc:
+        return []
+    by = Counter((r['status'], r['read_state']) for r in un if r.get('read_state'))
+    states = sorted({st for _, st in by})
+    L = ['### Read evidence for the unresolved loci', '',
+         f"Aligned reads were asked about {rc['loci_evaluated']:,} of them: whether any fragment carries the indexed allele, not what the genotype is (fragment counts are not a dosage; no zygosity, "
+         "copy number or phase is inferred). The status above is the callset's and stands; the reads answer the question it leaves open for "
+         f"{rc['settles_the_open_question']['yes']:,} loci (absent from the callset, no-call, filtered, or a call that fails quality) and are context only for the other "
+         f"{rc['settles_the_open_question']['no']:,} (inside a structural call, among others).", '']
+    if by:
+        L += ['| Callset status | ' + ' | '.join(st.replace('READS_', '') for st in states) + ' |', '|---|' + '---:|' * len(states)]
+        for status in sorted({s for s, _ in by}):
+            L.append(f'| {status} | ' + ' | '.join(f'{by.get((status, st), 0):,}' for st in states) + ' |')
+        L.append('')
+    meaning = Counter(r['read_interpretation'] for r in un if r.get('read_interpretation'))
+    L += ['What they say: ' + ', '.join(f'{k.replace("_", " ")} {v:,}' for k, v in sorted(meaning.items(), key=lambda kv: (-kv[1], kv[0]))) + '.', '']
+    if rc.get('not_evaluated_reasons'):
+        L += ['Not asked of reads: ' + ', '.join(f'{k.replace("_", " ")} {v:,}' for k, v in rc['not_evaluated_reasons'].items()) + '.', '']
+    return L
+
+
 def render_report(results_dir, top=25):
     """report.md: what the run found, in the order the tables are produced. Views list the first `top` rows of their ordering; the full views are in views/*.parquet and
     every call is in small_calls.parquet. Written next to the results it summarises, so a sample's report stays where the sample's data are."""
@@ -300,9 +371,14 @@ def render_report(results_dir, top=25):
     if un:
         by = Counter((r['status'], tuple(r['reasons'] or ())) for r in un)
         L += ['| Status | Reasons | Loci |', '|---|---|---|'] + [f"| {st} | {', '.join(rs)} | {n:,} |" for (st, rs), n in sorted(by.items(), key=lambda kv: -kv[1])]
-        L += ['', f'The first {min(top, len(un))} by position, with the exact evidence that would settle each:', '', '| Locus | Status | Rules | Missing evidence |', '|---|---|---|---|']
+        L.append('')
+        L += read_evidence_section(un, c)
+        reads_on = any(r.get('read_state') for r in un)
+        L += [f'The first {min(top, len(un))} by position, with the exact evidence that would settle each:', '', '| Locus | Status | Rules | Missing evidence |' + (' Reads |' if reads_on else ''),
+              '|---|---|---|---|' + ('---|' if reads_on else '')]
         for r in sorted(un, key=lambda r: (r['chrom'], r['pos'], r['key']))[:top]:
-            L.append(f"| `{r['key']}` | {r['status']} | {', '.join(r['rules'] or ())} | {(r['missing_evidence'] or ', '.join(r['reasons'] or ())).replace('|', '/')} |")
+            reads = f" {(r.get('read_state') or 'not asked').replace('READS_', '')}" + (f" ({r['read_alt']}/{r['read_depth']} alternate)" if r.get('read_state') else '') + ' |' if reads_on else ''
+            L.append(f"| `{r['key']}` | {r['status']} | {', '.join(r['rules'] or ())} | {(r['missing_evidence'] or ', '.join(r['reasons'] or ())).replace('|', '/')} |{reads}")
         L.append('')
     L += ['## Views', '', f"Calls considered: {vm['n_calls_considered']:,} (statuses {', '.join(vm['statuses'])}). A view selects and orders rows of small_calls.parquet; no view hides a call and none combines axes into one number. "
          "Evidence is attached to the site of the call: how many copies of a row's effect allele the sample carries (none, for a row about the reference allele and a homozygous alternate call) "
@@ -326,9 +402,12 @@ def render_report(results_dir, top=25):
     if os.path.exists(rp):
         with open(rp) as f:
             roll = json.load(f)
-        L += ['', f"Rolled up through the Open Targets ontology table into {len(roll['by_therapeutic_area'])} therapeutic areas ({len(roll['not_rolled_up'])} trait id(s) are not in the table and stay as listed). "
-              'A trait in several areas is counted in each, so the rows do not add up to the number of traits:', '', '| Area | Traits | Calls |', '|---|---:|---:|']
-        L += [f"| {g['name']} | {g['n_traits']:,} | {g['n_calls']:,} |" for _a, g in sorted(roll['by_therapeutic_area'].items(), key=lambda kv: (-kv[1]['n_calls'], kv[0]))[:15]]
+        crossed = roll.get('cross_referenced') or {}
+        L += ['', f"Rolled up through the Open Targets ontology table into {len(roll['by_therapeutic_area'])} therapeutic areas: {len(roll['ancestors']) - len(crossed):,} trait id(s) through their own term, "
+              f"{len(crossed):,} through a cross-reference or retired-term link of the table ({sum(1 for c in crossed.values() if c['many_to_one']):,} of them to more than one term, counted in the areas of each), "
+              f"{len(roll['not_rolled_up']):,} not placed (no term holds, lists or replaces them) and kept as listed. A cross-reference groups; it does not assert that two concepts are the same. "
+              'A trait in several areas is counted in each, so the rows do not add up to the number of traits:', '', '| Area | Traits | of them cross-referenced | Calls |', '|---|---:|---:|---:|']
+        L += [f"| {g['name']} | {g['n_traits']:,} | {g.get('n_traits_cross_referenced', 0):,} | {g['n_calls']:,} |" for _a, g in sorted(roll['by_therapeutic_area'].items(), key=lambda kv: (-kv[1]['n_calls'], kv[0]))[:15]]
     with open(os.path.join(results_dir, 'views', 'pathway_view.json')) as f:
         paths = json.load(f)
     L += ['', f'### Pathways through the genes of matched calls ({len(paths):,})', '', 'Membership annotates genes; it is not evidence about any variant. The ten with the most calls:', '']
@@ -403,8 +482,9 @@ def write_views(results_dir, index, statuses=('EXACT_MATCH',), ontology_dir=None
         roll = trait_rollup(traits, ontology)
         with open(os.path.join(out, 'trait_rollup.json'), 'w') as f:
             json.dump(roll, f, indent=1, sort_keys=True)
-        manifest.update(n_therapeutic_areas=len(roll['by_therapeutic_area']), n_traits_not_rolled_up=len(roll['not_rolled_up']))
-    manifest['note'] = ('trait ids are the sources\' own; trait_rollup.json groups them through the Open Targets ontology table (ancestors and therapeutic areas) and lists the ids it does not know; '
+        manifest.update(n_therapeutic_areas=len(roll['by_therapeutic_area']), n_traits_cross_referenced=len(roll['cross_referenced']), n_traits_not_rolled_up=len(roll['not_rolled_up']))
+    manifest['note'] = ('trait ids are the sources\' own; trait_rollup.json groups them through the Open Targets ontology table (ancestors and therapeutic areas; ids the table does not hold are '
+                        'grouped through its cross-references and retired terms where it has any, and the mapping is listed) and lists the ids it cannot place; '
                         'pathway membership annotates genes and is not evidence about any variant')
     with open(os.path.join(out, 'views_manifest.json'), 'w') as f:
         json.dump(manifest, f, indent=1, sort_keys=True)

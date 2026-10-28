@@ -18,7 +18,8 @@ chromosome. Everything the sample's file says is accounted for in the output tab
   haplotype_calls     star-allele / haplotype calls per gene with the evidence they need and the alleles that could not be evaluated
   repeat_calls        repeat-expansion loci: genotyped only when a repeat genotyper reported them; repeat genotypes at loci the index does not know are kept as NO_INDEX_RECORD
   unresolved_loci     high-value indexed variants the sample cannot answer for (absent from a variant-only file, no-call, filtered, inside a structural call...),
-                      each with the exact evidence that would settle it
+                      each with the exact evidence that would settle it. With aligned reads (--reads) each also carries the read evidence for the indexed allele (vindex/reads.py):
+                      the matcher's status is never changed by it, the read_* columns sit beside it and say whether the reads answer the question the status leaves open
   rejected_calls      alleles the reader refused (REF mismatch, unmapped contig...) with the reason
   run_manifest.json   input digest, assembly check, index digests, counts, versions, the commit and the SHA-256 of every module that produced the tables
 
@@ -42,6 +43,7 @@ from .match_hap import NON_STAR_SYSTEMS, call_gene
 from .match_repeat import loci_from_index, match_repeats, unindexed_repeats
 from .match_small import MatchContext, iter_interpretations, missing_evidence, status_of, zygosity
 from .match_sv import match_svs
+from .reads import ReadEvidence
 from .vcfio import OTHER_CONTIGS, CallSet, QCPolicy, read_vcf
 
 S, LS, I32 = pa.string(), pa.list_(pa.string()), pa.int32()
@@ -62,7 +64,8 @@ SCHEMAS = {
     'repeat_calls': pa.schema([('locus_id', S), ('gene', S), ('status', S), ('classes', LS), ('counts', pa.list_(I32)), ('thresholds_json', S), ('flags', LS), ('missing', S),
                                ('inheritance', S), ('disease', S), ('chrom', S), ('start', I32), ('end', I32), ('motif', S), ('caller', S)]),
     'unresolved_loci': pa.schema([('key', S), ('chrom', S), ('pos', I32), ('status', S), ('reasons', LS), ('missing_evidence', S), ('rules', LS), ('evidence_ids', LS), ('basis', S),
-                                  ('detail_json', S)]),
+                                  ('detail_json', S), ('read_state', S), ('read_reasons', LS), ('read_flags', LS), ('read_depth', I32), ('read_ref', I32), ('read_alt', I32), ('read_other', I32),
+                                  ('read_alt_fraction', pa.float64()), ('read_settles', pa.bool_()), ('read_interpretation', S), ('read_detail_json', S)]),
     'rejected_calls': pa.schema([('chrom', S), ('pos', I32), ('ref', S), ('alt', S), ('reason', S), ('detail', S), ('rec_index', I32)]),
 }
 RESOLVED = ('EXACT_MATCH', 'VERIFIED_REFERENCE', 'OTHER_ALLELE_AT_SITE', 'DELETED_BY_UPSTREAM')
@@ -269,7 +272,7 @@ def chromosome_order(reference, wanted=None):
 
 
 def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs=None, callable_bed=None, hash_input=True, external_haplotypes=None, rules=views.HIGH_VALUE_RULES,
-               repo_root=None, allow_assembly_mismatch=False, progress=None):
+               repo_root=None, allow_assembly_mismatch=False, progress=None, reads=None, read_policy=None, reads_index=None):
     repo_root = repo_root or os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
     check_output_location(out_dir, repo_root)
     os.makedirs(out_dir, exist_ok=True)
@@ -277,9 +280,11 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
     code, files_at_start = code_version(repo_root), loaded_code()                                   # the code is loaded now: the tree at the end of a long run may differ
     qc = qc or QCPolicy()
     index = Index.open(index_dir)
+    evidence = ReadEvidence(reads, reference, read_policy, allow_assembly_mismatch, index=reads_index) if reads else None       # opened before anything is written: a header that does not match stops the run
     W = {n: TableWriter(os.path.join(out_dir, f'{n}.parquet'), s) for n, s in SCHEMAS.items()}
     counts = dict(by_status=Counter(), by_vtype=Counter(), matched_by_axis=Counter(), matched_by_source=Counter(), difficult_region_calls=0, calls=0, per_chromosome={}, vcf_stats=Counter(),
-                  index_centric={r.name: Counter() for r in rules}, sv=Counter(), haplotypes=Counter(), repeats=Counter(), reference_effect_sites=Counter())
+                  index_centric={r.name: Counter() for r in rules}, sv=Counter(), haplotypes=Counter(), repeats=Counter(), reference_effect_sites=Counter(),
+                  reads=dict(by_state=Counter(), by_status_and_state=Counter(), settles=Counter(), not_evaluated=Counter(), flags=Counter()))
     gene_hits = Counter()
     assembly, sample_name = None, sample
     placed = genes_by_chrom(index)
@@ -350,8 +355,19 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
             for rn in hv['rules']:
                 counts['index_centric'][rn][st.status] += 1
             if st.status not in RESOLVED:
-                W['unresolved_loci'].add(dict(key=key, chrom=key.split(':')[0], pos=int(key.split(':')[1]), status=st.status, reasons=list(st.reasons), rules=hv['rules'], evidence_ids=hv['evidence_ids'],
-                                              missing_evidence=missing_evidence(st), basis=st.basis, detail_json=jdump({k: v for k, v in (st.detail or {}).items() if k != 'missing_evidence'})))
+                row = dict(key=key, chrom=key.split(':')[0], pos=int(key.split(':')[1]), status=st.status, reasons=list(st.reasons), rules=hv['rules'], evidence_ids=hv['evidence_ids'],
+                           missing_evidence=missing_evidence(st), basis=st.basis, detail_json=jdump({k: v for k, v in (st.detail or {}).items() if k != 'missing_evidence'}))
+                if evidence is not None:
+                    rs = evidence.evaluate(key)
+                    row.update(rs.columns(st.status, st.reasons))
+                    rc = counts['reads']
+                    rc['by_state'][rs.state] += 1
+                    rc['by_status_and_state'][f'{st.status}|{rs.state}'] += 1
+                    rc['settles'][bool(row['read_settles'])] += 1
+                    rc['flags'].update(rs.flags)
+                    if rs.state == 'READS_NOT_EVALUATED':
+                        rc['not_evaluated'].update(rs.reasons)
+                W['unresolved_loci'].add(row)
         # evidence about the reference allele: a sample with no alternate call at the site reaches it only through a verified reference genotype
         part = schema.OTHER_PARTITION if chrom == OTHER_PASS else chrom
         for key, rows in sorted(index.reference_allele_effect_rows(part).items(), key=lambda kv: (kv[0].split(':')[0], int(kv[0].split(':')[1]), kv[0])):
@@ -378,18 +394,27 @@ def run_sample(vcf, index_dir, out_dir, reference, sample=None, qc=None, contigs
                                            applies_as='gene_level_context_only'))
     for w in W.values():
         w.close()
+    read_input, read_counts = None, None
+    if evidence is not None:
+        rc = counts['reads']
+        local = os.path.isfile(reads)
+        read_input = dict(path=os.path.abspath(reads) if local else reads, index=os.path.abspath(reads_index) if reads_index else None, size_bytes=os.path.getsize(reads) if local else None,
+                          sha256=sha256_file(reads) if hash_input and local else None, format=evidence.format, assembly=evidence.assembly, contigs_matched_to_the_reference=len(evidence._contig), policy=vars(evidence.policy))
+        read_counts = dict(loci_evaluated=sum(rc['by_state'].values()), by_state=dict(sorted(rc['by_state'].items())), by_status_and_state=dict(sorted(rc['by_status_and_state'].items())),
+                           settles_the_open_question=dict(yes=rc['settles'][True], no=rc['settles'][False]), flags=dict(sorted(rc['flags'].items())), not_evaluated_reasons=dict(sorted(rc['not_evaluated'].items())))
+        evidence.close()
     files_at_end = loaded_code()
     changed = code_version(repo_root) != code or any(files_at_end.get(k) != v for k, v in files_at_start.items())
     manifest = dict(
         schema_version=SCHEMA_VERSION, finished_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), seconds=round(time.time() - t0, 1),
         input=dict(path=os.path.abspath(vcf), size_bytes=os.path.getsize(vcf), sha256=sha256_file(vcf) if hash_input else None, sample=sample_name, assembly=assembly,
-                   callable_bed=os.path.abspath(callable_bed) if callable_bed else None, contigs=[c for c, _ in passes]),
+                   callable_bed=os.path.abspath(callable_bed) if callable_bed else None, contigs=[c for c, _ in passes], reads=read_input),
         qc_policy=vars(qc), index=index_provenance(index_dir), code=code, code_files=files_at_end, code_changed_during_run=changed,
         rows={n: w.n for n, w in W.items()},
         counts=dict(calls=counts['calls'], by_status=dict(counts['by_status']), by_vtype=dict(counts['by_vtype']), matched_by_axis=dict(counts['matched_by_axis']),
                     matched_by_source=dict(counts['matched_by_source']), difficult_region_calls=counts['difficult_region_calls'], vcf=dict(counts['vcf_stats']),
                     per_chromosome=counts['per_chromosome'], structural=dict(counts['sv']), haplotype_status=dict(counts['haplotypes']), repeat_status=dict(counts['repeats']),
-                    high_value_rules={n: dict(c) for n, c in counts['index_centric'].items()}, reference_allele_effect_sites=dict(counts['reference_effect_sites'])),
+                    high_value_rules={n: dict(c) for n, c in counts['index_centric'].items()}, reference_allele_effect_sites=dict(counts['reference_effect_sites']), reads=read_counts),
         rules={r.name: r.description for r in rules})
     with open(os.path.join(out_dir, 'run_manifest.json'), 'w') as f:
         json.dump(manifest, f, indent=1, sort_keys=True, default=str)
