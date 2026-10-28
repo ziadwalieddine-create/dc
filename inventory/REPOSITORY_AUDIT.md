@@ -1,6 +1,6 @@
 # Repository audit
 
-Generated 2026-10-28T05:13:41Z at commit `4036813e` by `inventory/repository_audit.py` (regenerate rather than edit). It records what exists, which lifecycle stage each dataset has reached, whether the checks pass, and whether the documentation says what the implementation does.
+Generated 2026-10-28T05:20:56Z at commit `fb4dc78e` by `inventory/repository_audit.py` (regenerate rather than edit). It records what exists, which lifecycle stage each dataset has reached, whether the checks pass, and whether the documentation says what the implementation does.
 
 ## Checks
 
@@ -66,10 +66,10 @@ Generated 2026-10-28T05:13:41Z at commit `4036813e` by `inventory/repository_aud
 
 | Branch | Tip | Date | Tracked files | Ahead of / behind origin/main | Last commit |
 |---|---|---|---|---|---|
-| `ccr-b13fd75a-ra9gfy` | `4036813` | 2026-10-28 | 676 | +87 / -0 | Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp |
+| `ccr-b13fd75a-ra9gfy` | `fb4dc78` | 2026-10-28 | 676 | +88 / -0 | Every evidence row re-derived from its source; phase-6 results, audits and documents |
 | `data/mavedb-scores` | `1b58196` | 2026-10-25 | 2061 | +8 / -22 | Add 52 superseded MaveDB score sets (79 tables, CC0) as a data extension |
 | `main` | `f388b5f` | 2026-09-30 | 90 | +0 / -19 | Merge pull request #1 from ziadwalieddine-create/land/dc-extended-pack |
-| `origin/ccr-b13fd75a-ra9gfy` | `4036813` | 2026-10-28 | 676 | +87 / -0 | Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp |
+| `origin/ccr-b13fd75a-ra9gfy` | `fb4dc78` | 2026-10-28 | 676 | +88 / -0 | Every evidence row re-derived from its source; phase-6 results, audits and documents |
 | `origin/data/mavedb-scores` | `1b58196` | 2026-10-25 | 2061 | +8 / -22 | Add 52 superseded MaveDB score sets (79 tables, CC0) as a data extension |
 | `origin/land/dc-extended-pack` | `3547d0a` | 2026-09-30 | 90 | +0 / -20 | Land dc-extended skill pack |
 | `origin/main` | `ddafb14` | 2026-10-25 | 98 | +0 / -0 | Merge pull request #6 from ziadwalieddine-create/ccr-b13fd75a-ra9gfy |
@@ -317,7 +317,7 @@ Generated 2026-10-28T05:13:41Z at commit `4036813e` by `inventory/repository_aud
 | `catalogue/REUSE_PLAN.md` | Source-by-source reuse, acquisition and integration plan | 356 | 2026-10-26 |
 | `inventory/EXISTING_ASSETS.md` | Existing assets: inventory and verified status | 49 | 2026-10-28 |
 | `inventory/PHASE_AUDIT.md` | Phase gap audit | 38 | 2026-10-28 |
-| `inventory/REPOSITORY_AUDIT.md` | Repository audit | 467 | 2026-10-28 |
+| `inventory/REPOSITORY_AUDIT.md` | Repository audit | 483 | 2026-10-28 |
 | `scrape/ensembl-human-genomes/README.md` | Ensembl genome selector: human (taxonomy ID 9606) | 20 | 2026-10-25 |
 | `scrape/mavedb-human/README.md` | MaveDB: human score sets | 45 | 2026-10-25 |
 | `scrape/nhgri-1000-genomes/README.md` | NHGRI: 1000 Genomes Project (archived page scrape) | 22 | 2026-10-25 |

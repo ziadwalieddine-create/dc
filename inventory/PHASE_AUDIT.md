@@ -1,6 +1,6 @@
 # Phase gap audit
 
-Generated 2026-10-28T05:11:56Z by `inventory/gap_audit.py` (regenerate rather than edit). 29 pass, 0 fail, 0 skipped, 1 blocked.
+Generated 2026-10-28T05:19:31Z by `inventory/gap_audit.py` (regenerate rather than edit). 29 pass, 0 fail, 0 skipped, 1 blocked.
 
 PASS means the check ran and held. SKIP means an input this checkout does not hold was needed, so the check proves nothing here. BLOCKED means only a person outside the session can settle it.
 

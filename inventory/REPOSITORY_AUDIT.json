@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-10-28T05:13:41Z",
- "commit": "4036813e0f1019eb5da97a10d415eed2c21ed766",
+ "generated_utc": "2026-10-28T05:20:56Z",
+ "commit": "fb4dc78e50e444049bd9ac321c3649560c3e1725",
  "visibility": "visibility: public (ziadwalieddine-create/dc)",
  "checks": [
   {
@@ -301,11 +301,11 @@
  "branches": [
   {
    "branch": "ccr-b13fd75a-ra9gfy",
-   "tip": "4036813",
+   "tip": "fb4dc78",
    "date": "2026-10-28",
-   "subject": "Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp",
+   "subject": "Every evidence row re-derived from its source; phase-6 results, audits and documents",
    "tracked_files": 676,
-   "ahead_of_main": "87",
+   "ahead_of_main": "88",
    "behind_main": "0"
   },
   {
@@ -328,11 +328,11 @@
   },
   {
    "branch": "origin/ccr-b13fd75a-ra9gfy",
-   "tip": "4036813",
+   "tip": "fb4dc78",
    "date": "2026-10-28",
-   "subject": "Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp",
+   "subject": "Every evidence row re-derived from its source; phase-6 results, audits and documents",
    "tracked_files": 676,
-   "ahead_of_main": "87",
+   "ahead_of_main": "88",
    "behind_main": "0"
   },
   {
@@ -3353,7 +3353,7 @@
    "path": "AUDIT_LOG.md",
    "title": "Audit log",
    "lines": 320,
-   "bytes": 75883,
+   "bytes": 76543,
    "last_commit": "2026-10-28"
   },
   {
@@ -3457,8 +3457,8 @@
   {
    "path": "inventory/REPOSITORY_AUDIT.md",
    "title": "Repository audit",
-   "lines": 467,
-   "bytes": 47049,
+   "lines": 483,
+   "bytes": 49337,
    "last_commit": "2026-10-28"
   },
   {
