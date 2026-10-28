@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-10-26T02:57:00Z",
- "commit": "27cb8cdbaddd3a134fb634a1acf7829b0f437ffe",
+ "generated_utc": "2026-10-28T02:05:58Z",
+ "commit": "0e4dad0c3a465c9620a5cea45249b13139ae2923",
  "visibility": "visibility: public (ziadwalieddine-create/dc)",
  "checks": [
   {
@@ -19,9 +19,14 @@
    "detail": "17 tests"
   },
   {
+   "check": "unit tests (variant_index)",
+   "ok": true,
+   "detail": "482 tests"
+  },
+  {
    "check": "catalogue records validate against the vocabulary, evidence files and acquisition targets",
    "ok": true,
-   "detail": "53 source records valid; 146 acquisition targets; 251 evidence probes"
+   "detail": "54 source records valid; 173 acquisition targets; 277 evidence probes"
   },
   {
    "check": "repository policy: size, personal-genome file types, credential patterns",
@@ -31,12 +36,12 @@
   {
    "check": "all scripts compile",
    "ok": true,
-   "detail": "30 scripts"
+   "detail": "143 scripts"
   },
   {
    "check": "the claim checker detects a changed number in every claim (mutation self-test)",
    "ok": true,
-   "detail": "31 claims"
+   "detail": "35 claims"
   }
  ],
  "claims": [
@@ -170,19 +175,19 @@
    "doc": "catalogue/MASTER_INVENTORY.md",
    "pattern": "(\\d+) sources catalogued",
    "status": "PASS",
-   "detail": "[53.0]"
+   "detail": "[54.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "`validate\\.py`: (\\d+) of (\\d+) targets pass",
    "status": "PASS",
-   "detail": "[146.0, 146.0]"
+   "detail": "[173.0, 173.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "(\\d+) manifest records",
    "status": "PASS",
-   "detail": "[146.0]"
+   "detail": "[173.0]"
   },
   {
    "doc": "latest:AUDIT_LOG.md",
@@ -195,6 +200,30 @@
    "pattern": "test_helpers`: (\\d+) tests pass",
    "status": "PASS",
    "detail": "[17.0]"
+  },
+  {
+   "doc": "latest:AUDIT_LOG.md",
+   "pattern": "`variant_index`: (\\d+) unit tests pass",
+   "status": "PASS",
+   "detail": "[482.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "(\\d+) unit tests pass",
+   "status": "PASS",
+   "detail": "[482.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "Requirements: (\\d+), of which (\\d+) verified, (\\d+) partial, (\\d+) unavailable input and (\\d+) blocked external",
+   "status": "PASS",
+   "detail": "[44.0, 30.0, 12.0, 1.0, 1.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "([\\d,]+) evidence rows from (\\d+) source releases, ([\\d,]+) variant entities",
+   "status": "PASS",
+   "detail": "[24195946.0, 72.0, 6857645.0]"
   },
   {
    "doc": "catalogue/gaps.json",
@@ -230,11 +259,11 @@
  "branches": [
   {
    "branch": "ccr-b13fd75a-ra9gfy",
-   "tip": "27cb8cd",
-   "date": "2026-10-25",
-   "subject": "Add evidence profiles, mechanism matrix, repository audit and evidence-support checks",
-   "tracked_files": 459,
-   "ahead_of_main": "6",
+   "tip": "0e4dad0",
+   "date": "2026-10-27",
+   "subject": "Module registry: evidence about the reference allele at verified-reference genotypes; the ",
+   "tracked_files": 665,
+   "ahead_of_main": "82",
    "behind_main": "0"
   },
   {
@@ -257,11 +286,11 @@
   },
   {
    "branch": "origin/ccr-b13fd75a-ra9gfy",
-   "tip": "27cb8cd",
-   "date": "2026-10-25",
-   "subject": "Add evidence profiles, mechanism matrix, repository audit and evidence-support checks",
-   "tracked_files": 459,
-   "ahead_of_main": "6",
+   "tip": "0e4dad0",
+   "date": "2026-10-27",
+   "subject": "Module registry: evidence about the reference allele at verified-reference genotypes; the ",
+   "tracked_files": 665,
+   "ahead_of_main": "82",
    "behind_main": "0"
   },
   {
@@ -306,7 +335,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 1907736956
   },
   {
@@ -322,7 +351,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 200670148
   },
   {
@@ -370,7 +399,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 249798
   },
   {
@@ -385,8 +414,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 98881
   },
   {
@@ -434,7 +463,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": false,
-   "integrated": false,
+   "integrated": true,
    "bytes": 15822
   },
   {
@@ -450,7 +479,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 1133460
   },
   {
@@ -466,7 +495,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 574538527
   },
   {
@@ -482,7 +511,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 8917685
   },
   {
@@ -498,7 +527,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 73038962
   },
   {
@@ -514,7 +543,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 183277348
   },
   {
@@ -561,8 +590,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 4296635
   },
   {
@@ -593,8 +622,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 1236737
   },
   {
@@ -609,8 +638,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 854307
   },
   {
@@ -625,8 +654,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 60036
   },
   {
@@ -816,7 +845,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 560599773
   },
   {
@@ -848,7 +877,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 8955
   },
   {
@@ -864,7 +893,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": false,
-   "integrated": false,
+   "integrated": true,
    "bytes": 5890
   },
   {
@@ -879,8 +908,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 26769
   },
   {
@@ -896,7 +925,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 364191405
   },
   {
@@ -1040,7 +1069,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 21633117
   },
   {
@@ -1104,7 +1133,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": false,
-   "integrated": false,
+   "integrated": true,
    "bytes": 5968153
   },
   {
@@ -1264,7 +1293,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 3902012
   },
   {
@@ -1280,7 +1309,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 246596435
   },
   {
@@ -1296,7 +1325,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 49090
   },
   {
@@ -1312,7 +1341,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 939664
   },
   {
@@ -1328,7 +1357,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 906883118
   },
   {
@@ -1344,7 +1373,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 97748879
   },
   {
@@ -1360,7 +1389,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 2990567440
   },
   {
@@ -1376,7 +1405,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 509628512
   },
   {
@@ -1472,7 +1501,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 1743544245
   },
   {
@@ -1521,7 +1550,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 7924578
   },
   {
@@ -1570,7 +1599,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 4291894
   },
   {
@@ -1698,7 +1727,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 132850
   },
   {
@@ -1714,7 +1743,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 193085083
   },
   {
@@ -1893,7 +1922,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 31493049
   },
   {
@@ -1909,7 +1938,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 3513364
   },
   {
@@ -1925,7 +1954,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 4466885
   },
   {
@@ -1941,7 +1970,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 65098
   },
   {
@@ -1957,7 +1986,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 16937
   },
   {
@@ -1973,7 +2002,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 82
   },
   {
@@ -1989,7 +2018,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 83
   },
   {
@@ -2005,7 +2034,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 162
   },
   {
@@ -2021,7 +2050,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 201
   },
   {
@@ -2037,7 +2066,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 178
   },
   {
@@ -2053,7 +2082,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 1709
   },
   {
@@ -2069,7 +2098,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 4566
   },
   {
@@ -2085,7 +2114,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 9297
   },
   {
@@ -2101,7 +2130,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 6976
   },
   {
@@ -2117,7 +2146,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 316313
   },
   {
@@ -2133,7 +2162,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 109
   },
   {
@@ -2149,7 +2178,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 7968
   },
   {
@@ -2165,7 +2194,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 9228465
   },
   {
@@ -2181,7 +2210,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 47277
   },
   {
@@ -2197,7 +2226,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 138
   },
   {
@@ -2213,7 +2242,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 138
   },
   {
@@ -2229,7 +2258,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 82
   },
   {
@@ -2245,7 +2274,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 209
   },
   {
@@ -2390,7 +2419,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 6408218
   },
   {
@@ -2407,7 +2436,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 22606
   },
   {
@@ -2457,7 +2486,7 @@
    "acquired_detail": "",
    "verified": true,
    "mapped": true,
-   "integrated": false,
+   "integrated": true,
    "bytes": 199553
   },
   {
@@ -2504,8 +2533,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 1062771
   },
   {
@@ -2568,8 +2597,8 @@
    "acquired": true,
    "acquired_detail": "",
    "verified": true,
-   "mapped": false,
-   "integrated": false,
+   "mapped": true,
+   "integrated": true,
    "bytes": 2356919
   },
   {
@@ -2639,20 +2668,452 @@
    "mapped": true,
    "integrated": false,
    "bytes": 479554
+  },
+  {
+   "id": "clingen_actionability_adult_summary_flat",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 140483
+  },
+  {
+   "id": "clingen_actionability_adult_assertions",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 1126178
+  },
+  {
+   "id": "clingen_actionability_adult_scoring",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 1718113
+  },
+  {
+   "id": "clingen_actionability_pediatric_summary_flat",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "json",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 115180
+  },
+  {
+   "id": "clingen_actionability_pediatric_assertions",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 1160706
+  },
+  {
+   "id": "clingen_actionability_pediatric_scoring",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 1722262
+  },
+  {
+   "id": "clingen_erepo_variant_classifications",
+   "source": "clingen",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 32798401
+  },
+  {
+   "id": "clinpgx_clinicalAnnotations",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1231768
+  },
+  {
+   "id": "clinpgx_clinicalVariants",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 74004
+  },
+  {
+   "id": "clinpgx_variants",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": true,
+   "bytes": 908661
+  },
+  {
+   "id": "clinpgx_genes",
+   "source": "pharmgkb",
+   "tier": "A",
+   "kind": "zip",
+   "supports": [
+    "functional_haplotypes_pgx"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 2905579
+  },
+  {
+   "id": "gwas_catalog_studies",
+   "source": "gwas_catalog",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": true,
+   "bytes": 130332230
+  },
+  {
+   "id": "gwas_catalog_ancestries",
+   "source": "gwas_catalog",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": true,
+   "bytes": 53759396
+  },
+  {
+   "id": "gwas_catalog_efo_trait_mappings",
+   "source": "gwas_catalog",
+   "tier": "A",
+   "kind": "tsv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 19481277
+  },
+  {
+   "id": "pgs_scores_list",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "txt",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 70290
+  },
+  {
+   "id": "pgs_metadata_scores",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 4323305
+  },
+  {
+   "id": "pgs_metadata_publications",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 457774
+  },
+  {
+   "id": "pgs_metadata_efo_traits",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 203341
+  },
+  {
+   "id": "pgs_metadata_performance_metrics",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 5474027
+  },
+  {
+   "id": "pgs_metadata_evaluation_sample_sets",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 1707837
+  },
+  {
+   "id": "pgs_metadata_score_development_samples",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 2715674
+  },
+  {
+   "id": "pgs_metadata_cohorts",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "csv",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 122526
+  },
+  {
+   "id": "clinvar_variant_summary",
+   "source": "clinvar",
+   "tier": "A",
+   "kind": "txt.gz",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 456505123
+  },
+  {
+   "id": "clinvar_submission_summary",
+   "source": "clinvar",
+   "tier": "A",
+   "kind": "txt.gz",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 404817924
+  },
+  {
+   "id": "pgs_scoring_files_grch38",
+   "source": "pgs_catalog",
+   "tier": "A",
+   "kind": "per_entity",
+   "supports": [
+    "association_finemapping_coloc"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": false,
+   "integrated": false,
+   "bytes": 851785637
+  },
+  {
+   "id": "mavedb_scores_genomic_mapped",
+   "source": "mavedb",
+   "tier": "A",
+   "kind": "per_entity",
+   "supports": [
+    "direct_experimental_variant_effects"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 28844132
+  },
+  {
+   "id": "clinvar_vcv_xml_weekly_2026_1018",
+   "source": "clinvar",
+   "tier": "A",
+   "kind": "stream_derive",
+   "supports": [
+    "clinical_interpretation"
+   ],
+   "listed": true,
+   "acquired": true,
+   "acquired_detail": "",
+   "verified": true,
+   "mapped": true,
+   "integrated": true,
+   "bytes": 6071445322
   }
  ],
  "dataset_summary": {
-  "listed": 146,
-  "acquired": 146,
-  "verified": 146,
-  "mapped": 107,
-  "integrated": 0
+  "listed": 173,
+  "acquired": 173,
+  "verified": 173,
+  "mapped": 122,
+  "integrated": 72
  },
  "manifests": [
   {
    "path": "acquisition/manifest.jsonl",
-   "records": 146,
-   "detail": "146 ok"
+   "records": 173,
+   "detail": "173 ok"
   },
   {
    "path": "acquisition/manifest_files/alphafold_db_mavedb_proteins.tsv",
@@ -2682,6 +3143,11 @@
   {
    "path": "acquisition/manifest_files/interpro_mavedb_proteins.tsv",
    "records": 549,
+   "detail": "per-file table"
+  },
+  {
+   "path": "acquisition/manifest_files/mavedb_scores_genomic_mapped.tsv",
+   "records": 200,
    "detail": "per-file table"
   },
   {
@@ -2820,6 +3286,11 @@
    "detail": "per-file table"
   },
   {
+   "path": "acquisition/manifest_files/pgs_scoring_files_grch38.tsv",
+   "records": 3467,
+   "detail": "per-file table"
+  },
+  {
    "path": "scrape/mavedb-human/scores_manifest.jsonl",
    "records": 1980,
    "detail": "sha256 and row count of each score and count table"
@@ -2831,7 +3302,7 @@
   },
   {
    "path": "catalogue/evidence/evidence_index.jsonl",
-   "records": 295,
+   "records": 321,
    "detail": "append-only record of every probe (URL, time, status, sha256)"
   }
  ],
@@ -2839,100 +3310,107 @@
   {
    "path": "AUDIT_LOG.md",
    "title": "Audit log",
-   "lines": 200,
-   "bytes": 40459,
-   "last_commit": "2026-10-25"
+   "lines": 274,
+   "bytes": 64002,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "README.md",
    "title": "dc: human genome reference data",
-   "lines": 25,
-   "bytes": 2550,
-   "last_commit": "2026-10-25"
+   "lines": 26,
+   "bytes": 3198,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "acquisition/README.md",
    "title": "Acquisition, validation and compatibility tests",
-   "lines": 45,
-   "bytes": 7066,
-   "last_commit": "2026-10-25"
+   "lines": 46,
+   "bytes": 7689,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/ACQUIRED_FILES.md",
    "title": "Acquired files register",
-   "lines": 154,
-   "bytes": 46361,
-   "last_commit": "2026-10-25"
+   "lines": 181,
+   "bytes": 53807,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/ATTRIBUTION.md",
    "title": "Attribution and licence notes for the data we hold",
-   "lines": 42,
-   "bytes": 10407,
-   "last_commit": "2026-10-25"
+   "lines": 43,
+   "bytes": 10705,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/COVERAGE_MATRIX.md",
    "title": "Coverage matrix: evidence dimensions by lifecycle stage",
-   "lines": 229,
-   "bytes": 19827,
-   "last_commit": "2026-10-25"
+   "lines": 230,
+   "bytes": 20059,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/EVIDENCE_PROFILES.md",
    "title": "Evidence profiles",
-   "lines": 856,
-   "bytes": 98143,
-   "last_commit": "2026-10-25"
+   "lines": 871,
+   "bytes": 99882,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/GAP_MATRIX.md",
    "title": "Gap matrix",
    "lines": 66,
    "bytes": 20607,
-   "last_commit": "2026-10-25"
+   "last_commit": "2026-10-26"
+  },
+  {
+   "path": "catalogue/GOAL_RESOURCES.md",
+   "title": "Resources named in the project goal",
+   "lines": 116,
+   "bytes": 12093,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/MASTER_INVENTORY.md",
    "title": "Master inventory of reusable genomic resources",
-   "lines": 149,
-   "bytes": 22029,
-   "last_commit": "2026-10-25"
+   "lines": 150,
+   "bytes": 22304,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/MECHANISM_MATRIX.md",
    "title": "Mechanism matrix: variant types by mechanism axis",
-   "lines": 322,
-   "bytes": 27945,
-   "last_commit": "2026-10-25"
+   "lines": 323,
+   "bytes": 28039,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/README.md",
    "title": "Evidence-source catalogue",
    "lines": 47,
-   "bytes": 7424,
-   "last_commit": "2026-10-25"
+   "bytes": 7517,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "catalogue/REUSE_PLAN.md",
    "title": "Source-by-source reuse, acquisition and integration plan",
-   "lines": 350,
-   "bytes": 40067,
-   "last_commit": "2026-10-25"
+   "lines": 356,
+   "bytes": 42140,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "inventory/EXISTING_ASSETS.md",
    "title": "Existing assets: inventory and verified status",
    "lines": 49,
    "bytes": 3454,
-   "last_commit": "2026-10-25"
+   "last_commit": "2026-10-26"
   },
   {
    "path": "inventory/REPOSITORY_AUDIT.md",
    "title": "Repository audit",
-   "lines": 251,
-   "bytes": 22773,
-   "last_commit": "2026-10-25"
+   "lines": 316,
+   "bytes": 29349,
+   "last_commit": "2026-10-26"
   },
   {
    "path": "scrape/ensembl-human-genomes/README.md",
@@ -2961,6 +3439,27 @@
    "lines": 17,
    "bytes": 1114,
    "last_commit": "2026-10-25"
+  },
+  {
+   "path": "variant_index/README.md",
+   "title": "High-Value Human Variant Reference Index (`vindex`)",
+   "lines": 72,
+   "bytes": 6353,
+   "last_commit": "2026-10-27"
+  },
+  {
+   "path": "variant_index/REQUIREMENTS.md",
+   "title": "Requirements and verification",
+   "lines": 178,
+   "bytes": 31460,
+   "last_commit": "2026-10-27"
+  },
+  {
+   "path": "variant_index/SCHEMA.md",
+   "title": "Index schema (version 0.4.0)",
+   "lines": 297,
+   "bytes": 10486,
+   "last_commit": "2026-10-27"
   }
  ],
  "scripts": [
@@ -2983,6 +3482,12 @@
    "purpose": "Tests that tie the mirrored GRCh38 reference sequence and the Ensembl release-116 gene annotation to the other"
   },
   {
+   "path": "acquisition/compat_resources.py",
+   "lines": 865,
+   "compiles": true,
+   "purpose": "Tests that tie the RefSeq accession map and annotation, the GIAB difficult-region stratifications and ProteinG"
+  },
+  {
    "path": "acquisition/compat_tests.py",
    "lines": 859,
    "compiles": true,
@@ -2995,6 +3500,12 @@
    "purpose": "Extract, from the MaveDB bulk dump v4, the members that the compatibility tests and the superseded-set builder"
   },
   {
+   "path": "acquisition/extract_mavedb_scores.py",
+   "lines": 95,
+   "compiles": true,
+   "purpose": "Extract the score tables of the MaveDB score sets that have genomic (GRCh38) mappings from the bulk dump."
+  },
+  {
    "path": "acquisition/fetch_gnomad_regional.py",
    "lines": 213,
    "compiles": true,
@@ -3005,6 +3516,12 @@
    "lines": 178,
    "compiles": true,
    "purpose": "Fetch per-protein resources for the UniProt proteins that the MaveDB human score sets are about."
+  },
+  {
+   "path": "acquisition/fetch_pgs_scores.py",
+   "lines": 199,
+   "compiles": true,
+   "purpose": "Fetch PGS Catalog harmonised GRCh38 scoring files for a documented, reproducible selection."
   },
   {
    "path": "acquisition/fetch_reference_regional.py",
@@ -3031,6 +3548,12 @@
    "purpose": "Add the MaveDB score sets that the public search hides because they are superseded versions."
   },
   {
+   "path": "acquisition/stream_clinvar_vcv.py",
+   "lines": 357,
+   "compiles": true,
+   "purpose": "Stream the ClinVar VCV XML full release into Parquet tables without storing the 6 GB archive."
+  },
+  {
    "path": "acquisition/test_helpers.py",
    "lines": 165,
    "compiles": true,
@@ -3038,7 +3561,7 @@
   },
   {
    "path": "acquisition/validate.py",
-   "lines": 1758,
+   "lines": 2186,
    "compiles": true,
    "purpose": "Validate downloaded external files against each source's own description."
   },
@@ -3067,6 +3590,12 @@
    "purpose": "Record the INFO/FILTER definitions of the gnomAD v4.1 exome and genome sites VCFs, read from the VCF headers b"
   },
   {
+   "path": "catalogue/derive/local_file.py",
+   "lines": 50,
+   "compiles": true,
+   "purpose": "Store a local file (for example a licence read from a sanctioned read-only clone) as evidence, with its proven"
+  },
+  {
    "path": "catalogue/derive/openebench_counts.py",
    "lines": 69,
    "compiles": true,
@@ -3083,6 +3612,18 @@
    "lines": 55,
    "compiles": true,
    "purpose": "Measure the size of every Open Targets output dataset from the EBI FTP directory indexes (read-only listing re"
+  },
+  {
+   "path": "catalogue/derive/ot_credible_set_counts.py",
+   "lines": 41,
+   "compiles": true,
+   "purpose": "Count the acquired Open Targets credible sets and studies by type and project."
+  },
+  {
+   "path": "catalogue/derive/ot_interaction_counts.py",
+   "lines": 32,
+   "compiles": true,
+   "purpose": "Count the rows and distinct gene pairs per source database in the acquired Open Targets interaction dataset."
   },
   {
    "path": "catalogue/derive/pdf_text.py",
@@ -3121,8 +3662,14 @@
    "purpose": "Repository policy check: nothing that must stay out of git is tracked, and the visibility is stated."
   },
   {
+   "path": "inventory/gap_audit.py",
+   "lines": 518,
+   "compiles": true,
+   "purpose": "Adversarial gap audit of the phase requirements: every check either passes, fails, is skipped for a stated mis"
+  },
+  {
    "path": "inventory/repository_audit.py",
-   "lines": 416,
+   "lines": 505,
    "compiles": true,
    "purpose": "Repository audit: what exists, what state it is in, and whether the documentation matches the implementation."
   },
@@ -3143,6 +3690,636 @@
    "lines": 84,
    "compiles": true,
    "purpose": "Verify scores/ against the manifest and the metadata files."
+  },
+  {
+   "path": "variant_index/build_index.py",
+   "lines": 97,
+   "compiles": true,
+   "purpose": "Build the High-Value Human Variant Reference Index from the acquired sources."
+  },
+  {
+   "path": "variant_index/build_pgs_registry.py",
+   "lines": 32,
+   "compiles": true,
+   "purpose": "Build the PGS Catalog model registry (data/pgs_registry) from the acquired bulk metadata and the scoring-file "
+  },
+  {
+   "path": "variant_index/check_idempotence.py",
+   "lines": 92,
+   "compiles": true,
+   "purpose": "Build the index twice from the same sources and code and compare the tables byte for byte."
+  },
+  {
+   "path": "variant_index/check_requirements.py",
+   "lines": 97,
+   "compiles": true,
+   "purpose": "Check requirements.json against the repository and render REQUIREMENTS.md."
+  },
+  {
+   "path": "variant_index/compare_runs.py",
+   "lines": 63,
+   "compiles": true,
+   "purpose": "Compare two sample runs of the matcher: the same input and index must give the same tables whatever the hash s"
+  },
+  {
+   "path": "variant_index/crosscheck_bcftools.py",
+   "lines": 71,
+   "compiles": true,
+   "purpose": "Cross-check a whole-genome run against bcftools, an independent normaliser."
+  },
+  {
+   "path": "variant_index/fetch_public_testset.py",
+   "lines": 79,
+   "compiles": true,
+   "purpose": "Fetch the public Genome in a Bottle HG002 GRCh38 benchmark call set, a real, openly released callset used to t"
+  },
+  {
+   "path": "variant_index/make_reports.py",
+   "lines": 108,
+   "compiles": true,
+   "purpose": "Coverage statistics, validation, target lifecycle, change log and gap report for a built index."
+  },
+  {
+   "path": "variant_index/make_status.py",
+   "lines": 53,
+   "compiles": true,
+   "purpose": "Keep the module table of STATUS.md equal to the module registry (vindex.reports.MODULES)."
+  },
+  {
+   "path": "variant_index/make_views.py",
+   "lines": 41,
+   "compiles": true,
+   "purpose": "Priority lists, trait groupings and pathway groupings over the matches of one sample (see vindex/views.py for "
+  },
+  {
+   "path": "variant_index/match_wgs.py",
+   "lines": 65,
+   "compiles": true,
+   "purpose": "Match one sample's GRCh38 calls against the variant reference index, one chromosome at a time."
+  },
+  {
+   "path": "variant_index/score_pgs.py",
+   "lines": 64,
+   "compiles": true,
+   "purpose": "Score a sample with PGS Catalog models, one chromosome at a time, with the registry's gates beside every resul"
+  },
+  {
+   "path": "variant_index/tests/evidence_fixtures.py",
+   "lines": 33,
+   "compiles": true,
+   "purpose": "Hand-made evidence rows for matcher tests. Every row is validated against the schema vocabulary."
+  },
+  {
+   "path": "variant_index/tests/fixtures/make_reference.py",
+   "lines": 49,
+   "compiles": true,
+   "purpose": "Deterministic synthetic reference ('SYN38') for the tests: small contigs with engineered repeats, so that left"
+  },
+  {
+   "path": "variant_index/tests/fixtures/make_sources.py",
+   "lines": 879,
+   "compiles": true,
+   "purpose": "Mini source files in the real formats, built on the synthetic reference, for the source -> index -> matcher te"
+  },
+  {
+   "path": "variant_index/tests/helpers.py",
+   "lines": 80,
+   "compiles": true,
+   "purpose": "Shared test helpers: synthetic reference, VCF writer, bcftools discovery."
+  },
+  {
+   "path": "variant_index/tests/test_alleles.py",
+   "lines": 73,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_clingen.py",
+   "lines": 135,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_clinpgx.py",
+   "lines": 283,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_clinvar.py",
+   "lines": 225,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_clinvar_vcv.py",
+   "lines": 279,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_events.py",
+   "lines": 107,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_gnomad.py",
+   "lines": 111,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_gwas.py",
+   "lines": 330,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_mavedb.py",
+   "lines": 170,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_opentargets.py",
+   "lines": 168,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_opentargets_gene.py",
+   "lines": 130,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_pathways.py",
+   "lines": 39,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_pgx.py",
+   "lines": 279,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_build_regions.py",
+   "lines": 134,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_classes.py",
+   "lines": 66,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_compare_runs.py",
+   "lines": 91,
+   "compiles": true,
+   "purpose": "compare_runs: two runs of one input are identical whatever the moment; a changed table, a changed manifest fie"
+  },
+  {
+   "path": "variant_index/tests/test_crosscheck.py",
+   "lines": 223,
+   "compiles": true,
+   "purpose": "The cross-check recomputes calls and evidence matches with bcftools only. It must agree with a clean run and m"
+  },
+  {
+   "path": "variant_index/tests/test_effect_alleles.py",
+   "lines": 122,
+   "compiles": true,
+   "purpose": "An association is about one allele of a site. When that allele is the reference allele the sample is linked th"
+  },
+  {
+   "path": "variant_index/tests/test_gap_audit.py",
+   "lines": 200,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_genes.py",
+   "lines": 90,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_idempotence.py",
+   "lines": 78,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_intervals.py",
+   "lines": 78,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_known_loci.py",
+   "lines": 242,
+   "compiles": true,
+   "purpose": "The known-locus engine on a small in-memory index: a fact that holds passes, and every way the index can contr"
+  },
+  {
+   "path": "variant_index/tests/test_make_status.py",
+   "lines": 30,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_match_hap.py",
+   "lines": 94,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_match_repeat.py",
+   "lines": 63,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_match_small.py",
+   "lines": 268,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_match_sv.py",
+   "lines": 154,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_normalise.py",
+   "lines": 223,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_odd_records.py",
+   "lines": 177,
+   "compiles": true,
+   "purpose": "Records as real callsets hold them: lowercase and N bases, a REF that is not the reference, '*' alleles, gVCF "
+  },
+  {
+   "path": "variant_index/tests/test_other_contigs.py",
+   "lines": 160,
+   "compiles": true,
+   "purpose": "Contigs outside the primary assembly (alternate loci, unlocalised scaffolds, decoys) are indexed, matched and "
+  },
+  {
+   "path": "variant_index/tests/test_pgs.py",
+   "lines": 132,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_pgs_registry.py",
+   "lines": 114,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_pgs_run.py",
+   "lines": 126,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_provenance.py",
+   "lines": 223,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_reference_effect.py",
+   "lines": 252,
+   "compiles": true,
+   "purpose": "Evidence whose effect allele is the reference allele (a GWAS risk allele is often the reference allele) is rea"
+  },
+  {
+   "path": "variant_index/tests/test_reports.py",
+   "lines": 376,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_requirements.py",
+   "lines": 50,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_resolvers.py",
+   "lines": 136,
+   "compiles": true,
+   "purpose": "Every provenance resolver reproduces, for EVERY evidence row of its release, the digest the adapter stored: th"
+  },
+  {
+   "path": "variant_index/tests/test_runner_guards.py",
+   "lines": 227,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_scale_paths.py",
+   "lines": 128,
+   "compiles": true,
+   "purpose": "The paths that keep a whole-genome match within memory must give the same answers as the plain ones: per-conti"
+  },
+  {
+   "path": "variant_index/tests/test_summary.py",
+   "lines": 38,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_vcfio.py",
+   "lines": 162,
+   "compiles": true,
+   "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_wgs.py",
+   "lines": 405,
+   "compiles": true,
+   "purpose": "End to end on synthetic data: sources -> index -> a sample's calls -> per-chromosome matching -> result tables"
+  },
+  {
+   "path": "variant_index/verify_index.py",
+   "lines": 39,
+   "compiles": true,
+   "purpose": "Check an index's provenance: release linkage, release records against the acquisition manifest, and raw-record"
+  },
+  {
+   "path": "variant_index/verify_known_loci.py",
+   "lines": 43,
+   "compiles": true,
+   "purpose": "Check a built index against facts that were established outside it (vindex/known_loci.py, known_loci.json)."
+  },
+  {
+   "path": "variant_index/vindex/__init__.py",
+   "lines": 11,
+   "compiles": true,
+   "purpose": "High-Value Human Variant Reference Index (vindex)."
+  },
+  {
+   "path": "variant_index/vindex/build/__init__.py",
+   "lines": 1,
+   "compiles": true,
+   "purpose": "Index build framework: adapters turn acquired source files into evidence rows and entities."
+  },
+  {
+   "path": "variant_index/vindex/build/alleles.py",
+   "lines": 134,
+   "compiles": true,
+   "purpose": "Orientation of a reported effect allele against the reference: the part of harmonisation that decides whether "
+  },
+  {
+   "path": "variant_index/vindex/build/classes.py",
+   "lines": 83,
+   "compiles": true,
+   "purpose": "ClinVar classification vocabulary, shared by the VCF adapter (aggregate strings such as 'Likely_pathogenic') a"
+  },
+  {
+   "path": "variant_index/vindex/build/clingen.py",
+   "lines": 285,
+   "compiles": true,
+   "purpose": "ClinGen -> evidence rows, each at its own level."
+  },
+  {
+   "path": "variant_index/vindex/build/clinpgx.py",
+   "lines": 529,
+   "compiles": true,
+   "purpose": "ClinPGx (formerly PharmGKB) -> evidence rows."
+  },
+  {
+   "path": "variant_index/vindex/build/clinvar_vcf.py",
+   "lines": 179,
+   "compiles": true,
+   "purpose": "ClinVar GRCh38 VCF -> evidence rows (variant level) with cross-references and gene relations."
+  },
+  {
+   "path": "variant_index/vindex/build/clinvar_vcv.py",
+   "lines": 338,
+   "compiles": true,
+   "purpose": "ClinVar full VCV release (stream-derived Parquet tables) -> submission-level evidence, structural events and c"
+  },
+  {
+   "path": "variant_index/vindex/build/common.py",
+   "lines": 288,
+   "compiles": true,
+   "purpose": "Build context, row sinks and evidence-row construction shared by all adapters."
+  },
+  {
+   "path": "variant_index/vindex/build/events.py",
+   "lines": 244,
+   "compiles": true,
+   "purpose": "Structural-variant and copy-number events observed in population resources (GRCh38) -> entity_event rows."
+  },
+  {
+   "path": "variant_index/vindex/build/genes.py",
+   "lines": 132,
+   "compiles": true,
+   "purpose": "Gene identity: Ensembl gene id (version stripped) is the entity id; HGNC id, NCBI Gene id and symbols are cros"
+  },
+  {
+   "path": "variant_index/vindex/build/gnomad.py",
+   "lines": 207,
+   "compiles": true,
+   "purpose": "gnomAD v4.1 -> evidence rows."
+  },
+  {
+   "path": "variant_index/vindex/build/gwas.py",
+   "lines": 310,
+   "compiles": true,
+   "purpose": "GWAS Catalog associations (release 2026-10-22) -> evidence rows, with studies and ancestry as study entities."
+  },
+  {
+   "path": "variant_index/vindex/build/hgvs.py",
+   "lines": 95,
+   "compiles": true,
+   "purpose": "Genomic HGVS (g. / m.) changes -> normalised CHROM:POS:REF:ALT keys, with the reference sequence as the arbite"
+  },
+  {
+   "path": "variant_index/vindex/build/mavedb.py",
+   "lines": 309,
+   "compiles": true,
+   "purpose": "MaveDB multiplexed assays of variant effect -> assay entities and variant-level evidence."
+  },
+  {
+   "path": "variant_index/vindex/build/opentargets_gene.py",
+   "lines": 217,
+   "compiles": true,
+   "purpose": "Open Targets 26.09 gene-level perturbation and burden evidence. Every row here is attached to the gene; none o"
+  },
+  {
+   "path": "variant_index/vindex/build/opentargets_genetics.py",
+   "lines": 211,
+   "compiles": true,
+   "purpose": "Open Targets Genetics (platform 26.09): fine-mapped credible sets, studies and locus-to-gene predictions."
+  },
+  {
+   "path": "variant_index/vindex/build/pathways.py",
+   "lines": 48,
+   "compiles": true,
+   "purpose": "Reactome pathway membership -> gene_set_member rows."
+  },
+  {
+   "path": "variant_index/vindex/build/pgx.py",
+   "lines": 330,
+   "compiles": true,
+   "purpose": "Pharmacogenomic haplotype definitions and function: CPIC (API tables) and PharmVar (complete database 6.2.29)."
+  },
+  {
+   "path": "variant_index/vindex/build/regions.py",
+   "lines": 158,
+   "compiles": true,
+   "purpose": "Genomic regions that change how a call or a negative result is read: GIAB difficult regions and STRchive repea"
+  },
+  {
+   "path": "variant_index/vindex/build/runner.py",
+   "lines": 161,
+   "compiles": true,
+   "purpose": "Run adapters and finalise an index directory: source_release, entity_variant (deduplicated from evidence), man"
+  },
+  {
+   "path": "variant_index/vindex/callability.py",
+   "lines": 170,
+   "compiles": true,
+   "purpose": "Reference-confidence providers: what the input can say about positions where it holds no variant record."
+  },
+  {
+   "path": "variant_index/vindex/crosscheck.py",
+   "lines": 485,
+   "compiles": true,
+   "purpose": "Independent cross-check of a whole-genome run against established command-line tools."
+  },
+  {
+   "path": "variant_index/vindex/index_reader.py",
+   "lines": 239,
+   "compiles": true,
+   "purpose": "Read access to a built index (a directory of Parquet tables named as in schema.TABLES, or in-memory tables)."
+  },
+  {
+   "path": "variant_index/vindex/intervals.py",
+   "lines": 72,
+   "compiles": true,
+   "purpose": "Overlap queries over closed integer intervals, sized for millions of intervals per chromosome and millions of "
+  },
+  {
+   "path": "variant_index/vindex/known_loci.py",
+   "lines": 308,
+   "compiles": true,
+   "purpose": "Known-locus checks: facts that are established in the literature and in public curation, tested against the bu"
+  },
+  {
+   "path": "variant_index/vindex/match_hap.py",
+   "lines": 139,
+   "compiles": true,
+   "purpose": "Haplotype (star-allele) calling from defining variants, with explicit evidence requirements."
+  },
+  {
+   "path": "variant_index/vindex/match_repeat.py",
+   "lines": 107,
+   "compiles": true,
+   "purpose": "Repeat-expansion loci: a repeat length needs a repeat genotyper."
+  },
+  {
+   "path": "variant_index/vindex/match_small.py",
+   "lines": 251,
+   "compiles": true,
+   "purpose": "Matching of called SNVs and indels (and MNV components) against the index, by normalised CHROM:POS:REF:ALT onl"
+  },
+  {
+   "path": "variant_index/vindex/match_sv.py",
+   "lines": 148,
+   "compiles": true,
+   "purpose": "Structural variant and copy-number matching."
+  },
+  {
+   "path": "variant_index/vindex/normalise.py",
+   "lines": 100,
+   "compiles": true,
+   "purpose": "Allele normalisation: left-aligned, parsimonious, validated against the reference."
+  },
+  {
+   "path": "variant_index/vindex/pgs.py",
+   "lines": 242,
+   "compiles": true,
+   "purpose": "Polygenic score models, kept separate from the variant index."
+  },
+  {
+   "path": "variant_index/vindex/pgs_registry.py",
+   "lines": 174,
+   "compiles": true,
+   "purpose": "PGS Catalog model registry: the metadata that gates the interpretation of a polygenic score, kept apart from t"
+  },
+  {
+   "path": "variant_index/vindex/pgs_run.py",
+   "lines": 118,
+   "compiles": true,
+   "purpose": "Polygenic scores for one sample, one chromosome at a time, with the registry's gates beside every result."
+  },
+  {
+   "path": "variant_index/vindex/provenance.py",
+   "lines": 279,
+   "compiles": true,
+   "purpose": "Provenance checks on a built index."
+  },
+  {
+   "path": "variant_index/vindex/refgenome.py",
+   "lines": 119,
+   "compiles": true,
+   "purpose": "Reference sequence access, contig naming and assembly validation."
+  },
+  {
+   "path": "variant_index/vindex/reports.py",
+   "lines": 489,
+   "compiles": true,
+   "purpose": "Reports over a built index: coverage statistics, validation, the lifecycle of every acquisition target, a chan"
+  },
+  {
+   "path": "variant_index/vindex/resolvers.py",
+   "lines": 211,
+   "compiles": true,
+   "purpose": "Raw-record resolvers: the exact text an adapter hashed for an evidence row, recovered again from the acquired "
+  },
+  {
+   "path": "variant_index/vindex/schema.py",
+   "lines": 222,
+   "compiles": true,
+   "purpose": "Table schemas and controlled vocabulary of the High-Value Human Variant Reference Index."
+  },
+  {
+   "path": "variant_index/vindex/summary.py",
+   "lines": 52,
+   "compiles": true,
+   "purpose": "Per-axis evidence summaries. A summary lists what exists on each axis; it never ranks or adds axes together."
+  },
+  {
+   "path": "variant_index/vindex/vcfio.py",
+   "lines": 436,
+   "compiles": true,
+   "purpose": "Sample VCF/gVCF reading for the matcher."
+  },
+  {
+   "path": "variant_index/vindex/views.py",
+   "lines": 413,
+   "compiles": true,
+   "purpose": "Rules and views over the complete catalogue of matches."
+  },
+  {
+   "path": "variant_index/vindex/wgs.py",
+   "lines": 422,
+   "compiles": true,
+   "purpose": "Whole-genome matching of one sample against the index, one chromosome at a time."
   }
  ]
 }

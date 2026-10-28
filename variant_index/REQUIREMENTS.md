@@ -152,7 +152,7 @@ verified 30, partial 12, unavailable_input 1, blocked_external 1 (of 44 requirem
 
 **D2.** match_wgs.py writes small_calls, evidence_links, gene_context, sv_calls, haplotype_calls, repeat_calls, unresolved_loci, rejected_calls and a run manifest; make_views.py prepares the priority lists.
 
-**D3.** views.trait_view groups matched evidence by the sources' own condition identifiers and pathway_view by Reactome gene-set membership; both are annotation over the complete tables. *Gap:* Traits are not rolled up through an ontology (EFO / MONDO ancestors); the views use the identifiers each source supplied.
+**D3.** views.trait_view groups matched evidence by the sources' condition identifiers (every one spelled PREFIX:LOCAL by the build) and views.trait_rollup rolls the traits up through the Open Targets disease and phenotype ontology table (ancestors and therapeutic areas; a trait in several areas is counted in each); pathway_view groups by Reactome gene-set membership; all three are annotation over the complete tables and none changes or combines evidence. *Gap:* Trait identifiers that the Open Targets ontology table does not hold (MedGen, OMIM, MeSH, GeneReviews, ClinVar's Gene ids and a few retired terms) are listed as not rolled up and stay as the sources wrote them (363 of 10,306 traits in the HG002 run); no mapping between ontologies is made (a MedGen disease is not matched to its MONDO term).
 
 **D4.** An index-centric pass over the high-value rules lists every indexed allele the sample cannot answer for, with status, reasons and the evidence that would settle it.
 

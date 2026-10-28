@@ -118,6 +118,17 @@ def compat_counts():
     return c
 
 
+def requirement_counts():
+    req = jload('variant_index/requirements.json')['requirements']
+    c = collections.Counter(r['status'] for r in req)
+    return [len(req), c['verified'], c['partial'], c['unavailable_input'], c['blocked_external']]
+
+
+def index_manifest():
+    need_data('data/index/index_manifest.json')
+    return jload('data/index/index_manifest.json')
+
+
 def vstat(tid, key):
     return validation().get(tid, {}).get('stats', {}).get(key)
 
@@ -213,6 +224,11 @@ CLAIMS = [
     ('latest:AUDIT_LOG.md', r'(\d+) manifest records', lambda: [len(manifest())]),
     ('latest:AUDIT_LOG.md', r'`compat_tests\.py`: (\d+) tests, (\d+) PASS, (\d+) FAIL, (\d+) INFO', lambda: [sum(compat_counts().values()), compat_counts()['PASS'], compat_counts()['FAIL'], compat_counts()['INFO']]),
     ('latest:AUDIT_LOG.md', r'test_helpers`: (\d+) tests pass', lambda: [unit_tests()['n'] if unit_tests()['ok'] else -1]),
+    ('latest:AUDIT_LOG.md', r'`variant_index`: (\d+) unit tests pass', lambda: [vindex_tests()['n'] if vindex_tests()['ok'] else -1]),
+    ('variant_index/STATUS.md', r'(\d+) unit tests pass', lambda: [vindex_tests()['n'] if vindex_tests()['ok'] else -1]),
+    ('variant_index/STATUS.md', r'Requirements: (\d+), of which (\d+) verified, (\d+) partial, (\d+) unavailable input and (\d+) blocked external', lambda: requirement_counts()),
+    ('variant_index/STATUS.md', r'([\d,]+) evidence rows from (\d+) source releases, ([\d,]+) variant entities',
+     lambda: [index_manifest()['tables']['evidence']['rows'], len(index_manifest()['releases']), index_manifest()['entity_variants']]),
     ('catalogue/gaps.json', r'GTF: ([\d,]+) genes, ([\d,]+) transcripts, ([\d,]+) MANE Select', lambda: [vstat('ensembl_grch38_gtf_116', 'feature_counts')['gene'], vstat('ensembl_grch38_gtf_116', 'feature_counts')['transcript'], vstat('ensembl_grch38_gtf_116', 'tags')['MANE_Select']]),
     ('catalogue/gaps.json', r'toplevel FASTA: (\d+) sequences', lambda: [vstat('ensembl_grch38_dna_toplevel', 'records')]),
     ('catalogue/gaps.json', r'\(([\d.]+)M PDB chain segments, ([\d,]+) PDB entries, ([\d,]+) UniProt accessions', lambda: [round(vstat('sifts_pdb_chain_uniprot', 'rows') / 1e6, 2), vstat('sifts_pdb_chain_uniprot', 'pdb_entries'), vstat('sifts_pdb_chain_uniprot', 'uniprot_accessions')]),
