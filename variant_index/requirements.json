@@ -204,7 +204,7 @@
       "id": "E1",
       "section": "EVIDENCE",
       "clause": "Link immutable source records to normalised entities.",
-      "how": "Every evidence row carries release_id, accession, locator and the SHA-256 of the raw record text. provenance.verify_index re-opens the acquired files, recomputes the digests of a deterministic sample of rows per release with one rule per source (vindex/resolvers.py), and checks release linkage and manifest agreement.",
+      "how": "Every evidence row carries release_id, accession, locator and the SHA-256 of the raw record text. provenance.verify_index re-opens the acquired files, recomputes the digest of every evidence row (or of a deterministic sample per release when asked for a smaller sample), in chunks, with one rule per source (vindex/resolvers.py), checks release linkage and manifest agreement, and names the code that made the report.",
       "code": [
         "variant_index/vindex/provenance.py",
         "variant_index/verify_index.py",
@@ -215,7 +215,7 @@
         "test_resolvers"
       ],
       "status": "partial",
-      "gap": "The digests are recomputed for a sample of 500 rows per release, not for every row. Entity rows (genes, studies, regions, events, haplotypes) carry the release of their source but not a per-row digest."
+      "gap": "Entity rows (genes, studies, regions, events, haplotypes) carry the release of their source but not a per-row digest. The digests of the evidence rows are recomputed for every row (24,195,946 of 24,195,946, none mismatched or unresolved); that shows that the stored text is the text of the acquired record, not that every field of a row was derived from it correctly, which is tested on fixtures, by the bcftools comparison of the ClinVar rows and by the known-locus checks."
     },
     {
       "id": "E2",

@@ -194,13 +194,26 @@ def check_releases(releases, manifest, targets, data_root, rehash=False, rehash_
     return issues
 
 
+CHUNK = 100_000        # records re-opened per call of a resolver: the texts of a chunk are held, compared and released before the next chunk is read
+MAX_EXAMPLES = 20      # mismatched or unresolved records listed per release (all are counted)
+
+
+def release_dataset(index_dir):
+    p = os.path.join(index_dir, 'evidence')
+    return pds.dataset(p, format='parquet', ignore_prefixes=[]) if os.path.isdir(p) else None
+
+
+def count_rows(index_dir, release_id):
+    ds = release_dataset(index_dir)
+    return ds.count_rows(filter=pc.field('release_id') == release_id) if ds is not None else 0
+
+
 def sample_rows(index_dir, release_id, k, seed):
     """Deterministic reservoir sample of (evidence_id, locator, raw_sha256, accession) rows of one release, read in index order."""
-    p = os.path.join(index_dir, 'evidence')
-    if not os.path.isdir(p):
+    ds = release_dataset(index_dir)
+    if ds is None:
         return [], 0
     rng, keep, n = random.Random(f'{seed}:{release_id}'), [], 0
-    ds = pds.dataset(p, format='parquet', ignore_prefixes=[])
     for b in ds.to_batches(columns=['evidence_id', 'locator', 'raw_sha256', 'accession'], filter=pc.field('release_id') == release_id):
         for row in b.to_pylist():
             n += 1
@@ -213,31 +226,57 @@ def sample_rows(index_dir, release_id, k, seed):
     return sorted(keep, key=lambda r: r['evidence_id']), n
 
 
-def verify_release(index_dir, rid, tid, base, sample=500, seed=0):
-    """Open the sampled source records of one release and compare the SHA-256 of their text with the digest in the row. None: the release has no evidence rows; no_resolver: no rule
-    recovers its records; else the digest result."""
+def row_chunks(index_dir, release_id, chunk):
+    """Every (evidence_id, locator, raw_sha256, accession) row of one release in index order, in lists of at most `chunk` rows (the rows of a release of millions are never held at once)."""
+    ds, buf = release_dataset(index_dir), []
+    for b in ds.to_batches(columns=['evidence_id', 'locator', 'raw_sha256', 'accession'], filter=pc.field('release_id') == release_id):
+        buf += b.to_pylist()
+        while len(buf) >= chunk:
+            yield buf[:chunk]
+            buf = buf[chunk:]
+    if buf:
+        yield buf
+
+
+def verify_release(index_dir, rid, tid, base, sample=500, seed=0, chunk=None):
+    """Open the source records of one release and compare the SHA-256 of their text with the digest in the row: a deterministic sample of `sample` rows, or every row when the release has no
+    more than that. The records are re-opened `chunk` at a time. None: the release has no evidence rows; no_resolver: no rule recovers its records; else the digest result."""
+    chunk = chunk or CHUNK
     kind = RESOLVERS.get(tid)
-    rows, total = sample_rows(index_dir, rid, sample, seed)
+    total = count_rows(index_dir, rid)
     if not total:
         return None
     if kind is None:
         return dict(target_id=tid, no_resolver=True, evidence_rows=total)
-    locators = [r['locator'] for r in rows]
-    if callable(kind):
-        got = kind(base, locators) if os.path.exists(base) else {}
+    if sample >= total:
+        batches = row_chunks(index_dir, rid, chunk)
     else:
-        got = resolve_parquet_rows(base, locators) if kind == 'parquet' else (resolve_lines(kind, base, locators) if os.path.exists(base) else {})
-    verified, bad, missing = 0, [], []
-    for r in rows:
-        text = got.get(r['locator'])
-        if text is None:
-            missing.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
-        elif sha256_text(text) == r['raw_sha256']:
-            verified += 1
+        rows, _ = sample_rows(index_dir, rid, sample, seed)
+        batches = (rows[i:i + chunk] for i in range(0, len(rows), chunk))
+    sampled = verified = n_bad = n_missing = 0
+    bad, missing = [], []
+    for rows in batches:
+        locators = [r['locator'] for r in rows]
+        if callable(kind):
+            got = kind(base, locators) if os.path.exists(base) else {}
         else:
-            bad.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
-    return dict(target_id=tid, resolver=kind if isinstance(kind, str) else kind.__name__, evidence_rows=total, sampled=len(rows), verified=verified, mismatched=bad[:20], n_mismatched=len(bad),
-                unresolved=missing[:20], n_unresolved=len(missing))
+            got = resolve_parquet_rows(base, locators) if kind == 'parquet' else (resolve_lines(kind, base, locators) if os.path.exists(base) else {})
+        sampled += len(rows)
+        for r in rows:
+            text = got.get(r['locator'])
+            if text is None:
+                n_missing += 1
+                if len(missing) < MAX_EXAMPLES:
+                    missing.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
+            elif sha256_text(text) == r['raw_sha256']:
+                verified += 1
+            else:
+                n_bad += 1
+                if len(bad) < MAX_EXAMPLES:
+                    bad.append(dict(evidence_id=r['evidence_id'], locator=r['locator']))
+        del got
+    return dict(target_id=tid, resolver=kind if isinstance(kind, str) else kind.__name__, evidence_rows=total, sampled=sampled, verified=verified, mismatched=bad, n_mismatched=n_bad,
+                unresolved=missing, n_unresolved=n_missing)
 
 
 def verify_index(index_dir, sample=500, seed=0, data_root=None, paths=None, rehash=False, manifest_path=None, targets_path=None):
@@ -263,8 +302,10 @@ def verify_index(index_dir, sample=500, seed=0, data_root=None, paths=None, reha
             ids.update(pc.unique(b['release_id']).to_pylist())
         used['evidence'] = ids
     orphans = {t: sorted(i for i in ids if i not in releases) for t, ids in used.items() if any(i not in releases for i in ids)}
+    here = os.path.dirname(os.path.abspath(__file__))
     report = dict(index=os.path.abspath(index_dir), releases=len(releases), tables_with_releases=sorted(used), orphan_release_ids=orphans,
-                  release_issues=check_releases(releases, manifest, targets, data_root, rehash), digests={}, no_resolver=[])
+                  release_issues=check_releases(releases, manifest, targets, data_root, rehash), digests={}, no_resolver=[],
+                  code={f: hashlib.sha256(open(os.path.join(here, f), 'rb').read()).hexdigest() for f in ('provenance.py', 'resolvers.py')}, sample=sample, seed=seed)
     for rid, rel in sorted(releases.items()):
         tid = rel['target_id']
         base = paths.get(tid) or os.path.join(data_root, (targets.get(tid) or manifest.get(tid) or {}).get('dest', ''))

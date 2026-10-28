@@ -98,6 +98,14 @@ class TestProvenance(unittest.TestCase):
         self.assertEqual({d['resolver'] for d in by_target.values()}, {'iter', 'iter_raw', 'splitlines', 'gwas', 'parquet'})
         self.assertEqual(r['no_resolver'], [])
 
+    def test_the_report_names_the_code_that_made_it_and_the_sample_it_asked_for(self):
+        import hashlib
+        here = os.path.dirname(os.path.abspath(provenance.__file__))
+        for f, digest in self.report['code'].items():
+            with open(os.path.join(here, f), 'rb') as fh:
+                self.assertEqual(digest, hashlib.sha256(fh.read()).hexdigest(), f)
+        self.assertEqual((sorted(self.report['code']), self.report['sample'], self.report['seed']), (['provenance.py', 'resolvers.py'], 1000, 0))
+
     def test_parquet_rows_are_resolved_part_by_part_and_out_of_range_rows_stay_unresolved(self):
         root = tempfile.mkdtemp()
         try:
@@ -116,6 +124,59 @@ class TestProvenance(unittest.TestCase):
         self.assertEqual(small['digests'], again['digests'])
         self.assertTrue(all(d['sampled'] <= 3 for d in small['digests'].values()))
         self.assertTrue(small['ok'])
+
+    def test_the_records_are_re_opened_in_chunks_and_the_chunk_size_changes_nothing(self):
+        saved = provenance.CHUNK
+        try:
+            provenance.CHUNK = 2
+            small = verify(self.w)
+        finally:
+            provenance.CHUNK = saved
+        self.assertEqual(small['digests'], self.report['digests'])
+        self.assertTrue(any(d['sampled'] > 2 for d in small['digests'].values()))                        # more than one chunk was needed
+
+    def test_no_resolver_is_asked_for_more_records_than_one_chunk(self):
+        sizes, saved = [], (provenance.resolve_lines, provenance.resolve_parquet_rows, provenance.CHUNK)
+
+        def spy(fn):
+            def wrapper(*args, **kw):
+                sizes.append(len(args[-1]))
+                return fn(*args, **kw)
+            return wrapper
+        try:
+            provenance.resolve_lines, provenance.resolve_parquet_rows, provenance.CHUNK = spy(saved[0]), spy(saved[1]), 2
+            verify(self.w)                                                                                  # every row of each release
+            every = list(sizes)
+            del sizes[:]
+            provenance.verify_index(self.w['idx'], sample=3, paths=self.w['paths'], manifest_path=self.w['manifest'], targets_path=self.w['targets'], data_root=self.w['work'])    # a sample
+        finally:
+            provenance.resolve_lines, provenance.resolve_parquet_rows, provenance.CHUNK = saved
+        self.assertTrue(every and max(every) <= 2 and 2 in every, every)
+        self.assertTrue(sizes and max(sizes) <= 2 and 2 in sizes and 1 in sizes, sizes)                      # three sampled rows are asked for as two and one
+
+    def test_every_row_is_re_opened_when_the_sample_is_at_least_the_release_and_a_smaller_sample_is_exactly_that_size(self):
+        full = provenance.verify_index(self.w['idx'], sample=10 ** 7, paths=self.w['paths'], manifest_path=self.w['manifest'], targets_path=self.w['targets'], data_root=self.w['work'])
+        part = provenance.verify_index(self.w['idx'], sample=3, paths=self.w['paths'], manifest_path=self.w['manifest'], targets_path=self.w['targets'], data_root=self.w['work'])
+        for rid, d in full['digests'].items():
+            self.assertEqual((d['sampled'], d['verified']), (d['evidence_rows'], d['evidence_rows']), rid)
+            self.assertEqual(part['digests'][rid]['sampled'], min(3, d['evidence_rows']), rid)
+
+    def test_every_damaged_record_is_counted_when_only_the_first_few_are_listed(self):
+        def edit(w):
+            p = w['paths']['clinvar_vcf_grch38']
+            with open(p) as f:
+                text = f.read()
+            with open(p, 'w') as f:
+                f.write(text.replace('Test_syndrome', 'Test_syndrome_EDITED'))
+        saved = provenance.MAX_EXAMPLES, provenance.CHUNK
+        try:
+            provenance.MAX_EXAMPLES, provenance.CHUNK = 1, 2
+            r = self.damaged(edit)
+        finally:
+            provenance.MAX_EXAMPLES, provenance.CHUNK = saved
+        d = next(d for d in r['digests'].values() if d['target_id'] == 'clinvar_vcf_grch38')
+        self.assertGreater(d['n_mismatched'], 1)                                                         # several records carry the edited text, in more than one chunk
+        self.assertEqual(len(d['mismatched']), 1)
 
     # ---- adversarial: each kind of damage is caught ---------------------------------------------------------------------------------------------
     def damaged(self, mutate):

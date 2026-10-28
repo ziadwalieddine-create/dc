@@ -29,7 +29,7 @@ with `bcftools` and `plink2` to include the cross-checks against those tools (`e
 python3 variant_index/build_index.py                       # all adapters, in dependency order (--sources a,b to build a subset, --limit N for trials)
 
 # 2. check it
-python3 variant_index/verify_index.py                      # release linkage, manifest agreement, raw-record digests recomputed from the acquired files (vindex/resolvers.py holds one rule per source)
+python3 variant_index/verify_index.py [--sample 30000000]  # release linkage, manifest agreement, raw-record digests recomputed from the acquired files (vindex/resolvers.py holds one rule per source); the default samples 50,000 rows per release, a sample larger than the biggest release re-derives every row (27 minutes)
 python3 variant_index/make_reports.py --markdown variant_index/BUILD_REPORT.md   # coverage, validation, target lifecycle, shared lineage, gap report (+ --previous OLD for a change log)
 python3 variant_index/crosscheck_bcftools.py --clinvar-fields --out data/index/reports/clinvar_fields.json   # every ClinVar-VCF row of the index against the VCF read by bcftools (fields and normalised key)
 python3 variant_index/verify_known_loci.py                 # facts established outside the index (an rsID's position, the direction of an association, a classification, a star allele's defining variant, curated gene and region assertions) read back from it

@@ -1,6 +1,6 @@
 # Existing assets: inventory and verified status
 
-Generated 2026-10-28T02:04:02Z at commit `0e4dad0c` by `inventory/audit_existing.py` (regenerate rather than edit).
+Generated 2026-10-28T05:12:04Z at commit `4036813e` by `inventory/audit_existing.py` (regenerate rather than edit).
 
 Repository visibility at audit time: `{"private": false, "visibility": "public"}`. While the repository is public, only openly redistributable data and metadata may be committed.
 
@@ -8,7 +8,7 @@ Repository visibility at audit time: `{"private": false, "visibility": "public"}
 
 | Branch | Tip | Files | Role |
 |---|---|---|---|
-| `origin/ccr-b13fd75a-ra9gfy` | `0e4dad0` | 665 | working/PR branch |
+| `origin/ccr-b13fd75a-ra9gfy` | `4036813` | 676 | working/PR branch |
 | `origin/data/mavedb-scores` | `1b58196` | 2061 | orphan data branch: the 1,980 MaveDB score/count tables + licence notice (not to be merged) |
 | `origin/land/dc-extended-pack` | `3547d0a` | 90 | legacy branch from the original dating-project repository; unrelated, left untouched |
 | `origin/main` | `ddafb14` | 98 | default branch; holds scrape/ (metadata, scripts, manifests). The catalogue, acquisition and inventory work lives on the working branch until it is merged |

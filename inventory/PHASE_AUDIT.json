@@ -12,17 +12,17 @@
  {
   "check": "no module or command-line tool of variant_index is outside the requirements map",
   "status": "PASS",
-  "detail": "55 files, all named"
+  "detail": "57 files, all named"
  },
  {
   "check": "every test module is used by at least one requirement",
   "status": "PASS",
-  "detail": "44 test modules, all cited"
+  "detail": "47 test modules, all cited"
  },
  {
   "check": "variant_index unit tests pass (including resource-warning errors)",
   "status": "PASS",
-  "detail": "482 tests OK"
+  "detail": "557 tests OK"
  },
  {
   "check": "acquisition helper tests pass",
@@ -32,7 +32,7 @@
  {
   "check": "every number the READMEs and the latest audit-log entry quote is recomputed and agrees",
   "status": "PASS",
-  "detail": "35 pass, 0 skipped (data absent)"
+  "detail": "42 pass, 0 skipped (data absent)"
  },
  {
   "check": "scripts and files that the documentation tells a reader to run or open exist",
@@ -82,12 +82,12 @@
  {
   "check": "provenance: release linkage, manifest agreement, recomputed record digests",
   "status": "PASS",
-  "detail": "15,242 sampled records re-derived their digests across 32 releases; 0 release(s) without a resolver are listed, not counted"
+  "detail": "24,195,946 sampled records re-derived their digests across 32 releases; 0 release(s) without a resolver are listed, not counted"
  },
  {
   "check": "every release that holds evidence rows has a resolver, and the sampled records of all of them re-derived their digests",
   "status": "PASS",
-  "detail": "32 releases, 15,242 records"
+  "detail": "32 releases, 24,195,946 records"
  },
  {
   "check": "lineage keys are shared between databases that describe the same study (the GWAS Catalog and Open Targets count a paper once)",
@@ -120,6 +120,11 @@
   "detail": "4,095,610 calls; 45,260 with ClinVar evidence"
  },
  {
+  "check": "the read-evidence resolver was checked on real reads of a benchmark sample with the code as it is now, and its rates are inside the stated bounds",
+  "status": "PASS",
+  "detail": "full, half, quarter: at full depth 97.6% of heterozygous and 97.5% of homozygous benchmark alleles read as carried, 0 of 1,000 absent ones read as carried"
+ },
+ {
   "check": "every unresolved high-value locus of the sample run states the evidence that would settle it",
   "status": "PASS",
   "detail": "44,718 unresolved loci, all with text"
@@ -132,12 +137,12 @@
  {
   "check": "the sample run was made by committed code that has not changed since, against the index that is on disk now",
   "status": "PASS",
-  "detail": "commit 0e4dad0c3a, 18 modules unchanged, index manifests identical"
+  "detail": "commit 4036813e0f, 19 modules unchanged, index manifests identical"
  },
  {
   "check": "the structural run on real calls (HG002 genotypes of the public HGSVC3 callset) accounts for every record and carries the summary of what it refused",
   "status": "PASS",
-  "detail": "25,534 structural calls in 187 s; largest refusal list 9,129 characters"
+  "detail": "25,534 structural calls in 168 s; largest refusal list 9,129 characters"
  },
  {
   "check": "two matcher runs of one input with different hash seeds give identical result tables and manifests",

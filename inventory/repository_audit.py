@@ -129,6 +129,44 @@ def index_manifest():
     return jload('data/index/index_manifest.json')
 
 
+def reads_row(run):
+    """The numbers of one depth row of the read-evidence table of STATUS.md, from variant_index/reads_validation.json."""
+    need_data('variant_index/reads_validation.json')
+    r = jload('variant_index/reads_validation.json')['runs'][run]
+    rt = r['rates']
+    het, hom, absent = rt['truth_alt_het'], rt['truth_alt_hom'], rt['truth_absent']
+    return [r['informative_fragments_at_snvs']['truth_alt_het']['median'], het['states_the_truth']['n'], het['loci'], round(100 * het['states_the_truth']['rate'], 1), hom['states_the_truth']['n'], hom['loci'],
+            round(100 * hom['states_the_truth']['rate'], 1), absent['states_the_truth']['n'], absent['loci'], r['by_truth']['truth_absent'].get('READS_ALTERNATE_PRESENT', 0)]
+
+
+def rollup_counts():
+    """(traits, placed by their own term, placed by a cross-reference, of those to more than one term) of the sample run's trait roll-up."""
+    need_data('data/results/HG002/views/trait_rollup.json', 'data/results/HG002/views/trait_view.json')
+    roll, traits = jload('data/results/HG002/views/trait_rollup.json'), jload('data/results/HG002/views/trait_view.json')
+    crossed = roll['cross_referenced']
+    return [len(traits), len(roll['ancestors']) - len(crossed), len(crossed), sum(1 for c in crossed.values() if c['many_to_one'])]
+
+
+def readrun_counts():
+    """(loci asked, reference-only, alternate present, insufficient) of the reads run on chromosomes 21 and 22 of the sample."""
+    need_data('data/results/HG002_readrun/run_manifest.json')
+    c = jload('data/results/HG002_readrun/run_manifest.json')['counts']['reads']
+    return [c['loci_evaluated'], c['by_state']['READS_REFERENCE_ONLY'], c['by_state']['READS_ALTERNATE_PRESENT'], c['by_state']['READS_INSUFFICIENT']]
+
+
+def rollup_areas():
+    """(traits, therapeutic areas, trait ids that no term holds, lists or replaces) of the sample run's trait roll-up."""
+    need_data('data/results/HG002/views/trait_rollup.json', 'data/results/HG002/views/trait_view.json')
+    roll, traits = jload('data/results/HG002/views/trait_rollup.json'), jload('data/results/HG002/views/trait_view.json')
+    return [len(traits), len(roll['by_therapeutic_area']), len(roll['not_rolled_up'])]
+
+
+def provenance_counts():
+    need_data('data/index/provenance_report.json')
+    d = jload('data/index/provenance_report.json')['digests']
+    return [sum(x['sampled'] for x in d.values()), sum(x['verified'] for x in d.values()), sum(x['evidence_rows'] for x in d.values())]
+
+
 def vstat(tid, key):
     return validation().get(tid, {}).get('stats', {}).get(key)
 
@@ -227,6 +265,13 @@ CLAIMS = [
     ('latest:AUDIT_LOG.md', r'`variant_index`: (\d+) unit tests pass', lambda: [vindex_tests()['n'] if vindex_tests()['ok'] else -1]),
     ('variant_index/STATUS.md', r'(\d+) unit tests pass', lambda: [vindex_tests()['n'] if vindex_tests()['ok'] else -1]),
     ('variant_index/STATUS.md', r'Requirements: (\d+), of which (\d+) verified, (\d+) partial, (\d+) unavailable input and (\d+) blocked external', lambda: requirement_counts()),
+    ('variant_index/STATUS.md', r'\| 60x \((\d+)\) \| (\d+) of (\d+) \(([\d.]+)%\) \| (\d+) of (\d+) \(([\d.]+)%\) \| ([\d,]+) of ([\d,]+) \| (\d+) \|', lambda: reads_row('full')),
+    ('variant_index/STATUS.md', r'\| 30x \((\d+)\) \| (\d+) of (\d+) \(([\d.]+)%\) \| (\d+) of (\d+) \(([\d.]+)%\) \| ([\d,]+) of ([\d,]+) \| (\d+) \|', lambda: reads_row('half')),
+    ('variant_index/STATUS.md', r'\| 15x \((\d+)\) \| (\d+) of (\d+) \(([\d.]+)%\) \| (\d+) of (\d+) \(([\d.]+)%\) \| ([\d,]+) of ([\d,]+) \| (\d+) \|', lambda: reads_row('quarter')),
+    ('variant_index/STATUS.md', r'([\d,]+) traits named by effect-asserting evidence roll up into (\d+) therapeutic areas \(([\d,]+) identifiers', lambda: rollup_areas()),
+    ('variant_index/STATUS.md', r'of the ([\d,]+) ids of the HG002 run: ([\d,]+) by their own term, (\d+) by a cross-reference, (\d+) of those to more than one term', lambda: rollup_counts()),
+    ('variant_index/STATUS.md', r'([\d,]+) records re-opened in the acquired files, ([\d,]+) digests re-derived', lambda: provenance_counts()[:2]),
+    ('variant_index/STATUS.md', r'of the ([\d,]+) high-value loci that the benchmark callset leaves unresolved there, ([\d,]+) `READS_REFERENCE_ONLY`, ([\d,]+) `READS_ALTERNATE_PRESENT`, ([\d,]+) `READS_INSUFFICIENT`', lambda: readrun_counts()),
     ('variant_index/STATUS.md', r'([\d,]+) evidence rows from (\d+) source releases, ([\d,]+) variant entities',
      lambda: [index_manifest()['tables']['evidence']['rows'], len(index_manifest()['releases']), index_manifest()['entity_variants']]),
     ('catalogue/gaps.json', r'GTF: ([\d,]+) genes, ([\d,]+) transcripts, ([\d,]+) MANE Select', lambda: [vstat('ensembl_grch38_gtf_116', 'feature_counts')['gene'], vstat('ensembl_grch38_gtf_116', 'feature_counts')['transcript'], vstat('ensembl_grch38_gtf_116', 'tags')['MANE_Select']]),

@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-10-28T02:05:58Z",
- "commit": "0e4dad0c3a465c9620a5cea45249b13139ae2923",
+ "generated_utc": "2026-10-28T05:13:41Z",
+ "commit": "4036813e0f1019eb5da97a10d415eed2c21ed766",
  "visibility": "visibility: public (ziadwalieddine-create/dc)",
  "checks": [
   {
@@ -21,7 +21,7 @@
   {
    "check": "unit tests (variant_index)",
    "ok": true,
-   "detail": "482 tests"
+   "detail": "557 tests"
   },
   {
    "check": "catalogue records validate against the vocabulary, evidence files and acquisition targets",
@@ -36,12 +36,12 @@
   {
    "check": "all scripts compile",
    "ok": true,
-   "detail": "143 scripts"
+   "detail": "149 scripts"
   },
   {
    "check": "the claim checker detects a changed number in every claim (mutation self-test)",
    "ok": true,
-   "detail": "35 claims"
+   "detail": "42 claims"
   }
  ],
  "claims": [
@@ -205,19 +205,61 @@
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "`variant_index`: (\\d+) unit tests pass",
    "status": "PASS",
-   "detail": "[482.0]"
+   "detail": "[557.0]"
   },
   {
    "doc": "variant_index/STATUS.md",
    "pattern": "(\\d+) unit tests pass",
    "status": "PASS",
-   "detail": "[482.0]"
+   "detail": "[557.0]"
   },
   {
    "doc": "variant_index/STATUS.md",
    "pattern": "Requirements: (\\d+), of which (\\d+) verified, (\\d+) partial, (\\d+) unavailable input and (\\d+) blocked external",
    "status": "PASS",
    "detail": "[44.0, 30.0, 12.0, 1.0, 1.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "\\| 60x \\((\\d+)\\) \\| (\\d+) of (\\d+) \\(([\\d.]+)%\\) \\| (\\d+) of (\\d+) \\(([\\d.]+)%\\) \\| ([\\d,]+) of ([\\d,]+) \\| (\\d+) \\|",
+   "status": "PASS",
+   "detail": "[59.0, 781.0, 800.0, 97.6, 390.0, 400.0, 97.5, 996.0, 1000.0, 0.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "\\| 30x \\((\\d+)\\) \\| (\\d+) of (\\d+) \\(([\\d.]+)%\\) \\| (\\d+) of (\\d+) \\(([\\d.]+)%\\) \\| ([\\d,]+) of ([\\d,]+) \\| (\\d+) \\|",
+   "status": "PASS",
+   "detail": "[29.0, 769.0, 800.0, 96.1, 387.0, 400.0, 96.8, 994.0, 1000.0, 0.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "\\| 15x \\((\\d+)\\) \\| (\\d+) of (\\d+) \\(([\\d.]+)%\\) \\| (\\d+) of (\\d+) \\(([\\d.]+)%\\) \\| ([\\d,]+) of ([\\d,]+) \\| (\\d+) \\|",
+   "status": "PASS",
+   "detail": "[15.0, 696.0, 800.0, 87.0, 379.0, 400.0, 94.8, 895.0, 1000.0, 0.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "([\\d,]+) traits named by effect-asserting evidence roll up into (\\d+) therapeutic areas \\(([\\d,]+) identifiers",
+   "status": "PASS",
+   "detail": "[10306.0, 25.0, 203.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "of the ([\\d,]+) ids of the HG002 run: ([\\d,]+) by their own term, (\\d+) by a cross-reference, (\\d+) of those to more than one term",
+   "status": "PASS",
+   "detail": "[10306.0, 9943.0, 160.0, 8.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "([\\d,]+) records re-opened in the acquired files, ([\\d,]+) digests re-derived",
+   "status": "PASS",
+   "detail": "[24195946.0, 24195946.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "of the ([\\d,]+) high-value loci that the benchmark callset leaves unresolved there, ([\\d,]+) `READS_REFERENCE_ONLY`, ([\\d,]+) `READS_ALTERNATE_PRESENT`, ([\\d,]+) `READS_INSUFFICIENT`",
+   "status": "PASS",
+   "detail": "[4982.0, 1283.0, 218.0, 3405.0]"
   },
   {
    "doc": "variant_index/STATUS.md",
@@ -259,11 +301,11 @@
  "branches": [
   {
    "branch": "ccr-b13fd75a-ra9gfy",
-   "tip": "0e4dad0",
-   "date": "2026-10-27",
-   "subject": "Module registry: evidence about the reference allele at verified-reference genotypes; the ",
-   "tracked_files": 665,
-   "ahead_of_main": "82",
+   "tip": "4036813",
+   "date": "2026-10-28",
+   "subject": "Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp",
+   "tracked_files": 676,
+   "ahead_of_main": "87",
    "behind_main": "0"
   },
   {
@@ -286,11 +328,11 @@
   },
   {
    "branch": "origin/ccr-b13fd75a-ra9gfy",
-   "tip": "0e4dad0",
-   "date": "2026-10-27",
-   "subject": "Module registry: evidence about the reference allele at verified-reference genotypes; the ",
-   "tracked_files": 665,
-   "ahead_of_main": "82",
+   "tip": "4036813",
+   "date": "2026-10-28",
+   "subject": "Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp",
+   "tracked_files": 676,
+   "ahead_of_main": "87",
    "behind_main": "0"
   },
   {
@@ -3310,9 +3352,9 @@
   {
    "path": "AUDIT_LOG.md",
    "title": "Audit log",
-   "lines": 274,
-   "bytes": 64002,
-   "last_commit": "2026-10-26"
+   "lines": 320,
+   "bytes": 75883,
+   "last_commit": "2026-10-28"
   },
   {
    "path": "README.md",
@@ -3403,14 +3445,21 @@
    "title": "Existing assets: inventory and verified status",
    "lines": 49,
    "bytes": 3454,
-   "last_commit": "2026-10-26"
+   "last_commit": "2026-10-28"
+  },
+  {
+   "path": "inventory/PHASE_AUDIT.md",
+   "title": "Phase gap audit",
+   "lines": 38,
+   "bytes": 5451,
+   "last_commit": "2026-10-28"
   },
   {
    "path": "inventory/REPOSITORY_AUDIT.md",
    "title": "Repository audit",
-   "lines": 316,
-   "bytes": 29349,
-   "last_commit": "2026-10-26"
+   "lines": 467,
+   "bytes": 47049,
+   "last_commit": "2026-10-28"
   },
   {
    "path": "scrape/ensembl-human-genomes/README.md",
@@ -3441,18 +3490,25 @@
    "last_commit": "2026-10-25"
   },
   {
+   "path": "variant_index/BUILD_REPORT.md",
+   "title": "Build report",
+   "lines": 611,
+   "bytes": 32825,
+   "last_commit": "2026-10-28"
+  },
+  {
    "path": "variant_index/README.md",
    "title": "High-Value Human Variant Reference Index (`vindex`)",
-   "lines": 72,
-   "bytes": 6353,
-   "last_commit": "2026-10-27"
+   "lines": 79,
+   "bytes": 7462,
+   "last_commit": "2026-10-28"
   },
   {
    "path": "variant_index/REQUIREMENTS.md",
    "title": "Requirements and verification",
    "lines": 178,
-   "bytes": 31460,
-   "last_commit": "2026-10-27"
+   "bytes": 34375,
+   "last_commit": "2026-10-28"
   },
   {
    "path": "variant_index/SCHEMA.md",
@@ -3460,6 +3516,13 @@
    "lines": 297,
    "bytes": 10486,
    "last_commit": "2026-10-27"
+  },
+  {
+   "path": "variant_index/STATUS.md",
+   "title": "Status of the High-Value Human Variant Reference Index",
+   "lines": 133,
+   "bytes": 29761,
+   "last_commit": "2026-10-28"
   }
  ],
  "scripts": [
@@ -3663,13 +3726,13 @@
   },
   {
    "path": "inventory/gap_audit.py",
-   "lines": 518,
+   "lines": 552,
    "compiles": true,
    "purpose": "Adversarial gap audit of the phase requirements: every check either passes, fails, is skipped for a stated mis"
   },
   {
    "path": "inventory/repository_audit.py",
-   "lines": 505,
+   "lines": 550,
    "compiles": true,
    "purpose": "Repository audit: what exists, what state it is in, and whether the documentation matches the implementation."
   },
@@ -3753,7 +3816,7 @@
   },
   {
    "path": "variant_index/match_wgs.py",
-   "lines": 65,
+   "lines": 80,
    "compiles": true,
    "purpose": "Match one sample's GRCh38 calls against the variant reference index, one chromosome at a time."
   },
@@ -3762,6 +3825,12 @@
    "lines": 64,
    "compiles": true,
    "purpose": "Score a sample with PGS Catalog models, one chromosome at a time, with the registry's gates beside every resul"
+  },
+  {
+   "path": "variant_index/tests/bamfix.py",
+   "lines": 97,
+   "compiles": true,
+   "purpose": "Synthetic alignments for the read-evidence tests: reads are cut from the synthetic reference with the edits a "
   },
   {
    "path": "variant_index/tests/evidence_fixtures.py",
@@ -3993,9 +4062,21 @@
   },
   {
    "path": "variant_index/tests/test_provenance.py",
-   "lines": 223,
+   "lines": 284,
    "compiles": true,
    "purpose": ""
+  },
+  {
+   "path": "variant_index/tests/test_reads.py",
+   "lines": 485,
+   "compiles": true,
+   "purpose": "Read-level evidence at a locus: allele counting from alignments independent of how the aligner wrote the event"
+  },
+  {
+   "path": "variant_index/tests/test_reads_run.py",
+   "lines": 178,
+   "compiles": true,
+   "purpose": "Read evidence through a whole run: the matcher's status of an unresolved locus is never changed by the reads, "
   },
   {
    "path": "variant_index/tests/test_reference_effect.py",
@@ -4020,6 +4101,12 @@
    "lines": 136,
    "compiles": true,
    "purpose": "Every provenance resolver reproduces, for EVERY evidence row of its release, the digest the adapter stored: th"
+  },
+  {
+   "path": "variant_index/tests/test_rollup.py",
+   "lines": 113,
+   "compiles": true,
+   "purpose": "Trait roll-up through the cross-references and retired terms of the ontology table: ids the table does not hol"
   },
   {
    "path": "variant_index/tests/test_runner_guards.py",
@@ -4050,6 +4137,12 @@
    "lines": 405,
    "compiles": true,
    "purpose": "End to end on synthetic data: sources -> index -> a sample's calls -> per-chromosome matching -> result tables"
+  },
+  {
+   "path": "variant_index/validate_reads.py",
+   "lines": 292,
+   "compiles": true,
+   "purpose": "Check the read-evidence resolver (vindex/reads.py) against a benchmark on real alignments."
   },
   {
    "path": "variant_index/verify_index.py",
@@ -4191,7 +4284,7 @@
   },
   {
    "path": "variant_index/vindex/callability.py",
-   "lines": 170,
+   "lines": 171,
    "compiles": true,
    "purpose": "Reference-confidence providers: what the input can say about positions where it holds no variant record."
   },
@@ -4269,9 +4362,15 @@
   },
   {
    "path": "variant_index/vindex/provenance.py",
-   "lines": 279,
+   "lines": 320,
    "compiles": true,
    "purpose": "Provenance checks on a built index."
+  },
+  {
+   "path": "variant_index/vindex/reads.py",
+   "lines": 354,
+   "compiles": true,
+   "purpose": "Targeted read-level evidence for small variants at the loci a callset cannot answer for."
   },
   {
    "path": "variant_index/vindex/refgenome.py",
@@ -4281,7 +4380,7 @@
   },
   {
    "path": "variant_index/vindex/reports.py",
-   "lines": 489,
+   "lines": 493,
    "compiles": true,
    "purpose": "Reports over a built index: coverage statistics, validation, the lifecycle of every acquisition target, a chan"
   },
@@ -4311,13 +4410,13 @@
   },
   {
    "path": "variant_index/vindex/views.py",
-   "lines": 413,
+   "lines": 493,
    "compiles": true,
    "purpose": "Rules and views over the complete catalogue of matches."
   },
   {
    "path": "variant_index/vindex/wgs.py",
-   "lines": 422,
+   "lines": 447,
    "compiles": true,
    "purpose": "Whole-genome matching of one sample against the index, one chromosome at a time."
   }

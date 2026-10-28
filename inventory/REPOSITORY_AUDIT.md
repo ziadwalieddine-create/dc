@@ -1,6 +1,6 @@
 # Repository audit
 
-Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_audit.py` (regenerate rather than edit). It records what exists, which lifecycle stage each dataset has reached, whether the checks pass, and whether the documentation says what the implementation does.
+Generated 2026-10-28T05:13:41Z at commit `4036813e` by `inventory/repository_audit.py` (regenerate rather than edit). It records what exists, which lifecycle stage each dataset has reached, whether the checks pass, and whether the documentation says what the implementation does.
 
 ## Checks
 
@@ -9,13 +9,13 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | existing assets re-audited (NHGRI, Ensembl registry, MaveDB score tables) | PASS | {"nhgri-gwas": "downloaded_verified", "nhgri-1000-genomes": "downloaded_verified", "ensembl-human-genomes": "downloaded_verified", "mavedb-human": "downloaded_verified"} |
 | preservation guard: tracked files under scrape/ unchanged apart from documented exceptions | PASS | baseline files: 97 | missing: 0 | changed: 0 | documented exceptions: 1 | added: 0 |
 | unit tests (acquisition.test_helpers) | PASS | 17 tests |
-| unit tests (variant_index) | PASS | 482 tests |
+| unit tests (variant_index) | PASS | 557 tests |
 | catalogue records validate against the vocabulary, evidence files and acquisition targets | PASS | 54 source records valid; 173 acquisition targets; 277 evidence probes |
 | repository policy: size, personal-genome file types, credential patterns | PASS | visibility: public (ziadwalieddine-create/dc) |
-| all scripts compile | PASS | 143 scripts |
-| the claim checker detects a changed number in every claim (mutation self-test) | PASS | 35 claims |
+| all scripts compile | PASS | 149 scripts |
+| the claim checker detects a changed number in every claim (mutation self-test) | PASS | 42 claims |
 
-## Documentation claims checked against the implementation: 35 pass, 0 fail, 0 skipped
+## Documentation claims checked against the implementation: 42 pass, 0 fail, 0 skipped
 
 | Document | Claim (pattern) | Result | Detail |
 |---|---|---|---|
@@ -45,9 +45,16 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `latest:AUDIT_LOG.md` | `(\d+) manifest records` | PASS | [173.0] |
 | `latest:AUDIT_LOG.md` | ``compat_tests\.py`: (\d+) tests, (\d+) PASS, (\d+) FAIL, (\d+) INFO` | PASS | [115.0, 101.0, 0.0, 14.0] |
 | `latest:AUDIT_LOG.md` | `test_helpers`: (\d+) tests pass` | PASS | [17.0] |
-| `latest:AUDIT_LOG.md` | ``variant_index`: (\d+) unit tests pass` | PASS | [482.0] |
-| `variant_index/STATUS.md` | `(\d+) unit tests pass` | PASS | [482.0] |
+| `latest:AUDIT_LOG.md` | ``variant_index`: (\d+) unit tests pass` | PASS | [557.0] |
+| `variant_index/STATUS.md` | `(\d+) unit tests pass` | PASS | [557.0] |
 | `variant_index/STATUS.md` | `Requirements: (\d+), of which (\d+) verified, (\d+) partial, (\d+) una` | PASS | [44.0, 30.0, 12.0, 1.0, 1.0] |
+| `variant_index/STATUS.md` | `\| 60x \((\d+)\) \| (\d+) of (\d+) \(([\d.]+)%\) \| (\d+) of (\d+) \((` | PASS | [59.0, 781.0, 800.0, 97.6, 390.0, 400.0, 97.5, 996.0, 1000.0, 0.0] |
+| `variant_index/STATUS.md` | `\| 30x \((\d+)\) \| (\d+) of (\d+) \(([\d.]+)%\) \| (\d+) of (\d+) \((` | PASS | [29.0, 769.0, 800.0, 96.1, 387.0, 400.0, 96.8, 994.0, 1000.0, 0.0] |
+| `variant_index/STATUS.md` | `\| 15x \((\d+)\) \| (\d+) of (\d+) \(([\d.]+)%\) \| (\d+) of (\d+) \((` | PASS | [15.0, 696.0, 800.0, 87.0, 379.0, 400.0, 94.8, 895.0, 1000.0, 0.0] |
+| `variant_index/STATUS.md` | `([\d,]+) traits named by effect-asserting evidence roll up into (\d+) ` | PASS | [10306.0, 25.0, 203.0] |
+| `variant_index/STATUS.md` | `of the ([\d,]+) ids of the HG002 run: ([\d,]+) by their own term, (\d+` | PASS | [10306.0, 9943.0, 160.0, 8.0] |
+| `variant_index/STATUS.md` | `([\d,]+) records re-opened in the acquired files, ([\d,]+) digests re-` | PASS | [24195946.0, 24195946.0] |
+| `variant_index/STATUS.md` | `of the ([\d,]+) high-value loci that the benchmark callset leaves unre` | PASS | [4982.0, 1283.0, 218.0, 3405.0] |
 | `variant_index/STATUS.md` | `([\d,]+) evidence rows from (\d+) source releases, ([\d,]+) variant en` | PASS | [24195946.0, 72.0, 6857645.0] |
 | `catalogue/gaps.json` | `GTF: ([\d,]+) genes, ([\d,]+) transcripts, ([\d,]+) MANE Select` | PASS | [78941.0, 646577.0, 19299.0] |
 | `catalogue/gaps.json` | `toplevel FASTA: (\d+) sequences` | PASS | [706.0] |
@@ -59,10 +66,10 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 
 | Branch | Tip | Date | Tracked files | Ahead of / behind origin/main | Last commit |
 |---|---|---|---|---|---|
-| `ccr-b13fd75a-ra9gfy` | `0e4dad0` | 2026-10-27 | 665 | +82 / -0 | Module registry: evidence about the reference allele at verified-reference genotypes; the  |
+| `ccr-b13fd75a-ra9gfy` | `4036813` | 2026-10-28 | 676 | +87 / -0 | Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp |
 | `data/mavedb-scores` | `1b58196` | 2026-10-25 | 2061 | +8 / -22 | Add 52 superseded MaveDB score sets (79 tables, CC0) as a data extension |
 | `main` | `f388b5f` | 2026-09-30 | 90 | +0 / -19 | Merge pull request #1 from ziadwalieddine-create/land/dc-extended-pack |
-| `origin/ccr-b13fd75a-ra9gfy` | `0e4dad0` | 2026-10-27 | 665 | +82 / -0 | Module registry: evidence about the reference allele at verified-reference genotypes; the  |
+| `origin/ccr-b13fd75a-ra9gfy` | `4036813` | 2026-10-28 | 676 | +87 / -0 | Read-level evidence for unresolved loci, ontology cross-references, larger provenance samp |
 | `origin/data/mavedb-scores` | `1b58196` | 2026-10-25 | 2061 | +8 / -22 | Add 52 superseded MaveDB score sets (79 tables, CC0) as a data extension |
 | `origin/land/dc-extended-pack` | `3547d0a` | 2026-09-30 | 90 | +0 / -20 | Land dc-extended skill pack |
 | `origin/main` | `ddafb14` | 2026-10-25 | 98 | +0 / -0 | Merge pull request #6 from ziadwalieddine-create/ccr-b13fd75a-ra9gfy |
@@ -295,7 +302,7 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 
 | File | Title | Lines | Last commit |
 |---|---|---|---|
-| `AUDIT_LOG.md` | Audit log | 274 | 2026-10-26 |
+| `AUDIT_LOG.md` | Audit log | 320 | 2026-10-28 |
 | `README.md` | dc: human genome reference data | 26 | 2026-10-26 |
 | `acquisition/README.md` | Acquisition, validation and compatibility tests | 46 | 2026-10-26 |
 | `catalogue/ACQUIRED_FILES.md` | Acquired files register | 181 | 2026-10-26 |
@@ -308,15 +315,18 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `catalogue/MECHANISM_MATRIX.md` | Mechanism matrix: variant types by mechanism axis | 323 | 2026-10-26 |
 | `catalogue/README.md` | Evidence-source catalogue | 47 | 2026-10-26 |
 | `catalogue/REUSE_PLAN.md` | Source-by-source reuse, acquisition and integration plan | 356 | 2026-10-26 |
-| `inventory/EXISTING_ASSETS.md` | Existing assets: inventory and verified status | 49 | 2026-10-26 |
-| `inventory/REPOSITORY_AUDIT.md` | Repository audit | 316 | 2026-10-26 |
+| `inventory/EXISTING_ASSETS.md` | Existing assets: inventory and verified status | 49 | 2026-10-28 |
+| `inventory/PHASE_AUDIT.md` | Phase gap audit | 38 | 2026-10-28 |
+| `inventory/REPOSITORY_AUDIT.md` | Repository audit | 467 | 2026-10-28 |
 | `scrape/ensembl-human-genomes/README.md` | Ensembl genome selector: human (taxonomy ID 9606) | 20 | 2026-10-25 |
 | `scrape/mavedb-human/README.md` | MaveDB: human score sets | 45 | 2026-10-25 |
 | `scrape/nhgri-1000-genomes/README.md` | NHGRI: 1000 Genomes Project (archived page scrape) | 22 | 2026-10-25 |
 | `scrape/nhgri-gwas/README.md` | NHGRI Talking Glossary: GWAS (scrape) | 17 | 2026-10-25 |
-| `variant_index/README.md` | High-Value Human Variant Reference Index (`vindex`) | 72 | 2026-10-27 |
-| `variant_index/REQUIREMENTS.md` | Requirements and verification | 178 | 2026-10-27 |
+| `variant_index/BUILD_REPORT.md` | Build report | 611 | 2026-10-28 |
+| `variant_index/README.md` | High-Value Human Variant Reference Index (`vindex`) | 79 | 2026-10-28 |
+| `variant_index/REQUIREMENTS.md` | Requirements and verification | 178 | 2026-10-28 |
 | `variant_index/SCHEMA.md` | Index schema (version 0.4.0) | 297 | 2026-10-27 |
+| `variant_index/STATUS.md` | Status of the High-Value Human Variant Reference Index | 133 | 2026-10-28 |
 
 ## Scripts
 
@@ -355,8 +365,8 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `catalogue/render.js` | 15 | n/a |  |
 | `inventory/audit_existing.py` | 231 | True | Audit the existing dc assets under scrape/ and guard them against accidental change. |
 | `inventory/check_repo_policy.py` | 99 | True | Repository policy check: nothing that must stay out of git is tracked, and the visibility is stated. |
-| `inventory/gap_audit.py` | 518 | True | Adversarial gap audit of the phase requirements: every check either passes, fails, is skipped for a stated mis |
-| `inventory/repository_audit.py` | 505 | True | Repository audit: what exists, what state it is in, and whether the documentation matches the implementation. |
+| `inventory/gap_audit.py` | 552 | True | Adversarial gap audit of the phase requirements: every check either passes, fails, is skipped for a stated mis |
+| `inventory/repository_audit.py` | 550 | True | Repository audit: what exists, what state it is in, and whether the documentation matches the implementation. |
 | `scrape/mavedb-human/build_index.py` | 41 | True | Build score_sets_index.csv from both detail files (organism-filter and accession-target selections). |
 | `scrape/mavedb-human/download_scores.py` | 112 | True | Download MaveDB score (and count) tables for the human-target score sets. |
 | `scrape/mavedb-human/verify_scores.py` | 84 | True | Verify scores/ against the manifest and the metadata files. |
@@ -370,8 +380,9 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `variant_index/make_reports.py` | 108 | True | Coverage statistics, validation, target lifecycle, change log and gap report for a built index. |
 | `variant_index/make_status.py` | 53 | True | Keep the module table of STATUS.md equal to the module registry (vindex.reports.MODULES). |
 | `variant_index/make_views.py` | 41 | True | Priority lists, trait groupings and pathway groupings over the matches of one sample (see vindex/views.py for  |
-| `variant_index/match_wgs.py` | 65 | True | Match one sample's GRCh38 calls against the variant reference index, one chromosome at a time. |
+| `variant_index/match_wgs.py` | 80 | True | Match one sample's GRCh38 calls against the variant reference index, one chromosome at a time. |
 | `variant_index/score_pgs.py` | 64 | True | Score a sample with PGS Catalog models, one chromosome at a time, with the registry's gates beside every resul |
+| `variant_index/tests/bamfix.py` | 97 | True | Synthetic alignments for the read-evidence tests: reads are cut from the synthetic reference with the edits a  |
 | `variant_index/tests/evidence_fixtures.py` | 33 | True | Hand-made evidence rows for matcher tests. Every row is validated against the schema vocabulary. |
 | `variant_index/tests/fixtures/make_reference.py` | 49 | True | Deterministic synthetic reference ('SYN38') for the tests: small contigs with engineered repeats, so that left |
 | `variant_index/tests/fixtures/make_sources.py` | 879 | True | Mini source files in the real formats, built on the synthetic reference, for the source -> index -> matcher te |
@@ -410,16 +421,20 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `variant_index/tests/test_pgs.py` | 132 | True |  |
 | `variant_index/tests/test_pgs_registry.py` | 114 | True |  |
 | `variant_index/tests/test_pgs_run.py` | 126 | True |  |
-| `variant_index/tests/test_provenance.py` | 223 | True |  |
+| `variant_index/tests/test_provenance.py` | 284 | True |  |
+| `variant_index/tests/test_reads.py` | 485 | True | Read-level evidence at a locus: allele counting from alignments independent of how the aligner wrote the event |
+| `variant_index/tests/test_reads_run.py` | 178 | True | Read evidence through a whole run: the matcher's status of an unresolved locus is never changed by the reads,  |
 | `variant_index/tests/test_reference_effect.py` | 252 | True | Evidence whose effect allele is the reference allele (a GWAS risk allele is often the reference allele) is rea |
 | `variant_index/tests/test_reports.py` | 376 | True |  |
 | `variant_index/tests/test_requirements.py` | 50 | True |  |
 | `variant_index/tests/test_resolvers.py` | 136 | True | Every provenance resolver reproduces, for EVERY evidence row of its release, the digest the adapter stored: th |
+| `variant_index/tests/test_rollup.py` | 113 | True | Trait roll-up through the cross-references and retired terms of the ontology table: ids the table does not hol |
 | `variant_index/tests/test_runner_guards.py` | 227 | True |  |
 | `variant_index/tests/test_scale_paths.py` | 128 | True | The paths that keep a whole-genome match within memory must give the same answers as the plain ones: per-conti |
 | `variant_index/tests/test_summary.py` | 38 | True |  |
 | `variant_index/tests/test_vcfio.py` | 162 | True |  |
 | `variant_index/tests/test_wgs.py` | 405 | True | End to end on synthetic data: sources -> index -> a sample's calls -> per-chromosome matching -> result tables |
+| `variant_index/validate_reads.py` | 292 | True | Check the read-evidence resolver (vindex/reads.py) against a benchmark on real alignments. |
 | `variant_index/verify_index.py` | 39 | True | Check an index's provenance: release linkage, release records against the acquisition manifest, and raw-record |
 | `variant_index/verify_known_loci.py` | 43 | True | Check a built index against facts that were established outside it (vindex/known_loci.py, known_loci.json). |
 | `variant_index/vindex/__init__.py` | 11 | True | High-Value Human Variant Reference Index (vindex). |
@@ -443,7 +458,7 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `variant_index/vindex/build/pgx.py` | 330 | True | Pharmacogenomic haplotype definitions and function: CPIC (API tables) and PharmVar (complete database 6.2.29). |
 | `variant_index/vindex/build/regions.py` | 158 | True | Genomic regions that change how a call or a negative result is read: GIAB difficult regions and STRchive repea |
 | `variant_index/vindex/build/runner.py` | 161 | True | Run adapters and finalise an index directory: source_release, entity_variant (deduplicated from evidence), man |
-| `variant_index/vindex/callability.py` | 170 | True | Reference-confidence providers: what the input can say about positions where it holds no variant record. |
+| `variant_index/vindex/callability.py` | 171 | True | Reference-confidence providers: what the input can say about positions where it holds no variant record. |
 | `variant_index/vindex/crosscheck.py` | 485 | True | Independent cross-check of a whole-genome run against established command-line tools. |
 | `variant_index/vindex/index_reader.py` | 239 | True | Read access to a built index (a directory of Parquet tables named as in schema.TABLES, or in-memory tables). |
 | `variant_index/vindex/intervals.py` | 72 | True | Overlap queries over closed integer intervals, sized for millions of intervals per chromosome and millions of  |
@@ -456,12 +471,13 @@ Generated 2026-10-28T02:05:58Z at commit `0e4dad0c` by `inventory/repository_aud
 | `variant_index/vindex/pgs.py` | 242 | True | Polygenic score models, kept separate from the variant index. |
 | `variant_index/vindex/pgs_registry.py` | 174 | True | PGS Catalog model registry: the metadata that gates the interpretation of a polygenic score, kept apart from t |
 | `variant_index/vindex/pgs_run.py` | 118 | True | Polygenic scores for one sample, one chromosome at a time, with the registry's gates beside every result. |
-| `variant_index/vindex/provenance.py` | 279 | True | Provenance checks on a built index. |
+| `variant_index/vindex/provenance.py` | 320 | True | Provenance checks on a built index. |
+| `variant_index/vindex/reads.py` | 354 | True | Targeted read-level evidence for small variants at the loci a callset cannot answer for. |
 | `variant_index/vindex/refgenome.py` | 119 | True | Reference sequence access, contig naming and assembly validation. |
-| `variant_index/vindex/reports.py` | 489 | True | Reports over a built index: coverage statistics, validation, the lifecycle of every acquisition target, a chan |
+| `variant_index/vindex/reports.py` | 493 | True | Reports over a built index: coverage statistics, validation, the lifecycle of every acquisition target, a chan |
 | `variant_index/vindex/resolvers.py` | 211 | True | Raw-record resolvers: the exact text an adapter hashed for an evidence row, recovered again from the acquired  |
 | `variant_index/vindex/schema.py` | 222 | True | Table schemas and controlled vocabulary of the High-Value Human Variant Reference Index. |
 | `variant_index/vindex/summary.py` | 52 | True | Per-axis evidence summaries. A summary lists what exists on each axis; it never ranks or adds axes together. |
 | `variant_index/vindex/vcfio.py` | 436 | True | Sample VCF/gVCF reading for the matcher. |
-| `variant_index/vindex/views.py` | 413 | True | Rules and views over the complete catalogue of matches. |
-| `variant_index/vindex/wgs.py` | 422 | True | Whole-genome matching of one sample against the index, one chromosome at a time. |
+| `variant_index/vindex/views.py` | 493 | True | Rules and views over the complete catalogue of matches. |
+| `variant_index/vindex/wgs.py` | 447 | True | Whole-genome matching of one sample against the index, one chromosome at a time. |
