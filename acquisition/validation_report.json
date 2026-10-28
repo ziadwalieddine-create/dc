@@ -2490,7 +2490,7 @@
     "ok": true
    },
    {
-    "detail": "['urn:mavedb:00000895-a-1', 'urn:mavedb:00000658-l-1', 'urn:mavedb:00000005-a-1']",
+    "detail": "['urn:mavedb:00000005-a-6', 'urn:mavedb:00000065-a-1', 'urn:mavedb:00001161-a-1']",
     "name": "urn column holds MaveDB score-set URNs",
     "ok": true
    }
@@ -4507,7 +4507,7 @@
    },
    {
     "detail": "0",
-    "name": "record id equals chromosome-position-SVTYPE-|SVLEN| (position POS+1, or POS for a few insertions) and the ID field of INFO",
+    "name": "record id equals chromosome-position-SVTYPE-|SVLEN| (position POS+1, or POS for a few insertions; a repeated id has a numeric suffix) and the ID field of INFO",
     "ok": true
    },
    {
@@ -4774,6 +4774,7 @@
   "passed": true,
   "stats": {
    "genes": 13603,
+   "grid_fraction": null,
    "groups": 0,
    "members": [
     "subcellular_location.tsv"
