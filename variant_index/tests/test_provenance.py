@@ -106,6 +106,15 @@ class TestProvenance(unittest.TestCase):
                 self.assertEqual(digest, hashlib.sha256(fh.read()).hexdigest(), f)
         self.assertEqual((sorted(self.report['code']), self.report['sample'], self.report['seed']), (['provenance.py', 'resolvers.py'], 1000, 0))
 
+    def test_a_verification_leaves_no_file_open(self):
+        import gc
+        import warnings
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter('always', ResourceWarning)
+            verify(self.w)
+            gc.collect()
+        self.assertEqual([str(c.message) for c in caught if issubclass(c.category, ResourceWarning)], [])
+
     def test_parquet_rows_are_resolved_part_by_part_and_out_of_range_rows_stay_unresolved(self):
         root = tempfile.mkdtemp()
         try:

@@ -46,10 +46,10 @@ MODULES = (
     dict(name='ClinGen, CPIC, PharmVar, ClinPGx, MaveDB, GWAS Catalog, Open Targets, gnomAD, DGV, HGSVC3, GIAB, STRchive, Reactome adapters', status='implemented', tests='test_build_*'),
     dict(name='provenance verification', status='implemented', tests='test_provenance, test_resolvers',
          note='release linkage and manifest agreement are checked for every release; the SHA-256 of the raw record is recomputed from the acquired file for every evidence row (verify_index.py --sample at least as large as the largest release; a smaller sample is deterministic; one rule per source in vindex/resolvers.py); entity rows carry the release of their source but no digest of their own'),
-    dict(name='targeted read evidence (BAM / CRAM) for the small variants a callset leaves unresolved', status='implemented', tests='test_reads, test_reads_run',
+    dict(name='targeted read evidence (BAM / CRAM) for the small variants a callset leaves unresolved', status='implemented', tests='test_reads, test_reads_run, test_crosscheck_reads',
          note='counts the fragments that carry the reference, the indexed alternate or another sequence over the window and states whether the indexed allele is present, absent at depth with no caveat, ambiguous or unsettled; '
               'written beside the matcher status in unresolved_loci, never over it; not a genotyper (no zygosity, copy number, phase or contamination model); checked on synthetic alignments and on public HG002 reads against '
-              'the GIAB benchmark (reads_validation.json); no personal reads exist here'),
+              'the GIAB benchmark (reads_validation.json), and its counts at the SNV loci of a run on those reads against bcftools mpileup (reads_crosscheck.json); no personal reads exist here'),
     dict(name='read-level evidence for structural, copy-number and repeat-length loci (split reads, read depth, repeat sizing)', status='unimplemented',
          note='reads are asked only about small variants; structural calls, star alleles of structural genes and repeat lengths come from a dedicated caller (SV callers, --external-haplotypes, ExpansionHunter / TRGT output)'),
     dict(name='transcript HGVS (c., n.) to genomic coordinate mapping', status='unimplemented', note='records that carry only transcript HGVS stay unmapped with the reason'),

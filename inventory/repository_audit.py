@@ -154,6 +154,13 @@ def readrun_counts():
     return [c['loci_evaluated'], c['by_state']['READS_REFERENCE_ONLY'], c['by_state']['READS_ALTERNATE_PRESENT'], c['by_state']['READS_INSUFFICIENT']]
 
 
+def crosscheck_counts():
+    """(SNV loci compared, agree alignment by alignment, agree exactly by fragment, differ through bcftools's overlap handling, fragments by bcftools, fragments by the resolver) of reads_crosscheck.json."""
+    need_data('variant_index/reads_crosscheck.json')
+    r = jload('variant_index/reads_crosscheck.json')
+    return [r['loci'], r['alignments'].get('exact', 0), r['fragments'].get('exact', 0), r['fragments'].get('explained', 0), r['fragments_bcftools'], r['fragments_resolver']]
+
+
 def rollup_areas():
     """(traits, therapeutic areas, trait ids that no term holds, lists or replaces) of the sample run's trait roll-up."""
     need_data('data/results/HG002/views/trait_rollup.json', 'data/results/HG002/views/trait_view.json')
@@ -272,6 +279,8 @@ CLAIMS = [
     ('variant_index/STATUS.md', r'of the ([\d,]+) ids of the HG002 run: ([\d,]+) by their own term, (\d+) by a cross-reference, (\d+) of those to more than one term', lambda: rollup_counts()),
     ('variant_index/STATUS.md', r'([\d,]+) records re-opened in the acquired files, ([\d,]+) digests re-derived', lambda: provenance_counts()[:2]),
     ('variant_index/STATUS.md', r'of the ([\d,]+) high-value loci that the benchmark callset leaves unresolved there, ([\d,]+) `READS_REFERENCE_ONLY`, ([\d,]+) `READS_ALTERNATE_PRESENT`, ([\d,]+) `READS_INSUFFICIENT`', lambda: readrun_counts()),
+    ('variant_index/STATUS.md', r'Of the ([\d,]+) SNV loci the reads were asked about, ([\d,]+) agree alignment by alignment', lambda: crosscheck_counts()[:2]),
+    ('variant_index/STATUS.md', r'([\d,]+) agree exactly and (\d+) differ \(([\d,]+) fragments by bcftools against ([\d,]+) by the resolver', lambda: crosscheck_counts()[2:]),
     ('variant_index/STATUS.md', r'([\d,]+) evidence rows from (\d+) source releases, ([\d,]+) variant entities',
      lambda: [index_manifest()['tables']['evidence']['rows'], len(index_manifest()['releases']), index_manifest()['entity_variants']]),
     ('catalogue/gaps.json', r'GTF: ([\d,]+) genes, ([\d,]+) transcripts, ([\d,]+) MANE Select', lambda: [vstat('ensembl_grch38_gtf_116', 'feature_counts')['gene'], vstat('ensembl_grch38_gtf_116', 'feature_counts')['transcript'], vstat('ensembl_grch38_gtf_116', 'tags')['MANE_Select']]),

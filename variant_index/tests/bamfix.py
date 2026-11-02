@@ -25,6 +25,7 @@ class Read:
     mapq: int = 60
     quals: object = 35                     # a base quality for every base, a list, or None for none stored
     tags: dict = field(default_factory=dict)
+    mate_start1: int = None                # where the mate aligns (on the same contig), for the tools that pair mates; unset, no mate is stored
 
 
 def make_read(fa, chrom, start1, ops, name, flag=0, mapq=60, quals=35):
@@ -92,6 +93,8 @@ def write_bam(path, reads, contigs, rename=None):
                 a.query_qualities = pysam.qualitystring_to_array(''.join(chr(33 + q) for q in r.quals))
             for k, v in r.tags.items():
                 a.set_tag(k, v)
+            if r.mate_start1 is not None:
+                a.next_reference_id, a.next_reference_start = order[r.chrom], r.mate_start1 - 1
             out.write(a)
     pysam.index(path)
     return path

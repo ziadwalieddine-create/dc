@@ -52,6 +52,9 @@ python3 variant_index/fetch_public_testset.py
 
 # the read-evidence resolver against that benchmark on public HG002 reads (read over HTTPS; see the script for the arguments and what the check does not show)
 python3 variant_index/validate_reads.py --help
+
+# the read-evidence counts of a run with --reads, recomputed with bcftools mpileup at its SNV loci (alignment by alignment, and by fragment with bcftools's overlap handling accounted for)
+python3 variant_index/crosscheck_reads_bcftools.py --results data/results/SAMPLE --out data/results/SAMPLE/crosscheck_reads.json
 ```
 
 Reading the index from Python (the tables are Parquet; `Index` reads one chromosome partition at a time, so a query by key never loads the whole evidence table):

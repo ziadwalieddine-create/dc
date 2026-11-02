@@ -420,6 +420,38 @@ def _reads_validation(a):
             f"benchmark alleles read as carried, {rec['runs']['full']['by_truth']['truth_absent'].get('READS_ALTERNATE_PRESENT', 0)} of {full['truth_absent']['loci']:,} absent ones read as carried")
 
 
+CROSSCHECK_BOUNDS = dict(loci=500, explained_share=0.05)
+
+
+@check('the read-evidence counts agree with bcftools mpileup at the SNV loci of a real-read run, alignment by alignment, with the code as it is now')
+def _reads_crosscheck(a):
+    import hashlib
+    rec = jload(need(os.path.join(VI, 'reads_crosscheck.json')))
+    for rel, key in (('vindex/reads.py', 'reads_module_sha256'), ('crosscheck_reads_bcftools.py', 'tool_sha256')):
+        with open(os.path.join(VI, rel), 'rb') as f:
+            if rec.get(key) != hashlib.sha256(f.read()).hexdigest():
+                raise AssertionError(f'{rel} has changed since the cross-check record was made: run crosscheck_reads_bcftools.py again and write variant_index/reads_crosscheck.json')
+    problems = []
+    loci = rec['loci']
+    if loci < CROSSCHECK_BOUNDS['loci']:
+        problems.append(f"{loci} loci compared (at least {CROSSCHECK_BOUNDS['loci']} are required)")
+    if rec['alignments'] != {'exact': loci}:
+        problems.append(f"alignment by alignment: {rec['alignments']} of {loci} loci")
+    for key in ('n_unexplained', 'n_alignment_problems', 'not_compared', 'pileups_where_dp_differs_from_the_allele_counts'):
+        if rec[key]:
+            problems.append(f'{key}: {rec[key]}')
+    if rec['errors']:
+        problems.append(f"{len(rec['errors'])} pileups could not be made")
+    explained = rec['fragments'].get('explained', 0)
+    if sum(rec['fragments'].values()) != loci or explained != len(rec['explained']):
+        problems.append('the record does not account for every locus it compared')
+    if explained > CROSSCHECK_BOUNDS['explained_share'] * loci:
+        problems.append(f"{explained} of {loci} loci differ at fragment level through bcftools' overlap handling (bound {CROSSCHECK_BOUNDS['explained_share']:.0%})")
+    if not rec['ok'] or problems:
+        raise AssertionError('; '.join(problems) or 'the record says the cross-check did not pass')
+    return f"{loci:,} SNV loci of {os.path.basename(rec['reads'])}: all agree alignment by alignment; at fragment level {rec['fragments'].get('exact', 0):,} exact and {explained} explained by pairs in the alignments, none unexplained"
+
+
 @check('every unresolved high-value locus of the sample run states the evidence that would settle it')
 def _missing_evidence(a):
     can_import('pyarrow')

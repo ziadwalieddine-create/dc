@@ -1,0 +1,276 @@
+{
+ "alignment_problems": [],
+ "alignments": {
+  "exact": 945
+ },
+ "bcftools": "bcftools 1.24",
+ "by_state": {
+  "READS_ALTERNATE_PRESENT": {
+   "exact": 192,
+   "explained": 4
+  },
+  "READS_AMBIGUOUS": {
+   "exact": 34,
+   "explained": 3
+  },
+  "READS_INSUFFICIENT": {
+   "exact": 183
+  },
+  "READS_REFERENCE_ONLY": {
+   "exact": 528,
+   "explained": 1
+  }
+ },
+ "errors": [],
+ "explainable_by": {
+  "disagreeing_pair_not_marked_proper": 1,
+  "low_quality_pair_agrees": 2,
+  "mate_has_a_gap_over_the_site": 1,
+  "mates_disagree": 5
+ },
+ "explained": [
+  {
+   "bcftools": {
+    "alt": 30,
+    "ref": 32,
+    "total": 66
+   },
+   "differences": {
+    "alt": 0,
+    "other": 1,
+    "ref": 1,
+    "total": 2
+   },
+   "explainable_by": [
+    "mates_disagree"
+   ],
+   "key": "21:35526932:G:C",
+   "pairs": {
+    "disagree": 2
+   },
+   "resolver": {
+    "alt": 30,
+    "ref": 31,
+    "total": 64
+   },
+   "state": "READS_ALTERNATE_PRESENT"
+  },
+  {
+   "bcftools": {
+    "alt": 0,
+    "ref": 31,
+    "total": 31
+   },
+   "differences": {
+    "alt": 0,
+    "other": 0,
+    "ref": -1,
+    "total": -1
+   },
+   "explainable_by": [
+    "mate_has_a_gap_over_the_site"
+   ],
+   "key": "21:43351330:G:C",
+   "pairs": {
+    "gap_mate": 1
+   },
+   "resolver": {
+    "alt": 0,
+    "ref": 32,
+    "total": 32
+   },
+   "state": "READS_AMBIGUOUS"
+  },
+  {
+   "bcftools": {
+    "alt": 0,
+    "ref": 17,
+    "total": 17
+   },
+   "differences": {
+    "alt": 0,
+    "other": 0,
+    "ref": 1,
+    "total": 1
+   },
+   "explainable_by": [
+    "low_quality_pair_agrees"
+   ],
+   "key": "21:45002381:T:G",
+   "pairs": {
+    "agree_both_low": 1
+   },
+   "resolver": {
+    "alt": 0,
+    "ref": 16,
+    "total": 16
+   },
+   "state": "READS_REFERENCE_ONLY"
+  },
+  {
+   "bcftools": {
+    "alt": 33,
+    "ref": 42,
+    "total": 75
+   },
+   "differences": {
+    "alt": 1,
+    "other": 0,
+    "ref": 0,
+    "total": 1
+   },
+   "explainable_by": [
+    "mates_disagree"
+   ],
+   "key": "21:46033105:A:G",
+   "pairs": {
+    "agree": 1,
+    "agree_both_low/not_proper": 1,
+    "disagree": 1
+   },
+   "resolver": {
+    "alt": 32,
+    "ref": 42,
+    "total": 74
+   },
+   "state": "READS_ALTERNATE_PRESENT"
+  },
+  {
+   "bcftools": {
+    "alt": 0,
+    "ref": 55,
+    "total": 55
+   },
+   "differences": {
+    "alt": 0,
+    "other": 0,
+    "ref": 1,
+    "total": 1
+   },
+   "explainable_by": [
+    "low_quality_pair_agrees"
+   ],
+   "key": "21:46293194:G:A",
+   "pairs": {
+    "agree": 3,
+    "agree_both_low": 1
+   },
+   "resolver": {
+    "alt": 0,
+    "ref": 54,
+    "total": 54
+   },
+   "state": "READS_AMBIGUOUS"
+  },
+  {
+   "bcftools": {
+    "alt": 63,
+    "ref": 52,
+    "total": 115
+   },
+   "differences": {
+    "alt": 5,
+    "other": 0,
+    "ref": 4,
+    "total": 9
+   },
+   "explainable_by": [
+    "disagreeing_pair_not_marked_proper",
+    "mates_disagree"
+   ],
+   "key": "22:31226553:T:A",
+   "pairs": {
+    "disagree": 5,
+    "disagree/not_proper": 2,
+    "disagree_low_mate": 4
+   },
+   "resolver": {
+    "alt": 58,
+    "ref": 48,
+    "total": 106
+   },
+   "state": "READS_ALTERNATE_PRESENT"
+  },
+  {
+   "bcftools": {
+    "alt": 1,
+    "ref": 51,
+    "total": 53
+   },
+   "differences": {
+    "alt": 0,
+    "other": 1,
+    "ref": 0,
+    "total": 1
+   },
+   "explainable_by": [
+    "mates_disagree"
+   ],
+   "key": "22:41786153:G:A",
+   "pairs": {
+    "disagree": 1
+   },
+   "resolver": {
+    "alt": 1,
+    "ref": 51,
+    "total": 52
+   },
+   "state": "READS_AMBIGUOUS"
+  },
+  {
+   "bcftools": {
+    "alt": 23,
+    "ref": 30,
+    "total": 53
+   },
+   "differences": {
+    "alt": 1,
+    "other": 0,
+    "ref": 0,
+    "total": 1
+   },
+   "explainable_by": [
+    "mates_disagree"
+   ],
+   "key": "22:49690612:A:G",
+   "pairs": {
+    "agree": 1,
+    "disagree": 1,
+    "disagree_both_low": 1
+   },
+   "resolver": {
+    "alt": 22,
+    "ref": 30,
+    "total": 52
+   },
+   "state": "READS_ALTERNATE_PRESENT"
+  }
+ ],
+ "filters": {
+  "baq": false,
+  "excluded_flags": "UNMAP,SECONDARY,QCFAIL,DUP,SUPPLEMENTARY",
+  "min_baseq": 20,
+  "min_mapq": 20,
+  "proper_pair_required": false
+ },
+ "fragments": {
+  "exact": 937,
+  "explained": 8
+ },
+ "fragments_bcftools": 38637,
+ "fragments_resolver": 38622,
+ "limit_per_state": 0,
+ "loci": 945,
+ "n_alignment_problems": 0,
+ "n_unexplained": 0,
+ "not_compared": 0,
+ "ok": true,
+ "pileups_where_dp_differs_from_the_allele_counts": 0,
+ "reads": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.60x.1.bam",
+ "reads_module_sha256": "c8280310c1ebdb4f492358011e9c08c8bb24e805e04125a3d201575effbf1354",
+ "run_commit": "4036813e0f1019eb5da97a10d415eed2c21ed766",
+ "seed": null,
+ "snv_keys_of_the_run": 945,
+ "tool_sha256": "31e1f9b90eb16335f8ede8e4fd3763bfad3929df61ad80d5b1c4398813fb382c",
+ "unexplained": []
+}

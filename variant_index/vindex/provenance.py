@@ -279,6 +279,11 @@ def verify_release(index_dir, rid, tid, base, sample=500, seed=0, chunk=None):
                 unresolved=missing, n_unresolved=n_missing)
 
 
+def file_sha256(path):
+    with open(path, 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
 def verify_index(index_dir, sample=500, seed=0, data_root=None, paths=None, rehash=False, manifest_path=None, targets_path=None):
     """Run the three checks. paths: {target_id: file or directory} overrides where a resolver finds the acquired source (tests, relocated data)."""
     data_root = data_root or DATA
@@ -305,7 +310,7 @@ def verify_index(index_dir, sample=500, seed=0, data_root=None, paths=None, reha
     here = os.path.dirname(os.path.abspath(__file__))
     report = dict(index=os.path.abspath(index_dir), releases=len(releases), tables_with_releases=sorted(used), orphan_release_ids=orphans,
                   release_issues=check_releases(releases, manifest, targets, data_root, rehash), digests={}, no_resolver=[],
-                  code={f: hashlib.sha256(open(os.path.join(here, f), 'rb').read()).hexdigest() for f in ('provenance.py', 'resolvers.py')}, sample=sample, seed=seed)
+                  code={f: file_sha256(os.path.join(here, f)) for f in ('provenance.py', 'resolvers.py')}, sample=sample, seed=seed)
     for rid, rel in sorted(releases.items()):
         tid = rel['target_id']
         base = paths.get(tid) or os.path.join(data_root, (targets.get(tid) or manifest.get(tid) or {}).get('dest', ''))
