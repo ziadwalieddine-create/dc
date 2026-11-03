@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-10-28T05:20:56Z",
- "commit": "fb4dc78e50e444049bd9ac321c3649560c3e1725",
+ "generated_utc": "2026-11-03T00:55:46Z",
+ "commit": "b2f7b37c8d02a0a8c1d357721b40691d4d6458d1",
  "visibility": "visibility: public (ziadwalieddine-create/dc)",
  "checks": [
   {
@@ -21,7 +21,7 @@
   {
    "check": "unit tests (variant_index)",
    "ok": true,
-   "detail": "557 tests"
+   "detail": "589 tests"
   },
   {
    "check": "catalogue records validate against the vocabulary, evidence files and acquisition targets",
@@ -36,12 +36,12 @@
   {
    "check": "all scripts compile",
    "ok": true,
-   "detail": "149 scripts"
+   "detail": "151 scripts"
   },
   {
    "check": "the claim checker detects a changed number in every claim (mutation self-test)",
    "ok": true,
-   "detail": "42 claims"
+   "detail": "44 claims"
   }
  ],
  "claims": [
@@ -205,13 +205,13 @@
    "doc": "latest:AUDIT_LOG.md",
    "pattern": "`variant_index`: (\\d+) unit tests pass",
    "status": "PASS",
-   "detail": "[557.0]"
+   "detail": "[589.0]"
   },
   {
    "doc": "variant_index/STATUS.md",
    "pattern": "(\\d+) unit tests pass",
    "status": "PASS",
-   "detail": "[557.0]"
+   "detail": "[589.0]"
   },
   {
    "doc": "variant_index/STATUS.md",
@@ -263,6 +263,18 @@
   },
   {
    "doc": "variant_index/STATUS.md",
+   "pattern": "Of the ([\\d,]+) SNV loci the reads were asked about, ([\\d,]+) agree alignment by alignment",
+   "status": "PASS",
+   "detail": "[945.0, 945.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
+   "pattern": "([\\d,]+) agree exactly and (\\d+) differ \\(([\\d,]+) fragments by bcftools against ([\\d,]+) by the resolver",
+   "status": "PASS",
+   "detail": "[937.0, 8.0, 38637.0, 38622.0]"
+  },
+  {
+   "doc": "variant_index/STATUS.md",
    "pattern": "([\\d,]+) evidence rows from (\\d+) source releases, ([\\d,]+) variant entities",
    "status": "PASS",
    "detail": "[24195946.0, 72.0, 6857645.0]"
@@ -301,11 +313,11 @@
  "branches": [
   {
    "branch": "ccr-b13fd75a-ra9gfy",
-   "tip": "fb4dc78",
-   "date": "2026-10-28",
-   "subject": "Every evidence row re-derived from its source; phase-6 results, audits and documents",
-   "tracked_files": 676,
-   "ahead_of_main": "88",
+   "tip": "b2f7b37",
+   "date": "2026-11-02",
+   "subject": "Read counts cross-checked against bcftools mpileup at 945 SNV loci of the HG002 run; prove",
+   "tracked_files": 679,
+   "ahead_of_main": "90",
    "behind_main": "0"
   },
   {
@@ -328,11 +340,11 @@
   },
   {
    "branch": "origin/ccr-b13fd75a-ra9gfy",
-   "tip": "fb4dc78",
+   "tip": "fc64928",
    "date": "2026-10-28",
-   "subject": "Every evidence row re-derived from its source; phase-6 results, audits and documents",
+   "subject": "Audits re-run on the committed code: gap audit 29 pass, 0 fail, 1 blocked; repository audi",
    "tracked_files": 676,
-   "ahead_of_main": "88",
+   "ahead_of_main": "89",
    "behind_main": "0"
   },
   {
@@ -3352,9 +3364,9 @@
   {
    "path": "AUDIT_LOG.md",
    "title": "Audit log",
-   "lines": 320,
-   "bytes": 76543,
-   "last_commit": "2026-10-28"
+   "lines": 362,
+   "bytes": 88523,
+   "last_commit": "2026-11-02"
   },
   {
    "path": "README.md",
@@ -3450,15 +3462,15 @@
   {
    "path": "inventory/PHASE_AUDIT.md",
    "title": "Phase gap audit",
-   "lines": 38,
-   "bytes": 5451,
+   "lines": 39,
+   "bytes": 5771,
    "last_commit": "2026-10-28"
   },
   {
    "path": "inventory/REPOSITORY_AUDIT.md",
    "title": "Repository audit",
-   "lines": 483,
-   "bytes": 49337,
+   "lines": 487,
+   "bytes": 49976,
    "last_commit": "2026-10-28"
   },
   {
@@ -3499,16 +3511,16 @@
   {
    "path": "variant_index/README.md",
    "title": "High-Value Human Variant Reference Index (`vindex`)",
-   "lines": 79,
-   "bytes": 7462,
-   "last_commit": "2026-10-28"
+   "lines": 82,
+   "bytes": 7780,
+   "last_commit": "2026-11-02"
   },
   {
    "path": "variant_index/REQUIREMENTS.md",
    "title": "Requirements and verification",
    "lines": 178,
-   "bytes": 34375,
-   "last_commit": "2026-10-28"
+   "bytes": 35124,
+   "last_commit": "2026-11-02"
   },
   {
    "path": "variant_index/SCHEMA.md",
@@ -3520,9 +3532,9 @@
   {
    "path": "variant_index/STATUS.md",
    "title": "Status of the High-Value Human Variant Reference Index",
-   "lines": 133,
-   "bytes": 29761,
-   "last_commit": "2026-10-28"
+   "lines": 135,
+   "bytes": 31528,
+   "last_commit": "2026-11-02"
   }
  ],
  "scripts": [
@@ -3726,13 +3738,13 @@
   },
   {
    "path": "inventory/gap_audit.py",
-   "lines": 552,
+   "lines": 584,
    "compiles": true,
    "purpose": "Adversarial gap audit of the phase requirements: every check either passes, fails, is skipped for a stated mis"
   },
   {
    "path": "inventory/repository_audit.py",
-   "lines": 550,
+   "lines": 559,
    "compiles": true,
    "purpose": "Repository audit: what exists, what state it is in, and whether the documentation matches the implementation."
   },
@@ -3791,6 +3803,12 @@
    "purpose": "Cross-check a whole-genome run against bcftools, an independent normaliser."
   },
   {
+   "path": "variant_index/crosscheck_reads_bcftools.py",
+   "lines": 325,
+   "compiles": true,
+   "purpose": "Cross-check the base counts of the read-evidence resolver (vindex/reads.py) against `bcftools mpileup`, an est"
+  },
+  {
    "path": "variant_index/fetch_public_testset.py",
    "lines": 79,
    "compiles": true,
@@ -3828,7 +3846,7 @@
   },
   {
    "path": "variant_index/tests/bamfix.py",
-   "lines": 97,
+   "lines": 100,
    "compiles": true,
    "purpose": "Synthetic alignments for the read-evidence tests: reads are cut from the synthetic reference with the edits a "
   },
@@ -3959,6 +3977,12 @@
    "purpose": "The cross-check recomputes calls and evidence matches with bcftools only. It must agree with a clean run and m"
   },
   {
+   "path": "variant_index/tests/test_crosscheck_reads.py",
+   "lines": 408,
+   "compiles": true,
+   "purpose": "The cross-check of the read-evidence counts against `bcftools mpileup`: that the two agree where they count th"
+  },
+  {
    "path": "variant_index/tests/test_effect_alleles.py",
    "lines": 122,
    "compiles": true,
@@ -4062,7 +4086,7 @@
   },
   {
    "path": "variant_index/tests/test_provenance.py",
-   "lines": 284,
+   "lines": 293,
    "compiles": true,
    "purpose": ""
   },
@@ -4362,7 +4386,7 @@
   },
   {
    "path": "variant_index/vindex/provenance.py",
-   "lines": 320,
+   "lines": 325,
    "compiles": true,
    "purpose": "Provenance checks on a built index."
   },

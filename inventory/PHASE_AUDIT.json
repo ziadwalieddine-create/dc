@@ -12,17 +12,17 @@
  {
   "check": "no module or command-line tool of variant_index is outside the requirements map",
   "status": "PASS",
-  "detail": "57 files, all named"
+  "detail": "58 files, all named"
  },
  {
   "check": "every test module is used by at least one requirement",
   "status": "PASS",
-  "detail": "47 test modules, all cited"
+  "detail": "48 test modules, all cited"
  },
  {
   "check": "variant_index unit tests pass (including resource-warning errors)",
   "status": "PASS",
-  "detail": "557 tests OK"
+  "detail": "589 tests OK"
  },
  {
   "check": "acquisition helper tests pass",
@@ -32,7 +32,7 @@
  {
   "check": "every number the READMEs and the latest audit-log entry quote is recomputed and agrees",
   "status": "PASS",
-  "detail": "42 pass, 0 skipped (data absent)"
+  "detail": "44 pass, 0 skipped (data absent)"
  },
  {
   "check": "scripts and files that the documentation tells a reader to run or open exist",
@@ -123,6 +123,11 @@
   "check": "the read-evidence resolver was checked on real reads of a benchmark sample with the code as it is now, and its rates are inside the stated bounds",
   "status": "PASS",
   "detail": "full, half, quarter: at full depth 97.6% of heterozygous and 97.5% of homozygous benchmark alleles read as carried, 0 of 1,000 absent ones read as carried"
+ },
+ {
+  "check": "the read-evidence counts agree with bcftools mpileup at the SNV loci of a real-read run, alignment by alignment, with the code as it is now",
+  "status": "PASS",
+  "detail": "945 SNV loci of HG002.GRCh38.60x.1.bam: all agree alignment by alignment; at fragment level 937 exact and 8 explained by pairs in the alignments, none unexplained"
  },
  {
   "check": "every unresolved high-value locus of the sample run states the evidence that would settle it",
